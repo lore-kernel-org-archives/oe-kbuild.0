@@ -1,291 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D099117DFFA
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 03:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AEE38D400
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 05:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787196712; cv=none; b=BU1jBa51D4d7eoqE6Om70xFUhmPCujl1+Z3+7DTfn9tmbHUI00E7lhGSa721mlILj0AtDh13Lq/7zk+0/o+1Go/FbBLx/gbHP02Cd+EitdMR+649uzygcebwziHIqrSXv0CL3lpiTiJsXNd6LfCf7Zz87Mf3LC8kw5uV5cwqp7g=
+	t=1787205310; cv=none; b=hLwkX4//N9/3OZP+gbg9uq/Cto+piMf635Acqlwblch5oMSf2ofmbOhJXVh+CPK6ZuM058PawlooReFcT+GNtklYQJ5pT+cLu6ui9msfQDa1VTGUSz6pE9ns2uQi51VB2WMMeryyfRM3lmnVsfzwPJwx+zAjqfCccRsrs9NEHic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787196712; c=relaxed/simple;
-	bh=EyyHk8mP8W8aC80d9tDwRNrLEOTHu8JwnF8PmFPGD5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=aTofh09/ht7q/FznPaodW5ggV98AQ2pTghriPuHbSE31oZ9p8k+3C2ZK+tH9uAOCTL0ItiiUSYuwZndMlqjqxCyMTtrLSQwzcJB4z5s6rpI/uwK3SdzimqK/YO+RuB0Lkldv9DO2/htW3MloGxoS/j4dpZ2mck5fXmsdzpOj5Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTmryxlB; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1787205310; c=relaxed/simple;
+	bh=Xe+wLkyAWPR1Yb1z6Ao2x9ew5DvhvHOexqFvQz9uoCM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mmGPwSidTknvHQkqftuG7Ea330Y+XEJlWgHGJkdiPfpC2KRtcG6koRrLSuhFoSUIlkcpQqzMg1lqC3oOPveTiw3Tz/SdeZYszyJIdbLxiLIxd/Ojcw+U4klSvMbMHFkJeAD2Ksr/kaMj0oDiUAjNehOcZ//xg4cMn/m+YuZrwlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8k2tIbG; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTmryxlB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8k2tIbG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787196710; x=1818732710;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=EyyHk8mP8W8aC80d9tDwRNrLEOTHu8JwnF8PmFPGD5w=;
-  b=jTmryxlBZgDyIn0qsHbnjG+CDUVFZzRteO0ybTNxLxzzldDQhigir6NV
-   KnYFCDG8ZDNsM7FwuTDJKXDsmxRe/T0RuMmQRftwgVgY2XoUdlQ/euJrM
-   8v6mX/o6C6sn7jEFmpb5EtXmnUkXegZ6Ys5Ez/nSrLUHTrvVMrbNNQvTd
-   NAoCBZIWFaVB4La5TSYG1IvlM+qbD0qAmqEaOMXXFAo1A976AA0zHPTep
-   rzHN3tSPFadZtOmL4Ff90Nh9JaKQsV7igTWlI4wv5qp5jcGZI4Wp7lnzM
-   JTob0Uzrs0DxiT3UwfeMrNQo1Nb+SzdQxE7BE5pJQUgeNte2BG+eyHunf
+  t=1787205309; x=1818741309;
+  h=date:from:to:cc:subject:message-id;
+  bh=Xe+wLkyAWPR1Yb1z6Ao2x9ew5DvhvHOexqFvQz9uoCM=;
+  b=I8k2tIbGGHk54715jpQe3sGLsZKubWJLJ7bY0MOu8RTQQ06/GQMNLhad
+   o7F84MA8yi80t4VweOOqApkJeN5N73Qn0gsSTbkqaqWUqrDHCpr5DPQya
+   2DWzhncpSGnIbhudw9LwVSXwhWjcLsl3HJCaZoqbJSyg+dzwr8XB2Bm1L
+   tD521xlnORi11lPOJlxw5ecMPx7V8vi3pJSf51M2zWd8/yZZSyQli0HFu
+   SyJzpaGyMhfqzLdW/YMEjvoo0IJdjEPiBoaXw8ffLSvDNKox4JjRqd3cz
+   IJp1Dh/q4RyIw/BOgR8GwQlNSp5Pz2tq2jZQbUANFfQMw+Qr50OuJmsIe
    Q==;
-X-CSE-ConnectionGUID: SQK2zYMsTnajFJFWl2W5gQ==
-X-CSE-MsgGUID: qeUZdPemQdOWloWblVzA6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="98315755"
+X-CSE-ConnectionGUID: 1MoJfsMRTZ+J2JyhPEcGCQ==
+X-CSE-MsgGUID: thqRJoqLSFK6Zp4FAChvAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87494926"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="98315755"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 20:31:49 -0700
-X-CSE-ConnectionGUID: oX/OnGrmT268Y85UYWbiOg==
-X-CSE-MsgGUID: H6/uBKMGQhGaBZv7u8XcWQ==
+   d="scan'208";a="87494926"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 22:55:06 -0700
+X-CSE-ConnectionGUID: gEr0alwQRh2thjpSL0e/1A==
+X-CSE-MsgGUID: 6i7RMMLCQQCheCdXNZtefA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="263161936"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Aug 2026 20:31:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 22:55:05 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwtVJ-00000000hbn-1hnv;
-	Thu, 20 Aug 2026 03:31:45 +0000
-Date: Thu, 20 Aug 2026 11:31:04 +0800
+	id 1wwvjz-00000000i0i-0AsB;
+	Thu, 20 Aug 2026 05:55:03 +0000
+Date: Thu, 20 Aug 2026 13:54:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iio/industrialio-buffer.c:1919
- iio_buffer_enqueue_dmabuf() warn: passing freed memory '&fence->base' (line
- 1912)
-Message-ID: <202608201146.4kBsAXyB-lkp@intel.com>
+Subject: drivers/net/wireless/marvell/mwifiex/sta_ioctl.c:186
+ mwifiex_dnld_dt_txpwr_table() warn: '"marvell,00_txpwrlimit"' 65433600 can't
+ fit into 255 'txpwr[0]'
+Message-ID: <202608201341.jZNWWwer-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Beno=C3=AEt Monin" <benoit.monin@bootlin.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: Paul Cercueil <paul@crapouillou.net>
+TO: Stefan Kerkmann <s.kerkmann@pengutronix.de>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cb8a75eec0877810b50aa1c5a833f929525cd2ee
-commit: a093999355084bdbfe6e97f1dd232e58a1525f0b iio: buffer: Fix DMA fence=
- leak in iio_buffer_enqueue_dmabuf()
-date:   3 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 3 months ago
-config: arc-randconfig-r071-20260820 (https://download.01.org/0day-ci/archi=
-ve/20260820/202608201146.4kBsAXyB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
+commit: 7b6f16a258065f85793fb2597a290041c1e3d201 wifi: mwifiex: add rgpower table loading support
+date:   12 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260820/202608201341.jZNWWwer-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: a09399935508 ("iio: buffer: Fix DMA fence leak in iio_buffer_enque=
-ue_dmabuf()")
+| Fixes: 7b6f16a25806 ("wifi: mwifiex: add rgpower table loading support")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608201146.4kBsAXyB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608201341.jZNWWwer-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/industrialio-buffer.c:1919 iio_buffer_enqueue_dmabuf() warn: pa=
-ssing freed memory '&fence->base' (line 1912)
+drivers/net/wireless/marvell/mwifiex/sta_ioctl.c:186 mwifiex_dnld_dt_txpwr_table() warn: '"marvell,00_txpwrlimit"' 65433600 can't fit into 255 'txpwr[0]'
 
-vim +1919 drivers/iio/industrialio-buffer.c
+vim +186 drivers/net/wireless/marvell/mwifiex/sta_ioctl.c
 
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1821 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1822  static int iio_buffer_enque=
-ue_dmabuf(struct iio_dev_buffer_pair *ib,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1823  				     struct iio_dmabuf =
-__user *iio_dmabuf_req,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1824  				     bool nonblock)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1825  {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1826  	struct iio_buffer *buffer =
-=3D ib->buffer;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1827  	struct iio_dmabuf iio_dmab=
-uf;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1828  	struct dma_buf_attachment =
-*attach;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1829  	struct iio_dmabuf_priv *pr=
-iv;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1830  	struct iio_dma_fence *fenc=
-e;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1831  	struct dma_buf *dmabuf;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1832  	unsigned long timeout;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1833  	bool cookie, cyclic, dma_t=
-o_ram;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1834  	long retl;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1835  	u32 seqno;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1836  	int ret;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1837 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1838  	if (copy_from_user(&iio_dm=
-abuf, iio_dmabuf_req, sizeof(iio_dmabuf)))
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1839  		return -EFAULT;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1840 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1841  	if (iio_dmabuf.flags & ~II=
-O_BUFFER_DMABUF_SUPPORTED_FLAGS)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1842  		return -EINVAL;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1843 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1844  	cyclic =3D iio_dmabuf.flag=
-s & IIO_BUFFER_DMABUF_CYCLIC;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1845 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1846  	/* Cyclic flag is only sup=
-ported on output buffers */
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1847  	if (cyclic && buffer->dire=
-ction !=3D IIO_BUFFER_DIRECTION_OUT)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1848  		return -EINVAL;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1849 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1850  	dmabuf =3D dma_buf_get(iio=
-_dmabuf.fd);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1851  	if (IS_ERR(dmabuf))
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1852  		return PTR_ERR(dmabuf);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1853 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1854  	if (!iio_dmabuf.bytes_used=
- || iio_dmabuf.bytes_used > dmabuf->size) {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1855  		ret =3D -EINVAL;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1856  		goto err_dmabuf_put;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1857  	}
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1858 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1859  	attach =3D iio_buffer_find=
-_attachment(ib, dmabuf, nonblock);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1860  	if (IS_ERR(attach)) {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1861  		ret =3D PTR_ERR(attach);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1862  		goto err_dmabuf_put;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1863  	}
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1864 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1865  	priv =3D attach->importer_=
-priv;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1866 =20
-bf4afc53b77aea Linus Torvalds 2026-02-21  1867  	fence =3D kmalloc_obj(*fen=
-ce);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1868  	if (!fence) {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1869  		ret =3D -ENOMEM;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1870  		goto err_attachment_put;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1871  	}
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1872 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1873  	fence->priv =3D priv;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1874 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1875  	seqno =3D atomic_add_retur=
-n(1, &priv->seqno);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1876 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1877  	/*
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1878  	 * The transfers are guara=
-nteed to be processed in the order they are
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1879  	 * enqueued, so we can use=
- a simple incrementing sequence number for
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1880  	 * the dma_fence.
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1881  	 */
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1882  	dma_fence_init(&fence->bas=
-e, &iio_buffer_dma_fence_ops,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1883  		       &priv->lock, priv-=
->context, seqno);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1884 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1885  	ret =3D iio_dma_resv_lock(=
-dmabuf, nonblock);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1886  	if (ret)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1887  		goto err_fence_put;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1888 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1889  	timeout =3D nonblock ? 0 :=
- msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1890  	dma_to_ram =3D buffer->dir=
-ection =3D=3D IIO_BUFFER_DIRECTION_IN;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1891 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1892  	/* Make sure we don't have=
- writers */
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1893  	retl =3D dma_resv_wait_tim=
-eout(dmabuf->resv,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1894  				     dma_resv_usage_rw(=
-dma_to_ram),
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1895  				     true, timeout);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1896  	if (retl =3D=3D 0)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1897  		retl =3D -EBUSY;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1898  	if (retl < 0) {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1899  		ret =3D (int)retl;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1900  		goto err_resv_unlock;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1901  	}
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1902 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1903  	if (buffer->access->lock_q=
-ueue)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1904  		buffer->access->lock_queu=
-e(buffer);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1905 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1906  	ret =3D dma_resv_reserve_f=
-ences(dmabuf->resv, 1);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1907  	if (ret)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1908  		goto err_queue_unlock;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1909 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1910  	dma_resv_add_fence(dmabuf-=
->resv, &fence->base,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1911  			   dma_to_ram ? DMA_RESV=
-_USAGE_WRITE : DMA_RESV_USAGE_READ);
-a093999355084b Beno=C3=AEt Monin   2026-04-01 @1912  	dma_fence_put(&fence-=
->base);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1913  	dma_resv_unlock(dmabuf->re=
-sv);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1914 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1915  	cookie =3D dma_fence_begin=
-_signalling();
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1916 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1917  	ret =3D buffer->access->en=
-queue_dmabuf(buffer, priv->block, &fence->base,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1918  					     priv->sgt, iio_dm=
-abuf.bytes_used,
-3e26d9f08fbe0b Paul Cercueil  2024-06-20 @1919  					     cyclic);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1920  	if (ret) {
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1921  		/*
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1922  		 * DMABUF enqueue failed,=
- but we already added the fence.
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1923  		 * Signal the error throu=
-gh the fence completion mechanism.
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1924  		 */
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1925  		iio_buffer_signal_dmabuf_=
-done(&fence->base, ret);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1926  	}
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1927 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1928  	if (buffer->access->unlock=
-_queue)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1929  		buffer->access->unlock_qu=
-eue(buffer);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1930 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1931  	dma_fence_end_signalling(c=
-ookie);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1932  	dma_buf_put(dmabuf);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1933 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1934  	return ret;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1935 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1936  err_queue_unlock:
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1937  	if (buffer->access->unlock=
-_queue)
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1938  		buffer->access->unlock_qu=
-eue(buffer);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1939  err_resv_unlock:
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1940  	dma_resv_unlock(dmabuf->re=
-sv);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1941  err_fence_put:
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1942  	dma_fence_put(&fence->base=
-);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1943  err_attachment_put:
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1944  	iio_buffer_dmabuf_put(atta=
-ch);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1945  err_dmabuf_put:
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1946  	dma_buf_put(dmabuf);
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1947 =20
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1948  	return ret;
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1949  }
-3e26d9f08fbe0b Paul Cercueil  2024-06-20  1950 =20
+7c6fa2a843c5ac0 drivers/net/wireless/mwifiex/sta_ioctl.c         Amitkumar Karwar 2011-08-10  182  
+7b6f16a258065f8 drivers/net/wireless/marvell/mwifiex/sta_ioctl.c Stefan Kerkmann  2025-08-04  183  static void mwifiex_dnld_dt_txpwr_table(struct mwifiex_private *priv)
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  184  {
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  185  	if (priv->adapter->dt_node) {
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08 @186  		char txpwr[] = {"marvell,00_txpwrlimit"};
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  187  
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  188  		memcpy(&txpwr[8], priv->adapter->country_code, 2);
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  189  		mwifiex_dnld_dt_cfgdata(priv, priv->adapter->dt_node, txpwr);
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  190  	}
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  191  }
+b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  192  
 
-:::::: The code at line 1919 was first introduced by commit
-:::::: 3e26d9f08fbe0b73e951a5e810fdb7a332b7e37f iio: core: Add new DMABUF i=
-nterface infrastructure
+:::::: The code at line 186 was first introduced by commit
+:::::: b58df4461921dad57707fbedee11e6f79f58b1e6 mwifiex: use a function to replace two copies of a code fragment
 
-:::::: TO: Paul Cercueil <paul@crapouillou.net>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+:::::: TO: Bing Zhao <bzhao@marvell.com>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 --
 0-DAY CI Kernel Test Service
