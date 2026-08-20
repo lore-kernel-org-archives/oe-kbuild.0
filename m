@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AEE38D400
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 05:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B8B345EDE
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 06:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787205310; cv=none; b=hLwkX4//N9/3OZP+gbg9uq/Cto+piMf635Acqlwblch5oMSf2ofmbOhJXVh+CPK6ZuM058PawlooReFcT+GNtklYQJ5pT+cLu6ui9msfQDa1VTGUSz6pE9ns2uQi51VB2WMMeryyfRM3lmnVsfzwPJwx+zAjqfCccRsrs9NEHic=
+	t=1787206030; cv=none; b=QJLUrph7Uql97rBri4k4NlJ/jkUUlL0wth6B5mT8jI2bJxRFI5bLOJ8sFVtNbMQdmJ5TziOdUiwOtnI9W1aNGhF22XAmlhVggzTJHpOymeAbUAws18CBXtOCqIVlgV/0xK8ZBjGXktB0L02ccbcMx10Zd1Zh7xirXxxPxGXAneM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787205310; c=relaxed/simple;
-	bh=Xe+wLkyAWPR1Yb1z6Ao2x9ew5DvhvHOexqFvQz9uoCM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mmGPwSidTknvHQkqftuG7Ea330Y+XEJlWgHGJkdiPfpC2KRtcG6koRrLSuhFoSUIlkcpQqzMg1lqC3oOPveTiw3Tz/SdeZYszyJIdbLxiLIxd/Ojcw+U4klSvMbMHFkJeAD2Ksr/kaMj0oDiUAjNehOcZ//xg4cMn/m+YuZrwlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8k2tIbG; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1787206030; c=relaxed/simple;
+	bh=/fInnxkf/0hrhE6BNyaMrj8aLp5NsHI5L18W8GMYbJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C+86oy2nPjTmEWmeoe6I1DXfbxSari7iYRiTOTgW+lSFQSFQDW1y2xnzLR3cC370lhKasAlzlcj3IB2YGRqWwV/XL8Tl4RuVcbcWFng8Gvz58M2A2RXVvWMqH1KZFN4IwYb+AHRbl+SEYCsMr6qiYf1jtZtcIis7vpLT7AMwqQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Re0HRkux; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8k2tIbG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Re0HRkux"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787205309; x=1818741309;
+  t=1787206028; x=1818742028;
   h=date:from:to:cc:subject:message-id;
-  bh=Xe+wLkyAWPR1Yb1z6Ao2x9ew5DvhvHOexqFvQz9uoCM=;
-  b=I8k2tIbGGHk54715jpQe3sGLsZKubWJLJ7bY0MOu8RTQQ06/GQMNLhad
-   o7F84MA8yi80t4VweOOqApkJeN5N73Qn0gsSTbkqaqWUqrDHCpr5DPQya
-   2DWzhncpSGnIbhudw9LwVSXwhWjcLsl3HJCaZoqbJSyg+dzwr8XB2Bm1L
-   tD521xlnORi11lPOJlxw5ecMPx7V8vi3pJSf51M2zWd8/yZZSyQli0HFu
-   SyJzpaGyMhfqzLdW/YMEjvoo0IJdjEPiBoaXw8ffLSvDNKox4JjRqd3cz
-   IJp1Dh/q4RyIw/BOgR8GwQlNSp5Pz2tq2jZQbUANFfQMw+Qr50OuJmsIe
-   Q==;
-X-CSE-ConnectionGUID: 1MoJfsMRTZ+J2JyhPEcGCQ==
-X-CSE-MsgGUID: thqRJoqLSFK6Zp4FAChvAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87494926"
+  bh=/fInnxkf/0hrhE6BNyaMrj8aLp5NsHI5L18W8GMYbJ4=;
+  b=Re0HRkuxN0s/M+sCpY5wbkdtBVvIxjifixH2HM5Qkw80qoozoU7lmc7E
+   UAgmsiyoF0Fvk6V3u/jBAiXSPDGb/PQIon2XIiL+bnlbWD61M+KZtbHcy
+   XT+5ylv6cn2LZpI85okRPBP0xfI0wJQLiX8rTv1jXcEv7yWo1eFXeTMff
+   9/GRGXF/TA0uGnE2hLZiVZN4rnqkiNUfRPAhSCgbkR8epRZ9aCY1qd6TH
+   XxwgNFb5FkvEdILTWuVH1I20X4hqODbMrKD42swB80YGpf+TI+xQswH7e
+   GGVdVv7e3moC1CDvsntvsmwjIZuGXav5fkDS1RMQ1e8YnB+YcaAf5Z9iJ
+   g==;
+X-CSE-ConnectionGUID: qWfyGyzbQJOHVRiQmTQYVQ==
+X-CSE-MsgGUID: tce6um9GSIGulkA0SEpKyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="98325709"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="87494926"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 22:55:06 -0700
-X-CSE-ConnectionGUID: gEr0alwQRh2thjpSL0e/1A==
-X-CSE-MsgGUID: 6i7RMMLCQQCheCdXNZtefA==
+   d="scan'208";a="98325709"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 23:07:07 -0700
+X-CSE-ConnectionGUID: s9biLh8FQ12SLZTC399MXA==
+X-CSE-MsgGUID: mcdi9DdmS9yESQfJOl/HUg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
+   d="scan'208";a="267794591"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 22:55:05 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 19 Aug 2026 23:07:06 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwvjz-00000000i0i-0AsB;
-	Thu, 20 Aug 2026 05:55:03 +0000
-Date: Thu, 20 Aug 2026 13:54:56 +0800
+	id 1wwvvc-00000000i2V-1LLn;
+	Thu, 20 Aug 2026 06:07:04 +0000
+Date: Thu, 20 Aug 2026 14:07:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/marvell/mwifiex/sta_ioctl.c:186
- mwifiex_dnld_dt_txpwr_table() warn: '"marvell,00_txpwrlimit"' 65433600 can't
- fit into 255 'txpwr[0]'
-Message-ID: <202608201341.jZNWWwer-lkp@intel.com>
+Subject: arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty()
+ warn: bitwise AND condition is false here
+Message-ID: <202608201443.LQag9LUQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,48 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Stefan Kerkmann <s.kerkmann@pengutronix.de>
-CC: Johannes Berg <johannes.berg@intel.com>
+TO: Chunyan Zhang <zhangchunyan@iscas.ac.cn>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Deepak Gupta <debug@rivosinc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cb8a75eec0877810b50aa1c5a833f929525cd2ee
-commit: 7b6f16a258065f85793fb2597a290041c1e3d201 wifi: mwifiex: add rgpower table loading support
-date:   12 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260820/202608201341.jZNWWwer-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+commit: 2a3ebad4db63e86a9443d6bff4a5977320dc09f6 riscv: mm: add soft-dirty page tracking support
+date:   9 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 months ago
+config: riscv-randconfig-r072-20260820 (https://download.01.org/0day-ci/archive/20260820/202608201443.LQag9LUQ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 9.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7b6f16a25806 ("wifi: mwifiex: add rgpower table loading support")
+| Fixes: 2a3ebad4db63 ("riscv: mm: add soft-dirty page tracking support")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608201341.jZNWWwer-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608201443.LQag9LUQ-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/marvell/mwifiex/sta_ioctl.c:186 mwifiex_dnld_dt_txpwr_table() warn: '"marvell,00_txpwrlimit"' 65433600 can't fit into 255 'txpwr[0]'
+New smatch warnings:
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:481 pte_swp_soft_dirty() warn: bitwise AND condition is false here
 
-vim +186 drivers/net/wireless/marvell/mwifiex/sta_ioctl.c
+Old smatch warnings:
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/pgtable.h:466 pte_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/atomic.h:230 arch_atomic64_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/pgtable.h:466 pte_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/include/asm/pgtable.h:466 pte_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/pgtable.h:466 pte_soft_dirty() warn: bitwise AND condition is false here
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-7c6fa2a843c5ac0 drivers/net/wireless/mwifiex/sta_ioctl.c         Amitkumar Karwar 2011-08-10  182  
-7b6f16a258065f8 drivers/net/wireless/marvell/mwifiex/sta_ioctl.c Stefan Kerkmann  2025-08-04  183  static void mwifiex_dnld_dt_txpwr_table(struct mwifiex_private *priv)
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  184  {
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  185  	if (priv->adapter->dt_node) {
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08 @186  		char txpwr[] = {"marvell,00_txpwrlimit"};
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  187  
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  188  		memcpy(&txpwr[8], priv->adapter->country_code, 2);
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  189  		mwifiex_dnld_dt_cfgdata(priv, priv->adapter->dt_node, txpwr);
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  190  	}
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  191  }
-b58df4461921dad drivers/net/wireless/mwifiex/sta_ioctl.c         Bing Zhao        2014-01-08  192  
+vim +481 arch/riscv/include/asm/pgtable.h
 
-:::::: The code at line 186 was first introduced by commit
-:::::: b58df4461921dad57707fbedee11e6f79f58b1e6 mwifiex: use a function to replace two copies of a code fragment
-
-:::::: TO: Bing Zhao <bzhao@marvell.com>
-:::::: CC: John W. Linville <linville@tuxdriver.com>
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13  478  
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13  479  static inline bool pte_swp_soft_dirty(pte_t pte)
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13  480  {
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13 @481  	return !!(pte_val(pte) & _PAGE_SWP_SOFT_DIRTY);
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13  482  }
+2a3ebad4db63e86 Chunyan Zhang 2025-11-13  483  
 
 --
 0-DAY CI Kernel Test Service
