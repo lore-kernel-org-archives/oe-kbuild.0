@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C9730567B
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 21:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33993546D3
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 21:17:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787347033; cv=none; b=Pr8tIIlXebrYmyzoVwwmtZtZzCh7k4VGb5T6MbARRNMXixTCe+SAOP1iFSf7RQjveZ5KHqKibtMwriImumtrDq3LrrckN3c3mlvMfwYjHnTREANyBP/RENcYBwBn8sOe+vSHQLa8Y4FSxEVmjWwtUxTTehBlsOuWlMo3CuIswtA=
+	t=1787347035; cv=none; b=LESsTX9fvRM8gnvztvj2GTq7xQuMCsn1DyA53FZVcfBcKiYxDgYSb6NFnHC3Hnu7ttimdIk4KnQHiCmQfwnMFneVjECSEPYg2eOFYfyYu97isKMDQA4nOrpmi2TUMaCdTm3i5qwVQ7zx5rBlcB+r/qmqKpJ3waEAOeFa+29ChoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787347033; c=relaxed/simple;
-	bh=ebIbBgNeAdeC/ieteVkNoz3xXULu/DI1Ptsg4EmFfNg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k9qGyRsylQHo+JL5+tVVFlMuMl3GJfq0BzONKKlyEOYRRkHQAkFpStQ5bGfkXCaAjDX+uuTznxBxG/ancC8aLdvREMlULrdAYMYEE2X+612SfIrIsjCTSsMU4l/2YA9kwxKmHBFFqiZlpprxLwwRcCtLQ5uSNioIXCvqJVTF/hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D2jw4B3j; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1787347035; c=relaxed/simple;
+	bh=m9Tfl8FftYKzjR+M0J4ru7rgPqMRdFIWHHJrJHV0StE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uj8DMzlJl1YjBBXHuhV+5QolnqAQ0lC/eWK4FfFEbYWPI/sQ4qlDYDPinuX5JTAaqQrsGSARxrd3YMwK3lgO1oZp41gyHHjZoSotHwhQyMxVBYV8Eell2ieEynPcXPX2moTNRtFckMBvlLG/j0nTBpnQ0bDleoFAjriaKHbuOnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndbMs6Za; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D2jw4B3j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndbMs6Za"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787347031; x=1818883031;
+  t=1787347034; x=1818883034;
   h=date:from:to:cc:subject:message-id;
-  bh=ebIbBgNeAdeC/ieteVkNoz3xXULu/DI1Ptsg4EmFfNg=;
-  b=D2jw4B3jjDJ/YN787rU1Vegj2uB3w9blYsyHbnXjQkI44wvc9rZPj43N
-   bxE00JwX9mvdjOLu0AoFtnb0PzDv+xFicTAeURXwsfGIO1RmFjOrjKehO
-   9oxIYdOv4C8V2XI1Ng1BezjhNqZALjjKMGgT3zncUl49H62sVWM/+HODF
-   2tMmJklGIvmfQRMOytHDf/GCPye/13VTl5qlc2wQ37eTUt7RV1rol6kXH
-   gj8wyC1la6XnVq6JkchXgVoJ4Zxzy4cZylzU2HlDDdbcVbcHczdY8hyg3
-   PDgm6uB0YF1pqfGoKT2ox2Eu4/LBz2MSlSz/mz1zga1nvnTA/jhxfm8Ot
-   g==;
-X-CSE-ConnectionGUID: uiwtXx4CQsyyDARjh3YfPw==
-X-CSE-MsgGUID: lCnMxI/oTtCo9JDNbu6wWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="86849674"
+  bh=m9Tfl8FftYKzjR+M0J4ru7rgPqMRdFIWHHJrJHV0StE=;
+  b=ndbMs6Za1WFWlB/1i2HVqTEeUqhJVL8+dxkCNYYnbOh+/EGMaGtVgwwm
+   jd5sxtRuwCEc9h9a+129hfdT6svUcb2cbCP2obib+H8gPmVV2wFwb813h
+   /SrpKqx5jocpQiif3HM0sVI6rSPZLS/aBbWRF+AEEB9UJ5ggx9bM+DLt2
+   Ipsvw+tX8UUlBtbbYtEJOtZZe0cfYMYIYZUV8V5aMQUOjGOPERMWPNZ00
+   3FE/buQzeDHnEAC3JsxNBomJceQ5IHHVux/2vy/Jx0xDCw9h43QL9RH8Z
+   6+rAELb6lcg1YxVz2IkSq4c1/4pGJvteijFjbtAoLOb8o0y+49NchKaeG
+   w==;
+X-CSE-ConnectionGUID: /qHvoVIgTBWECZvj8niCGQ==
+X-CSE-MsgGUID: wne1DJoxRxCIQFl28nhegQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="86849676"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="86849674"
+   d="scan'208";a="86849676"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 14:17:11 -0700
-X-CSE-ConnectionGUID: l09QewtXQoWcNh4tM81teQ==
-X-CSE-MsgGUID: CGemIB/xQmSdW8o+k0nFUQ==
+X-CSE-ConnectionGUID: wAsV8T3wTxuaF7oTDmWBow==
+X-CSE-MsgGUID: jbWvSqCvTRG0I9a3bGVZQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="263185923"
+   d="scan'208";a="263185925"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2026 14:17:09 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxWbr-00000000qTt-05YF;
+	id 1wxWbr-00000000qTv-0DGD;
 	Fri, 21 Aug 2026 21:17:07 +0000
-Date: Sat, 22 Aug 2026 05:16:36 +0800
+Date: Sat, 22 Aug 2026 05:16:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [gourryinverse:scratch/gourry/managed_nodes/node_features_v6
- 42/44] mm/page_alloc.c:7717 alloc_contig_frozen_pages_noprof() warn: bitwise
- AND condition is false here
-Message-ID: <202608220505.bExFiebJ-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1153
+ iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
+Message-ID: <202608220536.XZXJmRAK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,125 +61,149 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Gregory Price <gourry@gourry.net>
-TO: Gregory Price <gourry@gourry.net>
+CC: linux-kernel@vger.kernel.org
+TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/node_features_v6
-head:   38c7f48162aa282dc6a9edfb7011378594057c10
-commit: e349bc96af39536035720fe607b05fc4cbd269fc [42/44] mm/page_alloc: let a contiguous search target a private node
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-r073-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220505.bExFiebJ-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+commit: 1a7d1830be843af332081833223f4be536c00e3b wifi: iwlwifi: bring iwl_fill_ppag_table to the iwlmvm
+date:   5 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-r073-20260821 (https://download.01.org/0day-ci/archive/20260822/202608220536.XZXJmRAK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1a7d1830be84 ("wifi: iwlwifi: bring iwl_fill_ppag_table to the iwlmvm")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608220505.bExFiebJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608220536.XZXJmRAK-lkp@intel.com/
 
-smatch warnings:
-mm/page_alloc.c:7717 alloc_contig_frozen_pages_noprof() warn: bitwise AND condition is false here
+New smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1153 iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
 
-vim +7717 mm/page_alloc.c
+Old smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:757 iwl_run_init_mvm_ucode() error: we previously assumed 'mvm->nvm_data' could be null (see line 742)
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1155 iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
 
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7671  
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7672  /**
-e0c1326779cc1b Kefeng Wang       2026-01-09  7673   * alloc_contig_frozen_pages() -- tries to find and allocate contiguous range of frozen pages
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7674   * @nr_pages:	Number of contiguous pages to allocate
-f6037a4a686523 David Hildenbrand 2024-12-03  7675   * @gfp_mask:	GFP mask. Node/zone/placement hints limit the search; only some
-f6037a4a686523 David Hildenbrand 2024-12-03  7676   *		action and reclaim modifiers are supported. Reclaim modifiers
-f6037a4a686523 David Hildenbrand 2024-12-03  7677   *		control allocation behavior during compaction/migration/reclaim.
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7678   * @nid:	Target node
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7679   * @nodemask:	Mask for other possible nodes
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7680   *
-e0c1326779cc1b Kefeng Wang       2026-01-09  7681   * This routine is a wrapper around alloc_contig_frozen_range(). It scans over
-e0c1326779cc1b Kefeng Wang       2026-01-09  7682   * zones on an applicable zonelist to find a contiguous pfn range which can then
-e0c1326779cc1b Kefeng Wang       2026-01-09  7683   * be tried for allocation with alloc_contig_frozen_range(). This routine is
-e0c1326779cc1b Kefeng Wang       2026-01-09  7684   * intended for allocation requests which can not be fulfilled with the buddy
-e0c1326779cc1b Kefeng Wang       2026-01-09  7685   * allocator.
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7686   *
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7687   * The allocated memory is always aligned to a page boundary. If nr_pages is a
-eaab8e753632b8 Anshuman Khandual 2022-01-14  7688   * power of two, then allocated range is also guaranteed to be aligned to same
-eaab8e753632b8 Anshuman Khandual 2022-01-14  7689   * nr_pages (e.g. 1GB request would be aligned to 1GB).
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7690   *
-e0c1326779cc1b Kefeng Wang       2026-01-09  7691   * Allocated frozen pages need be freed with free_contig_frozen_range(),
-e0c1326779cc1b Kefeng Wang       2026-01-09  7692   * or by manually calling free_frozen_pages() on each allocated frozen
-e0c1326779cc1b Kefeng Wang       2026-01-09  7693   * non-compound page, for compound frozen pages could be freed with
-e0c1326779cc1b Kefeng Wang       2026-01-09  7694   * free_frozen_pages() directly.
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7695   *
-e0c1326779cc1b Kefeng Wang       2026-01-09  7696   * Return: pointer to contiguous frozen pages on success, or NULL if not successful.
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7697   */
-e0c1326779cc1b Kefeng Wang       2026-01-09  7698  struct page *alloc_contig_frozen_pages_noprof(unsigned long nr_pages,
-e349bc96af3953 Gregory Price     2026-08-19  7699  		gfp_t gfp_mask, int nid, nodemask_t *nodemask,
-e349bc96af3953 Gregory Price     2026-08-19  7700  		unsigned int alloc_flags)
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7701  {
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7702  	unsigned long ret, pfn, flags;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7703  	struct zonelist *zonelist;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7704  	struct zone *zone;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7705  	struct zoneref *z;
-e349bc96af3953 Gregory Price     2026-08-19  7706  	nodemask_t targets;
-3bb64898f00368 Gregory Price     2025-12-21  7707  	bool skip_hugetlb = true;
-3bb64898f00368 Gregory Price     2025-12-21  7708  	bool skipped_hugetlb = false;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7709  
-e349bc96af3953 Gregory Price     2026-08-19  7710  	/*
-e349bc96af3953 Gregory Price     2026-08-19  7711  	 * ALLOC_ZONELIST_PRIVATE grants the search access to private nodes,
-e349bc96af3953 Gregory Price     2026-08-19  7712  	 * but the private zonelist is built over all of N_MEMORY, so without
-e349bc96af3953 Gregory Price     2026-08-19  7713  	 * a nodemask it would also offer up other devices' nodes.  Confine it
-e349bc96af3953 Gregory Price     2026-08-19  7714  	 * to @nid and the public nodes.  A caller that supplied its own
-e349bc96af3953 Gregory Price     2026-08-19  7715  	 * nodemask has already said what it will accept.
-e349bc96af3953 Gregory Price     2026-08-19  7716  	 */
-e349bc96af3953 Gregory Price     2026-08-19 @7717  	if ((alloc_flags & ALLOC_ZONELIST_PRIVATE) && !nodemask &&
-e349bc96af3953 Gregory Price     2026-08-19  7718  	    contig_private_targets(nid, &targets))
-e349bc96af3953 Gregory Price     2026-08-19  7719  		nodemask = &targets;
-e349bc96af3953 Gregory Price     2026-08-19  7720  
-3bb64898f00368 Gregory Price     2025-12-21  7721  retry:
-e349bc96af3953 Gregory Price     2026-08-19  7722  	zonelist = select_zonelist(nid, gfp_mask, alloc_flags);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7723  	for_each_zone_zonelist_nodemask(zone, z, zonelist,
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7724  					gfp_zone(gfp_mask), nodemask) {
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7725  		spin_lock_irqsave(&zone->lock, flags);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7726  
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7727  		pfn = ALIGN(zone->zone_start_pfn, nr_pages);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7728  		while (zone_spans_last_pfn(zone, pfn, nr_pages)) {
-3bb64898f00368 Gregory Price     2025-12-21  7729  			if (pfn_range_valid_contig(zone, pfn, nr_pages,
-3bb64898f00368 Gregory Price     2025-12-21  7730  						   skip_hugetlb,
-3bb64898f00368 Gregory Price     2025-12-21  7731  						   &skipped_hugetlb)) {
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7732  				/*
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7733  				 * We release the zone lock here because
-e0c1326779cc1b Kefeng Wang       2026-01-09  7734  				 * alloc_contig_frozen_range() will also lock
-e0c1326779cc1b Kefeng Wang       2026-01-09  7735  				 * the zone at some point. If there's an
-e0c1326779cc1b Kefeng Wang       2026-01-09  7736  				 * allocation spinning on this lock, it may
-e0c1326779cc1b Kefeng Wang       2026-01-09  7737  				 * win the race and cause allocation to fail.
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7738  				 */
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7739  				spin_unlock_irqrestore(&zone->lock, flags);
-e0c1326779cc1b Kefeng Wang       2026-01-09  7740  				ret = alloc_contig_frozen_range_noprof(pfn,
-e0c1326779cc1b Kefeng Wang       2026-01-09  7741  							pfn + nr_pages,
-e0c1326779cc1b Kefeng Wang       2026-01-09  7742  							ACR_FLAGS_NONE,
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7743  							gfp_mask);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7744  				if (!ret)
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7745  					return pfn_to_page(pfn);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7746  				spin_lock_irqsave(&zone->lock, flags);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7747  			}
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7748  			pfn += nr_pages;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7749  		}
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7750  		spin_unlock_irqrestore(&zone->lock, flags);
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7751  	}
-3bb64898f00368 Gregory Price     2025-12-21  7752  	/*
-3bb64898f00368 Gregory Price     2025-12-21  7753  	 * If we failed, retry the search, but treat regions with HugeTLB pages
-3bb64898f00368 Gregory Price     2025-12-21  7754  	 * as valid targets.  This retains fast-allocations on first pass
-3bb64898f00368 Gregory Price     2025-12-21  7755  	 * without trying to migrate HugeTLB pages (which may fail). On the
-3bb64898f00368 Gregory Price     2025-12-21  7756  	 * second pass, we will try moving HugeTLB pages when those pages are
-3bb64898f00368 Gregory Price     2025-12-21  7757  	 * smaller than the requested contiguous region size.
-3bb64898f00368 Gregory Price     2025-12-21  7758  	 */
-3bb64898f00368 Gregory Price     2025-12-21  7759  	if (skip_hugetlb && skipped_hugetlb) {
-3bb64898f00368 Gregory Price     2025-12-21  7760  		skip_hugetlb = false;
-3bb64898f00368 Gregory Price     2025-12-21  7761  		goto retry;
-3bb64898f00368 Gregory Price     2025-12-21  7762  	}
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7763  	return NULL;
-5e27a2df03b893 Anshuman Khandual 2019-11-30  7764  }
-e0c1326779cc1b Kefeng Wang       2026-01-09  7765  EXPORT_SYMBOL(alloc_contig_frozen_pages_noprof);
-041d3a8cdc18dc Michal Nazarewicz 2011-12-29  7766  
+vim +/gain +1153 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
+
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1051  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1052  static int iwl_mvm_fill_ppag_table(struct iwl_fw_runtime *fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1053  				   union iwl_ppag_table_cmd *cmd,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1054  				   int *cmd_size)
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1055  {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1056  	u8 cmd_ver;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1057  	int i, j, num_sub_bands;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1058  	s8 *gain;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1059  	bool send_ppag_always;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1060  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1061  	/* many firmware images for JF lie about this */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1062  	if (CSR_HW_RFID_TYPE(fwrt->trans->info.hw_rf_id) ==
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1063  	    CSR_HW_RFID_TYPE(CSR_HW_RF_ID_TYPE_JF))
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1064  		return -EOPNOTSUPP;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1065  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1066  	if (!fw_has_capa(&fwrt->fw->ucode_capa, IWL_UCODE_TLV_CAPA_SET_PPAG)) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1067  		IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1068  				"PPAG capability not supported by FW, command not sent.\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1069  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1070  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1071  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1072  	cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1073  					WIDE_ID(PHY_OPS_GROUP,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1074  						PER_PLATFORM_ANT_GAIN_CMD), 1);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1075  	/*
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1076  	 * Starting from ver 4, driver needs to send the PPAG CMD regardless
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1077  	 * if PPAG is enabled/disabled or valid/invalid.
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1078  	 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1079  	send_ppag_always = cmd_ver > 3;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1080  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1081  	/* Don't send PPAG if it is disabled */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1082  	if (!send_ppag_always && !fwrt->ppag_flags) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1083  		IWL_DEBUG_RADIO(fwrt, "PPAG not enabled, command not sent.\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1084  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1085  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1086  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1087  	IWL_DEBUG_RADIO(fwrt, "PPAG cmd ver is %d\n", cmd_ver);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1088  	if (cmd_ver == 1) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1089  		num_sub_bands = IWL_NUM_SUB_BANDS_V1;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1090  		gain = cmd->v1.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1091  		*cmd_size = sizeof(cmd->v1);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1092  		cmd->v1.flags =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1093  			cpu_to_le32(fwrt->ppag_flags & IWL_PPAG_CMD_V1_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1094  		if (fwrt->ppag_bios_rev >= 1) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1095  			/* in this case FW supports revision 0 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1096  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1097  					"PPAG table rev is %d, send truncated table\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1098  					fwrt->ppag_bios_rev);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1099  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1100  	} else if (cmd_ver == 5) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1101  		num_sub_bands = IWL_NUM_SUB_BANDS_V2;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1102  		gain = cmd->v5.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1103  		*cmd_size = sizeof(cmd->v5);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1104  		cmd->v5.flags =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1105  			cpu_to_le32(fwrt->ppag_flags & IWL_PPAG_CMD_V5_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1106  		if (fwrt->ppag_bios_rev == 0) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1107  			/* in this case FW supports revisions 1,2 or 3 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1108  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1109  					"PPAG table rev is 0, send padded table\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1110  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1111  	} else if (cmd_ver == 7) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1112  		num_sub_bands = IWL_NUM_SUB_BANDS_V2;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1113  		gain = cmd->v7.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1114  		*cmd_size = sizeof(cmd->v7);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1115  		cmd->v7.ppag_config_info.hdr.table_source =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1116  			fwrt->ppag_bios_source;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1117  		cmd->v7.ppag_config_info.hdr.table_revision =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1118  			fwrt->ppag_bios_rev;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1119  		cmd->v7.ppag_config_info.value = cpu_to_le32(fwrt->ppag_flags);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1120  	} else {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1121  		IWL_DEBUG_RADIO(fwrt, "Unsupported PPAG command version\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1122  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1123  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1124  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1125  	/* ppag mode */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1126  	IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1127  			"PPAG MODE bits were read from bios: %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1128  			fwrt->ppag_flags);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1129  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1130  	if (cmd_ver == 1 &&
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1131  	    !fw_has_capa(&fwrt->fw->ucode_capa,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1132  			 IWL_UCODE_TLV_CAPA_PPAG_CHINA_BIOS_SUPPORT)) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1133  		cmd->v1.flags &= cpu_to_le32(IWL_PPAG_ETSI_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1134  		IWL_DEBUG_RADIO(fwrt, "masking ppag China bit\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1135  	} else {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1136  		IWL_DEBUG_RADIO(fwrt, "isn't masking ppag China bit\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1137  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1138  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1139  	/* The 'flags' field is the same in v1 and v5 so we can just
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1140  	 * use v1 to access it.
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1141  	 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1142  	IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1143  			"PPAG MODE bits going to be sent: %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1144  			(cmd_ver < 7) ? le32_to_cpu(cmd->v1.flags) :
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1145  					le32_to_cpu(cmd->v7.ppag_config_info.value));
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1146  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1147  	for (i = 0; i < IWL_NUM_CHAIN_LIMITS; i++) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1148  		for (j = 0; j < num_sub_bands; j++) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1149  			if (!send_ppag_always &&
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1150  			    !iwl_mvm_ppag_value_valid(fwrt, i, j))
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1151  				return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1152  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19 @1153  			gain[i * num_sub_bands + j] =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1154  				fwrt->ppag_chains[i].subbands[j];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1155  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1156  					"PPAG table: chain[%d] band[%d]: gain = %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1157  					i, j, gain[i * num_sub_bands + j]);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1158  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1159  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1160  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1161  	return 0;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1162  }
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1163  
 
 --
 0-DAY CI Kernel Test Service
