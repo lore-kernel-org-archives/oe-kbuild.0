@@ -1,138 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FDC328B4B
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 13:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1864230E83A
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 15:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787319470; cv=none; b=iwad6nw0KJGtc8RR2mpty9S9dr8M9t8wXj2xO9NAPcmoET7cYoYW4nTG6kiUe4sVS4XltQtHD/hXw7zhDcaQb09Eoy0JOtk5aaWGHsyAVWRplEWm0jn+vHSo3/7EIe4ZKqx5ThtFlf38Ks3LAjtlCHc2xnYG/B4ENqrbdjNAovw=
+	t=1787325232; cv=none; b=ToqduE6Y0/UYEpaFqMLNPRJbb9PpvDbkzHHzsJVxiEWSrSqxG1fsU4vAF6FgqAB58gTfnQwh4qsceDiB3+i+zQ7ucOuUD1+GF/VyiGOgsAfKWccr2Ij7ufkm3/ggZdYjJrHQpIbIrSE4wCCU2NZhe1MvcY7ix7gD2nutv0FvxOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787319470; c=relaxed/simple;
-	bh=ueycP1P87f1ZIMMOteO0oMHaUYldX/wsFpDqmWoSdHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NY58elcr4heLR/oQeX5l/4s6cBJU5OlfX2R172lv61VXmqZhwedOdEKiO9v7lZf2izbTRY6x6WdYZK2vrtPlBxa84bZaOnVoBuUH6A3Vy+ymK3NLslfsn2y3gjvK29pHiuavBbUKuEGSu4PXVVGoL2FveQBqyTEK5hifD+LACNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0uV6Onx; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1787325232; c=relaxed/simple;
+	bh=fUGRQvjv/BLI1eYBFswOvQce4f86a/NcJP9glSOgO3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R6LHPKSzqGalSGMuyCj2sZJ0cEbxKu0WoQm9/oVBdiXFHCWWTbyui5nD02Cf1zeMVf5x+ZaIxO6g4FcGUgDheoAhBXJkUFKzQmq9ET99UxuXSe81+MHXTCgO83LYMG7XI6TNCKur13BrXFMTbcyEDtxGpoE/Dd1Ew7FY7YKNy7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlL7DArO; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0uV6Onx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlL7DArO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787319468; x=1818855468;
-  h=date:from:to:cc:subject:message-id;
-  bh=ueycP1P87f1ZIMMOteO0oMHaUYldX/wsFpDqmWoSdHQ=;
-  b=Q0uV6OnxuVuHEVCWp7UMgk5IstpQcsYgBM8+3QaD9vtc6t1t2ftETJ8p
-   ANu+eGQFoXIf3hGHxbvhMvk/6ICA980Hvx6zgBs22wPpgw3MqCSUEJvkv
-   oSU0HbHTPqjkRpQNMPMKf8bKIzh3rr2rBSgnkj+hFjeJEXU2qWUOfaBsd
-   /f9C591H2ex1a4GZ4yCRLoGSgHngDByN9NvUb1SCGCFqqM6M8K78T4x3P
-   4epUlH/r5PFH/rNQWuSZx6IQ3hznUKz0VuH0u9ybgI8xIVNfPvMY1+jt8
-   Bas4a6UWlP38QFL/5d6vOSi8Nqw6w94UnIiyyoznoiMi+thOYTgPHRzJA
-   A==;
-X-CSE-ConnectionGUID: qRDxyOYTTXqgofPxYM2qyA==
-X-CSE-MsgGUID: 3i4aDLazS7CC3IHel1hkyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="110653751"
+  t=1787325230; x=1818861230;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fUGRQvjv/BLI1eYBFswOvQce4f86a/NcJP9glSOgO3I=;
+  b=TlL7DArOOv/4fdYN8i0idhQDapd8P0vcsX4Oy63NHNfTVWJUU5AHPt72
+   WCdSKKcSSqn6krx5FXXT6V9xB/Et+Erb9lXGLhmKLYdCrHksHaHT9Uq0j
+   oh9Ml+EzrbBUDKRHH0gLCJ0JtGq805c4fDKJkzBfxrMLhAly9wYkiy2/p
+   6YDLxvvFZbbwvAjm8tDTJzG33fGZlR2gmkEtceALrcfutR09UwLyC0mH8
+   RIjiLgTLyRj0Zgh44Z2k8S+QyeLKxatTXEec90WKGY1Tfg9fiBF9h+kPM
+   e7UnFb2psaNhUVQMCOoFi2/EstOybrrUYi8mIvYRsdhhB48Pxfgcr5OJ3
+   w==;
+X-CSE-ConnectionGUID: fbf4E2x9SBSyZUdCFNQjyg==
+X-CSE-MsgGUID: W0jIIhQXTS2Ad4XN0Gcaaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105413230"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="110653751"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:37:44 -0700
-X-CSE-ConnectionGUID: gWNokQ1NRlCLbKYu8C5P0A==
-X-CSE-MsgGUID: 0k6XKiceTcuQBoTGA16gHQ==
+   d="scan'208";a="105413230"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:13:50 -0700
+X-CSE-ConnectionGUID: 15BDB+P9R5Kncg+pi7B75A==
+X-CSE-MsgGUID: q6RYk+4PQw2x9vuS6fTp4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="270578044"
+   d="scan'208";a="291223610"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2026 06:37:42 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2026 08:13:49 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxPRE-00000000pyR-2e3q;
-	Fri, 21 Aug 2026 13:37:40 +0000
-Date: Fri, 21 Aug 2026 21:36:51 +0800
+	id 1wxQwE-00000000q4v-1hOo;
+	Fri, 21 Aug 2026 15:13:46 +0000
+Date: Fri, 21 Aug 2026 23:13:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/rds/tcp_listen.c:136 rds_tcp_accept_one() error: we
- previously assumed 'new_sock' could be null (see line 131)
-Message-ID: <202608212155.wtgrI7Uu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/1] gpu: nova-core: populate GSP_VF_INFO when vGPU is
+ enabled
+Message-ID: <202608212302.i87Txgpq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260804170045.902069-2-zhiw@nvidia.com>
+References: <20260804170045.902069-2-zhiw@nvidia.com>
+TO: Zhi Wang <zhiw@nvidia.com>
+TO: dakr@kernel.org
+TO: acourbot@nvidia.com
+CC: airlied@gmail.com
+CC: simona@ffwll.ch
+CC: ojeda@kernel.org
+CC: alex.gaynor@gmail.com
+CC: boqun.feng@gmail.com
+CC: gary@garyguo.net
+CC: bjorn3_gh@protonmail.com
+CC: lossin@kernel.org
+CC: a.hindborg@kernel.org
+CC: aliceryhl@google.com
+CC: tmgross@umich.edu
+CC: jhubbard@nvidia.com
+CC: ecourtney@nvidia.com
+CC: joelagnelf@nvidia.com
+CC: apopple@nvidia.com
+CC: cjia@nvidia.com
+CC: smitra@nvidia.com
+CC: kjaju@nvidia.com
+CC: alkumar@nvidia.com
+CC: ankita@nvidia.com
+CC: aniketa@nvidia.com
+CC: kwankhede@nvidia.com
+CC: targupta@nvidia.com
+CC: nova-gpu@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Gerd Rausch <gerd.rausch@oracle.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jack Vogel <jack.vogel@oracle.com>
-CC: Allison Henderson <allison.henderson@oracle.com>
+CC: zhiwang@kernel.org
+CC: Zhi Wang <zhiw@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
-commit: db69e9b838c39f4fb17d0547aeb71d55a7f28061 net/rds: rds_tcp_accept_one ought to not discard messages
-date:   7 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 7 months ago
-config: powerpc64-randconfig-r071-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212155.wtgrI7Uu-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Zhi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-rust/drm-rust-next]
+[also build test ERROR on next-20260820]
+[cannot apply to linus/master v7.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhi-Wang/gpu-nova-core-populate-GSP_VF_INFO-when-vGPU-is-enabled/20260804-200045
+base:   https://gitlab.freedesktop.org/drm/rust/kernel.git drm-rust-next
+patch link:    https://lore.kernel.org/r/20260804170045.902069-2-zhiw%40nvidia.com
+patch subject: [PATCH v2 1/1] gpu: nova-core: populate GSP_VF_INFO when vGPU is enabled
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-012-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212302.i87Txgpq-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608212302.i87Txgpq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: db69e9b838c3 ("net/rds: rds_tcp_accept_one ought to not discard messages")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608212155.wtgrI7Uu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608212302.i87Txgpq-lkp@intel.com/
 
-smatch warnings:
-net/rds/tcp_listen.c:136 rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null (see line 131)
+All errors (new ones prefixed by >>):
 
-vim +/new_sock +136 net/rds/tcp_listen.c
-
-db69e9b838c39f Gerd Rausch       2026-01-21  107  
-db69e9b838c39f Gerd Rausch       2026-01-21  108  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
-70041088e3b976 Andy Grover       2009-08-21  109  {
-db69e9b838c39f Gerd Rausch       2026-01-21  110  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
-70041088e3b976 Andy Grover       2009-08-21  111  	struct socket *new_sock = NULL;
-70041088e3b976 Andy Grover       2009-08-21  112  	struct rds_connection *conn;
-70041088e3b976 Andy Grover       2009-08-21  113  	int ret;
-70041088e3b976 Andy Grover       2009-08-21  114  	struct inet_sock *inet;
-bd7c5f983f3185 Sowmini Varadhan  2016-05-02  115  	struct rds_tcp_connection *rs_tcp = NULL;
-bd7c5f983f3185 Sowmini Varadhan  2016-05-02  116  	int conn_state;
-ea3b1ea5393087 Sowmini Varadhan  2016-06-30  117  	struct rds_conn_path *cp;
-1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  118  	struct in6_addr *my_addr, *peer_addr;
-e65d4d96334e3f Ka-Cheong Poon    2018-07-30  119  #if !IS_ENABLED(CONFIG_IPV6)
-e65d4d96334e3f Ka-Cheong Poon    2018-07-30  120  	struct in6_addr saddr, daddr;
-e65d4d96334e3f Ka-Cheong Poon    2018-07-30  121  #endif
-e65d4d96334e3f Ka-Cheong Poon    2018-07-30  122  	int dev_if = 0;
-70041088e3b976 Andy Grover       2009-08-21  123  
-db69e9b838c39f Gerd Rausch       2026-01-21  124  	if (!listen_sock) /* module unload or netns delete in progress */
-37e14f4fe2991f Sowmini Varadhan  2016-05-18  125  		return -ENETUNREACH;
-37e14f4fe2991f Sowmini Varadhan  2016-05-18  126  
-db69e9b838c39f Gerd Rausch       2026-01-21  127  	mutex_lock(&rtn->rds_tcp_accept_lock);
-db69e9b838c39f Gerd Rausch       2026-01-21  128  	new_sock = rtn->rds_tcp_accepted_sock;
-db69e9b838c39f Gerd Rausch       2026-01-21  129  	rtn->rds_tcp_accepted_sock = NULL;
-db69e9b838c39f Gerd Rausch       2026-01-21  130  
-db69e9b838c39f Gerd Rausch       2026-01-21 @131  	if (!new_sock) {
-db69e9b838c39f Gerd Rausch       2026-01-21  132  		ret = kernel_accept(listen_sock, &new_sock, O_NONBLOCK);
-70041088e3b976 Andy Grover       2009-08-21  133  		if (ret)
-db69e9b838c39f Gerd Rausch       2026-01-21  134  			goto out;
-84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  135  
-480aeb9639d6a0 Christoph Hellwig 2020-05-28 @136  		rds_tcp_keepalive(new_sock);
-6997fbd7a3dafa Tetsuo Handa      2022-05-05  137  		if (!rds_tcp_tune(new_sock)) {
-6997fbd7a3dafa Tetsuo Handa      2022-05-05  138  			ret = -EINVAL;
-6997fbd7a3dafa Tetsuo Handa      2022-05-05  139  			goto out;
-6997fbd7a3dafa Tetsuo Handa      2022-05-05  140  		}
-db69e9b838c39f Gerd Rausch       2026-01-21  141  	}
-70041088e3b976 Andy Grover       2009-08-21  142  
-70041088e3b976 Andy Grover       2009-08-21  143  	inet = inet_sk(new_sock->sk);
-70041088e3b976 Andy Grover       2009-08-21  144  
-
-:::::: The code at line 136 was first introduced by commit
-:::::: 480aeb9639d6a077c611b303a22f9b1e5937d081 tcp: add tcp_sock_set_keepcnt
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: David S. Miller <davem@davemloft.net>
+>> error[E0425]: cannot find type `ExtSriovRegs` in module `pci`
+   --> drivers/gpu/nova-core/gsp/fw/commands.rs:44:41
+   |
+   44 |             .find_ext_capability::<pci::ExtSriovRegs>()?
+   |                                         ^^^^^^^^^^^^ not found in `pci`
+--
+>> error[E0599]: no method named `find_ext_capability` found for struct `ConfigSpace<'a, T>` in the current scope
+   --> drivers/gpu/nova-core/gsp/fw/commands.rs:44:14
+   |
+   42 |           let sriov = dev
+   |  _____________________-
+   43 | |             .config_space_extended()?
+   44 | |             .find_ext_capability::<pci::ExtSriovRegs>()?
+   | |             -^^^^^^^^^^^^^^^^^^^ method not found in `ConfigSpace<'_>`
+   | |_____________|
+   |
 
 --
 0-DAY CI Kernel Test Service
