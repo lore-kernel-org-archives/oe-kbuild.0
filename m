@@ -1,152 +1,114 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1864230E83A
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 15:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB9C43BDB4
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 15:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325232; cv=none; b=ToqduE6Y0/UYEpaFqMLNPRJbb9PpvDbkzHHzsJVxiEWSrSqxG1fsU4vAF6FgqAB58gTfnQwh4qsceDiB3+i+zQ7ucOuUD1+GF/VyiGOgsAfKWccr2Ij7ufkm3/ggZdYjJrHQpIbIrSE4wCCU2NZhe1MvcY7ix7gD2nutv0FvxOk=
+	t=1787327758; cv=none; b=V1QLdMiS3Q70yfxVIfCF8wHdaKYocIYviu9wp1rkNZXxIbCnQ4LBmXn/wT97/bDfJQJQmFn6o/ubP1m52HYlUSE0baEteZKst/1Igtfo5BkIIuCglfOeRnvBpCPVG9gF2QmrJ8UjRTf8JJLfywVXsRW8aDu2aJibrmkYm7W9rZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325232; c=relaxed/simple;
-	bh=fUGRQvjv/BLI1eYBFswOvQce4f86a/NcJP9glSOgO3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R6LHPKSzqGalSGMuyCj2sZJ0cEbxKu0WoQm9/oVBdiXFHCWWTbyui5nD02Cf1zeMVf5x+ZaIxO6g4FcGUgDheoAhBXJkUFKzQmq9ET99UxuXSe81+MHXTCgO83LYMG7XI6TNCKur13BrXFMTbcyEDtxGpoE/Dd1Ew7FY7YKNy7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlL7DArO; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1787327758; c=relaxed/simple;
+	bh=wOA5dSKHhnI1syFBB09+kJK6Ag/xdmk11SPc3RMhbso=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CPhxwab0bMkpYePdcD8sOK2e+fJv/VYXwAg0sK4j6vmXIeRX3vn1A9ghlSqk26REPW6NSW3U8fmEry46SMWfKtbCn5ZNg+s4T+e2uNbpCPnJ6bQkKrZEJUPyhOfWEV/4FFa4xVtO2DePUgaKIMhedhYivcvGPKojMhBFf9D/8yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsEFm1IH; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlL7DArO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsEFm1IH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787325230; x=1818861230;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fUGRQvjv/BLI1eYBFswOvQce4f86a/NcJP9glSOgO3I=;
-  b=TlL7DArOOv/4fdYN8i0idhQDapd8P0vcsX4Oy63NHNfTVWJUU5AHPt72
-   WCdSKKcSSqn6krx5FXXT6V9xB/Et+Erb9lXGLhmKLYdCrHksHaHT9Uq0j
-   oh9Ml+EzrbBUDKRHH0gLCJ0JtGq805c4fDKJkzBfxrMLhAly9wYkiy2/p
-   6YDLxvvFZbbwvAjm8tDTJzG33fGZlR2gmkEtceALrcfutR09UwLyC0mH8
-   RIjiLgTLyRj0Zgh44Z2k8S+QyeLKxatTXEec90WKGY1Tfg9fiBF9h+kPM
-   e7UnFb2psaNhUVQMCOoFi2/EstOybrrUYi8mIvYRsdhhB48Pxfgcr5OJ3
-   w==;
-X-CSE-ConnectionGUID: fbf4E2x9SBSyZUdCFNQjyg==
-X-CSE-MsgGUID: W0jIIhQXTS2Ad4XN0Gcaaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105413230"
+  t=1787327754; x=1818863754;
+  h=date:from:to:cc:subject:message-id;
+  bh=wOA5dSKHhnI1syFBB09+kJK6Ag/xdmk11SPc3RMhbso=;
+  b=BsEFm1IHhHl1TZEoQLFypa0mves49QuX/nNCgXEH/Orqddy7aAEQcBEb
+   lvzXni0p+jAY5R1X4QHs7J2lRntj7bwhWlVKeCnLzW1oHXAl0YWUlTqXA
+   z0v69UNj1ffIyQfX1PoViC8yW1I7u8hlGZ8NhcrApuNWY/MUQCuNCBhUY
+   uVw3RJ8DA2qsCmZ8MGYlTdha7I3cGqN9LrAvtOsF4zpVXumxzaYoJTwzu
+   jbwGgx1/6v5FCBYEqLJCB/qCRHVXeZMF96FWoDWt8PDPQPvXzSDUvhZ78
+   DVDLDtihxTvLHqbG8ln5Kw5kG1A9x9/HFroemD/+sHBE5fos0I3k/eAfF
+   A==;
+X-CSE-ConnectionGUID: YeV8gisuR8i+wW+0wzTjyQ==
+X-CSE-MsgGUID: troj6XXsTW2RUdtrKGbH3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105416537"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="105413230"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:13:50 -0700
-X-CSE-ConnectionGUID: 15BDB+P9R5Kncg+pi7B75A==
-X-CSE-MsgGUID: q6RYk+4PQw2x9vuS6fTp4A==
+   d="scan'208";a="105416537"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:55:52 -0700
+X-CSE-ConnectionGUID: f+dtUTS6RwizOjjhWY7i5A==
+X-CSE-MsgGUID: 5qQAplEMQiOcZsoNur8vtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="291223610"
+   d="scan'208";a="263733207"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2026 08:13:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 21 Aug 2026 08:55:51 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxQwE-00000000q4v-1hOo;
-	Fri, 21 Aug 2026 15:13:46 +0000
-Date: Fri, 21 Aug 2026 23:13:18 +0800
+	id 1wxRau-00000000q83-3C5Z;
+	Fri, 21 Aug 2026 15:55:48 +0000
+Date: Fri, 21 Aug 2026 23:55:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 1/1] gpu: nova-core: populate GSP_VF_INFO when vGPU is
- enabled
-Message-ID: <202608212302.i87Txgpq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/hid/hid-msi.c:1274 claw_rgb_queue_fn() warn: can
+ 'drvdata' even be NULL?
+Message-ID: <202608212345.DvQUBcaE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260804170045.902069-2-zhiw@nvidia.com>
-References: <20260804170045.902069-2-zhiw@nvidia.com>
-TO: Zhi Wang <zhiw@nvidia.com>
-TO: dakr@kernel.org
-TO: acourbot@nvidia.com
-CC: airlied@gmail.com
-CC: simona@ffwll.ch
-CC: ojeda@kernel.org
-CC: alex.gaynor@gmail.com
-CC: boqun.feng@gmail.com
-CC: gary@garyguo.net
-CC: bjorn3_gh@protonmail.com
-CC: lossin@kernel.org
-CC: a.hindborg@kernel.org
-CC: aliceryhl@google.com
-CC: tmgross@umich.edu
-CC: jhubbard@nvidia.com
-CC: ecourtney@nvidia.com
-CC: joelagnelf@nvidia.com
-CC: apopple@nvidia.com
-CC: cjia@nvidia.com
-CC: smitra@nvidia.com
-CC: kjaju@nvidia.com
-CC: alkumar@nvidia.com
-CC: ankita@nvidia.com
-CC: aniketa@nvidia.com
-CC: kwankhede@nvidia.com
-CC: targupta@nvidia.com
-CC: nova-gpu@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: zhiwang@kernel.org
-CC: Zhi Wang <zhiw@nvidia.com>
+TO: "Derek J. Clark" <derekjohn.clark@gmail.com>
+CC: Jiri Kosina <jikos@kernel.org>
+CC: Zhouwang Huang <honjow311@gmail.com>
 
-Hi Zhi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-rust/drm-rust-next]
-[also build test ERROR on next-20260820]
-[cannot apply to linus/master v7.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhi-Wang/gpu-nova-core-populate-GSP_VF_INFO-when-vGPU-is-enabled/20260804-200045
-base:   https://gitlab.freedesktop.org/drm/rust/kernel.git drm-rust-next
-patch link:    https://lore.kernel.org/r/20260804170045.902069-2-zhiw%40nvidia.com
-patch subject: [PATCH v2 1/1] gpu: nova-core: populate GSP_VF_INFO when vGPU is enabled
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-012-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212302.i87Txgpq-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608212302.i87Txgpq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+commit: f27e2e3c80edb2ff09c3bb3ee1605c86c64fcaa8 HID: hid-msi: Add RGB control interface
+date:   3 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 weeks ago
+config: csky-randconfig-r073-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212345.DvQUBcaE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f27e2e3c80ed ("HID: hid-msi: Add RGB control interface")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608212302.i87Txgpq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608212345.DvQUBcaE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hid/hid-msi.c:1274 claw_rgb_queue_fn() warn: can 'drvdata' even be NULL?
 
->> error[E0425]: cannot find type `ExtSriovRegs` in module `pci`
-   --> drivers/gpu/nova-core/gsp/fw/commands.rs:44:41
-   |
-   44 |             .find_ext_capability::<pci::ExtSriovRegs>()?
-   |                                         ^^^^^^^^^^^^ not found in `pci`
---
->> error[E0599]: no method named `find_ext_capability` found for struct `ConfigSpace<'a, T>` in the current scope
-   --> drivers/gpu/nova-core/gsp/fw/commands.rs:44:14
-   |
-   42 |           let sriov = dev
-   |  _____________________-
-   43 | |             .config_space_extended()?
-   44 | |             .find_ext_capability::<pci::ExtSriovRegs>()?
-   | |             -^^^^^^^^^^^^^^^^^^^ method not found in `ConfigSpace<'_>`
-   | |_____________|
-   |
+vim +/drvdata +1274 drivers/hid/hid-msi.c
+
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1267  
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1268  static void claw_rgb_queue_fn(struct work_struct *work)
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1269  {
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1270  	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1271  	struct claw_drvdata *drvdata = container_of(dwork, struct claw_drvdata, rgb_queue);
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1272  	int ret;
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1273  
+f27e2e3c80edb2f Derek J. Clark 2026-07-20 @1274  	if (!drvdata)
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1275  		return;
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1276  
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1277  	scoped_guard(spinlock_irqsave, &drvdata->registration_lock) {
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1278  		/* Pairs with smp_store_release from cfg_setup_fn in system_wq context */
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1279  		if (!smp_load_acquire(&drvdata->rgb_registered))
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1280  			return;
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1281  	}
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1282  
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1283  	ret = claw_apply_rgb_state(drvdata);
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1284  	if (ret)
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1285  		dev_err(&drvdata->hdev->dev, "Failed to apply RGB state: %d\n", ret);
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1286  }
+f27e2e3c80edb2f Derek J. Clark 2026-07-20  1287  
 
 --
 0-DAY CI Kernel Test Service
