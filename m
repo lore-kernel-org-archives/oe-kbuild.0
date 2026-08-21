@@ -1,136 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29A538E8A0
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 12:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FDC328B4B
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 13:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787314902; cv=none; b=Y19Q0Dy7eyLvyrBxZqzUlBAXnbuRRdgtGkGqiE7tTlQjGmDZrmh+YvwloYnqHFtCbzI1syyt9D/Qc5HNwOkDzDkehM+IDndPOEEbqNjQRPA5PFLPlyhhuYG/u1FC/0nf1Jw6dysbJQZzRf4503+k6URoVa32w85gVA06sNRi8VE=
+	t=1787319470; cv=none; b=iwad6nw0KJGtc8RR2mpty9S9dr8M9t8wXj2xO9NAPcmoET7cYoYW4nTG6kiUe4sVS4XltQtHD/hXw7zhDcaQb09Eoy0JOtk5aaWGHsyAVWRplEWm0jn+vHSo3/7EIe4ZKqx5ThtFlf38Ks3LAjtlCHc2xnYG/B4ENqrbdjNAovw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787314902; c=relaxed/simple;
-	bh=4I2qKJVkg871CKslTKtT1+GUEFvER7mpRCAdsXaYFe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CIEI2HlejpKgIkQRN3aLcyq+h1XfFLoodi40khxc3t7V/v3LzWKwpsGoahLmmsvRP0zAU/x1KhQeedTxBeTnORWpslKss6Q4cDZbLgVLOwj+HxnbN4iaVCRBju7wNI+wc2btDHNKwGxj4XvOypfosoxqQ+m3tXCKIZ7nUA7S4Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VpWcg/nv; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1787319470; c=relaxed/simple;
+	bh=ueycP1P87f1ZIMMOteO0oMHaUYldX/wsFpDqmWoSdHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NY58elcr4heLR/oQeX5l/4s6cBJU5OlfX2R172lv61VXmqZhwedOdEKiO9v7lZf2izbTRY6x6WdYZK2vrtPlBxa84bZaOnVoBuUH6A3Vy+ymK3NLslfsn2y3gjvK29pHiuavBbUKuEGSu4PXVVGoL2FveQBqyTEK5hifD+LACNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0uV6Onx; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VpWcg/nv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0uV6Onx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787314900; x=1818850900;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4I2qKJVkg871CKslTKtT1+GUEFvER7mpRCAdsXaYFe8=;
-  b=VpWcg/nvKzdc5VM18HjOXi1TOI9sIE+PTmIuSoB7LqBzH+eZEGCFYt4d
-   6DQx5ai/t6/5M+2rp4c04brs4U3keV9HR5Z7jOSxRnZ3tvDPOjqfoV1wA
-   rFUuswM/c3kY1w1QDtb5pVGGT5XMULWW4y12AEHg6hH6V91KOBuegROsy
-   b8448dxfn90HU91eXKiFfiWk0gKff8mE8k5sqXC8AjJSwXiXNHrNGpoPV
-   Xj7AaGMkRAxQWX8UF4yaVabBLjz/JlHldCw1wWqx8PLM5Hs3Nar75u8My
-   BkXNQDGFXUJpwWN2vK2pWvKP3RBYsPjWCzDrbLvhN1hTIr9i05PEoywf2
-   g==;
-X-CSE-ConnectionGUID: 6RJyiZGSSdKDKR1I/QGUag==
-X-CSE-MsgGUID: BH+vuDXjSAK+1jBS4jX7MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="105242836"
+  t=1787319468; x=1818855468;
+  h=date:from:to:cc:subject:message-id;
+  bh=ueycP1P87f1ZIMMOteO0oMHaUYldX/wsFpDqmWoSdHQ=;
+  b=Q0uV6OnxuVuHEVCWp7UMgk5IstpQcsYgBM8+3QaD9vtc6t1t2ftETJ8p
+   ANu+eGQFoXIf3hGHxbvhMvk/6ICA980Hvx6zgBs22wPpgw3MqCSUEJvkv
+   oSU0HbHTPqjkRpQNMPMKf8bKIzh3rr2rBSgnkj+hFjeJEXU2qWUOfaBsd
+   /f9C591H2ex1a4GZ4yCRLoGSgHngDByN9NvUb1SCGCFqqM6M8K78T4x3P
+   4epUlH/r5PFH/rNQWuSZx6IQ3hznUKz0VuH0u9ybgI8xIVNfPvMY1+jt8
+   Bas4a6UWlP38QFL/5d6vOSi8Nqw6w94UnIiyyoznoiMi+thOYTgPHRzJA
+   A==;
+X-CSE-ConnectionGUID: qRDxyOYTTXqgofPxYM2qyA==
+X-CSE-MsgGUID: 3i4aDLazS7CC3IHel1hkyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="110653751"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="105242836"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 05:21:39 -0700
-X-CSE-ConnectionGUID: g7i4hG6YRsSrZpbLioUMbw==
-X-CSE-MsgGUID: 6ytNWt1HQiOp9+aQHIG4YA==
+   d="scan'208";a="110653751"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:37:44 -0700
+X-CSE-ConnectionGUID: gWNokQ1NRlCLbKYu8C5P0A==
+X-CSE-MsgGUID: 0k6XKiceTcuQBoTGA16gHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="270149108"
+   d="scan'208";a="270578044"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Aug 2026 05:21:38 -0700
+  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2026 06:37:42 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxOFb-00000000ptt-2CX1;
-	Fri, 21 Aug 2026 12:21:35 +0000
-Date: Fri, 21 Aug 2026 20:20:50 +0800
+	id 1wxPRE-00000000pyR-2e3q;
+	Fri, 21 Aug 2026 13:37:40 +0000
+Date: Fri, 21 Aug 2026 21:36:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down
- events
-Message-ID: <202608212057.C8fsxFMt-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: net/rds/tcp_listen.c:136 rds_tcp_accept_one() error: we
+ previously assumed 'new_sock' could be null (see line 131)
+Message-ID: <202608212155.wtgrI7Uu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
-References: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
-TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-TO: Jingoo Han <jingoohan1@gmail.com>
-TO: Manivannan Sadhasivam <mani@kernel.org>
-TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
-TO: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-CC: linux-pci@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+TO: Gerd Rausch <gerd.rausch@oracle.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jack Vogel <jack.vogel@oracle.com>
+CC: Allison Henderson <allison.henderson@oracle.com>
 
-Hi Krishna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d55d5a8f3d852baab49dba910dcb04b6d8091b05]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-qcom-Add-register-dump-support-for-PCIe-Link-Down-events/20260811-214223
-base:   d55d5a8f3d852baab49dba910dcb04b6d8091b05
-patch link:    https://lore.kernel.org/r/20260811-regdump-v1-1-f22db3fb37c2%40oss.qualcomm.com
-patch subject: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down events
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: mips-randconfig-r134-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212057.C8fsxFMt-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608212057.C8fsxFMt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+commit: db69e9b838c39f4fb17d0547aeb71d55a7f28061 net/rds: rds_tcp_accept_one ought to not discard messages
+date:   7 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+config: powerpc64-randconfig-r071-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212155.wtgrI7Uu-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: db69e9b838c3 ("net/rds: rds_tcp_accept_one ought to not discard messages")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608212057.C8fsxFMt-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608212155.wtgrI7Uu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+net/rds/tcp_listen.c:136 rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null (see line 131)
 
->> drivers/pci/controller/dwc/pcie-qcom.c:220:18: warning: unused variable 'qcom_pcie_ext_parf_dump_regs' [-Wunused-const-variable]
-     220 | static const u32 qcom_pcie_ext_parf_dump_regs[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +/new_sock +136 net/rds/tcp_listen.c
 
+db69e9b838c39f Gerd Rausch       2026-01-21  107  
+db69e9b838c39f Gerd Rausch       2026-01-21  108  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
+70041088e3b976 Andy Grover       2009-08-21  109  {
+db69e9b838c39f Gerd Rausch       2026-01-21  110  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
+70041088e3b976 Andy Grover       2009-08-21  111  	struct socket *new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  112  	struct rds_connection *conn;
+70041088e3b976 Andy Grover       2009-08-21  113  	int ret;
+70041088e3b976 Andy Grover       2009-08-21  114  	struct inet_sock *inet;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  115  	struct rds_tcp_connection *rs_tcp = NULL;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  116  	int conn_state;
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  117  	struct rds_conn_path *cp;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  118  	struct in6_addr *my_addr, *peer_addr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  119  #if !IS_ENABLED(CONFIG_IPV6)
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  120  	struct in6_addr saddr, daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  121  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  122  	int dev_if = 0;
+70041088e3b976 Andy Grover       2009-08-21  123  
+db69e9b838c39f Gerd Rausch       2026-01-21  124  	if (!listen_sock) /* module unload or netns delete in progress */
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  125  		return -ENETUNREACH;
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  126  
+db69e9b838c39f Gerd Rausch       2026-01-21  127  	mutex_lock(&rtn->rds_tcp_accept_lock);
+db69e9b838c39f Gerd Rausch       2026-01-21  128  	new_sock = rtn->rds_tcp_accepted_sock;
+db69e9b838c39f Gerd Rausch       2026-01-21  129  	rtn->rds_tcp_accepted_sock = NULL;
+db69e9b838c39f Gerd Rausch       2026-01-21  130  
+db69e9b838c39f Gerd Rausch       2026-01-21 @131  	if (!new_sock) {
+db69e9b838c39f Gerd Rausch       2026-01-21  132  		ret = kernel_accept(listen_sock, &new_sock, O_NONBLOCK);
+70041088e3b976 Andy Grover       2009-08-21  133  		if (ret)
+db69e9b838c39f Gerd Rausch       2026-01-21  134  			goto out;
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  135  
+480aeb9639d6a0 Christoph Hellwig 2020-05-28 @136  		rds_tcp_keepalive(new_sock);
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  137  		if (!rds_tcp_tune(new_sock)) {
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  138  			ret = -EINVAL;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  139  			goto out;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  140  		}
+db69e9b838c39f Gerd Rausch       2026-01-21  141  	}
+70041088e3b976 Andy Grover       2009-08-21  142  
+70041088e3b976 Andy Grover       2009-08-21  143  	inet = inet_sk(new_sock->sk);
+70041088e3b976 Andy Grover       2009-08-21  144  
 
-vim +/qcom_pcie_ext_parf_dump_regs +220 drivers/pci/controller/dwc/pcie-qcom.c
+:::::: The code at line 136 was first introduced by commit
+:::::: 480aeb9639d6a077c611b303a22f9b1e5937d081 tcp: add tcp_sock_set_keepcnt
 
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  219  
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11 @220  static const u32 qcom_pcie_ext_parf_dump_regs[] = {
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  221  	PARF_PM_STTS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  222  	PARF_PM_STTS_1,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  223  	PARF_INT_ALL_STATUS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  224  	PARF_INT_ALL_2_STATUS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  225  	PARF_CLKREQ_OVERRIDE,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  226  	PARF_L1SS_SLEEP_MODE_HANDLER_STATUS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  227  	PARF_L1SS_SLEEP_MODE_HANDLER_CFG,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  228  	PARF_CORE_ERRORS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  229  	PARF_LINK_DOWN_AXI_ECAM_BLOCK_STATUS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  230  	PARF_STATUS,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  231  	PARF_SYS_CTRL,
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  232  };
-32f357630af28b2 Krishna Chaitanya Chundru 2026-08-11  233  
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 --
 0-DAY CI Kernel Test Service
