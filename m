@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A9741379A
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 06:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B1044D685
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 09:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787293723; cv=none; b=h27aYif0Yq7Pe/w9wVFg3Kv4Plqi81zQqQ0REEilDF3n/5VbLPTP1DtlJuXxGipjYCa1Uk2I/Dj8Clk9fhMXRnstA8NDRo4MHya5qjAwKPqtpGQWepz+4vx0SWMvInAbQIGEtvDXKuL4BqyGTZuHm601EijHGLiQP00dHe3FnPE=
+	t=1787305313; cv=none; b=KyRmCtuRnYJMDIZRRopxHkQsRIUHM5EQAb7W3vYm/6SK5NsOwXkJIpvDrOYgekA34kTljgXSWaSmkkMgd9iL+9+DA52rC2UWUIkbkMhVpP9sMwNoCCbSkHDE62BvKE5urnWYWAjNMca4vlObwWCTlaxXytTS/78padSZ7dIBn78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787293723; c=relaxed/simple;
-	bh=JLqi8YuD87PcueBL3a7nZ3R4kuiDu9gDKGTXkuzhsag=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ovewzpQJMNwb5xe+WjPhGTSIFge/AncLaKeXWS29Vru98grGPULByvJESvfqHGDCZLuedElkV8h4D9WaXpY61qN1rBCCVO3cu9rW2LH6KodRA8gMM9mlUN2jEWvQfsfEor/0lVn+EnMGTJyce1e56SPkiCv2pndIljcvCPvncBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ffGkZmBa; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1787305313; c=relaxed/simple;
+	bh=pK4aGnWnwnK7BNyUbRFL9rDkvpcmOiotsGaT/qBDnko=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X/mZixhqy74HIJ/X8vV4/oB+ppSzsUUmpOhhXiLeGSVKin0PZ4Hjn6DzoPyQUZo96kfu+6PLDIw2Yd+lhFAiu43Un4DuwhLZsrbLk59r8BcUTE0krw0nf3UpF20MUlB8MG0Yl7qLu9QQ8jdKjaDfgvlom7Pfil2Oww+uwEtwbkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYbCjPGT; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ffGkZmBa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYbCjPGT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787293720; x=1818829720;
+  t=1787305307; x=1818841307;
   h=date:from:to:cc:subject:message-id;
-  bh=JLqi8YuD87PcueBL3a7nZ3R4kuiDu9gDKGTXkuzhsag=;
-  b=ffGkZmBa/XfwLp+hGIz35ahprtnSvBsmRKy1GCClM50MWgtTBX9JRGIf
-   0Q+EfeP3rSl3BPhpX/e1oDn1fyOPbDYXbzuO+o/DuM4NU8qS0Vw0S8XWD
-   Fr/VWY5zktILmDuhBQPI10U6SrZpvBCMIUaOs1bN6fO0bNS7c8syfw4wx
-   OREOOjOZM4SfqWhFXHSqtLIqnW6oNXK4Cq6ZyFFs/8I6hXoH/NnLfS/r2
-   9DjgXfOSv20Wiqp6bH47bthlBcUaiqh7LLxWvSka+YcOAJSGaVJuy5D5X
-   GMgxUYZKXKNzIHOJcfbcwlmmhyyQ5SYmrmWSS6XzOHG+fbOoAvr5veOum
-   Q==;
-X-CSE-ConnectionGUID: NiRf0LdISuqmAUbw+BDTUA==
-X-CSE-MsgGUID: MM/lBg1mTlOUEnyisz9VtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="86787317"
+  bh=pK4aGnWnwnK7BNyUbRFL9rDkvpcmOiotsGaT/qBDnko=;
+  b=gYbCjPGT+oaYNSpqWKf2Y8qF0KWg+NMMqqHupBvLezoIwDfhN0uGp6kd
+   lktfZaFadT39WTlMnKE2PKDn5USS+ts/u52J3NgtyRme6NARgiLxiFuZk
+   HoKF1gnT7nkhOFPJexHcvJw3L0AxwveGzIUN4IpjtQhp3/xm2jgloeDy6
+   1+RrfiZzdr2cw5G9Zt9huOdIP44ijxhrWRlNqVId2dgroHHsCyIwbrhQc
+   xle2O1PXqkJvXOz60v68QKypd7c+hkUwrrY2KaHGHHTYB31ixiIUZ8hyp
+   SGn1+3q6hSugtw2jlJy6m94ophYlpRHJvAXS5V/7nynRqLjSvVrEjQDO4
+   w==;
+X-CSE-ConnectionGUID: XyPOThNJQYeKoxLJLx8Ahg==
+X-CSE-MsgGUID: 11q5vy38RMey6qvowK6Jbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="88055147"
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="86787317"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 23:28:39 -0700
-X-CSE-ConnectionGUID: V+O9jSKtQDemWY9b/MTE2A==
-X-CSE-MsgGUID: HOlSaM5PQ229vkiajUKoaw==
+   d="scan'208";a="88055147"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 02:41:41 -0700
+X-CSE-ConnectionGUID: ugjMq0DmTK+Yl1qaHUUG5w==
+X-CSE-MsgGUID: iyGBzXtQSxWcBhnbVudWSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="266306665"
+   d="scan'208";a="296197821"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 20 Aug 2026 23:28:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Aug 2026 02:41:39 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxIk0-000000007fV-2jEo;
-	Fri, 21 Aug 2026 06:28:36 +0000
-Date: Fri, 21 Aug 2026 08:28:28 +0200
+	id 1wxLkn-000000007gH-2FNC;
+	Fri, 21 Aug 2026 09:41:37 +0000
+Date: Fri, 21 Aug 2026 11:40:58 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb:
- padctl@7009f000 (nvidia,tegra210-xusb-padctl): ports:usb2-0:
- 'role-switch-default-mode' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202608210856.sedUHnZg-lkp@intel.com>
+Subject: [asahilinux:tbt-reset-wip 15/19]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc',
+ 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes:
+ '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+Message-ID: <202608211112.2MHyTIa0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,56 +62,74 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-CC: Thierry Reding <treding@nvidia.com>
+TO: Sven Peter <sven@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
-commit: dfa93788dd8b2f9c59adf45ecf592082b1847b7b arm64: tegra: smaug: Add usb-role-switch support
-date:   7 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 months ago
-config: arm64-randconfig-2054-20260820 (https://download.01.org/0day-ci/archive/20260821/202608210856.sedUHnZg-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux tbt-reset-wip
+head:   0d96b818b83e32982ee56f48c5092f99332af551
+commit: 4ad60ec4291be4d8b8bb6e7bde55e6fc37e1225e [15/19] arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+:::::: branch date: 2 days ago
+:::::: commit date: 12 days ago
+config: arm64-randconfig-2052-20260820 (https://download.01.org/0day-ci/archive/20260821/202608211112.2MHyTIa0-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608210856.sedUHnZg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211112.2MHyTIa0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: dfa93788dd8b ("arm64: tegra: smaug: Add usb-role-switch support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608210856.sedUHnZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608211112.2MHyTIa0-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: ldo8: maxim,active-fps-source: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: ldo8: maxim,active-fps-power-up-slot: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: ldo8: maxim,active-fps-power-down-slot: b'\x00\x00\x00\x07' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml
->> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: padctl@7009f000 (nvidia,tegra210-xusb-padctl): ports:usb2-0: 'role-switch-default-mode' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra210-xusb-padctl.yaml
->> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: padctl@7009f000 (nvidia,tegra210-xusb-padctl): ports:usb2-0: 'connector' is a dependency of 'usb-role-switch'
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra210-xusb-padctl.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: clock@70110000 (nvidia,tegra210-dfll): nvidia,cf: b'\x00\x00\x00\x06' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: clock@70110000 (nvidia,tegra210-dfll): nvidia,ci: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: clock@70110000 (nvidia,tegra210-dfll): nvidia,cg: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: clock@70110000 (nvidia,tegra210-dfll): nvidia,droop-ctrl: b'\x00\x00\x0f\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/nhi@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/nhi@381ac0000/nhi@381f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/nhi@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/nhi@501ac0000/nhi@501f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/nhi@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/nhi@381ac0000/nhi@381f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/nhi@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/nhi@501ac0000/nhi@501f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/nhi@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/nhi@381ac0000/nhi@381f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/nhi@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/nhi@501ac0000/nhi@501f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/nhi@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/nhi@381ac0000/nhi@381f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/nhi@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/nhi@501ac0000/nhi@501f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/nhi@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/nhi@381ac0000/nhi@381f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/nhi@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/nhi@501ac0000/nhi@501f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
 
 --
 0-DAY CI Kernel Test Service
