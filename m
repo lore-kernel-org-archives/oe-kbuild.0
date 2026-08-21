@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63A02750E6
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 17:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C50C358389
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Aug 2026 18:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787334721; cv=none; b=l1nhiS3S1D4JW2gtLnwQNdX3Sl7iTcCn7GN+JD07errZYLULqvhtzAFv++2zJri3l7BkEB3LbLoEHwFisJFY+NxpcgKMkpg7xUjVOl5OzZgwRMivuw0mjeWyCs4DNJ0oreI44TrSxH92jcRJZtYOnPLnHPAsTTpJ8p8carTZ1h4=
+	t=1787336043; cv=none; b=SywcvwyucmZVw/st1MFBxzKbXX7zFonhzV2+pgG/Vm9OB9RZWPynw6vs2RuqrN8tJq87MnqxIuYnkUQXBt4mCT+CBNqiifB9jYC9FNF7cmASBsGlxYiUZQ1KLprpW85TPc31OjPhVKDtM+6vI4Hq5ixpBMMopzPIRNBc1kziw0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787334721; c=relaxed/simple;
-	bh=paJ7pNvltl6hCZerNaiZ1LEYmxapY9R1A8JnJFWqha4=;
+	s=arc-20240116; t=1787336043; c=relaxed/simple;
+	bh=QJvI7a/9wljk80dlAdO44KVZiS1Gz0o4JIa8ivpQENw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IyVW/+AWHY14icGUZ4DrCmZu7YkWu4HMOSb8FZUPIYEE47lnm7eT/WPbNXwaDDDyqXAO2FB6DE4yY20H7BFPGi/o0mlyYXIu9BS9HpUyQGtyWcnCRx82+W2ORF+CR0j4WJ+IXP2q5bnLP88tHGEGtGZzJySacGH7ecJ+WPgD/3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeUFgpLl; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=TcM/E0jCdzTcbsDKsaZKwXnVkzAMWwbYkN8w26zjR21Xz1RXAR9mAdfnsFB8IfbImkamc2WJgs6OharQVnTey6ag1HTjrDqKoZnFW5bujR/lENk3G1k1URhrsAKQwlC3NeaPSVPQ/hrwVmyaF2w+h4RD17QEWKc4CIzIYOuozJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pw5zWfxI; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeUFgpLl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pw5zWfxI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787334720; x=1818870720;
+  t=1787336041; x=1818872041;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=paJ7pNvltl6hCZerNaiZ1LEYmxapY9R1A8JnJFWqha4=;
-  b=HeUFgpLlzYXGj1j44C4OijH88RPKSYuL/dnNEion70IZqqWPzJa/tHXx
-   mzdLc2NSeVM4LAiUYX64Tj2R+YYy8bjMUJSJXn7ekesG6CNOqW7iQrJKL
-   eh7dRrNoyWEckWPEQFsF+6sYXcVfSKdX8MRLg1B7f2KpUlUNb6XP7vQKu
-   Aub+WS7L0raKl6pfsgGEGU2soyFY1R0P5zE4e1EabC8g2SbGXmPffBmHJ
-   8ck28BxMkjUJAClBW0hYld672rqaPiHbXww8KzhXpL1oP/Ek37Z/j8jRp
-   lhJmWAMVtSnNXmNjEkxscFdibwRZsgFJ/U9m3WMGaikvh6lGbiD+OeDyr
-   A==;
-X-CSE-ConnectionGUID: DqDAtWr9T5mmgp/Tq9cZIA==
-X-CSE-MsgGUID: 2wNzgPbLTem1YF8KTwHzEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105427094"
+  bh=QJvI7a/9wljk80dlAdO44KVZiS1Gz0o4JIa8ivpQENw=;
+  b=Pw5zWfxIueviHXXbRYPAJIDC/vFa3O+Ua/47k5qrSg72u/nOgzWG2uo6
+   ONXtsCBUa0/nKiivhM3HyWHdAjIVpiE9wQhMs36BrkodwSvSQo8w7+pQV
+   lCMEUEcODzAQRmq+zCYG2vQ5HoX/fhlJpB1wvjiIKu2HSPjP/r0fJLvat
+   4jFbSg/QuqYKrumTkZdU4mp8YVQRslTOnSywtdirD4buHRMgfFrFOS+Nu
+   MRrWB7l8GWoHo2zF/82fZSjSMmm4pepsfpe3hZZyD0+qbPzLrii6rW3Vr
+   CLqGl8p3N3+NReW/K6dAwkFVIuBlay7ZPRBwnv1SBeZ4yvrhS30BtzM6I
+   g==;
+X-CSE-ConnectionGUID: r1LFW4GbRnm65AGUoEqHzQ==
+X-CSE-MsgGUID: hTINQEQtT6651zTuhukkgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="99413298"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="105427094"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 10:51:59 -0700
-X-CSE-ConnectionGUID: qNiAtOWCRkiSjfjSwTrUHw==
-X-CSE-MsgGUID: PU8JbSyKTwuNTP3tx48A8w==
+   d="scan'208";a="99413298"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 11:14:00 -0700
+X-CSE-ConnectionGUID: ky4hVmSjSJmV4eIHInSM6A==
+X-CSE-MsgGUID: o6zFga+uSAWLEUHBsyhPyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="263757924"
+   d="scan'208";a="266471062"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Aug 2026 10:51:58 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Aug 2026 11:14:00 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxTPH-00000000qHd-3lkk;
-	Fri, 21 Aug 2026 17:51:55 +0000
-Date: Sat, 22 Aug 2026 01:51:19 +0800
+	id 1wxTkb-00000000qJF-1uWP;
+	Fri, 21 Aug 2026 18:13:57 +0000
+Date: Sat, 22 Aug 2026 02:13:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH net] net: amd-xgbe: support receiving packets with bad FCS
-Message-ID: <202608220122.kg89130y-lkp@intel.com>
+Subject: Re: [PATCH] Bluetooth: hci-core: fix "declaration does not declare
+ anything" error
+Message-ID: <202608220235.5cPUFtSW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,102 +68,321 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260812091616.35811-1-aslan.jnn@gmail.com>
-References: <20260812091616.35811-1-aslan.jnn@gmail.com>
-TO: James <aslan.jnn@gmail.com>
-TO: Raju Rangoju <Raju.Rangoju@amd.com>
-TO: Prashanth Kumar K R <PrashanthKumar.K.R@amd.com>
-CC: netdev@vger.kernel.org
-CC: Thomas.Lendacky@amd.com
-CC: James Nugraha <aslan.jnn@gmail.com>
+In-Reply-To: <20260814051032.261320-1-dmarlin@redhat.com>
+References: <20260814051032.261320-1-dmarlin@redhat.com>
+TO: David Marlin <dmarlin@redhat.com>
+TO: linux-bluetooth@vger.kernel.org
+TO: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+CC: "Gustavo A . R . Silva" <gustavoars@kernel.org>
+CC: David Marlin <dmarlin@redhat.com>
+CC: Bastien Nocera <hadess@hadess.net>
 
-Hi James,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net/main]
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v7.2 next-20260820]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James/net-amd-xgbe-support-receiving-packets-with-bad-FCS/20260812-091616
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260812091616.35811-1-aslan.jnn%40gmail.com
-patch subject: [PATCH net] net: amd-xgbe: support receiving packets with bad FCS
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: powerpc-randconfig-r123-20260821 (https://download.01.org/0day-ci/archive/20260822/202608220122.kg89130y-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220122.kg89130y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Marlin/Bluetooth-hci-core-fix-declaration-does-not-declare-anything-error/20260814-001012
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20260814051032.261320-1-dmarlin%40redhat.com
+patch subject: [PATCH] Bluetooth: hci-core: fix "declaration does not declare anything" error
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260822/202608220235.5cPUFtSW-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220235.5cPUFtSW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608220122.kg89130y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608220235.5cPUFtSW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/amd/xgbe/xgbe-drv.c:2022:17: sparse: sparse: dubious: !x & y
-   drivers/net/ethernet/amd/xgbe/xgbe-drv.c: note: in included file (through include/linux/tcp.h):
-   include/linux/skbuff.h:2904:28: sparse: sparse: unsigned value that used to be signed checked against zero?
-   include/linux/skbuff.h:2904:28: sparse: signed value source
+All errors (new ones prefixed by >>):
+
+   net/bluetooth/hci_codec.c: In function 'hci_read_supported_codecs':
+>> net/bluetooth/hci_codec.c:151:9: error: aggregate value used where an integer was expected
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from net/bluetooth/hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   net/bluetooth/hci_codec.c:151:24: note: in expansion of macro 'flex_array_size'
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                        ^~~~~~~~~~~~~~~
+>> net/bluetooth/hci_codec.c:151:69: error: incompatible type for argument 1 of 'size_mul'
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                           ~~~~~~~~~~^~~~~
+         |                                                                     |
+         |                                                                     struct hci_std_codecs_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+>> net/bluetooth/hci_codec.c:157:23: error: invalid operands to binary < (have 'int' and 'struct hci_std_codecs_hdr')
+     157 |         for (i = 0; i < std_codecs->num; i++) {
+         |                       ^ ~~~~~~~~~~~~~~~
+         |                                   |
+         |                                   struct hci_std_codecs_hdr
+   net/bluetooth/hci_codec.c:164:9: error: aggregate value used where an integer was expected
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from net/bluetooth/hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   net/bluetooth/hci_codec.c:164:23: note: in expansion of macro 'flex_array_size'
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                       ^~~~~~~~~~~~~~~
+   net/bluetooth/hci_codec.c:164:68: error: incompatible type for argument 1 of 'size_mul'
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                          ~~~~~~~~~~^~~~~
+         |                                                                    |
+         |                                                                    struct hci_std_codecs_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+   net/bluetooth/hci_codec.c: In function 'hci_read_supported_codecs_v2':
+   net/bluetooth/hci_codec.c:220:9: error: aggregate value used where an integer was expected
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from net/bluetooth/hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_v2_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   net/bluetooth/hci_codec.c:220:24: note: in expansion of macro 'flex_array_size'
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                        ^~~~~~~~~~~~~~~
+   net/bluetooth/hci_codec.c:220:69: error: incompatible type for argument 1 of 'size_mul'
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                           ~~~~~~~~~~^~~~~
+         |                                                                     |
+         |                                                                     struct hci_std_codecs_v2_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_v2_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+>> net/bluetooth/hci_codec.c:226:23: error: invalid operands to binary < (have 'int' and 'struct hci_std_codecs_v2_hdr')
+     226 |         for (i = 0; i < std_codecs->num; i++) {
+         |                       ^ ~~~~~~~~~~~~~~~
+         |                                   |
+         |                                   struct hci_std_codecs_v2_hdr
+   net/bluetooth/hci_codec.c:232:9: error: aggregate value used where an integer was expected
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from net/bluetooth/hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_v2_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   net/bluetooth/hci_codec.c:232:23: note: in expansion of macro 'flex_array_size'
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                       ^~~~~~~~~~~~~~~
+   net/bluetooth/hci_codec.c:232:68: error: incompatible type for argument 1 of 'size_mul'
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                          ~~~~~~~~~~^~~~~
+         |                                                                    |
+         |                                                                    struct hci_std_codecs_v2_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_v2_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
 --
->> drivers/net/ethernet/amd/xgbe/xgbe-dev.c:3403:9: sparse: sparse: dubious: !x & y
+   hci_codec.c: In function 'hci_read_supported_codecs':
+   hci_codec.c:151:9: error: aggregate value used where an integer was expected
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   hci_codec.c:151:24: note: in expansion of macro 'flex_array_size'
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                        ^~~~~~~~~~~~~~~
+   hci_codec.c:151:69: error: incompatible type for argument 1 of 'size_mul'
+     151 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                           ~~~~~~~~~~^~~~~
+         |                                                                     |
+         |                                                                     struct hci_std_codecs_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+   hci_codec.c:157:23: error: invalid operands to binary < (have 'int' and 'struct hci_std_codecs_hdr')
+     157 |         for (i = 0; i < std_codecs->num; i++) {
+         |                       ^ ~~~~~~~~~~~~~~~
+         |                                   |
+         |                                   struct hci_std_codecs_hdr
+   hci_codec.c:164:9: error: aggregate value used where an integer was expected
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   hci_codec.c:164:23: note: in expansion of macro 'flex_array_size'
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                       ^~~~~~~~~~~~~~~
+   hci_codec.c:164:68: error: incompatible type for argument 1 of 'size_mul'
+     164 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                          ~~~~~~~~~~^~~~~
+         |                                                                    |
+         |                                                                    struct hci_std_codecs_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+   hci_codec.c: In function 'hci_read_supported_codecs_v2':
+   hci_codec.c:220:9: error: aggregate value used where an integer was expected
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_v2_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   hci_codec.c:220:24: note: in expansion of macro 'flex_array_size'
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                        ^~~~~~~~~~~~~~~
+   hci_codec.c:220:69: error: incompatible type for argument 1 of 'size_mul'
+     220 |         if (skb->len < flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                           ~~~~~~~~~~^~~~~
+         |                                                                     |
+         |                                                                     struct hci_std_codecs_v2_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_v2_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
+   hci_codec.c:226:23: error: invalid operands to binary < (have 'int' and 'struct hci_std_codecs_v2_hdr')
+     226 |         for (i = 0; i < std_codecs->num; i++) {
+         |                       ^ ~~~~~~~~~~~~~~~
+         |                                   |
+         |                                   struct hci_std_codecs_v2_hdr
+   hci_codec.c:232:9: error: aggregate value used where an integer was expected
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |         ^~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/net/bluetooth/bluetooth.h:26,
+                    from hci_codec.c:5:
+>> include/linux/overflow.h:420:25: error: invalid operands to binary * (have 'struct hci_std_codecs_v2_hdr' and 'unsigned int')
+     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
+         |                 ~~~~~~~ ^
+   hci_codec.c:232:23: note: in expansion of macro 'flex_array_size'
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                       ^~~~~~~~~~~~~~~
+   hci_codec.c:232:68: error: incompatible type for argument 1 of 'size_mul'
+     232 |         skb_pull(skb, flex_array_size(std_codecs, codec, std_codecs->num)
+         |                                                          ~~~~~~~~~~^~~~~
+         |                                                                    |
+         |                                                                    struct hci_std_codecs_v2_hdr
+   include/linux/overflow.h:421:26: note: in definition of macro 'flex_array_size'
+     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+         |                          ^~~~~
+   include/linux/overflow.h:330:60: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct hci_std_codecs_v2_hdr'
+     330 | static __always_inline size_t __must_check size_mul(size_t factor1, size_t factor2)
+         |                                                     ~~~~~~~^~~~~~~
 
-vim +2022 drivers/net/ethernet/amd/xgbe/xgbe-drv.c
 
-1a510ccf5869a9 Lendacky, Thomas 2017-08-18  1977  
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1978  static int xgbe_set_features(struct net_device *netdev,
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1979  			     netdev_features_t features)
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1980  {
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1981  	struct xgbe_prv_data *pdata = netdev_priv(netdev);
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1982  	struct xgbe_hw_if *hw_if = &pdata->hw_if;
-5a1edf2f430d12 James Nugraha    2026-08-12  1983  	netdev_features_t rxhash, rxcsum, rxvlan, rxvlan_filter, rxall;
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1984  	int ret = 0;
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1985  
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1986  	rxhash = pdata->netdev_features & NETIF_F_RXHASH;
-801c62d945c612 Lendacky, Thomas 2014-06-24  1987  	rxcsum = pdata->netdev_features & NETIF_F_RXCSUM;
-801c62d945c612 Lendacky, Thomas 2014-06-24  1988  	rxvlan = pdata->netdev_features & NETIF_F_HW_VLAN_CTAG_RX;
-801c62d945c612 Lendacky, Thomas 2014-06-24  1989  	rxvlan_filter = pdata->netdev_features & NETIF_F_HW_VLAN_CTAG_FILTER;
-5a1edf2f430d12 James Nugraha    2026-08-12  1990  	rxall = pdata->netdev_features & NETIF_F_RXALL;
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  1991  
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1992  	if ((features & NETIF_F_RXHASH) && !rxhash)
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1993  		ret = hw_if->enable_rss(pdata);
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1994  	else if (!(features & NETIF_F_RXHASH) && rxhash)
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1995  		ret = hw_if->disable_rss(pdata);
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1996  	if (ret)
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1997  		return ret;
-5b9dfe299e5560 Lendacky, Thomas 2014-11-04  1998  
-f04dd30f1bef1e Vishal Badole    2025-04-24  1999  	if ((features & NETIF_F_RXCSUM) && !rxcsum) {
-f04dd30f1bef1e Vishal Badole    2025-04-24  2000  		hw_if->enable_sph(pdata);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2001  		hw_if->enable_vxlan(pdata);
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2002  		hw_if->enable_rx_csum(pdata);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2003  		schedule_work(&pdata->restart_work);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2004  	} else if (!(features & NETIF_F_RXCSUM) && rxcsum) {
-f04dd30f1bef1e Vishal Badole    2025-04-24  2005  		hw_if->disable_sph(pdata);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2006  		hw_if->disable_vxlan(pdata);
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2007  		hw_if->disable_rx_csum(pdata);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2008  		schedule_work(&pdata->restart_work);
-f04dd30f1bef1e Vishal Badole    2025-04-24  2009  	}
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2010  
-801c62d945c612 Lendacky, Thomas 2014-06-24  2011  	if ((features & NETIF_F_HW_VLAN_CTAG_RX) && !rxvlan)
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2012  		hw_if->enable_rx_vlan_stripping(pdata);
-801c62d945c612 Lendacky, Thomas 2014-06-24  2013  	else if (!(features & NETIF_F_HW_VLAN_CTAG_RX) && rxvlan)
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2014  		hw_if->disable_rx_vlan_stripping(pdata);
-801c62d945c612 Lendacky, Thomas 2014-06-24  2015  
-801c62d945c612 Lendacky, Thomas 2014-06-24  2016  	if ((features & NETIF_F_HW_VLAN_CTAG_FILTER) && !rxvlan_filter)
-801c62d945c612 Lendacky, Thomas 2014-06-24  2017  		hw_if->enable_rx_vlan_filtering(pdata);
-801c62d945c612 Lendacky, Thomas 2014-06-24  2018  	else if (!(features & NETIF_F_HW_VLAN_CTAG_FILTER) && rxvlan_filter)
-801c62d945c612 Lendacky, Thomas 2014-06-24  2019  		hw_if->disable_rx_vlan_filtering(pdata);
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2020  
-5a1edf2f430d12 James Nugraha    2026-08-12  2021  	if ((features & NETIF_F_RXALL) != rxall)
-5a1edf2f430d12 James Nugraha    2026-08-12 @2022  		XGMAC_IOWRITE_BITS(pdata, MAC_RCR, DCRCC,
-5a1edf2f430d12 James Nugraha    2026-08-12  2023  				   !!(features & NETIF_F_RXALL));
-5a1edf2f430d12 James Nugraha    2026-08-12  2024  
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2025  	pdata->netdev_features = features;
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2026  
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2027  	DBGPR("<--xgbe_set_features\n");
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2028  
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2029  	return 0;
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2030  }
-c5aa9e3b815645 Lendacky, Thomas 2014-06-05  2031  
+vim +420 include/linux/overflow.h
+
+610b15c50e86eb Kees Cook           2018-05-07  405  
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  406  /**
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  407   * flex_array_size() - Calculate size of a flexible array member
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  408   *                     within an enclosing structure.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  409   * @p: Pointer to the structure.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  410   * @member: Name of the flexible array member.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  411   * @count: Number of elements in the array.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  412   *
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  413   * Calculates size of a flexible array of @count number of @member
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  414   * elements, at the end of structure @p.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  415   *
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  416   * Return: number of bytes needed or SIZE_MAX on overflow.
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  417   */
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  418  #define flex_array_size(p, member, count)				\
+230f6fa2c1db6a Kees Cook           2022-02-09  419  	__builtin_choose_expr(__is_constexpr(count),			\
+230f6fa2c1db6a Kees Cook           2022-02-09 @420  		(count) * sizeof(*(p)->member) + __must_be_array((p)->member),	\
+230f6fa2c1db6a Kees Cook           2022-02-09  421  		size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
+b19d57d0f3cc6f Gustavo A. R. Silva 2020-06-08  422  
 
 --
 0-DAY CI Kernel Test Service
