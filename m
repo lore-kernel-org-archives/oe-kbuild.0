@@ -1,112 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA292E2663
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 04:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EEA2DC798
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 04:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787372756; cv=none; b=EUDWY5crnRY4Ue7G7C20rE1chKvr0/zmeDQquYqoyjB/vN7pFvloIqI4XGUATdBiu/93CQwFbVgrbXt0voQ8fcOqatCg6gt5h+1uERWtuxqACaHtVzrq9IxNG9PEywnuaKI6V4XE0hOLOiiUZVjANqlQSUfsOK22lLDbeVMxtnU=
+	t=1787372859; cv=none; b=eQXgPOcL/wIsHm1a5cQM+SH9xTYddA94LzUbMR9YUA76Dy01f0xM9H5d3PORTh2V6hxvOGyjIHsvU0SbElkAaDPjhHNrTH3+WXWNqaOiX/50wEmDfLVR7ncvo0YEiPhH+ZPxaCbgLSoNWTnoJ94iL/DEZSS8Yy7OhMJqgwlMpfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787372756; c=relaxed/simple;
-	bh=DEBphJvpbbG85vWPyFZcg1t3YEcKw2wZfaW4Hd+KPM4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TR/9eDIFG8iApmWurrHbz2z/o831ryMlFah9fMOJkEANlTnsIlEe8oNaFLPEYm4zCOAJ0rzCKw3JZRytTY4EA1N35UJmQWZGcZ/xTvJSoieUHe5WS5CKCzwJWZmDblv0osb55eIBb5KplAgysR739wbMZtaPGDu2Aq+mp39x83o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIcFH7J8; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1787372859; c=relaxed/simple;
+	bh=jvGwwVXnFgns+yecimKK2RXE9B+3GunNGPWuPVEg23w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IpDP3xTct728pukKwIQ4o/MgEWk+amNJQQvdyNuhOK26vImySI112iOojKlJSzUXOrWPu9UQZpKaywijIr/g6pSx+0/ebirhY/o99VU2NQJ+3dyxUfcq/DbArMzv6oi7qCcGH22fRzKkaOfeDqZHmZYsuDfWLinIy0ZRU75n1wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSsJaF1I; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIcFH7J8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSsJaF1I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787372754; x=1818908754;
-  h=date:from:to:cc:subject:message-id;
-  bh=DEBphJvpbbG85vWPyFZcg1t3YEcKw2wZfaW4Hd+KPM4=;
-  b=mIcFH7J87UKuGj/zOJuF7Fuzy7OVK67pXjXT9qLXStEbjp/oaL2QJLdh
-   Dv+HTTVMjkmb/EaMo+g0vX59rNGbd0mBRyeOrTOQM453mFNWkG3qhdVN5
-   ZbV8gb1uYV9owxXUSVNRGVrTD01iI4VhmvdHp8Fd84GYMEEGdiTug0QLn
-   bm2jPqPch9cQuAfEDvrfYKgC7oreuDXs/0ivA65JCEwAwPae4KlW86Yj2
-   VV+lpbNBUMb3Z2xcQYQEQSFsoP2lLQtn2XJnP8wHh9aNGk9cl33xQjsad
-   IcHDu+qNn9yxNYDQtAoLDA8YTIUV4XI1hoq1WBTddz0H25zEolv3zdIZI
-   Q==;
-X-CSE-ConnectionGUID: bkbJlNJzTTifrZGgrmxI3Q==
-X-CSE-MsgGUID: CYo9UmyoSyiD/QLW92j0gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="88121295"
+  t=1787372857; x=1818908857;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jvGwwVXnFgns+yecimKK2RXE9B+3GunNGPWuPVEg23w=;
+  b=DSsJaF1I2YRLa+mEnSix1F9hwCAvvzh69qznRhyqChwIujirESWpq5dx
+   UA/suKytNor8XYyq47S7axOQgwrbytOJ+DDh3nJBR1HeughQTgVPLNzOx
+   fabC1lhfLt9GvWNGiQxX/GTxQ+9XWUKP5O91S62m1cEjXfzrIHtdgVopC
+   hkywz2b/Yw5UJwA97TauOVNWP6A+v+ymQ1GhPP/h7fBdTIpqPUwtNBrzV
+   +k1ecIRj3FdNaSGhHHwTFvilWwlmH03PrB4CeG5B4D0vOxP1frF1E+7Kg
+   rSLCa8k1JI6Hn8eloLiY0UTpYo7p4C1GRYfz6RQsl4rfLXGxi9vuUoacr
+   g==;
+X-CSE-ConnectionGUID: auVDn6nkQzmE/+a8Le7vmw==
+X-CSE-MsgGUID: ihR1H+vwSaCptNGeVKMJFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105455494"
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="88121295"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 21:25:54 -0700
-X-CSE-ConnectionGUID: IEKF3K+eRBSC/HeEsNhOXw==
-X-CSE-MsgGUID: zd+g2ceQQ+yApjSBrra56Q==
+   d="scan'208";a="105455494"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 21:27:36 -0700
+X-CSE-ConnectionGUID: 6y7Zc2C1RPWDTFF1nxGIaQ==
+X-CSE-MsgGUID: jz+9PJsST5uoYImcVLpVXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="270340687"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 21 Aug 2026 21:25:53 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="266001825"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 21 Aug 2026 21:27:33 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxdIk-000000007ph-1Vzp;
-	Sat, 22 Aug 2026 04:25:50 +0000
-Date: Sat, 22 Aug 2026 06:25:15 +0200
+	id 1wxdKM-00000000qtF-38Kn;
+	Sat, 22 Aug 2026 04:27:30 +0000
+Date: Sat, 22 Aug 2026 12:27:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb:
- wireless-wlan: wifi-poweren-gpio: {'rockchip,pins': [[1, 22, 0, 26]],
- 'phandle': 243} is not of type 'array'
-Message-ID: <202608220652.wPIYBq3t-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v6] Bluetooth: btrtl: Add firmware format v3 support
+Message-ID: <202608221220.dvi7OT84-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiaxing Hu <huhuvmb88@gmail.com>
-CC: 0day robot <lkp@intel.com>
+In-Reply-To: <20260814065920.413487-1-hildawu@realtek.com>
+References: <20260814065920.413487-1-hildawu@realtek.com>
+TO: Hilda Wu <hildawu@realtek.com>
+TO: marcel@holtmann.org
+CC: luiz.dentz@gmail.com
+CC: linux-bluetooth@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: alex_lu@realsil.com.cn
+CC: jason_mao@realsil.com.cn
+CC: zoey_zhou@realsil.com.cn
+CC: max.chou@realtek.com
+CC: kidman@realtek.com
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jiaxing-Hu/dt-bindings-arm-rockchip-Add-ArmSoM-CM5-and-CM5-IO/20260813-124253
-head:   343c6aa89e4e534b652b6e40cbf608b16029fda2
-commit: 343c6aa89e4e534b652b6e40cbf608b16029fda2 arm64: dts: rockchip: Add ArmSoM CM5 and CM5-IO
-date:   9 days ago
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: arm64-randconfig-2054-20260820 (https://download.01.org/0day-ci/archive/20260822/202608220652.wPIYBq3t-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220652.wPIYBq3t-lkp@intel.com/reproduce)
+Hi Hilda,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v7.2 next-20260820]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/Bluetooth-btrtl-Add-firmware-format-v3-support/20260814-145920
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20260814065920.413487-1-hildawu%40realtek.com
+patch subject: [PATCH v6] Bluetooth: btrtl: Add firmware format v3 support
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260822/202608221220.dvi7OT84-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608220652.wPIYBq3t-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608221220.dvi7OT84-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: wireless-wlan: wifi-poweren-gpio: {'rockchip,pins': [[1, 22, 0, 26]], 'phandle': 243} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: es8388@10 (everest,es8388): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['everest,es8388', 'everest,es8323'] is too long
-   	'everest,es8388' is not one of ['everest,es8328']
-   	'everest,es8328' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: fusb302@22 (fcs,fusb302): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: fusb302@22 (fcs,fusb302): connector:altmodes: '#address-cells', '#size-cells', 'altmode@0' do not match any of the regexes: '^(displayport)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: connector (usb-c-connector): altmodes: '#address-cells', '#size-cells', 'altmode@0' do not match any of the regexes: '^(displayport)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): 'snps,reset-gpio' is a dependency of 'snps,reset-delays-us'
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'rx-queues-config', 'snps,axi-config', 'snps,mixed-burst', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,reset-delays-us', 'snps,reset-gpios', 'snps,tso', 'stmmac-axi-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): 'snps,reset-gpio' is a dependency of 'snps,reset-delays-us'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: phy@2b010000 (rockchip,rk3576-usbdp-phy): 'svid' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-usbdp.yaml
+New smatch warnings:
+drivers/bluetooth/btrtl.c:1106 btrtl_free() warn: variable dereferenced before check 'btrtl_dev' (see line 1098)
+
+Old smatch warnings:
+drivers/bluetooth/btrtl.c:1326 btrtl_initialize() warn: passing zero to 'ERR_PTR'
+
+vim +/btrtl_dev +1106 drivers/bluetooth/btrtl.c
+
+c0123cb6c4c7fc2 Vasily Khoruzhick   2023-03-07  1093  
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1094  void btrtl_free(struct btrtl_device_info *btrtl_dev)
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1095  {
+9a24ce5e29b15c4 Max Chou            2023-04-17  1096  	struct rtl_subsection *entry, *tmp;
+9a24ce5e29b15c4 Max Chou            2023-04-17  1097  
+268d3636dfb2225 Alice Mikityanska   2020-01-24 @1098  	kvfree(btrtl_dev->fw_data);
+268d3636dfb2225 Alice Mikityanska   2020-01-24  1099  	kvfree(btrtl_dev->cfg_data);
+9a24ce5e29b15c4 Max Chou            2023-04-17  1100  
+9a24ce5e29b15c4 Max Chou            2023-04-17  1101  	list_for_each_entry_safe(entry, tmp, &btrtl_dev->patch_subsecs, list) {
+9a24ce5e29b15c4 Max Chou            2023-04-17  1102  		list_del(&entry->list);
+9a24ce5e29b15c4 Max Chou            2023-04-17  1103  		kfree(entry);
+9a24ce5e29b15c4 Max Chou            2023-04-17  1104  	}
+9a24ce5e29b15c4 Max Chou            2023-04-17  1105  
+8e4d5e1dbe2345c Hilda Wu            2026-08-14 @1106  	if (btrtl_dev) {
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1107  		struct btrtl_enh_ops *ops = symbol_get(rtl_enh_ops);
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1108  
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1109  		if (ops) {
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1110  			if (ops->free_patch_images)
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1111  				ops->free_patch_images(btrtl_dev);
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1112  			symbol_put(rtl_enh_ops);
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1113  		}
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1114  	}
+8e4d5e1dbe2345c Hilda Wu            2026-08-14  1115  
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1116  	kfree(btrtl_dev);
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1117  }
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1118  EXPORT_SYMBOL_GPL(btrtl_free);
+26503ad25de8c7c Martin Blumenstingl 2018-08-02  1119  
 
 --
 0-DAY CI Kernel Test Service
