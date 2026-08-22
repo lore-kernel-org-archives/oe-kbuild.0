@@ -1,147 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264F419D89E
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 03:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA292E2663
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 04:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787370815; cv=none; b=LxYTivJcTQoZRT1PwDtwMc0MpGs4qoctnT/sp2IpPXyHf+KbE6feVdB9dLDIG82b5zJOp/G0G9DZXJZ40AZSnhKkfIMhsjZhR07vuY0I0vS7zo4QpKZlmi41hCilUhKiuP+aLuNx9rtgVa0RTuLowcHcypgDwZyHltc3pJdgb88=
+	t=1787372756; cv=none; b=EUDWY5crnRY4Ue7G7C20rE1chKvr0/zmeDQquYqoyjB/vN7pFvloIqI4XGUATdBiu/93CQwFbVgrbXt0voQ8fcOqatCg6gt5h+1uERWtuxqACaHtVzrq9IxNG9PEywnuaKI6V4XE0hOLOiiUZVjANqlQSUfsOK22lLDbeVMxtnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787370815; c=relaxed/simple;
-	bh=S47ishVy8LWB3kiR5ezzONYmncfXZTchuXLk9dnoRvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=U9QYZSvMAF5UbdT5+P00rfIZsrOIHFYjrRXq8zUrjPH+O/4NrtL7l7ZAuIv5yO0iWZIieHNJkV6HXRx2Gg3Xh4uopynPsMJbBkfs/rU7xV/vLHuX+HNxSz9tHOfeZ35OQwLusrM3MmuzWJcCDJE+AqXPp6RLFN9vdQmjARFjdHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSTAQDzf; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1787372756; c=relaxed/simple;
+	bh=DEBphJvpbbG85vWPyFZcg1t3YEcKw2wZfaW4Hd+KPM4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TR/9eDIFG8iApmWurrHbz2z/o831ryMlFah9fMOJkEANlTnsIlEe8oNaFLPEYm4zCOAJ0rzCKw3JZRytTY4EA1N35UJmQWZGcZ/xTvJSoieUHe5WS5CKCzwJWZmDblv0osb55eIBb5KplAgysR739wbMZtaPGDu2Aq+mp39x83o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIcFH7J8; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSTAQDzf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIcFH7J8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787370813; x=1818906813;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=S47ishVy8LWB3kiR5ezzONYmncfXZTchuXLk9dnoRvI=;
-  b=QSTAQDzfUwZs1ViRHp+1ghOiay8apAcHSuWRsPumAixFlHSDhKPJOsuq
-   JcLK65fBZXDx/+Y6VRPoCQ/bU+RQJnD8+8AIJfOJNf+Unv+B2wa3IvvbH
-   GjLCgGByZneKdCIc/OkStG2/pNIt8aDdIRRFTXqa1enw5jsdacRLLaDnz
-   sM11A7jScOWt7lqczmxUEbLtEZW3DugosiHFfq8CfcNk8GOYS1knQT2iE
-   f+2Ev4Cjeb+Od3bGvg2pDW6FDkTleMNN/AgNnABRfJ57tac9uZdeb31AJ
-   yNIf0HDxdST2pcg+FcHFmmxp8+sijY1EIRBcQ6ZBqjTlBkkK+gmA5VFnq
+  t=1787372754; x=1818908754;
+  h=date:from:to:cc:subject:message-id;
+  bh=DEBphJvpbbG85vWPyFZcg1t3YEcKw2wZfaW4Hd+KPM4=;
+  b=mIcFH7J87UKuGj/zOJuF7Fuzy7OVK67pXjXT9qLXStEbjp/oaL2QJLdh
+   Dv+HTTVMjkmb/EaMo+g0vX59rNGbd0mBRyeOrTOQM453mFNWkG3qhdVN5
+   ZbV8gb1uYV9owxXUSVNRGVrTD01iI4VhmvdHp8Fd84GYMEEGdiTug0QLn
+   bm2jPqPch9cQuAfEDvrfYKgC7oreuDXs/0ivA65JCEwAwPae4KlW86Yj2
+   VV+lpbNBUMb3Z2xcQYQEQSFsoP2lLQtn2XJnP8wHh9aNGk9cl33xQjsad
+   IcHDu+qNn9yxNYDQtAoLDA8YTIUV4XI1hoq1WBTddz0H25zEolv3zdIZI
    Q==;
-X-CSE-ConnectionGUID: KHDlR7ANRJWPwLfZiFa2IA==
-X-CSE-MsgGUID: uYiGv5gNTxW0mZFWLd4sPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="110702365"
+X-CSE-ConnectionGUID: bkbJlNJzTTifrZGgrmxI3Q==
+X-CSE-MsgGUID: CYo9UmyoSyiD/QLW92j0gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="88121295"
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="110702365"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 20:53:33 -0700
-X-CSE-ConnectionGUID: FoYoVqvHTX2o2iVZTi073g==
-X-CSE-MsgGUID: rANaHKXcQL+aG/RhYlojKQ==
+   d="scan'208";a="88121295"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 21:25:54 -0700
+X-CSE-ConnectionGUID: IEKF3K+eRBSC/HeEsNhOXw==
+X-CSE-MsgGUID: zd+g2ceQQ+yApjSBrra56Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="296419114"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Aug 2026 20:53:31 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="270340687"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 21 Aug 2026 21:25:53 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxcnR-00000000qs5-0kjF;
-	Sat, 22 Aug 2026 03:53:29 +0000
-Date: Sat, 22 Aug 2026 11:52:53 +0800
+	id 1wxdIk-000000007ph-1Vzp;
+	Sat, 22 Aug 2026 04:25:50 +0000
+Date: Sat, 22 Aug 2026 06:25:15 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [thomas-weissschuh:b4/kunit-kselftests 16/21]
- lib/kunit/kunit-uapi.c:126 kunit_uapi_open_standard_streams() warn: double
- fget(): 'stdin_fd'
-Message-ID: <202608221146.0FrVaqNY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb:
+ wireless-wlan: wifi-poweren-gpio: {'rockchip,pins': [[1, 22, 0, 26]],
+ 'phandle': 243} is not of type 'array'
+Message-ID: <202608220652.wPIYBq3t-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <thomas.weissschuh@linutronix.de>
+TO: Jiaxing Hu <huhuvmb88@gmail.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/kunit-kselftests
-head:   72d2e686899cc0b009dcc94460feb2e632a676bd
-commit: 86cdb0f09bbab1abe037777efbbec98be7c21cd9 [16/21] kunit: uapi: Forwa=
-rd test executable output to KUnit log
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-r072-20260822 (https://download.01.org/0day-ci/ar=
-chive/20260822/202608221146.0FrVaqNY-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
-48fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/intel-lab-lkp/linux/commits/Jiaxing-Hu/dt-bindings-arm-rockchip-Add-ArmSoM-CM5-and-CM5-IO/20260813-124253
+head:   343c6aa89e4e534b652b6e40cbf608b16029fda2
+commit: 343c6aa89e4e534b652b6e40cbf608b16029fda2 arm64: dts: rockchip: Add ArmSoM CM5 and CM5-IO
+date:   9 days ago
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-2054-20260820 (https://download.01.org/0day-ci/archive/20260822/202608220652.wPIYBq3t-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.7.dev15+g01b5073ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220652.wPIYBq3t-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608221146.0FrVaqNY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608220652.wPIYBq3t-lkp@intel.com/
 
-smatch warnings:
-lib/kunit/kunit-uapi.c:126 kunit_uapi_open_standard_streams() warn: double =
-fget(): 'stdin_fd'
-
-vim +/stdin_fd +126 lib/kunit/kunit-uapi.c
-
-036564cc93d9e19 Thomas Wei=C3=9Fschuh 2024-10-16  100 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  101  static int kunit_uap=
-i_open_standard_streams(void)
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  102  {
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  103  	struct vfsmount *de=
-vtmpfs __free(kern_unmount) =3D kunit_uapi_mount_fs("devtmpfs");
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  104  	if (IS_ERR(devtmpfs=
-))
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  105  		return PTR_ERR(dev=
-tmpfs);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  106 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  107  	CLASS(get_unused_fd=
-, stdin_fd)(O_RDONLY);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  108  	if (stdin_fd < 0)
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  109  		return stdin_fd;
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  110 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  111  	CLASS(get_unused_fd=
-, stdout_fd)(O_WRONLY);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  112  	if (stdout_fd < 0)
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  113  		return stdout_fd;
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  114 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  115  	CLASS(get_unused_fd=
-, stderr_fd)(O_WRONLY);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  116  	if (stderr_fd < 0)
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  117  		return stderr_fd;
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  118 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  119  	struct file *logfil=
-e __free(fput) =3D file_open_root_mnt(devtmpfs, KUNIT_LOG_DEVICE,
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  120  							       O_RDWR=
-, 0);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  121  	if (IS_ERR(logfile))
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  122  		return PTR_ERR(log=
-file);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  123 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  124  	fd_install(stdin_fd=
-, no_free_ptr(logfile));
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  125  	fd_install(stdout_f=
-d, fget(stdin_fd));
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07 @126  	fd_install(stderr_f=
-d, fget(stdin_fd));
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  127 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  128  	take_fd(stdin_fd);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  129  	take_fd(stdout_fd);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  130  	take_fd(stderr_fd);
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  131 =20
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  132  	return 0;
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  133  }
-86cdb0f09bbab1a Thomas Wei=C3=9Fschuh 2026-04-07  134 =20
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: wireless-wlan: wifi-poweren-gpio: {'rockchip,pins': [[1, 22, 0, 26]], 'phandle': 243} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: es8388@10 (everest,es8388): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['everest,es8388', 'everest,es8323'] is too long
+   	'everest,es8388' is not one of ['everest,es8328']
+   	'everest,es8328' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: fusb302@22 (fcs,fusb302): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: fusb302@22 (fcs,fusb302): connector:altmodes: '#address-cells', '#size-cells', 'altmode@0' do not match any of the regexes: '^(displayport)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: connector (usb-c-connector): altmodes: '#address-cells', '#size-cells', 'altmode@0' do not match any of the regexes: '^(displayport)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): 'snps,reset-gpio' is a dependency of 'snps,reset-delays-us'
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'rx-queues-config', 'snps,axi-config', 'snps,mixed-burst', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,reset-delays-us', 'snps,reset-gpios', 'snps,tso', 'stmmac-axi-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: ethernet@2a220000 (rockchip,rk3576-gmac): 'snps,reset-gpio' is a dependency of 'snps,reset-delays-us'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: phy@2b010000 (rockchip,rk3576-usbdp-phy): 'svid' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-usbdp.yaml
 
 --
 0-DAY CI Kernel Test Service
