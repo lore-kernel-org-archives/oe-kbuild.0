@@ -1,55 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EEA2DC798
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 04:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D33323EA84
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 08:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787372859; cv=none; b=eQXgPOcL/wIsHm1a5cQM+SH9xTYddA94LzUbMR9YUA76Dy01f0xM9H5d3PORTh2V6hxvOGyjIHsvU0SbElkAaDPjhHNrTH3+WXWNqaOiX/50wEmDfLVR7ncvo0YEiPhH+ZPxaCbgLSoNWTnoJ94iL/DEZSS8Yy7OhMJqgwlMpfs=
+	t=1787386233; cv=none; b=Ac3RTpD5RDDBXouMM04MnmW/AVqBcKaSUkpG+2vxZu1AoO6Ux94w9cfEi3BnCypnMW52e/U7y87LJsNAs2+8QRq1wBV+XZu8RjwS/Bi5M0YAC1UkDXaKYlA2XbrhtalOV4do1YJFfQNYGAsmb4ODRPxLCiyyD37bWvqf37vlp74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787372859; c=relaxed/simple;
-	bh=jvGwwVXnFgns+yecimKK2RXE9B+3GunNGPWuPVEg23w=;
+	s=arc-20240116; t=1787386233; c=relaxed/simple;
+	bh=GzsnqybtEeIEXRxD1/jQsF/biSfYAhhrHp4FnmH5LNg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IpDP3xTct728pukKwIQ4o/MgEWk+amNJQQvdyNuhOK26vImySI112iOojKlJSzUXOrWPu9UQZpKaywijIr/g6pSx+0/ebirhY/o99VU2NQJ+3dyxUfcq/DbArMzv6oi7qCcGH22fRzKkaOfeDqZHmZYsuDfWLinIy0ZRU75n1wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSsJaF1I; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=q4ZlD9HYaurxeM9LWPUHnxVunbVoTksOZoPVDsi70zztEo5INyowMXsdouXdrpb2VSQsr/EMqMEvcY71540m0+iaPlP+zhyUA5wWBn0QUBRpH8/ntte4vtWsMHXlunteBQZ5vtrrJxccihQGz3ItDGi+iNBza5oiu3KdwgcWPeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fZ64EWHJ; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSsJaF1I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787372857; x=1818908857;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jvGwwVXnFgns+yecimKK2RXE9B+3GunNGPWuPVEg23w=;
-  b=DSsJaF1I2YRLa+mEnSix1F9hwCAvvzh69qznRhyqChwIujirESWpq5dx
-   UA/suKytNor8XYyq47S7axOQgwrbytOJ+DDh3nJBR1HeughQTgVPLNzOx
-   fabC1lhfLt9GvWNGiQxX/GTxQ+9XWUKP5O91S62m1cEjXfzrIHtdgVopC
-   hkywz2b/Yw5UJwA97TauOVNWP6A+v+ymQ1GhPP/h7fBdTIpqPUwtNBrzV
-   +k1ecIRj3FdNaSGhHHwTFvilWwlmH03PrB4CeG5B4D0vOxP1frF1E+7Kg
-   rSLCa8k1JI6Hn8eloLiY0UTpYo7p4C1GRYfz6RQsl4rfLXGxi9vuUoacr
-   g==;
-X-CSE-ConnectionGUID: auVDn6nkQzmE/+a8Le7vmw==
-X-CSE-MsgGUID: ihR1H+vwSaCptNGeVKMJFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105455494"
-X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="105455494"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 21:27:36 -0700
-X-CSE-ConnectionGUID: 6y7Zc2C1RPWDTFF1nxGIaQ==
-X-CSE-MsgGUID: jz+9PJsST5uoYImcVLpVXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="266001825"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Aug 2026 21:27:33 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wxdKM-00000000qtF-38Kn;
-	Sat, 22 Aug 2026 04:27:30 +0000
-Date: Sat, 22 Aug 2026 12:27:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fZ64EWHJ"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so1674461f8f.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 22 Aug 2026 01:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787386230; x=1787991030; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/WLIOyN5e+42p5FHJTXJ2LgHUHUABa7KAUy5fhDC4CY=;
+        b=fZ64EWHJfOYM6xa5ihl/sGkXOmShM2gLAh9honGld7itg92aD+RL9VFjrZwUP5xd8X
+         thCfgYd0YKLff/8VVDqU0K0JO4ODGRz/1coPkBh6ax/Tf9PkCpW1OPx+/dLU8bJ590cQ
+         Sm7PZ7IK1WjtanJAEug2/7ONf3gJ4tjLkwdUoIi38q/eznR0uiwhyyspxRzyq7S+rGHc
+         k9uWGgJoLALu1ToAsGWkWlyewMtgkOtoizLVfg9JMym0AUaRi9wo/3r7190TBDapFdrr
+         inVqNRvulCGGrG/ccTlNfNSJ+jROmD5US9UWKJ+ngZ/aMLCkUA3/fTb77wY0ebW+Jpgz
+         nJIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787386230; x=1787991030;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/WLIOyN5e+42p5FHJTXJ2LgHUHUABa7KAUy5fhDC4CY=;
+        b=Asy5TlOnGnOT6dH/xNQXF7QcU9ccxfjowqyNbT3m8esZDiedwWfSCQeK68l+DQXKVF
+         ocosnHYuUU1jR7FWKQK7035KH1v9ohCqBQdugaANKyrpq/6rR5jrePx2w+ISKOPzDUQf
+         I4nlJC0nDrSRJnCOOKDYmbIIqHGjMl5Ru2a9xQEg5dPtjeHc34EGSgusVA704OqGdBwc
+         +uLWH4+6iY7vBeIIuz/BggWO+6myzECOvpIK4ca7CR/wkUiKVPvxXmvPZEdeIy6+4NVz
+         ozoH2ZAvEkv3rjLCADTF9+ZtYNvw7liN4t68IGHzBw6yL2lQC6NORPWkNL4qyYl6xZT6
+         Br4A==
+X-Gm-Message-State: AFuF++nFmOKioKunpOY9XO7x/KJISHE3bUtw2QUcdfpEMkZhJCSRl0mx
+	5x5qVeYQj7vGz0gh07qH/T1cOzOfmbJeaWp+eQ+MgdVNvX2Ah0fyBZ7aPvcXKyQqFRpwp5gA
+X-Gm-Gg: AR+sD10CGgBTA7oCYCaPOcOkC3MH6r6KAu+9YJTZo1/kUZpVQrp+90hH037CBQX2XDP
+	we/NqQkzFjqps+eMzlKeVZa1WABkUDg8fNS07kO/aOYJhrumtMJUJnXxUmokHomkUGDpCwwjYUJ
+	KQ815nfKh1MpUhJ+rV7nPQuSlI3E4GURGD7hNDfl7pkalONX0Mylkx6xvPgczzV1YlPBTMyPi6V
+	Huf+TKgpsnzBN8Xl73passIwLB5SjdJOdDWU9EiLTh3NLFiruX5Dh1bt5WfSBAPq9xFj8wONhhF
+	7OD69F+35K1Z3NLYq62qIRhWUJczrNgRaD57ev7Vbxfa80Uc1h3kIunM6tQou2scq3pTWFmNW6u
+	MKZn0Y94hWEb2c/KdYP+IkRphJXzmjkTFd5wEDYVQ7W+7Jm9j9qyMNxF1wL5AsBHcunHDULDoRP
+	ldfcs6H/aYRk85J4ODipdjg54ZyerhAHGGurfGa5bPmyC5A9wrEftz1w5g
+X-Received: by 2002:a05:6000:27c4:b0:482:c678:72d3 with SMTP id ffacd0b85a97d-482c67873d2mr5600177f8f.15.1787386229786;
+        Sat, 22 Aug 2026 01:10:29 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9a9f145sm1423683f8f.0.2026.08.22.01.10.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 01:10:29 -0700 (PDT)
+Date: Sat, 22 Aug 2026 11:10:24 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Hilda Wu <hildawu@realtek.com>,
+	marcel@holtmann.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alex_lu@realsil.com.cn, jason_mao@realsil.com.cn,
+	zoey_zhou@realsil.com.cn, max.chou@realtek.com, kidman@realtek.com
 Subject: Re: [PATCH v6] Bluetooth: btrtl: Add firmware format v3 support
 Message-ID: <202608221220.dvi7OT84-lkp@intel.com>
 Precedence: bulk
@@ -60,38 +75,19 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20260814065920.413487-1-hildawu@realtek.com>
-References: <20260814065920.413487-1-hildawu@realtek.com>
-TO: Hilda Wu <hildawu@realtek.com>
-TO: marcel@holtmann.org
-CC: luiz.dentz@gmail.com
-CC: linux-bluetooth@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: alex_lu@realsil.com.cn
-CC: jason_mao@realsil.com.cn
-CC: zoey_zhou@realsil.com.cn
-CC: max.chou@realtek.com
-CC: kidman@realtek.com
+Message-ID: <20260822081024._fBIZ_6xB6EhAnUp6hzhDfpqIVwvN0O9f6YQlylk7CQ@z>
 
 Hi Hilda,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v7.2 next-20260820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/Bluetooth-btrtl-Add-firmware-format-v3-support/20260814-145920
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
 patch link:    https://lore.kernel.org/r/20260814065920.413487-1-hildawu%40realtek.com
 patch subject: [PATCH v6] Bluetooth: btrtl: Add firmware format v3 support
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
 config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260822/202608221220.dvi7OT84-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
@@ -110,7 +106,6 @@ drivers/bluetooth/btrtl.c:1326 btrtl_initialize() warn: passing zero to 'ERR_PTR
 
 vim +/btrtl_dev +1106 drivers/bluetooth/btrtl.c
 
-c0123cb6c4c7fc2 Vasily Khoruzhick   2023-03-07  1093  
 26503ad25de8c7c Martin Blumenstingl 2018-08-02  1094  void btrtl_free(struct btrtl_device_info *btrtl_dev)
 26503ad25de8c7c Martin Blumenstingl 2018-08-02  1095  {
 9a24ce5e29b15c4 Max Chou            2023-04-17  1096  	struct rtl_subsection *entry, *tmp;
@@ -124,6 +119,10 @@ c0123cb6c4c7fc2 Vasily Khoruzhick   2023-03-07  1093
 9a24ce5e29b15c4 Max Chou            2023-04-17  1104  	}
 9a24ce5e29b15c4 Max Chou            2023-04-17  1105  
 8e4d5e1dbe2345c Hilda Wu            2026-08-14 @1106  	if (btrtl_dev) {
+
+No point in checking for NULL when we have already dereferenced
+btrtl_dev so many times.
+
 8e4d5e1dbe2345c Hilda Wu            2026-08-14  1107  		struct btrtl_enh_ops *ops = symbol_get(rtl_enh_ops);
 8e4d5e1dbe2345c Hilda Wu            2026-08-14  1108  
 8e4d5e1dbe2345c Hilda Wu            2026-08-14  1109  		if (ops) {
@@ -135,9 +134,8 @@ c0123cb6c4c7fc2 Vasily Khoruzhick   2023-03-07  1093
 8e4d5e1dbe2345c Hilda Wu            2026-08-14  1115  
 26503ad25de8c7c Martin Blumenstingl 2018-08-02  1116  	kfree(btrtl_dev);
 26503ad25de8c7c Martin Blumenstingl 2018-08-02  1117  }
-26503ad25de8c7c Martin Blumenstingl 2018-08-02  1118  EXPORT_SYMBOL_GPL(btrtl_free);
-26503ad25de8c7c Martin Blumenstingl 2018-08-02  1119  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
