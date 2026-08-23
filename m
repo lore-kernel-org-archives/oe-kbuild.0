@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77FD38B7D7
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 11:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9612049362B
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 11:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787485862; cv=fail; b=K+wfV+SSTnz5IC4BXLlp3r91GIKdHfYMZGZok0o48CrKoQXfKVX9R/5dS+BhLwPNLDujv9pdS9B64avIGjMTT7XxDKnmV/g/LxqmjQ8Bh/VNK/sYPEmW7VGUGgxHbVJ4i1+LpbCKeLl3a6GHcvurQC1dPRHu7rJYtqnkkfWp47Y=
+	t=1787485913; cv=fail; b=mQWTiWoohDYnYGp0Z5Gqa2O06eC/4OL5U+FZ8X2FR0o4MPDFJ7GetL3uENa6/b+9k2aQRQgy06dAryzE3p2S0OPdCjs3eKbVDbeC0sdtkYqMN+UxijisitMYjd0Pbp88+i4gP9HWWQkIvznMff/DH//g1gbhPn7clrfumVrqX20=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787485862; c=relaxed/simple;
-	bh=8WZHWGe0icZRkv2fHyFL4o50nqJ1yPDZjYkCvNiP2rA=;
+	s=arc-20240116; t=1787485913; c=relaxed/simple;
+	bh=Bud0rCBl1GLBAWor2jAWqLRRdDWcwHhdss6YbLBcf48=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=GMJnCzxvbIly2BHFcAdPD9jDHHjdHqeB3ZTBahzcazNNXfweqIH6nQbsc+c9pNXh4bEi3xcB4LhijYbFsgDooqUxjRiG2FV8hSnyH1wXwA2/H46VIFbvo3JjoeLkmi1kG6PY3TfPG5jPIHnMl1rkFIPwN1BcShaJIsjgT0Y7ENk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nz7q0PlK; arc=fail smtp.client-ip=192.198.163.11
+	 Content-Disposition:MIME-Version; b=nuwDPq0zSo9Gp49Sui8Jm8vIDNxgfiOptvbrh4nF59LfbNkLQEC0vWxlxMMypc7eUpCHpWe5sP47S5J52X9miguoPoL257H5lJHb5N978l/yEX7LNI1qgeVMmKxwouogz48lxiDbPhS/0al0d8sl0y4QOSbY1wAElOsgBu6a3sI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KwW4wGbY; arc=fail smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nz7q0PlK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KwW4wGbY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787485859; x=1819021859;
+  t=1787485912; x=1819021912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8WZHWGe0icZRkv2fHyFL4o50nqJ1yPDZjYkCvNiP2rA=;
-  b=Nz7q0PlK44cxW75wDsYpV+Hi1v6JFiS4Yl9j6s15mLiIMYlnbrvEFqCV
-   +Zsk3QfknynBPgARazXc18MqndnR/HDJsU+myIWCBtNaolX+Mg3UdRNZF
-   HGRqUwqVjqvL1vitWTWYGTX/GGEtqa6kq/qZOsU8yTC5a1JTI84Q+mXhR
-   WES9LsnkT3+W2PjnlzKG0SCnss4y4VOeXj65f4D9xks8EirP74wD+52+P
-   TXrQMdsMQh/LbVWisl9oHPxuZGKovNWLDaEhhVHMkeRKpxzFFW0R/qFkO
-   Taw7XghhMry+QKj4UUMJavw1lILFvzNPDYu4NxWB9Ahdl7rFFsyVL3YR1
-   Q==;
-X-CSE-ConnectionGUID: jnPiiy5rR0yHZKiW3WI4AQ==
-X-CSE-MsgGUID: W+LF7uvsSl+svVzKhdUXBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="98550646"
+  bh=Bud0rCBl1GLBAWor2jAWqLRRdDWcwHhdss6YbLBcf48=;
+  b=KwW4wGbYqpYp5GkPTrF8y1I6iAkUC52Y761hLiCVdzWlahN6ZCD0obJJ
+   yzSEfyAvKb3hKbRP7uTTKgPyuqVsvH67wCF4SSCpbZKBbvOtJqZUyipcy
+   jIEZ5q3RUcW3ovJDptsVQgRdbuW8a9cZsEZOpAqNAUmK0+CGDmBCzJ/AJ
+   xe7qgJyo13gqjSXGUyWCFrAQYLSvJVMNqTtsrOmX/PunufaYU3D6mt+Wi
+   WtWohkon6PxFnvYE/VEVNX6bBfktCsju+6HCLro30jv8JEYORqamroK+I
+   8eKEdjPKttx5CLsx5dC/tDBHOwt4jQWyQAyRoN541Df4ubE9tLLHIhyHR
+   w==;
+X-CSE-ConnectionGUID: w9LsPAxiSGCokTvwjEjBGA==
+X-CSE-MsgGUID: /Ie1x2PoQ1+XCt9JBhOqNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="99488119"
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="98550646"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 04:50:56 -0700
-X-CSE-ConnectionGUID: 53A/CgsARDuyARB8l40bKw==
-X-CSE-MsgGUID: iZFz44FPRKuTDKLjvj1k3Q==
+   d="scan'208";a="99488119"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 04:51:51 -0700
+X-CSE-ConnectionGUID: OodTE647T0myymCbh4fDKA==
+X-CSE-MsgGUID: uYHAXc91SC6Ry4WdSlFxiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="266234190"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 04:50:56 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+   d="scan'208";a="268708793"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 04:51:50 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 04:50:55 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.2562.45; Sun, 23 Aug 2026 04:51:50 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 04:50:55 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.62) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 04:51:50 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.11) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 04:50:55 -0700
+ 15.2.2562.45; Sun, 23 Aug 2026 04:51:50 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sJ3EOssmuyb0tV5SD9MHuWLT5sxE86zbIGRvKFZxE9Ys5uM4JZhq62/ZB2eIImD301E3ZDrosPVhlb0F6NUkcTZJ0nSUwHDwTP6BYq22GpkzJs/4vErKBpDKsOWeC/Zr+8vW+boTlp4RextJBFRowVcn7TDi/C2Lx0MSYiIITfqAf3czrLKJeUUzV3hoZozpEsdZCioNb3Hhw++q7Uxb0yuCiRFZ1ttACqSujPpQwHNxD/20M9gAqApbHEZ4gF/aly/4tCBkFNhEwZDr1pwU918m6yeR/aVC7jRMQVXW/uYGXKyhDW54gd7QipTRfb7srYolcwZHoHLThLxklFrZJg==
+ b=VABzNKh8Y30ICOAUByz2zxC7fxL7zkMZtt0xZJjCs3g1MvYpTMTJVyrF8TiaJhO3n30tB3adSRf3SakNWc4cKHJ91ogih5b5YFFVD8zFQMctfVtSaoqc8rNbbEbAuAH/zItyfLKmj3zwXvfvkkByDSboelrVbJxudG9L4zmtrhSdQ6+4aqZeAkDQ3EmsJEVYEMzSw3d4HvXB/QrYF6iDLKxYa4gCDpDKKRb9RS+1+eEOJ0xKYzU+cliwymk6f22kfsgG1xW0W34hij4u2AIsvjImGM+0e7wW+Uxco7r9XxDuDT3Qj5P4YbfLKJLJIPNQPnSIDoLiis4cnqmx/GIhpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vA2sxeEopNn3XusvaxImTV0/xjhjxSPyRAIjP9U7YmM=;
- b=W/8ZBm4RIynqU4mPfs3psDM03elmyI9uZVZYlz5wdtDtzai0j/M3pJ8k6DnsBmW5wJ8M1u3uy3RvL1n22s2HqwqfU4Bv4ZR/TcS/sdnm+5MiTlQ+gk/LmfZvyMQvdwy8Co2pmrpunbdMVuNVUtW19bNFxqK/s0NXPymsD6pFtFoBgnUd3H2tPoR/MbpZJ88VBmVTJ06QKCvgh6Fnry1yhdwySprF/VrbX7YrW/n0iH9SF/hTmaej4oU1BnBEc/Rgg52evIcZhixzUF/dgtWt5jthugkyXYAdiNqHxSBxAoyRsnZKG7F1bJVjSUGPwbcOtEt1W/MXH3IN6+GeGKg6TQ==
+ bh=PCRGQJyvKV32iAwoBikT4t5ShBp+rKtwbfy3ILEYjKw=;
+ b=qOYorDlUjFbGJ1P+pLnSsBfxf9pdoor8rih0RHOdwm3frbpoYK/LhKflTzJGkcbhf+91Nsa0ZLIs39ZdlSVOlKnNZT8FL6ktQZjJ29heBph307DGDmK3laitnvI0Od6wQTTn5b/2SKKnuf9LYhFKI7sVBg94Snlxfz967LHFoD9EpGKEBff5jycuVb0uZS85g6aOjf5tlKPjD4GSi7EtX1KmsvzN6WTlVwkHzTRr+DeD9S4MHJE6d4O1wicitjdhLNVRhjiTDRJEfzbWtOJ8C/ltC8Op7Dz5sNfr461n6MFGCjjVq77Blg4FXNesepR0addhvFo5iIjK+tICvhmkqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,25 +70,22 @@ Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
  by MW3PR11MB4730.namprd11.prod.outlook.com (2603:10b6:303:58::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Sun, 23 Aug
- 2026 11:50:51 +0000
+ 2026 11:51:48 +0000
 Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 11:50:50 +0000
-Date: Sun, 23 Aug 2026 19:50:44 +0800
+ 11:51:48 +0000
+Date: Sun, 23 Aug 2026 19:51:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: <oe-kbuild@lists.linux.dev>
 CC: <lkp@intel.com>
-Subject: [asahilinux:tbt-reset-wip 36/36]
- arch/arm64/boot/dts/apple/t6022-j180d.dtb: aliases: 'usb4_0_nhi',
- 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc',
- 'usb4_3_nhi', 'usb4_3_rc', 'usb4_4_nhi', 'usb4_4_rc', 'usb4_5_nhi',
- 'usb4_5_rc', 'usb4_6_nhi', 'usb4_6_rc', 'usb4_7_nhi', ...
-Message-ID: <202608230840.AaS8mMAT-lkp@intel.com>
+Subject: Re: [PATCH] wifi: ath11k: fix QCN6122 UNII-3 channels 149-165
+ disabled
+Message-ID: <202608231300.oeIwNFod-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: TPYP295CA0039.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:7::10) To SJ0PR11MB5214.namprd11.prod.outlook.com
+X-ClientProxiedBy: SI3PR03CA0001.apcprd03.prod.outlook.com
+ (2603:1096:4:297::16) To SJ0PR11MB5214.namprd11.prod.outlook.com
  (2603:10b6:a03:2df::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -99,254 +96,216 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|MW3PR11MB4730:EE_
-X-MS-Office365-Filtering-Correlation-Id: 429c4dbe-a67e-454b-a99e-08df010cc76e
+X-MS-Office365-Filtering-Correlation-Id: 98e1ede4-5189-4547-7b8f-08df010ce988
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|3023799007|56012099006|10067099003|18002099003|11063799006|13003099007;
-X-Microsoft-Antispam-Message-Info: 4gYdxEnx0uy5D1uVUqMWILAD5Cbu2VjpRZRZCVEqHDq2DjeYxFM7CrOXrJRlRQgg99f85JGUj9B4fzq2XsisBcE9pvKSCUpBoZ8de8pSxXy8vncIlufXZX7/i0FTWOqHHv4gJx2wLs7aun8Dj8V9lu4LYY9L0ADMmPecz3eNnbIYMs/u1m3vdvE0lXKm942/407j6Hw1B8RYX7wGf+bNRxwj113XUAybFR3Yne1IfFEcp1AYXqhyOhwdP3IPBm2iyU8kAkrBDtqTF5+AgIjGsPa9IqgIa2mgoBRoNyVkLfSZkXyqNQzB7XITSCHHOrWZCxH440AyVfbduIT9branSNLW4ZDfzlqj+puYn3z1JRO0QUCDhlbXQragjKcHRpnhVjzSsmVMqRgxirD6ftMXWpvJ2jKP6HN6i6szoXcG8yvi7RMVBpxr+22PDAxQ3vN6zeFQyjmaVoHeiS+oo5uZsCX+XHx6K9kLFBcVou9I+HpUuwbyoHqxLRZVjH4EDi1CSXotEPu1d1JBDJAJLBoZeDUZPqhJj/JgDRuQ85GR3JgB85v6pzhWK0JMtloNeuG/Uv8FKfxhR7HgzOpw43IkGuTr4MajjQeDaqtZVrtFo9ezm0FeMs84TthWse8rMrea
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(3023799007)(56012099006)(10067099003)(18002099003)(11063799006)(13003099007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|56012099006|10067099003|18002099003|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info: akD54Xm6dbVvgcInTo6pfrHhVVzeC5HWbezeGbVZCf+Eu7J5EudrF8m315tUyqFeKN5fnE5zpecy8VX2HipA0pEBf1/C0HJwCtrJlccUDbZWPVPm+w4Qm4Nx+ssFQbO39PZXD+23GSWlDGExZuFmgpM/7grpRqUsyB6bhGy+pZW+xqLuwnQ8zBsA9SM7x4/bcOVjAFahCdwHCC07T98+FQcDffMtZ+2JhcudrR4xo/6y9UQ2pm6hcc5Q7BoDfwcQt37hGsttkaitHXdfS7PB9ylRDUyqbh5fggkg5Yl5HZekLVq9MqVfNvSg6oNZVEDC7HaBo1ej95ETFiKlYlX2AW4suLo2Ysdx1ljF+xMy5I7bQle8dH5p3yRq8lWL2L1SlDvAQl9GJeQjMjr36MmTVaVEkpKMFgEapC92RcVbqqBsraqSk2OoJqAE2TRIv6enjsq/aLwPddFTKEFj/tXLDSjsS6WPs8kq7DEqSjEzeh7elZZ2v9NgkBlTMwbt9/QnB3MSz/nOetzCf4f5h1BskV0a1J0xHcpVUwu39uhRFc1Ps2G0rXvvBIJuHqGnKIlJbPrquBtxV4WF6dbldZpzS+yirYG4/h/EGGLdgS3epzvLB1GqwG+/l1sBt6zfUD31
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(56012099006)(10067099003)(18002099003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mWss7045OAw6M9PbB59RLZi7uHI3opmYcJ0rHNdjRIyXEAcBBNDINf8GTI41?=
- =?us-ascii?Q?81FBcK9wU46K9Qfk/7bGIfX2C8tbTWzHG80P5C6RSc821ESDMJfx+NQCcCGw?=
- =?us-ascii?Q?wPhDFg60z/DQFHtZvFMCInyi4JqZKi4gm9qquBz6xH6/44UMaPTEIAjPWkTq?=
- =?us-ascii?Q?PIcRCltASFV6jLAGkVH90x38wwoacZimcP+O7J3UYZmnaxzxph+pVk4neIMz?=
- =?us-ascii?Q?ik1NLP022DkST0+REKJTGAAGyKHvoHFuBkRIxs0CilbJgGxfPHSUSy3QuBXU?=
- =?us-ascii?Q?EooSg3BiAJI7cdBx4MjKrFLYjrjUTt9AmLRufD6iAT4GMkb3VK6COz5d1pf6?=
- =?us-ascii?Q?CPCZ/ji3Gv1A+jTL8MDrMrmQVyFqKHHpQ/bk7ph2sX7S/j8cTzlr+LeTN/RU?=
- =?us-ascii?Q?PAJ3pwa3MlQU2wpYWXG2fHCJCG2qWQfjpdwY1ENBeherpn3XfkZ07b1crx7/?=
- =?us-ascii?Q?Ca+U2Z+TBOU+sUYJ0I2TGup0T1NU/jjyPAWXhDJuGQekkmS8ZC+/zaa34ZqS?=
- =?us-ascii?Q?xwaLh6z6lk5RWmHGvAwZCvQreKu6eM9RYs0APhk8+cNjWj0cyWwJm2C5N5LZ?=
- =?us-ascii?Q?ku/gKQ2j2nxiRsaPL/M4gPGadoJUsHJJUefjBNFQmvsBALhivQ2Vk/VMcTPb?=
- =?us-ascii?Q?dm/5yvtSdmiFc/AjPecgkp+t7Z28Q/BGiwM2+FYyIDSelLvy6PCUXYHkthAK?=
- =?us-ascii?Q?JaSLB3Y1Q3I3DTHlZ4upduMTTy/ygYt9HiarjWbNn4lhPnnUiScBkB44R95y?=
- =?us-ascii?Q?fwJ1iPjDG+KxUq7vGlXHfHe6I4gTXXoaqhSoNXfS0dvDy1guBcmGwPs2GCzC?=
- =?us-ascii?Q?cZpCplrCP5Ve+BZzsJxFFIzFvRuH1+RPqS29EEMZPq0KjohT1WIOQcVlJfgl?=
- =?us-ascii?Q?OUA5JggGjmg6VecPygfXA/GM40pKsG71hwTHBFuD/+yhRRfdYdJEWLSHlhJS?=
- =?us-ascii?Q?bsg9rFF1zvFME/PyMXgQS7sRmVZLUf8IlBjr/EVhDzahw6cN4SQKeY40JX1+?=
- =?us-ascii?Q?TUGSQi3S8/+qpzYP24sBBrSnds5jltFgZC+uAAEnu90bPO5q/2yA+1xvO+sO?=
- =?us-ascii?Q?b0u6xDEuA3mBPsxHeVEaRHwznUonHYrawLTlCqq2pesf0+ubVUXWYfaJeJOd?=
- =?us-ascii?Q?Uomdox/S6ALJ72aC04+c3UnaXoR16VFT5O8LIQclzgTsdxdHyLLs6SiAxxg4?=
- =?us-ascii?Q?m4Ov2BBN4JqnQP0nKKjgHBKDihRtBNGkjk47Sdn0Qr4JShWcNwLSyx/ihCLs?=
- =?us-ascii?Q?vrV6Xn0j4AjieTEjsuxL1OakjP5JK0iAYK/uBFckGMn9L2JNuiQ54IJnRXJh?=
- =?us-ascii?Q?s56u0VvGF//9cunuCPq1sbtMCBEve8ALUqs12iI8rUMtyLYAXEiVGyWB0gKG?=
- =?us-ascii?Q?Z38jUGsIrS/gSOsuwlFpCvmi6Is03SA9XApqBBfAEHtN2cdyANJS21Zon7NX?=
- =?us-ascii?Q?k5sD7aF1AUFysI6FK6l92vC4CDy9yeu8bQ2TSs5nDsYPTHwzHeCBzZO2IhZG?=
- =?us-ascii?Q?y7+LpvE+pZ8naAb/QXP8XlfPI5QUvZ456bw5zeclcB5uraCpsXewrU+CYPTb?=
- =?us-ascii?Q?FJHTSaEHHso3Xy+zn2cQY9sc5YEYMJ7oF03FD1GWAgYjZmPOvrb8kQDsHSHm?=
- =?us-ascii?Q?LmFmGLByXnd5ulMoT7k6FhRzeKYkzvh1COwMzXkU5cGBoICdMwhKwTRRojQl?=
- =?us-ascii?Q?Qx13mYmPQEd6gPcrwV7dexn65+vm76td+Q7LR/pzbT0lxHR/1LyixNw0Td1q?=
- =?us-ascii?Q?gyUYytDaOA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: FSpSmn88Al/8KFwvyRUSzOHgUg20Kuyx6+gJsaY0adfBEFIABPcl4SgjtdIRqijsrGubVBLUfPOFhr/gDceD8kc8OtLiLxJfV83M5l4MHC8slmS3Lz6a29F573EmRzBaXmGtxR6v4dFbPwXMU42khwxmWgZK45YSMbTXRC5ksJbwfUSLqQ3MPUgkUmwX3xCdwP8VIhWVW2jaUoJOcj0zcfqUgoWK4Y0ZMtL6UhkcEmvZzeCdNaQmEDpWo/1/ttQeXgGNlAvI6oFQ6pnlbdQi7wlVGePidzkKUFn6vG7LqTVx+gvNrq75AO4LANZwobGB7p75WXD949ZxdZbM00mfpg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 429c4dbe-a67e-454b-a99e-08df010cc76e
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7FESdfd+av5rZLehyY6UFgaur4zbfSgytXtkcI0GoTLy1wnaZuq8+Rf3FM7r?=
+ =?us-ascii?Q?YklOIZ7C1VcpyulYvpHdQP7096Rp03Khv1rSa14du3+9Bu3eJ9tUEpZNjFQy?=
+ =?us-ascii?Q?yPW4eGEddd5HcI+B0YZEIN7E2t3m4AXKYfvikP0pAq6X8hwidKyALief8rs3?=
+ =?us-ascii?Q?itu6P+FNP52aFrzt+7nKf4euMeSa919Tg+STzFZfJs1+eP5Odqv9VeAZbp3c?=
+ =?us-ascii?Q?MHsUrlSZdfQAmK7BXXaeajcmQsWPM1zsXpsHbL7yS95Ptu9Y59AggZWEeyl7?=
+ =?us-ascii?Q?S5Dt9vtLiJTMQDACt/oVq88lCFh8WjLeU/9bA6xNlHzSFYvTdgJymdJkI4UZ?=
+ =?us-ascii?Q?K4FD6LzhtqlCzuKCZeHI0Y63rKXnIzsi3aT8SpjXzkaNSKL4V+MLJICsIJe5?=
+ =?us-ascii?Q?garRWuZyF2u1B1823EZosIZyXkmyKT3iT3jp2otvBO0+aua+nE+HRkKztPVg?=
+ =?us-ascii?Q?+esfj1cVoWWTICrepsgCLo4kCnRZFdNzg5tc3iWq3BgsEgbdKXTd4OsFOg95?=
+ =?us-ascii?Q?yI+JMkWzqqNuQLI2EKYB+d62SEuGeKrNy3LR0dWWJPQY2j2/t1dpf5e4NcdH?=
+ =?us-ascii?Q?W26arBqawv5KB++eJmXAk9hE5I/e8O+hbvPhpIM2q+cgmjKwAPtCD8WwvovB?=
+ =?us-ascii?Q?yj1W6G0m10HJb+Vw7tyto1kUKIhMqgFZ6DlJgdorA+hasFC+vPsvCQUWz5L6?=
+ =?us-ascii?Q?clZ0EconMHiWZ7+NX74o75ouU/V8WL0IaDEDDusnc6cN+UgGxStl5JDPwBS8?=
+ =?us-ascii?Q?dxyHk8Lv93F576ku76B5nfk3Tskpv9KcwsbLL0S6qQBXxndCWuVOwbZwi+eK?=
+ =?us-ascii?Q?WBBildQjCj4wA3evSgUcC+IjJLkHWcf3jXraoojHYCchjMEXVKVapHxJdA28?=
+ =?us-ascii?Q?oaUPMGYTaYzJK7FZ2eyXXMTBqhlAhSIoP6ntBBm5naDfveM9wPdzGTmfyH3/?=
+ =?us-ascii?Q?r5KVRgtlowNtbZkO8qEnducoUfNU19tvTKelFrJjyUNqWjjX+fdSp8mXV1nw?=
+ =?us-ascii?Q?gozjmrOupfd5jSqeVss2A+Qx0urNzdtb7UUjRbZHDzAFtLbzpT0sIwZUOqY3?=
+ =?us-ascii?Q?xvkMV5B5XKQtOGALWi39a358L7sjw49MvgzTZsRTihrhkvysv8SSZxFA/x3H?=
+ =?us-ascii?Q?AXrDDMA+yeWBsuLKxtDB+al+PtHkRe/85J6TwPgbonsfiYzRDeQ/M3z3/orw?=
+ =?us-ascii?Q?uEJ8gBlwNET2FK/maeGayNGJObnA0DuNyFUnU0ToiR6pnUkcKIBDnMKQlAMM?=
+ =?us-ascii?Q?eLzJR92jzyEq87U3vuIO+e4T8GJCg5N69OAdOdl3DHhjKA0xS6MP7bbfBOqe?=
+ =?us-ascii?Q?KbosYJ+xA9VGYIOWFWVwLmgKgO5KneyjaXs0tMD3iAsRLHhu+WumJiR/5oFg?=
+ =?us-ascii?Q?KFPWFtqtY4lhmz+0JsjshlCujo7Fq2qHJ+hbr4FWUuD1jLylRUQiAEu/H6iv?=
+ =?us-ascii?Q?EFbR5+DAGihO+x0EiVsORlFxWEVpzuzvgEXq0A3oiDjqmPtiCuYpmKFW2soH?=
+ =?us-ascii?Q?oW2l3akfsZ7ZJaQQesqADNxoTaiMojjONl/yABi3ifx5tzaT078ipLX0ONQg?=
+ =?us-ascii?Q?PjUpYvMrAThm8jChHBFjx0OFuY2HYOdwTqdfEs0zYU6c5hO2TQsEc6jy+CuB?=
+ =?us-ascii?Q?N6m7zEWMYrsd7kAenSHc8c1XiZ7QuYb2bIwFhIIIcqRBSmwoJLvLiRN4iNuN?=
+ =?us-ascii?Q?7RcyrkzZKIftKDyG6w8vynLOWVQK4RbnMurC5Pq7ACj31yXSkkuxKngUKhpQ?=
+ =?us-ascii?Q?ayDqIM2YOQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: hN67h0HgimPWAPEVYdzvngdnlPERgxJLmdFWcnu+Qu1JZPwZhFeZwyI6Hcaec5v9dmQvu7P1DwiyVv4JDriwenUCwUcTj+ju+R+T/VtWntZPcp1E1CfMvJz+0QkdiVd3XhY/b+4L2KhW8evmZmT3nQAIZwvGbHq+AAU7DYNaPqh/tMj5dslnZYW/WPjofnKK4LXLbd2pn6GoUsIEfIK3Addu0wUTxn/O4A9G3u+SLwc/gQ/ttCNzEARQlnGb6LtbvVpTAWJykZqLvKBeTRWKlO4VQ3eKJTdAbtDamUKm4IJVjOVYxq2HO4VUD7gcRSweXxu/8Y2cKFhj/WYU1LrXmQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98e1ede4-5189-4547-7b8f-08df010ce988
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 11:50:50.9192
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 11:51:48.1730
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ImnLn1k+PWhd+hzjSqHDn7k7TDyklwzMpzVttYR0wwY7tNFt3V0wgTonaNZ4S/8a+NijFHF12Ys/dS0cFhT+zg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: UKHLYMNVrSp14nRHCwMpe0rfkX7s5IVVh154f4n0z9yol21krbG9tTcDtZkp/kc2eT/vhWAPFXVRioJctmQERQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4730
 X-OriginatorOrg: intel.com
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@kernel.org>
+In-Reply-To: <tencent_CA929E144EEEC926E8CFF32B18ED3A26A907@qq.com>
+References: <tencent_CA929E144EEEC926E8CFF32B18ED3A26A907@qq.com>
+TO: autumnshiu <autumnshiu@foxmail.com>
+TO: linux-wireless@vger.kernel.org
+CC: kvalo@kernel.org
+CC: ath11k@lists.infradead.org
 
-tree:   https://github.com/AsahiLinux/linux tbt-reset-wip
-head:   f42b9fb4248a76449873cb91cac2696aa1df9818
-commit: f42b9fb4248a76449873cb91cac2696aa1df9818 [36/36] WIP
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-2054-20260821 (https://download.01.org/0day-ci/archive/20260823/202608230840.AaS8mMAT-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project f39d58144cb1dd40c4135af6ab2ff17ffa3d902b)
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608230840.AaS8mMAT-lkp@intel.com/reproduce)
+Hi autumnshiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ath/ath-next]
+[also build test ERROR on wireless/main wireless-next/main linus/master v7.2 next-20260821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/autumnshiu/wifi-ath11k-fix-QCN6122-UNII-3-channels-149-165-disabled/20260815-230738
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/tencent_CA929E144EEEC926E8CFF32B18ED3A26A907%40qq.com
+patch subject: [PATCH] wifi: ath11k: fix QCN6122 UNII-3 channels 149-165 disabled
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260823/202608231300.oeIwNFod-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608231300.oeIwNFod-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608230840.AaS8mMAT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608231300.oeIwNFod-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc', 'usb4_3_nhi', 'usb4_3_rc', 'usb4_4_nhi', 'usb4_4_rc', 'usb4_5_nhi', 'usb4_5_rc', 'usb4_6_nhi', 'usb4_6_rc', 'usb4_7_nhi', 'usb4_7_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6020-j414s.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6021-j414c.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6020-j416s.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6021-j416c.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc', 'usb4_3_nhi', 'usb4_3_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc', 'usb4_3_nhi', 'usb4_3_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc', 'usb4_2_nhi', 'usb4_2_rc', 'usb4_3_nhi', 'usb4_3_rc', 'usb4_4_nhi', 'usb4_4_rc', 'usb4_5_nhi', 'usb4_5_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@701ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@701ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: nhi@f00000 (apple,t6020-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@b01ac0000: failed to match any schema with compatible: ['apple,t6020-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cio@b01ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t6020-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: nhi@f00000 (apple,t8112-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: nhi@f00000 (apple,t8112-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: nhi@f00000 (apple,t8112-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: aliases: 'usb4_0_nhi', 'usb4_0_rc', 'usb4_1_nhi', 'usb4_1_rc' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: nhi@f00000 (apple,t8112-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8112-usb4-acio', 'apple,t8103-usb4-acio']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8112-usb4-nhi', 'apple,t8103-usb4-nhi']
+All errors (new ones prefixed by >>):
+
+   drivers/net/wireless/ath/ath11k/mac.c: In function 'ath11k_mac_setup_channels_rates':
+>> drivers/net/wireless/ath/ath11k/mac.c:10180:31: error: 'ATH11K_HW_QCN6122_HW10' undeclared (first use in this function); did you mean 'ATH11K_HW_WCN6750_HW10'?
+   10180 |         if (ar->ab->hw_rev == ATH11K_HW_QCN6122_HW10 &&
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+         |                               ATH11K_HW_WCN6750_HW10
+   drivers/net/wireless/ath/ath11k/mac.c:10180:31: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +10180 drivers/net/wireless/ath/ath11k/mac.c
+
+5f859bc02c7bc7 Carl Huang             2020-08-17  10158  
+d5c65159f28953 Kalle Valo             2019-11-23  10159  static int ath11k_mac_setup_channels_rates(struct ath11k *ar,
+d5c65159f28953 Kalle Valo             2019-11-23  10160  					   u32 supported_bands)
+d5c65159f28953 Kalle Valo             2019-11-23  10161  {
+d5c65159f28953 Kalle Valo             2019-11-23  10162  	struct ieee80211_supported_band *band;
+74bba5e5ba45d5 Wen Gong               2021-09-28  10163  	struct ath11k_hal_reg_capabilities_ext *reg_cap, *temp_reg_cap;
+d5c65159f28953 Kalle Valo             2019-11-23  10164  	void *channels;
+5f859bc02c7bc7 Carl Huang             2020-08-17  10165  	u32 phy_id;
+d5c65159f28953 Kalle Valo             2019-11-23  10166  
+d5c65159f28953 Kalle Valo             2019-11-23  10167  	BUILD_BUG_ON((ARRAY_SIZE(ath11k_2ghz_channels) +
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10168  		      ARRAY_SIZE(ath11k_5ghz_channels) +
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10169  		      ARRAY_SIZE(ath11k_6ghz_channels)) !=
+d5c65159f28953 Kalle Valo             2019-11-23  10170  		     ATH11K_NUM_CHANS);
+d5c65159f28953 Kalle Valo             2019-11-23  10171  
+d5c65159f28953 Kalle Valo             2019-11-23  10172  	reg_cap = &ar->ab->hal_reg_cap[ar->pdev_idx];
+74bba5e5ba45d5 Wen Gong               2021-09-28  10173  	temp_reg_cap = reg_cap;
+d5c65159f28953 Kalle Valo             2019-11-23  10174  
+3da35581ef5de9 autumnshiu             2026-08-15  10175  	/* QCN6122 firmware omits the UNII-3 band (5725-5850 MHz, channels
+3da35581ef5de9 autumnshiu             2026-08-15  10176  	 * 149-165) from high_5ghz_chan, which makes the driver mark those
+3da35581ef5de9 autumnshiu             2026-08-15  10177  	 * channels IEEE80211_CHAN_DISABLED. Clamp it to the standard 5.8 GHz
+3da35581ef5de9 autumnshiu             2026-08-15  10178  	 * upper bound so channels 149-165 remain usable.
+3da35581ef5de9 autumnshiu             2026-08-15  10179  	 */
+3da35581ef5de9 autumnshiu             2026-08-15 @10180  	if (ar->ab->hw_rev == ATH11K_HW_QCN6122_HW10 &&
+3da35581ef5de9 autumnshiu             2026-08-15  10181  	    reg_cap->high_5ghz_chan < 5825)
+3da35581ef5de9 autumnshiu             2026-08-15  10182  		reg_cap->high_5ghz_chan = 5825;
+3da35581ef5de9 autumnshiu             2026-08-15  10183  
+d5c65159f28953 Kalle Valo             2019-11-23  10184  	if (supported_bands & WMI_HOST_WLAN_2G_CAP) {
+d5c65159f28953 Kalle Valo             2019-11-23  10185  		channels = kmemdup(ath11k_2ghz_channels,
+d5c65159f28953 Kalle Valo             2019-11-23  10186  				   sizeof(ath11k_2ghz_channels),
+d5c65159f28953 Kalle Valo             2019-11-23  10187  				   GFP_KERNEL);
+d5c65159f28953 Kalle Valo             2019-11-23  10188  		if (!channels)
+d5c65159f28953 Kalle Valo             2019-11-23  10189  			return -ENOMEM;
+d5c65159f28953 Kalle Valo             2019-11-23  10190  
+d5c65159f28953 Kalle Valo             2019-11-23  10191  		band = &ar->mac.sbands[NL80211_BAND_2GHZ];
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10192  		band->band = NL80211_BAND_2GHZ;
+d5c65159f28953 Kalle Valo             2019-11-23  10193  		band->n_channels = ARRAY_SIZE(ath11k_2ghz_channels);
+d5c65159f28953 Kalle Valo             2019-11-23  10194  		band->channels = channels;
+d5c65159f28953 Kalle Valo             2019-11-23  10195  		band->n_bitrates = ath11k_g_rates_size;
+d5c65159f28953 Kalle Valo             2019-11-23  10196  		band->bitrates = ath11k_g_rates;
+d5c65159f28953 Kalle Valo             2019-11-23  10197  		ar->hw->wiphy->bands[NL80211_BAND_2GHZ] = band;
+5f859bc02c7bc7 Carl Huang             2020-08-17  10198  
+5f859bc02c7bc7 Carl Huang             2020-08-17  10199  		if (ar->ab->hw_params.single_pdev_only) {
+5f859bc02c7bc7 Carl Huang             2020-08-17  10200  			phy_id = ath11k_get_phy_id(ar, WMI_HOST_WLAN_2G_CAP);
+74bba5e5ba45d5 Wen Gong               2021-09-28  10201  			temp_reg_cap = &ar->ab->hal_reg_cap[phy_id];
+5f859bc02c7bc7 Carl Huang             2020-08-17  10202  		}
+d5c65159f28953 Kalle Valo             2019-11-23  10203  		ath11k_mac_update_ch_list(ar, band,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10204  					  temp_reg_cap->low_2ghz_chan,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10205  					  temp_reg_cap->high_2ghz_chan);
+d5c65159f28953 Kalle Valo             2019-11-23  10206  	}
+d5c65159f28953 Kalle Valo             2019-11-23  10207  
+d5c65159f28953 Kalle Valo             2019-11-23  10208  	if (supported_bands & WMI_HOST_WLAN_5G_CAP) {
+e2ceb1de2f83aa Maxime Bizon           2023-04-21  10209  		if (reg_cap->high_5ghz_chan >= ATH11K_MIN_6G_FREQ) {
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10210  			channels = kmemdup(ath11k_6ghz_channels,
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10211  					   sizeof(ath11k_6ghz_channels), GFP_KERNEL);
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10212  			if (!channels) {
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10213  				kfree(ar->mac.sbands[NL80211_BAND_2GHZ].channels);
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10214  				return -ENOMEM;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10215  			}
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10216  
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10217  			ar->supports_6ghz = true;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10218  			band = &ar->mac.sbands[NL80211_BAND_6GHZ];
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10219  			band->band = NL80211_BAND_6GHZ;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10220  			band->n_channels = ARRAY_SIZE(ath11k_6ghz_channels);
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10221  			band->channels = channels;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10222  			band->n_bitrates = ath11k_a_rates_size;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10223  			band->bitrates = ath11k_a_rates;
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10224  			ar->hw->wiphy->bands[NL80211_BAND_6GHZ] = band;
+74bba5e5ba45d5 Wen Gong               2021-09-28  10225  
+74bba5e5ba45d5 Wen Gong               2021-09-28  10226  			if (ar->ab->hw_params.single_pdev_only) {
+74bba5e5ba45d5 Wen Gong               2021-09-28  10227  				phy_id = ath11k_get_phy_id(ar, WMI_HOST_WLAN_5G_CAP);
+74bba5e5ba45d5 Wen Gong               2021-09-28  10228  				temp_reg_cap = &ar->ab->hal_reg_cap[phy_id];
+74bba5e5ba45d5 Wen Gong               2021-09-28  10229  			}
+74bba5e5ba45d5 Wen Gong               2021-09-28  10230  
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10231  			ath11k_mac_update_ch_list(ar, band,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10232  						  temp_reg_cap->low_5ghz_chan,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10233  						  temp_reg_cap->high_5ghz_chan);
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10234  		}
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10235  
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10236  		if (reg_cap->low_5ghz_chan < ATH11K_MIN_6G_FREQ) {
+d5c65159f28953 Kalle Valo             2019-11-23  10237  			channels = kmemdup(ath11k_5ghz_channels,
+d5c65159f28953 Kalle Valo             2019-11-23  10238  					   sizeof(ath11k_5ghz_channels),
+d5c65159f28953 Kalle Valo             2019-11-23  10239  					   GFP_KERNEL);
+d5c65159f28953 Kalle Valo             2019-11-23  10240  			if (!channels) {
+d5c65159f28953 Kalle Valo             2019-11-23  10241  				kfree(ar->mac.sbands[NL80211_BAND_2GHZ].channels);
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10242  				kfree(ar->mac.sbands[NL80211_BAND_6GHZ].channels);
+d5c65159f28953 Kalle Valo             2019-11-23  10243  				return -ENOMEM;
+d5c65159f28953 Kalle Valo             2019-11-23  10244  			}
+d5c65159f28953 Kalle Valo             2019-11-23  10245  
+d5c65159f28953 Kalle Valo             2019-11-23  10246  			band = &ar->mac.sbands[NL80211_BAND_5GHZ];
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10247  			band->band = NL80211_BAND_5GHZ;
+d5c65159f28953 Kalle Valo             2019-11-23  10248  			band->n_channels = ARRAY_SIZE(ath11k_5ghz_channels);
+d5c65159f28953 Kalle Valo             2019-11-23  10249  			band->channels = channels;
+d5c65159f28953 Kalle Valo             2019-11-23  10250  			band->n_bitrates = ath11k_a_rates_size;
+d5c65159f28953 Kalle Valo             2019-11-23  10251  			band->bitrates = ath11k_a_rates;
+d5c65159f28953 Kalle Valo             2019-11-23  10252  			ar->hw->wiphy->bands[NL80211_BAND_5GHZ] = band;
+5f859bc02c7bc7 Carl Huang             2020-08-17  10253  
+5f859bc02c7bc7 Carl Huang             2020-08-17  10254  			if (ar->ab->hw_params.single_pdev_only) {
+5f859bc02c7bc7 Carl Huang             2020-08-17  10255  				phy_id = ath11k_get_phy_id(ar, WMI_HOST_WLAN_5G_CAP);
+74bba5e5ba45d5 Wen Gong               2021-09-28  10256  				temp_reg_cap = &ar->ab->hal_reg_cap[phy_id];
+5f859bc02c7bc7 Carl Huang             2020-08-17  10257  			}
+5f859bc02c7bc7 Carl Huang             2020-08-17  10258  
+d5c65159f28953 Kalle Valo             2019-11-23  10259  			ath11k_mac_update_ch_list(ar, band,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10260  						  temp_reg_cap->low_5ghz_chan,
+74bba5e5ba45d5 Wen Gong               2021-09-28  10261  						  temp_reg_cap->high_5ghz_chan);
+d5c65159f28953 Kalle Valo             2019-11-23  10262  		}
+22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  10263  	}
+d5c65159f28953 Kalle Valo             2019-11-23  10264  
+d5c65159f28953 Kalle Valo             2019-11-23  10265  	return 0;
+d5c65159f28953 Kalle Valo             2019-11-23  10266  }
+d5c65159f28953 Kalle Valo             2019-11-23  10267  
 
 --
 0-DAY CI Kernel Test Service
