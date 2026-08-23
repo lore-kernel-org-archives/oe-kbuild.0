@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA153101A6
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDE838CFE8
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787489679; cv=fail; b=SKXtlrYVFvs4wGLn5MbeQEUYBaRiaP5dTLhRern6IE+BaJayr5VVSqcAOtTikCWrN7ywHRnor/+dBULN004xL3I+8+h/lg8+QejnL5Jjyjqez+9bT1PTYPs4kcA0LQp7c2js9rpovW10E/01cJ3aolj2f/kqi+1+7eTe/0Qaus8=
+	t=1787489783; cv=fail; b=RVj+5KApe0OQY7qsMDNrSThKGofWhETVUYYjq1MxcqruGxKjCh3rsrZZAFu7CG9J65Bd0rQkTmFZpcepUuzYLAaHgY4dUB1QqB9HglA4le9VlGDvvNSf9vKVLmlKIzLRtgBYbmxaidM7NRg15rLlVbiBwW3CpktUlPX62ygt0H0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787489679; c=relaxed/simple;
-	bh=LVoq0OK9LImSe+csvArxkvScBi0ZKv9fj3IlojOrx54=;
+	s=arc-20240116; t=1787489783; c=relaxed/simple;
+	bh=UhyWuup72YY6LyAnfRQbU5eiG7NfShBeoEVYf2q9TMg=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=R/KiYYLJeZoe5UB+JW1EvA6mntS0kwz+b8V+OhYt/qUMxyGJHdnZdwy8VXrNL+YnaexHm1ne8Vhkrw/bYOjA+rth2PP0gxZRIMWWvoiOJJeSJhURFAYVY7jGm53t0SOPjMFt5BKVPUPAnoCXkaIE5MtS4pf9FTbb7hzXFq2NCvU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aL4cJUEp; arc=fail smtp.client-ip=192.198.163.9
+	 Content-Disposition:MIME-Version; b=QUdjEXOaPahpluQJoI1CQn/oT0kWa+dwbY3O0jcUpzuzXHiKEvpHBGm6yS/abL5tejAjynLemGeBKZD33qiI14TiH/qTcEHWx+iZWT9RVKp8KmaKdja0y97bod2HzP9IiRxxkqwDa3npQa/hRFDcME8s5HzyVvjPRfVLIfrZ1ok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCok+BPw; arc=fail smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aL4cJUEp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCok+BPw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787489676; x=1819025676;
+  t=1787489781; x=1819025781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LVoq0OK9LImSe+csvArxkvScBi0ZKv9fj3IlojOrx54=;
-  b=aL4cJUEpYchb/gQjDGmJiBqSwZ4kavqMTaK6feHlwW4Dm5uDBeZFmXEw
-   aT5ExoLdtVdeTqK0FAPSLUZDs4pcLCfivLuMK2+S9HeJ99uxe+6vYtUcm
-   eFKRVEpn6T4iexJX1XEkbAcNUCqeTD41RLezTeGp4jAZFigfWJ92L8AfN
-   5iytjSz1IcmDZGUg2DuUdSzc1PXdNjG1Afd6Hr9h6/tSlLZH6G1w8oBUe
-   G7/KIWIJVJIwCeZgO+5MqMoT//TrZ36agk94z3kA2qfKdqQeL5NP9TENY
-   7Hk4JyWomqkOSo2gZhe7qydmqRooAXKkxaBPZ0NyHuH55DETDW0mwYJ+m
-   g==;
-X-CSE-ConnectionGUID: 4QMzBSsfQW2Ac+VRBsDenw==
-X-CSE-MsgGUID: omYKa8kCQACnTBrAnM/rOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="98634215"
+  bh=UhyWuup72YY6LyAnfRQbU5eiG7NfShBeoEVYf2q9TMg=;
+  b=RCok+BPwNyMgjId4pLJmWVeQk3k7dkqaIvDoWOyWjoc9/njjSDFrI2Mi
+   qAp9NjaMVSX87N4udzszo/uynFqSY27YU7wZ53HZMblmZ4HBTCKcHRjCe
+   JTnMgoFAaHM3lnXc+EPh0RSMLOlE4bQshonRbm3TtY4BeWvJUy/bPti8m
+   FllWAgT8P9zquuO2r1eqBfehSBe7RAbR6W+FbP6NV3K8s3mI1cgpBVEU1
+   yEh/R4bKprk4D3YL7EygDBHEXfyjrosJxvE2Wq/2zk7JCRAKCGpwzwtst
+   yeQjD06q3vzxzpz+XpgGxeNKe6hIcN4f050TNYadZe1wenYEM6jqV5NVf
+   w==;
+X-CSE-ConnectionGUID: ZpmA9ajlSA2RSocz2pY+Rw==
+X-CSE-MsgGUID: 2uKJFWN1RJqD7SYOMfWo8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="105498699"
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="98634215"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:54:36 -0700
-X-CSE-ConnectionGUID: 976jP6gvSWy3rEvfcNg2OQ==
-X-CSE-MsgGUID: PnZnGtyrS7iQcNop9/lXIA==
+   d="scan'208";a="105498699"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:56:21 -0700
+X-CSE-ConnectionGUID: as5eZdGqQVug15c2V1kO6w==
+X-CSE-MsgGUID: N7dA3hBxTmyO6DD1fo+OjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="266810124"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:54:35 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+   d="scan'208";a="265465702"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:56:21 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:54:35 -0700
+ 15.2.2562.45; Sun, 23 Aug 2026 05:56:20 -0700
 Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:54:35 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.65) by
+ 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:56:20 -0700
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.15) by
  edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:54:34 -0700
+ 15.2.2562.45; Sun, 23 Aug 2026 05:56:20 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mYd1t3Vr/cgBvP+nHncuZ2an11kX7pc/Wrq+vhsT03lH5Aq5Yrla6pf89g/Z1eivt8W6rOQGnxDtJ1HD32ThUJqthmRWgFJUC5selKwjslwaIs6ivdtXGohwCvSj7og38gp1hQobccmU3iFmzR4CfID0Ktv13KJ8QlOdwFEeaEe5gBYEQ+wO9iCys/n9ZTWTTOR/ip8aPrV1qHnGrE33zjYqTDFuwukRDPF5siEvQpqvv/iump7QMsVAgyHoLLSG3PvH1IsgEDuRu6VUlEa+Bx9Y7D6SF/GM9DYH7g5f0Tei8LyEV+gSr/pCIbNjzTJljqRoIPgByi1FK8NTdn5/wQ==
+ b=pr1e4h1qLnhxYgUaUaQd/JRWiYKkwy5ADDkGSn8nbvmHetCVCCVvaSSJ28abYJ8f1SPnycO5Fxi2R/TZyzMK1F3sUxcNopbuXUMJnYG1KIdgeu3V1UiIvSpJKhVjz72o024KHeGVar3+uzJBjfGVkH+DB5NQhjiV+wm/ePiseJ3f7tHITbnH1a1UfOfW1oZZO3lDIJ9xPkhLe1+c8eecAGpMFuom5n2z+rSNZuRpr0OVm+gCYf2lZi+5XGnHA0B+JT1kfx/qsPcqK574bhdrXehYyUYadILK9yhxWvWAkpp2cbl3bK/S/sZXB34CwtwClVOKx4HNaBdN4KxXTOa+aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QS3VSiFBmlXlAlDTcF26AGZdHvdPQIzxqb7qLRKrJ8Q=;
- b=qsqvQQxXAfhK/VNLkN4SHVyaQwaGTRaLIpZGTd2Dnt7MpBeOFzDVOFM/kEscdQDE5Zsfr+jKWL648is02fsYos84CuSZP0CAuWkIJmBHIMcYbzlGD/FYqD2U46fxHRle1HVztUEkb3/IqXyC8cVHBO+Rf/07/luNYZ4Txqqyj3SGG3sBNaz4sZrIMAFoHUE008037lUEcUXoN3ysR9aG3evCu+O+NrU9b1bXkGXsyemqdhGz3d1bBDZRbJ+hUdi+cnpxn3RnxwWeATtAWkpxY/3zp7Mgkhn460pEM0wAX8lAghwmVcNLL140CMG57VpE92rdVxYAVfAhdyaBXKG5/w==
+ bh=Is6mr+kd6BLQ2CstPAchfBvb/Anv4XSCKkF/mvRdCC4=;
+ b=lEmN4z1VNUdsmEylgLnm5iTGx/FETjVOPMzBov5Xn6NHjzakwH4Wkez6/SflIZ6+IzB/YLVJ6vGipQivYnXsOuRstMWXBWMMiMA+nMCfJ5BWXImZ9RkA5y5J4QxfttuU22FRJV6Zj5hcYYxbbSHy5xoCjY7EyR2GF8AGDUYeSvDyAQANugRqJx0J08k9J1PyMgOCkSyEOXa5yYtLC+rqxliXrEOTbeWr9hnuswOARx9H/xwjDwgXZfLZ0Wwu4tMjUI8r/bXALfbOWhDphABslsNhVaSuZXkzBeN6lNFXGCTwRxFZ3mq5Tv8uyNRn+ulBRPcG/TIszQkmDQlmBfovUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,23 +70,23 @@ Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
  by SJ0PR11MB5770.namprd11.prod.outlook.com (2603:10b6:a03:421::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Sun, 23 Aug
- 2026 12:54:33 +0000
+ 2026 12:56:18 +0000
 Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 12:54:33 +0000
-Date: Sun, 23 Aug 2026 20:54:26 +0800
+ 12:56:17 +0000
+Date: Sun, 23 Aug 2026 20:56:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: <oe-kbuild@lists.linux.dev>
 CC: <lkp@intel.com>
-Subject: arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: partitions
- (fixed-partitions): Unevaluated properties are not allowed
- ('uboot_env@3F000' was unexpected)
-Message-ID: <202608221014.QJMMtcl0-lkp@intel.com>
+Subject: Re: [PATCH v1] arm64: dts: ti: k3-am62-verdin: Add RPi Touch Display
+ 2 7-inch
+Message-ID: <202608220752.IUT6F0vH-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: TP0P295CA0003.TWNP295.PROD.OUTLOOK.COM (2603:1096:910:2::9)
- To SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
+X-ClientProxiedBy: SI2P153CA0021.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::20) To SJ0PR11MB5214.namprd11.prod.outlook.com
+ (2603:10b6:a03:2df::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -96,172 +96,106 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|SJ0PR11MB5770:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76a32b70-5dac-439d-011c-08df0115ada0
+X-MS-Office365-Filtering-Correlation-Id: 1ddcfe6f-9964-4bdb-725e-08df0115ec14
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|56012099006|10067099003|3023799007|18002099003|11063799006|13003099007;
-X-Microsoft-Antispam-Message-Info: US0v/DU3kOvvzNLyYI44gM0bCfv0r+UpmatPSjxt0OY9rOWY6XoMIUGgRYVrTKFq06z/iZmVDgOFAW3KORagQIJvGFqHfZgHTkBdBqOcwrex+pyju6u050KVfzNuF+BVyL1dzOUd1gzeQqAU4SH/O0cyJG7BX6ibstRqDOiC1NgqmILft6M+0DoV8w4VJHv03guh4t6YYoEjQHvy6dZRqXOBA9uTS1KQljnTPzw/CBkmbaHCSw+OBMQIBm0qArPi4xmWJDEUDUkkPWGSkzeNrjqicVuYRmRlWITq9QrXRqw6yzAVPQR8cxDAEUkEOpE1QfSk00Qhw/DK8W120dEa4dZwP6YQ6Zeu/viX222YDVLpQNBrlwEi03LqSx1QhnoMwAPE8kCOufsnwr8hHQl7nXeJRBxXW4OAplvlapccc5Pk1b+OQmPPVffV0HC2M0WabAC2qBtb7RbvLTuCsjHJZt8y3smqV8MNU5i0cLJ20a7Cjmi3MdMSRfdDB4XdUYZMPRKt7T4JvQ+gcko5gdG2ya21ONY+H1u0cYektlasj5GzMW8127WEY8Dbxgcv/bOiKWZKUqDA5w7mX/0Lz0fIYXAR95U5e+V9VNBwILPFV4Z/qfhG+32o6nuQ39cBYEj4
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(56012099006)(10067099003)(3023799007)(18002099003)(11063799006)(13003099007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|56012099006|10067099003|3023799007|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: m3MEjiW4EQHst8cAM+h+T+auWgTdZMhRkBNdLYOtntnleREQ861t6WcYjQ+lrZsf3h9gdZI53P2N7j/ypYMQPC05xRe4TM0RpRRgTckOzQZ0tWn8vWmNL3XDA2UU7x3xmxGhIZbf3EHFZzD0Bjo1lmAA84IG35iiVR2RkNn6CiKl6kR1iuTR3vnZHcAWFFwWJsIeEpDWutKi51x5rI9CYvrp1ql4z16nB2c6+PPrJyAQPjSFiTTHaPncIvwFq8+HE5FU+oRtBnAMLyVN5Rrmib4S3xqvmKjyPMOzvyhNAXvD8YGv4KIF0f7XlvsYEj8A4bzJpeITNoKrD3CYx7Y1d7wl3RsjO8gR8NBA/WEI5aPhq7M0KEqWLwmqZlqgMS5uYisbjZr6GPrDh8kLn//685E3Ph5iAGT+NBoAXjhDC0/p/CV0ab+cSmCo8b0kV3FK00w/+xnHeY3LMHS6GetGn2OpxcazRWpomY7DTC/y09znK8PrmSdQlYoTKbAwap+tDn85egGmHLV8ed8cdaKRYIexai03KbQhsfY0L2TGVvc0wBvHx+uLk10ZQZIMbCabXo/cDZ0iaVURAPoSUbxs22k6sYVLU2c+zdnXvHx/UBuOQXEEzhBKeDyK5g59WKby
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(56012099006)(10067099003)(3023799007)(18002099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nsl2VFb+O6XQjD5C85zU9MNOFzF8EtlTUsJqXPunb9/D87191gkZg/Kw9Lug?=
- =?us-ascii?Q?lvP+y/0ltPSHsTUnWDdgVDZkJZ2xAhQTQbh1kAlpKkkoo1EHkUd37VApo6O/?=
- =?us-ascii?Q?zEpdAls3fcR2TvM7u9/AgcoKTHr+ai4V+XGyPJlQbM1bQX6yzNN1rwYg6hTA?=
- =?us-ascii?Q?bb7Tmh/ki5kNDKadqWj58O/z4nyF5wLvsoaS4KXQPiaxZIAEuygLLDWmC8F9?=
- =?us-ascii?Q?D2teVDJoFaFsqS7n4t6aXMGkhJn8uvMFUF9Z3+jDp8KNnsJ95rpvlC0M43mG?=
- =?us-ascii?Q?SQG3eJUjNm5gGVu7TwYg/oqRTFiElBAoOa9TdpnkRrkUKh1j8wUP9qaX3srI?=
- =?us-ascii?Q?YbJhm7thpTQFou/sUWVSYg8Oh8uNcZeOaSoxezd77w48fq1gA2djo6cKgp5K?=
- =?us-ascii?Q?5/LMkxqOUGg4IhZ9Te0LzXSpIOJ31tB8DT5Lyr8WKb5yvF+ykzQS62pR35Du?=
- =?us-ascii?Q?QsHXIS2mgiHb90nhtWpuYek7C7iHbQ7IWELpOuXFVV6YgCBgoBdZF2V352mH?=
- =?us-ascii?Q?iAn/FdIS1BWIzSiTdFG1UGpsQzoyNs52Hk2EgbFUgAKenUrOR96jI3PlXvSy?=
- =?us-ascii?Q?/bmGBd67Aq8hmFYIXe//0PGP1Ar4jVC3IxJmiUXhFSKSLUvkwlu26N9q1CBG?=
- =?us-ascii?Q?sNIuSDlKQDOTRPITJE3+W6MNBiRYUcA2mXDxTjEe1HJZEo4BJn0eaVNeP6TZ?=
- =?us-ascii?Q?bYeVNkgPwLbKNNiDK6hGfkJoTO2bTYMKxSQQfM+Hv8sKBY+bsdWb7Mcudnb1?=
- =?us-ascii?Q?ZGwjZoAKsp7IK0hkTTPmLs5IG7my6KrrtmIo5qVUZcqoc6hQL7Uvm6MnWLE9?=
- =?us-ascii?Q?1mTEsvv012tq1Loish6YFT4Ze95HG/bVmq3mtyoOLETPlS1aK7tTPF1Ir2Fq?=
- =?us-ascii?Q?HKL3jWw2ZjexgZZ+fcVz5PpbYeps/AVOMl9Pth3vnEpa3u3oVPWqn+1T9pc9?=
- =?us-ascii?Q?xosUVQojggu2Rb2BYD2hA9O0x0JP3pywurxq+Q/C39DzQGthhT18PO92pp2E?=
- =?us-ascii?Q?VvcEYUg0LiH8gPHw5G7ackR+8hB+UJ1nhucrRFnVCMKRbHBn06zuR8WC+3tb?=
- =?us-ascii?Q?Svv5AvFpdS0XiMKD+iTxnSOoKGhLcc6/cPNNyUKCkV+b1d53zPwoXKe/4XRo?=
- =?us-ascii?Q?Y6Tdcb15EHZe/5tTz7dAM0apPyafa+vSwgYHf7/BXbiROADwUmcov6AUfftR?=
- =?us-ascii?Q?5UXeAqGKq8iZGGO5xE+B4SAyrMuiJHOmg75GvxqqTLbNvbVU0bQULdAFs8LN?=
- =?us-ascii?Q?Fkqq84x2JcvrwQLi6YiCoLAIRZw9nWRjDkQKnTOOsMs12VLmmJ3UIk3YSkps?=
- =?us-ascii?Q?TfFeiIjA7PQxPvp66RbTT7n8s6YVfVwKvUVbN6udvApRnK4adjcPiA9PD3pm?=
- =?us-ascii?Q?YuIt8LcRyNgigcxUE1u5bYEKDNcvr25eWHcq56rFI2aqImQ4njdBdQxq9+lj?=
- =?us-ascii?Q?46sJlyM2YnJzlXRojoOMbDOTN/dTJOjzA2F+Y+aq+myZzSJzTuunm0HfGmTg?=
- =?us-ascii?Q?LRW9AN5s1+LcWrPhsFgr/n4dX/pW2rIywXqnxvdXBJynwNLw87QHt29EWANv?=
- =?us-ascii?Q?Gr+B/AyjrkeTu1SLQl/ZdNdg0NMWC7Ep7X3e9C0h3kAy8cYqo3Bn54meKvvG?=
- =?us-ascii?Q?I214fCzpVynvVsquZmRN3ro4FRd4zuHoPaNgrc882VwoknWJZYkR/Pjwi5p5?=
- =?us-ascii?Q?nDkTMSxrSRmZK5h+6lhA2gOEjs+VhbY3faDXSEONhsJVJE5MWf/bzo0TItxp?=
- =?us-ascii?Q?LLSwOkVOig=3D=3D?=
-X-Exchange-RoutingPolicyChecked: fxhbHc080yHnfhdrI9n2+svWR6SVjSF4aDJufW77k3JjeeuJzon9xfw3PIml8VNX0yiCgPzqQ5q64ET85z82aeMgHlU4wAbf/J5l+N2Ue+vZILC3RuZC4WVvBu7fAT/+P2RKOn9IFXllG076xNwvDLv4NQoXYvLayNzVQbSqW2/HIbPDqrmPIGEIPLomCvI2y6/vTpH51/5RdAAOpB2jViG3IBgcdDpwc57DcuvkRWf0zl/ZGlbN6SUyg7JvHzcEx4RbasERfVmFUfrhBogDYkXGpsz9kiQbzgi8IeZRbLt7qLalCp7/Zhws4YJ0VyDAKROPiZC64gcCepXwIsfMRQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76a32b70-5dac-439d-011c-08df0115ada0
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qjsvEIFUZSnb+eyA7rzXUnOezQ042WUlOjiaoQ/CKuQaUrce/+SmHCzQhK/1?=
+ =?us-ascii?Q?aZDN7TQbGvSI9J2EYoU2MHgyvFHm2k6xOICvXkNbS650gAAlK/38WvklkOr5?=
+ =?us-ascii?Q?7cCFQdpWhvurW99Jc571XXHuW7bkg9G95Dg/MXt8sX4huT14HnKkunkHNt0A?=
+ =?us-ascii?Q?RBuOE7/TxLII+q7TQPXnFnzNw5ynG9zvpTCAIg566sHFj+MfaSPuXQA1YH3/?=
+ =?us-ascii?Q?lvtpLAkKU8+SerGJkBlxcO4m3JhTJtEHngw3mIytuE+fp8tRgbiCKKlB2UhW?=
+ =?us-ascii?Q?yenT44gur+zMjZQDjLZh85UNHvElxMOAIFPkNyXOrdZ5ArBinMT6Bu5wxnQK?=
+ =?us-ascii?Q?3O3JsULA0ejBw3FcQuUZBAK+0XIddlh8dRw3cGVKrwzdEAfLw6lE//6Gewdj?=
+ =?us-ascii?Q?1u5dwvbIRQtswA0whn9GLatckK/29MW3Jlsqlvta7caF+J+1TWuFMiEee8nU?=
+ =?us-ascii?Q?HyCswzEhc0zArLpCkHoc7ETIzSNZRMRkUUGVju2kD3fZWISc+eeg0MzIV9eC?=
+ =?us-ascii?Q?qr6BumY5flSXFV2zaQMlyCjhSKN2VDMoL5frJP1sRydEG5oE0fyixkg37jSY?=
+ =?us-ascii?Q?mgJk0RtLkLF4gSU7on6ULk/9CI90UnZGGoITIwb9H/VIoZlfdZbR7I3iCBsz?=
+ =?us-ascii?Q?zI3wTqc9J5RILGC2g1OU1JAJownheYhI9d4a+sT1Pf8YXPMa+qkG6P8TII3u?=
+ =?us-ascii?Q?5bAn87PnGtOrF97Ti3QhBmaOeKhnH4S5f26GCNDqI0PuMcUQnbBPsO3PB4Ny?=
+ =?us-ascii?Q?SQQj342zuZTGH3TVh6jfNZn1kFq3d53oVtVnGO1lP87pNHb/VRnLjRPalD3g?=
+ =?us-ascii?Q?1EtgWwn9Ujth1FaP+CF2d2p2YNWsd2LRe0dCU1NdxD24Q9vYFJAyxEG4LOkp?=
+ =?us-ascii?Q?BX/pbYmEL6RHqcC8Q8W3XTI8bJ76gy7gAQmioxe1olR1GEqnLF9QvObZZDqZ?=
+ =?us-ascii?Q?zUfvCDmkMjUio0QHkBUC7HXXbU63AEE+//gjmQ+n5kwdSLfzzvLlk68fNy4u?=
+ =?us-ascii?Q?t1sy30nlFsIS2qk/N4lPhfhExchT2NPQHOdhcHaO0xAMOXkhHwINUhhU9XLJ?=
+ =?us-ascii?Q?d6wIENZL2x63xVU8kcHBu2IdXN1/h6asL/rK5k8WpJsAd1muSQKIhr60z73w?=
+ =?us-ascii?Q?DTkgmhptu8PFgzGLXZX6Jqdmzf09p2k6x5CcdiDlih7o6p+nK5HnH2lcnFaC?=
+ =?us-ascii?Q?gVIxbxXVGhndXSdATbyayLpq57uGzexMLtyN9QhVCUr161ozT9jRC8xYVwX5?=
+ =?us-ascii?Q?HDuOGF2LgZOtMqpleILHr8tS6GHBDB65G5udxr/bsnw3hURniPmtR+DhYNVs?=
+ =?us-ascii?Q?fIlGphed4mW/mC4qCxXBoRT0vSPgATMi7q2icvpqs7H6AcSWtrHQs4dutGl8?=
+ =?us-ascii?Q?SZRTKllurrWVjwgMIig9qFE5MsorobU3hTu5ZoTH6zL+IBJUhDDvnSfY15Of?=
+ =?us-ascii?Q?0p/1soCn6tExGmvhrIjgU8m7sslAzM4jXzK7FoI/GdqAIo0qhzhGkeUvT6HT?=
+ =?us-ascii?Q?Q+l/YfgGqblDD95AmBi3ozOV/nm3a8V9fpsE9pLv3gqtU3fWv+ByDq1qrKbA?=
+ =?us-ascii?Q?opxtvLuHWkCmVj23B6pl64Q+8LANVbmEp1o7Ibp2Z7GgFeapfGY0MnQLLzwl?=
+ =?us-ascii?Q?TujO7olkT2ItKDadIrX69mQob5KBhzDv2mw1VDn8lPwoj/GIWkRclD8CHJkA?=
+ =?us-ascii?Q?ma+Q+p+DROre0RsMc487WexPN+hr1W/R2CL8yDya2YjuG1UK+2V9ukeBIfNG?=
+ =?us-ascii?Q?G70XqJtp9Q=3D=3D?=
+X-Exchange-RoutingPolicyChecked: 4MbG224RenPLyXb4ZnBdN1qU1ZUcEv8re5wA/8lI3eg92AzsyR/htKPyOT69Wy2tMKGOGEklo18FoFeZu2fdIzKM9U+erqSdiaIuEHul4vrH73K2c+6aaAy545GMvypXPP93sn25yyixAzJFz0n0VmP9i9y8cE/D/9Yy2ezLUw9tnWv+bPoHdokEScQere/Mw17bvwRwckbkFj/H3gfNLsd9jdsA93I/DxteJfUZQsZYILqgHZCn2P4F7qS7hYMtK/wkTeRfMbV+PkJqmbPE0NzAXsMTloE2nYf+QLzi/qaHdOxYMIxoD9h9FK1++WP62Cb0CTEVE7FwmwtFu+UDqQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ddcfe6f-9964-4bdb-725e-08df0115ec14
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:54:32.9770
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:56:17.9514
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 75HnE31EdjG15vXXmO4zFnGbDQEfYEIDqbhHcY605R0tffV/PA/yYEh/q1lkc9Rit3osG9AKuC0DdkQqD54TRA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: s4/LSS87UtgqdyYU/0Ye8Wff6DKJ4OzW413WLWib9JCb95N+sxbozHHx+Mgx46I1hI4cs/wIeoT5HLgUfedWvw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5770
 X-OriginatorOrg: intel.com
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260623114329.63142-1-francesco@dolcini.it>
+References: <20260623114329.63142-1-francesco@dolcini.it>
+TO: Francesco Dolcini <francesco@dolcini.it>
+TO: Nishanth Menon <nm@ti.com>
+TO: Vignesh Raghavendra <vigneshr@ti.com>
+TO: Tero Kristo <kristo@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Francesco Dolcini <francesco.dolcini@toradex.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   26260251022fbc2f248a3d747a9b2b961b18d2d8
-commit: 6ecd7715d64ee3bf0b55b374f731d1518b57bc81 dt-bindings: mtd: fixed-partitions: Restrict undefined properties
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: arm-randconfig-2051-20260819 (https://download.01.org/0day-ci/archive/20260822/202608221014.QJMMtcl0-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project daa9d09970fed49996f42a8f7000b584f295991d)
+Hi Francesco,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on v7.2]
+[cannot apply to linus/master next-20260821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Dolcini/arm64-dts-ti-k3-am62-verdin-Add-RPi-Touch-Display-2-7-inch/20260813-153909
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260623114329.63142-1-francesco%40dolcini.it
+patch subject: [PATCH v1] arm64: dts: ti: k3-am62-verdin: Add RPi Touch Display 2 7-inch
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-2054-20260820 (https://download.01.org/0day-ci/archive/20260822/202608220752.IUT6F0vH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608221014.QJMMtcl0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220752.IUT6F0vH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6ecd7715d64e ("dt-bindings: mtd: fixed-partitions: Restrict undefined properties")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608221014.QJMMtcl0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608220752.IUT6F0vH-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-cs0:ranges: [[0, 18743296, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: soc (marvell,orion5x-88f5182-mbus): sa-sram: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-bootcs:ranges: [[0, 17760256, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: soc (marvell,orion5x-88f5182-mbus): controller: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
->> arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: partitions (fixed-partitions): Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/fixed-partitions.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-nand']
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: devbus-cs0 (marvell,orion-nand): cle: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: devbus-cs0 (marvell,orion-nand): ale: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
---
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-bootcs:ranges: [[0, 17760256, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: soc (marvell,orion5x-88f5182-mbus): internal-regs:ranges: [[0, 4026597376, 0, 1048576]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: soc (marvell,orion5x-88f5182-mbus): sa-sram: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: soc (marvell,orion5x-88f5182-mbus): controller: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
->> arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: partitions (fixed-partitions): Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/fixed-partitions.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
---
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-cs0:ranges: [[0, 18743296, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-cs1:ranges: [[0, 18677760, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-bootcs:ranges: [[0, 17760256, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: soc (marvell,orion5x-88f5182-mbus): controller: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
->> arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: partitions (fixed-partitions): Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/fixed-partitions.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
---
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: soc (marvell,orion5x-88f5182-mbus): sa-sram: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: soc (marvell,orion5x-88f5182-mbus): internal-regs:ranges: [[0, 4026597376, 0, 1048576]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-cs1:ranges: [[0, 18677760, 0, 4294967295]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: soc (marvell,orion5x-88f5182-mbus): controller: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
->> arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: partitions (fixed-partitions): Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/fixed-partitions.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
-   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+>> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev-rpi-display-2-7in.dtb: dsi@e (toshiba,tc358778): ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml
 
 --
 0-DAY CI Kernel Test Service
