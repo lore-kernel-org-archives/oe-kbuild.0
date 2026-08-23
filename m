@@ -1,90 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722F4368D67
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:16:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90FF3D3324
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787487365; cv=fail; b=E4Ibdi2HWBxCb730JD9vAAmGVUu9uP0is9HS4dCahA3YgYd10/FE+Zg0jm/HrD/KoCF0YaOxAYyG8G2FRkSnKm9ZwUW9N+X7c4L+s3FI6+SVM6Ki6j8wDAoGMoZT91OM4uS3nFvCI+QI95tVEVy+645PrEt09UEhes/c6b+11wc=
+	t=1787487509; cv=fail; b=kp+htW6mWMw4VxnhQ3KCnQVcua9b5cFbxL52tXxXQF/wN105h9LdLVuNARDV0KAGxZ5rQeDejAb4XUTtpCmDF8pt0JAnLHvq30esJCYpliv41BdC0gikT9/WbhNiibfij3C8wZl+W2AIrcgss1+ITKhJyaxTzceb+JrENLU8m/M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787487365; c=relaxed/simple;
-	bh=92GMpvalGztUWwfz4eMfTYfSMd0rtNanitzsW4E6lu8=;
+	s=arc-20240116; t=1787487509; c=relaxed/simple;
+	bh=MwGM/R8BJ/SyAohTjK4mpsmDGtzZM2Yt/fqUH/iOdPE=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=jrPSUGeHFS2/UlXN89tsMnKD/ZRB3cvP0KI3Xq9j/wCBUZ1HxV970+WvFrAeH1EEsqD2VBF0KxUHN2LKMeVLq8rLttZ3x1+r0jRlIlmawBcFH3YVROCDPE68uSYZjsUudYztevcul6HBAQ87YlgfL0bx0+/UFwnOb6jB64iJNXA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv7T34Dg; arc=fail smtp.client-ip=192.198.163.11
+	 Content-Disposition:MIME-Version; b=TKCrtuXHt/ua37hMwIibIyEypNjmL5OPgg1nrMyPOkdG+5ah0RhZzZRZPSjmILGrd3sKwQEmh6VCM21v7kHFFeITzaBRHSrbudSUqrHnsKQ49PIDPB7BHQqcPrE0M1FNWLiw4jerBzcg1OnALxRXZt8SCjfgUvs+Q6NGIO+nH3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nv8sZQFq; arc=fail smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv7T34Dg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nv8sZQFq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787487363; x=1819023363;
+  t=1787487507; x=1819023507;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=92GMpvalGztUWwfz4eMfTYfSMd0rtNanitzsW4E6lu8=;
-  b=hv7T34DgTi8mRSUxlQu8iXDUGvTzz/FhkQWD3SiH7dKi50jZw9EpxRFT
-   bG5wzd4/2pyNUC+Au8HgmWjBcH82SjF1G9G3ueDXRnXex8fkmqTBqq+j5
-   DOD/y2DV3/Qj9hZOK48yfIiJLjQYdQobKJHSiCSzAAVeqTW4BMjLaRv46
-   CFBZHFB/cpM1LIhtobgwLdB4Zp7xVylrvJPhyqx9YOpoXP9STQppqjFFa
-   bujYwFC+EVG7QNeCpdeW3X1eCfL4+4Yuh+/Nmz2wqFEHAg8RbDafNdeVS
-   uvjDRPvKLAwoDDVoVPTD85xids0PKOxdPRji3j5/5u1t/IOUiunPbyTIs
-   w==;
-X-CSE-ConnectionGUID: 4qXlW8kvR7mhTEy1VsergA==
-X-CSE-MsgGUID: sKbLsfMwRZi1fLqXtsDdtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="98551809"
+  bh=MwGM/R8BJ/SyAohTjK4mpsmDGtzZM2Yt/fqUH/iOdPE=;
+  b=nv8sZQFqOiHtv4LHUHUOIUvFk4p4LZ/sa2wpP2P1PSTu+JE1R5xGnb8J
+   yvwh5dzhjC7vtojGZgtrGZgzrDA5qGSXfrQHyaNn6HxXVgQa20qQSUryR
+   jINwmT8G4Y0vd6YsoPYTnbRY3IufBERlDZ3FDdMQDAnklK0VLOHYtK8Gh
+   4r5gNb4uXpG8MUhO5pECSzKL57T0jkq9VBktVu5mzVB+/jjK4lVaMcqB1
+   SDFeNbz+cqFQKHX7DOX3GJwXGxn4OD7dso7rholMHgiTL/jZTjK5UpQuO
+   GUuOghAvgMoEz2N4FW6cR4wtk5IgMOuemCby1sqGMM4a79YB6Zfl54Q4V
+   A==;
+X-CSE-ConnectionGUID: h0En/npWRfCKPXbg7A/5jQ==
+X-CSE-MsgGUID: VsD5MO6KRE2WbUh3Twqv+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="88089196"
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="98551809"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:16:02 -0700
-X-CSE-ConnectionGUID: OEpOOIA/SrKF68zUIRfQ7w==
-X-CSE-MsgGUID: Vd0yA18jTNS2sFWb+1hR1Q==
+   d="scan'208";a="88089196"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:18:27 -0700
+X-CSE-ConnectionGUID: eMRjVLvvQJW3iZ2Jz604Jg==
+X-CSE-MsgGUID: YTdp/TxqRxOPGJiKR6KLYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="263059030"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:16:03 -0700
+   d="scan'208";a="260603663"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:18:27 -0700
 Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 23 Aug 2026 05:18:26 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
  ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:16:02 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:18:26 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.69) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:16:02 -0700
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.24) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:16:01 -0700
+ 15.2.2562.45; Sun, 23 Aug 2026 05:18:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rCV3cMZa0o9WCcKXONPACoVRHghWH8VpPfe+iHgQ6t1LmQAkzY9bETONSO6YNLX0kW3QhtL8yDsQ1B6WuyldILp1jU6OBjaGIkjiAwSayEpXV8wk/gu7WNxmpTNJ3O11A74s+PajV72kKygVgoJQPwNllPb+RrIp7jsUkmrtc2CMxm/DjYkqfMTRqUyK5zcwnD+LsQOwCPHzylQb9RUl+rvLFtikwU7mmKxC/z01tZO8Zf2gZ4HGoJy5kuW3PfH4RFOOQcYLgisYjztVJ+gbFZiGxK3EXV3XM2T4X7OF9W2wmYY6wrG50AQhymIEaLHosfubKer5r4edGLVx7CKSBA==
+ b=ABZR1EyJetLZ4iilzYKDf9MvkZ75HyMZd5P/YA82SFZVGQgYB83MPQdrACJWstnLjMNiNKf1L5NgvSo00Qe6ueHT0uPM/7jx2JQH988yrNhv1ZE7/8rgoGCrgsgYNblrpSqNQ75r4xA27SM4XAGutawhDoIUffHPkHZF7FKsvvB9qZ/xzuEL3/3dF3r5CHIMxjOvCVMpfwRcDGjDQKmgP2hmTWcqT3AK/Lq/oV9XwJKfHsUXM1WK4zRsWmXXFZyninEUMxqxv3WaCN3yjLHDTxLKw8GGEeHm1paAlDyzo4B2kdgsSjltarsWeMEeTgLmJtXizp6KDbN7Jxi4WwRHGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vvGtYpxKtPzLXN8wmdlJMDW6frxmxsyF7BKRhIQz+/c=;
- b=PCU8gq1+gQeo7Abg6F2DN4LcJuBoAKk0tX4spG+/aSs1zjjZJtJXhULq82a+rIrqfAEH72mDJfxfQqjwdcF0fZuXMYESi/RQwpCDCjNJ0z4WnTvyMTE8GrWBIwmoAwJvpdKfczRyj/Bii7t0qABTO6GVR1/Q86oVElw2QKKbJK24fJNzYDZzOQNeCwFRwFuP//9MOY4nvFQhzBAlQClU44Q+cECp+XDkIe07O1kt2AqkEast8Gjo2u2j9r/2MVowglB/6TiaFS2uLAnEQv2HBUwHEWSvdFfgpdDB4tioURF1xKKyV1/BVc9LG5s+n2cIH4iccgaGc8biK7PNaSjDOg==
+ bh=WSnNg2fa+U/oKYeqM63NfVG8DqSibL3JkUAwsMdCBt8=;
+ b=MP4KIRJCrecyQfGoiZVTu9HCDIrsp3uCz6uOy5+ios6/bk4Xjm9vfJ8viJ6fERlhWLE9qN7sJ1WtHC/wsGObj88sezptA92cuc6GTZ0Hkv1DGDKQ4LhtWfAiAUG8cJeRB4P0txPqBlGZgJnJE1DXayoKsjkjkOI9KnM6t0ElO14jSQ5sW9sPJt3C/R6+izeVj1JCisF4YOuWUb3VNkOv4duvu8Cz61utl0c94FBnd8p2hVeAB9ezVGtc9ScLoTeaswMhFyGuNSEkyzLwMsOmMpN1Rk6u9nKzgpqw2jLLctwx8P84S1ox5o+nPu31r/ePwflZEB/T/BGb8zSsmAh8Hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
- by PH8PR11MB6998.namprd11.prod.outlook.com (2603:10b6:510:222::22) with
+ by MW4PR11MB7053.namprd11.prod.outlook.com (2603:10b6:303:221::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Sun, 23 Aug
- 2026 12:15:54 +0000
+ 2026 12:18:23 +0000
 Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 12:15:54 +0000
-Date: Sun, 23 Aug 2026 20:15:47 +0800
+ 12:18:23 +0000
+Date: Sun, 23 Aug 2026 20:18:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: <oe-kbuild@lists.linux.dev>
 CC: <lkp@intel.com>
-Subject: Re: [PATCH v2] async_tx: use the channel-switch Kconfig symbol
-Message-ID: <202608230650.oZ4LyTZ0-lkp@intel.com>
+Subject: [cilium:bpf-keyring-wip 6/11] ld.lld: error:
+ vmlinux.a(arch/sparc/mm/ultra.o):(.kprobes.text+0x84): unknown relocation
+ (40) against symbol __flush_icache_page
+Message-ID: <202608230402.ZTgVeqDk-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: KL1PR01CA0152.apcprd01.prod.exchangelabs.com
- (2603:1096:820:149::20) To SJ0PR11MB5214.namprd11.prod.outlook.com
+X-ClientProxiedBy: KUZPR06CA0001.apcprd06.prod.outlook.com
+ (2603:1096:d10:30::16) To SJ0PR11MB5214.namprd11.prod.outlook.com
  (2603:10b6:a03:2df::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -94,132 +96,108 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|PH8PR11MB6998:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9e40867-1021-457b-6d01-08df011047f3
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|MW4PR11MB7053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d1cc131-d709-4a85-3bbe-08df0110a06a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|10067099003|6133799003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: Rofx/iIeONiquRT7dTz3BORrCP4LfqeI3nMuQgZN2o4E0TYoLf9MR28BANBrTHU4Y2/iNcQuU0FE1HqXnI2IWYkjPWP8/ENpGx8S8fDOvJZdfJ4d/BmpmHwTgCHUZn4NPoQJYbAtn4c4DU08Ix1oZlmZBIW4eUMUDKpG2YVeTnGN0V6kqi2VBxH7qPxU1WPwDnHQsQZy0I7VYza07EEAth+OQQU0rQGnSCg0iFmOd5GwTg0N9g5BYVuBjGLPu6pwOrKAiiVumhWq315f33dR+pO34yT/CgDzv7/dyQhTeG9B/Moz1vLjOnUjzZah8a5sSith5BVcdOs2E5waw5q7GYBwnuIvvLKQGHIdRS9+5g7yQb/+qjWJfoDUhV75srSdaPAoGRrgMsoO7KBSABeRXIwsrf6p/2pPWAb1farBiQb24EtwGgAbVUSgxYg2ZlNboSmAel0VoFQ6awEO3Km+wqYLuRBEz+rPgtDkEouVNKEnvgcCsFraSbnV23g5pkpGq99Wh0XKVKbfrZL7AHdV60/SosP8YHw7qd6OqtyyvDcNZbpZtLkR5g+GO1TGRZ5c9UVSue3bGdO0e6Wg38fswghP/s3EbfXjwKL3FifcxGVyzbQXomeapUSnwJmouOnf
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(10067099003)(6133799003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|56012099006|6133799003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: Dg7AlwWr1oGOl0uUzUN7X5I2UNOC6kSyCo1UGNaeR9izAev/V5xdEd6vIUdSgNbuQhcghwsmmu44XYJ4dcDHA8atUevL6v7EsAK0REGEXoaqEMxI03sXo01MT86dXduPcOw49bFibCYpIAsgomzcjntitRzhkx7CFD94xdR5HV9EZAkBQuC6xHwf6GOJ5ev9Ny38Bk+cGyC3MJRNY4Sek1UcxRdpj7PJTQB4Up81VCSiTT/Tz7Avzo2uDD51+hJgUoHBqZiwnbtXPPbUSsetTeTNOtacThxeG6Cex+5WdvcVxOistpPjfWUQS4Ktg4dDlFljjfemF62AIWDpCY/+L6f4udFEnCPGfB2Plon2kySDEHAFz2nBDCoAwRrqc68psvSKeagGqbobtRwsohR+aB+xx1UmL/AAjuLR09iS8sIngM9Le+ymO/R5xJcoNDTmWX6pPLK53MbVAFJCnLeoKl+ddie2K5ua51uyj4lbtejnv0I7VCAV9wyYXVy9yUVeTPOfclcTw/M9Tkxw1znPieoOimNryLQi9SL8Aa4YayFWogayCtIAsQsCz5LIkIjeb1xo+NaHIP2psD+Oz7JUUbQCfdXZIDh0WGvtDBQRdYGeuEBv3A1AYn6FadDHBAq/ASJ38rtSQrt1YYM9FFaY4SZKBDnBpFxCQRCOePB8O1A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(56012099006)(6133799003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?59E1hUj9nXs/yqKMVqmYZlHdeuuFlNRj6g5tXAWIYN2VleJb1x1neJriATa6?=
- =?us-ascii?Q?h+4VBEqA2Nl04xTBd/Tpcz436TL13yu00MS6t44oDXVY9FMCjUk7lLweYxir?=
- =?us-ascii?Q?HUVEbbvwoqedJjZ54jTsw1fYra0De6B4vqXeuHElhaVwOyfVFbca8BYCg4Ie?=
- =?us-ascii?Q?ya8KjPMMbhDX9NJpJbTZDdizRqjPL5yGoOQ/IpOPdqDbbjldpPZKZj7lyVfx?=
- =?us-ascii?Q?L0MGPsg7L8WxpOV/+fpLxAy27v6BEn+bR+YrxybcQfHcjypY1JdkaK1Lldxo?=
- =?us-ascii?Q?gBcpedt8N+dxlmUKWX3L/AnaJUPkmPnYn+/tqAL2Wp/a9f6oHVxPCPR9CSdH?=
- =?us-ascii?Q?96Qq+7r4BK+GHl0G0Azi3zQ2bYGWeBkjqwyZ3x+YknlBqZM5xibzj4lKGGe1?=
- =?us-ascii?Q?ns7RkhMq5utbOjb4TSiQbX7TdqL55EUi+ivMHtyHd2uX/HsQyfS2M66LW63g?=
- =?us-ascii?Q?bWVE0L//2RXbhLxNQ8c1g3JpKX2ryx6CFsCa/LVrIv2PAkMxWBol6ld0M5zf?=
- =?us-ascii?Q?UFjm9mSk1BRv+AVHhIlyLQqX/lYAKufsN9Clg4zMmYdMJfdjydtAGJ8lQ/j3?=
- =?us-ascii?Q?4eC/9SWcfQsoKvd6Gfb51nC/O8kEXBhXrE2e+Nstxw00E0tLsm5D9NnFJsre?=
- =?us-ascii?Q?d6/7XfbEpC2mR6SCjWyNIeiJSUp8eDbdsm32j7J3wWiOACTGzdXO8RIEKWLB?=
- =?us-ascii?Q?i6vfaS3OuUJ/te7oHNDrGVgEOkQknC9gGXy3dZZAAdhIDQw+eM3S9uzIIdI1?=
- =?us-ascii?Q?HAUeo4w85jvIUWhk7EDeF3cafI4KL/GhzzUiZ/3Cib42WfcakAqkhzIoZoHT?=
- =?us-ascii?Q?JmV4TltmY60/NJPU6+xgLe2GWZkj62L1TmKN1HBLG6A+hfbfjnwxIA+MNbMr?=
- =?us-ascii?Q?tjCncZm5P0+J0xKUnT1ZzYsRb+X2ncwzfh0DUSPsjC7g9iodNDH3RfuR5Woy?=
- =?us-ascii?Q?k3UuV/3UuAa/vQ3l/zK5YEwHaGSqCnL9QyGn3v0IDj+VSMu+9UzB78VSiqhd?=
- =?us-ascii?Q?fkCqFZ4jVE1DsjAfCBRvey6AQD2MM7nqBs2ZHJTH2vCdIIXyDR2bivbAxuvR?=
- =?us-ascii?Q?tnIxXckqZ0ZlzoDckXDFgnllnHA8BI/JExiT4PEbKUMKYqx5xSeHW6RZVHPW?=
- =?us-ascii?Q?qLv7UM+R01AesFTPkL7r5a4Ys94aKMa0SCc9VtdbhcrFp8w09szNKDASIL6K?=
- =?us-ascii?Q?66tYuG6HS5wIEHUd7MQMFZ3g7Wqu8BoDxPHcj71SgRqRpvLA7SERqEkIsgS3?=
- =?us-ascii?Q?avxGktsg4gEPfiUA7NUjLdUllL8rgIdjnB2e9BuNMeQGLmrBNZrhyhR9lzpK?=
- =?us-ascii?Q?Vyz6jw2+GJYqIhI8yBw4mTd+y+3sYuocx6irnabDm+Y3a+x8rki29fIOrnRt?=
- =?us-ascii?Q?NwM+Ldabe2Bvil+XLxmXCvn1uXuBn+Njphvg3qv/Sa/faeH8wqpM4G69L8Fz?=
- =?us-ascii?Q?JwuO7sD8ZE8sBpaXkqhnh51pgXmCUkMpNoNgcMc18S2IuuiuDMONYzQBLrRB?=
- =?us-ascii?Q?6lDpdtvYyjLhVyoKcz92JOfKDDUOGvy77IMQlJ/GO5Mki9IwB3J/mjzqrIRJ?=
- =?us-ascii?Q?ZkcCIKtOJo71YEI67rXV5eH+QW5fQaIwafGR5kThKvzpEctNCzrM64Bh8Pz8?=
- =?us-ascii?Q?J0KuMIWK99RJAxaUh6N32B2c/EXz3erp7DxosQ7JbCMFFiABpNuBjmCrLmGI?=
- =?us-ascii?Q?5MSKEjXEUYobjFq1uWaF1AeTBRNnChQdc6UR7Xn/5n6SSg+8v9b9UsKLFitb?=
- =?us-ascii?Q?ZSlegNClDw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: jpP5obHR7g5uHR7XJvYUI25kRyyco+clEhJu51rq+Bd5wSMJyjgNl3gSE333OESm1PtOG9GQ/7g+MhyLqrl3N/2F9QBspTCIEu785pPblQx9+Kb8nKmh3aBfU8xyh0HdTPd9jExniPAdHcQCMJ/ltiibJqXjumO+GNcaTlJ8OuL6+pdxWJv0vtYUaikCTpSKbb9UWcv5CitNlr+hCik4cSDi4nZyc4RyJ8jPN+D7PeuVhIHmcV/bYfKx4S/zv3ho3usQhc4mapDsAWyCFRDvtFe33KNpmFRWUslcOOM712VwIBWshpnJPA8XmkLI1tFxY/hnSC2AxsWjDVCasjjMKA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9e40867-1021-457b-6d01-08df011047f3
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XJFNCX3kluUtEVoWe5cYq7wcb+9dyuSIZF2GpIhKLIUVED1vd83Abdvbq0G8?=
+ =?us-ascii?Q?PMGHC6cYNxqva/ulLOuq+NpEyTQkL0jYMc+RV4GqtluAsUgNc1QBMMts5UAq?=
+ =?us-ascii?Q?KHcYBaYajJFojUTPvNCppoYFB7uf179dpZQjsS6GSlBfegmdWyXabok7pmSd?=
+ =?us-ascii?Q?Qjlmk2Zay6fBzpKrsRE42ushkiOXucGGt0WHi7nKJJYpupF8GO/OI7qMWxDR?=
+ =?us-ascii?Q?BNptoJoIChqBnP6CIwbc3+QKTZr/rVZLiQBf40690gHE9yT3CS1r0tqvMPFp?=
+ =?us-ascii?Q?HHb0YXUiwKXeOpdqBdxUtpc6MLwywvcDSswnx0atyYnX8Zf0MDHpHfu/xAsT?=
+ =?us-ascii?Q?Gfe1PBMx+R3maA9CMRv+UeZ5kXDIngbm1a492duNQ9rOYrg83HaiXQEDaL9k?=
+ =?us-ascii?Q?+WfRNny9CSjHcnAJNQDSp0v0kH3YWplsMxPGxL/qwMKSeasvaYvFEndNPXnk?=
+ =?us-ascii?Q?sZGM+lWFDRn03PobQ22H6bqOTHUlcn1LW0Db02K8CyyrVqKYqymHuFVUoyoL?=
+ =?us-ascii?Q?ziig1uqDK+BrP093wws+iRR+KTmu5jJGlcRCUUauZf0qKFVNSYrMiEM0T9Os?=
+ =?us-ascii?Q?1bLKzUJ6QxyssCc+Fm2wTQjKKHyw0VDLBPqlP4Z46F6+rLS7Pwik0Rou1jDT?=
+ =?us-ascii?Q?1dizbBJhKGzM5+fTEz54obU60bZP3S1KEna9sbe9GN545DKcKoopxs25VE3C?=
+ =?us-ascii?Q?ksbbf+NeobAbaiGdnaBX+MpnJiYrwa90/WXH7qDau/yd8S8NeyjsiU06zoYn?=
+ =?us-ascii?Q?cLIbarh3oUiTnW32r5FNrxVW5ExKkEai7QMZLsP2/cDx0cgDI9z7zYKhnU15?=
+ =?us-ascii?Q?oX29Png1ZK7pE3GEe+naptsMNP2Vdwzuv6kp5KUAksv3g1Rce6aHjX3ZPSTP?=
+ =?us-ascii?Q?pj+BTncpyWHmgr9W616tA571DZnLlQTyz7Kc3WG0o1YGvRGXMJR9rRlF+a3Q?=
+ =?us-ascii?Q?n6LamzxvGnOeVgzwQe40gP6IdOm2boVK1gp4vJBuoIeBUB14YncpV7pcukkM?=
+ =?us-ascii?Q?+sP3r03LeB80imKdk/YsGhrcVe6wb3AJOhqWznAoStxppBj0FC46lUJIECBS?=
+ =?us-ascii?Q?LCP2h36NWj6AJK8AYVpa1I3CY/JBn6gHe5VVZK4zW+tQX/O5S6DKGxuazOuf?=
+ =?us-ascii?Q?UXs4Zd/XRitOx7L44j+xolGvLSPyUzyXjGg99NWjHKKNqrFS8U7xMwsKwLqL?=
+ =?us-ascii?Q?cWfIf0m3XpwSJ/L31XT9/dCb+0v+vXfAewJMFSDA+2Iz795ggneZbaEHNHNX?=
+ =?us-ascii?Q?Ecbs7CnNDCsAP1s2Ge9A8HZ0O+4KJmFFGUg/fzGA+xraeG0EamQaVIsExELJ?=
+ =?us-ascii?Q?9dpIoP3M+1oHVc1TI579hbxUjzoPVyCLTXwCyTlmmKbx1z4Vv5GVDCPmb/is?=
+ =?us-ascii?Q?iZWCMkiC3gUsT5o7yXw86iaP1fPU2QDQIyiIfkiwnk1U3tB3vYc33ypzw0QO?=
+ =?us-ascii?Q?CBnL1AKEgZ/XRA/AWKm4KbZpwCnEy1+Ki0hkfVpHAZpmM+YPcQYbDOhCW6tU?=
+ =?us-ascii?Q?qM5fSh2/ij8PZ5rC58+Zbi8VHu3V0bm5CcU5vpBiwLBco8sAHh5JzRTrtp7A?=
+ =?us-ascii?Q?ctCuApC3kSgaAwYnKUN5c2aydDj9hK9JCZaw6TZU/ycjIfEookXps5zFL1K3?=
+ =?us-ascii?Q?K1z9ewY/I1gxjNZt+vsFBZUTDzIOnKcY3B2c43AIfy0NWGWBK/u88CIWVS+n?=
+ =?us-ascii?Q?PwDrMt8iAeZPCWgkGt/8dhx76RMI+29WLGB1pUMr+aN4KRPUynMTzvM5QYQ9?=
+ =?us-ascii?Q?8EYKorhVMg=3D=3D?=
+X-Exchange-RoutingPolicyChecked: nk2slzzYWsjVXn/M9rYbHBq38BnkSlvA+9Za125G9wgKt8ZrxtxnEfISuBZfF4oS7Qa/PGn25yx+FmCRj8ZmgNfmXhCZEceiTlOIj45NrNorC3obWLYipCs/icQ3WfjLQboGzScGD9MYv3wS+9sCDHLckpICEUqBzVvi2zYE0IP3XJBkEI7pX3VJ1S5XKSihHEHGAyMaorzmTwk5KA1yHeQ+hdefYfoBuqgPsv2BLE25PLooAWaMdqMZINCkIcVfB8UCkM+5XJ8S5JYotkZnenHfm5pyIvKqgocPblvQUlF4aOwSoLSnIcpVakbWj2TxuubWw0AVTrTvFTTnVYQZZA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d1cc131-d709-4a85-3bbe-08df0110a06a
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:15:54.8940
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:18:23.4980
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2As2w5fusMSB38vKuYAkdEFgY2pNux0zzXHuzuXR16hglM+k4+4KnQeBU4UbPj6H41YSl1mv9OqeKccZOlcw2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6998
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7YKfBaIw5Gg9xAuBmZDhg+Sj2G/HneJUQumtopPHbmMrGKsMXAdQjxsu6U6Oz3eKt7RGzYfNy/01gSPVOC+VzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7053
 X-OriginatorOrg: intel.com
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260814075403.13950-1-pengpeng@iscas.ac.cn>
-References: <20260814075403.13950-1-pengpeng@iscas.ac.cn>
-TO: Pengpeng Hou <pengpeng@iscas.ac.cn>
-CC: linux-kernel@vger.kernel.org
-CC: Pengpeng Hou <pengpeng@iscas.ac.cn>
+CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Daniel Borkmann <daniel@iogearbox.net>
 
-Hi Pengpeng,
+Hi Daniel,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.2 next-20260821]
-[cannot apply to linux-review/Pengpeng-Hou/async_tx-Use-the-channel-switch-Kconfig-symbol/20260807-091006]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/async_tx-use-the-channel-switch-Kconfig-symbol/20260814-155403
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260814075403.13950-1-pengpeng%40iscas.ac.cn
-patch subject: [PATCH v2] async_tx: use the channel-switch Kconfig symbol
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: sparc64-randconfig-r053-20260823 (https://download.01.org/0day-ci/archive/20260823/202608230650.oZ4LyTZ0-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608230650.oZ4LyTZ0-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git bpf-keyring-wip
+head:   c3a7c75fd39b016fbd75c9b2043d843ed14fbfd9
+commit: 83733c89959d62b34751803b63de558429f99ec5 [6/11] selftests/bpf: Rebuild signed lskels when signing key changes
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: sparc64-randconfig-001-20260823 (https://download.01.org/0day-ci/archive/20260823/202608230402.ZTgVeqDk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608230402.ZTgVeqDk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608230650.oZ4LyTZ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608230402.ZTgVeqDk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> crypto/async_tx/async_tx.c:43:1: warning: no previous prototype for function '__async_tx_find_channel' [-Wmissing-prototypes]
-      43 | __async_tx_find_channel(struct async_submit_ctl *submit,
-         | ^
-   crypto/async_tx/async_tx.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      42 | struct dma_chan *
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/__async_tx_find_channel +43 crypto/async_tx/async_tx.c
-
-af1f951eb6ef27b Dan Williams 2009-08-29  35  
-9bc89cd82d6f88f Dan Williams 2007-01-02  36  /**
-47437b2c9a64315 Dan Williams 2008-02-02  37   * __async_tx_find_channel - find a channel to carry out the operation or let
-9bc89cd82d6f88f Dan Williams 2007-01-02  38   *	the transaction execute synchronously
-a08abd8ca890a37 Dan Williams 2009-06-03  39   * @submit: transaction dependency and submission modifiers
-9bc89cd82d6f88f Dan Williams 2007-01-02  40   * @tx_type: transaction type
-9bc89cd82d6f88f Dan Williams 2007-01-02  41   */
-9bc89cd82d6f88f Dan Williams 2007-01-02  42  struct dma_chan *
-a08abd8ca890a37 Dan Williams 2009-06-03 @43  __async_tx_find_channel(struct async_submit_ctl *submit,
-9bc89cd82d6f88f Dan Williams 2007-01-02  44  			enum dma_transaction_type tx_type)
-9bc89cd82d6f88f Dan Williams 2007-01-02  45  {
-a08abd8ca890a37 Dan Williams 2009-06-03  46  	struct dma_async_tx_descriptor *depend_tx = submit->depend_tx;
-a08abd8ca890a37 Dan Williams 2009-06-03  47  
-9bc89cd82d6f88f Dan Williams 2007-01-02  48  	/* see if we can keep the chain on one channel */
-9bc89cd82d6f88f Dan Williams 2007-01-02  49  	if (depend_tx &&
-9bc89cd82d6f88f Dan Williams 2007-01-02  50  	    dma_has_cap(tx_type, depend_tx->chan->device->cap_mask))
-9bc89cd82d6f88f Dan Williams 2007-01-02  51  		return depend_tx->chan;
-729b5d1b8ec72c2 Dan Williams 2009-03-25  52  	return async_dma_find_channel(tx_type);
-9bc89cd82d6f88f Dan Williams 2007-01-02  53  }
-47437b2c9a64315 Dan Williams 2008-02-02  54  EXPORT_SYMBOL_GPL(__async_tx_find_channel);
-9bc89cd82d6f88f Dan Williams 2007-01-02  55  #endif
-9bc89cd82d6f88f Dan Williams 2007-01-02  56  
-19242d7233df7d6 Dan Williams 2008-04-17  57  
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/urtt_fill.o):(.text+0x74): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/urtt_fill.o):(.text+0xa8): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/urtt_fill.o):(.text+0xbc): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/urtt_fill.o):(.text+0xe4): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/urtt_fill.o):(.text+0xf4): unknown relocation (41) against symbol rtrap
+>> ld.lld: error: vmlinux.a(arch/sparc/mm/ultra.o):(.kprobes.text+0x84): unknown relocation (40) against symbol __flush_icache_page
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xccc): unknown relocation (41) against symbol user_rtt_fill_fixup_common
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xcd4): unknown relocation (41) against symbol user_rtt_fill_fixup_common
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xcdc): unknown relocation (41) against symbol user_rtt_fill_fixup_common
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xe04): unknown relocation (41) against symbol etrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xe14): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf04): unknown relocation (41) against symbol etrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf14): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf34): unknown relocation (41) against symbol etrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf5c): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf70): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xf90): unknown relocation (41) against symbol etrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xfbc): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(.text+0xfcc): unknown relocation (41) against symbol rtrap
+   ld.lld: error: vmlinux.a(arch/sparc/kernel/head_64.o):(function do_fpdis: .text+0xffc): unknown relocation (41) against symbol etrap
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
 --
 0-DAY CI Kernel Test Service
