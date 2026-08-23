@@ -1,66 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1633D45D5
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA8C3D45F7
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Aug 2026 12:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787488174; cv=fail; b=SQtovD7CdAYKtiZ+L2gU2x/EyOxZ36OJNqAf9yzg13xEOxRf2AFfZWRSxGW45WlW83RNbPWGvMFykIXi58Z4GiW/H6iLmk8A9VgescIXu+rVp4B01NlRUzeQc1kiYtKTSLqJZK5IdYrtMxLkVOutWVbz/Yj3f/9MWr64aftkadM=
+	t=1787488209; cv=fail; b=UuRCvhs3vpfptNf76v4oaYgQg+xuTw9xKQfEWVXyJ8ks9LhHVmeIgE2NwIQWPtcuzVKL9gV8ENvjSUWFgV48FX6Rkf1bNlq3dChcX4P4qhTkPIceIKki+0MNMly4TlhkQhY80SdCcdnpkF7CSAvWhq9CjHI/ToVXYGthRDe8Fe0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787488174; c=relaxed/simple;
-	bh=wtxEGIdya1F/fH4t+3qjh+oVC2lHKGXXjTtprH5NQXQ=;
+	s=arc-20240116; t=1787488209; c=relaxed/simple;
+	bh=+q72uHRqhMwa438C4zyvHMdrcBIwtM+C8oJlyZPowJw=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Ee3Lku2ubbeCJTqBUj57zzxVKDzbd6v6XGT6vjG0M3iiELTyamV5m7YqIefALiKxaYTrLKGyP43zNDsHdRcJysrZUpcHC22YOEt/p2nGK2YzAd5nfs6O42c2sFHjtOiZuKhRCwRF2VxQpBXVglfW1sNh1YJqAbkejy2cW86yWKg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LeuGyYIK; arc=fail smtp.client-ip=192.198.163.14
+	 Content-Disposition:MIME-Version; b=QZS2F4I7UJhPVf4aIHiC55sduX9HR709mxIS7zznjApXzhgqNrt3wQQysKW4uHHY1zX6nX9mygtdZ4plkvrTGOlovS9nIQHbOujyxAd4SY3TWL2UgPz9nXrhNgQsuFUpNwFrZEO9t6sFxX+jQNNJyo9Q+SQ33DiV6XfmdUG88k4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6wPx9ON; arc=fail smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LeuGyYIK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6wPx9ON"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787488172; x=1819024172;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wtxEGIdya1F/fH4t+3qjh+oVC2lHKGXXjTtprH5NQXQ=;
-  b=LeuGyYIKs3m3z81b9YCLxKBftHU85MBLIUf6kEwr9JVPOt0ipk2Gz8VH
-   2lnvjgkvFbtfYD0+gN70qbwy3HlHP31/wUf3lFk78bXk9iWg+161trfvX
-   axI5koH6OvCoqAG9tlQ52L9gmxJ9lUr1QI8S6k/T0l9cmWmpxdoH7Xzmh
-   0p2ER4GDJ7cawducHO9h8lgGAACkmPU1LCi2GNfXpBU9EZ5mm5X1QwQf4
-   UKpkm4hdMmpF/B1vt9E6wwePy9Bw39h1Q49u3cns0n5AKNbOfiE4i8uin
-   sLd7WwMVF1RUOV4nIihk7B5Quk1assRrD8u+P1fAVHbuFtAMoJQXBz4bn
-   A==;
-X-CSE-ConnectionGUID: chfadOR/ToS1dRU9C6qK/A==
-X-CSE-MsgGUID: R0Pp1ub7TCOV5yNAvBgy5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="87981895"
+  t=1787488207; x=1819024207;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:mime-version;
+  bh=+q72uHRqhMwa438C4zyvHMdrcBIwtM+C8oJlyZPowJw=;
+  b=M6wPx9ONnDgtZVBojyoSZAQqxFpf0URpCPxyvbTEkhbyaaajPyRy7+My
+   I3doaNIja/Yjc9UXjGhvmCUFYycO19GmQEekQURxSt41daGzq9tBvKvtB
+   5WVq4DOPZrZXxkSrlMZ/3r+n8m1tpiB5Mtb9+jcYdK1Idgasc6VC5a5Xn
+   MFvZPLWd4Hz3o4nNQPvwoN2LTWgFTcAVCCrRgkIR65aQseg76GwuTeHQa
+   ww790dY8Y9rtjeFMN9WJ08AzvX0KqSpCbbS+p0qS+PLqFCh55/a9qg2PJ
+   4B3HwZz6CAki+LZUYC+VzICZsBSAHIvbedtU+pyJs2BgZILXQK6Gb5MLX
+   w==;
+X-CSE-ConnectionGUID: 9nYQYpkjRHSX4j8bbxjAXw==
+X-CSE-MsgGUID: O5afKJzzT62yixItNu6zow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="87981905"
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="87981895"
+   d="scan'208";a="87981905"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:29:31 -0700
-X-CSE-ConnectionGUID: pC5hnODNQLqn6U4k+R8ZYQ==
-X-CSE-MsgGUID: 1Vz+ZfrwTCGwvUho9PDeTg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:30:06 -0700
+X-CSE-ConnectionGUID: RLPIOroURSuFuzTWUeR2Zg==
+X-CSE-MsgGUID: Sb/5Fw1bTNSgMj8xmFFyew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="304954865"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:29:32 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+   d="scan'208";a="304954961"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:30:07 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:29:31 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.2562.45; Sun, 23 Aug 2026 05:30:06 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:29:31 -0700
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.67) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:30:06 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.52)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:29:30 -0700
+ 15.2.2562.45; Sun, 23 Aug 2026 05:30:05 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OEcJec2o4K7fM+hKS6nbkkAZF5cCeFqgNOglIkSHr3chVO0IeHEgrJaGnt3YUuA1X/jrO/YSQKRBZaBY/0BbV5JUH7H5vgoft3YD6782hPfLkgIfFsxApmqwci0la+u2qHvpkRWv2/CPp0q+PnE9VQiTWG0+NyY4aT4cOcDSmA1q360KWBDgHNCFNGyMza/YV0tBdlk/7Bt5mikKmkPvp8HvpXvsa1L99IQnk5e4Pzd/iGZcbvYBEGG1NoUD96FLUM+1tUOqn1LwidmMpNMExa8jMYEFCCQvQ9IVN6Df6AFZ5TgbyRZH9zPbo9LaOWnFRiMt+il9eX0zqgglg4007A==
+ b=tpyhhIBD5SyS4rNS7aZQdkP74ibgptTelgYMkv3rMteJ8zTaePcugfFRFbTXe27N2M6eCd5huccTD2/sDN0FuyjpGSOElv5zNt6yzF0TVdkUtgVOOrJtWwJIqFe3PHmhwBezfcuCJWKW6nMR/O6Mf6KhKIzzXy20yUKAaOwYU/XXRNaPUidsv6QRXNRpTAVNZ4COeat6RMIApyU9AhR864piGrdtuaTzexom/olart7uFJzrgfYmJcQKbJn3tn3OVUgIL1WTTS2kQ+3wLk3vNcm/bE0tKgRom3oT3JJ3a0jaKyl7NXiCRa0GPsJpt/8Fr7mMgpVrSougRazhJwMRNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UTamq65fhDrSQI9aMpTRwBMwAqa2l+5tishpaqbWzfA=;
- b=d9F1pzdCasYdbafIVQGrdrSyyhg+9MkN2zA04H8EK9RP+0zhUSxN46aV8KqYzdb7jNAPOgXHkIHkpGyWTFBzPwXssuXJuu4tR8fDIbOqEG9yceoNFglSy2RA1erpt0Sj2xFhnPUeK23513mm9wbnyWubw/MOd4wkBv1iUuHZMy29JQ7SSXCmo6uhjWhw8wrZnYuU+4rsGbD1wQ18WPlnXT2ON+usXYXVMVfymllNkT4x23G6lcYBOJzDjYvhdBtI4SDXuNTgwe91WkoNplpszkHnXkBurEk2wXzUnlEd2J5I09afxEuVdDaTQUwkhPoAk0P/n6HcjhltNjo6KgghVw==
+ bh=TEg/ZsbT0TJD88UrNih21kABAVXqSCGxcrFQ5BFeh2I=;
+ b=VBsf58uznvtU/61xDyfoDoUU9amEGicGd4Iwu1s3iMWQy0eYB/LOUDSVwDNJK/oX5KKYRzEV5el3c5djEZP8nwnCKQanZIO2vShZq3lM/zJ/ei9nL0QWGUDEea6UYaSyxllix6hVqpUA9jpfV2HOm8edIc7MsqEO5P7/VFDH58jRdSs+bo0j3NDE0JSo0t1iE20l3FtqwDqcuhVQRVyNzp4EqanU9p/eTcsxaOIJm2iX/0eyt//LyE9MV8LUJJ+Vx3q/12coSw4zGrfn7/aXpIsWUb2MF7yH/z/12/F78AtuiTurHSWKfzV5JuiCrlM1RzqgZLoc3gwsZT3Vu8rOzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,23 +71,24 @@ Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
  by IA4PR11MB9324.namprd11.prod.outlook.com (2603:10b6:208:569::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Sun, 23 Aug
- 2026 12:29:28 +0000
+ 2026 12:30:03 +0000
 Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
  ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 12:29:28 +0000
-Date: Sun, 23 Aug 2026 20:29:22 +0800
+ 12:30:03 +0000
+Date: Sun, 23 Aug 2026 20:29:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: <oe-kbuild@lists.linux.dev>
-CC: <lkp@intel.com>
-Subject: [asahilinux:tbt-reset-wip 31/36]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/cio@381ac0000: failed to
- match any schema with compatible: ['apple,t8103-usb4-acio']
-Message-ID: <202608221636.6B2KUVYY-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+CC: <lkp@intel.com>, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH 1/1] KVM: x86: lapic: update apic_base and APIC ID
+ together
+Message-ID: <202608222154.KilWZhsr-lkp@intel.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-X-ClientProxiedBy: TPYP295CA0011.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:9::6)
- To SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR06CA0013.apcprd06.prod.outlook.com
+ (2603:1096:4:186::18) To SJ0PR11MB5214.namprd11.prod.outlook.com
+ (2603:10b6:a03:2df::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -96,124 +98,170 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|IA4PR11MB9324:EE_
-X-MS-Office365-Filtering-Correlation-Id: dee5dd6a-4c2d-4d5a-3370-08df01122d0f
+X-MS-Office365-Filtering-Correlation-Id: f722c9b4-ad8f-4f7c-3916-08df011241b0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|13003099007|18002099003|3023799007|56012099006|10067099003|11063799006|220923002;
-X-Microsoft-Antispam-Message-Info: ZLWh97+WWxoE5fj7ra8/wRBEb9pXp83eL3ncoOmy8NYeft5+Q1/D+cX2kAR5qSdE4DpDfJ8dUHycUqV9i6QMbcgb2hKPBBK2n1imBxSGlwtq5TwL241TsMeokFDws7Eg/DNFZjCR9IGTS4VYB7insGptF3p8tBAK1isZwXORBxfT4BIf8YzCIMR0uitljGsEOxru0ZudLt2Ylz6sT+AyYLuk+ZFgvR8j66vCazt7808CkagirMMR4xpr4noxkmIyOSZ44aChla1bppgfCwOOINSCtms5WngWLws2eSHPaproh7YpjJ+4jPNkXolVhokUNWZlp+9gNDQjliU5/eXxKXW34tQmZYMz8p4mxD41OINjTyhYnAP1nRzO60/HOkJgdg3lvpqHWxCzAPFBHHo1L2QJRaL7wfRADO+uVn0laSeYdO2wHMW+tAbV7km06hmh438R++2iXhJ9ygB4zXG18GifeAbjR9aTkp/+Ra323pwhJAsoYyAPQA1reP4YpjyOdyc1cz3btFscuSzNRu7WUYuS9p0t6gW3nDAZhRMIRDJ6JW34DABrPsF9cNOdO4ggOjkDwH31bOydkMuocdfSm1hPU03VduWsNLLARqYKfru/PzCfXz8rRNAyt1vIDwZU5FVXKPfcgMYgNszXl2nPXGOxJj7yr5snfBDgC8cmyho=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(13003099007)(18002099003)(3023799007)(56012099006)(10067099003)(11063799006)(220923002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|18002099003|56012099006|10067099003|11063799006;
+X-Microsoft-Antispam-Message-Info: w93mpD2VkGXlqkG+hg6PpWRVE3ZQ/rPaCxcbR5tNUNRkv8fsXHLOBlJ7NdOi50ZdWDeWoaK/wf+ZHZCjVuMDRAILETmFGLe31/lZnmagQB701Y58iTXI294Wq87xhZkdlfd4GZBa5o+yenD8Ws2nwOQJ3h6aajSx6j9I6QeG0LhMMHAVaZA4bKOPo0BVhh0O5CoG4qUUhXQUSfBec3Oz6G8kLGKJvAxqGC44Eo9HkG4I6b6pZZexSFn1gFK2UMg34wBRdxZrnRD2s+ftvEJPCJ/URLmgv/Ijmut9UKFkThmK0ZXdih7lG0gI048r9TwbFNzk5O0YzfsCtoUmJjcegFyv0eVdMOhW7EzHUs44jr1EKwr/f6FiHdck2xIC7X6KRuMk8upeoo1dznFBx65TReV9ogCMHp6gERz7k/blpjEalAzYkh5CGEn1o4Om95eS2+GU3fapRyIbM9NNRe53b+5FWHo6FkoIpeEbFsLqmjip2VeBJQizYUgOvuU9aRNAUzumVnaV5eKMtsFW1JlS/2SHcfIusd38A8i9nscY434vCo3t3YIyD1mIjXI+V/yD197EN1ZpxqJI9xxzqauq83e5e+16bOhpSr95Qc5HfAUPDAKfE138o7tcs5FEHGN6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(18002099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZsHnvAwNAqIcgHLEbyZyLlXkhquAgZ798vfVs5YDk8mfWvr3Nm42xyKWajHp?=
- =?us-ascii?Q?CzBYs5NXRwOumYYJHYNJnuKaHucXk7DfaorkXZbK1ImZsWQKlhYdc4tSdJ3Q?=
- =?us-ascii?Q?tz4xoEzGz/qMUd/Fx6OghShKQDltPSXWqfRg8aY0+EAucGkJF/xH8shzh3HZ?=
- =?us-ascii?Q?O+1fvNfvu7ETKn1E3M9GdbziQlgKAAv/v20oPvmcZngR35fb2Vyy2widtaoq?=
- =?us-ascii?Q?Hr/elH/mZ9Q4oYvRQEW6gbMqQPkkl26PL7XqGbcXzwp0Gviq5a9nOuP+twkd?=
- =?us-ascii?Q?YSVUrNBJVojD4cV5yEZd/LYj2IjYQr847zPu2oSbhahEbKCz4YE8ZCJQZa7w?=
- =?us-ascii?Q?49iKJxMCPV6+PWVGECZWpCJ+k/usMYkBrZe616YjRUAMOGKoeyDefWFceMLw?=
- =?us-ascii?Q?7y2ATMPu+aVuNKu8nepgcVgXrqIjKBscB7ugQd+hkKtFTeLpPH8v6c3GaFDx?=
- =?us-ascii?Q?31a177YE8FhT5clfM3f/ktGOIA1d/iOgX3LQ4O2vva7alNarVOdov+/N8Io7?=
- =?us-ascii?Q?JiBsz1DnlZevPDXU8FRzyfCToI3WnBk5tDalhqNF/Co360pL934HtTraJX86?=
- =?us-ascii?Q?npci8qLPYbif+VMVb1O8Y78eAv2BR/b0X2OhKWDeJ4dykAnB/+d8uosfxLO5?=
- =?us-ascii?Q?hFxT5qXQdEjQI7kueeQuNFa9/jQkRucFDN4DwcBSy3U+ISZ06FhFKN0Ec5Ej?=
- =?us-ascii?Q?fmfT2ptQs0jUmHoZ22B+jczJcaTkQHzFXM7lT04OpFwiE4eVlV4mPuRJ11m+?=
- =?us-ascii?Q?jIJbxV4LlKOADFgdzW1IjH/ZrWyJaSKflwWO1RNCF7/nu2kzdjXnTjpNng4B?=
- =?us-ascii?Q?sUYPs4jzWhG83DsgFJXF59VROB7Y5kmVOOvbYq30sMAWRpsSGbwJzB9dWtGb?=
- =?us-ascii?Q?PCzhEs0sXrrT9kCAalrd4ml/P/Gq6TzG48Q6j71yf/TtMH1t8cVFkcC45Hba?=
- =?us-ascii?Q?k9iuoK3hysdHsrkqJelFzNIg6V49kRySG1xqShnaJuRHkyQ9EoJmifI8FdNU?=
- =?us-ascii?Q?4A0hz1iGB6SJdwLR9SyTIR0irejywKcF6HDOu4qjQ5RJnRbfXz1O+/aUFiu+?=
- =?us-ascii?Q?FQNIm1gSLOwckjAfi3KCQcgTsa0TX3i0usZ/xwsErMlxV9QSJugoLHlHnMWU?=
- =?us-ascii?Q?LTlQV8QSh5jj41CqbP0/9Eg8lWnMkFP8kvJHyYTodqZsZETQOaJCU/TupR/q?=
- =?us-ascii?Q?esG3gGd09pKVIkE70QeTJbikrD/wDd14CEX5mJBsmTC6mGXbMzwzYaD+d0W6?=
- =?us-ascii?Q?s5xxNvyvFWe3hXQyeMpKTjFuvkwn0DD0FQ5YFue3wbs4ML20i8RMYS1qb6Tm?=
- =?us-ascii?Q?S4XjoXoDUYgiqMjeTZMHV4Ls5ZIhmlIsIxQfwzlEcs6jY/Z7/0Ks2Zx+0cmm?=
- =?us-ascii?Q?2gg3sqDv37x5bsZHXWrlOAU0waPmEP07JQvlPg9+DEirA7jCYN0Y+yHmh0ao?=
- =?us-ascii?Q?Xa461IcfrehgV0flmBs6RDnKHEoX4SbZnXH0TVjPBRz4so3+XYI+6b15Nf8P?=
- =?us-ascii?Q?u0pb3xVHo2ONk2WW9lDNHKscSpmTiOFF+4Icrk51trQRZrhKWexrC8pH/7ls?=
- =?us-ascii?Q?L0/NvCV3yWe4rdnIbo155qHo5vxA7UwF8Ql68WLqBX472pfSbsyjeauOIwsI?=
- =?us-ascii?Q?HwahG5Pow4Lfr0oskXRWA+OHA8ISLKl2ATni0+lYIP8WPKG6kN2VZswYlKa6?=
- =?us-ascii?Q?MNnS9ww9R9th3ZJ/LXHaKDImoRVadX09hxFtHy8oimwrFiy3XQybsODp12Ze?=
- =?us-ascii?Q?sHW9sZgrfA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: WIdQJgpkZ5JQqe2NYFueWBd7VWkYgNrLXfQMhj0R25q8ySdD2jOzLQZtGovI71utSOTNILsoDCquNwNTqpL5qiuekqYfQfKGCW+5Yf2l/OvLSpby6RBJo1rgO9f3sk/SAiDvryBbOdFcWgjKqEx9fbVONIrhK8K0fh8Y969XqZZHT+uky9OiwoQjDw9byWX6c5fI5GQ+wAKxa7OaLdhwz0kRAVxH3WgiX87TzUV+yd+Wb0Zw+YQEUby/1GvSaGGMMyrIx5CSo2JPDhtxvg6/W73dpFRFxTQgOyM3ULUI1tpbxnk+JRx2ge5ddMost4mluYhrQOGLmu6/VQ7wrEKRRA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: dee5dd6a-4c2d-4d5a-3370-08df01122d0f
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MTE3YlA0VlZtUjJYY3dvQ3Ntb1I4Q2QzTGJsZGFlN2U1bjZRQmJYUmJBeEpr?=
+ =?utf-8?B?VTBCUEgwTEk1S0N2MTlwUi9FMGh0WlV6amVxdndidGR5VkpuVmRMMEpmWlpz?=
+ =?utf-8?B?eHhJMmtpNWNVR1h0SmF6cVc0eWlaR2ZtNFdENWNXazlJeWxmRDNZYU9lam8r?=
+ =?utf-8?B?QVNibXMxNFp1OS83R0Q0aU13bEhzcWpZaWR2NWd1MmtmN21PWU9QSUFjZHdH?=
+ =?utf-8?B?c1FjeWhEQ0FXbWZqWkJGakFjdDdJRXlmK0ZBWmRhYUVSZWZoRGNGMlU5NG1R?=
+ =?utf-8?B?c1FNdXV1MXBaOEJCc2Y5cmxnOEt2QTUrT1NXbzZXNTFoMGk5dlN4bkRwSWFM?=
+ =?utf-8?B?NzcrUXhjMFprNFpRK1pZQlE1SmtOQXAvVmUrekIvWDRaVElmOHAzaUdFTUNr?=
+ =?utf-8?B?OXNneEtRR1ppemhiNzZDSkUvNVFvNGx2TStkL2JJMm1vbmRqN3lEMjVyY1p6?=
+ =?utf-8?B?QzRtRUxHWEJBNzRRczVia0FpajRpVzNPejh3Y0JNa3YrOW5GdWp6Vk83QlV5?=
+ =?utf-8?B?RHlDaXRGbXB2QTFBM3BGeFhMTlRiVTVhWEtNL3ZtaVhqWWFnY2JUWEh6SmFI?=
+ =?utf-8?B?aVJyMGtOZmZGbEN6Z3MvemE2aThSMndZc1BrQXQ1QzNzRmMwQkV4V25GWW5k?=
+ =?utf-8?B?ZndTMFk4bjAwUEhUR3hDV3lFVGxGS2xqTFRYa0ltU1ZLYk5lRUx3Y2E0bERY?=
+ =?utf-8?B?TnJnbXJzNjBlVVk3dXErcVZ5MjE3eVBSVUozQStockhjUFI4a3JWSytOU1BX?=
+ =?utf-8?B?UWtTdThZcUhkVmd0Q01ENTdKbjV2ZGlIU2hNYWZaZHBMdmJwckdqSm1oTzNq?=
+ =?utf-8?B?TXpwYXM1QUFEMFpleVlScUE1cFUyVFZ4TUw2UWVmaEhBbUFvKzI2TzZPZ3F6?=
+ =?utf-8?B?cmNJZlA2NEcyYVJ3eHdaaE5RWFo4OForbGZtT3ZEM0R6RnVxSGlKeFZ6RlZF?=
+ =?utf-8?B?cWNMYVNzQ3JubkE0REZleWZqSUpSRDdmWTVEcFQvUGJ6anJxblVEM29UZnRm?=
+ =?utf-8?B?dlhQL2hiUU8zMkxzU0Z2ZjlRanZzdHc1UmZSUUREWE9ZRmg3OTh1WnVtdmpW?=
+ =?utf-8?B?ZDI4NGFxWktzOUQrWkxCT3ZXZDZBdm5wbC9penNkT1R0U2U5UGVrOHp2dEFq?=
+ =?utf-8?B?N3dHc1VUZjkvZmVrc2VtZllPOEhNZ0JGS3M2bnF6c1VEUG80Zk5TQnlFamhH?=
+ =?utf-8?B?ejBzQ1RxWThoNWlOcFF0b2FmSFhkcllFNHVQZEZNc3dDOW9sZThhc212OUhN?=
+ =?utf-8?B?WGdZeGtiL05oc3BiZWpxbTdlUGZ6ajhRaUlBeERPQmdjaGdWcy8vaWRrQ1RC?=
+ =?utf-8?B?UkF3UzVpaEhmVDl0NEZGQVg4aDdsOWdjbW9tVWRBZWtNeTRSN2FFcW9lek1o?=
+ =?utf-8?B?WEUrbVIzVjB0aitlSktDM2g1LzBDb1hwRllFMHp3WWhvcGhPbU9TcHp4dks4?=
+ =?utf-8?B?TklkS1lPNm5jMHJrLzhtcHRONlZtVWJCNEpjMUdHZm5kcTArSE5BOEdOcE1V?=
+ =?utf-8?B?SHZ4QlRyZkZNTWtKNmx0UnI5dWU5aExhZFBOQStJSTdpSGpPOWFoYVdCemox?=
+ =?utf-8?B?T0RLSENpbldxbXFMZ000eFp6QjRKaHMrM005dXAzSnhCY3dPTE9Ga2ZxeTlW?=
+ =?utf-8?B?SEdRcjVVd1hSUzBoQ1UyN2RkaG9JUDdHRmtRRDNHWTFpRFBucXpacVkrUU1i?=
+ =?utf-8?B?VmExUnZ0ODMyUWdLYm45K3B5YnI5a0FKei9QZzV2RTJ4bTBtWmtFTXRkdWtR?=
+ =?utf-8?B?RnVOc1ZLUlQxZDhrUDZJNEdGVnlqdkwrelBZSTNFbDJKTHU1cm52U2RRbDRK?=
+ =?utf-8?B?ZUpFK2pIY1FXdFhxUmV4UFVNazhvb3Q0SzNxK1QvMHNsaklzOHp4TmgybkVE?=
+ =?utf-8?B?SnJtQzJhRGdBU2gyQStZVngrVUMzcFB2ODUyOG5CYUgycmcrYWxBaGEyTmVX?=
+ =?utf-8?B?MGJoK3kxWmxPU2MyZnFwTVd6Y1ZkcWNhWTRPT3pPMDdXUFZmUGJtcmRBdkFF?=
+ =?utf-8?B?ZmZDU3VNOHE1ZDloeWRWdHR4TU9takIraVhybXJxMks0U2MzSXpDS1lJYUp6?=
+ =?utf-8?B?ak9jWWRmQ2pMdUxnRUpJOHpsYUhUbHVBNGdvcmViZUowOUJGZkh0R3Zjclk4?=
+ =?utf-8?B?alVNcTJDbzh1cHA3b29aZjh6Wi9yem55Z1Q5SGlCK3JKNnc2SVAwQnNJQ1RF?=
+ =?utf-8?B?UWw1QzZtcTJRQUliODdvNDNqU0RsZlhjSnhmT0Z3cTk5eCsxTnA5WHRWT3Ev?=
+ =?utf-8?B?bnIyY3VwTFZqNkJRQzRlaXB6ajNLVVI2d1ZiVmg3M05CV1lJQWtNKzdVYzlh?=
+ =?utf-8?B?WGw4d1YwR0hvOEh2OFFIVWErYXE4L2ZPemxhRUg0L1IxandMeFh5Zz09?=
+X-Exchange-RoutingPolicyChecked: ekh2DMjgoHx38tUP8Ia6vKkJFsD5Gwracr1e8x8w/bZ0MmFSuA24PsKXEj7e4nMLWfK+9SoNa9MLhfhFpmpD17uQf+PMzsM0UmoEkBSOR5Q6sm1Y33up2fMqeqnIVckzwXDV2V4lhQot3P5cbsUdzlrovI1r7jXcjLjuxx7am9X11bvlT1i8KjZ15YQwhbdbifYBkQCAg3AJDA1xRx4t9cNixnyNH5nO3MU1sCJdXGWQgcpoYdgU9Ol8YNWr/a6Op9G0deh+2/tv1CnkcBrCkoj5syv7Kz0D+Y6wCrlM9gS7oQP95ahWlWNS6Ng+sKDFi6tFKhMNW2tz4Rps3atLXw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: f722c9b4-ad8f-4f7c-3916-08df011241b0
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:29:28.7745
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:30:03.3720
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: njzuetk7wbpM+3YqcP2JCOH3wkmHEcYr5ywpF+UiGHya1r4jv7a4/eyYrcsNv+9uVIL571UKl4+QmUu/gqtIaQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: QCXNZv7P2pcBjaCanY3tn2hSgyNhXMzv7F1JLlv97YsWTXArRUrw8+LvFCsl8aqCeQH7+0XLdZJEtBNg5u69TA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9324
 X-OriginatorOrg: intel.com
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260818234238.618158-1-dongli.zhang@oracle.com>
+References: <20260818234238.618158-1-dongli.zhang@oracle.com>
+TO: Dongli Zhang <dongli.zhang@oracle.com>
+TO: kvm@vger.kernel.org
+CC: seanjc@google.com
+CC: pbonzini@redhat.com
+CC: joe.jin@oracle.com
 
-tree:   https://github.com/AsahiLinux/linux tbt-reset-wip
-head:   f42b9fb4248a76449873cb91cac2696aa1df9818
-commit: 8506afe43f6ba444922fa9e457a0e9cda2b109e5 [31/36] arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+Hi Dongli,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next mst-vhost/linux-next linus/master v7.2 next-20260821]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongli-Zhang/KVM-x86-lapic-update-apic_base-and-APIC-ID-together/20260818-164238
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260818234238.618158-1-dongli.zhang%40oracle.com
+patch subject: [PATCH 1/1] KVM: x86: lapic: update apic_base and APIC ID together
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: arm64-randconfig-2054-20260821 (https://download.01.org/0day-ci/archive/20260822/202608221636.6B2KUVYY-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project f39d58144cb1dd40c4135af6ab2ff17ffa3d902b)
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608221636.6B2KUVYY-lkp@intel.com/reproduce)
+config: i386-randconfig-054-20260822 (https://download.01.org/0day-ci/archive/20260822/202608222154.KilWZhsr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608221636.6B2KUVYY-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202608222154.KilWZhsr-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/cio@381ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/cio@381ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/cio@501ac0000: failed to match any schema with compatible: ['apple,t8103-usb4-acio']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/cio@501ac0000/nhi@f00000: failed to match any schema with compatible: ['apple,t8103-usb4-nhi']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: nhi@f00000 (apple,t8103-usb4-nhi): apple,thunderbolt-drom: b'\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/lapic.c:2824:2-8: preceding lock on line 2816
+
+vim +2824 arch/x86/kvm/lapic.c
+
+c7722e5e1daeea arch/x86/kvm/lapic.c Sean Christopherson        2026-05-29  2800  
+7d1cb7cee94ffd arch/x86/kvm/lapic.c Sean Christopherson        2024-11-01  2801  static void __kvm_apic_set_base(struct kvm_vcpu *vcpu, u64 value)
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2802  {
+8d14695f9542e9 arch/x86/kvm/lapic.c Yang Zhang                 2013-01-25  2803  	u64 old_value = vcpu->arch.apic_base;
+ad312c7c79f781 drivers/kvm/lapic.c  Zhang Xiantao              2007-12-13  2804  	struct kvm_lapic *apic = vcpu->arch.apic;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2805  	u64 changed = old_value ^ value;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2806  	bool apicbase_enable_changed = changed & MSR_IA32_APICBASE_ENABLE;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2807  	bool x2apic_enable_changed = changed & X2APIC_ENABLE;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2808  	bool apic_mode_changed = apicbase_enable_changed || x2apic_enable_changed;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2809  	bool need_lock = apic && apic_mode_changed;
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2810  
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2811  	/*
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2812  	 * Serialize apic_base and APIC ID updates with APIC map
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2813  	 * recalculation.
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2814  	 */
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2815  	if (need_lock)
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18 @2816  		mutex_lock(&vcpu->kvm->arch.apic_map_lock);
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2817  
+e66d2ae7c67bd9 arch/x86/kvm/lapic.c Jan Kiszka                 2013-12-29  2818  	vcpu->arch.apic_base = value;
+e66d2ae7c67bd9 arch/x86/kvm/lapic.c Jan Kiszka                 2013-12-29  2819  
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2820  	if (apicbase_enable_changed)
+93da6af3ae563b arch/x86/kvm/lapic.c Sean Christopherson        2024-12-10  2821  		vcpu->arch.cpuid_dynamic_bits_dirty = true;
+c7dd15b33707e9 arch/x86/kvm/lapic.c Jim Mattson                2016-11-09  2822  
+c7dd15b33707e9 arch/x86/kvm/lapic.c Jim Mattson                2016-11-09  2823  	if (!apic)
+c7dd15b33707e9 arch/x86/kvm/lapic.c Jim Mattson                2016-11-09 @2824  		return;
+c7dd15b33707e9 arch/x86/kvm/lapic.c Jim Mattson                2016-11-09  2825  
+c5cc421ba3219b arch/x86/kvm/lapic.c Gleb Natapov               2012-08-05  2826  	/* update jump label if enable bit changes */
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2827  	if (apicbase_enable_changed) {
+49bd29ba1dbd57 arch/x86/kvm/lapic.c Radim Krčmář               2016-07-12  2828  		if (value & MSR_IA32_APICBASE_ENABLE) {
+49bd29ba1dbd57 arch/x86/kvm/lapic.c Radim Krčmář               2016-07-12  2829  			kvm_apic_set_xapic_id(apic, vcpu->vcpu_id);
+6e4e3b4df4e31e arch/x86/kvm/lapic.c Cun Li                     2021-01-11  2830  			static_branch_slow_dec_deferred(&apic_hw_disabled);
+2f15d027c05fac arch/x86/kvm/lapic.c Vitaly Kuznetsov           2021-04-22  2831  			/* Check if there are APF page ready requests pending */
+2f15d027c05fac arch/x86/kvm/lapic.c Vitaly Kuznetsov           2021-04-22  2832  			kvm_make_request(KVM_REQ_APF_READY, vcpu);
+187ca84b4b02d8 arch/x86/kvm/lapic.c Wanpeng Li                 2016-08-03  2833  		} else {
+6e4e3b4df4e31e arch/x86/kvm/lapic.c Cun Li                     2021-01-11  2834  			static_branch_inc(&apic_hw_disabled.key);
+44d527170731c7 arch/x86/kvm/lapic.c Paolo Bonzini              2020-06-22  2835  			atomic_set_release(&apic->vcpu->kvm->arch.apic_map_dirty, DIRTY);
+c5cc421ba3219b arch/x86/kvm/lapic.c Gleb Natapov               2012-08-05  2836  		}
+187ca84b4b02d8 arch/x86/kvm/lapic.c Wanpeng Li                 2016-08-03  2837  	}
+c5cc421ba3219b arch/x86/kvm/lapic.c Gleb Natapov               2012-08-05  2838  
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2839  	if (x2apic_enable_changed) {
+052c3b99cbc8d2 arch/x86/kvm/lapic.c Emanuele Giuseppe Esposito 2023-01-10  2840  		if (value & X2APIC_ENABLE)
+257b9a5faab584 arch/x86/kvm/lapic.c Radim Krčmář               2015-05-22  2841  			kvm_apic_set_x2apic_id(apic, vcpu->vcpu_id);
+052c3b99cbc8d2 arch/x86/kvm/lapic.c Emanuele Giuseppe Esposito 2023-01-10  2842  		else if (value & MSR_IA32_APICBASE_ENABLE)
+052c3b99cbc8d2 arch/x86/kvm/lapic.c Emanuele Giuseppe Esposito 2023-01-10  2843  			kvm_apic_set_xapic_id(apic, vcpu->vcpu_id);
+052c3b99cbc8d2 arch/x86/kvm/lapic.c Emanuele Giuseppe Esposito 2023-01-10  2844  	}
+8d860bbeedef97 arch/x86/kvm/lapic.c Jim Mattson                2018-05-09  2845  
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2846  	if (need_lock)
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2847  		mutex_unlock(&vcpu->kvm->arch.apic_map_lock);
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2848  
+a184b36a549d15 arch/x86/kvm/lapic.c Dongli Zhang               2026-08-18  2849  	if (apic_mode_changed) {
+1459f5c6b8b8df arch/x86/kvm/lapic.c Sean Christopherson        2023-01-06  2850  		kvm_make_request(KVM_REQ_APICV_UPDATE, vcpu);
+896046474f8d2e arch/x86/kvm/lapic.c Wei Wang                   2024-05-07  2851  		kvm_x86_call(set_virtual_apic_mode)(vcpu);
+8fc9c7a3079e2d arch/x86/kvm/lapic.c Suravee Suthikulpanit      2022-05-19  2852  	}
+8d14695f9542e9 arch/x86/kvm/lapic.c Yang Zhang                 2013-01-25  2853  
+ad312c7c79f781 drivers/kvm/lapic.c  Zhang Xiantao              2007-12-13  2854  	apic->base_address = apic->vcpu->arch.apic_base &
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2855  			     MSR_IA32_APICBASE_BASE;
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2856  
+db324fe6f20b0a arch/x86/kvm/lapic.c Nadav Amit                 2014-11-02  2857  	if ((value & MSR_IA32_APICBASE_ENABLE) &&
+3743c2f0251743 arch/x86/kvm/lapic.c Maxim Levitsky             2022-06-06  2858  	     apic->base_address != APIC_DEFAULT_PHYS_BASE) {
+3743c2f0251743 arch/x86/kvm/lapic.c Maxim Levitsky             2022-06-06  2859  		kvm_set_apicv_inhibit(apic->vcpu->kvm,
+3743c2f0251743 arch/x86/kvm/lapic.c Maxim Levitsky             2022-06-06  2860  				      APICV_INHIBIT_REASON_APIC_BASE_MODIFIED);
+3743c2f0251743 arch/x86/kvm/lapic.c Maxim Levitsky             2022-06-06  2861  	}
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2862  }
+97222cc8316328 drivers/kvm/lapic.c  Eddie Dong                 2007-09-12  2863  
 
 --
 0-DAY CI Kernel Test Service
