@@ -1,111 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A72641D129
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Aug 2026 13:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEE93264F9
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Aug 2026 15:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787576902; cv=none; b=Klj1IRFTkaL56bQUBxixhqvrhMo49TZsQUutMtTtasQy6KiKTBeprQjSjm+rQz23dl0oGKPnP7hZgGPy7pMxf+YUnL6Zpj6OifcoGazQ8zD9uZJkoCcgfEYHVsL8UfPp/okHXd7RGaTNdlNr12No65G08Gn97b5LdvUeojW6RIM=
+	t=1787584440; cv=none; b=Injh3cB4DP1sD8abMrZeYXPVqL21BXQfRqreF2d/bP2DWpqQUDI9Tz0En3kiLv19UtF7s2j0IPHz09a+GK8Pkt7nCCu+/a+g9AuwwwRRLIzu05kg6siOF0SejIllGvd1G/P7wcKef+PtYcLVNxOEAMbWvbPa65a7H5glu+iMfBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787576902; c=relaxed/simple;
-	bh=D/28YAe1ptQdKEQ285j4sgcFLdoHgymuVALCem931s8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DyRkEeT3KfZ+9+G/jNxldpWIbzCoKMvhdjswJmWUxup8GFelu/cXs/dEOxo7NgABO9JmUSMAEjhmCeGDG2aB84K84gh/DWIw12iMZGobZ1INxsRaFp8INYLjPPPVI1nprhqXCvAYm431wVclnpk+RHXoncluYE+mccusdBR2d7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbKqXUT/; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787584440; c=relaxed/simple;
+	bh=yG6cmFv0WkLQGiBTJ+3pySnKO5g64Qry8fOp8y1HC2M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H/AeQ6bdtJRD/uhaQYy8fiAMa6TUsZykSwmgqFq0bM9XjFV4ptQTB6cDe48G8XvXHJ53Jr/kjrxMDceRtllI+4/cZuxt3ZMwYs+wx+MWtvj9qFYqulRrClWa9zPiEzq9cOvyuNnGN3DZY1ac9zSAKo/zbytbS3TIt/znGRLIw+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgwfeL9/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbKqXUT/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgwfeL9/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787576901; x=1819112901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D/28YAe1ptQdKEQ285j4sgcFLdoHgymuVALCem931s8=;
-  b=UbKqXUT/LVzGirZ3llA+2zTL6RSyVMuID7wnnIa/NN5XnZ6mdc1VhDzG
-   AxBqDMr4/M3fDfWC/PQd/sTBXTv2f33oBETVwcF8CDoRr0wR4G6ks+rw5
-   tn4WmJwGQi3em94dXT7vESBtyO/K5PqXWO/HvgB338FT+FeNlpYcLeXnm
-   msVSJv541NLRoZY0LigUQyFxOt1dw5o1HxXrcXngKfOD/1PE5+OySXITH
-   ioKZF5DouERGp6R9YTL+STAh53c/utzbKMnPh9C0Gc4OfuK/aljNhPnd2
-   v2XjXf+6u+FtZvme+50DLHVPHXnHayuWRqh+qrgQXiH8h1SeI9Rr1912l
+  t=1787584438; x=1819120438;
+  h=date:from:to:cc:subject:message-id;
+  bh=yG6cmFv0WkLQGiBTJ+3pySnKO5g64Qry8fOp8y1HC2M=;
+  b=HgwfeL9/dxbvE4gfAbWan0q3jopekpnhC8XukrFSgNnwV9ltacXWnd9J
+   t9mFqTTUix9z2+eSl0vri1HJDmkKlme03qe1XgFdJ1Cbb6J6yI1cvn5gb
+   +9qG0ikPPyce9OFWQX0KyWdBFBoZGg9OWLFI7TH+CZfsoxQRuXN8dY0ga
+   zJecN+KQRKXEhl+5G2rJqast21kkOkvLRzOpMxs3DcKn8GBmuyQErxjZC
+   xuZh8cSIPdf+VNnd2dTjhJtrCLjp1tGMyoYQG8IZHAFH3bch4cvDV7NFf
+   n4wDMsIwnmjTIAsrDPwsOxMa5pbR+IlyOCxD9FrV91tCjETYOmOWYQoHf
    g==;
-X-CSE-ConnectionGUID: MfHrn9DORg6saI9lIu2ojQ==
-X-CSE-MsgGUID: dxMaPGZgSfyxnAluuX8vGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="99188022"
+X-CSE-ConnectionGUID: l42D0uvORvGacFzOApyzCA==
+X-CSE-MsgGUID: Zv8XPtSQS963DDlMgWpozg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87910485"
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="99188022"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 06:08:21 -0700
-X-CSE-ConnectionGUID: 96UiJSsiQTawJmheTt3RNg==
-X-CSE-MsgGUID: PXHdHl1XTR2xJNrltfC1oQ==
+   d="scan'208";a="87910485"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 08:13:58 -0700
+X-CSE-ConnectionGUID: MurN2d3NSJOlJOz4BtCKiw==
+X-CSE-MsgGUID: 9Qrce2cjQc6UAjIn8gQQ2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="268946619"
+   d="scan'208";a="270501195"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2026 06:08:18 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Aug 2026 08:13:56 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyUPM-0000000034N-2v9g;
-	Mon, 24 Aug 2026 13:08:13 +0000
-Date: Mon, 24 Aug 2026 21:07:01 +0800
+	id 1wyWMt-000000003Lt-1pPH;
+	Mon, 24 Aug 2026 15:13:49 +0000
+Date: Mon, 24 Aug 2026 23:11:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC PATCH] dma: swiotlb: Size shared default pools for memory
- encryption
-Message-ID: <202608242109.rcbFVYC1-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1153
+ iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
+Message-ID: <202608242328.BrRejkpx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260811134056.756015-1-aneesh.kumar@kernel.org>
-References: <20260811134056.756015-1-aneesh.kumar@kernel.org>
-TO: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-Hi Aneesh,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260821]
-[cannot apply to powerpc/next powerpc/fixes arm64/for-next/core s390/features tip/x86/mm soc/for-next linus/master v7.2 v7.2-rc7 v7.2-rc6 v7.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/dma-swiotlb-Size-shared-default-pools-for-memory-encryption/20260811-191056
-base:   next-20260821
-patch link:    https://lore.kernel.org/r/20260811134056.756015-1-aneesh.kumar%40kernel.org
-patch subject: [RFC PATCH] dma: swiotlb: Size shared default pools for memory encryption
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608242109.rcbFVYC1-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0a0d1d55dad570724bf8c7ea83409639cfb4be9b
+commit: 1a7d1830be843af332081833223f4be536c00e3b wifi: iwlwifi: bring iwl_fill_ppag_table to the iwlmvm
+date:   5 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-r073-20260821 (https://download.01.org/0day-ci/archive/20260824/202608242328.BrRejkpx-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242109.rcbFVYC1-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1a7d1830be84 ("wifi: iwlwifi: bring iwl_fill_ppag_table to the iwlmvm")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608242109.rcbFVYC1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608242328.BrRejkpx-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+New smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1153 iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
 
->> WARNING: modpost: vmlinux: section mismatch in reference: swiotlb_adjust_cc_attributes+0xa (section: .text) -> memblock_phys_mem_size (section: .init.text)
-WARNING: modpost: drivers/thermal/qcom/qcom-spmi-mbg-tm.ko: module uses symbol 'devm_iio_channel_get' from namespace 'IIO_CONSUMER', but does not import it.
-WARNING: modpost: drivers/thermal/qcom/qcom-spmi-mbg-tm.ko: module uses symbol 'iio_read_channel_processed' from namespace 'IIO_CONSUMER', but does not import it.
---
-ld: kernel/dma/swiotlb.o: in function `swiotlb_adjust_cc_attributes':
->> swiotlb.c:(.text+0x17fe): undefined reference to `__udivdi3'
+Old smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:757 iwl_run_init_mvm_ucode() error: we previously assumed 'mvm->nvm_data' could be null (see line 742)
+drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1155 iwl_mvm_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
+
+vim +/gain +1153 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
+
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1051  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1052  static int iwl_mvm_fill_ppag_table(struct iwl_fw_runtime *fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1053  				   union iwl_ppag_table_cmd *cmd,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1054  				   int *cmd_size)
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1055  {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1056  	u8 cmd_ver;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1057  	int i, j, num_sub_bands;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1058  	s8 *gain;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1059  	bool send_ppag_always;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1060  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1061  	/* many firmware images for JF lie about this */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1062  	if (CSR_HW_RFID_TYPE(fwrt->trans->info.hw_rf_id) ==
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1063  	    CSR_HW_RFID_TYPE(CSR_HW_RF_ID_TYPE_JF))
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1064  		return -EOPNOTSUPP;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1065  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1066  	if (!fw_has_capa(&fwrt->fw->ucode_capa, IWL_UCODE_TLV_CAPA_SET_PPAG)) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1067  		IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1068  				"PPAG capability not supported by FW, command not sent.\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1069  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1070  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1071  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1072  	cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1073  					WIDE_ID(PHY_OPS_GROUP,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1074  						PER_PLATFORM_ANT_GAIN_CMD), 1);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1075  	/*
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1076  	 * Starting from ver 4, driver needs to send the PPAG CMD regardless
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1077  	 * if PPAG is enabled/disabled or valid/invalid.
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1078  	 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1079  	send_ppag_always = cmd_ver > 3;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1080  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1081  	/* Don't send PPAG if it is disabled */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1082  	if (!send_ppag_always && !fwrt->ppag_flags) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1083  		IWL_DEBUG_RADIO(fwrt, "PPAG not enabled, command not sent.\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1084  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1085  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1086  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1087  	IWL_DEBUG_RADIO(fwrt, "PPAG cmd ver is %d\n", cmd_ver);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1088  	if (cmd_ver == 1) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1089  		num_sub_bands = IWL_NUM_SUB_BANDS_V1;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1090  		gain = cmd->v1.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1091  		*cmd_size = sizeof(cmd->v1);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1092  		cmd->v1.flags =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1093  			cpu_to_le32(fwrt->ppag_flags & IWL_PPAG_CMD_V1_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1094  		if (fwrt->ppag_bios_rev >= 1) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1095  			/* in this case FW supports revision 0 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1096  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1097  					"PPAG table rev is %d, send truncated table\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1098  					fwrt->ppag_bios_rev);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1099  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1100  	} else if (cmd_ver == 5) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1101  		num_sub_bands = IWL_NUM_SUB_BANDS_V2;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1102  		gain = cmd->v5.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1103  		*cmd_size = sizeof(cmd->v5);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1104  		cmd->v5.flags =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1105  			cpu_to_le32(fwrt->ppag_flags & IWL_PPAG_CMD_V5_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1106  		if (fwrt->ppag_bios_rev == 0) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1107  			/* in this case FW supports revisions 1,2 or 3 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1108  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1109  					"PPAG table rev is 0, send padded table\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1110  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1111  	} else if (cmd_ver == 7) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1112  		num_sub_bands = IWL_NUM_SUB_BANDS_V2;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1113  		gain = cmd->v7.gain[0];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1114  		*cmd_size = sizeof(cmd->v7);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1115  		cmd->v7.ppag_config_info.hdr.table_source =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1116  			fwrt->ppag_bios_source;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1117  		cmd->v7.ppag_config_info.hdr.table_revision =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1118  			fwrt->ppag_bios_rev;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1119  		cmd->v7.ppag_config_info.value = cpu_to_le32(fwrt->ppag_flags);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1120  	} else {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1121  		IWL_DEBUG_RADIO(fwrt, "Unsupported PPAG command version\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1122  		return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1123  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1124  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1125  	/* ppag mode */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1126  	IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1127  			"PPAG MODE bits were read from bios: %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1128  			fwrt->ppag_flags);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1129  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1130  	if (cmd_ver == 1 &&
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1131  	    !fw_has_capa(&fwrt->fw->ucode_capa,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1132  			 IWL_UCODE_TLV_CAPA_PPAG_CHINA_BIOS_SUPPORT)) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1133  		cmd->v1.flags &= cpu_to_le32(IWL_PPAG_ETSI_MASK);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1134  		IWL_DEBUG_RADIO(fwrt, "masking ppag China bit\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1135  	} else {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1136  		IWL_DEBUG_RADIO(fwrt, "isn't masking ppag China bit\n");
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1137  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1138  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1139  	/* The 'flags' field is the same in v1 and v5 so we can just
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1140  	 * use v1 to access it.
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1141  	 */
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1142  	IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1143  			"PPAG MODE bits going to be sent: %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1144  			(cmd_ver < 7) ? le32_to_cpu(cmd->v1.flags) :
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1145  					le32_to_cpu(cmd->v7.ppag_config_info.value));
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1146  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1147  	for (i = 0; i < IWL_NUM_CHAIN_LIMITS; i++) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1148  		for (j = 0; j < num_sub_bands; j++) {
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1149  			if (!send_ppag_always &&
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1150  			    !iwl_mvm_ppag_value_valid(fwrt, i, j))
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1151  				return -EINVAL;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1152  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19 @1153  			gain[i * num_sub_bands + j] =
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1154  				fwrt->ppag_chains[i].subbands[j];
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1155  			IWL_DEBUG_RADIO(fwrt,
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1156  					"PPAG table: chain[%d] band[%d]: gain = %d\n",
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1157  					i, j, gain[i * num_sub_bands + j]);
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1158  		}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1159  	}
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1160  
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1161  	return 0;
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1162  }
+1a7d1830be843af Emmanuel Grumbach 2026-03-19  1163  
 
 --
 0-DAY CI Kernel Test Service
