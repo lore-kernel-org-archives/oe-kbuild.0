@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A19B2F8EBC
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Aug 2026 03:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2FD1990A7
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Aug 2026 04:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787629094; cv=none; b=ng3TqH0bJ0k/58OouukOocNnyzohltzy2KgD6rJsREtPRg9qZyhFlIt1lJSYeglWedgLvkaQUbI4rmy9uv/n59U7HLILZ8hSJ60+hBu9f7dd3dBkVrvV1hMAThVRhvfgYarer3k1UfvQE7oao5gHzYp/c04TWD1Vvzmrg2xmMVQ=
+	t=1787631259; cv=none; b=SB7wh3AtMSYISenCwjN+CvSMHQ/GH3JOjbIPT3J/VlLsaSRq0P4mieDAFH5PB0Xpd2CjUjWtT/U/oxpLuSoxaYxAmHXa1dyj4yhjwftdHEDMMXnIb7lYuCRZeuX444TV/yNDNflz6pKJCKWKeSNCnrMJGSpdd+/M6Vn/wSOHcwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787629094; c=relaxed/simple;
-	bh=eSEMjpF+vjFLSvTu2fHAuRLVI/m/SxEpVCKcDIqQW5I=;
+	s=arc-20240116; t=1787631259; c=relaxed/simple;
+	bh=AyZA6VgpMWd0/dQeeDm5qBUx8K5bOxgdxCclmhsmwiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oZ0JZbLt6w0icwYCe69qBybrB9TZcjli3ohx1Ha82p6kr386CnKFKXN5Y9oe+wedPIJGoH8PZSMj/UttbRL5yaGh6MjGh2W/bJCOyB1KeWREsg7dBrBVzhMRkKwr6rvfNwcL/ui8mm0QwRU7Ji0UcMoNeQs9DVjbqPUEy2/wRnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pr0/XW3V; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WEMZ4KUmKVY0D9KOeVSbIXvgbK8+jaXEu8FAdXlf3saySHykBDlH68Vn9u5G6Rq+Z9Nv6Xikxxw1ElbcGc8eWZvsQ1WWJLpPP0jBoE3PapQ8qa6YsKsUkIa1MmcCaHTznW/ZJLIUhNs39j27NIbeZIB7IAm/+QBgOZ7sGQIBvAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0hVrURh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pr0/XW3V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0hVrURh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787629091; x=1819165091;
+  t=1787631257; x=1819167257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eSEMjpF+vjFLSvTu2fHAuRLVI/m/SxEpVCKcDIqQW5I=;
-  b=Pr0/XW3V6BuslSiGlon8v3sp5H1i/G/IuJ3q5Xq4HN8rIAaUnv/mptIz
-   5fwn5aZFvtlA41AaqM+TBZKP2y1FUz1QWsdteVnKUF/aXWHZkkKrY8vJo
-   uts7rSQ6o947X32SjBRPF2c6Iv8M+B79unw9X0JYgrmMhFhrytQaiY5/G
-   BHhUSW13AVZSWItlA8Htf9J2k91k/h2hedtXESrdM3LAVzTPNw2CAzecx
-   QETfj4ENK1Zk0sHKtt16zH4yQ2+YLmHvlay0we8v+o2R/gHhS7faNIZeO
-   TlN1UKw9JnJlkB731xDVf8oNd7n4ND4xXUcACV+RhokQF4uAqh6w7n55o
-   g==;
-X-CSE-ConnectionGUID: noJg7lQUTkS3iAr49aflLQ==
-X-CSE-MsgGUID: +uZTP32oTI+IYQyrC0BBqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98425811"
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="98425811"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:38:11 -0700
-X-CSE-ConnectionGUID: js2BsVw/RGGsWv2LYB4sdw==
-X-CSE-MsgGUID: IeHeQsMgTk63jPTrkCJLuA==
+  bh=AyZA6VgpMWd0/dQeeDm5qBUx8K5bOxgdxCclmhsmwiY=;
+  b=d0hVrURherNNlL+hZ0CsBGOgtTW7hPkcC94Ad4KxWTsZXZ3MCVfcDkNf
+   UZG05oXU7u1K5mDkK6At9TYSXugD1evrhTOgQngEeCkN3AYCHKgNHS8/f
+   /gOp449YJERLCSFWC2whHQnw0zeM/Eb6wbJyezJ70v+67dcqV0m0/CIj7
+   Whs3R+wcoGGY9BePD7nMl0+nRD/tVLd+15sWLa2V1Bl1dWi11C1Cl2b8a
+   2/AFwlJ7RZxzFSke53wJOKGe8JR+fWgctN+PQjIRCatAkY4OvjCewCpkC
+   KxadWelh+9auL87j3baq/hmDcgJVSNIk+sf27iAB7Wc/CIveKZevhl78n
+   A==;
+X-CSE-ConnectionGUID: LQ1LLsikR5OPi0aujMloGw==
+X-CSE-MsgGUID: Tp3KYQ/1RuCfMw7SRQiRAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="99254363"
+X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
+   d="scan'208";a="99254363"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 21:14:17 -0700
+X-CSE-ConnectionGUID: KVKl5sRES1CFauTVdHPhsw==
+X-CSE-MsgGUID: xdbcpIkfQWudlTF7lxorEg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="290695177"
+X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
+   d="scan'208";a="262869331"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2026 20:38:09 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 24 Aug 2026 21:14:15 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyhzC-000000004sl-3Gbh;
-	Tue, 25 Aug 2026 03:38:06 +0000
-Date: Tue, 25 Aug 2026 11:38:02 +0800
+	id 1wyiY9-000000004xz-2Rv2;
+	Tue, 25 Aug 2026 04:14:13 +0000
+Date: Tue, 25 Aug 2026 12:13:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2] perf/bpf: Fix data races in BPF perf event handling
-Message-ID: <202608251132.vyAbMLBM-lkp@intel.com>
+Subject: Re: [PATCH v1] LoongArch: BPF: Implement arch_bpf_stack_walk()
+Message-ID: <202608251231.fQmOHVs6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,179 +66,99 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260813060528.365959-1-kartikey406@gmail.com>
-References: <20260813060528.365959-1-kartikey406@gmail.com>
-TO: Deepanshu Kartikey <kartikey406@gmail.com>
-TO: peterz@infradead.org
-TO: mingo@redhat.com
-TO: acme@kernel.org
-TO: namhyung@kernel.org
-TO: mark.rutland@arm.com
-TO: alexander.shishkin@linux.intel.com
-TO: jolsa@kernel.org
-TO: olsajiri@gmail.com
-TO: irogers@google.com
-TO: adrian.hunter@intel.com
-TO: james.clark@linaro.org
-TO: song@kernel.org
-TO: kpsingh@kernel.org
-TO: mattbobrowski@google.com
-TO: ast@kernel.org
-TO: daniel@iogearbox.net
-TO: andrii@kernel.org
-TO: eddyz87@gmail.com
-TO: memxor@gmail.com
-TO: martin.lau@linux.dev
-TO: yonghong.song@linux.dev
-TO: emil@etsalapatis.com
-TO: rostedt@goodmis.org
-TO: mhiramat@kernel.org
-TO: mathieu.desnoyers@efficios.com
-CC: linux-perf-users@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20260813045306.21571-1-yangtiezhu@loongson.cn>
+References: <20260813045306.21571-1-yangtiezhu@loongson.cn>
+TO: Tiezhu Yang <yangtiezhu@loongson.cn>
+TO: Huacai Chen <chenhuacai@kernel.org>
+TO: Hengqi Chen <hengqi.chen@gmail.com>
+CC: loongarch@lists.linux.dev
 CC: bpf@vger.kernel.org
-CC: linux-trace-kernel@vger.kernel.org
-CC: Deepanshu Kartikey <kartikey406@gmail.com>
+CC: linux-kernel@vger.kernel.org
+CC: George Guo <guodongtai@kylinos.cn>
 
-Hi Deepanshu,
+Hi Tiezhu,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v7.2 next-20260821]
-[cannot apply to linux-review/Deepanshu-Kartikey/perf-bpf-Fix-data-race-in-__perf_event_overflow/20260812-052331 acme/perf/core]
+[auto build test ERROR on next-20260821]
+[also build test ERROR on linus/master]
+[cannot apply to bpf-next/master bpf/master bpf-next/net v7.2 v7.2-rc7 v7.2-rc6 v7.2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/perf-bpf-Fix-data-races-in-BPF-perf-event-handling/20260813-113528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20260813060528.365959-1-kartikey406%40gmail.com
-patch subject: [PATCH v2] perf/bpf: Fix data races in BPF perf event handling
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20260825/202608251132.vyAbMLBM-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251132.vyAbMLBM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/LoongArch-BPF-Implement-arch_bpf_stack_walk/20260813-125306
+base:   next-20260821
+patch link:    https://lore.kernel.org/r/20260813045306.21571-1-yangtiezhu%40loongson.cn
+patch subject: [PATCH v1] LoongArch: BPF: Implement arch_bpf_stack_walk()
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260825/202608251231.fQmOHVs6-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251231.fQmOHVs6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608251132.vyAbMLBM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608251231.fQmOHVs6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/events/core.c: In function '__perf_event_overflow':
->> kernel/events/core.c:10771:14: error: too many arguments to function 'bpf_overflow_handler'; expected 3, have 4
-   10771 |             !bpf_overflow_handler(event, data, regs, prog))
-         |              ^~~~~~~~~~~~~~~~~~~~                    ~~~~
-   kernel/events/core.c:10726:19: note: declared here
-   10726 | static inline int bpf_overflow_handler(struct perf_event *event,
-         |                   ^~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/net/bpf_jit.c:2446:22: error: redefinition of 'walk_bpf_stackframe'
+    2446 | static noinline void walk_bpf_stackframe(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp),
+         |                      ^
+   arch/loongarch/net/bpf_jit.c:2372:22: note: previous definition is here
+    2372 | static noinline void walk_bpf_stackframe(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp),
+         |                      ^
+>> arch/loongarch/net/bpf_jit.c:2467:6: error: redefinition of 'arch_bpf_stack_walk'
+    2467 | void arch_bpf_stack_walk(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp), void *cookie)
+         |      ^
+   arch/loongarch/net/bpf_jit.c:2393:6: note: previous definition is here
+    2393 | void arch_bpf_stack_walk(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp), void *cookie)
+         |      ^
+   2 errors generated.
 
 
-vim +/bpf_overflow_handler +10771 kernel/events/core.c
+vim +/walk_bpf_stackframe +2446 arch/loongarch/net/bpf_jit.c
 
-4c03fe11b96bda kernel/events/core.c  Kyle Huey                 2024-04-11  10744  
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10745  /*
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10746   * Generic event overflow handling, sampling.
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10747   */
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10748  
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10749  static int __perf_event_overflow(struct perf_event *event,
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10750  				 int throttle, struct perf_sample_data *data,
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10751  				 struct pt_regs *regs)
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10752  {
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10753  	int events = atomic_read(&event->event_limit);
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10754  	int ret = 0;
-6910c8cf9c180b kernel/events/core.c  Deepanshu Kartikey        2026-08-13  10755  	struct bpf_prog *prog;
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10756  
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10757  	/*
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10758  	 * Non-sampling counters might still use the PMI to fold short
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10759  	 * hardware counters, ignore those.
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10760  	 */
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10761  	if (unlikely(!is_sampling_event(event)))
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10762  		return 0;
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10763  
-475113d937adfd kernel/events/core.c  Jiri Olsa                 2016-12-28  10764  	ret = __perf_event_account_interrupt(event, throttle);
-cc1582c231ea04 kernel/events/core.c  Jin Yao                   2017-05-25  10765  
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10766  	if (event->attr.aux_pause)
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10767  		perf_event_aux_pause(event->aux_event, true);
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10768  
-6910c8cf9c180b kernel/events/core.c  Deepanshu Kartikey        2026-08-13  10769  	prog = READ_ONCE(event->prog);
-6910c8cf9c180b kernel/events/core.c  Deepanshu Kartikey        2026-08-13  10770  	if (prog && prog->type == BPF_PROG_TYPE_PERF_EVENT &&
-6910c8cf9c180b kernel/events/core.c  Deepanshu Kartikey        2026-08-13 @10771  	    !bpf_overflow_handler(event, data, regs, prog))
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10772  		goto out;
-c4fcc7d1f41532 kernel/events/core.c  Kyle Huey                 2024-04-11  10773  
-2023b359214bbc kernel/perf_counter.c Peter Zijlstra            2009-05-05  10774  	/*
-2023b359214bbc kernel/perf_counter.c Peter Zijlstra            2009-05-05  10775  	 * XXX event_limit might not quite work as expected on inherited
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar               2009-09-21  10776  	 * events
-2023b359214bbc kernel/perf_counter.c Peter Zijlstra            2009-05-05  10777  	 */
-2023b359214bbc kernel/perf_counter.c Peter Zijlstra            2009-05-05  10778  
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar               2009-09-21  10779  	event->pending_kill = POLL_IN;
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar               2009-09-21  10780  	if (events && atomic_dec_and_test(&event->event_limit)) {
-79f146415623fe kernel/perf_counter.c Peter Zijlstra            2009-04-06  10781  		ret = 1;
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar               2009-09-21  10782  		event->pending_kill = POLL_HUP;
-5aab90ce1ec449 kernel/events/core.c  Jiri Olsa                 2016-10-26  10783  		perf_event_disable_inatomic(event);
-18dbcbfabfffc4 kernel/events/core.c  Kan Liang                 2025-08-11  10784  		event->pmu->stop(event, 0);
-79f146415623fe kernel/perf_counter.c Peter Zijlstra            2009-04-06  10785  	}
-79f146415623fe kernel/perf_counter.c Peter Zijlstra            2009-04-06  10786  
-ca6c21327c6af0 kernel/events/core.c  Peter Zijlstra            2022-10-06  10787  	if (event->attr.sigtrap) {
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10788  		/*
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10789  		 * The desired behaviour of sigtrap vs invalid samples is a bit
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10790  		 * tricky; on the one hand, one should not loose the SIGTRAP if
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10791  		 * it is the first event, on the other hand, we should also not
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10792  		 * trigger the WARN or override the data address.
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10793  		 */
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10794  		bool valid_sample = sample_is_allowed(event, regs);
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10795  		unsigned int pending_id = 1;
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10796  		enum task_work_notify_mode notify_mode;
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10797  
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10798  		if (regs)
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10799  			pending_id = hash32_ptr((void *)instruction_pointer(regs)) ?: 1;
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10800  
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10801  		notify_mode = in_nmi() ? TWA_NMI_CURRENT : TWA_RESUME;
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10802  
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10803  		if (!event->pending_work &&
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10804  		    !task_work_add(current, &event->pending_task, notify_mode)) {
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10805  			event->pending_work = pending_id;
-79bd2330108594 kernel/events/core.c  Ben Gainey                2024-07-30  10806  			local_inc(&event->ctx->nr_no_switch_fast);
-56799bc0356587 kernel/events/core.c  Frederic Weisbecker       2025-03-04  10807  			WARN_ON_ONCE(!atomic_long_inc_not_zero(&event->refcount));
-058244c683111d kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10808  
-058244c683111d kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10809  			event->pending_addr = 0;
-058244c683111d kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10810  			if (valid_sample && (data->sample_flags & PERF_SAMPLE_ADDR))
-058244c683111d kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10811  				event->pending_addr = data->addr;
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10812  
-030a976efae83f kernel/events/core.c  Peter Zijlstra            2022-11-19  10813  		} else if (event->attr.exclude_kernel && valid_sample) {
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10814  			/*
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10815  			 * Should not be able to return to user space without
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10816  			 * consuming pending_work; with exceptions:
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10817  			 *
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10818  			 *  1. Where !exclude_kernel, events can overflow again
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10819  			 *     in the kernel without returning to user space.
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10820  			 *
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10821  			 *  2. Events that can overflow again before the IRQ-
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10822  			 *     work without user space progress (e.g. hrtimer).
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10823  			 *     To approximate progress (with false negatives),
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10824  			 *     check 32-bit hash of the current IP.
-bb88f9695460be kernel/events/core.c  Marco Elver               2022-10-31  10825  			 */
-c5d93d23a26012 kernel/events/core.c  Sebastian Andrzej Siewior 2024-07-04  10826  			WARN_ON_ONCE(event->pending_work != pending_id);
-ca6c21327c6af0 kernel/events/core.c  Peter Zijlstra            2022-10-06  10827  		}
-ca6c21327c6af0 kernel/events/core.c  Peter Zijlstra            2022-10-06  10828  	}
-ca6c21327c6af0 kernel/events/core.c  Peter Zijlstra            2022-10-06  10829  
-aa6a5f3cb2b2ed kernel/events/core.c  Alexei Starovoitov        2016-09-01  10830  	READ_ONCE(event->overflow_handler)(event, data, regs);
-453f19eea7dbad kernel/perf_event.c   Peter Zijlstra            2009-11-20  10831  
-fed66e2cdd4f12 kernel/events/core.c  Peter Zijlstra            2015-06-11  10832  	if (*perf_event_fasync(event) && event->pending_kill) {
-f506b3dc0ec454 kernel/events/core.c  Peter Zijlstra            2011-05-26  10833  		event->pending_wakeup = 1;
-ca6c21327c6af0 kernel/events/core.c  Peter Zijlstra            2022-10-06  10834  		irq_work_queue(&event->pending_irq);
-f506b3dc0ec454 kernel/events/core.c  Peter Zijlstra            2011-05-26  10835  	}
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10836  out:
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10837  	if (event->attr.aux_resume)
-18d92bb57c3950 kernel/events/core.c  Adrian Hunter             2024-10-22  10838  		perf_event_aux_pause(event->aux_event, false);
-f506b3dc0ec454 kernel/events/core.c  Peter Zijlstra            2011-05-26  10839  
-79f146415623fe kernel/perf_counter.c Peter Zijlstra            2009-04-06  10840  	return ret;
-f6c7d5fe58b484 kernel/perf_counter.c Peter Zijlstra            2009-04-06  10841  }
-f6c7d5fe58b484 kernel/perf_counter.c Peter Zijlstra            2009-04-06  10842  
+637f7446933b6d George Guo 2026-08-13  2445  
+637f7446933b6d George Guo 2026-08-13 @2446  static noinline void walk_bpf_stackframe(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp),
+637f7446933b6d George Guo 2026-08-13  2447  					 void *cookie, unsigned long fp)
+637f7446933b6d George Guo 2026-08-13  2448  {
+637f7446933b6d George Guo 2026-08-13  2449  	struct pt_regs dummyregs;
+637f7446933b6d George Guo 2026-08-13  2450  	struct pt_regs *regs = &dummyregs;
+637f7446933b6d George Guo 2026-08-13  2451  	struct unwind_state state;
+637f7446933b6d George Guo 2026-08-13  2452  	unsigned long addr;
+637f7446933b6d George Guo 2026-08-13  2453  
+637f7446933b6d George Guo 2026-08-13  2454  	regs->regs[3] = (unsigned long)__builtin_frame_address(0);
+637f7446933b6d George Guo 2026-08-13  2455  	regs->csr_era = (unsigned long)__builtin_return_address(0);
+637f7446933b6d George Guo 2026-08-13  2456  	regs->regs[1] = 0;
+637f7446933b6d George Guo 2026-08-13  2457  	regs->regs[22] = fp;
+637f7446933b6d George Guo 2026-08-13  2458  
+637f7446933b6d George Guo 2026-08-13  2459  	for (unwind_start(&state, current, regs);
+637f7446933b6d George Guo 2026-08-13  2460  	     !unwind_done(&state); unwind_next_frame(&state)) {
+637f7446933b6d George Guo 2026-08-13  2461  		addr = unwind_get_return_address(&state);
+637f7446933b6d George Guo 2026-08-13  2462  		if (!addr || !consume_fn(cookie, (u64)addr, (u64)state.sp, (u64)state.fp))
+637f7446933b6d George Guo 2026-08-13  2463  			break;
+637f7446933b6d George Guo 2026-08-13  2464  	}
+637f7446933b6d George Guo 2026-08-13  2465  }
+637f7446933b6d George Guo 2026-08-13  2466  
+637f7446933b6d George Guo 2026-08-13 @2467  void arch_bpf_stack_walk(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp), void *cookie)
+637f7446933b6d George Guo 2026-08-13  2468  {
+637f7446933b6d George Guo 2026-08-13  2469  	unsigned long fp;
+637f7446933b6d George Guo 2026-08-13  2470  
+637f7446933b6d George Guo 2026-08-13  2471  	/*
+637f7446933b6d George Guo 2026-08-13  2472  	 * Capture the live frame pointer ($r22) at the very front-line before
+637f7446933b6d George Guo 2026-08-13  2473  	 * any kernel C code clobbers it. This must be a thin wrapper with no
+637f7446933b6d George Guo 2026-08-13  2474  	 * large stack locals to prevent the compiler from reusing $r22 early.
+637f7446933b6d George Guo 2026-08-13  2475  	 */
+637f7446933b6d George Guo 2026-08-13  2476  	asm volatile("move %0, $r22" : "=r"(fp));
+637f7446933b6d George Guo 2026-08-13  2477  	walk_bpf_stackframe(consume_fn, cookie, fp);
+637f7446933b6d George Guo 2026-08-13  2478  }
+637f7446933b6d George Guo 2026-08-13  2479  #endif /* CONFIG_UNWINDER_ORC */
+637f7446933b6d George Guo 2026-08-13  2480  
 
 --
 0-DAY CI Kernel Test Service
