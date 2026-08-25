@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7697A4964F
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Aug 2026 03:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A19B2F8EBC
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Aug 2026 03:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787628376; cv=none; b=a0GU5LyDX+iGcvrx2Owk+X76UPDQp9J56SicSwaBOcKO8h5Yxr2S4cfD7YJyKBw4VROxBVdWHZ3knssO1HzZY5qWhPNbPb6L5EmmjEP75yi02Jf+deOl/bEbOH4MJeRqGwFwYT/TpmenbafElxr/8w+0Pf819x0xw6btaNS2Yio=
+	t=1787629094; cv=none; b=ng3TqH0bJ0k/58OouukOocNnyzohltzy2KgD6rJsREtPRg9qZyhFlIt1lJSYeglWedgLvkaQUbI4rmy9uv/n59U7HLILZ8hSJ60+hBu9f7dd3dBkVrvV1hMAThVRhvfgYarer3k1UfvQE7oao5gHzYp/c04TWD1Vvzmrg2xmMVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787628376; c=relaxed/simple;
-	bh=0Iq+8CjY4ZPIiOriWQmD01BsmpXhA2rQgthiEBXnUaQ=;
+	s=arc-20240116; t=1787629094; c=relaxed/simple;
+	bh=eSEMjpF+vjFLSvTu2fHAuRLVI/m/SxEpVCKcDIqQW5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BubFzbmQoRtVmoypiL3VuEm+42YbH7Q+SQGERVeyE6P72CFzGWyiccKScSxUDDpWfE6NUnvaFLmKpdMJgd6HDRPakkviNIJIB7uVYOW44rs0sHvrO8fXZMuS1cFLLNhlg8KCneCbztXc0ehz9kfNzVhJhjZTbEMXYdxTYb4g4Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYeX8euC; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=oZ0JZbLt6w0icwYCe69qBybrB9TZcjli3ohx1Ha82p6kr386CnKFKXN5Y9oe+wedPIJGoH8PZSMj/UttbRL5yaGh6MjGh2W/bJCOyB1KeWREsg7dBrBVzhMRkKwr6rvfNwcL/ui8mm0QwRU7Ji0UcMoNeQs9DVjbqPUEy2/wRnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pr0/XW3V; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYeX8euC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pr0/XW3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787628373; x=1819164373;
+  t=1787629091; x=1819165091;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Iq+8CjY4ZPIiOriWQmD01BsmpXhA2rQgthiEBXnUaQ=;
-  b=MYeX8euCOYaScdcC02kPEfSslc+DtiirOebclxhyzlFRvfvpU6f8NuEI
-   MkQcY/8FSeYeFiJ6NfQ86hNgB74n66HuIH37TbDYz5vhCKsC/Zg6dhtLy
-   XnV+wDqqOnBSRBpUs7pqZficQtvEwlmvaHXHUhWZ9QVEqjbCcsCJB//GW
-   +YH2JBr7X5ujH4MgpqFcLoSdITrrlCTcxRHD06SPv49qidtsFvoNtvqug
-   BU2TOokgZRZ4jTTL3C+7w0Ocdl+2+NBzNCZwCPA88AaHtP6Q2gXdMXa/x
-   DDxdS49n/cLmF3xvaBlzsj+3qXIMe1UXwZOHD+R3ks8Ql2ugMCGN2MWXF
-   Q==;
-X-CSE-ConnectionGUID: SVEPuPFwRiS0wqQLzT0/3Q==
-X-CSE-MsgGUID: hKvx1SXaQuOJU+1SfJJhtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87216046"
+  bh=eSEMjpF+vjFLSvTu2fHAuRLVI/m/SxEpVCKcDIqQW5I=;
+  b=Pr0/XW3V6BuslSiGlon8v3sp5H1i/G/IuJ3q5Xq4HN8rIAaUnv/mptIz
+   5fwn5aZFvtlA41AaqM+TBZKP2y1FUz1QWsdteVnKUF/aXWHZkkKrY8vJo
+   uts7rSQ6o947X32SjBRPF2c6Iv8M+B79unw9X0JYgrmMhFhrytQaiY5/G
+   BHhUSW13AVZSWItlA8Htf9J2k91k/h2hedtXESrdM3LAVzTPNw2CAzecx
+   QETfj4ENK1Zk0sHKtt16zH4yQ2+YLmHvlay0we8v+o2R/gHhS7faNIZeO
+   TlN1UKw9JnJlkB731xDVf8oNd7n4ND4xXUcACV+RhokQF4uAqh6w7n55o
+   g==;
+X-CSE-ConnectionGUID: noJg7lQUTkS3iAr49aflLQ==
+X-CSE-MsgGUID: +uZTP32oTI+IYQyrC0BBqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98425811"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="87216046"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:26:10 -0700
-X-CSE-ConnectionGUID: bjnRTcKwSUuHrOcSToq77A==
-X-CSE-MsgGUID: Ge3fmd+oReyNPEGsnM48sw==
+   d="scan'208";a="98425811"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:38:11 -0700
+X-CSE-ConnectionGUID: js2BsVw/RGGsWv2LYB4sdw==
+X-CSE-MsgGUID: IeHeQsMgTk63jPTrkCJLuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="265852977"
+   d="scan'208";a="290695177"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Aug 2026 20:26:09 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2026 20:38:09 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyhna-000000004sP-28W4;
-	Tue, 25 Aug 2026 03:26:06 +0000
-Date: Tue, 25 Aug 2026 11:25:37 +0800
+	id 1wyhzC-000000004sl-3Gbh;
+	Tue, 25 Aug 2026 03:38:06 +0000
+Date: Tue, 25 Aug 2026 11:38:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH v2] perf/bpf: Fix data races in BPF perf event handling
-Message-ID: <202608251117.NUwDpYQx-lkp@intel.com>
+Message-ID: <202608251132.vyAbMLBM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -118,22 +118,21 @@ patch link:    https://lore.kernel.org/r/20260813060528.365959-1-kartikey406%40g
 patch subject: [PATCH v2] perf/bpf: Fix data races in BPF perf event handling
 :::::: branch date: 14 hours ago
 :::::: commit date: 14 hours ago
-config: sh-randconfig-r072-20260825 (https://download.01.org/0day-ci/archive/20260825/202608251117.NUwDpYQx-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251117.NUwDpYQx-lkp@intel.com/reproduce)
+config: sh-defconfig (https://download.01.org/0day-ci/archive/20260825/202608251132.vyAbMLBM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251132.vyAbMLBM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608251117.NUwDpYQx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608251132.vyAbMLBM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    kernel/events/core.c: In function '__perf_event_overflow':
->> kernel/events/core.c:10771:14: error: too many arguments to function 'bpf_overflow_handler'
+>> kernel/events/core.c:10771:14: error: too many arguments to function 'bpf_overflow_handler'; expected 3, have 4
    10771 |             !bpf_overflow_handler(event, data, regs, prog))
-         |              ^~~~~~~~~~~~~~~~~~~~
+         |              ^~~~~~~~~~~~~~~~~~~~                    ~~~~
    kernel/events/core.c:10726:19: note: declared here
    10726 | static inline int bpf_overflow_handler(struct perf_event *event,
          |                   ^~~~~~~~~~~~~~~~~~~~
