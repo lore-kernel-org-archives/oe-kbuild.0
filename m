@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7123E316C
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 11:34:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07053403ED
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 11:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176055; cv=none; b=PWPhcYTwtAFARW1xLwhI/WpluCn4lAW0Buk1roCNZFBVTbI5+ph3Ks3Z4HhGCKtme5GgYlUgkaGtE44/vc58TA8rq465pCU994bYiOGxWRr5CYkoAkpL6mzCh+oNqvcX4nCWC8wv9kXnEJ0wwYBJAL4l2iL1vEVNRLeA/8obrLA=
+	t=1788176057; cv=none; b=L5Wb3v6k1MLsIr/c5XmCwcv7U8sPE39fXuWMiQEmICpHnt6pbkmDEZcTermoyanc1EZEQqQRSUUsKkbmIEeybRHucHYyt5oNQWllHuMtTANOk3U5pPKJGc7jgb4V2J5nyBN0vBPGJjRIhQmMF/iOYnoya4WpJmQ5h5PhRD3CjdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176055; c=relaxed/simple;
-	bh=wb4A6cCDs8XWthOIbzlEDWXdhJFYlIy14Ttnmb8kvjs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kmMk5Q8US6kflRUli3OKtMzg2SlLihtv9BQbrDhXhWF/a6+hD9mw6nmM3xjXaZ4MS1zMXBnHP4UVQ8jViATVVYOGQ+VFiTD3gwUrw3LyHxJwmN00Xr/rEMFG1gl1ptYniDL7mLB2dIipQqzw6LRUUrqdNDQFxYo2Eb+qZn/WpkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gb0tiEBg; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1788176057; c=relaxed/simple;
+	bh=AMnD5nv299Dgiw+K2u6Y9QS/NEC9CHIREkBaIXqNoVc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lYuEAiOSY/UUmitUgIa17jfDncYWjjztJUKUtcGQHOtA1exMrL3rZhnoFQ2ZX48ZYULDWqacCU6I/QEZYX3c8H8sLittPuwvRVVJWEOScXGM6g0DlYwupxKRfbo3eN03TK8qvxAWI+cUom0Wl1gk8IG2Luxort4ngAjMcFIKjWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0bQMQbF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gb0tiEBg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0bQMQbF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788176052; x=1819712052;
+  t=1788176056; x=1819712056;
   h=date:from:to:cc:subject:message-id;
-  bh=wb4A6cCDs8XWthOIbzlEDWXdhJFYlIy14Ttnmb8kvjs=;
-  b=gb0tiEBgvuDpvJx1dBeUvCf+zEPnvOu5yk/T9HMgDLum/ui5fEaIgLDw
-   M6RUcnN0f+8jDUIKbGDrpHV9qQ1naB3PVyAPbXLQ012aHhgE3r5PTsebZ
-   hSQrN2E8f1dmBwmHp+znI/nM2nZx7XNxyrsda72MdNaExJPKjFL0cNWFD
-   4pKXvOKa2VVgrhcgYSVx1Smg8I3nhFMPwMJZrtX4IUQJBGWY9rDDT8bFI
-   8WLvX6Z3kU4BO+ZC3VgzaAsVZR4NUoljxdL9v24lLP4wyFBQ7/9Dmmq/3
-   0ZuQtFVRU2cQWsTPOo/UdiO+NbM4tHMN4HPiwu/UI9TXdxfMzba5A71KE
-   g==;
-X-CSE-ConnectionGUID: qvxHFXbESROiG0wAVif4Fg==
-X-CSE-MsgGUID: LwweAvYLSZ+Lxf2amKseOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="87716535"
+  bh=AMnD5nv299Dgiw+K2u6Y9QS/NEC9CHIREkBaIXqNoVc=;
+  b=h0bQMQbFgsCwHp2eW7SwN1kYTK+d+vScXwOcXWpqovy1//gIXnsDwa+r
+   g1sjxVIDaq4+zo8DqXWf5J9Y/zeW0UdpdnzPKJmArSM4C9GF+Fh5PLj2G
+   6eJ2AMH8/zmYDP+9ppc6UOdXLyjXln0c+SCSdzMj3hhkaMsjeeYYga68G
+   MY/uyyQX1MJZVfDsumryD+L3H0oYZ7AY3QfQ7v/9zW93mBEydbVKfsbVa
+   gE/j0F6Etdzcn5KTw313kTSs96i+ouZP/iJmd4/TdPIDhtPkc2ei0Ty/5
+   WlMTgfrbnP8IdMs/FP8YPBPzbvqysxEUqSStb22eK+rqsxkW3Yq+7zfJy
+   A==;
+X-CSE-ConnectionGUID: JRKZd3CAQQKPbfULHsPZ+A==
+X-CSE-MsgGUID: vz+Q6OwzQAq3BgHN2rv7zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="87716537"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="87716535"
+   d="scan'208";a="87716537"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:34:08 -0700
-X-CSE-ConnectionGUID: Q5r9IP/STTeLTehfh40bfA==
-X-CSE-MsgGUID: Bbc3U/G0QKahOZj9IUW3DA==
+X-CSE-ConnectionGUID: qikvrwZaQmGm/GpGIcszTw==
+X-CSE-MsgGUID: NmnEM5ovRlCyp2GtR573Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="298691127"
+   d="scan'208";a="298691129"
 Received: from lkp-server01.sh.intel.com (HELO 78edef60ff5d) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 31 Aug 2026 04:33:51 -0700
 Received: from kbuild by 78edef60ff5d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x10Gq-000000000Vj-3JIl;
+	id 1x10Gq-000000000Vl-3Rpr;
 	Mon, 31 Aug 2026 11:33:48 +0000
-Date: Mon, 31 Aug 2026 19:33:44 +0800
+Date: Mon, 31 Aug 2026 19:33:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [chao:feature/kelvin_subpage 5/22]
- include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member
- 'i_addr' in a union
-Message-ID: <202608311908.QPDnGekH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jgunthorpe:iommu_pt_arm64 20/38]
+ drivers/iommu/generic_pt/fmt/../iommu_pt.h:952 armv8_map_range() warn:
+ impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
+Message-ID: <202608311932.8R97Sd6C-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,231 +60,115 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Chao Yu <chao@kernel.org>
-TO: Kelvin Zhang <zhangxp1998@gmail.com>
-CC: Chao Yu <chao@kernel.org>
+TO: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/kelvin_subpage
-head:   c1bd92d1f34a6b496c203d87db044e61059c28ae
-commit: 0afae9798e90aeeeebfaaf8878c16c2a5f1dbc9f [5/22] f2fs: describe {i,d,id}node block layout dynamically
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: csky-randconfig-r132-20260830 (https://download.01.org/0day-ci/archive/20260831/202608311908.QPDnGekH-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608311908.QPDnGekH-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
+head:   c8e2bfb14a9e9ecdcccf303888f6b388a5fee9b1
+commit: 27b050d135df207da32c5c1c476b206cc5fb7053 [20/38] iommupt/armv8: Implement the iommu specific components
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-r072-20260827 (https://download.01.org/0day-ci/archive/20260831/202608311932.8R97Sd6C-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608311908.QPDnGekH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608311932.8R97Sd6C-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/f2fs/dir.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/extent_cache.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/xattr.c:851:1: sparse: sparse: no newline at end of file
-   fs/f2fs/xattr.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/recovery.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/inode.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/namei.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/inline.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/gc.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/data.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
-   fs/f2fs/data.c:2557:39: sparse: sparse: Using plain integer as NULL pointer
---
-   fs/f2fs/file.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
-   fs/f2fs/file.c:4082:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short const [usertype] *pwcs @@     got restricted __le16 * @@
-   fs/f2fs/file.c:4082:36: sparse:     expected unsigned short const [usertype] *pwcs
-   fs/f2fs/file.c:4082:36: sparse:     got restricted __le16 *
-   fs/f2fs/file.c:4118:28: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned short [usertype] *pwcs @@     got restricted __le16 * @@
-   fs/f2fs/file.c:4118:28: sparse:     expected unsigned short [usertype] *pwcs
-   fs/f2fs/file.c:4118:28: sparse:     got restricted __le16 *
-   fs/f2fs/file.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: asm output is not an lvalue
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: cast removes address space '__user' of expression
-   arch/csky/include/asm/uaccess.h:110:17: sparse: sparse: generating address of non-lvalue (11)
---
-   fs/f2fs/node.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
---
-   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long flags @@     got restricted vm_fault_t [usertype] ret @@
-   include/trace/events/f2fs.h:1470:1: sparse:     expected unsigned long flags
-   include/trace/events/f2fs.h:1470:1: sparse:     got restricted vm_fault_t [usertype] ret
-   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1173:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1232:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: cast to restricted vm_fault_t
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: restricted vm_fault_t degrades to integer
-   include/trace/events/f2fs.h:1470:1: sparse: sparse: restricted vm_fault_t degrades to integer
-   fs/f2fs/super.c: note: in included file:
->> include/linux/f2fs_fs.h:347:24: sparse: sparse: flexible array member 'i_addr' in a union
+smatch warnings:
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:952 armv8_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
 
-vim +/i_addr +347 include/linux/f2fs_fs.h
+vim +952 drivers/iommu/generic_pt/fmt/../iommu_pt.h
 
-1001b3479ce96e3 Huajun Li    2013-11-10  297  
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  298  struct f2fs_inode {
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  299  	__le16 i_mode;			/* file mode */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  300  	__u8 i_advise;			/* file hints */
-444c580f7e9ad29 Jaegeuk Kim  2013-08-08  301  	__u8 i_inline;			/* file inline flags */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  302  	__le32 i_uid;			/* user ID */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  303  	__le32 i_gid;			/* group ID */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  304  	__le32 i_links;			/* links count */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  305  	__le64 i_size;			/* file size in bytes */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  306  	__le64 i_blocks;		/* file size in blocks */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  307  	__le64 i_atime;			/* access time */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  308  	__le64 i_ctime;			/* change time */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  309  	__le64 i_mtime;			/* modification time */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  310  	__le32 i_atime_nsec;		/* access time in nano scale */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  311  	__le32 i_ctime_nsec;		/* change time in nano scale */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  312  	__le32 i_mtime_nsec;		/* modification time in nano scale */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  313  	__le32 i_generation;		/* file version (for NFS) */
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  314  	union {
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  315  		__le32 i_current_depth;	/* only for directory depth */
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  316  		__le16 i_gc_failures;	/*
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  317  					 * # of gc failures on pinned file.
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  318  					 * only for regular files.
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  319  					 */
-1ad71a27124caf0 Jaegeuk Kim  2017-12-07  320  	};
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  321  	__le32 i_xattr_nid;		/* nid to save xattr */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  322  	__le32 i_flags;			/* file attributes */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  323  	__le32 i_pino;			/* parent inode number */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  324  	__le32 i_namelen;		/* file name length */
-5a20d339c785d98 Jaegeuk Kim  2013-03-03  325  	__u8 i_name[F2FS_NAME_LEN];	/* file name for SPOR */
-3843154598a0040 Jaegeuk Kim  2014-02-27  326  	__u8 i_dir_level;		/* dentry_level for large dir */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  327  
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  328  	struct f2fs_extent i_ext;	/* caching a largest extent */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  329  
-7a2af766af15887 Chao Yu      2017-07-19  330  	union {
-7a2af766af15887 Chao Yu      2017-07-19  331  		struct {
-7a2af766af15887 Chao Yu      2017-07-19  332  			__le16 i_extra_isize;	/* extra inode attribute size */
-6afc662e68b5f98 Chao Yu      2017-09-06  333  			__le16 i_inline_xattr_size;	/* inline xattr size, unit: 4 bytes */
-5c57132eaf52659 Chao Yu      2017-07-26  334  			__le32 i_projid;	/* project id */
-704956ecf5bcdc1 Chao Yu      2017-07-31  335  			__le32 i_inode_checksum;/* inode meta checksum */
-1c1d35df71104c7 Chao Yu      2018-01-25  336  			__le64 i_crtime;	/* creation time */
-1c1d35df71104c7 Chao Yu      2018-01-25  337  			__le32 i_crtime_nsec;	/* creation time in nano scale */
-4c8ff7095bef64f Chao Yu      2019-11-01  338  			__le64 i_compr_blocks;	/* # of compressed blocks */
-4c8ff7095bef64f Chao Yu      2019-11-01  339  			__u8 i_compress_algorithm;	/* compress algorithm */
-4c8ff7095bef64f Chao Yu      2019-11-01  340  			__u8 i_log_cluster_size;	/* log of cluster size */
-b28f047b28c51d0 Chao Yu      2020-11-26  341  			__le16 i_compress_flag;		/* compress flag */
-3fde13f817e23f0 Chao Yu      2021-01-22  342  						/* 0 bit: chksum flag
-c1085957dece02b Yangtao Li   2023-01-12  343  						 * [8,15] bits: compress level
-3fde13f817e23f0 Chao Yu      2021-01-22  344  						 */
-7a2af766af15887 Chao Yu      2017-07-19  345  			__le32 i_extra_end[0];	/* for attribute size calculation */
-1c1d35df71104c7 Chao Yu      2018-01-25  346  		} __packed;
-0afae9798e90aee Kelvin Zhang 2026-08-20 @347  		__le32 i_addr[];		/* data block pointers */
-7a2af766af15887 Chao Yu      2017-07-19  348  	};
-0afae9798e90aee Kelvin Zhang 2026-08-20  349  	/*
-0afae9798e90aee Kelvin Zhang 2026-08-20  350  	 * __le32 i_nid[DEF_NIDS_PER_INODE];
-0afae9798e90aee Kelvin Zhang 2026-08-20  351  	 *
-0afae9798e90aee Kelvin Zhang 2026-08-20  352  	 * It is stored immediately before the node footer at the end of the
-0afae9798e90aee Kelvin Zhang 2026-08-20  353  	 * filesystem block. Its offset depends on the filesystem block size, so
-0afae9798e90aee Kelvin Zhang 2026-08-20  354  	 * locate it dynamically with F2FS_INODE_NIDS().
-0afae9798e90aee Kelvin Zhang 2026-08-20  355  	 */
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  356  } __packed;
-dd31866b0d55c9b Jaegeuk Kim  2012-11-02  357  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   929  
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   930  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   931  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   932  			 gfp_t gfp, size_t *mapped)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   933  {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   934  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   935  	struct pt_common *common = common_from_iommu(iommu_table);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   936  	struct iommu_iotlb_gather iotlb_gather;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   937  	struct pt_iommu_map_args map = {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   938  		.iotlb_gather = &iotlb_gather,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   939  		.oa = paddr,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   940  	};
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   941  	bool single_page = false;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   942  	struct pt_range range;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   943  	int ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   944  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   945  	iommu_iotlb_gather_init(&iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   946  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   947  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   948  		return -EINVAL;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   949  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   950  	/* Check the paddr doesn't exceed what the table can store */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   951  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  @952  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   953  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   954  	     oalog2_div(paddr, common->max_oasz_lg2)))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   955  		return -ERANGE;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   956  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   957  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   958  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   959  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   960  	map.attrs.gfp = gfp;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   961  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   962  	ret = make_range_no_check(common, &range, iova, len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   963  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   964  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   965  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   966  	/* Calculate target page size and level for the leaves */
+8ef3f77c440005 Jason Gunthorpe 2026-05-12   967  	if (pt_has_system_page_size(common) && len == PAGE_SIZE &&
+8ef3f77c440005 Jason Gunthorpe 2026-05-12   968  		likely(pgsize_bitmap & PAGE_SIZE)) {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   969  		if (log2_mod(iova | paddr, PAGE_SHIFT))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   970  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   971  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   972  		map.leaf_level = 0;
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   973  		map.num_leaves = 1;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   974  		single_page = true;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   975  	} else {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   976  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   977  			pgsize_bitmap, range.va, range.last_va, paddr);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   978  		if (!map.leaf_pgsize_lg2)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   979  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   980  		map.leaf_level =
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   981  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   982  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   983  					       range.last_va, paddr,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27   984  					       map.leaf_pgsize_lg2);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   985  	}
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   986  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   987  	ret = check_map_range(iommu_table, &range, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   988  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   989  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   990  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   991  	PT_WARN_ON(map.leaf_level > range.top_level);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   992  
+efa03dab7ce4ed Jason Gunthorpe 2025-10-23   993  	ret = do_map(&range, common, single_page, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   994  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   995  	/*
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   996  	 * Table levels were freed and replaced with large items, flush any walk
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   997  	 * cache that may refer to the freed levels.
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   998  	 */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04   999  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1000  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1001  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1002  	/* Bytes successfully mapped */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1003  	PT_WARN_ON(!ret && map.oa - paddr != len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1004  	*mapped += map.oa - paddr;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1005  	return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1006  }
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1007  
+
+:::::: The code at line 952 was first introduced by commit
+:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
 
 --
 0-DAY CI Kernel Test Service
