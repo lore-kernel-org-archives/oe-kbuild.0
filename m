@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361B0346AF1
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 12:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1EB3A900B
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 18:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788178621; cv=none; b=EdWynSsMlOBEiRL8Cexf03OYfrUF5qIgVcN9LJdzi3/IiFSFNhRiXai5vEOrark03gaY96SOuAWsWiklC+wwYbYRTqb+exFwdIut88IOTHZmTBg9uWeXdnlri2RXnI/mBvmpQsk9QWHoNZIhOfF7nRbgEm3tCW6cnNYh9CvZ4LI=
+	t=1788199854; cv=none; b=evuoOkgILsC6oi/e8m/LKLdx08EAwRUJWeCP+mkPfFoQ2hfxUM1yJzHnZt+xHQMZm9kmTazIiOH+Sh6oxbMDsQlSQZ+P27qsfBeiMVIAgQNZkZNU2QxH3NhPKLRTZv1Sl9XM0k3GqlJzf+XxOKSWIJsP6EX/Rvnd+Swuba/C8+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788178621; c=relaxed/simple;
-	bh=sFzHtptPg8YXY91BiWqGhBOATPA9DBeWCs3Jw4cX3SY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SEiV4B6MFnlJ8DuQ2dmDgnOLzuK6q6rt+nZpafiVwnVB2uV4WpKPyHcd4TJJ9zy1NVjkflWRIGZaAaC5o2XEYirWRXzaIdoDIqhg9UDZB7vfjM8Ji3+T31UCCJ2sQIpSPGN711I0SCq0JhoAQQoFbL4F/bzBu2SBH3jRXD3CZ94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZ8AahVS; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1788199854; c=relaxed/simple;
+	bh=TpBAultzycBZwCZ1SJIVgSffLoq6qcKgRM84uufJsiA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VRQtS1qSNOw9wOcE6CeMQsXmw8HJM8GGAitR3lubz0twLYrz1sm/0IMvnHZ1wy5vmkHQ9N+kZT+q9qm6Bz9yKhkBIiwPCdBIVE4Re1zT4MWIUsJBN1b8UcmLTeFsWXrSwFmsXB8adaScueoXSPkgNftcqtW20LPcUCHBjYV2z2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nc6JPhd2; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZ8AahVS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nc6JPhd2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788178619; x=1819714619;
+  t=1788199852; x=1819735852;
   h=date:from:to:cc:subject:message-id;
-  bh=sFzHtptPg8YXY91BiWqGhBOATPA9DBeWCs3Jw4cX3SY=;
-  b=PZ8AahVSdpVjkFKL8NsGyhk23IdA78BLPXSm7NCiwBN8hryNfqOhLGio
-   uS3CHHSDjdIUFOsGPgm8AEN2gvKZx8+VmRHZ6UhVDTMFq4RyUQm/JmkvT
-   sKxDwjG51TDHAl3I20swwK2CjtlQ7A4AKndBFTQh2teeQcD0kfPFHl87L
-   zNvmbhXijwvb9XmTfeV057PBkpDykvSmXJ5w+zkwoJBrAXfmDw37qiYQC
-   q2XoI9ZKAhs1BP7N0Grh36NI9ZhnKjwhpNWvTHu+3Ld07dDNrLraUpaa3
-   YU2CL3kdD0LIHhg+aDGtYXemhNmyHMlIplRdrHha0QjR6xjfno20bphOg
-   w==;
-X-CSE-ConnectionGUID: EcPjus8MRhOsQBNm2NYUpg==
-X-CSE-MsgGUID: mGJ0RcqdSUKdP1bk/qcavA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92451206"
+  bh=TpBAultzycBZwCZ1SJIVgSffLoq6qcKgRM84uufJsiA=;
+  b=nc6JPhd25w0H3e8TsAGz4uutZPDYFxFD3JFwoZwKnYzIbmxQMS9/AN4j
+   chC/JjLQj/3hFlfaOBb98qEb06tsv4qkIGWXJEuRAjU1RfPf8ZrOoLatB
+   c+ncwBo0Lt8Izz7wXyNdfAguhK66xAL5eP+7RE8UIxfMPy3elSiCC8eOM
+   Mz1CKKFfmFD7sSYjjWqu7NJfNUmpB0zVB4bD0cey0DXKbHz+FzgRwpuYP
+   SgJTHWyiNq3RnA2KtuozfBxoJeICZLnuwdVigXPem2uoR1OCQ/Mn/xJXi
+   sH6rggtiQ69TLPdN5fkM8ykCIgvbWsjpxdj4imRd4ohbf4/ZVsp4xAiU1
+   g==;
+X-CSE-ConnectionGUID: ZBiU11gwSfSl2rTCJwfivw==
+X-CSE-MsgGUID: I++7bxXOTGWP1jpxaNXg1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="100127836"
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="92451206"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 05:16:58 -0700
-X-CSE-ConnectionGUID: ngkpkn//T8ylpbYrg0ZY9w==
-X-CSE-MsgGUID: seHYqH4hSyK5XSR/J+anNg==
+   d="scan'208";a="100127836"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 11:10:51 -0700
+X-CSE-ConnectionGUID: TRuOkF7ZSC62tRNjAa1QsA==
+X-CSE-MsgGUID: hFxahqXFSIeRt4Jcgu/zvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="265541565"
+   d="scan'208";a="292359270"
 Received: from lkp-server01.sh.intel.com (HELO 78edef60ff5d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 05:16:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Aug 2026 11:10:50 -0700
 Received: from kbuild by 78edef60ff5d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x10wY-000000000c3-2LcG;
-	Mon, 31 Aug 2026 12:16:54 +0000
-Date: Mon, 31 Aug 2026 20:16:51 +0800
+	id 1x16T1-000000000zF-350a;
+	Mon, 31 Aug 2026 18:10:47 +0000
+Date: Tue, 01 Sep 2026 02:10:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [boqun:irqflags 11/20] drivers/input/joystick/analog.c:192
- analog_cooked_read() warn: mixing irqsave and irq
-Message-ID: <202608312037.GqxvSjEL-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/proc/base.c:3279:4-39: opportunity for
+ str_yes_no(mm_flags_test ( MMF_VM_MERGE_ANY , mm ))
+Message-ID: <202609010248.vFbMtF1I-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,94 +61,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Thomas Gleixner <tglx@kernel.org>
-CC: Boqun Feng <boqun@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+CC: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git irqflags
-head:   d5c6783a39c9f3ae4513eb61038d5306e4ba5f5b
-commit: fb509c0abd8483ea55b22d00a0e0f4b3d0a91ecb [11/20] irqflags: Cleanup wrappers
+Hi Lorenzo,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cee9395acd8043be0644b25c34bfa86623f2b935
+commit: d14d3f535e13ff0661b9a74133a8d6b9f9950712 mm: convert remaining users to mm_flags_*() accessors
+date:   12 months ago
 :::::: branch date: 21 hours ago
-:::::: commit date: 22 hours ago
-config: i386-randconfig-141-20260831 (https://download.01.org/0day-ci/archive/20260831/202608312037.GqxvSjEL-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+:::::: commit date: 12 months ago
+config: arc-randconfig-r053-20260831 (https://download.01.org/0day-ci/archive/20260901/202609010248.vFbMtF1I-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d14d3f535e13 ("mm: convert remaining users to mm_flags_*() accessors")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608312037.GqxvSjEL-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609010248.vFbMtF1I-lkp@intel.com/
 
-New smatch warnings:
-drivers/input/joystick/analog.c:192 analog_cooked_read() warn: mixing irqsave and irq
-drivers/usb/early/xhci-dbc.c:875 xdbc_bulk_write() warn: inconsistent returns 'flags'.
+cocci warnings: (new ones prefixed by >>)
+   fs/proc/base.c:3286:4-29: opportunity for str_yes_no(ksm_process_mergeable ( mm ))
+>> fs/proc/base.c:3279:4-39: opportunity for str_yes_no(mm_flags_test ( MMF_VM_MERGE_ANY , mm ))
 
-Old smatch warnings:
-drivers/usb/early/xhci-dbc.c:979 xdbc_init() warn: missing error code 'ret'
+vim +3279 fs/proc/base.c
 
-vim +192 drivers/input/joystick/analog.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  162  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  163  /*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  164   * analog_cooked_read() reads analog joystick data.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  165   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  166  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  167  static int analog_cooked_read(struct analog_port *port)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  168  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  169  	struct gameport *gameport = port->gameport;
-0c5483a5778fa9 Guenter Roeck  2021-09-07  170  	ktime_t time[4], start, loop, now;
-76460a7becadbd Takashi Iwai   2014-09-11  171  	unsigned int loopout, timeout;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  172  	unsigned char data[4], this, last;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  173  	unsigned long flags;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  174  	int i, j;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  175  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  176  	loopout = (ANALOG_LOOP_TIME * port->loop) / 1000;
-0c5483a5778fa9 Guenter Roeck  2021-09-07  177  	timeout = ANALOG_MAX_TIME * NSEC_PER_MSEC;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  178  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  179  	local_irq_save(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  180  	gameport_trigger(gameport);
-0c5483a5778fa9 Guenter Roeck  2021-09-07  181  	now = ktime_get();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  182  	local_irq_restore(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  183  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  184  	start = now;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  185  	this = port->mask;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  186  	i = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  187  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  188  	do {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  189  		loop = now;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  190  		last = this;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  191  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @192  		local_irq_disable();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  193  		this = gameport_read(gameport) & port->mask;
-0c5483a5778fa9 Guenter Roeck  2021-09-07  194  		now = ktime_get();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  195  		local_irq_restore(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
-0c5483a5778fa9 Guenter Roeck  2021-09-07  197  		if ((last ^ this) && (ktime_sub(now, loop) < loopout)) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  198  			data[i] = last ^ this;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  199  			time[i] = now;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  200  			i++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  201  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  202  
-0c5483a5778fa9 Guenter Roeck  2021-09-07  203  	} while (this && (i < 4) && (ktime_sub(now, start) < timeout));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  204  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  205  	this <<= 4;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  206  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  207  	for (--i; i >= 0; i--) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		this |= data[i];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  209  		for (j = 0; j < 4; j++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  210  			if (data[i] & (1 << j))
-0c5483a5778fa9 Guenter Roeck  2021-09-07  211  				port->axes[j] = ((u32)ktime_sub(time[i], start) << ANALOG_FUZZ_BITS) / port->loop;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  212  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  213  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  214  	return -(this != port->mask);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  215  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  216  
-
-:::::: The code at line 192 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+7c23b330011690 Josh Poimboeuf  2017-02-13  3251  
+7609385337a4fe xu xin          2022-04-28  3252  #ifdef CONFIG_KSM
+7609385337a4fe xu xin          2022-04-28  3253  static int proc_pid_ksm_merging_pages(struct seq_file *m, struct pid_namespace *ns,
+7609385337a4fe xu xin          2022-04-28  3254  				struct pid *pid, struct task_struct *task)
+7609385337a4fe xu xin          2022-04-28  3255  {
+7609385337a4fe xu xin          2022-04-28  3256  	struct mm_struct *mm;
+7609385337a4fe xu xin          2022-04-28  3257  
+7609385337a4fe xu xin          2022-04-28  3258  	mm = get_task_mm(task);
+7609385337a4fe xu xin          2022-04-28  3259  	if (mm) {
+7609385337a4fe xu xin          2022-04-28  3260  		seq_printf(m, "%lu\n", mm->ksm_merging_pages);
+7609385337a4fe xu xin          2022-04-28  3261  		mmput(mm);
+7609385337a4fe xu xin          2022-04-28  3262  	}
+7609385337a4fe xu xin          2022-04-28  3263  
+7609385337a4fe xu xin          2022-04-28  3264  	return 0;
+7609385337a4fe xu xin          2022-04-28  3265  }
+cb4df4cae4f2bd xu xin          2022-08-30  3266  static int proc_pid_ksm_stat(struct seq_file *m, struct pid_namespace *ns,
+cb4df4cae4f2bd xu xin          2022-08-30  3267  				struct pid *pid, struct task_struct *task)
+cb4df4cae4f2bd xu xin          2022-08-30  3268  {
+cb4df4cae4f2bd xu xin          2022-08-30  3269  	struct mm_struct *mm;
+3ab76c767bc783 xu xin          2025-01-10  3270  	int ret = 0;
+cb4df4cae4f2bd xu xin          2022-08-30  3271  
+cb4df4cae4f2bd xu xin          2022-08-30  3272  	mm = get_task_mm(task);
+cb4df4cae4f2bd xu xin          2022-08-30  3273  	if (mm) {
+cb4df4cae4f2bd xu xin          2022-08-30  3274  		seq_printf(m, "ksm_rmap_items %lu\n", mm->ksm_rmap_items);
+c2dc78b86e0821 Chengming Zhou  2024-05-28  3275  		seq_printf(m, "ksm_zero_pages %ld\n", mm_ksm_zero_pages(mm));
+d21077fbc2fc98 Stefan Roesch   2023-04-17  3276  		seq_printf(m, "ksm_merging_pages %lu\n", mm->ksm_merging_pages);
+d21077fbc2fc98 Stefan Roesch   2023-04-17  3277  		seq_printf(m, "ksm_process_profit %ld\n", ksm_process_profit(mm));
+3ab76c767bc783 xu xin          2025-01-10  3278  		seq_printf(m, "ksm_merge_any: %s\n",
+d14d3f535e13ff Lorenzo Stoakes 2025-08-12 @3279  				mm_flags_test(MMF_VM_MERGE_ANY, mm) ? "yes" : "no");
+3ab76c767bc783 xu xin          2025-01-10  3280  		ret = mmap_read_lock_killable(mm);
+3ab76c767bc783 xu xin          2025-01-10  3281  		if (ret) {
+3ab76c767bc783 xu xin          2025-01-10  3282  			mmput(mm);
+3ab76c767bc783 xu xin          2025-01-10  3283  			return ret;
+3ab76c767bc783 xu xin          2025-01-10  3284  		}
+3ab76c767bc783 xu xin          2025-01-10  3285  		seq_printf(m, "ksm_mergeable: %s\n",
+3ab76c767bc783 xu xin          2025-01-10  3286  				ksm_process_mergeable(mm) ? "yes" : "no");
+3ab76c767bc783 xu xin          2025-01-10  3287  		mmap_read_unlock(mm);
+cb4df4cae4f2bd xu xin          2022-08-30  3288  		mmput(mm);
+cb4df4cae4f2bd xu xin          2022-08-30  3289  	}
+cb4df4cae4f2bd xu xin          2022-08-30  3290  
+cb4df4cae4f2bd xu xin          2022-08-30  3291  	return 0;
+cb4df4cae4f2bd xu xin          2022-08-30  3292  }
+7609385337a4fe xu xin          2022-04-28  3293  #endif /* CONFIG_KSM */
+7609385337a4fe xu xin          2022-04-28  3294  
 
 --
 0-DAY CI Kernel Test Service
