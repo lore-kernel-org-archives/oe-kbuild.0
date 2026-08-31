@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07053403ED
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 11:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361B0346AF1
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Aug 2026 12:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176057; cv=none; b=L5Wb3v6k1MLsIr/c5XmCwcv7U8sPE39fXuWMiQEmICpHnt6pbkmDEZcTermoyanc1EZEQqQRSUUsKkbmIEeybRHucHYyt5oNQWllHuMtTANOk3U5pPKJGc7jgb4V2J5nyBN0vBPGJjRIhQmMF/iOYnoya4WpJmQ5h5PhRD3CjdY=
+	t=1788178621; cv=none; b=EdWynSsMlOBEiRL8Cexf03OYfrUF5qIgVcN9LJdzi3/IiFSFNhRiXai5vEOrark03gaY96SOuAWsWiklC+wwYbYRTqb+exFwdIut88IOTHZmTBg9uWeXdnlri2RXnI/mBvmpQsk9QWHoNZIhOfF7nRbgEm3tCW6cnNYh9CvZ4LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176057; c=relaxed/simple;
-	bh=AMnD5nv299Dgiw+K2u6Y9QS/NEC9CHIREkBaIXqNoVc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lYuEAiOSY/UUmitUgIa17jfDncYWjjztJUKUtcGQHOtA1exMrL3rZhnoFQ2ZX48ZYULDWqacCU6I/QEZYX3c8H8sLittPuwvRVVJWEOScXGM6g0DlYwupxKRfbo3eN03TK8qvxAWI+cUom0Wl1gk8IG2Luxort4ngAjMcFIKjWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0bQMQbF; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1788178621; c=relaxed/simple;
+	bh=sFzHtptPg8YXY91BiWqGhBOATPA9DBeWCs3Jw4cX3SY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SEiV4B6MFnlJ8DuQ2dmDgnOLzuK6q6rt+nZpafiVwnVB2uV4WpKPyHcd4TJJ9zy1NVjkflWRIGZaAaC5o2XEYirWRXzaIdoDIqhg9UDZB7vfjM8Ji3+T31UCCJ2sQIpSPGN711I0SCq0JhoAQQoFbL4F/bzBu2SBH3jRXD3CZ94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZ8AahVS; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0bQMQbF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZ8AahVS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788176056; x=1819712056;
+  t=1788178619; x=1819714619;
   h=date:from:to:cc:subject:message-id;
-  bh=AMnD5nv299Dgiw+K2u6Y9QS/NEC9CHIREkBaIXqNoVc=;
-  b=h0bQMQbFgsCwHp2eW7SwN1kYTK+d+vScXwOcXWpqovy1//gIXnsDwa+r
-   g1sjxVIDaq4+zo8DqXWf5J9Y/zeW0UdpdnzPKJmArSM4C9GF+Fh5PLj2G
-   6eJ2AMH8/zmYDP+9ppc6UOdXLyjXln0c+SCSdzMj3hhkaMsjeeYYga68G
-   MY/uyyQX1MJZVfDsumryD+L3H0oYZ7AY3QfQ7v/9zW93mBEydbVKfsbVa
-   gE/j0F6Etdzcn5KTw313kTSs96i+ouZP/iJmd4/TdPIDhtPkc2ei0Ty/5
-   WlMTgfrbnP8IdMs/FP8YPBPzbvqysxEUqSStb22eK+rqsxkW3Yq+7zfJy
-   A==;
-X-CSE-ConnectionGUID: JRKZd3CAQQKPbfULHsPZ+A==
-X-CSE-MsgGUID: vz+Q6OwzQAq3BgHN2rv7zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="87716537"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="87716537"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:34:08 -0700
-X-CSE-ConnectionGUID: qikvrwZaQmGm/GpGIcszTw==
-X-CSE-MsgGUID: NmnEM5ovRlCyp2GtR573Jw==
+  bh=sFzHtptPg8YXY91BiWqGhBOATPA9DBeWCs3Jw4cX3SY=;
+  b=PZ8AahVSdpVjkFKL8NsGyhk23IdA78BLPXSm7NCiwBN8hryNfqOhLGio
+   uS3CHHSDjdIUFOsGPgm8AEN2gvKZx8+VmRHZ6UhVDTMFq4RyUQm/JmkvT
+   sKxDwjG51TDHAl3I20swwK2CjtlQ7A4AKndBFTQh2teeQcD0kfPFHl87L
+   zNvmbhXijwvb9XmTfeV057PBkpDykvSmXJ5w+zkwoJBrAXfmDw37qiYQC
+   q2XoI9ZKAhs1BP7N0Grh36NI9ZhnKjwhpNWvTHu+3Ld07dDNrLraUpaa3
+   YU2CL3kdD0LIHhg+aDGtYXemhNmyHMlIplRdrHha0QjR6xjfno20bphOg
+   w==;
+X-CSE-ConnectionGUID: EcPjus8MRhOsQBNm2NYUpg==
+X-CSE-MsgGUID: mGJ0RcqdSUKdP1bk/qcavA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92451206"
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="92451206"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 05:16:58 -0700
+X-CSE-ConnectionGUID: ngkpkn//T8ylpbYrg0ZY9w==
+X-CSE-MsgGUID: seHYqH4hSyK5XSR/J+anNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="298691129"
+   d="scan'208";a="265541565"
 Received: from lkp-server01.sh.intel.com (HELO 78edef60ff5d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2026 04:33:51 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 05:16:57 -0700
 Received: from kbuild by 78edef60ff5d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x10Gq-000000000Vl-3Rpr;
-	Mon, 31 Aug 2026 11:33:48 +0000
-Date: Mon, 31 Aug 2026 19:33:46 +0800
+	id 1x10wY-000000000c3-2LcG;
+	Mon, 31 Aug 2026 12:16:54 +0000
+Date: Mon, 31 Aug 2026 20:16:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jgunthorpe:iommu_pt_arm64 20/38]
- drivers/iommu/generic_pt/fmt/../iommu_pt.h:952 armv8_map_range() warn:
- impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
-Message-ID: <202608311932.8R97Sd6C-lkp@intel.com>
+Subject: [boqun:irqflags 11/20] drivers/input/joystick/analog.c:192
+ analog_cooked_read() warn: mixing irqsave and irq
+Message-ID: <202608312037.GqxvSjEL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,113 +61,94 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
+TO: Thomas Gleixner <tglx@kernel.org>
+CC: Boqun Feng <boqun@kernel.org>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
-head:   c8e2bfb14a9e9ecdcccf303888f6b388a5fee9b1
-commit: 27b050d135df207da32c5c1c476b206cc5fb7053 [20/38] iommupt/armv8: Implement the iommu specific components
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-r072-20260827 (https://download.01.org/0day-ci/archive/20260831/202608311932.8R97Sd6C-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git irqflags
+head:   d5c6783a39c9f3ae4513eb61038d5306e4ba5f5b
+commit: fb509c0abd8483ea55b22d00a0e0f4b3d0a91ecb [11/20] irqflags: Cleanup wrappers
+:::::: branch date: 21 hours ago
+:::::: commit date: 22 hours ago
+config: i386-randconfig-141-20260831 (https://download.01.org/0day-ci/archive/20260831/202608312037.GqxvSjEL-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608311932.8R97Sd6C-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608312037.GqxvSjEL-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:952 armv8_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
+New smatch warnings:
+drivers/input/joystick/analog.c:192 analog_cooked_read() warn: mixing irqsave and irq
+drivers/usb/early/xhci-dbc.c:875 xdbc_bulk_write() warn: inconsistent returns 'flags'.
 
-vim +952 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+Old smatch warnings:
+drivers/usb/early/xhci-dbc.c:979 xdbc_init() warn: missing error code 'ret'
 
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   929  
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   930  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   931  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   932  			 gfp_t gfp, size_t *mapped)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   933  {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   934  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   935  	struct pt_common *common = common_from_iommu(iommu_table);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   936  	struct iommu_iotlb_gather iotlb_gather;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   937  	struct pt_iommu_map_args map = {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   938  		.iotlb_gather = &iotlb_gather,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   939  		.oa = paddr,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   940  	};
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   941  	bool single_page = false;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   942  	struct pt_range range;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   943  	int ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   944  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   945  	iommu_iotlb_gather_init(&iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   946  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   947  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   948  		return -EINVAL;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   949  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   950  	/* Check the paddr doesn't exceed what the table can store */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   951  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  @952  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   953  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   954  	     oalog2_div(paddr, common->max_oasz_lg2)))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   955  		return -ERANGE;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   956  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   957  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   958  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   959  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   960  	map.attrs.gfp = gfp;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   961  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   962  	ret = make_range_no_check(common, &range, iova, len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   963  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   964  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   965  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   966  	/* Calculate target page size and level for the leaves */
-8ef3f77c440005 Jason Gunthorpe 2026-05-12   967  	if (pt_has_system_page_size(common) && len == PAGE_SIZE &&
-8ef3f77c440005 Jason Gunthorpe 2026-05-12   968  		likely(pgsize_bitmap & PAGE_SIZE)) {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   969  		if (log2_mod(iova | paddr, PAGE_SHIFT))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   970  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   971  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   972  		map.leaf_level = 0;
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   973  		map.num_leaves = 1;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   974  		single_page = true;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   975  	} else {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   976  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   977  			pgsize_bitmap, range.va, range.last_va, paddr);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   978  		if (!map.leaf_pgsize_lg2)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   979  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   980  		map.leaf_level =
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   981  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   982  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   983  					       range.last_va, paddr,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   984  					       map.leaf_pgsize_lg2);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   985  	}
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   986  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   987  	ret = check_map_range(iommu_table, &range, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   988  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   989  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   990  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   991  	PT_WARN_ON(map.leaf_level > range.top_level);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   992  
-efa03dab7ce4ed Jason Gunthorpe 2025-10-23   993  	ret = do_map(&range, common, single_page, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   994  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   995  	/*
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   996  	 * Table levels were freed and replaced with large items, flush any walk
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   997  	 * cache that may refer to the freed levels.
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   998  	 */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   999  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1000  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1001  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1002  	/* Bytes successfully mapped */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1003  	PT_WARN_ON(!ret && map.oa - paddr != len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1004  	*mapped += map.oa - paddr;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1005  	return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1006  }
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1007  
+vim +192 drivers/input/joystick/analog.c
 
-:::::: The code at line 952 was first introduced by commit
-:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+^1da177e4c3f41 Linus Torvalds 2005-04-16  162  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  163  /*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  164   * analog_cooked_read() reads analog joystick data.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  165   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  166  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  167  static int analog_cooked_read(struct analog_port *port)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  168  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  169  	struct gameport *gameport = port->gameport;
+0c5483a5778fa9 Guenter Roeck  2021-09-07  170  	ktime_t time[4], start, loop, now;
+76460a7becadbd Takashi Iwai   2014-09-11  171  	unsigned int loopout, timeout;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  172  	unsigned char data[4], this, last;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  173  	unsigned long flags;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  174  	int i, j;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  175  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  176  	loopout = (ANALOG_LOOP_TIME * port->loop) / 1000;
+0c5483a5778fa9 Guenter Roeck  2021-09-07  177  	timeout = ANALOG_MAX_TIME * NSEC_PER_MSEC;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  178  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  179  	local_irq_save(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  180  	gameport_trigger(gameport);
+0c5483a5778fa9 Guenter Roeck  2021-09-07  181  	now = ktime_get();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  182  	local_irq_restore(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  183  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  184  	start = now;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  185  	this = port->mask;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  186  	i = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  187  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  188  	do {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  189  		loop = now;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  190  		last = this;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  191  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @192  		local_irq_disable();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  193  		this = gameport_read(gameport) & port->mask;
+0c5483a5778fa9 Guenter Roeck  2021-09-07  194  		now = ktime_get();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  195  		local_irq_restore(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
+0c5483a5778fa9 Guenter Roeck  2021-09-07  197  		if ((last ^ this) && (ktime_sub(now, loop) < loopout)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  198  			data[i] = last ^ this;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  199  			time[i] = now;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  200  			i++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  201  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  202  
+0c5483a5778fa9 Guenter Roeck  2021-09-07  203  	} while (this && (i < 4) && (ktime_sub(now, start) < timeout));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  204  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  205  	this <<= 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  206  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  207  	for (--i; i >= 0; i--) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		this |= data[i];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  209  		for (j = 0; j < 4; j++)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  210  			if (data[i] & (1 << j))
+0c5483a5778fa9 Guenter Roeck  2021-09-07  211  				port->axes[j] = ((u32)ktime_sub(time[i], start) << ANALOG_FUZZ_BITS) / port->loop;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  212  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  213  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  214  	return -(this != port->mask);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  215  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  216  
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+:::::: The code at line 192 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
