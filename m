@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248EA3D47BF
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 16:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A133D47B4
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 18:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788367252; cv=none; b=c7TNhUQe9t4XVF6GfPHCXHiqlxAcb8/PeHDefkGvJL/eDO8L9XrapamIXDqiqUuHe3mlVlwARjoaBR54sv3K7FTA6Hm4iufZ7HFUmERJ6QScLJPj2ZWrgBNo2WcM/EQTGHbbMmQVheYJiYUNPo+3r0rmcjZw21Z7fuOSCQwpQ2o=
+	t=1788374094; cv=none; b=gcliTK64+dp/1J3YIV9duJvpUPo7p1bxsU0Hl7Gd9ziekJXNg0ICYD+GpYSEK7e3TodqwCGkxjR7oXT22LcwsTvgdXW+XE04jBtaXSlzHO4fWyagtBf8YymvCUAIQzmc3lV37m5MrWJ80fBZt6V802QtmIFoUXFC0TjVoa8gakQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788367252; c=relaxed/simple;
-	bh=ipWqUKQ2HZ/gCzTC4K8qx6qfw2f08OpO8SS/F8by77c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AQ0+mRw0AzwJkeaXCIqklH4YhYUSTEhwoaIGAeCwpk3CqIAvdyiTPfud8FFD43Qhv8CoeR3j7rnyUlTZFwOwvSi9Shauian2rEriWzPAqKKXI2PwVCws7VLLo6ypU8zT2UJZXpS+l/cG4IqMTlIfPZhitr3n+rIKQjAFvgdLiZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6FXJeV5; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1788374094; c=relaxed/simple;
+	bh=0wnKOugAVwdGFVRCqKlq8jKsifc5eWBSxltwDmu7tG0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uuzwnPAGrhiY2KXH3/e6FWpGJ8oVCQNAON/Z+/LlXnScRXA6Urq277Dc006Hx6ARhAweAxBn0ksGmt0sFPBPM91XBBr5uD7OfYu7nGmzW4iYEJxHeyb/KP9vlRDYhIRj+BntBU5Y02t/uBezD7af7d9qwlAsO0CQigmyghxMA18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VF6njLEW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6FXJeV5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VF6njLEW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788367250; x=1819903250;
+  t=1788374091; x=1819910091;
   h=date:from:to:cc:subject:message-id;
-  bh=ipWqUKQ2HZ/gCzTC4K8qx6qfw2f08OpO8SS/F8by77c=;
-  b=T6FXJeV57UuiK5RAg/w3ND8EtzfkuKglXzXbZtWnnpNW5XmLXyrknNFC
-   y0L+KGCMmZ6y4FcBNrTREwz0BQXheLjY4RCdG2Kwtfa463ODT2vR4bFrt
-   HPRjLWWt2fqjIra58WxHUJ5a9mNdyvDFZ+gJRkwRWROdpuyHdUHKt8dSj
-   m/eRNi6pp1lcox4iGKPhKlhFJyja0JRKlWxsc5c6HgqNTGBAsKqnDk76N
-   4jOW170N2VabrxQE5DW5pX6b02570/2ykwceytzm1Mx6wyWcijnXdMid9
-   PbLWczRC7C+EjrTva0DXiQvh07ia9kfqanadx4r97apc/rGZHgO2olM8o
-   A==;
-X-CSE-ConnectionGUID: 2yfxJC3bT/60D5VWKrw+zw==
-X-CSE-MsgGUID: alIUXpAfRN+51dtx8vGO8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="114374597"
+  bh=0wnKOugAVwdGFVRCqKlq8jKsifc5eWBSxltwDmu7tG0=;
+  b=VF6njLEWk4vag2zakStuAvq9xivu7bWBaenAu/fAiCcFmf586BaYjPpl
+   C1YheyNAMqg4LPU8dpU/M9CMUXEw8/etvQxlB06fkdG773HyYEpHvCMYL
+   YWwqXSz+ZEl+hr+lgGkdBQLPCk+/szsLzPvay0rQ1pgXTGuPrvndNebsc
+   xIjvhGHYZfPUWJFSXLexf9MYUM4C143KwClLKS7YGEwN2Y9Pd71JaBeQW
+   VkCdv2yrM+M40dYaJ8919VuTxH3q8nM+YbVnlfGCR0SPL8J4fnm3PoV+/
+   /+PLLNqNmcwq6EGeMXO3WXl3BpcJvvAVRb1vdhCz1ViC6ohi3DOrhR61v
+   g==;
+X-CSE-ConnectionGUID: n+ZYxu7MQpuUUsRT24SPAw==
+X-CSE-MsgGUID: wvhDA+CEQOavf2QeoS1Iew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="100358411"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="114374597"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 09:40:49 -0700
-X-CSE-ConnectionGUID: TQL9ED0SR/+FoUMGUalPdg==
-X-CSE-MsgGUID: K29Hv0f6REmOPJ5NYMlk2Q==
+   d="scan'208";a="100358411"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 11:34:49 -0700
+X-CSE-ConnectionGUID: 0P2LS+rPQG2JVfVTgoesDQ==
+X-CSE-MsgGUID: +e2V6+ZBRb6GbCwhG+uDOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="294317485"
-Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Sep 2026 09:40:48 -0700
-Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
+   d="scan'208";a="265174772"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Sep 2026 11:34:47 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1o10-000000000EF-2jN1;
-	Wed, 02 Sep 2026 16:40:46 +0000
-Date: Wed, 02 Sep 2026 18:40:39 +0200
+	id 1x1pnI-0000000039I-39cw;
+	Wed, 02 Sep 2026 18:34:44 +0000
+Date: Thu, 03 Sep 2026 02:34:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [mszeredi-fuse:for-next 3/7] make[1]: *** No rule to make
- target 'tools/testing/selftests/filesystems/fuse/test_syncfs', needed by
- 'all'.
-Message-ID: <202609021808.5OxsIter-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/iio/accel/adxl380.c:1763:8-33: WARNING: Threaded IRQ
+ with no primary handler requested without IRQF_ONESHOT (unless it is nested
+ IRQ)
+Message-ID: <202609030222.a7bv52e2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,96 +60,85 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: fuse-devel@lists.sourceforge.net
-TO: Jimmy Zuber <jamz@amazon.com>
-CC: Miklos Szeredi <mszeredi@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Ramona Gradinariu <ramona.gradinariu@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-head:   10bd6b32965265688fa277d166ab224de8e86eb2
-commit: a6ca1a573e1fd9474c6226412fb743b4ef7e3472 [3/7] selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260902/202609021808.5OxsIter-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021808.5OxsIter-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89a312991dc6e638a36adc43ccb91dbc25504c04
+commit: df36de13677a0ebd3ab31dd2c603f9eafdf8de7d iio: accel: add ADXL380 driver
+date:   2 years, 1 month ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 2 years, 1 month ago
+config: mips-randconfig-r051-20260823 (https://download.01.org/0day-ci/archive/20260903/202609030222.a7bv52e2-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: df36de13677a ("iio: accel: add ADXL380 driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609021808.5OxsIter-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609030222.a7bv52e2-lkp@intel.com/
 
-Note: the mszeredi-fuse/for-next HEAD 10bd6b32965265688fa277d166ab224de8e86eb2 builds fine.
-      It only hurts bisectability.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iio/accel/adxl380.c:1763:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
-All errors (new ones prefixed by >>):
+vim +1763 drivers/iio/accel/adxl380.c
 
-   make[1]: *** [../../lib.mk:225: tools/testing/selftests/drivers/net/psp_responder] Error 1
-   make[1]: Target 'all' not remade because of errors.
->> make[1]: *** No rule to make target 'tools/testing/selftests/filesystems/fuse/test_syncfs', needed by 'all'.
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** [Makefile:117: tools/testing/selftests/hid/host-tools/sbin/bpftool] Error 2
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets.  Stop.
-   make[1]: *** [../lib.mk:225: tools/testing/selftests/net/busy_poller] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/net/tun] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   Makefile:60: warning: overriding recipe for target 'emit_tests'
-   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
-   make[1]: *** No targets.  Stop.
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-loadavg-001] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/setns-sysvipc] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/setns-dcache] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/thread-self] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-tid0] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-pid-vm] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets specified and no makefile found.  Stop.
-   make[1]: Circular tools/testing/selftests/rseq/param_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/slice_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/slice_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/check_optimized dependency dropped.
-   make[1]: *** [Makefile:67: tools/testing/selftests/rseq/param_test_mm_cid_compare_twice] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets.  Stop.
-   make[1]: *** No targets.  Stop.
+df36de13677a0e Antoniu Miclaus 2024-07-08  1717  
+df36de13677a0e Antoniu Miclaus 2024-07-08  1718  static int adxl380_config_irq(struct iio_dev *indio_dev)
+df36de13677a0e Antoniu Miclaus 2024-07-08  1719  {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1720  	struct adxl380_state *st = iio_priv(indio_dev);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1721  	unsigned long irq_flag;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1722  	struct irq_data *desc;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1723  	u32 irq_type;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1724  	u8 polarity;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1725  	int ret;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1726  
+df36de13677a0e Antoniu Miclaus 2024-07-08  1727  	st->irq = fwnode_irq_get_byname(dev_fwnode(st->dev), "INT0");
+df36de13677a0e Antoniu Miclaus 2024-07-08  1728  	if (st->irq > 0) {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1729  		st->int_map[0] = ADXL380_INT0_MAP0_REG;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1730  		st->int_map[1] = ADXL380_INT0_MAP1_REG;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1731  	} else {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1732  		st->irq = fwnode_irq_get_byname(dev_fwnode(st->dev), "INT1");
+df36de13677a0e Antoniu Miclaus 2024-07-08  1733  		if (st->irq > 0)
+df36de13677a0e Antoniu Miclaus 2024-07-08  1734  			return dev_err_probe(st->dev, -ENODEV,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1735  					     "no interrupt name specified");
+df36de13677a0e Antoniu Miclaus 2024-07-08  1736  		st->int_map[0] = ADXL380_INT1_MAP0_REG;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1737  		st->int_map[1] = ADXL380_INT1_MAP1_REG;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1738  	}
+df36de13677a0e Antoniu Miclaus 2024-07-08  1739  
+df36de13677a0e Antoniu Miclaus 2024-07-08  1740  	desc = irq_get_irq_data(st->irq);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1741  	if (!desc)
+df36de13677a0e Antoniu Miclaus 2024-07-08  1742  		return dev_err_probe(st->dev, -EINVAL, "Could not find IRQ %d\n", st->irq);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1743  
+df36de13677a0e Antoniu Miclaus 2024-07-08  1744  	irq_type = irqd_get_trigger_type(desc);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1745  	if (irq_type == IRQ_TYPE_LEVEL_HIGH) {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1746  		polarity = 0;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1747  		irq_flag = IRQF_TRIGGER_HIGH | IRQF_ONESHOT;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1748  	} else if (irq_type == IRQ_TYPE_LEVEL_LOW) {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1749  		polarity = 1;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1750  		irq_flag = IRQF_TRIGGER_LOW | IRQF_ONESHOT;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1751  	} else {
+df36de13677a0e Antoniu Miclaus 2024-07-08  1752  		return dev_err_probe(st->dev, -EINVAL,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1753  				     "Invalid interrupt 0x%x. Only level interrupts supported\n",
+df36de13677a0e Antoniu Miclaus 2024-07-08  1754  				     irq_type);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1755  	}
+df36de13677a0e Antoniu Miclaus 2024-07-08  1756  
+df36de13677a0e Antoniu Miclaus 2024-07-08  1757  	ret = regmap_update_bits(st->regmap, ADXL380_INT0_REG,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1758  				 ADXL380_INT0_POL_MSK,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1759  				 FIELD_PREP(ADXL380_INT0_POL_MSK, polarity));
+df36de13677a0e Antoniu Miclaus 2024-07-08  1760  	if (ret)
+df36de13677a0e Antoniu Miclaus 2024-07-08  1761  		return ret;
+df36de13677a0e Antoniu Miclaus 2024-07-08  1762  
+df36de13677a0e Antoniu Miclaus 2024-07-08 @1763  	return devm_request_threaded_irq(st->dev, st->irq, NULL,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1764  					 adxl380_irq_handler, irq_flag,
+df36de13677a0e Antoniu Miclaus 2024-07-08  1765  					 indio_dev->name, indio_dev);
+df36de13677a0e Antoniu Miclaus 2024-07-08  1766  }
+df36de13677a0e Antoniu Miclaus 2024-07-08  1767  
 
 --
 0-DAY CI Kernel Test Service
