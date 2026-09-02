@@ -1,182 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C93A48CD47
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 12:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB8F481FC5
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 13:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353780; cv=none; b=XqHH5eeXmLqr3gqSyg7n9j+uQUWYiLOojwb27JGmi0yFRBrEmCSlVokU+anl+a1UE+3PZWIe67fyB6Whtx2CaEXX3HtT3GtyWyb7DWKRMgdYDIDeMf++tpq0q1dfqSdK3eh3IJYp8ZiwEbLgVL5BP83YFhKbyYZDtmOFeyNO9+s=
+	t=1788356331; cv=none; b=iya7VOorIoHHSBgPmFdRz7e42vBFQDQBI1nzqNX7Hr8nhU2LiCMgLuSShXjAryO3I0+D48Q58htweO9MKOt3yF4VN1kv9v4Gy1bciHJd7JKnmHFPnZc3NX064y43OkMG0iuPQDYrlb4aX8cGkawYy3ADEJDNx4HSfQts2GybQo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353780; c=relaxed/simple;
-	bh=mqlkXlyoUuvgtYaTQXcV1TX69Ve1UAwe/67A/K9lcOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hbLHgyct/HagRrRO5kGxuZDIMcJRu15k8498zB3Gn0vTCNR7mNkpevoNy0A7pIar35aGvsiGY6DhPAiFDpqw3S2N5mS1F3cJnbBMqlm0345/BhcVz/vCekF56SPCTi38rKzNY9f2ecz1hMLMYGLTeVq6MCjdyb/W7uNh7m1b/e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1oxEd1L; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1788356331; c=relaxed/simple;
+	bh=WmvOI4xOcXBhY60MLjTV1ymc/dHSZ4ljWuwiGqMxBkc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KY46TMtbEiPvKKoil5TNSImfnofq/+luAff0N+WCye5kFlAuAsLVk89vPCPS4YF9LP1QZF6DLlffEMPI7wsIp8h3zSXf8wFyGfJHaepwVwp/em9ATCggonVq5K6dplLB/GVNO0rbM5Yq1yE7sWD0DMH41DM02pGZSQuZ+bIWkNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X42GLDUR; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1oxEd1L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X42GLDUR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788353777; x=1819889777;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mqlkXlyoUuvgtYaTQXcV1TX69Ve1UAwe/67A/K9lcOQ=;
-  b=P1oxEd1LCR11PKbQRChJ1bMqeXlLxODGLt1xFFR0qHe+5vWNpOJSPSVa
-   Z51Ai95e5SzG+LsDcU7CYOjRMV4AlIH7d0F68VZnk7vzpjUyJ8w3mIQwo
-   85SpI2jwUII5jahWErimpYacgASHKy5hjGBTS7Ug7Ki0HMN3jYHe7hs0V
-   IhJ1RdxYZJO+6qabR/u9IbqGfmZ1QCG8knFoBCoJ4tNET05+41QxNtcN7
-   NljE/EDRt0P23NEYXXBclg+DqtXJxIe75BPhFTiGbdg3wN18NvjrMgetA
-   X3jpXRelEOhHJ0HCOMgWQKJUjCE5fS+/RVl2wpUzd8oZN0zygKiBrf2Av
+  t=1788356329; x=1819892329;
+  h=date:from:to:cc:subject:message-id;
+  bh=WmvOI4xOcXBhY60MLjTV1ymc/dHSZ4ljWuwiGqMxBkc=;
+  b=X42GLDURD2yMUiRT9vKxGKNAM1d9yB7D9iNs+Jq7xxIum/qBpVf9cR9E
+   nwFA+5c6B7KVXuE2X/xxKemmBlqcvALJx9AT3lvPFwEAPUI873ApvQzkn
+   6CiF9UhVwrzHJEB+ynzxwbwpQtg1Js9GLSMfamB+nw8+aC98no0D4OSTY
+   D0yjCWjzeMyYdlDVMWdBWcbPIpGVaxecx+l8M62v5BNU7sqRJUvpdsRqJ
+   uuJG0deiAKa7Z4ImPj2m0ArgGAutLj0VPIEMtQGU9Sz0y8dVjNiFtk7rP
+   Gk6B8EMKEwlQe+5O1B3+EOPAf9BWuvKRvev2KXwR3L2j9smvH0jIbf5Hk
    g==;
-X-CSE-ConnectionGUID: xMwaeOOYRFeOuExxhIp0TQ==
-X-CSE-MsgGUID: vjel9bebRLukdiATjZAX9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="106177727"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="106177727"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 05:56:17 -0700
-X-CSE-ConnectionGUID: wJS01scCSS2TABS1VAVEtA==
-X-CSE-MsgGUID: tsX6gNGyRMeuK5eeJ5UanQ==
+X-CSE-ConnectionGUID: SNjUrtbOTUWBXDdfzJbrDw==
+X-CSE-MsgGUID: ald+XxhSS5W7vc1V6HeDGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="100169914"
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="100169914"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:38:48 -0700
+X-CSE-ConnectionGUID: XeCz1ShdTj6xihOZg0cZqw==
+X-CSE-MsgGUID: P/MltSinShW2s1xgJSB1Sw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="299278561"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2026 05:56:15 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="307622374"
+Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 02 Sep 2026 06:38:47 -0700
+Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1kVh-000000002iA-1SND;
-	Wed, 02 Sep 2026 12:56:13 +0000
-Date: Wed, 2 Sep 2026 20:55:28 +0800
+	id 1x1lAq-000000000C7-2Ext;
+	Wed, 02 Sep 2026 13:38:44 +0000
+Date: Wed, 02 Sep 2026 15:38:39 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH net-next v14] net: phy: Add driver for Motorcomm Quad
- 2.5GbE phy
-Message-ID: <202609022033.agNeEqvg-lkp@intel.com>
+Subject: arch/mips/boot/dts/ingenic/cu1000-neo.dtb:
+ x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'anyOf' conditional
+ failed, one must be fixed:
+Message-ID: <202609021533.8R4NczHP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260824025625.2688693-1-kyle.switch@motor-comm.com>
-References: <20260824025625.2688693-1-kyle.switch@motor-comm.com>
-TO: Kyle Switch <kyle.switch@motor-comm.com>
-TO: Frank.Sae@motor-comm.com
-TO: andrew@lunn.ch
-TO: hkallweit1@gmail.com
-TO: linux@armlinux.org.uk
-TO: davem@davemloft.net
-TO: edumazet@google.com
-TO: kuba@kernel.org
-TO: pabeni@redhat.com
-TO: netdev@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: ming.xu@motor-comm.com
-CC: xiaolin.xu@motor-comm.com
-CC: jianmin.wang@motor-comm.com
-CC: jie.han@motor-comm.com
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-Hi Kyle,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Switch/net-phy-Add-driver-for-Motorcomm-Quad-2-5GbE-phy/20260824-105625
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260824025625.2688693-1-kyle.switch%40motor-comm.com
-patch subject: [PATCH net-next v14] net: phy: Add driver for Motorcomm Quad 2.5GbE phy
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-075-20250806 (https://download.01.org/0day-ci/archive/20260902/202609022033.agNeEqvg-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609022033.agNeEqvg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89a312991dc6e638a36adc43ccb91dbc25504c04
+commit: 4f0b3cd7b664e662e9c4480e8d58574ece8aea57 MIPS: dts: Always descend vendor subdirectories
+date:   9 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 9 months ago
+config: mips-randconfig-2051-20260902 (https://download.01.org/0day-ci/archive/20260902/202609021533.8R4NczHP-lkp@intel.com/config)
+compiler: clang version 21.1.6 (https://github.com/llvm/llvm-project a832a5222e489298337fbb5876f8dcaf072c5cca)
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021533.8R4NczHP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4f0b3cd7b664 ("MIPS: dts: Always descend vendor subdirectories")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609022033.agNeEqvg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609021533.8R4NczHP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `ytphy_read_top_ext':
->> drivers/net/phy/motorcomm.c:481:(.text+0x2a8e6e5): undefined reference to `__phy_package_write'
->> ld: drivers/net/phy/motorcomm.c:485:(.text+0x2a8e708): undefined reference to `__phy_package_read'
-   ld: vmlinux.o: in function `yt8824_probe':
->> drivers/net/phy/motorcomm.c:4569:(.text+0x2a8fc60): undefined reference to `devm_of_phy_package_join'
->> ld: drivers/net/phy/motorcomm.c:4573:(.text+0x2a8fca2): undefined reference to `phy_package_probe_once'
-   ld: vmlinux.o: in function `yt8824_phy_package_probe_once':
->> drivers/net/phy/motorcomm.c:4530:(.text+0x2a8fcc0): undefined reference to `phy_package_get_priv'
->> ld: drivers/net/phy/motorcomm.c:4531:(.text+0x2a8fccb): undefined reference to `phy_package_get_node'
-   ld: vmlinux.o: in function `ytphy_write_top_ext':
-   drivers/net/phy/motorcomm.c:502:(.text+0x2a903a5): undefined reference to `__phy_package_write'
->> ld: drivers/net/phy/motorcomm.c:506:(.text+0x2a903cc): undefined reference to `__phy_package_write'
-   ld: vmlinux.o: in function `yt8824_config_aneg':
-   drivers/net/phy/motorcomm.c:4495:(.text+0x2a90794): undefined reference to `phy_package_get_priv'
-   ld: vmlinux.o: in function `yt8824_aneg_done':
-   drivers/net/phy/motorcomm.c:4205:(.text+0x2a90898): undefined reference to `phy_package_get_priv'
-   ld: vmlinux.o: in function `yt8824_get_features':
-   drivers/net/phy/motorcomm.c:4183:(.text+0x2a91254): undefined reference to `phy_package_get_priv'
-   ld: vmlinux.o: in function `yt8824_read_status':
-   drivers/net/phy/motorcomm.c:4289:(.text+0x2a912dc): undefined reference to `phy_package_get_priv'
-   ld: vmlinux.o: in function `yt8824_soft_reset':
-   drivers/net/phy/motorcomm.c:915:(.text+0x2a92a16): undefined reference to `phy_package_get_priv'
-   ld: vmlinux.o:drivers/net/phy/motorcomm.c:4400: more undefined references to `phy_package_get_priv' follow
-
-
-vim +481 drivers/net/phy/motorcomm.c
-
-70479a40954cf3 Frank       2022-10-28  468  
-7d5c6b4a2f233a Kyle Switch 2026-08-24  469  /**
-7d5c6b4a2f233a Kyle Switch 2026-08-24  470   * ytphy_read_top_ext() - read a PHY's top extended register for YT8824
-7d5c6b4a2f233a Kyle Switch 2026-08-24  471   * @phydev: a pointer to a &struct phy_device
-7d5c6b4a2f233a Kyle Switch 2026-08-24  472   * @regnum: register number to read
-7d5c6b4a2f233a Kyle Switch 2026-08-24  473   *
-7d5c6b4a2f233a Kyle Switch 2026-08-24  474   * Returns: the value of regnum reg or negative error code
-7d5c6b4a2f233a Kyle Switch 2026-08-24  475   */
-7d5c6b4a2f233a Kyle Switch 2026-08-24  476  static int ytphy_read_top_ext(struct phy_device *phydev, u16 regnum)
-7d5c6b4a2f233a Kyle Switch 2026-08-24  477  {
-7d5c6b4a2f233a Kyle Switch 2026-08-24  478  	int ret;
-7d5c6b4a2f233a Kyle Switch 2026-08-24  479  
-7d5c6b4a2f233a Kyle Switch 2026-08-24  480  	lockdep_assert_held(&phydev->mdio.bus->mdio_lock);
-7d5c6b4a2f233a Kyle Switch 2026-08-24 @481  	ret = __phy_package_write(phydev, 0, YTPHY_PAGE_SELECT, regnum);
-7d5c6b4a2f233a Kyle Switch 2026-08-24  482  	if (ret < 0)
-7d5c6b4a2f233a Kyle Switch 2026-08-24  483  		return ret;
-7d5c6b4a2f233a Kyle Switch 2026-08-24  484  
-7d5c6b4a2f233a Kyle Switch 2026-08-24 @485  	return __phy_package_read(phydev, 0, YTPHY_PAGE_DATA);
-7d5c6b4a2f233a Kyle Switch 2026-08-24  486  }
-7d5c6b4a2f233a Kyle Switch 2026-08-24  487  
-7d5c6b4a2f233a Kyle Switch 2026-08-24  488  /**
-7d5c6b4a2f233a Kyle Switch 2026-08-24  489   * ytphy_write_top_ext() - write a PHY's top extended register for YT8824
-7d5c6b4a2f233a Kyle Switch 2026-08-24  490   * @phydev: a pointer to a &struct phy_device
-7d5c6b4a2f233a Kyle Switch 2026-08-24  491   * @regnum: register number to write
-7d5c6b4a2f233a Kyle Switch 2026-08-24  492   * @val: register val to write
-7d5c6b4a2f233a Kyle Switch 2026-08-24  493   *
-7d5c6b4a2f233a Kyle Switch 2026-08-24  494   * Returns: 0 or negative error code
-7d5c6b4a2f233a Kyle Switch 2026-08-24  495   */
-7d5c6b4a2f233a Kyle Switch 2026-08-24  496  static int ytphy_write_top_ext(struct phy_device *phydev, u16 regnum,
-7d5c6b4a2f233a Kyle Switch 2026-08-24  497  			       u16 val)
-7d5c6b4a2f233a Kyle Switch 2026-08-24  498  {
-7d5c6b4a2f233a Kyle Switch 2026-08-24  499  	int ret;
-7d5c6b4a2f233a Kyle Switch 2026-08-24  500  
-7d5c6b4a2f233a Kyle Switch 2026-08-24  501  	lockdep_assert_held(&phydev->mdio.bus->mdio_lock);
-7d5c6b4a2f233a Kyle Switch 2026-08-24  502  	ret = __phy_package_write(phydev, 0, YTPHY_PAGE_SELECT, regnum);
-7d5c6b4a2f233a Kyle Switch 2026-08-24  503  	if (ret < 0)
-7d5c6b4a2f233a Kyle Switch 2026-08-24  504  		return ret;
-7d5c6b4a2f233a Kyle Switch 2026-08-24  505  
-7d5c6b4a2f233a Kyle Switch 2026-08-24 @506  	return __phy_package_write(phydev, 0, YTPHY_PAGE_DATA, val);
-7d5c6b4a2f233a Kyle Switch 2026-08-24  507  }
-7d5c6b4a2f233a Kyle Switch 2026-08-24  508  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/mips/boot/dts/ingenic/cu1000-neo.dts:21.9-24.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: / (yna,cu1000-neo): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 67108864]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: cpu@0 (ingenic,xburst-fpu1.0-mxu1.1): Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): 'rng@d8' does not match any of the regexes: '^mac-phy-ctrl@[a-f0-9]+$', '^pinctrl-[0-9]+$', '^usb-phy@[a-f0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+>> arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'anyOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8:compatible:0: 'syscon' is not one of ['ingenic,jz4775-mac', 'ingenic,x1000-mac', 'ingenic,x1600-mac', 'ingenic,x1830-mac', 'ingenic,x2000-mac']
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'clock-names' is a required property
+--
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: interrupt-controller@10001000 (ingenic,x1830-intc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ingenic,x1830-intc', 'ingenic,jz4780-intc'] is too long
+   	'ingenic,x1830-intc' is not one of ['ingenic,jz4740-intc', 'ingenic,jz4760-intc', 'ingenic,jz4780-intc']
+   	'ingenic,x1830-intc' is not one of ['ingenic,jz4775-intc', 'ingenic,jz4770-intc', 'ingenic,jz4760b-intc']
+   	'ingenic,x1000-intc' was expected
+   	'ingenic,jz4725b-intc' was expected
+   	'ingenic,jz4760-intc' was expected
+   	'ingenic,jz4740-intc' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/ingenic,intc.yaml
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /interrupt-controller@10001000: failed to match any schema with compatible: ['ingenic,x1830-intc', 'ingenic,jz4780-intc']
+>> arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'anyOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8:compatible:0: 'syscon' is not one of ['ingenic,jz4775-mac', 'ingenic,x1000-mac', 'ingenic,x1600-mac', 'ingenic,x1830-mac', 'ingenic,x2000-mac']
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'clock-names' is a required property
 
 --
 0-DAY CI Kernel Test Service
