@@ -1,133 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB8F481FC5
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 13:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBAA361DAE
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Sep 2026 14:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788356331; cv=none; b=iya7VOorIoHHSBgPmFdRz7e42vBFQDQBI1nzqNX7Hr8nhU2LiCMgLuSShXjAryO3I0+D48Q58htweO9MKOt3yF4VN1kv9v4Gy1bciHJd7JKnmHFPnZc3NX064y43OkMG0iuPQDYrlb4aX8cGkawYy3ADEJDNx4HSfQts2GybQo8=
+	t=1788359374; cv=none; b=n9/Nc2/WXe9mUJhqusLjwrmQo9BvEsZVqWV4QMwcLurupVPvicDOq/VucxVVkwDMBnEQQ5EtnGpk8UcnLEhctHfOsBrqN5GoPSOX8GMK2PlJ320jOHOzcWhrxuKr9hTKxa9Iovu42gfMUk5HSBbYjVWbIsYT6/24HKAnGZUnHv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788356331; c=relaxed/simple;
-	bh=WmvOI4xOcXBhY60MLjTV1ymc/dHSZ4ljWuwiGqMxBkc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KY46TMtbEiPvKKoil5TNSImfnofq/+luAff0N+WCye5kFlAuAsLVk89vPCPS4YF9LP1QZF6DLlffEMPI7wsIp8h3zSXf8wFyGfJHaepwVwp/em9ATCggonVq5K6dplLB/GVNO0rbM5Yq1yE7sWD0DMH41DM02pGZSQuZ+bIWkNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X42GLDUR; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1788359374; c=relaxed/simple;
+	bh=BwGzsCHd79Rv1VjFxLlZT7IghC47Jl0YHSKAFJ7ZksA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FuM7kOQEbcPVa6xLGJ/ZoEOggoKjQAvtdHsQEZUK40/Czpb4xLEnhvZ2ZYjvW+uER7Mipod2cpxNx6Sk+1NmCDD0ZNLSVvlYutl0ayTzkQepIMPPyRu4JDJJCnE3lVpbP6ojDP0t7vqS7+CyT7AdljuS41J7t6Q5b1X61Q4O+zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTmXHgyO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X42GLDUR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTmXHgyO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788356329; x=1819892329;
-  h=date:from:to:cc:subject:message-id;
-  bh=WmvOI4xOcXBhY60MLjTV1ymc/dHSZ4ljWuwiGqMxBkc=;
-  b=X42GLDURD2yMUiRT9vKxGKNAM1d9yB7D9iNs+Jq7xxIum/qBpVf9cR9E
-   nwFA+5c6B7KVXuE2X/xxKemmBlqcvALJx9AT3lvPFwEAPUI873ApvQzkn
-   6CiF9UhVwrzHJEB+ynzxwbwpQtg1Js9GLSMfamB+nw8+aC98no0D4OSTY
-   D0yjCWjzeMyYdlDVMWdBWcbPIpGVaxecx+l8M62v5BNU7sqRJUvpdsRqJ
-   uuJG0deiAKa7Z4ImPj2m0ArgGAutLj0VPIEMtQGU9Sz0y8dVjNiFtk7rP
-   Gk6B8EMKEwlQe+5O1B3+EOPAf9BWuvKRvev2KXwR3L2j9smvH0jIbf5Hk
-   g==;
-X-CSE-ConnectionGUID: SNjUrtbOTUWBXDdfzJbrDw==
-X-CSE-MsgGUID: ald+XxhSS5W7vc1V6HeDGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="100169914"
+  t=1788359370; x=1819895370;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BwGzsCHd79Rv1VjFxLlZT7IghC47Jl0YHSKAFJ7ZksA=;
+  b=TTmXHgyOOnNgdN6pa4mtrt2ft4IRv+LwSHzSfWCpki6jMWRbVWFVEmyn
+   Qg64oVMwpEeEvT1wDcOqqYqtJV2VbMJvT8d8WadYOX1nSjocaZ3F0rHpP
+   yiiQa0q62hzKu12JflkTUyiofhokuAXNPK22fJykCRGYWoHfP+2n9gCpL
+   o9/fL8lYJtlu5xczCMRd/FUTgxHZsms/vf5wg8iCb89vjnmWmvHxEwzh7
+   KaAQakoQofoKsAPeQ8nG4z2/2plmkbj6ZNVgJBbATEnEXVG36XcM/NgyD
+   bcYtN0t3/oMONQqN5sJGx/Ipy12v6ANQAr0joatbWpXofwADlB8WoXYVZ
+   w==;
+X-CSE-ConnectionGUID: qZpVdmRARLCBpcmGQEkanA==
+X-CSE-MsgGUID: Otc+s3SWTQG7T8INaFPwsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="76370399"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="100169914"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:38:48 -0700
-X-CSE-ConnectionGUID: XeCz1ShdTj6xihOZg0cZqw==
-X-CSE-MsgGUID: P/MltSinShW2s1xgJSB1Sw==
+   d="scan'208";a="76370399"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 07:29:30 -0700
+X-CSE-ConnectionGUID: XuTbpGm1Ri+VO1M4qH15Yg==
+X-CSE-MsgGUID: AjnPxe7MSyyJdgthFXbgJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="307622374"
-Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 02 Sep 2026 06:38:47 -0700
-Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
+   d="scan'208";a="266826679"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2026 07:29:29 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1lAq-000000000C7-2Ext;
-	Wed, 02 Sep 2026 13:38:44 +0000
-Date: Wed, 02 Sep 2026 15:38:39 +0200
+	id 1x1lxu-000000002qK-135O;
+	Wed, 02 Sep 2026 14:29:26 +0000
+Date: Wed, 02 Sep 2026 22:29:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/mips/boot/dts/ingenic/cu1000-neo.dtb:
- x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'anyOf' conditional
- failed, one must be fixed:
-Message-ID: <202609021533.8R4NczHP-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/platform/x86/classmate-laptop.c:1033
+ cmpc_ipml_probe() warn: 'ipml->rf' is an error pointer or valid
+Message-ID: <202609022215.3KRQQCGe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   89a312991dc6e638a36adc43ccb91dbc25504c04
-commit: 4f0b3cd7b664e662e9c4480e8d58574ece8aea57 MIPS: dts: Always descend vendor subdirectories
-date:   9 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 9 months ago
-config: mips-randconfig-2051-20260902 (https://download.01.org/0day-ci/archive/20260902/202609021533.8R4NczHP-lkp@intel.com/config)
-compiler: clang version 21.1.6 (https://github.com/llvm/llvm-project a832a5222e489298337fbb5876f8dcaf072c5cca)
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021533.8R4NczHP-lkp@intel.com/reproduce)
+commit: 069b06f8dfc9821fa54f0c5109ebbde891ea363a platform/x86: classmate-la=
+ptop: Convert ipml driver to a platform one
+date:   4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-141-20260902 (https://download.01.org/0day-ci/archi=
+ve/20260902/202609022215.3KRQQCGe-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
+48fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 4f0b3cd7b664 ("MIPS: dts: Always descend vendor subdirectories")
+| Fixes: 069b06f8dfc9 ("platform/x86: classmate-laptop: Convert ipml driver=
+ to a platform one")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609021533.8R4NczHP-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609022215.3KRQQCGe-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/ingenic/cu1000-neo.dts:21.9-24.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: / (yna,cu1000-neo): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 67108864]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: cpu@0 (ingenic,xburst-fpu1.0-mxu1.1): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): 'rng@d8' does not match any of the regexes: '^mac-phy-ctrl@[a-f0-9]+$', '^pinctrl-[0-9]+$', '^usb-phy@[a-f0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
->> arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'anyOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8:compatible:0: 'syscon' is not one of ['ingenic,jz4775-mac', 'ingenic,x1000-mac', 'ingenic,x1600-mac', 'ingenic,x1830-mac', 'ingenic,x2000-mac']
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000 (ingenic,x1000-cgu): mac-phy-ctrl@e8: 'clock-names' is a required property
---
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: interrupt-controller@10001000 (ingenic,x1830-intc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ingenic,x1830-intc', 'ingenic,jz4780-intc'] is too long
-   	'ingenic,x1830-intc' is not one of ['ingenic,jz4740-intc', 'ingenic,jz4760-intc', 'ingenic,jz4780-intc']
-   	'ingenic,x1830-intc' is not one of ['ingenic,jz4775-intc', 'ingenic,jz4770-intc', 'ingenic,jz4760b-intc']
-   	'ingenic,x1000-intc' was expected
-   	'ingenic,jz4725b-intc' was expected
-   	'ingenic,jz4760-intc' was expected
-   	'ingenic,jz4740-intc' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/ingenic,intc.yaml
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /interrupt-controller@10001000: failed to match any schema with compatible: ['ingenic,x1830-intc', 'ingenic,jz4780-intc']
->> arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'anyOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8:compatible:0: 'syscon' is not one of ['ingenic,jz4775-mac', 'ingenic,x1000-mac', 'ingenic,x1600-mac', 'ingenic,x1830-mac', 'ingenic,x2000-mac']
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000 (ingenic,x1830-cgu): mac-phy-ctrl@e8: 'clock-names' is a required property
+smatch warnings:
+drivers/platform/x86/classmate-laptop.c:1033 cmpc_ipml_probe() warn: 'ipml-=
+>rf' is an error pointer or valid
+
+vim +1033 drivers/platform/x86/classmate-laptop.c
+
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27   999 =20
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1000  static int =
+cmpc_ipml_probe(struct platform_device *pdev)
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1001  {
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1002  	int retval;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1003  	struct ipm=
+l200_dev *ipml;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1004  	struct bac=
+klight_properties props;
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1005  	acpi_handl=
+e handle;
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1006 =20
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1007  	handle =3D =
+ACPI_HANDLE(&pdev->dev);
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1008  	if (!handl=
+e)
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1009  		return -E=
+NODEV;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1010 =20
+bf4afc53b77aeaa Linus Torvalds                2026-02-21  1011  	ipml =3D k=
+malloc_obj(*ipml);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1012  	if (ipml =
+=3D=3D NULL)
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1013  		return -E=
+NOMEM;
+529aa8cb0a59367 Thadeu Lima de Souza Cascardo 2009-12-21  1014 =20
+a19a6ee6cad2b20 Matthew Garrett               2010-02-17  1015  	memset(&pr=
+ops, 0, sizeof(struct backlight_properties));
+bb7ca747f8d6243 Matthew Garrett               2011-03-22  1016  	props.type=
+ =3D BACKLIGHT_PLATFORM;
+a19a6ee6cad2b20 Matthew Garrett               2010-02-17  1017  	props.max_=
+brightness =3D 7;
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1018  	ipml->bd =
+=3D backlight_device_register("cmpc_bl", &pdev->dev,
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1019  					     h=
+andle, &cmpc_bl_ops,
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1020  					     &=
+props);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1021  	if (IS_ERR=
+(ipml->bd)) {
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1022  		retval =
+=3D PTR_ERR(ipml->bd);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1023  		goto out_=
+bd;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1024  	}
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1025 =20
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1026  	ipml->rf =
+=3D rfkill_alloc("cmpc_rfkill", &pdev->dev, RFKILL_TYPE_WLAN,
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1027  				&cmpc_r=
+fkill_ops, handle);
+b95d13eaf3d4ea0 Thadeu Lima de Souza Cascardo 2010-06-09  1028  	/*
+b95d13eaf3d4ea0 Thadeu Lima de Souza Cascardo 2010-06-09  1029  	 * If RFKI=
+LL is disabled, rfkill_alloc will return ERR_PTR(-ENODEV).
+b95d13eaf3d4ea0 Thadeu Lima de Souza Cascardo 2010-06-09  1030  	 * This is=
+ OK, however, since all other uses of the device will not
+3b329cfec7522b5 Bhaskar Chowdhury             2021-03-17  1031  	 * derefer=
+ence it.
+b95d13eaf3d4ea0 Thadeu Lima de Souza Cascardo 2010-06-09  1032  	 */
+b95d13eaf3d4ea0 Thadeu Lima de Souza Cascardo 2010-06-09 @1033  	if (ipml->=
+rf) {
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1034  		retval =
+=3D rfkill_register(ipml->rf);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1035  		if (retva=
+l) {
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1036  			rfkill_d=
+estroy(ipml->rf);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1037  			ipml->rf=
+ =3D NULL;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1038  		}
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1039  	}
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1040 =20
+069b06f8dfc9821 Rafael J. Wysocki             2026-05-11  1041  	platform_s=
+et_drvdata(pdev, ipml);
+529aa8cb0a59367 Thadeu Lima de Souza Cascardo 2009-12-21  1042  	return 0;
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1043 =20
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1044  out_bd:
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1045  	kfree(ipml=
+);
+d5c051f1080e0ee Thadeu Lima de Souza Cascardo 2010-04-27  1046  	return ret=
+val;
+529aa8cb0a59367 Thadeu Lima de Souza Cascardo 2009-12-21  1047  }
+529aa8cb0a59367 Thadeu Lima de Souza Cascardo 2009-12-21  1048 =20
+
+:::::: The code at line 1033 was first introduced by commit
+:::::: b95d13eaf3d4ea093aba95c7f615f3b10708a2c4 classmate-laptop: should ch=
+eck for NULL as retval for rfkill_alloc
+
+:::::: TO: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
+:::::: CC: Matthew Garrett <mjg@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
