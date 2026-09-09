@@ -1,131 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC08335C183
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Sep 2026 04:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD451A680B
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Sep 2026 05:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788929906; cv=none; b=aSfo9JaW4fIgjfJGgTWlXAb82d3OyaA7OJuGZp/x1N8rBVq8sIWBeAUbKtIAezR3OLYri4ya5cRZ7mIkZpAHq5V6ARbqhL6GGAHO0LK60lTvniKbig6p3VFJIQ8yl7OV4LQfmZtvDe/JTJm1fizLAXdNZT+KYWEcPkN0GW6sO3s=
+	t=1788931709; cv=none; b=q9RSz3fey9L7x3sZaT3d9tFUa9WOe48ooKUhPielHYFLXqZRFIEeVs3/9QdFL7bl7/HMCEyjN09+saHkw3i+OzP7V9t0Yt9CUecOkr8O5YCqChd+mCFCevlgh4IxnQTf++CzHKBHVmYcCZMDPPxMb7bNu0trjPQaguZrh+aoL+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788929906; c=relaxed/simple;
-	bh=l0ATmuFAyJSd/YxSlG+G/eXSaHfssVpIs52Xi7lahJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WbqZgCYsOY+w26u8lWtNB2jyblqV4VGmGZknixxbqXnnoIj8scf+82etOLdJ7rtObj667VJsgUnZxtwJ0R4HS/YfgmmOMkwUFq0xavNMCdiHOBiOOV6h2rn0h9vOkqbTgxv93OlsxlDczC+YwOqMGhONPqLyU8oMlYytpxSWQMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwmPD8a0; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1788931709; c=relaxed/simple;
+	bh=oD28iC7s8JyTiaar5b29PgiYSq/uibQZBP2abggIsco=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QX7NyFjzkGMpwPRrmCFc7dFbvvpY8pxM1sQ3VADk/GMoTDYZNZ5tLCmEHwVhylAtA2jeFKYPZXBFEpV2ZUDqEzKu625jl7dF4fcCMgSEdZRvCdOCPv9g0O/ydWvnnbbk2DbotiS0znivFK1/IA84W+Lpyjhf3THPOVGHihSvLSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOLKuRW+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwmPD8a0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOLKuRW+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788929902; x=1820465902;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l0ATmuFAyJSd/YxSlG+G/eXSaHfssVpIs52Xi7lahJI=;
-  b=cwmPD8a06THzwH28NjXzZlaJVnDvm7PgQdwZJCsvIJyJlRxSIxGuPagj
-   MNXrFQSXxuHIFyJufsBqAB0sX7sRGWQoFLby/TYUmWEbV3w8dICUGV4zS
-   KgNq7YEU0u+DwKbQW7PAwBGQ5uzztwAhL3XnSAY2zTPIS/QGrwDU7le7u
-   FJi5pQdVvI+3ZqeTXL2UwkKolz0kKtY/oJEfkUCpcj3dIrO70fGbjCfIp
-   uqNbJOdPF6KV5YpHOLfN9rkgir7UxY20EFJaMe9UZgdLORDHrdESFuHbo
-   Px2Sp+8rYDdaVNq9hfi5UrnG9TifE7YbzQHwEP1jGg1dh+uBDN6y+MUUH
-   Q==;
-X-CSE-ConnectionGUID: e0eGmt9cR8KTwEuJ3WJ0Jg==
-X-CSE-MsgGUID: FVv5cs1KS3WhyWxaiNybFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89468625"
+  t=1788931706; x=1820467706;
+  h=date:from:to:cc:subject:message-id;
+  bh=oD28iC7s8JyTiaar5b29PgiYSq/uibQZBP2abggIsco=;
+  b=UOLKuRW+XJsOJZNZR6ETcqIZHyEajw/cjosLyvWe82AZ1Mb5ghi1aX+G
+   Ze3bHXQXStwkAsVI/Nza27LparC5PwGv2sE7Cr4ho9G+YmtQ63plusSi0
+   XaCBcKASK0kH6ge/gPnmvysn1gtCdkNmgpnCAnBxNDRYuiu0xCjjl0YLC
+   4v62eWa2+4B3/jKQNislIssTxiwBbLDHQOpBKZ08nluEVzViId/PxntNx
+   OOZXN/2ljWdiDAAuR4bGn8mGXqHOCi6xo2O2AGHtqy7wrRtzKOWG0EYmL
+   Kkt8nCaNwVnAXvDIOrmYc0Fel/oa2FGtiJNRVaW/TmYvyiDpsLKcyU/WF
+   g==;
+X-CSE-ConnectionGUID: KZXjy9NWS7qW7bhE9x3XBQ==
+X-CSE-MsgGUID: mb3jtCbNRcmLMUCrkSORRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89184376"
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89468625"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 21:58:20 -0700
-X-CSE-ConnectionGUID: kAypjWLjQx2eDpF4aQWP3w==
-X-CSE-MsgGUID: HXi0G65URkKBHLQ76IiHbg==
+   d="scan'208";a="89184376"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 22:28:25 -0700
+X-CSE-ConnectionGUID: 03GQUVUXQYSBs27RaQpE8A==
+X-CSE-MsgGUID: pbrv47PiSw2tXvLI/SeNNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="271700200"
+   d="scan'208";a="269871789"
 Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 08 Sep 2026 21:58:19 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2026 22:28:25 -0700
 Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4AO1-00000000146-0N7x;
-	Wed, 09 Sep 2026 04:58:17 +0000
-Date: Wed, 9 Sep 2026 06:57:37 +0200
+	id 1x4Ar8-0000000016A-1KMS;
+	Wed, 09 Sep 2026 05:28:22 +0000
+Date: Wed, 09 Sep 2026 07:28:19 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4] MAINTAINERS: Add Qualcomm QAIF driver entry
-Message-ID: <202609090624.axJcwPv7-lkp@intel.com>
+Subject: [frank-li:imx/dt64 52/52]
+ arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: opp-500000000: opp-hz-real:
+ b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array',
+ 'boolean', 'null'
+Message-ID: <202609090725.oCZ9PQuy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260903072902.3870009-11-harendra.gautam@oss.qualcomm.com>
-References: <20260903072902.3870009-11-harendra.gautam@oss.qualcomm.com>
-TO: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-TO: Srinivas Kandagatla <srini@kernel.org>
-CC: Mark Brown <broonie@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Jaroslav Kysela <perex@perex.cz>
-CC: Takashi Iwai <tiwai@suse.com>
-CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: linux-sound@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-CC: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-CC: Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>
-CC: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+TO: Chancel Liu <chancel.liu@nxp.com>
+CC: Frank Li <Frank.Li@nxp.com>
 
-Hi Harendra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.3-rc2 next-20260908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harendra-Gautam/MAINTAINERS-Add-Qualcomm-QAIF-driver-entry/20260903-125901
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260903072902.3870009-11-harendra.gautam%40oss.qualcomm.com
-patch subject: [PATCH v4] MAINTAINERS: Add Qualcomm QAIF driver entry
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
+head:   153a8f4b71cee0e6ade27d7765de730af530653b
+commit: 153a8f4b71cee0e6ade27d7765de730af530653b [52/52] arm64: dts: fsl: Add DT overlay to build MQS1 sound cards on i.MX9 platforms
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-2053-20260908 (https://download.01.org/0day-ci/archive/20260909/202609090725.oCZ9PQuy-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260909/202609090624.axJcwPv7-lkp@intel.com/reproduce)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609090725.oCZ9PQuy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609090624.axJcwPv7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609090725.oCZ9PQuy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/qcom,shikra-qaif-cpu.yaml
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
 
 --
 0-DAY CI Kernel Test Service
