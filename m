@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9585572691
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Sep 2026 19:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A65C39A803
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Sep 2026 19:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788980790; cv=none; b=AOVjCVATav3htBAyOXggN87bnNlL6+Cjq+DEs1S2pVNVSyKXV0El6ZvhmWNZrdKqU0aDvzryeiUH4B5D3z/bKpGSeabFfIaCSjZ7SiQNBgGh1TeNM4RA/YblQsxO1augMjZuSDXneweWiU2gTGHhq+ooNynR/MyQ+05nbQ9vlGk=
+	t=1788982111; cv=none; b=tARjjbF6qFqAv1grZeK5aJQ+rKFvaUmKIZlXCNtGYwPtgE545ZI4520+t5m2+xdRKXMoaeu39MAaLvJFLYjeq2G5BWylScE8ZEA58nMKishZkiGofez1Q40fmfFge1gYn6SX0zrYvjDl20XqhhVZAFvvQoUKKEMksSpeH0oDtx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788980790; c=relaxed/simple;
-	bh=VlhOOs+67gUOo76oPgVH1QFS8pFPgbJWFeyAZvvvvIw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Xk6rOZ8AtEqhRa2OG/i+Z1W4K2W0VeWZBClHpnVXd3F4IkLsQUtw1YH33ckTzYuNy31ZsHNJ36GeLeoqw7fRBg3qxKk8aWdzJs6VRseGGiiwFcRNSdVMZNPm0s94J74ncPZnN5P4boes+rzJfQht6geK+htasRYQOywKpN2jt/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdRMMSKr; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1788982111; c=relaxed/simple;
+	bh=rKlqmttymdTEqKF+eyCqoiThKxZPvA32G7XPv0zE+r4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ch/iCS0zwPkBr8pOr+ryc3SQj+Y+glr1dMbuijojK6/ZyfM6lUPpWI7pioUxUubE3idisAeWK8tb9kKQBMrQDjMTjFhlBW9KNnGgxI7b2vZYUfkQ5MZV/fFBxS68phdZQq4ZFWHhkmistis4LgzoPuuzHRBqyEXbM3bYPScxn0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KTul+D7F; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdRMMSKr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KTul+D7F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788980788; x=1820516788;
+  t=1788982109; x=1820518109;
   h=date:from:to:cc:subject:message-id;
-  bh=VlhOOs+67gUOo76oPgVH1QFS8pFPgbJWFeyAZvvvvIw=;
-  b=LdRMMSKrh/gfPWAkawYzRj1hAgBiA+1l3v93PZSpu25Sllu6WSwyDB/V
-   e/BWhbczwpoUDXKw+p6ysXWJC6/nw8Zk2ShOXdL36oHb7c5z8TU+Qh7vT
-   SktUTQIC8DstjwUpQiKvfCnp0dRZV5ivnd+EoGzER1rb2Bl4MQ+zqG68z
-   VjePEKrCh4kezEqX6Rz+yoTx7/nA/1AVM2/LKAmfV+YHAf1Kbcu56qP9v
-   bkH0YcOcEVopp5toIDq3pnaovMjpon4CEk4c1K04DlCTMveAmts0fGOit
-   QRzj86TjvO5DiPJbQNV5/3RkgtGofQtOvWPczqZhTeyYqcwL+ykFmLdev
+  bh=rKlqmttymdTEqKF+eyCqoiThKxZPvA32G7XPv0zE+r4=;
+  b=KTul+D7FnXHOR+ceUEesZdd2ujGX26cztGGDuhiem0iWwzQxoKoKICcn
+   i1fVl5cvd9jkw1xGrE2QgfZFqr+hcUSB9Id+kMpYkR8kOQdslXxgiI7fJ
+   gtfZpDwlKoUlkxdsaWrwHwHqNlYymAeY9xYzx55/e+QFI39SH2UnleC7A
+   ldjXqepcP7CWiICkT8U6+sJ6sUEZ3O4xY7EwP/C6Pz8rM0cnD57I3NRFS
+   SmSnruohQ8Ycl9X4sbvgddPtkJG/Bo9h6JV1VUPGzr9F2HeyT7Q+SvKh8
+   R1QOPC4FfqdKYVrNEvSaADkfk5i1NnOr/BRLynE7PMnIJMkh+EjE0jBCV
    g==;
-X-CSE-ConnectionGUID: ocFqswJrQvewtvqYAPu+Bw==
-X-CSE-MsgGUID: IVxvjvReTuKapDEoYdSJZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="76977128"
+X-CSE-ConnectionGUID: vMfJ1J8LTyOVDCsy9BEZpQ==
+X-CSE-MsgGUID: UmOQaJdkRBC1lgtxTgKstw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="91938231"
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="76977128"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 12:06:26 -0700
-X-CSE-ConnectionGUID: +Xxt1i24TSCh5HQXgYinqA==
-X-CSE-MsgGUID: jjoz/XkXQ6mY2eF6i13WKw==
+   d="scan'208";a="91938231"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 12:28:28 -0700
+X-CSE-ConnectionGUID: KnzaXIp5TcWCNwGAR82daA==
+X-CSE-MsgGUID: 6hBypGiBTvuP5aVdYqS2qA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="276646363"
+   d="scan'208";a="273374524"
 Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Sep 2026 12:06:25 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 09 Sep 2026 12:28:28 -0700
 Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4Ncl-000000000pI-1Dzl;
-	Wed, 09 Sep 2026 19:06:23 +0000
-Date: Thu, 10 Sep 2026 03:05:27 +0800
+	id 1x4Ny5-000000000qs-3JRe;
+	Wed, 09 Sep 2026 19:28:25 +0000
+Date: Thu, 10 Sep 2026 03:28:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [frank-w-bpi-r2-4.14:7.2-main 213/213]
- drivers/tty/serial/8250/8250_mtk.c:437 mtk8250_runtime_suspend() warn:
- test_and_clear_bit() takes a bit number
-Message-ID: <202609100256.0onKHOy1-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: net/wireless/nl80211.c:19576:14: error: 'n_dl_tids'
+ undeclared
+Message-ID: <202609100357.Y0annlK7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,66 +59,60 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Pooventhiran-G/net-skbuff-Add-SKB-extension-support-to-wireless-drivers/20260908-223929, commit: 5759d7244ab491b9e71de0281e62985f9db9ea7a"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+TO: Pooventhiran G <pooventhiran.g@oss.qualcomm.com>
+CC: 0day robot <lkp@intel.com>
+CC: Aditya Sathish <asathish@qti.qualcomm.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
-head:   e2b8c6a7a01daa29f0109ecfd5d0fa93e27da8bf
-commit: 6f53f04819bff1609acb1655c95238965736452b [213/213] serial: 8250_mtk: track busclk state to avoid bus error
-:::::: branch date: 3 days ago
-:::::: commit date: 11 days ago
-config: loongarch-randconfig-r073-20260910 (https://download.01.org/0day-ci/archive/20260910/202609100256.0onKHOy1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pooventhiran-G/net-skbuff-Add-SKB-extension-support-to-wireless-drivers/20260908-223929
+head:   682493f4354196bc329dcf05f25bbd6d7a63dea0
+commit: 5759d7244ab491b9e71de0281e62985f9db9ea7a wifi: nl80211: Pack SMD dynamic context along with frame
+date:   26 hours ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100357.Y0annlK7-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100357.Y0annlK7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609100256.0onKHOy1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609100357.Y0annlK7-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/8250/8250_mtk.c:437 mtk8250_runtime_suspend() warn: test_and_clear_bit() takes a bit number
-drivers/tty/serial/8250/8250_mtk.c:454 mtk8250_runtime_resume() warn: test_and_set_bit() takes a bit number
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/loongarch/include/asm/atomic.h:51 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+   net/wireless/nl80211.c: In function '_nl80211_smd_ctx_nl_ba_param_size':
+>> net/wireless/nl80211.c:19576:14: error: 'n_dl_tids' undeclared (first use in this function)
+   19576 |         n += n_dl_tids * (nla_total_size(0) + /* tid nest header */
+         |              ^~~~~~~~~
+   net/wireless/nl80211.c:19576:14: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +437 drivers/tty/serial/8250/8250_mtk.c
 
-b4756f4f0d773c Matthias Brugger 2014-09-09  431  
-9db669f14fd829 Arnd Bergmann    2016-02-08  432  static int __maybe_unused mtk8250_runtime_suspend(struct device *dev)
-68e5fc4a255a7f Sascha Hauer     2015-04-27  433  {
-68e5fc4a255a7f Sascha Hauer     2015-04-27  434  	struct mtk8250_data *data = dev_get_drvdata(dev);
-e32a83c70cf987 Changqi Hu       2020-02-26  435  	struct uart_8250_port *up = serial8250_get_port(data->line);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  436  
-6f53f04819bff1 Daniel Golle     2023-09-11 @437  	if (!test_and_clear_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
-6f53f04819bff1 Daniel Golle     2023-09-11  438  		return 0;
-6f53f04819bff1 Daniel Golle     2023-09-11  439  
-e32a83c70cf987 Changqi Hu       2020-02-26  440  	/* wait until UART in idle status */
-e32a83c70cf987 Changqi Hu       2020-02-26  441  	while
-e32a83c70cf987 Changqi Hu       2020-02-26  442  		(serial_in(up, MTK_UART_DEBUG0));
-e32a83c70cf987 Changqi Hu       2020-02-26  443  
-d518314a1fa4e9 Daniel Golle     2025-09-16  444  	clk_disable_unprepare(data->uart_clk);
-c1c325d703d347 Sascha Hauer     2015-04-27  445  	clk_disable_unprepare(data->bus_clk);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  446  
-68e5fc4a255a7f Sascha Hauer     2015-04-27  447  	return 0;
-68e5fc4a255a7f Sascha Hauer     2015-04-27  448  }
-68e5fc4a255a7f Sascha Hauer     2015-04-27  449  
-9db669f14fd829 Arnd Bergmann    2016-02-08  450  static int __maybe_unused mtk8250_runtime_resume(struct device *dev)
-68e5fc4a255a7f Sascha Hauer     2015-04-27  451  {
-68e5fc4a255a7f Sascha Hauer     2015-04-27  452  	struct mtk8250_data *data = dev_get_drvdata(dev);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  453  
-6f53f04819bff1 Daniel Golle     2023-09-11 @454  	if (test_and_set_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
-6f53f04819bff1 Daniel Golle     2023-09-11  455  		return 0;
-6f53f04819bff1 Daniel Golle     2023-09-11  456  
-b6c7ff2693ddc2 Chen-Yu Tsai     2023-06-06  457  	clk_prepare_enable(data->bus_clk);
-d518314a1fa4e9 Daniel Golle     2025-09-16  458  	clk_prepare_enable(data->uart_clk);
-c1c325d703d347 Sascha Hauer     2015-04-27  459  
-68e5fc4a255a7f Sascha Hauer     2015-04-27  460  	return 0;
-68e5fc4a255a7f Sascha Hauer     2015-04-27  461  }
-68e5fc4a255a7f Sascha Hauer     2015-04-27  462  
+vim +/n_dl_tids +19576 net/wireless/nl80211.c
+
+904c277342936b Ilan Peer      2025-01-02  19570  
+5759d7244ab491 Pooventhiran G 2026-09-08  19571  static size_t _nl80211_smd_ctx_nl_ba_param_size(void)
+5759d7244ab491 Pooventhiran G 2026-09-08  19572  {
+5759d7244ab491 Pooventhiran G 2026-09-08  19573  	size_t n = 0;
+5759d7244ab491 Pooventhiran G 2026-09-08  19574  
+5759d7244ab491 Pooventhiran G 2026-09-08  19575  	n += nla_total_size(0); /* ba_params nest header */
+5759d7244ab491 Pooventhiran G 2026-09-08 @19576  	n += n_dl_tids * (nla_total_size(0) + /* tid nest header */
+5759d7244ab491 Pooventhiran G 2026-09-08  19577  			nla_total_size(sizeof(u16)) + /* buff_size */
+5759d7244ab491 Pooventhiran G 2026-09-08  19578  			nla_total_size(sizeof(u8)) + /* policy */
+5759d7244ab491 Pooventhiran G 2026-09-08  19579  			nla_total_size(0) + /* amsdu_support */
+5759d7244ab491 Pooventhiran G 2026-09-08  19580  			nla_total_size(sizeof(u16)) + /* timeout */
+5759d7244ab491 Pooventhiran G 2026-09-08  19581  			nla_total_size(0) + /* ext_no_frag */
+5759d7244ab491 Pooventhiran G 2026-09-08  19582  			nla_total_size(sizeof(u8)) + /* ext_frag_lvl */
+5759d7244ab491 Pooventhiran G 2026-09-08  19583  			nla_total_size(sizeof(u16))); /* ext_buff_size */
+5759d7244ab491 Pooventhiran G 2026-09-08  19584  
+5759d7244ab491 Pooventhiran G 2026-09-08  19585  	return n;
+5759d7244ab491 Pooventhiran G 2026-09-08  19586  }
+5759d7244ab491 Pooventhiran G 2026-09-08  19587  
 
 --
 0-DAY CI Kernel Test Service
