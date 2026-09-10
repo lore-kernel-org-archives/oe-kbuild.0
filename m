@@ -1,568 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0954AD4BE
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Sep 2026 15:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB34D47C0E6
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Sep 2026 15:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054783; cv=none; b=jWRoiMdYjzNEFLuj/2ZGNXiClOzkeUieKwJrpJaDA2m2Syb4MXQVzUKkB7irUhAy7VX8fFaRIp0olSCnZDM5udr2ABPuH76Hw0cDwyGXLgjZEJ1qUin66M/zvIwOGAK/EJlIs/LeTep/LR/K7Znt4/Qyr6/sIJyqfLKiKe2J/v0=
+	t=1789054894; cv=none; b=Nb+131U4pYdQ4OXmub548r3W/hr2BRooaMgY4IvQqJPhWw6jf5uCpltgG29QuBkyD7ZEuLA4tLEYLsKGbt80y/CdQq0Kvn3sWW7M9+x66MiHUEId5hpTFLyBiyUkqy2mKlFVGDqA/rZzkLF9cgLF+Z16WnkpPqQtF5fyR/YxFso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054783; c=relaxed/simple;
-	bh=BraHC1CDY19KkwiQcO0/7yaKsqhof4pJeVRztlfDEgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QcxnU/xpzk8brfvh5sCmLKxhw1nhxob2q6dOzCj+MKq9qau5mKOMIgHGQ2rOqtVdiCZpd1WidOSViMCQQxnLjZgdAerZeaUYpbgpetcdgBp5k355aR0PWN785xJ9xbFI7yyDSo6RtTfGVzwRGNsiZZ+78vKeqZUDmGRczNlG7PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UyZ94iQX; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1789054894; c=relaxed/simple;
+	bh=g8f4PU7af4rPtI/ucPUMqHuO916XKKP9093tp9sTNK4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kOCRUnwyCTwDM1xTkxCxNfW9T2nQcjFM6xfNj35wPAWr5h81awhJHMIw6LmV1YZwfCu4JyHXXo/a909EdRs2usx4hfsEvHVETJw71K3rH1qLrntejAQt8LgtjwRovRHglTfxP83l5sIVHjQJo/nwsSec7QbFr2RtxAmi5YzfXNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUiXWiho; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UyZ94iQX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUiXWiho"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789054778; x=1820590778;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BraHC1CDY19KkwiQcO0/7yaKsqhof4pJeVRztlfDEgE=;
-  b=UyZ94iQXoYajhnWCcdIV8Mm4PwaSv/udXZOEC06WzCypYElY3rrohzVJ
-   Jsct2R16aALomDrCsCsngAryazg7itTdJs8mMjVw2WvgnGtFCOohwR9dJ
-   cGV/KAGj+AJMLlnWCq0h6g2oIqgPNkSaHsYIZIX99kNAgL640yEOm5wf+
-   85sHNYgmxpPzfrx8ybyX+Y4gxMFSDsQYdCkemc3aR9qt2nmpw2DA4iKqm
-   8FtCWKDR+ypLN+QfFwDkob7CL0GuCfs2WneuB5xgJoSLnsSelY/lGmpGx
-   /TDR3wJzPEFehBey7Bywd1OnEzlYFJpn+CqRrxW8woXMIF3cMosxqSsc6
-   w==;
-X-CSE-ConnectionGUID: PIMoyVfpSpWD2DPdS/vuEw==
-X-CSE-MsgGUID: cCBIF/EyTcqNhvtEfyLZCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89271595"
+  t=1789054892; x=1820590892;
+  h=date:from:to:cc:subject:message-id;
+  bh=g8f4PU7af4rPtI/ucPUMqHuO916XKKP9093tp9sTNK4=;
+  b=eUiXWiho3bCqAC3XBusjwBV7ztfaTQoQimcQlwDmp+ljpjt3VHJ2Q0av
+   Lgb/UAS8CXZ87eKTJv4YdLWOuzbgc/3a9KAFU4RipCaOhEhSiBi23bRPH
+   ePq4hY9LSN1ubQWq7JWgbLS7c6cHoBjA2nLsWz+FVxwdsVjhQg/AGYA/6
+   Ahnb6oJEx7lW60AeghHxS/0bKYA2aNXfdD4Z5TKB7PjA3uRbydzFWAaXa
+   we8rWKAma67R5aFe7GdbDh0dvGXZOB8bySIKt9NTvT8P83HgmHjGLhEYe
+   iQ3W+9dKetbyZRZhN+WtQBy3/YSFRRd838vmcjjbnqacnMY+EM/VY84Ju
+   A==;
+X-CSE-ConnectionGUID: G3NJRVBLTHKbDcOk429Mdg==
+X-CSE-MsgGUID: MtOpmqfOS7yoc9Ovg4iqPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="88654646"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="89271595"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 08:39:32 -0700
-X-CSE-ConnectionGUID: 482AG4Q3RjmwHc0gO9pOKw==
-X-CSE-MsgGUID: L17sB0AGSKCLlkRdfoQEgA==
+   d="scan'208";a="88654646"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 08:41:32 -0700
+X-CSE-ConnectionGUID: TQU62hmDTASeaQaH5sEczA==
+X-CSE-MsgGUID: jEwZ0zIHT+qVX5fwdEETHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="267395197"
+   d="scan'208";a="267983112"
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2026 08:39:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 10 Sep 2026 08:41:31 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4gs4-000000000Pr-2uIc;
-	Thu, 10 Sep 2026 15:39:28 +0000
-Date: Thu, 10 Sep 2026 17:39:11 +0200
+	id 1x4gu1-000000000Qs-2Ajy;
+	Thu, 10 Sep 2026 15:41:29 +0000
+Date: Thu, 10 Sep 2026 17:40:53 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: orangepi-zero3: enable HDMI
- output
-Message-ID: <202609091541.eb9VTXym-lkp@intel.com>
+Subject: arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb:
+ /pcie@1003000: failed to match any schema with compatible:
+ ['nvidia,tegra210-pcie']
+Message-ID: <202609100309.Vyca9kkM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260904213329.3910099-3-barzin221@gmail.com>
-References: <20260904213329.3910099-3-barzin221@gmail.com>
-TO: Barzin Lotfabadi <barzin221@gmail.com>
-TO: "Chen-Yu Tsai" <wens@kernel.org>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: Samuel Holland <samuel@sholland.org>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-CC: Ryan Walklin <ryan@testtoast.com>
-CC: dri-devel@lists.freedesktop.org
-CC: linux-sunxi@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: Aaron Kling <webgeek1234@gmail.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-Hi Barzin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on linus/master v7.3-rc2 next-20260908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Barzin-Lotfabadi/arm64-dts-allwinner-h616-add-display-engine-and-HDMI-nodes/20260904-173328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20260904213329.3910099-3-barzin221%40gmail.com
-patch subject: [PATCH 2/2] arm64: dts: allwinner: orangepi-zero3: enable HDMI output
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-2055-20260907 (https://download.01.org/0day-ci/archive/20260909/202609091541.eb9VTXym-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project b1f20dd48e11439d5a592662b407e07d8213ffee)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   50d05c7c76c96b90462f24debacca971d2e86713
+commit: ba97758a63b78f7e494ebdfb74ba8a8af702a33a arm64: tegra: Add NVIDIA Jetson Nano 2GB Developer Kit support
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-2051-20260908 (https://download.01.org/0day-ci/archive/20260910/202609100309.Vyca9kkM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091541.eb9VTXym-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100309.Vyca9kkM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ba97758a63b7 ("arm64: tegra: Add NVIDIA Jetson Nano 2GB Developer Kit support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609091541.eb9VTXym-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609100309.Vyca9kkM-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
+   arch/arm64/boot/dts/nvidia/tegra210.dtsi:31.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pci@1,0: nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pci@2,0: nvidia,num-lanes: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
 --
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:156.6-1261.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: bus@1000000 (allwinner,sun50i-h616-de33): mixer@100000:reg: [[1048576, 1048576], [33024, 64], [2621440, 131072]] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: bus@1000000 (allwinner,sun50i-h616-de33): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2'] is too long
-   	'allwinner,sun50i-a64-de2' was expected
-   	'allwinner,sun50i-h6-de3' was expected
-   	from schema $id: http://devicetree.org/schemas/bus/allwinner,sun50i-a64-de2.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/bus@1000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-de33', 'allwinner,sun50i-a64-de2']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:0: 'bus' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: clock@8000 (allwinner,sun50i-h616-de33-clk): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/allwinner,sun8i-a83t-de2-clk.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clock-names: ['iahb', 'isfr', 'tmds', 'cec'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): clocks: [[2, 117], [2, 115], [2, 114], [2, 116]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): reset-names: ['ctrl'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): resets: [[2, 52]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: hdmi@6000000 (allwinner,sun50i-h616-dw-hdmi): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi'] is too long
-   	'allwinner,sun8i-a83t-dw-hdmi' was expected
-   	'allwinner,sun50i-h6-dw-hdmi' was expected
-   	'allwinner,sun50i-h616-dw-hdmi' is not one of ['allwinner,sun8i-h3-dw-hdmi', 'allwinner,sun8i-r40-dw-hdmi', 'allwinner,sun50i-a64-dw-hdmi']
-   	from schema $id: http://devicetree.org/schemas/display/allwinner,sun8i-a83t-dw-hdmi.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/hdmi@6000000: failed to match any schema with compatible: ['allwinner,sun50i-h616-dw-hdmi', 'allwinner,sun50i-h6-dw-hdmi']
->> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/hdmi-phy@6010000: failed to match any schema with compatible: ['allwinner,sun50i-h616-hdmi-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /usb-phy@7d004000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: cpu@0 (arm,cortex-a57): 'operating-points' is a dependency of 'clock-latency'
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: cpu@0 (arm,cortex-a57): Unevaluated properties are not allowed ('clock-latency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active', 'cpu-critical', 'cpu-hot', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: thermal-zones: mem-thermal:cooling-maps: 'dram-active', 'dram-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 
 --
 0-DAY CI Kernel Test Service
