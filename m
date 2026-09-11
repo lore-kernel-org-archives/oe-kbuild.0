@@ -1,148 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DE94AA1F7
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Sep 2026 17:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49827442B1C
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Sep 2026 20:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789148148; cv=none; b=iDw/QTfUlsV5g1xGHqy5qDsDnNy111M+OYcbCVjoME0uENDLHE8vxts4Sl/KaJXtN44ZEdkBKkCr8XiST/9cDvrmysmhPwfvdbNCqQIKUNJVh8vf60HrFboNZUjMjyshcuxuWT8QfL+nIwFqV+XxKcqBdahI3pF6NttLtaO3nS8=
+	t=1789159712; cv=none; b=IohJlTCIgfIQ+XnuND2MYWqzFvwsMi+jwaSBnyuNGD4oqosf0eq5wnXBQqTTsLE4kpygbUQKozfk4UIYbUTdTG/AeAQM/EaHmv82Vru2tXprBZHEeduHuK/1F7SPfGALbjz77RwILpeu6vwVAIKhVhmPqttI2tVQUll9iUEFLsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789148148; c=relaxed/simple;
-	bh=2Dg+UI/ZNQJyfIuUXO7Krw7PSxcOaMKe8Q5eCTUkiW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XTr+Lj7n2K+RysEn25qxYZN86mPGoB8ky3V8TkvM33l14wSx7OO60nhBFXUOSSsTbMQXDG3RyewUFfws96Joa2/GLSUt9UdRs8L5Tl7Ij+mC4pAIL8gy+AP+7uhKX1QJfPMvYkmfT8fIOTTYiG+hqh2mG3S7M0g/s23g9D0QdwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7uXXvRp; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789159712; c=relaxed/simple;
+	bh=uLdPvG39rrwkyRK8p5yT0t4rkyklWiW6CJOZ8cWZLRA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qEUZVhdtFl/tkKYKwFct1wMflbSOy3tNV2y8ZSngMVQUYmRKG/wUbeyZV0GJqioPEYQovZfhX+R0Xb4ODNBJtePHZd4C+D824t6JUko7Gg6fIlyepFxp80zQXz4Fe/hPPgkWN0xwxUtuA/sswwqiEgXrlnCo5sNLzdiQbuW6LyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CF0V+C51; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7uXXvRp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CF0V+C51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789148142; x=1820684142;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Dg+UI/ZNQJyfIuUXO7Krw7PSxcOaMKe8Q5eCTUkiW8=;
-  b=H7uXXvRpBkIqNjSUZU9nzbI9KYbSixiQJWII0fgx5K7+ANRepeJf3QRL
-   ckYCRBLSKm9TvJ3vdP4lklEpkb7Hlvgbvg4MUlZqlNZwvuf1DCuS7rmB+
-   JyMxPwDABytTC0DFdeOHRjIk/Q19n8EVx1W+qvttPxKG1NyLxxqMPekSY
-   UElwYw6y0btjcxV9cEoHwroHqGza5g9sz/ZLTs+NbBWAx08YpeIF6nnBs
-   IOwKdxvJlRvsPQczkdPyGy63pZ5tCN089ACvpgkD7uwZVtcfu/lYnXP0Z
-   WH1sjUswgtlTSJzAvKMhXmmrBtDVCdj+BCR2zhS36AAN0g5whzYDqsGou
-   A==;
-X-CSE-ConnectionGUID: 4u0PL2tiTk6I3UQEDvyUdQ==
-X-CSE-MsgGUID: Xm8+5PKISYCkQJLO4PSuvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="92124255"
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="92124255"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 10:35:39 -0700
-X-CSE-ConnectionGUID: ZorG8CBASYmBHgr2laELVQ==
-X-CSE-MsgGUID: /620oAoTRPCuiJhNyCdukw==
+  t=1789159711; x=1820695711;
+  h=date:from:to:cc:subject:message-id;
+  bh=uLdPvG39rrwkyRK8p5yT0t4rkyklWiW6CJOZ8cWZLRA=;
+  b=CF0V+C51W/5le58xjk4SnmToPJ80uXQ1/Y+sSwiP6LOZGbGNIiz1Sbjt
+   dnb1ax/JbAVK9GLaivQaZSePd7b/BOGvKO0eRl0O+3LYRJHc7SuZgsasK
+   xkRMaL3+zl/KPgx70Il4xhPjhNVAzPmMmJH1Jzpp6Zyr+EQeXT6AotutS
+   /fGEUt3ftAAcQlaWnGtony4GmHezJ70xedgNopoPRTxgvpeh4TqHFZsAM
+   tBY1N7p7Y+PC4ssstb1ZgtQbhqtjkv2s2pdu4llW4IUjYzRZO8ViYOyUM
+   qOw2j59MiwFVIYBFQIVAM9jt0nUPRBlviS+H7SyXNyXILvORzPF+dhrjd
+   Q==;
+X-CSE-ConnectionGUID: aGmRamluSxCqNFO6YhS0mw==
+X-CSE-MsgGUID: VnGw/tQWRxuiaYP8YMkXvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89837493"
+X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
+   d="scan'208";a="89837493"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 13:48:30 -0700
+X-CSE-ConnectionGUID: lDl9msFfQGa+6ZaF89g+JQ==
+X-CSE-MsgGUID: JdFwKF0IQIq4GcX8ssQE6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="275498322"
+X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
+   d="scan'208";a="265825970"
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 11 Sep 2026 10:35:38 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 Sep 2026 13:48:28 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x559y-000000000qR-45Ul;
-	Fri, 11 Sep 2026 17:35:34 +0000
-Date: Fri, 11 Sep 2026 19:35:31 +0200
+	id 1x58Ac-000000000rT-2WIe;
+	Fri, 11 Sep 2026 20:48:26 +0000
+Date: Fri, 11 Sep 2026 22:47:44 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] ARM: dts: helios4: add Wake-on-LAN gpio key
-Message-ID: <202609111959.BEl7ZrsC-lkp@intel.com>
+Subject: Warning: arch/mips/cavium-octeon/octeon-crypto.c:15 This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609112204.u8q8zaXT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260901025311.955936-1-rosenp@gmail.com>
-References: <20260901025311.955936-1-rosenp@gmail.com>
-TO: Rosen Penev <rosenp@gmail.com>
-TO: devicetree@vger.kernel.org
-CC: Andrew Lunn <andrew@lunn.ch>
-CC: Gregory Clement <gregory.clement@bootlin.com>
-CC: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: 375, 38x, ...), linux-kernel@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-doc@vger.kernel.org
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v7.3-rc2 next-20260909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/ARM-dts-helios4-add-Wake-on-LAN-gpio-key/20260831-195311
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260901025311.955936-1-rosenp%40gmail.com
-patch subject: [PATCH] ARM: dts: helios4: add Wake-on-LAN gpio key
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: arm-randconfig-2054-20260908 (https://download.01.org/0day-ci/archive/20260911/202609111959.BEl7ZrsC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609111959.BEl7ZrsC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3026c6e4f223bdded6448fefe53ff85d9cbe51bd
+commit: 5f88f44d8427a97347afda3a6114aed0df472a0b docs: kdoc: various fixes for grammar, spelling, punctuation
+date:   10 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 10 months ago
+config: mips-randconfig-r062-20260911 (https://download.01.org/0day-ci/archive/20260911/202609112204.u8q8zaXT-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 707c032dae3bee24eae29c6f4c459a6d6dc6556d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609112204.u8q8zaXT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 5f88f44d8427 ("docs: kdoc: various fixes for grammar, spelling, punctuation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609111959.BEl7ZrsC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609112204.u8q8zaXT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb3@f8000 (marvell,armada-380-xhci): reg: [[1015808, 16384], [1032192, 16384]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sa-sram0 (mmio-sram): $nodename:0: 'sa-sram0' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sa-sram1 (mmio-sram): $nodename:0: 'sa-sram1' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: bm-bppi (mmio-sram): $nodename:0: 'bm-bppi' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: pcie (marvell,armada-370-pcie): $nodename:0: 'pcie' does not match '^pcie?@'
-   	from schema $id: http://devicetree.org/schemas/pci/marvell,kirkwood-pcie.yaml
->> arch/arm/boot/dts/marvell/armada-388-helios4.dtb: gpio-keys (gpio-keys): 'wol' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: io-leds (gpio-leds): sata1-led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-   	'ata1' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'gpio', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
-   	'ata1' does not match '^cpu[0-9]*$'
-   	'ata1' does not match '^hci[0-9]+-power$'
-   	'ata1' does not match '^mmc[0-9]+$'
-   	'ata1' does not match '^phy[0-9]+tx$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: io-leds (gpio-leds): sata2-led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-   	'ata2' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'gpio', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+All warnings (new ones prefixed by >>):
+
+>> Warning: arch/mips/cavium-octeon/octeon-crypto.c:15 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Enable access to Octeon's COP2 crypto hardware for kernel use. Wrap any
 --
-   	'ata4' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'gpio', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
-   	'ata4' does not match '^cpu[0-9]*$'
-   	'ata4' does not match '^hci[0-9]+-power$'
-   	'ata4' does not match '^mmc[0-9]+$'
-   	'ata4' does not match '^phy[0-9]+tx$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb2-phy (usb-nop-xceiv): 'vbus-regulator' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb2-phy (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
->> arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb2-phy (usb-nop-xceiv): vbus-regulator: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb3-phy (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-errata.c:28 Cannot find identifier on line:
+    *
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-errata.c:29 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Fixes and workaround for Octeon chip errata. This file
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:44 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Perform initialization required only once for an SGMII port.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:128 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize the SERTES link for the first time or after a loss
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:191 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Configure an SGMII link to the specified speed after the SERTES
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:297 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Bring up the SGMII interface to be ready for packet I/O but
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:333 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Probe a SGMII interface and determine the number of ports
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:357 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Bringup and enable a SGMII interface. After this call packet
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:387 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the link state of an IPD/PKO port as returned by
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-loop.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Probe a LOOP interface and determine the number of ports
+--
+>> Warning: arch/mips/cavium-octeon/executive/octeon-model.c:34 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read a byte of fuse data
+--
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:29 Cannot find identifier on line:
+    *
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:30 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Helper utilities for qlm_jtag.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize the internal QLM JTAG logic to allow programming
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:73 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write up to 32bits into the QLM jtag chain. Bits are shifted
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:103 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Shift long sequences of zeros into the QLM JTAG chain. It is
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-interrupt-rsl.c:44 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Enable ASX error interrupts that exist on CN3XXX, CN50XX, and
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:48 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Convert a interface mode into a human readable string
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:83 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup Random Early Drop on a specific input queue
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:120 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup Random Early Drop to automatically begin dropping packets.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:170 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup the common GMX settings that determine the number of
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:279 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns the IPD/PKO port number for a port on the given
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:308 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns the interface number for an IPD/PKO port number.
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:62 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Probe a SPI interface and determine the number of ports
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:95 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Bringup and enable a SPI interface. After this call packet I/O
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:133 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the link state of an IPD/PKO port as returned by
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:52 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the number of interfaces the chip has. Each interface
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:79 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the number of ports on an interface. Depending on the
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:94 Cannot find identifier on line:
+    * @INTERNAL
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:95 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return interface mode for CN68xx.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:146 Cannot find identifier on line:
+    * @INTERNAL
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:147 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return interface mode for an Octeon II
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:246 Cannot find identifier on line:
+    * @INTERNAL
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:247 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return interface mode for CN7XXX.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:282 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Get the operating mode of an interface. Depending on the Octeon
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:364 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Configure the IPD/PIP tagging and QoS options for a specific
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:413 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * This function sets the interface_port_count[interface] correctly,
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:487 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * This function probes an interface to determine the actual
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:555 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup the IPD/PIP for the ports on an interface. Packet
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:577 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup global setting for IPD/PIP not related to a specific
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:599 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup the PKO for the ports on an interface. The number of
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:643 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup global setting for PKO not related to a specific
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:678 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Setup global backpressure setting.
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:712 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Enable packet input/output from the hardware. This function is
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:774 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Function to adjust internal IPD pointer alignments
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:968 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Called after all internal packet IO paths are setup. This
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:1004 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize the PIP, IPD, and PKO hardware to support
+   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:1064 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the link state of an IPD/PKO port as returned by
+--
+>> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-npi.c:40 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Probe a NPI interface and determine the number of ports
 
 --
 0-DAY CI Kernel Test Service
