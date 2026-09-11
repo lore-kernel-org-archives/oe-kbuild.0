@@ -1,116 +1,110 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC85A47124C
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Sep 2026 12:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4428B25F7A9
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Sep 2026 13:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789129419; cv=none; b=N9UuWDmlh1pscSCbRIKmJ84WuUXsBBaS3l3bMa/OcZd8e4ik2HqRK/ZFknEHqvUtfG0VOhBne/B3NS0YztayS5Isx+3m8FRpx0VQzorUuzgqkzDYtccOgMJPlpoIGP+RJ3zhdhKg7lB7HLklWe1xFUf+J9IrsyyMah9TYZtx4Cs=
+	t=1789134193; cv=none; b=pDEEm+Onikj+5FiPT34Vybezzkm8RwNoZm0/fSqlX/dJaGkqNN87NmHO8qHOBklTloILb9BxenUW89JIHKEaJ3jZaWp731RETYaqfl8OwwwpX/fffTom3TZXo1pKwpE9sXvCkiLiP+Nm9fWQIc3qDZVnVOqEdT1sTWRsUm4Kg1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789129419; c=relaxed/simple;
-	bh=WMg5pNKFeS/3Df03be8/j7ACkOJBdxGDH4qU5fGArMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oN/DfXI+HoUQJdFu5CaQfpvSJNrk0kT5Acjtz6SRS8MzgkpX538owIfODFmHigNsh0cKqVQ8YFSOfbf9I+7X8TmUYDPu4HEKy/uZ1Nsc4hVNdz+f5Xxn/v+MnzpFuEHvd3pv89NNNECQ+ytEh1R/W24JEhkJ/mKyFjlXAjrax7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nTuAgD1A; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789134193; c=relaxed/simple;
+	bh=dpBdwDrhTICLVvr1Fjj1jeJ8uW/FDDUt6gkQqmk34sw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rDYnNLEesDINiSjQ/ya46rss6VIR5uyxPe8/P48mq3hdF3TLuquAnpI6ZbIcriC6lVCih17JuHG3zn4tDmPDRTFoYA4yyFHO7VSLfDyH9gVhxyPHoDBEylyZfDzfx3wMuj+XR99lOCuMBfeyUh3y91CPRgCfrufVJzkJPpq0wZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xi1lOY5X; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTuAgD1A"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48586861639so348534f8f.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 11 Sep 2026 05:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789129412; x=1789734212; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PpMXHaFF1JIW3abETAGrUWAAHuJWrnkzeYHOUDUyhbo=;
-        b=nTuAgD1Au/hjH9iWY2v5J5AxLk1+QXkXsRCvLGldpI4MQP+wgOCsaFIl9haBoVuqEq
-         h3t4UpdWiLueQuWxlzejl9QhP2Tb6qRkzuiMYDC5VWMo+muqyHUMIlfe8a2YUMNkScSK
-         HRcH8ALxHT3nm2KdF4LdxWkB6FpIZ3YlFiuxPX9UYqxpVpizme9cHvNlQmxfx+ioW8Pf
-         6HcfdVAu9QuhyHasNW7PqWAbFJljbTQHQTROmHd44wxkXPvQUox+7neOmkzxGWH/OsX5
-         Uaz+xtmgdLGZnQFz8WEJR2euouDdeb+ByK0YC+ASTYcKGaT7C6YDc7FLQ4LJuOu0zxqS
-         nLWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789129412; x=1789734212;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PpMXHaFF1JIW3abETAGrUWAAHuJWrnkzeYHOUDUyhbo=;
-        b=Em6xHEyLI5DUbqsYYayncc6g+bxHLWUqTwCiWPJupfOnop9R2AggFGFj0OiwBidPB6
-         fz1xj/ETdJJPIiZycd9TlolXG5FpA0tsrxi8yjoBmzEJicyKSy+RGVNYEhR5hP32XztA
-         MQ2wCok9aY0i4krcDIKVeQcFWg6iMUp3aLG20teO9oe0m+EGRuF4YzW0vDhSjCgBiCaa
-         Af2EHex0QBGVrYNq0C0Ls6PWPpEhwrs/1XZmU7U/L6bxnpyp7SvRsZ4el03Dqs7nXUPL
-         3C3248aIZzQxvHZYhykBliFVa0meliYjJJbYTvmzb2AbPUjLuIr9qfTBsVlLaOtPO107
-         4rrQ==
-X-Gm-Message-State: AFuF++nBUvIvyQ3g26EBUeh1F95T7Xhy4vaHIlxi15F1QE8LH/SbdYvB
-	WcUV0H3wP3OHHLT/RUaX7bKWMpDzoyDfVFx0kN/82QgyqK6T9v29Rqv7BZGKtBdvn18duQ==
-X-Gm-Gg: AYBFou29nd0LhhzlXfl/0DWDPWd/l5RTRm750CeNTdFWYtGOEh+XePPv5r7vK0vOg5Q
-	mr+DM3W5dpD0QV3ssDAVm+YojpKcc3imxwh3RyiloGE/4xTQye+TVomuo4K7wt4curp6u9S1TLI
-	lkULxnx0yqrybMtKGz3xZFjI9VibjET5FrOgORDrLvPV1Lf5vMxzSxKPXCWw9E41Tyqfv0a8+Hp
-	iRu6AbHj0hXth0LqBfYiMejjC1zS80/3aCZL4SVjARaQhOzWhNkNZ3T1SbZIJ6RLvW+kR1waaVD
-	SiCQBeVoFANY8Ycu07EkJlpqUt5qiCN3pUPCUlX4oRnxggvHHmNFke8QGDnmEwDAewcKGXQsx70
-	WmpoDBWvaG5TEa1MjkYO/z7zYce6ti2hNvqM8+oPkCA/AzWF+3wllHlSCxo3iLTZ0GK5IDoQ8Bd
-	6QvPLkB2hGxeEOuCMdr0VCzMK3CLjKsk05FdLf6HNSIEaFPLPfr7Doz+n4fuiK+21HFAA=
-X-Received: by 2002:a05:6000:2311:b0:485:8d9c:47d2 with SMTP id ffacd0b85a97d-486e0f955c8mr11792035f8f.30.1789129411941;
-        Fri, 11 Sep 2026 05:23:31 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb34e608sm5870255f8f.23.2026.09.11.05.23.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 05:23:31 -0700 (PDT)
-Date: Fri, 11 Sep 2026 15:23:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, arm@kernel.org
-Subject: [soc:board-remove-7.3 182/295] drivers/hwmon/ads7828.c:121
- ads7828_probe() warn: if statement not indented
-Message-ID: <202609111050.oiut4oST-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xi1lOY5X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789134191; x=1820670191;
+  h=date:from:to:cc:subject:message-id;
+  bh=dpBdwDrhTICLVvr1Fjj1jeJ8uW/FDDUt6gkQqmk34sw=;
+  b=Xi1lOY5XorYpEx/N7RgmMr7bTUxLTRTqCVfTPb/v5KbZLYsCZvERNW5J
+   cHfjHYoEU3CA55BX0NPsNAy0LqXgkExODQ7Yf6dQ+JwBbdBqAsSy42Qrl
+   SQbDRkaUXqRheRGvs8FgiCbKhbyoEcj/KA3vD1Nnslr28UVPy3T9AKM1L
+   7nxBnCTSwaReC1rAi+JvB1ylteMRmKaZEpUwH+LgeJMmKq/BbquiHlG5Z
+   +garaIVZBmQ9RcWwpWTKw/Xz1bT0JmWTNZK4sPKgfdIXKCXUF2Fl8Vk8g
+   kXVKihFTD6DEiF+O2dwppUXGEfjM/ZdF3aCu5WH2S9TdQg2J4RSPKCw3e
+   Q==;
+X-CSE-ConnectionGUID: WXAIETyARKqb2KnOuJy9Eg==
+X-CSE-MsgGUID: rcchj9CxRj6O9QBwBgsrHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89726478"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="89726478"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 06:43:10 -0700
+X-CSE-ConnectionGUID: JVMF0hQ5TVqw67kNLSxH2A==
+X-CSE-MsgGUID: tmYMyyAbR0qA9WiwlKgaPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="267630983"
+Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Sep 2026 06:43:10 -0700
+Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x51X1-000000000oB-1L0x;
+	Fri, 11 Sep 2026 13:43:07 +0000
+Date: Fri, 11 Sep 2026 15:42:16 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/usb/typec/hd3ss3220.c:221:37-39: opportunity for
+ str_enable_disable(on)
+Message-ID: <202609111509.BqH8fDQ8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260911122328.G71bN3BFl98XjiPrEdlMBcT1vn1oqAtOo5rTU575C7A@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove-7.3
-head:   cf983087c51a9c74c3d4d3b353eb811ae5030823
-commit: 4df92b98525f08e1eab92a25f5da2045c78403e8 [182/295] hwmon: asd7828: remove pdata based probing
-config: arm-randconfig-r071-20260911 (https://download.01.org/0day-ci/archive/20260911/202609111050.oiut4oST-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9187-g5189e3fb
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Xu Rao <raoxu@uniontech.com>
+CC: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   08df884136f1c1197bab2a27814404fd329d9aac
+commit: 10ff55ff552b3bf1dadba03fcc430ea205fa2761 usb: typec: hd3ss3220: fix VBUS regulator error message
+date:   4 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-054-20260911 (https://download.01.org/0day-ci/archive/20260911/202609111509.BqH8fDQ8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 10ff55ff552b ("usb: typec: hd3ss3220: fix VBUS regulator error message")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609111050.oiut4oST-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609111509.BqH8fDQ8-lkp@intel.com/
 
-smatch warnings:
-drivers/hwmon/ads7828.c:121 ads7828_probe() warn: if statement not indented
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/hd3ss3220.c:221:37-39: opportunity for str_enable_disable(on)
 
-vim +121 drivers/hwmon/ads7828.c
+vim +221 drivers/usb/typec/hd3ss3220.c
 
-5812f9283e6213 Steve Hardy              2008-01-22  116  
-a8ddfea09566c3 Sam Povilus              2017-03-29  117  	diff_input = of_property_read_bool(dev->of_node,
-a8ddfea09566c3 Sam Povilus              2017-03-29  118  					   "ti,differential-input");
-fddb5ceaf901b0 Qingshuang Fu            2026-08-05  119  	vref_uv = devm_regulator_get_enable_read_voltage(dev, "vref");
-fddb5ceaf901b0 Qingshuang Fu            2026-08-05  120  	if (vref_uv < 0) {
-fddb5ceaf901b0 Qingshuang Fu            2026-08-05 @121  		if (vref_uv != -ENODEV)
-fddb5ceaf901b0 Qingshuang Fu            2026-08-05  122  		return vref_uv;
+642b1017dc4371b Heikki Krogerus 2019-11-04  206  
+27fbc19e52b9a76 Jan Remmet      2026-01-15  207  static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
+27fbc19e52b9a76 Jan Remmet      2026-01-15  208  {
+27fbc19e52b9a76 Jan Remmet      2026-01-15  209  	int ret;
+27fbc19e52b9a76 Jan Remmet      2026-01-15  210  
+b3f9d6e491fda73 Jan Remmet      2026-02-06  211  	if (regulator_is_enabled(hd3ss3220->vbus) == on)
+b3f9d6e491fda73 Jan Remmet      2026-02-06  212  		return;
+b3f9d6e491fda73 Jan Remmet      2026-02-06  213  
+27fbc19e52b9a76 Jan Remmet      2026-01-15  214  	if (on)
+27fbc19e52b9a76 Jan Remmet      2026-01-15  215  		ret = regulator_enable(hd3ss3220->vbus);
+27fbc19e52b9a76 Jan Remmet      2026-01-15  216  	else
+27fbc19e52b9a76 Jan Remmet      2026-01-15  217  		ret = regulator_disable(hd3ss3220->vbus);
+27fbc19e52b9a76 Jan Remmet      2026-01-15  218  
+27fbc19e52b9a76 Jan Remmet      2026-01-15  219  	if (ret)
+27fbc19e52b9a76 Jan Remmet      2026-01-15  220  		dev_err(hd3ss3220->dev,
+10ff55ff552b3bf Xu Rao          2026-08-12 @221  			"vbus regulator %s failed: %d\n", on ? "enable" : "disable", ret);
+27fbc19e52b9a76 Jan Remmet      2026-01-15  222  }
+27fbc19e52b9a76 Jan Remmet      2026-01-15  223  
 
-Add another tab before the return.
-
-fddb5ceaf901b0 Qingshuang Fu            2026-08-05  123  	} else {
-a8ddfea09566c3 Sam Povilus              2017-03-29  124  		vref_mv = DIV_ROUND_CLOSEST(vref_uv, 1000);
-a8ddfea09566c3 Sam Povilus              2017-03-29  125  		if (vref_mv < ADS7828_EXT_VREF_MV_MIN ||
-a8ddfea09566c3 Sam Povilus              2017-03-29  126  		    vref_mv > ADS7828_EXT_VREF_MV_MAX)
-a8ddfea09566c3 Sam Povilus              2017-03-29  127  			return -EINVAL;
-a8ddfea09566c3 Sam Povilus              2017-03-29  128  		ext_vref = true;
-a8ddfea09566c3 Sam Povilus              2017-03-29  129  	}
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
