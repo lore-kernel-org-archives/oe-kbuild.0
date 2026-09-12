@@ -1,194 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEBB478E25
-	for <oe-kbuild@lists.linux.dev>; Sat, 12 Sep 2026 13:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0871C33A9E2
+	for <oe-kbuild@lists.linux.dev>; Sat, 12 Sep 2026 14:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789218124; cv=none; b=fpUX/l7Ohurh90mY5Ut+kPy4hOo8LT7L+lJbQ4GPorwH8kJ1dErCObFl34rDcPULg1SMZ/ntilDEYUMqpx+Uc+wo5NS5ANs1/koMj0ma7h9mUla4bHyTdF5GXHGRecMzaIkUsFOGcj0v8kinwwytT7ntjj0Nj2RuQriMMIDTpu4=
+	t=1789222968; cv=none; b=Mq1EBMFLW3Co0Hrzmj72WYf05ix+8BAAtxJDhKXlrAiMCcHgSrVps4a08MMdN+4HUO+BgkGIKRaFhw9KAcPLWnIEe4HxM2cyVQ8VgX5Bf/qk2A3m4p7RXooOIcsspfmVBQn0cd5uFVO5dC2cdil5vdcaD/bTSh7ZdUgIwAUNchA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789218124; c=relaxed/simple;
-	bh=a7mVXB8W++qUw8mNoca9uq4dGm/32Tsa64hnizhk4QQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=isyxo22RKcq8LlaU0dLiXdWX1dSAppzQW8fwanHsqWKiOOwuZz0/gROK7O72lxWCRCgd2jPVQb2Ctzp8CbXB7OG39vJ2Q43AsW4UPWua4NCcVNIq4dxTgjEtayuMYRUzMM2Ewl7+sly/mzdcQOvJjxb/Y8YXGNS4McCIaMXSzO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7NQn/JJ; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789222968; c=relaxed/simple;
+	bh=pE81E6z07yPCB/GijDBHLLKQeGqf5CoGk0d0imIEVsc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uwdgPOfoqBzE9p9DS5S8km+BJ4pmxb6TtN77oJy6mhB9+aOUCrn0tux2MMXzcSEr4SOdJyotsn3sle2od60a8/O0wnyBN9MeqLAvi72nc0ukUxubjpnRxlAt4IxqSSu5leMufYnxu/0n+RABVg9fP15ov0klEXNWSM53LftaEQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQAz0GZt; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7NQn/JJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQAz0GZt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789218123; x=1820754123;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=a7mVXB8W++qUw8mNoca9uq4dGm/32Tsa64hnizhk4QQ=;
-  b=e7NQn/JJ0WSi27dO5J/EaKDiVH7WvsSnVPUOhkmdjRB5n1dRhzQNb5fN
-   UHH0ScwtF+1yTA5+mWwLzrHX8hHImGuk7T5rF2+7EmFaWJyDmDSIKVS9B
-   8P8I6aFNnmZlEYgu+6w/WUjWtG3vFiRoqmg0wMbnlBcI4b4bTlz9ExHJ5
-   CZ+/lJT2+Uttja0XTtiH7Moa1dmGitFTxJhmjVs3cGkBX7wmiwrj4XTgD
-   voCi82V9h4tTfqwXXlu3+3iCXZfe0fbceTlP/N1JMvpHMH6PJsUD/xA3h
-   7YUDI4gr1thE/c8KtY9RsGbK5NjqIaI9tiHW/zG/FGj7inlyZ0jc02Koe
-   g==;
-X-CSE-ConnectionGUID: GRihNOSnSA+ZENJdZiYocg==
-X-CSE-MsgGUID: oRouKMc/RXOTGexzkYqBUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="92165987"
+  t=1789222966; x=1820758966;
+  h=date:from:to:cc:subject:message-id;
+  bh=pE81E6z07yPCB/GijDBHLLKQeGqf5CoGk0d0imIEVsc=;
+  b=FQAz0GZtdIHWy7RH5f9RlsGpClSnaZWcu5BirWlrulQESekm2ucOqDJT
+   eaqYgM8zX3VIS+xFJhT1zfWV9u0+ZfEGfPqsGx8qnR2O+KWks5LqA0Bgf
+   G2xUqmJX+wcYASvJDBYDfwX4sk2tdnN/g2FN1Eex11258Kt4g2IgxdyzJ
+   ArL+2ypYYBLC9hupqAN8Oxgiw7RnbvbpA+8z4YpnX+nm1O1Jr3QMcY79l
+   02H6hudRZ9JYP0sMfvJhiMIRcZMgXDG/faC3MxiA0F1n5U15lYyMZrhJE
+   DBktGErXh/WYuYePMv1dwM8pWLhUtdCK3xz5FTpQ4mspktFc3J3FJlvWc
+   Q==;
+X-CSE-ConnectionGUID: 5PXyMmtkRpKJjRjr3X2LCw==
+X-CSE-MsgGUID: rw7oBccdQeWvt/cYNJkcGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="93484083"
 X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
-   d="scan'208";a="92165987"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 06:02:03 -0700
-X-CSE-ConnectionGUID: oSgtbwI7QWKw6iuVJpAb2A==
-X-CSE-MsgGUID: H59C3J1rT26Jf+YxzQutfw==
+   d="scan'208";a="93484083"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 07:22:45 -0700
+X-CSE-ConnectionGUID: uA3AA4VmQh2/2poK+J0CpA==
+X-CSE-MsgGUID: Ejmim5kyRMq8W2mUiZUHFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
-   d="scan'208";a="274094528"
+   d="scan'208";a="268911128"
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Sep 2026 06:02:01 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Sep 2026 07:22:44 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5NMl-0000000016Z-0GQp;
-	Sat, 12 Sep 2026 13:01:59 +0000
-Date: Sat, 12 Sep 2026 15:01:05 +0200
+	id 1x5Ocs-0000000018Z-0gdV;
+	Sat, 12 Sep 2026 14:22:42 +0000
+Date: Sat, 12 Sep 2026 16:22:13 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/toshiba_bluetooth.c:261
- toshiba_bt_rfkill_probe() warn: 'bt_dev->rfk' is an error pointer or valid
-Message-ID: <202609121412.Fe6ylN72-lkp@intel.com>
+Subject: [akpm-mm:mm-unstable 381/400] mm/madvise.c:1001
+ madvise_collapse() warn: variable dereferenced before check 'vma' (see line
+ 969)
+Message-ID: <202609121604.osnEA06x-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5225b8eec4c9bb21aecff6295fab6346a3c3738e
-commit: 553b2ac59fbb434330287fde0cabc64bc6f11ceb platform/x86: toshiba_blue=
-tooth: Convert ACPI driver to a platform one
-date:   6 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-141-20260911 (https://download.01.org/0day-ci/archi=
-ve/20260912/202609121412.Fe6ylN72-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   e2e54005e20fb42d4a5e140d70a65be4a2363045
+commit: 68911e99c4afb4ec69928136adfb19077c6f9b31 [381/400] mm/collapse: implement MADV_COLLAPSE in madvise.c
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: riscv-randconfig-r073-20260912 (https://download.01.org/0day-ci/archive/20260912/202609121604.osnEA06x-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 707c032dae3bee24eae29c6f4c459a6d6dc6556d)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 553b2ac59fbb ("platform/x86: toshiba_bluetooth: Convert ACPI drive=
-r to a platform one")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609121412.Fe6ylN72-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609121604.osnEA06x-lkp@intel.com/
 
 smatch warnings:
-drivers/platform/x86/toshiba_bluetooth.c:261 toshiba_bt_rfkill_probe() warn=
-: 'bt_dev->rfk' is an error pointer or valid
+mm/madvise.c:1001 madvise_collapse() warn: variable dereferenced before check 'vma' (see line 969)
 
-vim +261 drivers/platform/x86/toshiba_bluetooth.c
+vim +/vma +1001 mm/madvise.c
 
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  230 =20
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  231  static int toshiba_bt_rfk=
-ill_probe(struct platform_device *pdev)
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  232  {
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  233  	struct acpi_device *devi=
-ce =3D ACPI_COMPANION(&pdev->dev);
-84c0691e514539 Azael Avalos      2015-05-03  234  	struct toshiba_bluetooth=
-_dev *bt_dev;
-18b8696b66d790 Azael Avalos      2015-03-26  235  	int result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  236 =20
-18b8696b66d790 Azael Avalos      2015-03-26  237  	result =3D toshiba_bluet=
-ooth_present(device->handle);
-18b8696b66d790 Azael Avalos      2015-03-26  238  	if (result)
-18b8696b66d790 Azael Avalos      2015-03-26  239  		return result;
-18b8696b66d790 Azael Avalos      2015-03-26  240 =20
-18b8696b66d790 Azael Avalos      2015-03-26  241  	pr_info("Toshiba ACPI Bl=
-uetooth device driver\n");
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  242 =20
-bf4afc53b77aea Linus Torvalds    2026-02-21  243  	bt_dev =3D kzalloc_obj(*=
-bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  244  	if (!bt_dev)
-84c0691e514539 Azael Avalos      2015-05-03  245  		return -ENOMEM;
-84c0691e514539 Azael Avalos      2015-05-03  246  	bt_dev->acpi_dev =3D dev=
-ice;
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  247 =20
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  248  	platform_set_drvdata(pde=
-v, bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  249 =20
-84c0691e514539 Azael Avalos      2015-05-03  250  	result =3D toshiba_bluet=
-ooth_sync_status(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  251  	if (result) {
-84c0691e514539 Azael Avalos      2015-05-03  252  		kfree(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  253  		return result;
-84c0691e514539 Azael Avalos      2015-05-03  254  	}
-84c0691e514539 Azael Avalos      2015-05-03  255 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  256  	bt_dev->rfk =3D rfkill_a=
-lloc("Toshiba Bluetooth",
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  257  				   &pdev->dev,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  258  				   RFKILL_TYPE_BLUETO=
-OTH,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  259  				   &rfk_ops,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  260  				   bt_dev);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03 @261  	if (!bt_dev->rfk) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  262  		pr_err("Unable to alloc=
-ate rfkill device\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  263  		result =3D -ENOMEM;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  264  		goto err_free_bt_dev;
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  265  	}
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  266 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  267  	rfkill_set_hw_state(bt_d=
-ev->rfk, !bt_dev->killswitch);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  268 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  269  	result =3D rfkill_regist=
-er(bt_dev->rfk);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  270  	if (result) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  271  		pr_err("Unable to regis=
-ter rfkill device\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  272  		goto err_rfkill_destroy;
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  273  	}
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  274 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  275  	result =3D acpi_dev_inst=
-all_notify_handler(device, ACPI_DEVICE_NOTIFY,
-4315abf3383010 Rafael J. Wysocki 2026-03-24  276  						 toshiba_bt_rfkill_=
-notify, bt_dev);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  277  	if (result) {
-4315abf3383010 Rafael J. Wysocki 2026-03-24  278  		pr_err("Unable to regis=
-ter ACPI notify handler\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  279  		goto err_rfkill_unregis=
-ter;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  280  	}
-4315abf3383010 Rafael J. Wysocki 2026-03-24  281 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  282  	return 0;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  283 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  284  err_rfkill_unregister:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  285  	rfkill_unregister(bt_dev=
-->rfk);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  286  err_rfkill_destroy:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  287  	rfkill_destroy(bt_dev->r=
-fk);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  288  err_free_bt_dev:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  289  	kfree(bt_dev);
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  290  	return result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  291  }
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  292 =20
-
-:::::: The code at line 261 was first introduced by commit
-:::::: 7ee8cd3319d5e57b1b5e2b348f078af44e67a577 toshiba_bluetooth: Add RFKi=
-ll handler functions
-
-:::::: TO: Azael Avalos <coproscefalo@gmail.com>
-:::::: CC: Darren Hart <dvhart@linux.intel.com>
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   958) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   959) static int madvise_collapse(struct madvise_behavior *madv_behavior)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   960) {
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   961) 	struct madvise_behavior_range *range = &madv_behavior->range;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   962) 	struct vm_area_struct *vma = madv_behavior->vma;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   963) 	struct mm_struct *mm = madv_behavior->mm;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   964) 	struct collapse_control *cc;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   965) 	unsigned long hstart, hend, addr, orders;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   966) 	enum scan_result last_fail = SCAN_FAIL;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   967) 	int thps = 0;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   968) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  @969) 	BUG_ON(vma->vm_start > range->start);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   970) 	BUG_ON(vma->vm_end < range->end);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   971) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   972) 	orders = collapse_possible_orders(vma, vma->vm_flags,
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   973) 					  TVA_FORCED_COLLAPSE);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   974) 	if (!orders)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   975) 		return -EINVAL;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   976) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   977) 	hstart = ALIGN(range->start, HPAGE_PMD_SIZE);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   978) 	hend = ALIGN_DOWN(range->end, HPAGE_PMD_SIZE);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   979) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   980) 	if (hstart >= hend)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   981) 		return 0;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   982) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   983) 	cc = kmalloc_obj(*cc);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   984) 	if (!cc)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   985) 		return -ENOMEM;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   986) 	collapse_control_init(cc);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   987) 	collapse_policy_forced(&cc->policy);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   988) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   989) 	lru_add_drain_all();
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   990) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   991) 	for (addr = hstart; addr < hend; addr += HPAGE_PMD_SIZE) {
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   992) 		struct vm_area_struct *found;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   993) 		enum scan_result result;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   994) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   995) 		/*
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   996) 		 * A collapse gives the lock up, so the VMA has to be found
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   997) 		 * again after one: it can shrink while nothing is held.  A scan
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   998) 		 * that finds nothing to collapse leaves the lock alone, so a
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10   999) 		 * range that is already collapsed walks on without relocking.
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1000) 		 */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10 @1001) 		if (!vma) {
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1002) 			cond_resched();
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1003) 			mmap_read_lock(mm);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1004) 			result = collapse_vma_revalidate(mm, addr, false, &found,
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1005) 							 cc, HPAGE_PMD_ORDER);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1006) 			if (result != SCAN_SUCCEED) {
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1007) 				last_fail = result;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1008) 				goto out_locked;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1009) 			}
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1010) 			vma = found;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1011) 			hend = min(hend, vma->vm_end & HPAGE_PMD_MASK);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1012) 			orders = collapse_possible_orders(vma, vma->vm_flags,
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1013) 							  cc->policy.tva_type);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1014) 		}
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1015) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1016) 		result = collapse_scan_pmd(vma, addr, cc, orders);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1017) 		/* Nothing to collapse here, and the lock is still ours */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1018) 		if (result != SCAN_SUCCEED)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1019) 			goto tally;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1020) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1021) 		/* The collapse takes its own locks, so give this up */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1022) 		mmap_read_unlock(mm);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1023) 		mark_mmap_lock_dropped(madv_behavior);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1024) 		vma = NULL;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1025) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1026) 		result = collapse_run_pmd(mm, addr, cc);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1027) tally:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1028) 		switch (result) {
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1029) 		case SCAN_SUCCEED:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1030) 		case SCAN_PMD_MAPPED:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1031) 			++thps;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1032) 			break;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1033) 		/* Whitelisted set of results where continuing OK */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1034) 		case SCAN_NO_PTE_TABLE:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1035) 		case SCAN_PTE_NON_PRESENT:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1036) 		case SCAN_PTE_UFFD:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1037) 		case SCAN_LACK_REFERENCED_PAGE:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1038) 		case SCAN_PAGE_NULL:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1039) 		case SCAN_PAGE_COUNT:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1040) 		case SCAN_PAGE_LOCK:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1041) 		case SCAN_PAGE_COMPOUND:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1042) 		case SCAN_PAGE_LRU:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1043) 		case SCAN_DEL_PAGE_LRU:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1044) 			last_fail = result;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1045) 			break;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1046) 		default:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1047) 			last_fail = result;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1048) 			/* Other error, exit */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1049) 			goto out;
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1050) 		}
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1051) 	}
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1052) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1053) out:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1054) 	/* Caller expects us to hold mmap_lock on return */
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1055) 	if (!vma)
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1056) 		mmap_read_lock(mm);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1057) out_locked:
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1058) 	mmap_assert_locked(mm);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1059) 	collapse_control_release(cc);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1060) 	kfree(cc);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1061) 
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1062) 	return thps == ((hend - hstart) >> HPAGE_PMD_SHIFT) ? 0
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1063) 			: madvise_collapse_errno(last_fail);
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1064) }
+68911e99c4afb4 Kiryl Shutsemau (Meta  2026-09-10  1065) 
 
 --
 0-DAY CI Kernel Test Service
