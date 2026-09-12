@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100C03314B7
-	for <oe-kbuild@lists.linux.dev>; Sat, 12 Sep 2026 14:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D5738837C
+	for <oe-kbuild@lists.linux.dev>; Sat, 12 Sep 2026 14:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789223662; cv=none; b=qnE44kgucUW19vcqhOjcXPA5fiyrQRu8ErwKR5LnvfQVPIJkCmOBsVSthm+o200T/rtWRa3bqwt7B6jybx/AKt0kNLpOr5NE4wO0BEOEDnsrg9pDkqoElC+DmW4wWstTCQ6+1bK/0CcLdwOqjc2S2OwHHxwRIVGtrNYvQC0TIHc=
+	t=1789224836; cv=none; b=NhW6keqGeaumK5anfxWZ68IrSJWzjW8Y8iOMxg2o72anjUrEyaBuv+wJzRksCYUfqXXfcrHmcEPU4ibEgg/yET46RITsJTI2dD1WXZcI7EviONKMZS8drXOyFICqi0FgYGzGyGwDbR/sT8eF6jYztEHl8ovPWi+c346GAT+ICTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789223662; c=relaxed/simple;
-	bh=tpkly/DPuHlveQsTWd+SoBYT98W/Yh8nOuDIcELP0e8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bffLXpPzj8T9ODpmisoJgVSfWCk7goZi2S8PZRYURId28vzf8EJMLAe9q/9FNgajmp3jGocXLVK305fMogzCHrV20NVN+JzfV8uZ2/SpQsB+lVx55dzQZYpdnMci9G3Uo/hhF0uDR40PUueKL1rJzaHkrJhOX9yHMfN9EF6gU+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jAb3K3ZW; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789224836; c=relaxed/simple;
+	bh=ElN90FhSNp36ZMxpkiVRQj5XH4w0cR+jPxjYfnO8344=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hslVp2ACsNbKW7xiTS8NwAffxVsNLJh4YPQ/tWp9T8xjh0D0kaDeEVc1tpwlUiKU8qGMOLSOnRbQByQoTHW4+TB7ACBAVPFtgT/mQ1H9IGExXbslqS7exl2pnXEvV8uT+tPlDb9HfIyrU079+ur7yAtmMxfqEOyygClVPG9D8bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYst7RCm; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jAb3K3ZW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYst7RCm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789223660; x=1820759660;
+  t=1789224835; x=1820760835;
   h=date:from:to:cc:subject:message-id;
-  bh=tpkly/DPuHlveQsTWd+SoBYT98W/Yh8nOuDIcELP0e8=;
-  b=jAb3K3ZWThyak+MFVvPwzH/K9rtBhoRfVWj7cWnSQBlXU0RfNoo1HsEa
-   O2uS8YD2/b1h4mRt6NeyOFbs0+nFjG2aBybjcwuWo9f4TJTPKEY//jTx3
-   wmPoq61WvQCJWEP+WPvZpPSrO5Vwnf3/jPo3uwEKJprmtNOoeL3EnQaTl
-   p/pHtoOrZi9eMzmvvIpSAyuGb+UN4TSjCRh10Mbebk2jNp+EF8nyBHKEB
-   oAY2srxo/1rhOEGk6kunkJD54HCeVwgl/kCzJhpO/mYR+sn02pGWnCC3K
-   iF1k6maom1OahZj+SCsvE3UsBNUGxbdvoYvSFFUh6NgZIW7KrGmCVGTPM
+  bh=ElN90FhSNp36ZMxpkiVRQj5XH4w0cR+jPxjYfnO8344=;
+  b=GYst7RCmZ5/PRdeaW4oOT3Oyyno35aosfj69jqjIgQ7bxUIdjOEspEj/
+   Hq8+CSPQo9qEdZ0a6XFmJtwWuQQtK3W8Fph8jHymc8Co0JpxxytbOiyH9
+   c1ZIzPsshC4sh25yue+MU095wZQPJqL13eqJMHq9CfXoqpuIT06o/CloB
+   GEGdj4Iwc61iVtgyxvGD4hjbkXcQ3o6yCYYVH0nJG2GX7n5DNfBShI+v8
+   M2NU5qpF1X7E/jZ17PYD16OpOaHeTY0RLUK6YHwVSebP5MZB+i3N0RQq2
+   3Pftv5OqoerVVS2GCnA35tKuvE3NP5E6NocaX4WMSYwMbv6MWTcNHojNZ
    g==;
-X-CSE-ConnectionGUID: vkqcsELsSYSkNnCTBU9iwA==
-X-CSE-MsgGUID: wrTFQVxZQwmrjhjGzGVitQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="100320872"
+X-CSE-ConnectionGUID: BLaEBaXTQpKl91AOdOx83Q==
+X-CSE-MsgGUID: ToplR12LRXy3GMRq/4QpZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="92169157"
 X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
-   d="scan'208";a="100320872"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 07:34:19 -0700
-X-CSE-ConnectionGUID: XHiCClkTT92lB7lqNSW6rw==
-X-CSE-MsgGUID: w1MrZNHvSDaVJxGXCaBejA==
+   d="scan'208";a="92169157"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 07:53:54 -0700
+X-CSE-ConnectionGUID: JPzhFLFIQZSZBCU8Lu9FXA==
+X-CSE-MsgGUID: q+fd6/6tTP+ybW6aekP5cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
-   d="scan'208";a="272710173"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 12 Sep 2026 07:34:19 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+   d="scan'208";a="276347099"
+Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 12 Sep 2026 07:53:53 -0700
+Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5Onp-000000002z5-3Li9;
-	Sat, 12 Sep 2026 14:34:12 +0000
-Date: Sat, 12 Sep 2026 22:33:15 +0800
+	id 1x5P6z-0000000019P-2Aop;
+	Sat, 12 Sep 2026 14:53:49 +0000
+Date: Sat, 12 Sep 2026 16:52:50 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/msm/msm_gem_vma.c:392 msm_gem_vma_new()
- error: we previously assumed 'obj' could be null (see line 377)
-Message-ID: <202609122209.bqaOqmiT-lkp@intel.com>
+Subject: [linux-next:master 5126/5916]
+ drivers/hwmon/axiado-tsadc.c:142 axiado_tsadc_raw_to_mc() error: buffer
+ overflow 'axiado_tsadc_table' 34 <= 34
+Message-ID: <202609121642.l9tp42kr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,116 +62,68 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Rob Clark <robin.clark@oss.qualcomm.com>
+TO: Petar Stepanovic <pstepanovic@axiado.com>
+CC: Guenter Roeck <linux@roeck-us.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   08df884136f1c1197bab2a27814404fd329d9aac
-commit: c07612365087c8873f3faa2a47642ffa73b12c54 drm/msm: Disallow foreign mapping of _NO_SHARE
-date:   6 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-config: arc-randconfig-r072-20260907 (https://download.01.org/0day-ci/archive/20260912/202609122209.bqaOqmiT-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   68142f986ff04b2b70b31db00f719bf690f64a9a
+commit: 94761a45a7544d0d694767898327b2f797a47fe7 [5126/5916] hwmon: axiado-tsadc: Add AX3000/AX3005 TSADC support
+:::::: branch date: 23 hours ago
+:::::: commit date: 3 days ago
+config: powerpc64-randconfig-r072-20260911 (https://download.01.org/0day-ci/archive/20260912/202609121642.l9tp42kr-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 707c032dae3bee24eae29c6f4c459a6d6dc6556d)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c07612365087 ("drm/msm: Disallow foreign mapping of _NO_SHARE")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609122209.bqaOqmiT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609121642.l9tp42kr-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/msm_gem_vma.c:392 msm_gem_vma_new() error: we previously assumed 'obj' could be null (see line 377)
+New smatch warnings:
+drivers/hwmon/axiado-tsadc.c:142 axiado_tsadc_raw_to_mc() error: buffer overflow 'axiado_tsadc_table' 34 <= 34
 
-vim +/obj +392 drivers/gpu/drm/msm/msm_gem_vma.c
+Old smatch warnings:
+drivers/hwmon/axiado-tsadc.c:144 axiado_tsadc_raw_to_mc() error: buffer overflow 'axiado_tsadc_table' 34 <= 34
 
-7ad0e8cf6317825 Jordan Crouse         2018-11-07  365  
-da0e1407beb3a40 Rob Clark             2025-06-29  366  /* Create a new vma and allocate an iova for it */
-37889600f58ea55 Rob Clark             2025-06-29  367  struct drm_gpuva *
-37889600f58ea55 Rob Clark             2025-06-29  368  msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
-2c7ad9925523f64 Rob Clark             2025-06-29  369  		u64 offset, u64 range_start, u64 range_end)
-fc2f07566a2cb19 Rob Clark             2023-03-20  370  {
-37889600f58ea55 Rob Clark             2025-06-29  371  	struct msm_gem_vm *vm = to_msm_vm(gpuvm);
-111fdd2198e63b1 Rob Clark             2025-06-29  372  	struct drm_gpuvm_bo *vm_bo;
-fc2f07566a2cb19 Rob Clark             2023-03-20  373  	struct msm_gem_vma *vma;
-da0e1407beb3a40 Rob Clark             2025-06-29  374  	int ret;
-fc2f07566a2cb19 Rob Clark             2023-03-20  375  
-c07612365087c88 Rob Clark             2026-03-24  376  	/* _NO_SHARE objs cannot be mapped outside of their "host" vm: */
-c07612365087c88 Rob Clark             2026-03-24 @377  	if (obj && (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE) &&
-c07612365087c88 Rob Clark             2026-03-24  378  	    GEM_WARN_ON(obj->resv != drm_gpuvm_resv(gpuvm))) {
-c07612365087c88 Rob Clark             2026-03-24  379  		return ERR_PTR(-EINVAL);
-c07612365087c88 Rob Clark             2026-03-24  380  	}
-c07612365087c88 Rob Clark             2026-03-24  381  
-fe4952b5f27cca5 Rob Clark             2025-06-29  382  	drm_gpuvm_resv_assert_held(&vm->base);
-fe4952b5f27cca5 Rob Clark             2025-06-29  383  
-fc2f07566a2cb19 Rob Clark             2023-03-20  384  	vma = kzalloc(sizeof(*vma), GFP_KERNEL);
-fc2f07566a2cb19 Rob Clark             2023-03-20  385  	if (!vma)
-da0e1407beb3a40 Rob Clark             2025-06-29  386  		return ERR_PTR(-ENOMEM);
-fc2f07566a2cb19 Rob Clark             2023-03-20  387  
-111fdd2198e63b1 Rob Clark             2025-06-29  388  	if (vm->managed) {
-2c7ad9925523f64 Rob Clark             2025-06-29  389  		BUG_ON(offset != 0);
-2e6a8a1fe2b262a Rob Clark             2025-06-29  390  		BUG_ON(!obj);  /* NULL mappings not valid for kernel managed VM */
-057e55f337c5bb2 Rob Clark             2025-06-29  391  		ret = drm_mm_insert_node_in_range(&vm->mm, &vma->node,
-da0e1407beb3a40 Rob Clark             2025-06-29 @392  						obj->size, PAGE_SIZE, 0,
-2ee4b5d265363f1 Rob Clark             2022-04-11  393  						range_start, range_end, 0);
-0e08270a1f01bce Sushmita Susheelendra 2017-06-13  394  
-667ce33e57d0de4 Rob Clark             2016-09-28  395  		if (ret)
-da0e1407beb3a40 Rob Clark             2025-06-29  396  			goto err_free_vma;
-667ce33e57d0de4 Rob Clark             2016-09-28  397  
-111fdd2198e63b1 Rob Clark             2025-06-29  398  		range_start = vma->node.start;
-111fdd2198e63b1 Rob Clark             2025-06-29  399  		range_end   = range_start + obj->size;
-111fdd2198e63b1 Rob Clark             2025-06-29  400  	}
-111fdd2198e63b1 Rob Clark             2025-06-29  401  
-2e6a8a1fe2b262a Rob Clark             2025-06-29  402  	if (obj)
-111fdd2198e63b1 Rob Clark             2025-06-29  403  		GEM_WARN_ON((range_end - range_start) > obj->size);
-111fdd2198e63b1 Rob Clark             2025-06-29  404  
-efe927b9702643a Dmitry Baryshkov      2025-08-23  405  	struct drm_gpuva_op_map op_map = {
-efe927b9702643a Dmitry Baryshkov      2025-08-23  406  		.va.addr = range_start,
-efe927b9702643a Dmitry Baryshkov      2025-08-23  407  		.va.range = range_end - range_start,
-efe927b9702643a Dmitry Baryshkov      2025-08-23  408  		.gem.obj = obj,
-efe927b9702643a Dmitry Baryshkov      2025-08-23  409  		.gem.offset = offset,
-efe927b9702643a Dmitry Baryshkov      2025-08-23  410  	};
-efe927b9702643a Dmitry Baryshkov      2025-08-23  411  
-3309323241fbb3c Boris Brezillon       2025-08-19  412  	drm_gpuva_init_from_op(&vma->base, &op_map);
-c0ee9794693c1ff Jordan Crouse         2018-11-07  413  	vma->mapped = false;
-667ce33e57d0de4 Rob Clark             2016-09-28  414  
-111fdd2198e63b1 Rob Clark             2025-06-29  415  	ret = drm_gpuva_insert(&vm->base, &vma->base);
-111fdd2198e63b1 Rob Clark             2025-06-29  416  	if (ret)
-111fdd2198e63b1 Rob Clark             2025-06-29  417  		goto err_free_range;
-da0e1407beb3a40 Rob Clark             2025-06-29  418  
-2e6a8a1fe2b262a Rob Clark             2025-06-29  419  	if (!obj)
-2e6a8a1fe2b262a Rob Clark             2025-06-29  420  		return &vma->base;
-2e6a8a1fe2b262a Rob Clark             2025-06-29  421  
-111fdd2198e63b1 Rob Clark             2025-06-29  422  	vm_bo = drm_gpuvm_bo_obtain(&vm->base, obj);
-111fdd2198e63b1 Rob Clark             2025-06-29  423  	if (IS_ERR(vm_bo)) {
-111fdd2198e63b1 Rob Clark             2025-06-29  424  		ret = PTR_ERR(vm_bo);
-111fdd2198e63b1 Rob Clark             2025-06-29  425  		goto err_va_remove;
-111fdd2198e63b1 Rob Clark             2025-06-29  426  	}
-111fdd2198e63b1 Rob Clark             2025-06-29  427  
-111fdd2198e63b1 Rob Clark             2025-06-29  428  	drm_gpuvm_bo_extobj_add(vm_bo);
-111fdd2198e63b1 Rob Clark             2025-06-29  429  	drm_gpuva_link(&vma->base, vm_bo);
-111fdd2198e63b1 Rob Clark             2025-06-29  430  	GEM_WARN_ON(drm_gpuvm_bo_put(vm_bo));
-667ce33e57d0de4 Rob Clark             2016-09-28  431  
-37889600f58ea55 Rob Clark             2025-06-29  432  	return &vma->base;
-da0e1407beb3a40 Rob Clark             2025-06-29  433  
-111fdd2198e63b1 Rob Clark             2025-06-29  434  err_va_remove:
-111fdd2198e63b1 Rob Clark             2025-06-29  435  	drm_gpuva_remove(&vma->base);
-111fdd2198e63b1 Rob Clark             2025-06-29  436  err_free_range:
-111fdd2198e63b1 Rob Clark             2025-06-29  437  	if (vm->managed)
-111fdd2198e63b1 Rob Clark             2025-06-29  438  		drm_mm_remove_node(&vma->node);
-da0e1407beb3a40 Rob Clark             2025-06-29  439  err_free_vma:
-da0e1407beb3a40 Rob Clark             2025-06-29  440  	kfree(vma);
-da0e1407beb3a40 Rob Clark             2025-06-29  441  	return ERR_PTR(ret);
-667ce33e57d0de4 Rob Clark             2016-09-28  442  }
-667ce33e57d0de4 Rob Clark             2016-09-28  443  
+vim +/axiado_tsadc_table +142 drivers/hwmon/axiado-tsadc.c
 
-:::::: The code at line 392 was first introduced by commit
-:::::: da0e1407beb3a40e1b78418b257b849befb24bc6 drm/msm: Collapse vma allocation and initialization
-
-:::::: TO: Rob Clark <robdclark@chromium.org>
-:::::: CC: Rob Clark <robin.clark@oss.qualcomm.com>
+94761a45a7544d Petar Stepanovic 2026-09-03  113  
+94761a45a7544d Petar Stepanovic 2026-09-03  114  /* Convert raw ADC code to millidegrees Celsius with linear interpolation. */
+94761a45a7544d Petar Stepanovic 2026-09-03  115  static int axiado_tsadc_raw_to_mc(u32 raw, long *val)
+94761a45a7544d Petar Stepanovic 2026-09-03  116  {
+94761a45a7544d Petar Stepanovic 2026-09-03  117  	int i, n = ARRAY_SIZE(axiado_tsadc_table);
+94761a45a7544d Petar Stepanovic 2026-09-03  118  	long num, denom;
+94761a45a7544d Petar Stepanovic 2026-09-03  119  
+94761a45a7544d Petar Stepanovic 2026-09-03  120  	if (raw >= axiado_tsadc_table[0].raw) {
+94761a45a7544d Petar Stepanovic 2026-09-03  121  		*val = axiado_tsadc_table[0].temp_mc;
+94761a45a7544d Petar Stepanovic 2026-09-03  122  		return 0;
+94761a45a7544d Petar Stepanovic 2026-09-03  123  	}
+94761a45a7544d Petar Stepanovic 2026-09-03  124  
+94761a45a7544d Petar Stepanovic 2026-09-03  125  	if (raw <= axiado_tsadc_table[n - 1].raw) {
+94761a45a7544d Petar Stepanovic 2026-09-03  126  		*val = axiado_tsadc_table[n - 1].temp_mc;
+94761a45a7544d Petar Stepanovic 2026-09-03  127  		return 0;
+94761a45a7544d Petar Stepanovic 2026-09-03  128  	}
+94761a45a7544d Petar Stepanovic 2026-09-03  129  
+94761a45a7544d Petar Stepanovic 2026-09-03  130  	/* Find i such that axiado_tsadc_table[i].raw >= raw > axiado_tsadc_table[i+1].raw */
+94761a45a7544d Petar Stepanovic 2026-09-03  131  	for (i = 0; i < n - 1; i++) {
+94761a45a7544d Petar Stepanovic 2026-09-03  132  		if (raw >= axiado_tsadc_table[i + 1].raw)
+94761a45a7544d Petar Stepanovic 2026-09-03  133  			break;
+94761a45a7544d Petar Stepanovic 2026-09-03  134  	}
+94761a45a7544d Petar Stepanovic 2026-09-03  135  
+94761a45a7544d Petar Stepanovic 2026-09-03  136  	if (raw == axiado_tsadc_table[i].raw) {
+94761a45a7544d Petar Stepanovic 2026-09-03  137  		*val = axiado_tsadc_table[i].temp_mc;
+94761a45a7544d Petar Stepanovic 2026-09-03  138  		return 0;
+94761a45a7544d Petar Stepanovic 2026-09-03  139  	}
+94761a45a7544d Petar Stepanovic 2026-09-03  140  
+94761a45a7544d Petar Stepanovic 2026-09-03  141  	/* Linear interpolation within the interval */
+94761a45a7544d Petar Stepanovic 2026-09-03 @142  	num = (long)(axiado_tsadc_table[i + 1].temp_mc - axiado_tsadc_table[i].temp_mc) *
+94761a45a7544d Petar Stepanovic 2026-09-03  143  	      (axiado_tsadc_table[i].raw - raw);
+94761a45a7544d Petar Stepanovic 2026-09-03  144  	denom = axiado_tsadc_table[i].raw - axiado_tsadc_table[i + 1].raw;
+94761a45a7544d Petar Stepanovic 2026-09-03  145  	*val = axiado_tsadc_table[i].temp_mc + num / denom;
+94761a45a7544d Petar Stepanovic 2026-09-03  146  	return 0;
+94761a45a7544d Petar Stepanovic 2026-09-03  147  }
+94761a45a7544d Petar Stepanovic 2026-09-03  148  
 
 --
 0-DAY CI Kernel Test Service
