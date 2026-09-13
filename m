@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE62437F8DC
-	for <oe-kbuild@lists.linux.dev>; Sun, 13 Sep 2026 14:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2122433BBAF
+	for <oe-kbuild@lists.linux.dev>; Sun, 13 Sep 2026 20:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789310153; cv=none; b=XW+fMzaX7I6ebwMngc0+iyAKizOhb9f5aavSBIl+vd747qC++Q8ARviqI46R8IxPs+cwsqvQCUU4CYJ+sMuxtEAvOYzIIQi2wtsa9ul4GEhtzO7WZ1NcEJqDftfCazG9GHiiD74R9HWpjqxsyZWTRVT6VZ5rw0/+4RTnqdQslPI=
+	t=1789331265; cv=none; b=SDBQx7kr2pGXVNJjLWuEv0ZZ9LRX0lnbmZGH5wjh3X/U/V/ySUKVChsrkukqck/jCUAeWmUvFy1dDh0XTse9HAn90e97W+VHoTh4pPqSD+ScWHaUE6Q+QgdpzAq3uU5Kd8UhbWKqUMgi+YtFTs1knpsKVP3v0tsLaYCUXOYHFzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789310153; c=relaxed/simple;
-	bh=YchZQOaP+2ePvtozqJmVLKB89P7uOm00L/V3m7jZ0mw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Iy75cFFRsyPisQgi9UEzey4Cb1FFgwezEHvK8/S/OBzfXoJqC26+gX7dSvxtjkm02+I7sRS33QnnEXzlWyD+qE4TTEndwlG4hVC5Os1IO5Godu3aE7gIjrbCoSNNttz2BsqiUzZ8vsXIRdRlBQbBhIVoJMff6G922fFHZZ1dbM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MalAquN/; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1789331265; c=relaxed/simple;
+	bh=OqAot0hVBXime7STcw1iKyEeOPfxtjhg20oCQsjj0RA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Sk36se8cH089yfsoXsWvRY4WK3smaQJivB0/EsVrIHfdyeHeTAikDd1GkIKJ6/QKMmyeFVAbvyiiwsE1lZmkYb59QMl7sx6y6b3bc51LrxpPJMT/1g3HK6PeEp06Di0t/ThvTV0BK1oQulCRcKQ+a6m5AirApBNu9GG4w9hk0eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F3C/6EqW; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MalAquN/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3C/6EqW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789310151; x=1820846151;
+  t=1789331262; x=1820867262;
   h=date:from:to:cc:subject:message-id;
-  bh=YchZQOaP+2ePvtozqJmVLKB89P7uOm00L/V3m7jZ0mw=;
-  b=MalAquN/JhUR1j0+mlaBvLNYHyp3illp+k4IgdoUmpkZdqz0rKaSVKYa
-   RBNWs4h6j+FIeuOVAjbc1POfqNSujRrs/omdz7n1u0zMB7DFMtvVRmmy7
-   wNFNbAIwCyHNSZkNoyciRHiQo+rs6AdPQiqMT9Qow4HQrWYh58LSVju7B
-   VsAjBdcEcaDzK3BbPZoTCh0iuMyKyO8h6ViPNqSUBSftzrcj07eNgAMaZ
-   goU4t0xKEY8/C7/0rQZxxeT6ZRuyAN5LhCfEJ5lCOw1lbpMj9szPWKKbf
-   KyJZI6bHb9sRAtnY+Bkj3lN9lcNPDLTMLgmVPOSFtUqtOK1Mze/bOAJkF
+  bh=OqAot0hVBXime7STcw1iKyEeOPfxtjhg20oCQsjj0RA=;
+  b=F3C/6EqW9ddhea2HWcFmeVGAYqHRQ3R/nLWl4h90mo5gpZ8ohz0yWbJh
+   b0dMsYfDfGfJScGJGibcM8ey6Cm03fiwsGDX4cJNJMNNVud/sYJf/lRmD
+   Hn+cj6BhsV03F2E4d4LybqSoOoItqkmtVAwO+v/d+bPUw4kB4kNiexzvy
+   XDnqwOh/29PsGZ1bur/wioBLf8tGcBGIy2o2q+ylUFIfSwr11TJZhqb4f
+   lA0fQDwrXGkqFDNxOYdHpuqKN4TXJM736Y0hhxXbbVYSCBhKLL3ipzbUX
+   lM7WzW7MqbxEEm54fqhu4O9SohKSqCIAthYnwC8iaTLftbkt4kPylHbRD
    A==;
-X-CSE-ConnectionGUID: jz3BZXl6Qa6LjmFMtEB+OA==
-X-CSE-MsgGUID: 8bLV5MkFQuiW1rJnhfiGhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="101043922"
+X-CSE-ConnectionGUID: XVGFDrCPTH2bdJdzoiNUcg==
+X-CSE-MsgGUID: L1L21epyTy6VapClHGcxtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="89907490"
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="101043922"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 07:35:51 -0700
-X-CSE-ConnectionGUID: ph7RpRDVQSGrCW7SiLn1ag==
-X-CSE-MsgGUID: Gmu/DkDITsG0fvIIvkKXYA==
+   d="scan'208";a="89907490"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 13:27:41 -0700
+X-CSE-ConnectionGUID: 8HwMSGJzTg27QGjIUCsX5g==
+X-CSE-MsgGUID: Imzh3R1/SE6zodXot1uTdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="274323673"
+   d="scan'208";a="690028"
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2026 07:35:49 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 13 Sep 2026 13:27:39 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5lJ5-000000001d5-239q;
-	Sun, 13 Sep 2026 14:35:47 +0000
-Date: Sun, 13 Sep 2026 16:35:04 +0200
+	id 1x5qnY-000000001hb-2esw;
+	Sun, 13 Sep 2026 20:27:36 +0000
+Date: Sun, 13 Sep 2026 22:27:25 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [bpf-next:master 33/40] kernel/bpf/verifier.c:12762:17-18:
- WARNING opportunity for max()
-Message-ID: <202609131635.g284ODRz-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ppp/ppp_synctty.c:469 ppp_sync_txmunge() warn:
+ variable dereferenced before check 'skb' (see line 443)
+Message-ID: <202609132245.txZXoUxc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,56 +61,88 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yonghong Song <yonghong.song@linux.dev>
-CC: Alexei Starovoitov <ast@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Qingfang Deng <qingfang.deng@linux.dev>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Eric Dumazet <edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   a41c69c6ea14596cfd95978483166d4eff52435e
-commit: 1e6c598b02e72ddd62b4d4e0c05159794b8bddbf [33/40] bpf: Prepare kfunc arguments for the JIT from an ABI description
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: hexagon-randconfig-r062-20260913 (https://download.01.org/0day-ci/archive/20260913/202609131635.g284ODRz-lkp@intel.com/config)
-compiler: clang version 21.1.6 (https://github.com/llvm/llvm-project a832a5222e489298337fbb5876f8dcaf072c5cca)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d681d7ef617ef83d6a4de36e5cb4418ef602e122
+commit: 8aaeb56aff2a557a88f83ae866da2c91ad247e59 ppp_synctty: ensure a writeable skb header
+date:   4 days ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20260913 (https://download.01.org/0day-ci/archive/20260913/202609132245.txZXoUxc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 8aaeb56aff2a ("ppp_synctty: ensure a writeable skb header")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202609131635.g284ODRz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609132245.txZXoUxc-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/bpf/verifier.c:12762:17-18: WARNING opportunity for max()
+smatch warnings:
+drivers/net/ppp/ppp_synctty.c:469 ppp_sync_txmunge() warn: variable dereferenced before check 'skb' (see line 443)
 
-vim +12762 kernel/bpf/verifier.c
+vim +/skb +469 drivers/net/ppp/ppp_synctty.c
 
-1e6c598b02e72d Yonghong Song 2026-09-12  12751  
-1e6c598b02e72d Yonghong Song 2026-09-12  12752  static u32 __btf_func_arg_align(const struct btf *btf, const struct btf_type *t, int rec)
-1e6c598b02e72d Yonghong Song 2026-09-12  12753  {
-1e6c598b02e72d Yonghong Song 2026-09-12  12754  	const struct btf_member *member;
-1e6c598b02e72d Yonghong Song 2026-09-12  12755  	const struct btf_type *mt;
-1e6c598b02e72d Yonghong Song 2026-09-12  12756  	u32 align, i;
-1e6c598b02e72d Yonghong Song 2026-09-12  12757  
-1e6c598b02e72d Yonghong Song 2026-09-12  12758  	while (btf_type_is_array(t))
-1e6c598b02e72d Yonghong Song 2026-09-12  12759  		t = btf_type_skip_modifiers(btf, btf_array(t)->type, NULL);
-1e6c598b02e72d Yonghong Song 2026-09-12  12760  
-1e6c598b02e72d Yonghong Song 2026-09-12  12761  	if (btf_type_is_int(t))
-1e6c598b02e72d Yonghong Song 2026-09-12 @12762  		return t->size > BPF_REG_SIZE ? t->size : BPF_REG_SIZE;
-1e6c598b02e72d Yonghong Song 2026-09-12  12763  	if (!btf_type_is_struct(t))
-1e6c598b02e72d Yonghong Song 2026-09-12  12764  		return BPF_REG_SIZE;
-1e6c598b02e72d Yonghong Song 2026-09-12  12765  	if (rec >= BTF_MEMBER_MAX_DEPTH)
-1e6c598b02e72d Yonghong Song 2026-09-12  12766  		return 0;
-1e6c598b02e72d Yonghong Song 2026-09-12  12767  
-1e6c598b02e72d Yonghong Song 2026-09-12  12768  	for_each_member(i, t, member) {
-1e6c598b02e72d Yonghong Song 2026-09-12  12769  		mt = btf_type_skip_modifiers(btf, member->type, NULL);
-1e6c598b02e72d Yonghong Song 2026-09-12  12770  		align = __btf_func_arg_align(btf, mt, rec + 1);
-1e6c598b02e72d Yonghong Song 2026-09-12  12771  		if (!align)
-1e6c598b02e72d Yonghong Song 2026-09-12  12772  			return 0;
-1e6c598b02e72d Yonghong Song 2026-09-12  12773  		if (align > BPF_REG_SIZE)
-1e6c598b02e72d Yonghong Song 2026-09-12  12774  			return 2 * BPF_REG_SIZE;
-1e6c598b02e72d Yonghong Song 2026-09-12  12775  	}
-1e6c598b02e72d Yonghong Song 2026-09-12  12776  	return BPF_REG_SIZE;
-1e6c598b02e72d Yonghong Song 2026-09-12  12777  }
-1e6c598b02e72d Yonghong Song 2026-09-12  12778  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  426  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  427  /*
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  428   * Procedures for encapsulation and framing.
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  429   */
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  430  
+3c582b30bc2592 drivers/net/ppp_synctty.c     Stephen Hemminger 2008-01-23  431  static struct sk_buff*
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  432  ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *skb)
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  433  {
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  434  	int proto;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  435  	unsigned char *data;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  436  	int islcp;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  437  
+aabc6596ffb377 drivers/net/ppp/ppp_synctty.c Arnaud Lecomte    2025-04-08  438  	/* Ensure we can safely access protocol field and LCP code */
+aabc6596ffb377 drivers/net/ppp/ppp_synctty.c Arnaud Lecomte    2025-04-08  439  	if (!pskb_may_pull(skb, 3)) {
+aabc6596ffb377 drivers/net/ppp/ppp_synctty.c Arnaud Lecomte    2025-04-08  440  		kfree_skb(skb);
+aabc6596ffb377 drivers/net/ppp/ppp_synctty.c Arnaud Lecomte    2025-04-08  441  		return NULL;
+aabc6596ffb377 drivers/net/ppp/ppp_synctty.c Arnaud Lecomte    2025-04-08  442  	}
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16 @443  	data  = skb->data;
+96545aeb7b4457 drivers/net/ppp_synctty.c     Changli Gao       2011-01-06  444  	proto = get_unaligned_be16(data);
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  445  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  446  	/* LCP packets with codes between 1 (configure-request)
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  447  	 * and 7 (code-reject) must be sent as though no options
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  448  	 * have been negotiated.
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  449  	 */
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  450  	islcp = proto == PPP_LCP && 1 <= data[2] && data[2] <= 7;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  451  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  452  	/* compress protocol field if option enabled */
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  453  	if (data[0] == 0 && (ap->flags & SC_COMP_PROT) && !islcp)
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  454  		skb_pull(skb,1);
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  455  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  456  	/* prepend address/control fields if necessary */
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  457  	if ((ap->flags & SC_COMP_AC) == 0 || islcp) {
+8aaeb56aff2a55 drivers/net/ppp/ppp_synctty.c Qingfang Deng     2026-09-08  458  		if (skb_cow_head(skb, 2)) {
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  459  			kfree_skb(skb);
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  460  			return NULL;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  461  		}
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  462  		skb_push(skb,2);
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  463  		skb->data[0] = PPP_ALLSTATIONS;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  464  		skb->data[1] = PPP_UI;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  465  	}
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  466  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  467  	ap->last_xmit = jiffies;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  468  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16 @469  	if (skb && ap->flags & SC_LOG_OUTPKT)
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  470  		ppp_print_buffer ("send buffer", skb->data, skb->len);
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  471  
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  472  	return skb;
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  473  }
+^1da177e4c3f41 drivers/net/ppp_synctty.c     Linus Torvalds    2005-04-16  474  
+
+:::::: The code at line 469 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
