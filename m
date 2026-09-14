@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C023A9639
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 23:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E643630B3
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 23:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789427338; cv=none; b=j14tskoZA83RvZeZU9C2HDMeyNOsjDF2LBT5QBtLFOkEhPYGGeTz71oIDnYYYhmNLH8fLd2FQeRhrP1VvgI04Shsk4jwCHWRJeenwpYCJGXt6sOyrnKoHBQs/vcPfp5xduTGT5kGK/9gt72IxvJ2ArWpKCgyU56yoaI2c/FePfM=
+	t=1789429255; cv=none; b=M+4KjZ8FbvhgndMplJpYMSJ8Ex7V7W7FneTS1MFFyqjI0cLz8NNfn+Mou2Pv3z0gzybyuNdj/T4Ko1Rr3UySRYwUDqKjXZIWZxrNKDKq6kExiR9roCHwGuaPLjDZZXgSkYAnC5tPgfq9bCLD5KmcqxB9kwO6dOEmwl9lbYUY0u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789427338; c=relaxed/simple;
-	bh=4e0Xwx3a2q72dE+tDi/N4gu4RM7qE/gz65MCV5ahzgw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ik07KfgooMEfS4I9ojI3y5Pw8aQwtPZVoHJXn4+RZCS8GwqULqOJjSFvz0W7vAMQs7KGVM7GBf292H2MTNcNqhhEwMtSLfq1JgDVxk9abY5c6wKiQkOzbVz5KV29aEaFEoEU7i8cKq6LdgWYyMMFIOMq8DS46Fn215pi2caQd90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM/xYl4V; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1789429255; c=relaxed/simple;
+	bh=4Ncvi1XQDscjtyzd0cGOgYWMOuh9IDlWO8c7Sx0iKUg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I1s73eoc/4izYRg3Im9Q/HLwf8Fmwtf+Lg33B7HwjLYeW4LLmjEHXcveYvjfLLu4+VavDewVgC/m0pf161UnoixGc6I/8JkhRRmRPFdJ1XSy3kR0zUjzM5z27tJj0mVaSxR2wbxi0V5UTLJr/cyY/MNQhuE03DPBDoszvmpA6YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7unicgG; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM/xYl4V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7unicgG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789427337; x=1820963337;
+  t=1789429254; x=1820965254;
   h=date:from:to:cc:subject:message-id;
-  bh=4e0Xwx3a2q72dE+tDi/N4gu4RM7qE/gz65MCV5ahzgw=;
-  b=iM/xYl4VZPI5wHJnt0u4ACBXzHdxxXOMMqrBXSADfrfa4QzHHJtK8hFU
-   yvmg0Q+Qe7iUmfxAG+9VKTLOGuKnCmXGQ3Ftu4yheZw2hlYCIB2tMw9aX
-   kefK9J7IigBERuOaWxlnNPwKM3UHlMUdE3kW8RbIhsslK8l2ePYTp3NKF
-   SsAF/n0sxcloOqwqyOQz9MhqAmWLwU3j7c5Me5bKT826ffiv+6HD0VHnI
-   +8PFD5VSiJJdGv45X3pMPXA8Wzaneb4UGgFi6iW3SKywW08vCXTbIPMPn
-   vBDKVQxClnuRAYntg88Y/db73zJo8oe6qjIzz4epAwgl46a2XzYxGbD+5
-   Q==;
-X-CSE-ConnectionGUID: A+l+gxbaQ/mbz/fhdF48Wg==
-X-CSE-MsgGUID: edhu8NBNSamVLkkKWrHVWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89991507"
+  bh=4Ncvi1XQDscjtyzd0cGOgYWMOuh9IDlWO8c7Sx0iKUg=;
+  b=T7unicgG0zjxdqeTJ7hgtLA+JKr1oxbl661Wqp4cb4cWxoMc8TST1vu2
+   qWUU7XCC21RaYhwSyLiOE4zOXNRVFPdfw1SL7jmVo+pdBa9Dez0GuWBgi
+   nWm9PLe1cIMpNA6xg6Fr5xyQUdgL135yxCLxjmgen8cpJFHV1NYBCPlzX
+   +sTLTPAitt3XR6x08GXLgczoXIDUZBX7C5GZlnpVmrbFRwvjmwvauKxyH
+   qNj7bV26xQuLklgBiMG8QfGX11xw5jtFsGtOdpNRUr5ZL4i9bmyGZFK+7
+   OAZor6htyrrsWOE1SKhGVJdCBl9iCNZUHpwAQzb5viEG0CLJNKptezLD/
+   g==;
+X-CSE-ConnectionGUID: GBMyPd72TUug9Rlr4dj+vw==
+X-CSE-MsgGUID: 8g/R4Q4uT5qKLipTzaNJHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92296547"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89991507"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 16:08:54 -0700
-X-CSE-ConnectionGUID: Ve7p4CUXSLCcAUBy5k/iaw==
-X-CSE-MsgGUID: MWKq/okpRsGGad1U7X/WFQ==
+   d="scan'208";a="92296547"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 16:40:53 -0700
+X-CSE-ConnectionGUID: j8DWgLyUTvmDePHluf+hUA==
+X-CSE-MsgGUID: 8PdF/5eES4qolmCBCx2ZaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="272274465"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 14 Sep 2026 16:08:51 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="269097904"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 16:40:52 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6Fn4-000000000Ln-3x2Y;
-	Mon, 14 Sep 2026 23:08:46 +0000
-Date: Tue, 15 Sep 2026 01:08:05 +0200
+	id 1x6GI6-000000003cl-0k1l;
+	Mon, 14 Sep 2026 23:40:50 +0000
+Date: Tue, 15 Sep 2026 07:40:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: 
- drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c:609:35-36:
- hubp_program_3dlut_fl_config: first occurrence line 640, second occurrence
- line 646
-Message-ID: <202609150123.sH0UEm5R-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [phy:next 5/31] drivers/phy/mediatek/phy-mtk-dp.c:334:10:
+ sparse: sparse: missing braces around initializer
+Message-ID: <202609150736.x8tGAimG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,82 +59,49 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/phy/mediatek/phy-mtk-dp.c:334:10: sparse: sparse: missing braces around initializer"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Roman Li <Roman.Li@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Alex Hung <alex.hung@amd.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Kishon <kishon@ti.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   587858367581b9c55c3690f4e63382ad622719d4
-commit: e56e3cff2a1bb29545ddbec562e76c0419363a40 drm/amd/display: Sync dcn42 with DC 3.2.373
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260915/202609150123.sH0UEm5R-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   d837aabce96ef6f4cc6b179e1055d8cdf85cfe38
+commit: ae859204b519a384ad0136c21599bab9321090ce [5/31] phy: phy-mtk-dp: Migrate register offsets to SoC specific pdata
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: parisc-randconfig-r133-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150736.x8tGAimG-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150736.x8tGAimG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e56e3cff2a1b ("drm/amd/display: Sync dcn42 with DC 3.2.373")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202609150123.sH0UEm5R-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609150736.x8tGAimG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c:609:35-36: hubp_program_3dlut_fl_config: first occurrence line 640, second occurrence line 646
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/mediatek/phy-mtk-dp.c:334:10: sparse: sparse: missing braces around initializer
+>> drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short @@     got unsigned short const * @@
+   drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse:     expected unsigned short
+   drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse:     got unsigned short const *
 
-vim +609 drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c
+vim +334 drivers/phy/mediatek/phy-mtk-dp.c
 
-bd096a56da7cad Roman Li 2026-02-02  608  
-bd096a56da7cad Roman Li 2026-02-02 @609  struct hubp_funcs dcn42_hubp_funcs = {
-bd096a56da7cad Roman Li 2026-02-02  610  	.hubp_enable_tripleBuffer = hubp2_enable_triplebuffer,
-bd096a56da7cad Roman Li 2026-02-02  611  	.hubp_is_triplebuffer_enabled = hubp2_is_triplebuffer_enabled,
-bd096a56da7cad Roman Li 2026-02-02  612  	.hubp_program_surface_flip_and_addr = hubp42_program_surface_flip_and_addr,
-bd096a56da7cad Roman Li 2026-02-02  613  	.hubp_program_surface_config = hubp42_program_surface_config,
-bd096a56da7cad Roman Li 2026-02-02  614  	.hubp_is_flip_pending = hubp2_is_flip_pending,
-bd096a56da7cad Roman Li 2026-02-02  615  	.hubp_setup2 = hubp42_setup,
-bd096a56da7cad Roman Li 2026-02-02  616  	.hubp_setup_interdependent2 = hubp401_setup_interdependent,
-bd096a56da7cad Roman Li 2026-02-02  617  	.hubp_set_vm_system_aperture_settings = hubp3_set_vm_system_aperture_settings,
-bd096a56da7cad Roman Li 2026-02-02  618  	.set_blank = hubp2_set_blank,
-e56e3cff2a1bb2 Roman Li 2026-03-05  619  	.set_blank_regs = hubp2_set_blank_regs,
-bd096a56da7cad Roman Li 2026-02-02  620  	.dcc_control = hubp3_dcc_control,
-bd096a56da7cad Roman Li 2026-02-02  621  	.hubp_reset = hubp_reset,
-bd096a56da7cad Roman Li 2026-02-02  622  	.mem_program_viewport = min_set_viewport,
-bd096a56da7cad Roman Li 2026-02-02  623  	.set_cursor_attributes	= hubp32_cursor_set_attributes,
-bd096a56da7cad Roman Li 2026-02-02  624  	.set_cursor_position	= hubp401_cursor_set_position,
-bd096a56da7cad Roman Li 2026-02-02  625  	.hubp_clk_cntl = hubp2_clk_cntl,
-bd096a56da7cad Roman Li 2026-02-02  626  	.hubp_vtg_sel = hubp2_vtg_sel,
-bd096a56da7cad Roman Li 2026-02-02  627  	.dmdata_set_attributes = hubp3_dmdata_set_attributes,
-bd096a56da7cad Roman Li 2026-02-02  628  	.dmdata_load = hubp2_dmdata_load,
-bd096a56da7cad Roman Li 2026-02-02  629  	.dmdata_status_done = hubp2_dmdata_status_done,
-bd096a56da7cad Roman Li 2026-02-02  630  	.hubp_read_state = hubp42_read_state,
-bd096a56da7cad Roman Li 2026-02-02  631  	.hubp_clear_underflow = hubp2_clear_underflow,
-bd096a56da7cad Roman Li 2026-02-02  632  	.hubp_set_flip_control_surface_gsl = hubp2_set_flip_control_surface_gsl,
-bd096a56da7cad Roman Li 2026-02-02  633  	.hubp_init = hubp42_init,
-bd096a56da7cad Roman Li 2026-02-02  634  	.set_unbounded_requesting = hubp31_set_unbounded_requesting,
-bd096a56da7cad Roman Li 2026-02-02  635  	.hubp_soft_reset = hubp31_soft_reset,
-bd096a56da7cad Roman Li 2026-02-02  636  	.hubp_set_flip_int = hubp1_set_flip_int,
-bd096a56da7cad Roman Li 2026-02-02  637  	.hubp_in_blank = hubp1_in_blank,
-bd096a56da7cad Roman Li 2026-02-02  638  	.program_extended_blank = hubp31_program_extended_blank_value,
-bd096a56da7cad Roman Li 2026-02-02  639  	.hubp_program_3dlut_fl_addr = hubp401_program_3dlut_fl_addr,
-e56e3cff2a1bb2 Roman Li 2026-03-05 @640  	.hubp_program_3dlut_fl_config = hubp42_program_3dlut_fl_config,
-bd096a56da7cad Roman Li 2026-02-02  641  	.hubp_program_3dlut_fl_dlg_param = hubp401_program_3dlut_fl_dlg_param,
-bd096a56da7cad Roman Li 2026-02-02  642  	.hubp_enable_3dlut_fl = hubp401_enable_3dlut_fl,
-bd096a56da7cad Roman Li 2026-02-02  643  	.hubp_program_3dlut_fl_crossbar = hubp42_program_3dlut_fl_crossbar,
-bd096a56da7cad Roman Li 2026-02-02  644  	.hubp_get_3dlut_fl_done = hubp401_get_3dlut_fl_done,
-e56e3cff2a1bb2 Roman Li 2026-03-05  645  	.hubp_clear_tiling = hubp3_clear_tiling,
-bd096a56da7cad Roman Li 2026-02-02 @646  	.hubp_program_3dlut_fl_config = hubp401_program_3dlut_fl_config,
-bd096a56da7cad Roman Li 2026-02-02  647  	.hubp_read_reg_state = hubp3_read_reg_state
-bd096a56da7cad Roman Li 2026-02-02  648  };
-bd096a56da7cad Roman Li 2026-02-02  649  
-
-:::::: The code at line 609 was first introduced by commit
-:::::: bd096a56da7cad1c93c0138a64478b43f5a94736 drm/amd/display: Add dcn42 DC resources
-
-:::::: TO: Roman Li <Roman.Li@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+6a23afad443a8e Markus Schneider-Pargmann  2022-06-24  331  
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  332  static const struct mtk_dp_phy_pdata mt8195_dp_phy_data = {
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  333  	.off_dig_glb = 0x1000,
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10 @334  	.off_dig_lane = (const u16[]) { 0x1100, 0x1200, 0x1300, 0x1400 },
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  335  	.regs_dig_glb = mt8195_phy_dig_glb_regs,
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  336  	.regs_dig_lane = mt8195_phy_dig_lane_regs,
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  337  };
+ae859204b519a3 AngeloGioacchino Del Regno 2026-09-10  338  
 
 --
 0-DAY CI Kernel Test Service
