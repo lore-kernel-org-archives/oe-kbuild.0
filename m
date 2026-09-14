@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CAA41D631
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 22:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5AD38DC77
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 22:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789424104; cv=none; b=NiHQM5dwV5x9w5lhghSgl39MMmqCaEAynBVQAlg0tJNHd3OkFZ0n83IKwsR+wIg4fb42HO4iFa6Hozj5vJ60ShdfR/R3ldaaxhc5f4b29VqftGyFDmHO9ZWJdksTDhEh3Mrh/svOoNJ7Q1tNM3+NJWmUxHW7gfrJS7ZzemygyfI=
+	t=1789425935; cv=none; b=GlR74feUOb39vT/ADkpausBbYUpFBOPMohRrccQh3wkVNqlOnUhZFo1j4dNZW213GpoDkPwIBUNBfdgOI6WIcEcC2A3DRpIA66ndZQGcv1vhTnv0rxB8JZfEiZWt8x8T4LWgRxsXMuCbFb61xDFkE5kVTUmg5unN3fyZSMeCsK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789424104; c=relaxed/simple;
-	bh=OmEuYHpfJMGJirHGJ2i9IHQso4HBqw5Rjz+GrT8kBpg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ciaX/ZDiP+7yKS8ndFgBkrY+gKcSq/cAg1Ov6GSgNPfy6AudH5Xeq4uJfHQIxVT9r8IiDhJoNrX1tKUQn7L2++91fM3JHX1s9zxnbKl6DKk/IPMZ7L0Ie9A/NSsKFvrP3I/ui6dJOoI1MGP5pCj4aQ0oOG1uCoKVG9kLfoZEQCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyDFVacs; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1789425935; c=relaxed/simple;
+	bh=a7zwJp3Jsa5cP2i0IwRxtprhSr+6WIMJZilkR7Kniss=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZGVYpFUqtVz8DAh22e6qeoJYlBx+fYEC03oyn3F03aac6gBghAzwsoO+ztCL/a80eIbmgV2C3StsSauxT+3EJZCERZ1CG2IAVIuNhSu37qx1HX8qO2p83J6rqv9G9G+/NjKQ2nFqj4IRSu7TPyQqMLXUJaSGP3xwo8owrzjYWLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9Wgp4ap; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyDFVacs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9Wgp4ap"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789424102; x=1820960102;
+  t=1789425932; x=1820961932;
   h=date:from:to:cc:subject:message-id;
-  bh=OmEuYHpfJMGJirHGJ2i9IHQso4HBqw5Rjz+GrT8kBpg=;
-  b=iyDFVacs4eDfKS673SCh4rFCeXaPyQ4lw8wkvg5Udirk2otuzB+iNzdW
-   A6k8ieIp0H+NIgFnWwQ7AJgyDwQFy3DfeMoG+sf89TPeO64DfHzDGpXAg
-   YyubA3uZLSXJ/kxqLG96X01ON5/04VnyW/W+E8qCq2JBRDj8ZH6sxqajm
-   V6mgbQrJ1TUmWkJYYtGLs+59iB1UcWeqk2CBcdD8yNTW8qxo3FEHcz1YW
-   OeH8rB3QWnCHWYySyL1M7b80SQSGshFCceYUOE8hp2tJ58v5fOoHqi7gy
-   ylG8ESX15lWEAj+PT2+Llb28MIDXPoFav290rpYgidQIADBITFNUzQlJs
-   A==;
-X-CSE-ConnectionGUID: yVdfh0wbRhydB63uTAfNTA==
-X-CSE-MsgGUID: Q2UjxDJMSviJJqE0GosXjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89911379"
+  bh=a7zwJp3Jsa5cP2i0IwRxtprhSr+6WIMJZilkR7Kniss=;
+  b=i9Wgp4apRkMjfVzbZJgt06LmR1I3z1uhNek0wbhz4BKyHz20XGskVEus
+   pAjp4Uw6DYGMVZU0Vr/crmKX6n44gymkND08wzR/bUi/rMX4W6NFATgLw
+   P7H6w6bAse5T9HtMSyjoHJdaRwuemneIQZZGkVOuNv8eAc2CYdyWwOPIK
+   r2jHL3SFqRpGcW4KM9tyXORaKEHFeZg/N28VL1T2y7LyGOF9688z7gpRR
+   uGj7ynvWr2ETwgmU4wCQ7L9jcTRmpWrBwH0LnUJgGKVOrbXgiIwlRCnTl
+   CgDu+caK4uG2uscqWICFSJxpt0KStFHpuIw5lEW6FleJFLOD9qgD7kWLI
+   Q==;
+X-CSE-ConnectionGUID: usEpxW4+T8KlpAmZJc888g==
+X-CSE-MsgGUID: ejuoLrb2S72cUkQloR/rDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93483098"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89911379"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 15:15:01 -0700
-X-CSE-ConnectionGUID: 2/kdieLpSnaqsuVwd2GMhQ==
-X-CSE-MsgGUID: 2jYqxD/CRkWyyQQAznKUYA==
+   d="scan'208";a="93483098"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 15:45:28 -0700
+X-CSE-ConnectionGUID: cK3TE6diQimaDkoz6EV4uw==
+X-CSE-MsgGUID: 2Fl1WxiEQyetE0b2uz0J3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271343454"
+   d="scan'208";a="269088033"
 Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 14 Sep 2026 15:15:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 15:45:27 -0700
 Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6Ex0-000000000K6-0XMA;
-	Mon, 14 Sep 2026 22:14:58 +0000
-Date: Tue, 15 Sep 2026 00:14:33 +0200
+	id 1x6FQT-000000000Kv-14g6;
+	Mon, 14 Sep 2026 22:45:25 +0000
+Date: Tue, 15 Sep 2026 00:45:15 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [sudeep-holla:b4/ffa_ns_sgi_gicv3 2/6]
- Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml:
- properties:arm,secure-donated-ns-sgi-ranges:items:0: 'anyOf' conditional
- failed, one must be fixed:
-Message-ID: <202609142343.KOzGer2Q-lkp@intel.com>
+Subject: fs/f2fs/extent_cache.o: warning: objtool:
+ __update_extent_tree_range+0x338: unreachable instruction
+Message-ID: <202609150024.OmG6Oy9V-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,40 +60,35 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sudeep Holla <sudeep.holla@kernel.org>
-CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Chao Yu <chao@kernel.org>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: wangzijie <wangzijie1@honor.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/ffa_ns_sgi_gicv3
-head:   1320be42e7c15b4ae7760b25e3c825485dd7b3a4
-commit: ec6745622481fbe933fceb6d9f83b6902012226e [2/6] dt-bindings: interrupt-controller: Add support for secure donated SGIs
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: csky-randconfig-2052-20260914 (https://download.01.org/0day-ci/archive/20260914/202609142343.KOzGer2Q-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609142343.KOzGer2Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   587858367581b9c55c3690f4e63382ad622719d4
+commit: 45b70947a425fa121a8b9bcbb77472d9e35def6a f2fs: add sanity check on ei.len in __update_extent_tree_range()
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: loongarch-randconfig-r063-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150024.OmG6Oy9V-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150024.OmG6Oy9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 45b70947a425 ("f2fs: add sanity check on ei.len in __update_extent_tree_range()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609142343.KOzGer2Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609150024.OmG6Oy9V-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml: properties:arm,secure-donated-ns-sgi-ranges:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
-   Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml: properties:arm,secure-donated-ns-sgi-ranges:items:1: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+All warnings (new ones prefixed by >>):
+
+>> fs/f2fs/extent_cache.o: warning: objtool: __update_extent_tree_range+0x338: unreachable instruction
 
 --
 0-DAY CI Kernel Test Service
