@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3499483823
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 15:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760A2313277
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Sep 2026 16:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789401386; cv=none; b=qANm9dflfO3p4eJv2IA69geQ43LMtYLP6kQTKE3+yDRt+cmUDepCrtXTl9/9tRAaMLy1w5WsyLzbC6SqXOIU4so/6ERTr8P0e10Rvkuma8W0iVGaxWrcnrmEinoNm1BGmf2GoB7osrkJOD4yRmJ/b6tqpKMx7OR+A7I/t756a08=
+	t=1789404366; cv=none; b=QJ/fo6cRHMckqc6jDLt6GXq17gMUfrQtgu5XT1hUR2ZYdNvNPhALhUsoUQj5/6QGVVKZNaXtzAmtzNBGrIBVeAKJ4MSZCAAHawga3jOOQ68Jys6Ko4cTTS0302GnLGOgC+LpS0VAXN2LGoamKpSDbXeci8N4432+MJHlSPSr3LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789401386; c=relaxed/simple;
-	bh=n1LVxC5hvnznhfqye+VclzTSt/ajmKofRtpcqbQLHjs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e+yW2fVRUMLGfM3i5mubjQWnJsofpjQ5ORCYnclpWqRFpb5SqV6PIUXjjMoMxsEjgvqJYEcSVwBwqTqimhygrX+LQVpPCuGWia1ZeNEyx8N4wbI9gY/rXqSaok9dfTyLLk82ONdtimxjW7d1YWvATc2r0mZUqcvgwR+He2cOHkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TzeA4NAj; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1789404366; c=relaxed/simple;
+	bh=sa7jD/uJk+EOy0d5qkBlGXleIO+9Zk7XMlukrOz/kJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ptSDo7+Vef6tCQhwA0woY9aotaaLAGw8qZYeCXuzcUy4We1lXf82R4fFPjbUm+7GV+YQJhXM4Zif4TSfxm13yQq/5L8ssZREkmpU/OMg6SGf9HkP1ZPl9jWZq8PlWarv0OqXF2cAPeJxWXgcSeiDgigxsYm1nCHaTDvAX9KD8fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4DYtjPN; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TzeA4NAj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4DYtjPN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789401385; x=1820937385;
+  t=1789404364; x=1820940364;
   h=date:from:to:cc:subject:message-id;
-  bh=n1LVxC5hvnznhfqye+VclzTSt/ajmKofRtpcqbQLHjs=;
-  b=TzeA4NAj2HpvoC43f+WKNGlrWRMrkMkTYb9Hr/SpSLjfnHgBpVTsWCMM
-   liCOnz1z6J02iYdPN7XiMSrNoich51CK3Tnl5ku3Yl5Y7q3xyDF+yscS+
-   m0/Sq6YzoIfFlgwWZKvRhTy5HLxAElSdtsS4eDvk9xQPjAFVmEzr39twO
-   HSZmcIJPjV7xbd5bNG1Y2cXHd8cuo/DwVfWD9E4ytzwj7zRpSgo+Kfme+
-   rVhHjvOPANUNlgYeYznLGyN/j77mQJA4HmT/2DMctcj1FobrfNcyuV+Vv
-   xxR+tOjXTpv1TuTl1W1jucIUNpmdyVexWTSlexQJHN2lzWI2fmlNpPMgi
-   g==;
-X-CSE-ConnectionGUID: 6Jax6mrfTuiOaSswWja8UQ==
-X-CSE-MsgGUID: ehTihxakQDiV9G2opPaLFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89519427"
+  bh=sa7jD/uJk+EOy0d5qkBlGXleIO+9Zk7XMlukrOz/kJ4=;
+  b=Y4DYtjPNGKyTT/g2mAlvU1EXOTCuzDSlVbxi8RZA5o/Hi3d5g2f37lmP
+   LVCBOj2KhVINrQ4GVjtsLuaQaJL/B6T467QJLkSdaM26ZGGkTjVwuXhY0
+   vD9yA6Kia8akJWPFKS2ZF/v+gkbpCfov6J9fE+SAvajdHaqAr0fXIRk/3
+   jKQZLMWC2cI2w0hZS9R/RbUmmk+DovNZnoVqaqxfa4FDJGE2zhm8BOKTD
+   wXwS5TkeZThgfSUOvJnfydE/pnF6glldQnlgBXV48yPJZjs0yCe9phN4C
+   LIrWlCg2cH4Czk0tqbpDWW3CvcXwVUtBaEo+ZNk0zl2j7qM2Mmq6Zg+0N
+   A==;
+X-CSE-ConnectionGUID: prgnj3PwTjKi5teE1OXxcA==
+X-CSE-MsgGUID: YD7pFfVgSne0T2AhlM2D+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100424286"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89519427"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 08:56:24 -0700
-X-CSE-ConnectionGUID: 0KvGEqMJSEeaoj4F6ajTrQ==
-X-CSE-MsgGUID: Wc0feK9RRriM22kAVJfdVQ==
+   d="scan'208";a="100424286"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 09:46:04 -0700
+X-CSE-ConnectionGUID: r4y3cc+BTRe0JrQJ+ziRJg==
+X-CSE-MsgGUID: PhYVrKXnSqW4nsuLO7z9ZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="276822521"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 14 Sep 2026 08:56:24 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="272665696"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 14 Sep 2026 09:46:03 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x692b-000000000DL-2fdd;
-	Mon, 14 Sep 2026 15:56:21 +0000
-Date: Mon, 14 Sep 2026 17:55:26 +0200
+	id 1x69oe-0000000037D-3jYV;
+	Mon, 14 Sep 2026 16:46:00 +0000
+Date: Tue, 15 Sep 2026 00:45:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-unstable 385/435] mm/madvise.o: warning:
- objtool: madvise_collapse+0x60: unreachable instruction
-Message-ID: <202609141730.imtt0xtM-lkp@intel.com>
+Subject: [phy:next 5/31] drivers/phy/mediatek/phy-mtk-dp.c:334:10:
+ sparse: sparse: missing braces around initializer
+Message-ID: <202609150030.J13qUPNd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,36 +60,48 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "low confidence static check warning: drivers/phy/mediatek/phy-mtk-dp.c:334:10: sparse: sparse: missing braces around initializer"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Kishon <kishon@ti.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   6b41451631cabf9ea3b384c2a099088e1598f963
-commit: eac44fd55ff6783ef0f7abf4c3b5341dc40ed26d [385/435] mm/collapse: implement MADV_COLLAPSE in madvise.c
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: loongarch-randconfig-r063-20260914 (https://download.01.org/0day-ci/archive/20260914/202609141730.imtt0xtM-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609141730.imtt0xtM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   d837aabce96ef6f4cc6b179e1055d8cdf85cfe38
+commit: ae859204b519a384ad0136c21599bab9321090ce [5/31] phy: phy-mtk-dp: Migrate register offsets to SoC specific pdata
+:::::: branch date: 30 hours ago
+:::::: commit date: 34 hours ago
+config: parisc-randconfig-r133-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150030.J13qUPNd-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150030.J13qUPNd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609141730.imtt0xtM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609150030.J13qUPNd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/mediatek/phy-mtk-dp.c:334:10: sparse: sparse: missing braces around initializer
+>> drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short @@     got unsigned short const * @@
+   drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse:     expected unsigned short
+   drivers/phy/mediatek/phy-mtk-dp.c:334:26: sparse:     got unsigned short const *
 
->> mm/madvise.o: warning: objtool: madvise_collapse+0x60: unreachable instruction
+vim +334 drivers/phy/mediatek/phy-mtk-dp.c
+
+6a23afad443a8e0 Markus Schneider-Pargmann  2022-06-24  331  
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  332  static const struct mtk_dp_phy_pdata mt8195_dp_phy_data = {
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  333  	.off_dig_glb = 0x1000,
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10 @334  	.off_dig_lane = (const u16[]) { 0x1100, 0x1200, 0x1300, 0x1400 },
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  335  	.regs_dig_glb = mt8195_phy_dig_glb_regs,
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  336  	.regs_dig_lane = mt8195_phy_dig_lane_regs,
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  337  };
+ae859204b519a38 AngeloGioacchino Del Regno 2026-09-10  338  
 
 --
 0-DAY CI Kernel Test Service
