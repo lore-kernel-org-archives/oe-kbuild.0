@@ -1,139 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B723845D91C
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Sep 2026 07:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1023A05C2
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Sep 2026 07:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789458226; cv=none; b=b5OEO5lGjnllodxbOuiQBI0bCI48TAG7Gp5g1YDSD4Xtm4DdmMtYb2ak8Wzi8YJzUNULHtQXbdrbOtRdAspIcN2uCaX7fXL6AqfDSclYz5375Y6n3Dfs9fd1s0c3yhBLWvFxv0xrG8UvIG1w10a8hk2AMQuKoCsRI4/wvHz+UEE=
+	t=1789458900; cv=none; b=rIwRGW8j4W4kwcI8rJ6MpmFzA/ddot0hY7XCAdW2ou8d6rKKtnwbLmaAMJ/r4qIv5lVw4bz8nAsj7vWugonYaP17UWLbt0UuOJxd2/mjd/QaAFlt1FEuD/ZA4slxjJeJZfzo8cbux/pa+nWCCYYOc/iMvyRkgCIjF3/TT56uDig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789458226; c=relaxed/simple;
-	bh=bMyWzzGowyWi99WfClav/b8WY50Z3iyL0pN+4uXqIvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uve91PJbFyDwUDKkONiJLi8PTisqxhDKHElYyhdosHvhWN/nUZ4g7EzUw+XFeO6ZhYRlZ9enZdh8x/s0RI0rAixqpseivDEkOV+gy6jqMP62ErMlGWgASoS7vUsA9pW/uLSioCOEHj6lad0J8Sw3PVNakjbTs68Sez3kwwui9Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ectBCj5h; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1789458900; c=relaxed/simple;
+	bh=UZ6BTDi9zVoZAlhFLLgPItn5EuYvPJjWhoigTcIxDtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cRWOl8BYysJ8JJsqao5khcoyNj94/vxoj5s6qeKFKRzq0QjfhFVvOkhqr0+THo8roFqimFvHxAV6aKguN0dU5TVevS+kSp/pr3GAXx/rB6sI4iXzAiClris8h26hguGpNwYtZtlbKj0CiH6mDiMSi3fTpEhHN3ZQiUkZTw/389Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cEN9j6ll; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ectBCj5h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEN9j6ll"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789458224; x=1820994224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bMyWzzGowyWi99WfClav/b8WY50Z3iyL0pN+4uXqIvQ=;
-  b=ectBCj5h0DA3qHkLm+Hss6yCofEMCSl7cU5K/Vx1lQSwsee5saclX2h6
-   POFa4wJwfs3nRapEL34lu5tJpV80Et3YSXtjL0A8kEnn2TEGDDxDrhB/c
-   Rd89LXH620HSopuOL7XucRwjEZmcXdT0INbDWw0Mf44WdTR8UpTM4VRW+
-   Ilwt8ksxsRF4FqkkjAMW2bimbliHyHl6scYhkOSEf2Rj7+6c7NY3Uc7UZ
-   Aq+RDtX2X2XTsn3VB9b9tayCNHskXOLLmZf0GPcTgL7cAOB3QOaKOJx8d
-   oLXetf/D99OpH9FoULwqrbraRe8WeWbhsZE3vGXjvVqYk/rhCGyXKmaia
+  t=1789458898; x=1820994898;
+  h=date:from:to:cc:subject:message-id;
+  bh=UZ6BTDi9zVoZAlhFLLgPItn5EuYvPJjWhoigTcIxDtQ=;
+  b=cEN9j6ll/5rodP64H98uZLAiMMOfh7UAWjH1OdcxsS86sN8UEA54w8TU
+   JyNVr9JgMlChuIQ4pq3ZbnIXDE7Y48M9OCGikQcB4IEcjsYU28pAHS0jf
+   5uTEEGiOTfXQ5OqkJ/fldw/ieFU6RVx0b/bt4qejek5IZP44Y4cYHJKkS
+   yopp01DYyJchkz1u918pUy4NU2KEEWDclkM1CugCHzTmNvgH2IrS/SaRb
+   OHff59jjL5gsn8hyLYYjgr4MFIZTa2z/2IkQKA8eBQgSNYVcwcqBDUATM
+   u3qGpBe1siy7GbORz6DUcdzg/dropN/gn0C/zxmu/eWfoD/pF4MN8LTLh
    g==;
-X-CSE-ConnectionGUID: HjwRKx2HTBGwyk9tcn3BEw==
-X-CSE-MsgGUID: PnYEgh8fRwikW8rAgUCDCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="88950287"
+X-CSE-ConnectionGUID: WXTqPc5OTcGUh4IymvyZnQ==
+X-CSE-MsgGUID: bH24Cz76RhmAcMOB8PP4bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="112582048"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="88950287"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:43:44 -0700
-X-CSE-ConnectionGUID: /qMlc/zETXuJEXqN+ABN/w==
-X-CSE-MsgGUID: mQOrFMH+QtCr1uqx9ZLgGQ==
+   d="scan'208";a="112582048"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:54:51 -0700
+X-CSE-ConnectionGUID: 1gxSRjM1SSySdgN8kWD2Gg==
+X-CSE-MsgGUID: medOMkg8SR6bJYFPb5CdEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271063284"
+   d="scan'208";a="270256137"
 Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 15 Sep 2026 00:43:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2026 00:54:50 -0700
 Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6NpN-000000000XL-050M;
-	Tue, 15 Sep 2026 07:43:41 +0000
-Date: Tue, 15 Sep 2026 09:42:42 +0200
+	id 1x6O08-000000000XX-0me8;
+	Tue, 15 Sep 2026 07:54:48 +0000
+Date: Tue, 15 Sep 2026 09:54:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2] PM: dpm_show_time changes to suspend/resume dmesg
- prints
-Message-ID: <202609150910.dc2I5dHv-lkp@intel.com>
+Subject: drivers/gpu/buddy.o: warning: objtool:
+ gpu_buddy_alloc_blocks+0x254: unreachable instruction
+Message-ID: <202609150942.Qryq8Wr7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260831222926.34698-1-todd.e.brandt@linux.intel.com>
-References: <20260831222926.34698-1-todd.e.brandt@linux.intel.com>
-TO: Todd Brandt <todd.e.brandt@linux.intel.com>
-TO: linux-pm@vger.kernel.org
-TO: rafael.j.wysocki@intel.com
-TO: rjw@rjwysocki.net
-CC: todd.e.brandt@linux.intel.com
-CC: todd.e.brandt@intel.com
+CC: linux-kernel@vger.kernel.org
+TO: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+CC: Maarten Lankhorst <dev@lankhorst.se>
+CC: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+CC: Andi Shyti <andi.shyti@linux.intel.com>
+CC: Krzysztof Karas <krzysztof.karas@intel.com>
 
-Hi Todd,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.3-rc3 next-20260914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Todd-Brandt/PM-dpm_show_time-changes-to-suspend-resume-dmesg-prints/20260831-152926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260831222926.34698-1-todd.e.brandt%40linux.intel.com
-patch subject: [PATCH v2] PM: dpm_show_time changes to suspend/resume dmesg prints
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-r061-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150910.dc2I5dHv-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150910.dc2I5dHv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   587858367581b9c55c3690f4e63382ad622719d4
+commit: 8fe3fc37564920ae315d2b8780025f280859a530 gpu: Fix dependencies in CONFIG_GPU_BUDDY_KUNIT_TEST
+date:   7 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 7 weeks ago
+config: loongarch-randconfig-r063-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150942.Qryq8Wr7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150942.Qryq8Wr7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 8fe3fc375649 ("gpu: Fix dependencies in CONFIG_GPU_BUDDY_KUNIT_TEST")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609150910.dc2I5dHv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609150942.Qryq8Wr7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from drivers/base/power/main.c:21:
-   drivers/base/power/main.c: In function 'dpm_complete':
->> include/linux/stddef.h:8:14: warning: passing argument 3 of 'dpm_show_time' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/base/power/main.c:1362:41: note: in expansion of macro 'NULL'
-    1362 |         dpm_show_time(starttime, state, NULL, "complete");
-         |                                         ^~~~
-   drivers/base/power/main.c:480:70: note: expected 'int' but argument is of type 'void *'
-     480 | static void dpm_show_time(ktime_t starttime, pm_message_t state, int error,
-         |                                                                  ~~~~^~~~~
-
-
-vim +/dpm_show_time +8 include/linux/stddef.h
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
+>> drivers/gpu/buddy.o: warning: objtool: gpu_buddy_alloc_blocks+0x254: unreachable instruction
 
 --
 0-DAY CI Kernel Test Service
