@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C456B4AF16C
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Sep 2026 21:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122FE270552
+	for <oe-kbuild@lists.linux.dev>; Wed, 16 Sep 2026 03:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789506972; cv=none; b=MxtBtgDvLcbEkDGdWBZBZvYB4CU+W0COLG3Tw7DgXF3pBq1MhLeuzFW/2Bu5IxwE5IlSMzKOW2aJLdg5p6dBKbu0OTasAlgrdwSPMYIsJuc80+S1Vlnz7DhMqO9SmP692l0kMEf1imhzhMDUhg8SUG2qrY69fXbQGGJvgV4w/tk=
+	t=1789528903; cv=none; b=IiZz0DV9aQdZeCbkMXaBmyMjbzjOexQ1xxIzsL6p6VyDq7qoNKBLZxdKP3wGkEpmYllWlC7y4+i3MTcO3RH4z8cM2ayKq4g9rHclCBhtdQL9G8oxlVEEbeMP0sTeO6IIjWEw0TaxTLthyAemkcaSeJjtPXA0f4NccE3qjOisx3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789506972; c=relaxed/simple;
-	bh=jXkKZaZ2F64qlLyDBrNc1CLRzX0FzcMRzXVrnVWVCrU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JfW6uHsiHBZzfmrXJhrLWlkuBhg8oV9SDuymolT9DGE3bCMMxCBvvq+aV/j8jNTgYRJabVzJwvHct6JcO4fwyIhadPP56c8KhhlKc4Y3izBfUKRzum5/+5jHH2T5ususYBRhFPMGB1+V5XISGgkw3qKPNPZZH4w7w2W4apaWZ0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeKbLY8C; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1789528903; c=relaxed/simple;
+	bh=3ihrsGfCVSZmVp6OKEo9FlWdYmWdCwN/j5Iu3XOgyDw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jrRDkiMmPUHUoKTKsos4q7sUpr4Jw3XoC3fXU8U24lP+xc4eS66o+NYvxOC4ECmtJYs44VsXoNDwmA6XOSHR6ITyNxfJ8cfZd4z5q2ftcUqFHfBZSmPbGVPu9Uz7UrDr+B1k/AG3kYrAU9i+nJAR9j90mpQ3vaJqfhN6LGLKtSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCp5KTxy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeKbLY8C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCp5KTxy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789506969; x=1821042969;
+  t=1789528902; x=1821064902;
   h=date:from:to:cc:subject:message-id;
-  bh=jXkKZaZ2F64qlLyDBrNc1CLRzX0FzcMRzXVrnVWVCrU=;
-  b=GeKbLY8CkcMsG1Vlx/J8y/um1H96gsrPWkuUk98xG4cmiXniIBaXRIFG
-   eFCwJ2aPKoadidhzmPku8fUJdsjiyfKwKEXh+/m5MnXcqHTVoa8O0UCIi
-   Em9/HE8S/jqY0EmYccxwxFuoQCk+YyY/NR/oq5OsVf72/mr4ExUWk6txU
-   0sdUQehxy1MzrIqhQZv4xT7AEdq529s8FuKIkW7vRYxwsMS2vvUz9+PcX
-   1uBz/Qm8MkF3XbBNgr2OrLUgKE8FDe4H4rJiImp3smKptbt6qnL9nUX6+
-   +wDFad0wYBJKrP8Oy8DC/LLaHsxnRL9m3jWHAkwqJMeKlZwZhc4BCMCHY
-   g==;
-X-CSE-ConnectionGUID: GB0SL91sSJW+aIAKw0hCXA==
-X-CSE-MsgGUID: Z0eRfI1FQK6TnZJ1Bvu8SA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89821506"
+  bh=3ihrsGfCVSZmVp6OKEo9FlWdYmWdCwN/j5Iu3XOgyDw=;
+  b=RCp5KTxy6CJXJZJe2PJbVMTglKTnTXlDlDG0gZcEDp/dyS5Rzh9WtVby
+   Oyk952SZI8DxvGeQsi5hn0fQoK17LnX8jq9qNi22cZrg+KgwiH2od3dyJ
+   5+TTe053qZuEzad3Irw7usqB0ldVRwNHrnR1Uk8StbUqtYcw6n5TE1zli
+   FCmdmjdNYby67VvRvRPspOx/1Zvtk130xHmKnV3/TPbkIVtyARyPKLbGM
+   0iVOEfkLVYz662dwQCLZSJB5q0nU9HjzASdHhLqnXiNqx5ynK52PTdEHn
+   Hms/DrDQSfUmNM+5LrV7Noa+kz0bKDRC5BCcmO6QQC9/TbQ4g7aGv6KF4
+   A==;
+X-CSE-ConnectionGUID: 3TGqwe2LRSK6BDUZpP2xFA==
+X-CSE-MsgGUID: 0DnhO2TIRNyVA3W0Dw0QTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100499737"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89821506"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 14:16:09 -0700
-X-CSE-ConnectionGUID: YrcTgF2JSRG4jE00vBzIow==
-X-CSE-MsgGUID: xzhYHYfdQyue5X6HY/hC9Q==
+   d="scan'208";a="100499737"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 20:21:41 -0700
+X-CSE-ConnectionGUID: 9/SrwDR9ShKOh00pftcycw==
+X-CSE-MsgGUID: 2xgFFxL7R4C7upfwLqLwgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="276659494"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Sep 2026 14:16:09 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="311476282"
+Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 15 Sep 2026 20:21:40 -0700
+Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6aVa-0000000055J-1ZW1;
-	Tue, 15 Sep 2026 21:16:06 +0000
-Date: Wed, 16 Sep 2026 05:15:41 +0800
+	id 1x6gDJ-000000000tf-1UIG;
+	Wed, 16 Sep 2026 03:21:37 +0000
+Date: Wed, 16 Sep 2026 05:21:24 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 465/799]
- fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to
- be signed checked against zero?
-Message-ID: <202609160548.ipN3I3fM-lkp@intel.com>
+Subject: [dinguyen:socfpga_dts_for_v7.4 2/5]
+ arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb:
+ /soc@0/mmc@10808000: failed to match any schema with compatible:
+ ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+Message-ID: <202609160341.9tN6h0Sq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,54 +62,44 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Tanmay Kathpalia <tanmay.kathpalia@altera.com>
+CC: Dinh Nguyen <dinguyen@kernel.org>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 78e53242d57830619d4964261dda9934f4d18c47 [465/799] bcachefs: move data code to subdir
-:::::: branch date: 10 months ago
-:::::: commit date: 11 months ago
-config: openrisc-randconfig-r112-20260915 (https://download.01.org/0day-ci/archive/20260916/202609160548.ipN3I3fM-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160548.ipN3I3fM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_dts_for_v7.4
+head:   0199e7aaa990971c62dd48e55e879b66d842d511
+commit: 149e151f8c5144004d9299ae63f405eeacaf2894 [2/5] arm64: dts: agilex5: add SD/eMMC host controller
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm64-randconfig-2055-20260915 (https://download.01.org/0day-ci/archive/20260916/202609160341.9tN6h0Sq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160341.9tN6h0Sq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609160548.ipN3I3fM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609160341.9tN6h0Sq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/fs-io.c: note: in included file (through fs/bcachefs/alloc/buckets.h):
->> fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?
-   fs/bcachefs/fs-io.c:748:16: sparse: signed value source
->> fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?
-   fs/bcachefs/fs-io.c:748:16: sparse: signed value source
-
-vim +551 fs/bcachefs/data/extents.h
-
-1c6fdbd8f2465d fs/bcachefs/extents.h Kent Overstreet 2017-03-16  546  
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  547  static inline bool bkey_extent_is_unwritten(struct bkey_s_c k)
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  548  {
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  549  	struct bkey_ptrs_c ptrs = bch2_bkey_ptrs_c(k);
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  550  
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13 @551  	bkey_for_each_ptr(ptrs, ptr)
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  552  		if (ptr->unwritten)
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  553  			return true;
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  554  	return false;
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  555  }
-792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  556  
-
-:::::: The code at line 551 was first introduced by commit
-:::::: 792031116bee35e13be7c8ae8cf1b8eec141b136 bcachefs: Unwritten extents support
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+--
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_modular.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_modular.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+--
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_013b.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_013b.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+--
+>> arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+>> arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+--
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dtb: /soc@0/mmc@10808000: failed to match any schema with compatible: ['altr,agilex5-sd6hc', 'cdns,sd6hc']
 
 --
 0-DAY CI Kernel Test Service
