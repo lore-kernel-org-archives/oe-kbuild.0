@@ -1,158 +1,323 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C4F54704B
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Sep 2026 18:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DA543935C
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Sep 2026 21:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789669474; cv=none; b=YYGmXftYJVemISCrtQ7uSeuHyN0kzgAB7LZMPbKJR7X3FcxffF5alQFO1aX63lTxbsw0gtDdUX3zBl7X0BaTIMrK/f7SdtAXf1uQ6TYOO0hqxtAxLK+xn+Oz6WNGpmBoCbvrgfkU+eDucSFCBxEddvcppth99DGhUe2TyaGdZCw=
+	t=1789680628; cv=none; b=ZEtgXdOT68T7w1myqu/+8z9MiQunzsszNnbL4Z2CjZw3gs9CbDEbfbEoRWNEXmqidTgB1UspUjHKwpt1lMY5+Jrih+2u7Az7BaR9I+3E9JBD437Wj9dgEGeg1JHWZna4YfqZk0GnUdDKhPn+yBaYm16WLYpvdXfZbwoSSWBBfN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789669474; c=relaxed/simple;
-	bh=nGIzcYwqreOiUtzJAUxlUGCsDR9uH0PwTou1D9iMObE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=brmAEfaQBoAwUiQ9YMGZA8jcO5BtKNudzUiy8Mc7OMq/C8eU/DTqr6AWibyYXa64pcUQLhC52ZCLeZ7KKK2z6rA/piJeCO3S2Tmh6Uyns11kMZCGLnANe2bOIz1FCxOIjWgMjMvG8QtN9R6Fkt/hVizAkqDLYph1IR2/kLPeb04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2fBh246; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1789680628; c=relaxed/simple;
+	bh=pQWVebf0C49HzRUyEAd6phqUQSkNN3YGRu9R8cZGEoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hqwqdMpkg90Cb6q6MuuV3gh6OtLg3b95wEpTrrSFbpP2r5UJSVz55QhcIeTCj3gtN0cJpkYm65AyO+9h/0MxvsdyqXsTJpfTRJbq6PzgmlzrUfgFE6lDfynrK7moFDJdTYzpZuICFy7yOezzVjejTGoWg77xnSTZHgejSGvNrLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELCeLA1E; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2fBh246"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELCeLA1E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789669473; x=1821205473;
-  h=date:from:to:cc:subject:message-id;
-  bh=nGIzcYwqreOiUtzJAUxlUGCsDR9uH0PwTou1D9iMObE=;
-  b=m2fBh246lzbqq4vHjvbDwdlMDncMZVXBNi8C2gA4zSayhaX1SP6icjVx
-   imFDHyCq/iioRMa9Sjro//AA0mc+f85+Vy65bGc/GMjXbCBXL9LktTw4f
-   dHhL5xw0XyUo2FSOEwl6Y1qc5eF8PQIeglX3MoYReooBFEPEiijIfA7XV
-   kEpoIJpL4KvYXCc9rPi3NstDiqL5kuQpm9fbMjIEdPxiRvSGOE56lto1+
-   z3J4iE+BZOnWoom+zyhYbu/7mlwfDTx+VY80lE+xd9r31DgmfKhSMNQSp
-   u95c+RqBXuK0UqAq2Pi6ajmL+X/zjPs4QqAZwWaczwBlJMlXovI+R9+0T
-   A==;
-X-CSE-ConnectionGUID: axt/wzmnRXSGgY47RRF13A==
-X-CSE-MsgGUID: wJEd/i/vRwW8PXr57B8iIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="115660075"
+  t=1789680624; x=1821216624;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pQWVebf0C49HzRUyEAd6phqUQSkNN3YGRu9R8cZGEoo=;
+  b=ELCeLA1EYTQDM798xB6HEjKKOMwK4TO1xPwNWLAHKpIwIFRVA3/SYS3N
+   gUGBUlCJe/+lvwoLMeqqRGbnq71lZC2+aI2FB9ROXNrEixNL1DcJyuE+q
+   i8sUKL4CX0C0nN8ZKtVzJFfcdni7mJ4FYlcQFz2DVA87jrnM5470R2iXd
+   VdQpJgAwC48eTHRrzuERvA9/DHRqEAuEYRCMlDLxW93h7dvv9wKHo97UE
+   OdTqBP8AtGKEwxr0jbxqSBffGJf+26/ZFIOcz+w6GYY0yOCRtvUTrBWWu
+   tZyQPVJ0nBihc9sqFtx2dPu6EdEawC0+JisjWkb1SPCylH7B4PgR0M7Aq
+   Q==;
+X-CSE-ConnectionGUID: 9rMuXU2cQTiOGE3SFpr+UQ==
+X-CSE-MsgGUID: BwNrk69bRKO/Tiy8hXWLoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90014850"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="115660075"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 11:24:03 -0700
-X-CSE-ConnectionGUID: PD6KRtrLRTu9bp9cL9h+Bw==
-X-CSE-MsgGUID: aNHDAWydRLGzCfMT+/X+cw==
+   d="scan'208";a="90014850"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 14:30:22 -0700
+X-CSE-ConnectionGUID: WPrlVChyQVS8bWzXH68BPQ==
+X-CSE-MsgGUID: 8c5V/rTWSIuNPpXnXXso8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="270665447"
-Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Sep 2026 11:24:02 -0700
-Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
+   d="scan'208";a="2458914"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 17 Sep 2026 14:30:21 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7Gm8-000000000im-1CKx;
-	Thu, 17 Sep 2026 18:24:00 +0000
-Date: Thu, 17 Sep 2026 20:23:38 +0200
+	id 1x7JgQ-000000008Xd-43iY;
+	Thu, 17 Sep 2026 21:30:18 +0000
+Date: Fri, 18 Sep 2026 05:29:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/pensando/ionic/ionic_txrx.c:204
- ionic_rx_build_skb() warn: '(((((((1) << 16)) < ((-1))) ?(((1) <<
- 16)):((-1))) - (18 + 256 + ((((320)) + ((((1 << 7))) - 1)) & ~((((1 << 7))) -
- 1)))) + 18)' 18446744073709550975 can't fit into 65535 '__...
-Message-ID: <202609172040.DROK1GD1-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: include/asm-generic/bitsperlong.h:23:2: sparse: sparse:
+ Inconsistent word size. Check asm/bitsperlong.h
+Message-ID: <202609180533.3hqSSVRb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "low confidence static check warning: include/a=
+sm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent word size. Chec=
+k asm/bitsperlong.h"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Xuanqiang Luo <luoxuanqiang@kylinos.cn>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jackie Liu <liuyun01@kylinos.cn>
-CC: Eric Dumazet <edumazet@google.com>
+TO: "Thomas Wei=C3=9Fschuh" <thomas.weissschuh@linutronix.de>
+CC: Thomas Gleixner <tglx@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   238650ef6c7c7cca08e032527329424c9fbd70e5
-commit: ac08d183dac0441e41f77bbad50798fe609d90f1 raw: annotate disconnect-side IPv4 match writers
-date:   3 weeks ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 3 weeks ago
-config: mips-randconfig-r072-20260915 (https://download.01.org/0day-ci/archive/20260917/202609172040.DROK1GD1-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
+commit: 62357a5888ea6ef81f718eee20ad962a1101fb96 asm-generic/bitsperlong.h:=
+ Add sanity checks for __BITS_PER_LONG
+date:   6 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-r1308-20260917 (https://download.01.org/0day-ci/a=
+rchive/20260918/202609180533.3hqSSVRb-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
+48fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260918/202609180533.3hqSSVRb-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: ac08d183dac0 ("raw: annotate disconnect-side IPv4 match writers")
+| Fixes: 62357a5888ea ("asm-generic/bitsperlong.h: Add sanity checks for __=
+BITS_PER_LONG")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609172040.DROK1GD1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609180533.3hqSSVRb-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/pensando/ionic/ionic_txrx.c:204 ionic_rx_build_skb() warn: '(((((((1) << 16)) < ((-1))) ?(((1) << 16)):((-1))) - (18 + 256 + ((((320)) + ((((1 << 7))) - 1)) & ~((((1 << 7))) - 1)))) + 18)' 18446744073709550975 can't fit into 65535 '__UNIQUE_ID_y__958'
-drivers/net/ethernet/pensando/ionic/ionic_txrx.c:204 ionic_rx_build_skb() warn: assigning 18446744073709550975 to unsigned variable '__UNIQUE_ID_y__958'
-drivers/net/ethernet/pensando/ionic/ionic_txrx.c:488 ionic_run_xdp() warn: '(((((((1) << 16)) < ((-1))) ?(((1) << 16)):((-1))) - (18 + 256 + ((((320)) + ((((1 << 7))) - 1)) & ~((((1 << 7))) - 1)))) + 18)' 18446744073709550975 can't fit into 65535 '__UNIQUE_ID_y__966'
-drivers/net/ethernet/pensando/ionic/ionic_txrx.c:488 ionic_run_xdp() warn: assigning 18446744073709550975 to unsigned variable '__UNIQUE_ID_y__966'
-drivers/net/ethernet/pensando/ionic/ionic_txrx.c:812 ionic_rx_fill() warn: 'first_buf_len' 4294966911 can't fit into 65535 '__UNIQUE_ID_y__972'
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/realmode/rm/regs.c: note: in included file (through arch/x86/in=
+clude/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/=
+asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/realmode/rm/video-bios.c: note: in included file (through arch/=
+x86/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, in=
+clude/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/realmode/rm/video-vesa.c: note: in included file (through arch/=
+x86/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, in=
+clude/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/realmode/rm/video-mode.c: note: in included file (through arch/=
+x86/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, in=
+clude/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/realmode/rm/wakemain.c: note: in included file (through arch/x8=
+6/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, incl=
+ude/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/realmode/rm/video-vga.c: note: in included file (through arch/x=
+86/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, inc=
+lude/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/video-mode.c: note: in included file (through arch/x86/inc=
+lude/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/a=
+sm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/cpuflags.c: note: in included file (through arch/x86/inclu=
+de/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm=
+-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/printf.c: note: in included file (through arch/x86/include=
+/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-g=
+eneric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/video-vga.c: note: in included file (through arch/x86/incl=
+ude/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/as=
+m-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/regs.c: note: in included file (through arch/x86/include/u=
+api/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gen=
+eric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/video-vesa.c: note: in included file (through arch/x86/inc=
+lude/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/a=
+sm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/cpucheck.c: note: in included file (through arch/x86/inclu=
+de/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm=
+-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/pm.c: note: in included file (through arch/x86/include/uap=
+i/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gener=
+ic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/version.c: note: in included file (through arch/x86/includ=
+e/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-=
+generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/early_serial_console.c: note: in included file (through ar=
+ch/x86/include/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h,=
+ include/asm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/tty.c: note: in included file (through arch/x86/include/ua=
+pi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gene=
+ric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/memory.c: note: in included file (through arch/x86/include=
+/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-g=
+eneric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/string.c: note: in included file (through arch/x86/include=
+/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-g=
+eneric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/cmdline.c: note: in included file (through arch/x86/includ=
+e/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-=
+generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/video-bios.c: note: in included file (through arch/x86/inc=
+lude/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/a=
+sm-generic/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/main.c: note: in included file (through arch/x86/include/u=
+api/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gen=
+eric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/a20.c: note: in included file (through arch/x86/include/ua=
+pi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gene=
+ric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/video.c: note: in included file (through arch/x86/include/=
+uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-ge=
+neric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/edd.c: note: in included file (through arch/x86/include/ua=
+pi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gene=
+ric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
+--
+   arch/x86/boot/cpu.c: note: in included file (through arch/x86/include/ua=
+pi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gene=
+ric/int-ll64.h, ...):
+>> include/asm-generic/bitsperlong.h:23:2: sparse: sparse: Inconsistent wor=
+d size. Check asm/bitsperlong.h
+   include/asm-generic/bitsperlong.h:27:33: sparse: sparse: static assertio=
+n failed: "Inconsistent word size. Check asm/bitsperlong.h"
 
-vim +204 drivers/net/ethernet/pensando/ionic/ionic_txrx.c
+vim +23 include/asm-generic/bitsperlong.h
 
-36a47c906b2324 Shannon Nelson 2024-03-06  178  
-36a47c906b2324 Shannon Nelson 2024-03-06  179  static struct sk_buff *ionic_rx_build_skb(struct ionic_queue *q,
-4dcd4575bfb17d Shannon Nelson 2024-03-06  180  					  struct ionic_rx_desc_info *desc_info,
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  181  					  unsigned int headroom,
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  182  					  unsigned int len,
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  183  					  unsigned int num_sg_elems,
-180e35cdf035d1 Shannon Nelson 2024-02-14  184  					  bool synced)
-0f3154e6bcb354 Shannon Nelson 2019-09-03  185  {
-4b0a7539a3728f Shannon Nelson 2021-03-10  186  	struct ionic_buf_info *buf_info;
-08f2e4b2b2008c Shannon Nelson 2019-10-23  187  	struct sk_buff *skb;
-08f2e4b2b2008c Shannon Nelson 2019-10-23  188  	unsigned int i;
-08f2e4b2b2008c Shannon Nelson 2019-10-23  189  	u16 frag_len;
-08f2e4b2b2008c Shannon Nelson 2019-10-23  190  
-4b0a7539a3728f Shannon Nelson 2021-03-10  191  	buf_info = &desc_info->bufs[0];
-e75ccac1d0644c Shannon Nelson 2021-07-27  192  	prefetchw(buf_info->page);
-08f2e4b2b2008c Shannon Nelson 2019-10-23  193  
-89e572e7369fd9 Shannon Nelson 2021-03-10  194  	skb = napi_get_frags(&q_to_qcq(q)->napi);
-89e572e7369fd9 Shannon Nelson 2021-03-10  195  	if (unlikely(!skb)) {
-89e572e7369fd9 Shannon Nelson 2021-03-10  196  		net_warn_ratelimited("%s: SKB alloc failed on %s!\n",
-36a47c906b2324 Shannon Nelson 2024-03-06  197  				     dev_name(q->dev), q->name);
-2854242d23a7b3 Shannon Nelson 2024-03-06  198  		q_to_rx_stats(q)->alloc_err++;
-08f2e4b2b2008c Shannon Nelson 2019-10-23  199  		return NULL;
-89e572e7369fd9 Shannon Nelson 2021-03-10  200  	}
-ac8813c0ab7d28 Shannon Nelson 2024-09-06  201  	skb_mark_for_recycle(skb);
-08f2e4b2b2008c Shannon Nelson 2019-10-23  202  
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  203  	if (headroom)
-36a47c906b2324 Shannon Nelson 2024-03-06 @204  		frag_len = min_t(u16, len,
-36a47c906b2324 Shannon Nelson 2024-03-06  205  				 IONIC_XDP_MAX_LINEAR_MTU + VLAN_ETH_HLEN);
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  206  	else
-ac8813c0ab7d28 Shannon Nelson 2024-09-06  207  		frag_len = min_t(u16, len, IONIC_PAGE_SIZE);
-f81da39bf4c0a5 Shannon Nelson 2024-02-14  208  
-36a47c906b2324 Shannon Nelson 2024-03-06  209  	if (unlikely(!buf_info->page))
-36a47c906b2324 Shannon Nelson 2024-03-06  210  		goto err_bad_buf_page;
-36a47c906b2324 Shannon Nelson 2024-03-06  211  	ionic_rx_add_skb_frag(q, skb, buf_info, headroom, frag_len, synced);
-36a47c906b2324 Shannon Nelson 2024-03-06  212  	len -= frag_len;
-4b0a7539a3728f Shannon Nelson 2021-03-10  213  	buf_info++;
-4b0a7539a3728f Shannon Nelson 2021-03-10  214  
-36a47c906b2324 Shannon Nelson 2024-03-06  215  	for (i = 0; i < num_sg_elems; i++, buf_info++) {
-36a47c906b2324 Shannon Nelson 2024-03-06  216  		if (unlikely(!buf_info->page))
-36a47c906b2324 Shannon Nelson 2024-03-06  217  			goto err_bad_buf_page;
-ac8813c0ab7d28 Shannon Nelson 2024-09-06  218  		frag_len = min_t(u16, len, buf_info->len);
-36a47c906b2324 Shannon Nelson 2024-03-06  219  		ionic_rx_add_skb_frag(q, skb, buf_info, 0, frag_len, synced);
-36a47c906b2324 Shannon Nelson 2024-03-06  220  		len -= frag_len;
-36a47c906b2324 Shannon Nelson 2024-03-06  221  	}
-08f2e4b2b2008c Shannon Nelson 2019-10-23  222  
-08f2e4b2b2008c Shannon Nelson 2019-10-23  223  	return skb;
-36a47c906b2324 Shannon Nelson 2024-03-06  224  
-36a47c906b2324 Shannon Nelson 2024-03-06  225  err_bad_buf_page:
-36a47c906b2324 Shannon Nelson 2024-03-06  226  	dev_kfree_skb(skb);
-36a47c906b2324 Shannon Nelson 2024-03-06  227  	return NULL;
-0f3154e6bcb354 Shannon Nelson 2019-09-03  228  }
-0f3154e6bcb354 Shannon Nelson 2019-09-03  229  
-
-:::::: The code at line 204 was first introduced by commit
-:::::: 36a47c906b23240b3d7fd0cc3f36d511d5b36700 ionic: refactor skb building
-
-:::::: TO: Shannon Nelson <shannon.nelson@amd.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+c31ae4bb4a9fa46 Arnd Bergmann    2009-05-13  21 =20
+62357a5888ea6ef Thomas Wei=C3=9Fschuh 2026-03-02  22  #if __CHAR_BIT__ * __=
+SIZEOF_LONG__ !=3D __BITS_PER_LONG
+62357a5888ea6ef Thomas Wei=C3=9Fschuh 2026-03-02 @23  #error Inconsistent w=
+ord size. Check asm/bitsperlong.h
+62357a5888ea6ef Thomas Wei=C3=9Fschuh 2026-03-02  24  #endif
+62357a5888ea6ef Thomas Wei=C3=9Fschuh 2026-03-02  25 =20
 
 --
 0-DAY CI Kernel Test Service
