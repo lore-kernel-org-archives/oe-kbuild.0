@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868E737DAAE
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Sep 2026 05:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DB34D6C4E
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Sep 2026 11:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789623052; cv=none; b=AaR91nZJwt3ENHJlZJkhM3O2w/ZTru3MEcGRnhjpAxc5sE3sANzeTqgar9T8LKG3EwHBuBMPtF7LanH59XSv8pTg2gcv5TY6zyCah/FYVJ9Nf8auVwuMdrbS5hhpOG/mRZTiTmGOBNyWpeE6G6mPksg1fgw7LgjNFQhK+jhuveQ=
+	t=1789643843; cv=none; b=jOSdaruNzZsjcHK6NqgLOuo2QjcWM58Q04aWNhA3BvrMeIditS8EN1CDm2etsm4MlGWb0RROnVLI8Va0xZtOX924/ETFhXGCoGkbuvaOEFYnqMyE/DHG+SWQXUkfid3jReznXworIXsXo7S7TfSDkCtkgHwBKF2CcTfktjobWJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789623052; c=relaxed/simple;
-	bh=T4q2KvxwxcA3rawB0Tv0g1WvlHdkCtvhOLZlQOibD+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hkoGbCxrQEdE5y93EcIha23OFUb/NMkBK+4t32TDow/UXWWkXz0C/7N+2zSRxQsgRFXyEXMYkgoygVjUPBcNQ3io5omfAs3PqIqMT/s6VhSwyob8Dm0JnUx+CQJAVCYMuYj4WjRka3O/87IFKPMpqJEPt9h8bSg7SvWYZXpoxvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3WXw960; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789643843; c=relaxed/simple;
+	bh=8z/JaPgTVcyzKV2QUXkzrsB4g9WQNW9FpsjdSv1khhs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BbquHXpCqcBbmXR5AhQqYW7PGKXcL0E818ktv3apUW0IOfEbkbIII0uNRVk2ANDOTNMUcQEj18xK8oha7Mqsx/XvQzUWen11SS7zaelhaC5rrZGr8GgUgp9NTymC2DuPIPVP9KVNpXg9HiFcyNo6P4L0XQmH1PcDKvdBaN6lPWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acljkaqJ; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3WXw960"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acljkaqJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789623049; x=1821159049;
+  t=1789643837; x=1821179837;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=T4q2KvxwxcA3rawB0Tv0g1WvlHdkCtvhOLZlQOibD+c=;
-  b=X3WXw960SLrrqMNA0PrPip+14ByyTzXRADU7bQIAdXzRixiHaGWWuTF4
-   mAWbRu/Bs1zIWZ8lglzG+8McEc1Wvd9T8bw3TP/AEkC1sXW37/KnB04lX
-   wrng33YgMwYfrb8YSdJKfRlRyHz9WP54In3gRtPFQcNY1czbmAzSwPj8G
-   esi/H/bvAS4k/A03PJvkiViz96Lm6fPijsoivdKGE+9TsXXIxzJ5pFj79
-   fTzuquh9CT52W782oD29ccO/5Wsl3UE7+DklhbARFxQqRUuwCC8kVxobX
-   XjQ6SesWJViO7tNnAzxGrKzimN6xkmTHSEq0tJOpgnzpu/63peRKTZlz4
-   Q==;
-X-CSE-ConnectionGUID: x6zxBSAhQ0qFVX30RiDvSg==
-X-CSE-MsgGUID: WxdeiigvSS+u1XJ/YxnXpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="517837"
+  bh=8z/JaPgTVcyzKV2QUXkzrsB4g9WQNW9FpsjdSv1khhs=;
+  b=acljkaqJ7mkWvER4jrMgsXYD3YMH3JlVU67U+SGqa6o1rMIUCVdIZ1gi
+   DISkYzqAXwHO9RqhdFBiSL8vy/WUQLxVE8ALkPGCO9lokDgSkvD1DTyNo
+   YjK0rytB6dbF3eSiXtQY/9ScOs+XMYDoTXt8ITLF7swBQGPZP5770y+3u
+   6OJgRxw7Bk6K1LtLkC8EOQms/VXL8E6rFbxrJsrgHlQzI+9Nk8NUxSC8a
+   hOh/qz47yzHWyiZ1IWccUBIHALMJprN9VBY+6Z1vyJgK+dSjMeZ4Btyf9
+   Ttvx/Ld6Wl0WDWDDkdpKCvD1e1wF5VZo0Awz86HmQuiZhhF0xmU99E+b3
+   g==;
+X-CSE-ConnectionGUID: 9avPNz6hQ1ObYX7YdjGMUw==
+X-CSE-MsgGUID: 5qAhtKLLQX+orsml+omYVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="558936"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="517837"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 22:30:49 -0700
-X-CSE-ConnectionGUID: zsJN3opJR/+8bHhHbG0mSw==
-X-CSE-MsgGUID: 2eqByZIySe26CPOcSvDJCw==
+   d="scan'208";a="558936"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 04:17:13 -0700
+X-CSE-ConnectionGUID: 0alenjGzS0OjQPI9Vzdq5Q==
+X-CSE-MsgGUID: WlTiFRIORcqvtHyiMtlXZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="297069070"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Sep 2026 22:30:48 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="2124581"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 17 Sep 2026 04:17:13 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x74hp-0000000079P-2VIj;
-	Thu, 17 Sep 2026 05:30:45 +0000
-Date: Thu, 17 Sep 2026 13:30:35 +0800
+	id 1x7A73-000000000Zk-40bG;
+	Thu, 17 Sep 2026 11:17:10 +0000
+Date: Thu, 17 Sep 2026 13:15:58 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/gpu/drm/xe/xe_guc_ads.c:411:9: sparse: sparse:
- Trying to use reserved word 'return' as identifier
-Message-ID: <202609171355.t2au95fP-lkp@intel.com>
+Subject: /bin/bash: line 1: 946980 Segmentation fault      ld.lld -m
+ elf_x86_64 -mllvm -import-instr-limit=5 --mllvm=-enable-fs-discriminator=true
+ --mllvm=-improved-fs-discriminator=true -plugin-opt=thinlto
+ -plugin-opt=-split-machine-functions -z noexecstack -r -o...
+Message-ID: <202609171303.4devdrXr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,295 +62,141 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 ::::::=20
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/xe/xe_guc_ads.c:411:9: sparse: sparse: Trying to use reserved word '=
-return' as identifier"
+:::::: Manual check reason: "clang compiler bug"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+TO: Rong Xu <xur@google.com>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Kees Cook <kees@kernel.org>
+
+Hi Rong,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: 09af64eba63ece2d928295e61ab1d56ae264447c drm/xe/guc: Introduce GUC_=
-FIRMWARE_VER_AT_LEAST helper
-date:   9 months ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 9 months ago
-config: powerpc-randconfig-r1308-20260917 (https://download.01.org/0day-ci/=
-archive/20260917/202609171355.t2au95fP-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 148=
-ee2b266b73a49f1f31d0bd17d4818b91bee9f)
-sparse: v0.6.5-rc1
+head:   238650ef6c7c7cca08e032527329424c9fbd70e5
+commit: e88b2fe8b9993c9cae856019b1c31c14b63cad7a kconfig: Remove the archit=
+ecture specific config for AutoFDO
+date:   3 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+config: um-randconfig-r2102-20260916 (https://download.01.org/0day-ci/archi=
+ve/20260917/202609171303.4devdrXr-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
+8b4367171ccdbf4b5905cb6a803753fe18)
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260917/202609171355.t2au95fP-lkp@intel.com/reproduce)
+/20260917/202609171303.4devdrXr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
-| Fixes: 09af64eba63e ("drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST hel=
-per")
+| Fixes: e88b2fe8b999 ("kconfig: Remove the architecture specific config fo=
+r AutoFDO")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609171355.t2au95fP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609171303.4devdrXr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:373:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:374:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:375:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:376:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:376:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:385:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:385:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:396:12: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:396:12: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:12: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:12: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_ads.c:398:12: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:398:12: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_ads.c:399:12: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:399:12: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_ads.c:406:19: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:406:19: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:406:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:409:12: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:409:12: sparse: sparse: got ->
->> drivers/gpu/drm/xe/xe_guc_ads.c:411:9: sparse: sparse: Trying to use res=
-erved word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:16: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:16: sparse: sparse: got 0
-   drivers/gpu/drm/xe/xe_guc_ads.c:412:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:412:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:350:13: sparse: sparse: undefined identi=
-fier '__VA_OPT__'
-   drivers/gpu/drm/xe/xe_guc_ads.c:350:63: sparse: sparse: undefined identi=
-fier '__gt'
-   drivers/gpu/drm/xe/xe_guc_ads.c:353:63: sparse: sparse: undefined identi=
-fier '__xe'
-   drivers/gpu/drm/xe/xe_guc_ads.c:358:17: sparse: sparse: symbol 'guc_wakl=
-v_enable' redeclared with different type (incompatible argument 1 (differen=
-t base types)):
-   drivers/gpu/drm/xe/xe_guc_ads.c:358:17: sparse:    int static [signed] [=
-toplevel] guc_waklv_enable( ... )
-   drivers/gpu/drm/xe/xe_guc_ads.c:287:13: sparse: note: previously declare=
-d as:
-   drivers/gpu/drm/xe/xe_guc_ads.c:287:13: sparse:    void static [toplevel=
-] guc_waklv_enable( ... )
-   drivers/gpu/drm/xe/xe_guc_ads.c:362:13: sparse: sparse: undefined identi=
-fier '__xe'
-   drivers/gpu/drm/xe/xe_guc_ads.c:366:35: sparse: sparse: undefined identi=
-fier 'ads'
-   drivers/gpu/drm/xe/xe_guc_ads.c:366:42: sparse: sparse: undefined identi=
-fier 'remain'
-   drivers/gpu/drm/xe/xe_guc_ads.c:370:39: sparse: sparse: undefined identi=
-fier 'ads'
-   drivers/gpu/drm/xe/xe_guc_ads.c:371:37: sparse: sparse: undefined identi=
-fier 'ads'
-   drivers/gpu/drm/xe/xe_guc_ads.c:392:38: sparse: sparse: undefined identi=
-fier 'ads'
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:43: sparse: sparse: undefined identi=
-fier 'xe'
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:9: sparse: sparse: symbol 'bo' redec=
-lared with different type (different base types):
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:9: sparse:    int [addressable] [top=
-level] bo
-   drivers/gpu/drm/xe/xe_guc_ads.c:394:22: sparse: note: previously declare=
-d as:
-   drivers/gpu/drm/xe/xe_guc_ads.c:394:22: sparse:    struct xe_bo *[addres=
-sable] [toplevel] bo
+All errors (new ones prefixed by >>):
 
-vim +/return +411 drivers/gpu/drm/xe/xe_guc_ads.c
-
-dd08ebf6c3525a Matthew Brost    2023-03-30  388 =20
-dd08ebf6c3525a Matthew Brost    2023-03-30  389  int xe_guc_ads_init(struct=
- xe_guc_ads *ads)
-dd08ebf6c3525a Matthew Brost    2023-03-30  390  {
-dd08ebf6c3525a Matthew Brost    2023-03-30  391  	struct xe_device *xe =3D =
-ads_to_xe(ads);
-dd08ebf6c3525a Matthew Brost    2023-03-30  392  	struct xe_gt *gt =3D ads_=
-to_gt(ads);
-876611c2b75689 Matt Roper       2023-06-01  393  	struct xe_tile *tile =3D =
-gt_to_tile(gt);
-dd08ebf6c3525a Matthew Brost    2023-03-30  394  	struct xe_bo *bo;
-dd08ebf6c3525a Matthew Brost    2023-03-30  395 =20
-dd08ebf6c3525a Matthew Brost    2023-03-30  396  	ads->golden_lrc_size =3D =
-calculate_golden_lrc_size(ads);
-9c8c7a7e6f1f55 Zhanjun Dong     2024-10-04  397  	ads->capture_size =3D xe_=
-guc_capture_ads_input_worst_size(ads_to_guc(ads));
-dd08ebf6c3525a Matthew Brost    2023-03-30 @398  	ads->regset_size =3D calc=
-ulate_regset_size(gt);
-d6da81a4785ca6 Badal Nilawar    2024-04-05  399  	ads->ads_waklv_size =3D c=
-alculate_waklv_size(ads);
-dd08ebf6c3525a Matthew Brost    2023-03-30  400 =20
-0e1a47fcabc8ff Micha=C5=82 Winiarski 2023-12-05  401  	bo =3D xe_managed_bo=
-_create_pin_map(xe, tile, guc_ads_size(ads) + MAX_GOLDEN_LRC_SIZE,
-62742d12663145 Lucas De Marchi  2024-03-22  402  					  XE_BO_FLAG_SYSTEM |
-62742d12663145 Lucas De Marchi  2024-03-22  403  					  XE_BO_FLAG_GGTT |
-045448da87bfb1 Matthew Brost    2025-04-03  404  					  XE_BO_FLAG_GGTT_INV=
-ALIDATE |
-045448da87bfb1 Matthew Brost    2025-04-03  405  					  XE_BO_FLAG_PINNED_N=
-ORESTORE);
-dd08ebf6c3525a Matthew Brost    2023-03-30  406  	if (IS_ERR(bo))
-dd08ebf6c3525a Matthew Brost    2023-03-30  407  		return PTR_ERR(bo);
-dd08ebf6c3525a Matthew Brost    2023-03-30  408 =20
-dd08ebf6c3525a Matthew Brost    2023-03-30  409  	ads->bo =3D bo;
-dd08ebf6c3525a Matthew Brost    2023-03-30  410 =20
-dd08ebf6c3525a Matthew Brost    2023-03-30 @411  	return 0;
-dd08ebf6c3525a Matthew Brost    2023-03-30  412  }
-91b2c42c214f57 Francois Dugast  2024-09-27  413  ALLOW_ERROR_INJECTION(xe_g=
-uc_ads_init, ERRNO); /* See xe_pci_probe() */
-dd08ebf6c3525a Matthew Brost    2023-03-30  414 =20
-
-:::::: The code at line 411 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM=
- driver for Intel GPUs
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
+s/ and include the crash backtrace.
+   Stack dump:
+   0.	Running pass 'Function Pass Manager' on module 'net/llc/llc_c_ac.o'.
+   1.	Running pass 'Prologue/Epilogue Insertion & Frame Finalization' on fu=
+nction '@llc_conn_set_p_flag'
+    #0 0x0000555ee7090f8b llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
+t) (lld+0x7dbf8b)
+    #1 0x0000555ee708e91b SignalHandler(int) Signals.cpp:0:0
+    #2 0x00007f98e5dc9df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
+    #3 0x0000555ee947bbf2 (anonymous namespace)::PEI::runOnMachineFunction(=
+llvm::MachineFunction&) PrologEpilogInserter.cpp:0:0
+    #4 0x0000555ee9360f15 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
+nction&) (.part.0) MachineFunctionPass.cpp:0:0
+    #5 0x0000555eeabe98b9 llvm::FPPassManager::runOnFunction(llvm::Function=
+&) (lld+0x43348b9)
+    #6 0x0000555eeabe99ec llvm::FPPassManager::runOnModule(llvm::Module&) (=
+lld+0x43349ec)
+    #7 0x0000555eeabea318 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
+ (lld+0x4335318)
+    #8 0x0000555ee911d27c codegen(llvm::lto::Config const&, llvm::TargetMac=
+hine*, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFileStream,=
+ std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::Twine c=
+onst&)>, unsigned int, llvm::Module&, llvm::ModuleSummaryIndex const&) LTOB=
+ackend.cpp:0:0
+    #9 0x0000555ee911e78a llvm::lto::thinBackend(llvm::lto::Config const&, =
+unsigned int, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFile=
+Stream, std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::=
+Twine const&)>, llvm::Module&, llvm::ModuleSummaryIndex const&, llvm::Strin=
+gMap<std::unordered_set<unsigned long, std::hash<unsigned long>, std::equal=
+_to<unsigned long>, std::allocator<unsigned long>>, llvm::MallocAllocator> =
+const&, llvm::DenseMap<unsigned long, llvm::GlobalValueSummary*, llvm::Dens=
+eMapInfo<unsigned long, void>, llvm::detail::DenseMapPair<unsigned long, ll=
+vm::GlobalValueSummary*>> const&, llvm::MapVector<llvm::StringRef, llvm::Bi=
+tcodeModule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapIn=
+fo<llvm::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsi=
+gned int>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModul=
+e>, 0u>>*, std::vector<unsigned char, std::allocator<unsigned char>> const&=
+) (lld+0x286978a)
+   #10 0x0000555ee910ed2d std::_Function_handler<void (), std::_Bind<(anony=
+mous namespace)::InProcessThinBackend::start(unsigned int, llvm::BitcodeMod=
+ule, llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsigned l=
+ong>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, llvm::M=
+allocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::DenseMapInfo<=
+llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::GlobalValue::=
+LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<unsigned l=
+ong const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::MapVector<llvm:=
+:StringRef, llvm::BitcodeModule, llvm::DenseMap<llvm::StringRef, unsigned i=
+nt, llvm::DenseMapInfo<llvm::StringRef, void>, llvm::detail::DenseMapPair<l=
+lvm::StringRef, unsigned int>>, llvm::SmallVector<std::pair<llvm::StringRef=
+, llvm::BitcodeModule>, 0u>>&)::'lambda'(llvm::BitcodeModule, llvm::ModuleS=
+ummaryIndex&, llvm::StringMap<std::unordered_set<unsigned long, std::hash<u=
+nsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>=
+, llvm::MallocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::Dens=
+eMapInfo<llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::Glob=
+alValue::LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<u=
+nsigned long const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::DenseM=
+ap<unsigned long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned lo=
+ng, void>, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSumma=
+ry*>> const&, llvm::MapVector<llvm::StringRef, llvm::BitcodeModule, llvm::D=
+enseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llvm::StringRef, =
+void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned int>>, llvm::Sm=
+allVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u>>&) (llvm::Bi=
+tcodeModule, std::reference_wrapper<llvm::ModuleSummaryIndex>, std::referen=
+ce_wrapper<llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsi=
+gned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, l=
+lvm::MallocAllocator> const>, std::reference_wrapper<llvm::DenseSet<llvm::V=
+alueInfo, llvm::DenseMapInfo<llvm::ValueInfo, void>> const>, std::reference=
+_wrapper<std::map<unsigned long, llvm::GlobalValue::LinkageTypes, std::less=
+<unsigned long>, std::allocator<std::pair<unsigned long const, llvm::Global=
+Value::LinkageTypes>>> const>, std::reference_wrapper<llvm::DenseMap<unsign=
+ed long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned long, void>=
+, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSummary*>> con=
+st>, std::reference_wrapper<llvm::MapVector<llvm::StringRef, llvm::BitcodeM=
+odule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llv=
+m::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned i=
+nt>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u=
+>>>)>>::_M_invoke(std::_Any_data const&) LTO.cpp:0:0
+   #11 0x0000555ee741832b std::_Function_handler<void (), llvm::ThreadPool:=
+:createTaskAndFuture(std::function<void ()>)::'lambda'()>::_M_invoke(std::_=
+Any_data const&) (lld+0xb6332b)
+   #12 0x0000555eead42a9b llvm::ThreadPool::processTasks(llvm::ThreadPoolTa=
+skGroup*) (lld+0x448da9b)
+   #13 0x0000555eead433cc void* llvm::thread::ThreadProxy<std::tuple<llvm::=
+ThreadPool::grow(int)::'lambda'()>>(void*) ThreadPool.cpp:0:0
+   #14 0x00007f98e5e1cb7b (/lib/x86_64-linux-gnu/libc.so.6+0x92b7b)
+   #15 0x00007f98e5e9a630 clone (/lib/x86_64-linux-gnu/libc.so.6+0x110630)
+>> /bin/bash: line 1: 946980 Segmentation fault      ld.lld -m elf_x86_64 -=
+mllvm -import-instr-limit=3D5 --mllvm=3D-enable-fs-discriminator=3Dtrue --m=
+llvm=3D-improved-fs-discriminator=3Dtrue -plugin-opt=3Dthinlto -plugin-opt=
+=3D-split-machine-functions -z noexecstack -r -o net/llc/llc2.o @net/llc/ll=
+c2.mod
 
 --
 0-DAY CI Kernel Test Service
