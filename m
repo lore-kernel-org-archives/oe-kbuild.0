@@ -1,325 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AD649DBB9
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Sep 2026 23:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6833A3B531A
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Sep 2026 01:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789688412; cv=none; b=LsY9pU2ZLobFpv/QV1tJz3lQCtML5dJeiFUnbu1DUVdYK0k2z/rvTULpPahOHbxxwHpT66CYJqadjvWj/RVQ7biQMIsPo9GqrmvW7q+ZWJMyVzkBoDeoaRn5kj0gIj+B/rlvFmn+9Nl9she3zYiDxtJTKlVlBPAyPSC3szXzDoI=
+	t=1789696408; cv=none; b=qFZh9yBYNTA9A957HtXey6l22qj4DrWDYwGn1Ie1GTvyqIQhxS96Otjlo4qdiEImNFgoY3kX6sFDpY3hY++HUu2Q1AYUeA5/rF9fJrrdcpbODD8wQtioZi5jskQAvt5qLgy2BiF+t0jiN79uAH0iftrnMBlyjB0AkpiBTjB3uqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789688412; c=relaxed/simple;
-	bh=0Z0NzYbyTwl3gspf11hishlPv7rCCXuvmB4/70uV1jU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=XQI5PQzxBZhJjf9a5hRTa8McD4bZo90wb0PqFDrJPUrFzlgf6XIF/cCZFmmedZjnfvwWr+HGR5PD0sG1wfe1iLrm2r9VylXxjOkXS2vkUQYc2ijjaWNaQn6S4LDnZBOt4WdBUNeRwhQjxgHfdGbtqIgdT5RwcyjkjXQlz4RXZaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEoaL/zj; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789696408; c=relaxed/simple;
+	bh=VNmI/ntxn+CDhd7VvurTDjZdA6u5cYxslhNvDvarcPM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NoRBePvbSGGGAq7FyMgyUdWiDwHZMHhZgzZX3YsHU1g8fzinJ52+poIlWxamVN9KFyt1dMOCPj2gSMxWPu8EVUTL5t7UPU8VBSD9PKnxaj0uWpk08reir9wCiBHDr83gzwLHYUKigdJDA/0cBD1P3nFYtk7c3mw1axhJCWxu534=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFp4YsZ1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEoaL/zj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFp4YsZ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789688409; x=1821224409;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0Z0NzYbyTwl3gspf11hishlPv7rCCXuvmB4/70uV1jU=;
-  b=jEoaL/zjn8oSc7j96c4aSS1SPL2M3SKYN7nRdJZspQLCiSTu3iKmCi4N
-   5AGNdyXrAxPTSEghFwS4yXbCgFezu2Tev+kEIUoGVvi/iq6cLBt9gOAxo
-   TWiDUW8WE5v0olKgRPmwAnZurbIeECdMWUDRtnMLaZNAL/CT1ZX8ZlqLm
-   GPIqy0Ce7xnw8bd3tvd1SxMRSLhEgQ0ZkVY/GKyyTk94hV80dyMHfXwIS
-   PdFCJKWKwf1/pdECnzJ02FTXduLuvy9NkIKPWE2FWIC91lT4UYUuKgCya
-   0yeiDDmxy0erM4i4q+g/d1OxRCH/2f5A2P6XkeoWZL93NJfEw6+xk7T8A
-   A==;
-X-CSE-ConnectionGUID: /CX+iw3nTpifRcCQQZtHVQ==
-X-CSE-MsgGUID: YrYzpKRDTc20dcVgImh3TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100825047"
+  t=1789696403; x=1821232403;
+  h=date:from:to:cc:subject:message-id;
+  bh=VNmI/ntxn+CDhd7VvurTDjZdA6u5cYxslhNvDvarcPM=;
+  b=fFp4YsZ1yLJtLajZ54W31ynGbLXzqev1xryW+gRQ11TeW9nq4gxiP3e4
+   JlHUtSaEL8HMqWmdO96lVicM1Z6wK8hUBMcwUgfGBBqlW3akPQXG0XZbT
+   U8zTdJe/Oy9Yp+dpaLKuCiOcH/TaOOzl6ebbXQW/9FKirA24mXfOn/1dZ
+   fpy7SAlJHEHSfrbHuKYprp+w0cgW0PKr7NUGCto9KLOEc/zlXjWQ0Q0mP
+   K0fuoo8Wt5Tru8dw4EoP6b45RJdsZoPl3CUCO7Tq2KIFK8Rs1JRi2qnC/
+   ET6H9WZl/IhgqoIp+brCU7wvPxSqCtFU502whlzwOEBD5J9X3bV/GVVGZ
+   g==;
+X-CSE-ConnectionGUID: yvHy367/TS2LHAlnLgFUpA==
+X-CSE-MsgGUID: Q/08363oQum3qRnSYaYzcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100771236"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100825047"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 16:40:07 -0700
-X-CSE-ConnectionGUID: BT7/AebRQ7OQuNsjQSDisQ==
-X-CSE-MsgGUID: Q8xGhduzRxSAwAnFQJWCUA==
+   d="scan'208";a="100771236"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 18:53:21 -0700
+X-CSE-ConnectionGUID: GKB43cdKQBmi0kFVncdumg==
+X-CSE-MsgGUID: YQrLXnc9QFejs9DnUKeHxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269799335"
+   d="scan'208";a="297602349"
 Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2026 16:40:06 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2026 18:53:19 -0700
 Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7Lhz-000000000pU-35w9;
-	Thu, 17 Sep 2026 23:40:03 +0000
-Date: Fri, 18 Sep 2026 01:39:25 +0200
+	id 1x7Nmv-000000000uu-2snZ;
+	Fri, 18 Sep 2026 01:53:17 +0000
+Date: Fri, 18 Sep 2026 03:53:03 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-unstable 145/442]
- drivers/clocksource/timer-atmel-pit.c:261 at91sam926x_pit_dt_init() warn:
- 'data->base' from of_iomap() not released on lines: 261.
-Message-ID: <202609180141.f7T3i9rI-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: 
+ drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c:609:35-36:
+ hubp_program_3dlut_fl_config: first occurrence line 640, second occurrence
+ line 646
+Message-ID: <202609180310.9Hdni6sY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: Dave Hansen <dave.hansen@linux.intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Suren Baghdasaryan <surenb@google.com>
-CC: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Roman Li <Roman.Li@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Alex Hung <alex.hung@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unst=
-able
-head:   1ed9cdd724d46119dd9adf0ffba2f2daaa3335ef
-commit: 0a38714e70e5538324eac0dce6dfb1b7dc87a9f2 [145/442] mm: make per-VMA=
- locks available universally
-:::::: branch date: 17 hours ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-r073-20260915 (https://download.01.org/0day-ci/arc=
-hive/20260918/202609180141.f7T3i9rI-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 9e7=
-0d8f070ba046b8e09388fa84b3a65eb2073e3)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5dd1818b15d98d4a20806cd00b1b40320b06004f
+commit: e56e3cff2a1bb29545ddbec562e76c0419363a40 drm/amd/display: Sync dcn42 with DC 3.2.373
+date:   6 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260918/202609180310.9Hdni6sY-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e56e3cff2a1b ("drm/amd/display: Sync dcn42 with DC 3.2.373")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609180141.f7T3i9rI-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609180310.9Hdni6sY-lkp@intel.com/
 
-smatch warnings:
-drivers/clocksource/timer-atmel-pit.c:261 at91sam926x_pit_dt_init() warn: '=
-data->base' from of_iomap() not released on lines: 261.
-drivers/clocksource/timer-atmel-pit.c:261 at91sam926x_pit_dt_init() warn: '=
-data->mck' from clk_prepare_enable() not released on lines: 261.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c:609:35-36: hubp_program_3dlut_fl_config: first occurrence line 640, second occurrence line 646
 
-vim +261 drivers/clocksource/timer-atmel-pit.c
+vim +609 drivers/gpu/drm/amd/display/dc/hubp/dcn42/dcn42_hubp.c
 
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  162 =20
-1a0ed732afdbd4 arch/arm/mach-at91rm9200/at91sam926x_time.c Andrew Victor   =
-  2006-12-01  163  /*
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  164   * Set up both clocksource and clockevent support.
-1a0ed732afdbd4 arch/arm/mach-at91rm9200/at91sam926x_time.c Andrew Victor   =
-  2006-12-01  165   */
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  166  static int __init at91sam926x_pit_dt_init(struct device_=
-node *node)
-1a0ed732afdbd4 arch/arm/mach-at91rm9200/at91sam926x_time.c Andrew Victor   =
-  2006-12-01  167  {
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  168  	unsigned long   pit_rate;
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  169  	unsigned        bits;
-986c265729cb79 arch/arm/mach-at91/at91sam926x_time.c       Nicolas Ferre   =
-  2012-02-17  170  	int             ret;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  171  	struct pit_data *data;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  172 =20
-bf4afc53b77aea drivers/clocksource/timer-atmel-pit.c       Linus Torvalds  =
-  2026-02-21  173  	data =3D kzalloc_obj(*data);
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  174  	if (!data)
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  175  		return -ENOMEM;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  176 =20
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  177  	data->base =3D of_iomap(node, 0);
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  178  	if (!data->base) {
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  179  		pr_err("Could not map PIT address\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  180  		ret =3D -ENXIO;
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  181  		goto exit;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  182  	}
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  183 =20
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  184  	data->mck =3D of_clk_get(node, 0);
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  185  	if (IS_ERR(data->mck)) {
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  186  		pr_err("Unable to get mck clk\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  187  		ret =3D PTR_ERR(data->mck);
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  188  		goto exit;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  189  	}
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  190 =20
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  191  	ret =3D clk_prepare_enable(data->mck);
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  192  	if (ret) {
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  193  		pr_err("Unable to enable mck\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  194  		goto exit;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  195  	}
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  196 =20
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  197  	/* Get the interrupts property */
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  198  	data->irq =3D irq_of_parse_and_map(node, 0);
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  199  	if (!data->irq) {
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  200  		pr_err("Unable to get IRQ from DT\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  201  		ret =3D -EINVAL;
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  202  		goto exit;
-a17686c462441a drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2016-09-09  203  	}
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  204 =20
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  205  	/*
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  206  	 * Use our actual MCK to figure out how many MCK/16 tic=
-ks per
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  207  	 * 1/HZ period (instead of a compile-time constant LATC=
-H).
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  208  	 */
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  209  	pit_rate =3D clk_get_rate(data->mck) / 16;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  210  	data->cycle =3D DIV_ROUND_CLOSEST(pit_rate, HZ);
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  211  	WARN_ON(((data->cycle - 1) & ~AT91_PIT_PIV) !=3D 0);
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  212 =20
-1a0ed732afdbd4 arch/arm/mach-at91rm9200/at91sam926x_time.c Andrew Victor   =
-  2006-12-01  213  	/* Initialize and enable the timer */
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  214  	at91sam926x_pit_reset(data);
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  215 =20
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  216  	/*
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  217  	 * Register clocksource.  The high order bits of PIV ar=
-e unused,
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  218  	 * so this isn't a 32-bit counter unless we get clockev=
-ent irqs.
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  219  	 */
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  220  	bits =3D 12 /* PICNT */ + ilog2(data->cycle) /* PIV */;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  221  	data->clksrc.mask =3D CLOCKSOURCE_MASK(bits);
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  222  	data->clksrc.name =3D "pit";
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  223  	data->clksrc.rating =3D 175;
-005e56272b2819 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2015-08-04  224  	data->clksrc.read =3D read_pit_clk;
-005e56272b2819 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2015-08-04  225  	data->clksrc.flags =3D CLOCK_SOURCE_IS_CONTINUOUS;
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  226  =09
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  227  	ret =3D clocksource_register_hz(&data->clksrc, pit_rate=
-);
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  228  	if (ret) {
-ac9ce6d1a0cc29 drivers/clocksource/timer-atmel-pit.c       Rafa=C5=82 Mi=C5=
-=82ecki     2017-03-09  229  		pr_err("Failed to register clocksource\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  230  		goto exit;
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  231  	}
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  232 =20
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  233  	/* Set up irq handler */
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  234  	ret =3D request_irq(data->irq, at91sam926x_pit_interrup=
-t,
-7f282e0137bfe7 arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  235  			  IRQF_SHARED | IRQF_TIMER | IRQF_IRQPOLL,
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  236  			  "at91_tick", data);
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  237  	if (ret) {
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  238  		pr_err("Unable to setup IRQ\n");
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  239  		clocksource_unregister(&data->clksrc);
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  240  		goto exit;
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  241  	}
-1a0ed732afdbd4 arch/arm/mach-at91rm9200/at91sam926x_time.c Andrew Victor   =
-  2006-12-01  242 =20
-ad48ce74f70a20 arch/arm/mach-at91/at91sam926x_time.c       Andrew Victor   =
-  2008-04-16  243  	/* Set up and register clockevents */
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  244  	data->clkevt.name =3D "pit";
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  245  	data->clkevt.features =3D CLOCK_EVT_FEAT_PERIODIC;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  246  	data->clkevt.shift =3D 32;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  247  	data->clkevt.mult =3D div_sc(pit_rate, NSEC_PER_SEC, da=
-ta->clkevt.shift);
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  248  	data->clkevt.rating =3D 100;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  249  	data->clkevt.cpumask =3D cpumask_of(0);
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  250 =20
-85250fb89be379 drivers/clocksource/timer-atmel-pit.c       Viresh Kumar    =
-  2015-06-18  251  	data->clkevt.set_state_shutdown =3D pit_clkevt_shutdown;
-85250fb89be379 drivers/clocksource/timer-atmel-pit.c       Viresh Kumar    =
-  2015-06-18  252  	data->clkevt.set_state_periodic =3D pit_clkevt_set_peri=
-odic;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  253  	data->clkevt.resume =3D at91sam926x_pit_resume;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  254  	data->clkevt.suspend =3D at91sam926x_pit_suspend;
-64568d1dbd673a arch/arm/mach-at91/at91sam926x_time.c       Maxime Ripard   =
-  2014-07-01  255  	clockevents_register_device(&data->clkevt);
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  256 =20
-504f34c9e45cf8 drivers/clocksource/timer-atmel-pit.c       Daniel Lezcano  =
-  2016-06-06  257  	return 0;
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  258 =20
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  259  exit:
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25  260  	kfree(data);
-52bf4a900d9ced drivers/clocksource/timer-atmel-pit.c       Alexandre Bellon=
-i 2018-04-25 @261  	return ret;
+bd096a56da7cad Roman Li 2026-02-02  608  
+bd096a56da7cad Roman Li 2026-02-02 @609  struct hubp_funcs dcn42_hubp_funcs = {
+bd096a56da7cad Roman Li 2026-02-02  610  	.hubp_enable_tripleBuffer = hubp2_enable_triplebuffer,
+bd096a56da7cad Roman Li 2026-02-02  611  	.hubp_is_triplebuffer_enabled = hubp2_is_triplebuffer_enabled,
+bd096a56da7cad Roman Li 2026-02-02  612  	.hubp_program_surface_flip_and_addr = hubp42_program_surface_flip_and_addr,
+bd096a56da7cad Roman Li 2026-02-02  613  	.hubp_program_surface_config = hubp42_program_surface_config,
+bd096a56da7cad Roman Li 2026-02-02  614  	.hubp_is_flip_pending = hubp2_is_flip_pending,
+bd096a56da7cad Roman Li 2026-02-02  615  	.hubp_setup2 = hubp42_setup,
+bd096a56da7cad Roman Li 2026-02-02  616  	.hubp_setup_interdependent2 = hubp401_setup_interdependent,
+bd096a56da7cad Roman Li 2026-02-02  617  	.hubp_set_vm_system_aperture_settings = hubp3_set_vm_system_aperture_settings,
+bd096a56da7cad Roman Li 2026-02-02  618  	.set_blank = hubp2_set_blank,
+e56e3cff2a1bb2 Roman Li 2026-03-05  619  	.set_blank_regs = hubp2_set_blank_regs,
+bd096a56da7cad Roman Li 2026-02-02  620  	.dcc_control = hubp3_dcc_control,
+bd096a56da7cad Roman Li 2026-02-02  621  	.hubp_reset = hubp_reset,
+bd096a56da7cad Roman Li 2026-02-02  622  	.mem_program_viewport = min_set_viewport,
+bd096a56da7cad Roman Li 2026-02-02  623  	.set_cursor_attributes	= hubp32_cursor_set_attributes,
+bd096a56da7cad Roman Li 2026-02-02  624  	.set_cursor_position	= hubp401_cursor_set_position,
+bd096a56da7cad Roman Li 2026-02-02  625  	.hubp_clk_cntl = hubp2_clk_cntl,
+bd096a56da7cad Roman Li 2026-02-02  626  	.hubp_vtg_sel = hubp2_vtg_sel,
+bd096a56da7cad Roman Li 2026-02-02  627  	.dmdata_set_attributes = hubp3_dmdata_set_attributes,
+bd096a56da7cad Roman Li 2026-02-02  628  	.dmdata_load = hubp2_dmdata_load,
+bd096a56da7cad Roman Li 2026-02-02  629  	.dmdata_status_done = hubp2_dmdata_status_done,
+bd096a56da7cad Roman Li 2026-02-02  630  	.hubp_read_state = hubp42_read_state,
+bd096a56da7cad Roman Li 2026-02-02  631  	.hubp_clear_underflow = hubp2_clear_underflow,
+bd096a56da7cad Roman Li 2026-02-02  632  	.hubp_set_flip_control_surface_gsl = hubp2_set_flip_control_surface_gsl,
+bd096a56da7cad Roman Li 2026-02-02  633  	.hubp_init = hubp42_init,
+bd096a56da7cad Roman Li 2026-02-02  634  	.set_unbounded_requesting = hubp31_set_unbounded_requesting,
+bd096a56da7cad Roman Li 2026-02-02  635  	.hubp_soft_reset = hubp31_soft_reset,
+bd096a56da7cad Roman Li 2026-02-02  636  	.hubp_set_flip_int = hubp1_set_flip_int,
+bd096a56da7cad Roman Li 2026-02-02  637  	.hubp_in_blank = hubp1_in_blank,
+bd096a56da7cad Roman Li 2026-02-02  638  	.program_extended_blank = hubp31_program_extended_blank_value,
+bd096a56da7cad Roman Li 2026-02-02  639  	.hubp_program_3dlut_fl_addr = hubp401_program_3dlut_fl_addr,
+e56e3cff2a1bb2 Roman Li 2026-03-05 @640  	.hubp_program_3dlut_fl_config = hubp42_program_3dlut_fl_config,
+bd096a56da7cad Roman Li 2026-02-02  641  	.hubp_program_3dlut_fl_dlg_param = hubp401_program_3dlut_fl_dlg_param,
+bd096a56da7cad Roman Li 2026-02-02  642  	.hubp_enable_3dlut_fl = hubp401_enable_3dlut_fl,
+bd096a56da7cad Roman Li 2026-02-02  643  	.hubp_program_3dlut_fl_crossbar = hubp42_program_3dlut_fl_crossbar,
+bd096a56da7cad Roman Li 2026-02-02  644  	.hubp_get_3dlut_fl_done = hubp401_get_3dlut_fl_done,
+e56e3cff2a1bb2 Roman Li 2026-03-05  645  	.hubp_clear_tiling = hubp3_clear_tiling,
+bd096a56da7cad Roman Li 2026-02-02 @646  	.hubp_program_3dlut_fl_config = hubp401_program_3dlut_fl_config,
+bd096a56da7cad Roman Li 2026-02-02  647  	.hubp_read_reg_state = hubp3_read_reg_state
+bd096a56da7cad Roman Li 2026-02-02  648  };
+bd096a56da7cad Roman Li 2026-02-02  649  
 
-:::::: The code at line 261 was first introduced by commit
-:::::: 52bf4a900d9cede3eb14982d0f2c5e6db6d97cc3 clocksource/drivers/timer-a=
-tmel-pit: Properly handle error cases
+:::::: The code at line 609 was first introduced by commit
+:::::: bd096a56da7cad1c93c0138a64478b43f5a94736 drm/amd/display: Add dcn42 DC resources
 
-:::::: TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: TO: Roman Li <Roman.Li@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
