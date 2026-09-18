@@ -1,170 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F140212564
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Sep 2026 17:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3541F51CF5A
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Sep 2026 18:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752871; cv=none; b=VMIIqtY7tMX638bmql8eyibthnJfvegVrkeow4k/6v65AjdClMpEkDRqXsBngFrtRn0e+d+u0NckdNEDhSKmAD6VHohUD9mxoXkdCLTTY9xrrW32nP9Iuv+18Y7zoTGGFc4dEJm36MMxmXPibIbzH/X7OPqpyXJynirKHHK2cYs=
+	t=1789755594; cv=none; b=cPz6fn3tEHEOsTTfoEcfIMJHhotx9pOZIs5VOWL8fv8MXRQDKx6taPsBIXQ1yQjRGpWXzorgy4kzivlT9SY9rt56hSat/wVss62dklyuJqMK15Av9s+cfw9YTqjOeclWMCd5YqxUf3aBwT9nblIqxuI92E0bsruxTuBxBcm65X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752871; c=relaxed/simple;
-	bh=uvEoJKL/I2ABd2wvaYIqZbbgd70X4ki7U9F/nAKS+Ak=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bvmnSsBQg24Azpv80zaD25m3MGrDoeXQ/DvhO1xWxsWIkNnO5XBEv1aR617FJ9KKbse3/KUjOMvPxvv0THX+8fzG1MT+sP8eeNj0VjbTVMd35PxNXRmNyTk/lqBP04QREe7SvllR2zR2m3aa0YWGjPe9DeGl2ZlEyAijYL2lwSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YM2gpaMg; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1789755594; c=relaxed/simple;
+	bh=sHL63nNedruiZZPa9wZQPsE0UwyGT+lNFwLgD0K3eCI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pSgdbRr7JWQVhIZ8D/yvw63GsA/sozTjC9SKqyam1VJtuV6sGlB/cPhwhJ1b8ntMKL+L58VmukGZziUrbpVv1m/Rry3Ef8W5dYc0E8kOMR1v9EHPYu4OFkeX4kLbpq9BvJAIdw7ggAYRbko2++0rmjGn2ZVtlPFswU60Qijqt4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXYxtIp6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YM2gpaMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXYxtIp6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789752863; x=1821288863;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uvEoJKL/I2ABd2wvaYIqZbbgd70X4ki7U9F/nAKS+Ak=;
-  b=YM2gpaMgahweDh1YFHoCU6MV+TPm05wSJIAvVOe07P/lksZ2xiz6VSjl
-   Sdl8LsulGskvr34qGP+h0JUs3Fa7H9wTQhi6ZKq88WKuKIE+pNu4fHBY6
-   L3qGRn07j7bcuTK/1nGAvMOnsrPGMReTdubb/Q0NIStME3vb4DXiDhrEa
-   SY6w3q9rz1RVkhfGB8/rT1IDvfgeCtr7v7T32s1uyv5PTzj2ufqHs/bQA
-   a4+NZDJNMaF7TcY5JgOQLhzk/EBSgqxbh8MS440eERl33s0gKGobRmeYG
-   UkKkze7QQ+/EOSEcyc2pUSMgKlMFAsM+tdgfyg1t/poogO+WT7Aev7gLy
-   Q==;
-X-CSE-ConnectionGUID: /HCmLK4AR66IJFzgY3ApgQ==
-X-CSE-MsgGUID: b7KaTspUQT22cVEpAlZOaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="90142972"
+  t=1789755591; x=1821291591;
+  h=date:from:to:cc:subject:message-id;
+  bh=sHL63nNedruiZZPa9wZQPsE0UwyGT+lNFwLgD0K3eCI=;
+  b=GXYxtIp6RYj3M9halXAMVuXqLpynDn2fRzuH2lBFvqC/RE7mt4h1r0zy
+   Uw8TF8Z8YdyhptRWM37owoSVfQs097ni3kJG2jrkh+N2CI4QL5JaJJNTf
+   UPU9AES+kqRHjwvXbDpiqyfz1HqtPUsrWrcz+Dx6uMKYoY7AEQVP2fYcP
+   T4TJ5AF7Tw7dPsVH4mY+WUMADmfmR0qiLUukhDR5GIvo5wJj7jTqiODPA
+   bQQjEHpMABWB/ph8NURG+v4/1qGgOrWkTLS2l8Kk+n/kQ23Z+zGjqLxiT
+   cqk8SoVv+FvHEsQO9rH2KEHF85tCLxrSA3pWQ82IUgWUJymHpSkGN3sLq
+   w==;
+X-CSE-ConnectionGUID: THgNzOqGRN+voEynM2Nexg==
+X-CSE-MsgGUID: wKHP2ixJSW+Z/f9NVu3Gyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="90296961"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="90142972"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 10:34:19 -0700
-X-CSE-ConnectionGUID: UNG8WhMDSRqRX9UtaINmWw==
-X-CSE-MsgGUID: lCjWPiWNREmhk5rjASOEMg==
+   d="scan'208";a="90296961"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 11:19:51 -0700
+X-CSE-ConnectionGUID: U0rnTYeNSCmXBnUm8flLRw==
+X-CSE-MsgGUID: ZpsTjiEATS6820tD0qB6dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="2736315"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 18 Sep 2026 10:34:18 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="271190849"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Sep 2026 11:19:49 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7cTX-00000000A9t-2cdp;
-	Fri, 18 Sep 2026 17:34:15 +0000
-Date: Sat, 19 Sep 2026 01:33:56 +0800
+	id 1x7dBX-000000001A3-1EbJ;
+	Fri, 18 Sep 2026 18:19:43 +0000
+Date: Fri, 18 Sep 2026 20:19:27 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: 
- drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse:
- sparse: not a function init
-Message-ID: <202609190138.tgpK7aeQ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/riscv/kernel/signal.c:196 __restore_cfiss_state() warn:
+ maybe return -EFAULT instead of the bytes remaining?
+Message-ID: <202609182005.wS9nDDeW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse: sparse: not a=
- function init"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Imre Deak <imre.deak@intel.com>
-CC: "Micha=C5=82 Grzelak" <michal.grzelak@intel.com>
+TO: Deepak Gupta <debug@rivosinc.com>
+CC: Paul Walmsley <pjw@kernel.org>
+CC: Andy Chiu <andy.chiu@sifive.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: 2eb9982ff179e648675b6c5b345b9ed509fc3361 drm/i915/kunit: Export lin=
-k training and caps funcs for testing
-date:   2 months ago
-:::::: branch date: 3 days ago
-:::::: commit date: 2 months ago
-config: i386-randconfig-1300-20260918 (https://download.01.org/0day-ci/arch=
-ive/20260919/202609190138.tgpK7aeQ-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
-48fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260919/202609190138.tgpK7aeQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f259f446f5198d98e13756d2cd531812a0ad3064
+commit: 66c9c713de597f9b40a319ebda4d3466ce2cdff0 riscv/signal: save and restore the shadow stack on a signal
+date:   8 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 months ago
+config: riscv-randconfig-r2201-20260918 (https://download.01.org/0day-ci/archive/20260918/202609182005.wS9nDDeW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2eb9982ff179 ("drm/i915/kunit: Export link training and caps funcs=
- for testing")
+| Fixes: 66c9c713de59 ("riscv/signal: save and restore the shadow stack on a signal")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609190138.tgpK7aeQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609182005.wS9nDDeW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse: s=
-parse: not a function init
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:83:36: sparse: s=
-parse: not a function cleanup
+New smatch warnings:
+arch/riscv/kernel/signal.c:196 __restore_cfiss_state() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +72 drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c
+Old smatch warnings:
+arch/riscv/kernel/signal.c:52 restore_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:66 save_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:132 __restore_v_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:142 __restore_v_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:228 restore_sigcontext() warn: maybe return -EFAULT instead of the bytes remaining?
 
-d3340e92be326c1 Imre Deak 2026-07-01  46 =20
-d3340e92be326c1 Imre Deak 2026-07-01  47  static int intel_dp_link_test_ini=
-t(struct kunit *test)
-d3340e92be326c1 Imre Deak 2026-07-01  48  {
-df152476d00a46b Imre Deak 2026-07-01  49  	struct intel_digital_port *dig_p=
-ort;
-df152476d00a46b Imre Deak 2026-07-01  50  	struct intel_encoder *encoder;
-df152476d00a46b Imre Deak 2026-07-01  51  	struct intel_dp *intel_dp;
-df152476d00a46b Imre Deak 2026-07-01  52 =20
-df152476d00a46b Imre Deak 2026-07-01  53  	/* Reset the dev state for each =
-test. */
-df152476d00a46b Imre Deak 2026-07-01  54  	memset(&test_ctx.dev, 0, sizeof(=
-test_ctx.dev));
-df152476d00a46b Imre Deak 2026-07-01  55 =20
-df152476d00a46b Imre Deak 2026-07-01  56  	test_ctx.dev.generic_device.drm.=
-dev =3D &test_ctx.dev.device;
-df152476d00a46b Imre Deak 2026-07-01  57 =20
-df152476d00a46b Imre Deak 2026-07-01  58  	test_ctx.dev.display.drm =3D &te=
-st_ctx.dev.generic_device.drm;
-df152476d00a46b Imre Deak 2026-07-01  59  	test_ctx.dev.generic_device.disp=
-lay =3D &test_ctx.dev.display;
-df152476d00a46b Imre Deak 2026-07-01  60 =20
-df152476d00a46b Imre Deak 2026-07-01  61  	encoder =3D &test_ctx.dev.dig_po=
-rt.base;
-df152476d00a46b Imre Deak 2026-07-01  62  	encoder->base.dev =3D &test_ctx.=
-dev.generic_device.drm;
-df152476d00a46b Imre Deak 2026-07-01  63 =20
-df152476d00a46b Imre Deak 2026-07-01  64  	dig_port =3D &test_ctx.dev.dig_p=
-ort;
-df152476d00a46b Imre Deak 2026-07-01  65  	dig_port->base.type =3D INTEL_OU=
-TPUT_DP;
-df152476d00a46b Imre Deak 2026-07-01  66 =20
-df152476d00a46b Imre Deak 2026-07-01  67  	test_ctx.dev.connector.encoder =
-=3D encoder;
-df152476d00a46b Imre Deak 2026-07-01  68 =20
-df152476d00a46b Imre Deak 2026-07-01  69  	intel_dp =3D &dig_port->dp;
-df152476d00a46b Imre Deak 2026-07-01  70  	intel_dp->attached_connector =3D =
-&test_ctx.dev.connector;
-df152476d00a46b Imre Deak 2026-07-01  71 =20
-2eb9982ff179e64 Imre Deak 2026-07-01 @72  	intel_dp->link.caps =3D test_ctx=
-.link_caps_ops->init(intel_dp);
-2eb9982ff179e64 Imre Deak 2026-07-01  73 =20
-d3340e92be326c1 Imre Deak 2026-07-01  74  	test->priv =3D &test_ctx;
-d3340e92be326c1 Imre Deak 2026-07-01  75 =20
-d3340e92be326c1 Imre Deak 2026-07-01  76  	return 0;
-d3340e92be326c1 Imre Deak 2026-07-01  77  }
-d3340e92be326c1 Imre Deak 2026-07-01  78 =20
-d3340e92be326c1 Imre Deak 2026-07-01  79  static void intel_dp_link_test_ex=
-it(struct kunit *test)
-d3340e92be326c1 Imre Deak 2026-07-01  80  {
-2eb9982ff179e64 Imre Deak 2026-07-01  81  	struct test_ctx *ctx =3D test->p=
-riv;
-2eb9982ff179e64 Imre Deak 2026-07-01  82 =20
-2eb9982ff179e64 Imre Deak 2026-07-01 @83  	ctx->link_caps_ops->cleanup(ctx-=
->dev.dig_port.dp.link.caps);
-d3340e92be326c1 Imre Deak 2026-07-01  84  }
-d3340e92be326c1 Imre Deak 2026-07-01  85 =20
+vim +196 arch/riscv/kernel/signal.c
+
+66c9c713de597f Deepak Gupta 2026-01-25  173  
+66c9c713de597f Deepak Gupta 2026-01-25  174  static long __restore_cfiss_state(struct pt_regs *regs, void __user *sc_cfi)
+66c9c713de597f Deepak Gupta 2026-01-25  175  {
+66c9c713de597f Deepak Gupta 2026-01-25  176  	struct __sc_riscv_cfi_state __user *state = sc_cfi;
+66c9c713de597f Deepak Gupta 2026-01-25  177  	unsigned long ss_ptr = 0;
+66c9c713de597f Deepak Gupta 2026-01-25  178  	long err;
+66c9c713de597f Deepak Gupta 2026-01-25  179  
+66c9c713de597f Deepak Gupta 2026-01-25  180  	/*
+66c9c713de597f Deepak Gupta 2026-01-25  181  	 * Restore shadow stack as a form of token stored on the shadow stack itself as a safe
+66c9c713de597f Deepak Gupta 2026-01-25  182  	 * way to restore.
+66c9c713de597f Deepak Gupta 2026-01-25  183  	 * A token on the shadow stack gives the following properties:
+66c9c713de597f Deepak Gupta 2026-01-25  184  	 * - Safe save and restore for shadow stack switching. Any save of shadow stack
+66c9c713de597f Deepak Gupta 2026-01-25  185  	 *   must have saved a token on shadow stack. Similarly any restore of shadow
+66c9c713de597f Deepak Gupta 2026-01-25  186  	 *   stack must check the token before restore. Since writing to a shadow stack with
+66c9c713de597f Deepak Gupta 2026-01-25  187  	 *   the address of shadow stack itself is not easily allowed, a restore without a save
+66c9c713de597f Deepak Gupta 2026-01-25  188  	 *   is quite difficult for an attacker to perform.
+66c9c713de597f Deepak Gupta 2026-01-25  189  	 * - A natural break. A token in the shadow stack provides a natural break in shadow stack
+66c9c713de597f Deepak Gupta 2026-01-25  190  	 *   So a single linear range can be bucketed into different shadow stack segments.
+66c9c713de597f Deepak Gupta 2026-01-25  191  	 *   sspopchk will detect the condition and fault to kernel as a sw check exception.
+66c9c713de597f Deepak Gupta 2026-01-25  192  	 */
+66c9c713de597f Deepak Gupta 2026-01-25  193  	err = __copy_from_user(&ss_ptr, &state->ss_ptr, sizeof(unsigned long));
+66c9c713de597f Deepak Gupta 2026-01-25  194  
+66c9c713de597f Deepak Gupta 2026-01-25  195  	if (unlikely(err))
+66c9c713de597f Deepak Gupta 2026-01-25 @196  		return err;
+66c9c713de597f Deepak Gupta 2026-01-25  197  
+66c9c713de597f Deepak Gupta 2026-01-25  198  	return restore_user_shstk(current, ss_ptr);
+66c9c713de597f Deepak Gupta 2026-01-25  199  }
+66c9c713de597f Deepak Gupta 2026-01-25  200  
 
 --
 0-DAY CI Kernel Test Service
