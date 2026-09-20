@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C054375AAB
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Sep 2026 21:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BBB1799F
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Sep 2026 04:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789853336; cv=none; b=Dyxr8jrtn1aOG6wS0dPdYH+hwOmX1hT2Xd7HmAG3rGca+bh5rk/cAwwwwpMDiz/sy+/+YSLvZtPL6QMSZoPYHwnbcMVtWl0loFE3JEeyRCGD9ba+IdNpWpoTu6VZUT9YY5KOfDUHIWyqKOkgi9NmGSrfmbvztTGOGM02/Chwc6c=
+	t=1789879091; cv=none; b=lrkAVqkjpj7+G2ouefQBcUnknBtnQSA+vP3C5e+3D5njNY16XlX2TR/TjcngxosEMMnkoGPbCSBuy9H2HuYSMGaIoJzJ+J0EkNF/h/q1laJNcZ5UW8nhRz6dK05wn2davWB8PXAtAhfNyjovnXupZVx5bTB4tK0GJpBb84NdLfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789853336; c=relaxed/simple;
-	bh=kIUpSxlWBtwUl8HGWe7i81QghGnn+nzZ9W2AbO256+g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lMvygdc9834jFjv83caMLUSBkmAYVAml2ReihNfl4GWI0S2JjUuu5ahWbsxXZ/v9psMFhGflIcr+xCqPXqEQ7Q7u1WaUlqhqrPHG948NUBvRlWSpy9DRcYgacH35aVRXQ/5P9D5+/Q793HuEWAar1Ox0CBnoA/oHMrwkVJB2zvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtOOiJEu; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789879091; c=relaxed/simple;
+	bh=KfvaZiScBwDihDOHgMaIpTCAcVOvrR54A2KBGJZKAE8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UgoRXa6lMbPZsT9/A5RnnmRMoVoZMAa8e58QXsqSXpupsDwXEjSAyA8O20/wuGofvGfxwOjT396h19NXCYP1aRdpdaJ4tRUCT79guQyoGFMSP5u/RH1AN8A48QlB2arnWe8xWniGdydP41KiOFOewdPh32xyvbMh7qi6FFMqzq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTY7ksdA; arc=none smtp.client-ip=192.198.163.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtOOiJEu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTY7ksdA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789853331; x=1821389331;
+  t=1789879088; x=1821415088;
   h=date:from:to:cc:subject:message-id;
-  bh=kIUpSxlWBtwUl8HGWe7i81QghGnn+nzZ9W2AbO256+g=;
-  b=mtOOiJEucRMiQAbJdxX7eNZxOyhzPFLSglSbpYJoKnq6VMoT77srWBlP
-   e0YhCg9XYPVJcEBCbCa3PC3rg5KBv2AsBfc/0z8OVN3MjK8Di/C05N6LH
-   OKbj+KYmEzDAhw3Lgyj7S2D4dAl4oPI6un/KZjpfkVIcL8T2D32GNF6sq
-   VBkeWMlGVuCsXoPX6Uygzc+bMb3MVz1rlsduVeUCjT3zcV4vp9rjqnrmg
-   XIHpSop1+ZXOArbqn06WKymC2l9YKpOUxbbAvZxo+IxbaYprjbYEy9In1
-   pKXoMOawt2oW2sjgwI0ecW6oLTFD4QXpxbmKrVo+TpM/UClmi9vzV7zkH
-   g==;
-X-CSE-ConnectionGUID: /UVmGvNrRcydaYyyCY+bEQ==
-X-CSE-MsgGUID: Fyb0hOFRSgm5MfJ1pAZCpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="101035604"
+  bh=KfvaZiScBwDihDOHgMaIpTCAcVOvrR54A2KBGJZKAE8=;
+  b=gTY7ksdAQRY7HT34IGittLSL37LCGiXbQtKdw1zYNEZ/y8c1JvUMSND2
+   eSXMpIapWFemxsM0/Km8lRCJHBsYSJY316qGhHL16Mdu7cLopmM0jzj7u
+   qS/UJNDoNUjxmQYven4SO372aliwREVquSzxtTvq+LKGSCgLQDllnQCBA
+   YmBwja9WykeZHryj5rB8ljPsJ5N72ctXbOrf7kAIWea2yAFOdzLIIFuXR
+   1TboYSZzPeffspx8mqYeXoYvpjji7jBsy/8mhLELCNI/OIe7H3wR3B8oc
+   47OfTfApS8WH6ZCw14oHStw9wtob/m4JBBEkUvOSfIrhfmudXtC7YTzwX
+   w==;
+X-CSE-ConnectionGUID: Wjw3VqpjQj6y6F9zN88pYA==
+X-CSE-MsgGUID: gzGivIJyTc+JvsI+85Zn6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="897536"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="101035604"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 14:28:51 -0700
-X-CSE-ConnectionGUID: FqgiuFLoSDiEN5xY8sIGdQ==
-X-CSE-MsgGUID: QlYcRIBUSUqX+LxJAP4e1Q==
+   d="scan'208";a="897536"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 21:38:07 -0700
+X-CSE-ConnectionGUID: VPOGpSjHTE6tFpD5bkASrg==
+X-CSE-MsgGUID: 3ExYnF/0QIqG/2tHfjuPoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="280115146"
+   d="scan'208";a="271655414"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Sep 2026 14:28:49 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Sep 2026 21:38:06 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x82bz-00000000BOg-42vF;
-	Sat, 19 Sep 2026 21:28:43 +0000
-Date: Sun, 20 Sep 2026 05:28:36 +0800
+	id 1x89JU-00000000Br9-0C5V;
+	Sun, 20 Sep 2026 04:38:04 +0000
+Date: Sun, 20 Sep 2026 12:37:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/iio/magnetometer/qmc5883l.c:377:8: error: call to
- '__compiletime_assert_550' declared with 'error' attribute: FIELD_PREP: value
- too large for the field
-Message-ID: <202609200507.P4xzgH2G-lkp@intel.com>
+Subject: lib/raid/raid6/arm/recov_neon_inner.c:50:9: sparse: sparse:
+ Trying to use reserved word 'while' as identifier
+Message-ID: <202609201223.5TF643uc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,149 +60,172 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "low confidence static check warning: lib/raid/raid6/arm/recov_neon_inner.c:50:9: sparse: sparse: Trying to use reserved word 'while' as identifier"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Siratul Islam <siratul.islam@linux.dev>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>
-
-Hi Siratul,
-
-FYI, the error/warning still remains.
+TO: Christoph Hellwig <hch@lst.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f259f446f5198d98e13756d2cd531812a0ad3064
-commit: e8349f9473423fdd357da33eec628d5ea9c555f5 iio: magnetometer: add driver for QST QMC5883L Sensor
-date:   3 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 months ago
-config: s390-randconfig-r1300-20260920 (https://download.01.org/0day-ci/archive/20260920/202609200507.P4xzgH2G-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 05d706e9a816dbf9eff31f47869f53d6fe796089)
+commit: 3626738bc7147d52cb49f3994a9846aa2d34810a raid6: move to lib/raid/
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-r1301-20260920 (https://download.01.org/0day-ci/archive/20260920/202609201223.5TF643uc-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609200507.P4xzgH2G-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201223.5TF643uc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e8349f947342 ("iio: magnetometer: add driver for QST QMC5883L Sensor")
+| Fixes: 3626738bc714 ("raid6: move to lib/raid/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609200507.P4xzgH2G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609201223.5TF643uc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/raid/raid6/arm/recov_neon_inner.c: note: in included file:
+   /opt/cross/clang-2078da43e2/lib/clang/21/include/arm_neon.h:30:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid/raid6/arm/recov_neon_inner.c: note: in included file:
+   lib/raid/raid6/arm/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon.h:15:50: sparse: sparse: got *
+   lib/raid/raid6/arm/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon.h:19:50: sparse: sparse: got *
+   lib/raid/raid6/arm/recov_neon_inner.c:28:50: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/recov_neon_inner.c:28:50: sparse: sparse: got *
+   lib/raid/raid6/arm/recov_neon_inner.c:33:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:33:20: sparse: sparse: got pm1
+   lib/raid/raid6/arm/recov_neon_inner.c:34:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:34:20: sparse: sparse: got qm0
+   lib/raid/raid6/arm/recov_neon_inner.c:35:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:35:20: sparse: sparse: got qm1
+   lib/raid/raid6/arm/recov_neon_inner.c:36:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:36:20: sparse: sparse: got x0f
+>> lib/raid/raid6/arm/recov_neon_inner.c:50:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+>> lib/raid/raid6/arm/recov_neon_inner.c:50:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid/raid6/arm/recov_neon_inner.c:51:28: sparse: sparse: Expected ; at end of statement
+   lib/raid/raid6/arm/recov_neon_inner.c:51:28: sparse: sparse: got vx
+   lib/raid/raid6/arm/recov_neon_inner.c:76:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:76:1: sparse: sparse: got }
+   lib/raid/raid6/arm/recov_neon_inner.c:82:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:82:20: sparse: sparse: got qm1
+   lib/raid/raid6/arm/recov_neon_inner.c:83:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:83:20: sparse: sparse: got x0f
+   lib/raid/raid6/arm/recov_neon_inner.c:92:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+   lib/raid/raid6/arm/recov_neon_inner.c:92:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid/raid6/arm/recov_neon_inner.c:93:28: sparse: sparse: Expected ; at end of statement
+   lib/raid/raid6/arm/recov_neon_inner.c:93:28: sparse: sparse: got vx
+   lib/raid/raid6/arm/recov_neon_inner.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/recov_neon_inner.c:53:17: sparse: sparse: undefined identifier 'px'
+   lib/raid/raid6/arm/recov_neon_inner.c:53:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:54:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:54:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:56:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:56:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:57:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:57:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:58:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:58:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:59:17: sparse: sparse: undefined identifier 'qx'
+   lib/raid/raid6/arm/recov_neon_inner.c:59:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:61:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:61:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:62:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:62:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:63:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:63:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:64:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:64:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:65:17: sparse: sparse: undefined identifier 'db'
+   lib/raid/raid6/arm/recov_neon_inner.c:65:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:67:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:68:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:71:17: sparse: sparse: undefined identifier 'p'
+   lib/raid/raid6/arm/recov_neon_inner.c:72:17: sparse: sparse: undefined identifier 'q'
+   lib/raid/raid6/arm/recov_neon_inner.c:73:17: sparse: sparse: undefined identifier 'dp'
+   lib/raid/raid6/arm/recov_neon_inner.c:74:17: sparse: sparse: undefined identifier 'dq'
+   lib/raid/raid6/arm/recov_neon_inner.c:95:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:95:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:97:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:97:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:98:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:98:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:99:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:99:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:100:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:100:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:101:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:101:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:103:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:104:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:107:17: sparse: sparse: undefined identifier 'p'
+   lib/raid/raid6/arm/recov_neon_inner.c:108:17: sparse: sparse: undefined identifier 'q'
+   lib/raid/raid6/arm/recov_neon_inner.c:109:17: sparse: sparse: undefined identifier 'dq'
 
->> drivers/iio/magnetometer/qmc5883l.c:377:8: error: call to '__compiletime_assert_550' declared with 'error' attribute: FIELD_PREP: value too large for the field
-     377 |                             FIELD_PREP(QMC5883L_OSR_MASK, data->osr));
-         |                             ^
-   include/linux/bitfield.h:138:3: note: expanded from macro 'FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:91:3: note: expanded from macro '__FIELD_PREP'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:22:1: note: expanded from here
-      22 | __compiletime_assert_550
-         | ^
-   drivers/iio/magnetometer/qmc5883l.c:377:8: note: called by function 'qmc5883l_init'
-   include/linux/bitfield.h:138:3: note: expanded from macro 'FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:91:3: note: expanded from macro '__FIELD_PREP'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:22:1: note: expanded from here
-      22 | __compiletime_assert_550
-         | ^
-   drivers/iio/magnetometer/qmc5883l.c:377:8: note: inlined by function 'qmc5883l_probe'
-   include/linux/bitfield.h:138:3: note: expanded from macro 'FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:91:3: note: expanded from macro '__FIELD_PREP'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:22:1: note: expanded from here
-      22 | __compiletime_assert_550
-         | ^
-   1 error generated.
+vim +/while +50 lib/raid/raid6/arm/recov_neon_inner.c
 
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  27  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  28  void __raid6_2data_recov_neon(int bytes, uint8_t *p, uint8_t *q, uint8_t *dp,
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  29  			      uint8_t *dq, const uint8_t *pbmul,
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  30  			      const uint8_t *qmul)
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  31  {
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  32  	uint8x16_t pm0 = vld1q_u8(pbmul);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  33  	uint8x16_t pm1 = vld1q_u8(pbmul + 16);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  34  	uint8x16_t qm0 = vld1q_u8(qmul);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  35  	uint8x16_t qm1 = vld1q_u8(qmul + 16);
+1ad3935b39da78 lib/raid6/recov_neon_inner.c Nick Desaulniers 2019-02-25  36  	uint8x16_t x0f = vdupq_n_u8(0x0f);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  37  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  38  	/*
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  39  	 * while ( bytes-- ) {
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  40  	 *	uint8_t px, qx, db;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  41  	 *
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  42  	 *	px    = *p ^ *dp;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  43  	 *	qx    = qmul[*q ^ *dq];
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  44  	 *	*dq++ = db = pbmul[px] ^ qx;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  45  	 *	*dp++ = db ^ px;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  46  	 *	p++; q++;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  47  	 * }
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  48  	 */
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  49  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13 @50  	while (bytes) {
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  51  		uint8x16_t vx, vy, px, qx, db;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  52  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  53  		px = veorq_u8(vld1q_u8(p), vld1q_u8(dp));
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  54  		vx = veorq_u8(vld1q_u8(q), vld1q_u8(dq));
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  55  
+335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  56  		vy = vshrq_n_u8(vx, 4);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  57  		vx = vqtbl1q_u8(qm0, vandq_u8(vx, x0f));
+335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  58  		vy = vqtbl1q_u8(qm1, vy);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  59  		qx = veorq_u8(vx, vy);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  60  
+335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  61  		vy = vshrq_n_u8(px, 4);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  62  		vx = vqtbl1q_u8(pm0, vandq_u8(px, x0f));
+335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  63  		vy = vqtbl1q_u8(pm1, vy);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  64  		vx = veorq_u8(vx, vy);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  65  		db = veorq_u8(vx, qx);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  66  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  67  		vst1q_u8(dq, db);
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  68  		vst1q_u8(dp, veorq_u8(db, px));
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  69  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  70  		bytes -= 16;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  71  		p += 16;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  72  		q += 16;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  73  		dp += 16;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  74  		dq += 16;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  75  	}
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  76  }
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  77  
 
-vim +377 drivers/iio/magnetometer/qmc5883l.c
+:::::: The code at line 50 was first introduced by commit
+:::::: 6ec4e2514decd6fb4782a9364fa71d6244d05af4 md/raid6: implement recovery using ARM NEON intrinsics
 
-e8349f9473423f Siratul Islam 2026-06-19  337  
-e8349f9473423f Siratul Islam 2026-06-19  338  static int qmc5883l_init(struct qmc5883l_data *data)
-e8349f9473423f Siratul Islam 2026-06-19  339  {
-e8349f9473423f Siratul Islam 2026-06-19  340  	struct regmap *map = data->regmap;
-e8349f9473423f Siratul Islam 2026-06-19  341  	unsigned int reg;
-e8349f9473423f Siratul Islam 2026-06-19  342  	int ret;
-e8349f9473423f Siratul Islam 2026-06-19  343  
-e8349f9473423f Siratul Islam 2026-06-19  344  	ret = regmap_read(map, QMC5883L_REG_ID, &reg);
-e8349f9473423f Siratul Islam 2026-06-19  345  	if (ret)
-e8349f9473423f Siratul Islam 2026-06-19  346  		return ret;
-e8349f9473423f Siratul Islam 2026-06-19  347  
-e8349f9473423f Siratul Islam 2026-06-19  348  	/* Not failing because rev 1.0 had this register reserved */
-e8349f9473423f Siratul Islam 2026-06-19  349  	if (reg != QMC5883L_CHIP_ID)
-e8349f9473423f Siratul Islam 2026-06-19  350  		dev_warn(regmap_get_device(map),
-e8349f9473423f Siratul Islam 2026-06-19  351  			 "Unknown chip id: 0x%02x, continuing\n", reg);
-e8349f9473423f Siratul Islam 2026-06-19  352  
-e8349f9473423f Siratul Islam 2026-06-19  353  	ret = regmap_write(map, QMC5883L_REG_CTRL2, QMC5883L_SOFT_RESET);
-e8349f9473423f Siratul Islam 2026-06-19  354  	if (ret)
-e8349f9473423f Siratul Islam 2026-06-19  355  		return ret;
-e8349f9473423f Siratul Islam 2026-06-19  356  
-e8349f9473423f Siratul Islam 2026-06-19  357  	/* Use POR completion time as a conservative bound */
-e8349f9473423f Siratul Islam 2026-06-19  358  	fsleep(QMC5883L_PORT_US);
-e8349f9473423f Siratul Islam 2026-06-19  359  
-e8349f9473423f Siratul Islam 2026-06-19  360  	/* DRDY pin not used in this version of the driver */
-e8349f9473423f Siratul Islam 2026-06-19  361  	ret = regmap_write(map, QMC5883L_REG_CTRL2, QMC5883L_INT_DISABLE);
-e8349f9473423f Siratul Islam 2026-06-19  362  	if (ret)
-e8349f9473423f Siratul Islam 2026-06-19  363  		return ret;
-e8349f9473423f Siratul Islam 2026-06-19  364  
-e8349f9473423f Siratul Islam 2026-06-19  365  	ret = regmap_write(map, QMC5883L_REG_SET_RESET, QMC5883L_SET_RESET_VAL);
-e8349f9473423f Siratul Islam 2026-06-19  366  	if (ret)
-e8349f9473423f Siratul Islam 2026-06-19  367  		return ret;
-e8349f9473423f Siratul Islam 2026-06-19  368  
-e8349f9473423f Siratul Islam 2026-06-19  369  	data->odr = QMC5883L_ODR_50HZ;
-e8349f9473423f Siratul Islam 2026-06-19  370  	data->range = QMC5883L_RNG_2G;
-e8349f9473423f Siratul Islam 2026-06-19  371  	data->osr = QMC5883L_OSR_64;
-e8349f9473423f Siratul Islam 2026-06-19  372  
-e8349f9473423f Siratul Islam 2026-06-19  373  	return regmap_write(map, QMC5883L_REG_CTRL1,
-e8349f9473423f Siratul Islam 2026-06-19  374  			    FIELD_PREP(QMC5883L_MODE_MASK, QMC5883L_MODE_CONT) |
-e8349f9473423f Siratul Islam 2026-06-19  375  			    FIELD_PREP(QMC5883L_ODR_MASK, data->odr) |
-e8349f9473423f Siratul Islam 2026-06-19  376  			    FIELD_PREP(QMC5883L_RNG_MASK, data->range) |
-e8349f9473423f Siratul Islam 2026-06-19 @377  			    FIELD_PREP(QMC5883L_OSR_MASK, data->osr));
-e8349f9473423f Siratul Islam 2026-06-19  378  }
-e8349f9473423f Siratul Islam 2026-06-19  379  
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 --
 0-DAY CI Kernel Test Service
