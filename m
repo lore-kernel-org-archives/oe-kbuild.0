@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63D51614C
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 16:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977E140B113
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 18:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790181436; cv=none; b=UqDYB+Yo2YyW3onDMANn/fREARixYgLZpA1Vu/Qfxbldvb6LSBXVE+01Q943OfZ5XYkOak8vbm6unxjB0GOJ8QHwd3p64dikJ4qmpdxkgsGovvYQ/hIQdPwwNHpSnCLXxA6yA2SfBrAm+Mw+hAf+LIDX7xP7XrMgG7LSeGZMS08=
+	t=1790187587; cv=none; b=CgzyuP2V0hBu3l6+SxtERfdAPj0SasBzTANDq+OwM3YBms4LQMepQjLBhhCIvbCnPFq5hW9ES7uzgQ089lADx7Z1h6EHPR+YcG791K2dxetxol6z2Z7WME/bFKvI815kwnqlHNGwBmG+6aoZTmUC+RsP6KbPhRy5JtMxMKxq/no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790181436; c=relaxed/simple;
-	bh=O9TCTLZD4yLgAgCn9JTQb1w/exGtv3YS48l8MZnFY7c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZNMGItye3OJudnpygAa3e4RIEFyWO+3rHx+XWLcxIH+gWRdFtXYnPE6WGkEWfBo1+EmMefS6ogcQJd/wsCP+4OdbFN9E2ve496I4usZn055zcXwX3GmaWxM/102iRW6WGcW/2r+0FSnlU8h21NHx+04nGW8139S85zZY0gsM13w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dymXS4Vo; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790187587; c=relaxed/simple;
+	bh=s44+N/I1rxjFaV6U7jtzSuSM52kJOZXxtHbM9JpplvU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YbJ+KNvyV0CDa9WahtR7eZOm7EfQnAOzLuAeiaZ4GJwbO6iYULvRCX3yK4k4KvxEFePAIkPbUioVwD5Zv3cihQ1gVJXy8Aa8eGZIsA7guYF4Y1c0+JWNIxD3Sxtdw1JzplY9cCD3kBhSUOBIeD3jaDRoMIygXAGYqbCoOMoKm7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbd1LnzP; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dymXS4Vo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbd1LnzP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790181426; x=1821717426;
+  t=1790187586; x=1821723586;
   h=date:from:to:cc:subject:message-id;
-  bh=O9TCTLZD4yLgAgCn9JTQb1w/exGtv3YS48l8MZnFY7c=;
-  b=dymXS4VouDIUffLpSsnvECZD1XDhO/qeFlXerVSpr3nIPsJ6z52UtvLv
-   S4s5cA0j8mZLFB3HsAm+uEIJd8kzJNXtvtq1guaQWe7ng8P8gh3Pp91PC
-   MRnJkx4cMAJFZgMM+IuEzAG66M0eG7v8kSJio4ycIKFTxjZJ6W6ftUM01
-   dZl4Gg/s5h3Nx9LCzBahOvVL8cOcdI7TC5bzI8VBatXqjTGn3bLfcv4fs
-   3hv7SG7Gs4ouI0dIiK2oSEH4AM5ojrJVcq0EXY85NRy/vaTZdWU2geZj4
-   NwiqhRcI4WLXVnRGhDqlkR6Q7uZkeDWNjaB7j3TK577NLpjhfNEbNmmhO
+  bh=s44+N/I1rxjFaV6U7jtzSuSM52kJOZXxtHbM9JpplvU=;
+  b=lbd1LnzPJUt5IulmuALG/YedKfEHBlD1S72SmHg71vxlAdVvlTxS4MDu
+   c9KlQqW16Xqq70GtXXuBoTyp8vElAskt1c8CKruezIrRJDLxNikRK6MTg
+   cvknxWsMNRLzj1wLcl2FwfaCb0c/YNbjb++4+GSLFjSdJewYF9hcZ7V9m
+   Sto2fWZT3MDbWJDvatMOQc6tL5x5m0Bo1YCSpw1gBCOGYLXQYkE2wPf7T
+   cYBuI9UDxfWDMliOWsjWTvrrEFgREM3syXb47GyGBKmO2S7po9oS5SgxC
+   F1AyBoRSOp1175di8NMJ4JT1ZieyAdkwIz1QQPUz9MnImC90prfkQoSIS
    g==;
-X-CSE-ConnectionGUID: Ur0gkQnaQ+maAAAATC7j0w==
-X-CSE-MsgGUID: nZhZgCJVQuuy0IFoammQwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="116421974"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="116421974"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 09:37:03 -0700
-X-CSE-ConnectionGUID: GR1tPFRzTiKeMkWXarT2iw==
-X-CSE-MsgGUID: wbpDeUCyTLiFhMvvwuIlKQ==
+X-CSE-ConnectionGUID: TU9CIhChTTmZP+QXwC59PA==
+X-CSE-MsgGUID: sL/TmG18R82ngqQMwuYedg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="78472444"
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="78472444"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 11:19:43 -0700
+X-CSE-ConnectionGUID: A0f+bn+9S+6R+ZcwD62N/Q==
+X-CSE-MsgGUID: viIMgCrBRhWFtqDTN6tZ9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="272281520"
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="4983832"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Sep 2026 09:37:01 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 23 Sep 2026 11:19:42 -0700
 Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Pxr-000000000kP-114L;
-	Wed, 23 Sep 2026 16:36:59 +0000
-Date: Wed, 23 Sep 2026 18:36:41 +0200
+	id 1x9RZD-000000000lt-485B;
+	Wed, 23 Sep 2026 18:19:39 +0000
+Date: Wed, 23 Sep 2026 20:19:16 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [paulmckrcu:dev 21/25] kernel/rcu/srcutree.c:1027
- srcu_gp_end() warn: mixing irqsave and irq
-Message-ID: <202609231811.oXpDzXGh-lkp@intel.com>
+Subject: net/mac80211/tests/chan-mode.c:256
+ test_determine_chan_mode() warn: passing freed memory 'elems' (line 252)
+Message-ID: <202609232015.IaL1t15S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,152 +61,157 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kunwu Chan <kunwu.chan@gmail.com>
-CC: "Paul E. McKenney" <paulmck@kernel.org>
-CC: Zqiang <qiang.zhang@linux.dev>
+CC: linux-kernel@vger.kernel.org
+TO: Marco Elver <elver@google.com>
+CC: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+CC: "Harry Yoo (Oracle)" <harry@kernel.org>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   662151462e30187c342cffcd250834a32a9eb67a
-commit: a1326e217e8047d4d5be01b42573276ac93a20b0 [21/25] srcutree: Preserve IRQ state in synchronize_srcu_atomic() callchain
-:::::: branch date: 21 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231811.oXpDzXGh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe2ec83746e501645709761605c2464a44fd2929
+commit: feb662d9168b63e1d4c02671ec96005410c6f3ce slab: support for compiler-assisted type-based slab cache partitioning
+date:   4 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 4 months ago
+config: um-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20260923/202609232015.IaL1t15S-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: feb662d9168b ("slab: support for compiler-assisted type-based slab cache partitioning")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609231811.oXpDzXGh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609232015.IaL1t15S-lkp@intel.com/
 
 smatch warnings:
-kernel/rcu/srcutree.c:1027 srcu_gp_end() warn: mixing irqsave and irq
+net/mac80211/tests/chan-mode.c:256 test_determine_chan_mode() warn: passing freed memory 'elems' (line 252)
+net/mac80211/tests/chan-mode.c:256 test_determine_chan_mode() warn: passing zero to 'PTR_ERR'
 
-vim +1027 kernel/rcu/srcutree.c
+vim +/elems +256 net/mac80211/tests/chan-mode.c
 
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   972  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   973  /*
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   974   * Note the end of an SRCU grace period.  Initiates callback invocation
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   975   * and starts a new grace period if needed.
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   976   *
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   977   * The ->srcu_cb_mutex acquisition does not protect any data, but
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   978   * instead prevents more than one grace period from starting while we
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   979   * are initiating callback invocation.  This allows the ->srcu_have_cbs[]
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   980   * array to have a finite number of elements.
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   981   */
-dab06d6f93798f Paul E. McKenney 2026-08-18   982  static void srcu_gp_end(struct srcu_struct *ssp, bool is_atomic)
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   983  {
-4f2bfd9494a072 Neeraj Upadhyay  2022-07-01   984  	unsigned long cbdelay = 1;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   985  	bool cbs;
-8ddbd8832d2546 Ildar Ismagilov  2018-01-31   986  	bool last_lvl;
-c350c008297643 Paul E. McKenney 2017-05-03   987  	int cpu;
-a1326e217e8047 Kunwu Chan       2026-09-14   988  	unsigned long flags;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   989  	unsigned long gpseq;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   990  	int idx;
-c7e88067c1ae89 Paul E. McKenney 2017-04-18   991  	unsigned long mask;
-c350c008297643 Paul E. McKenney 2017-05-03   992  	struct srcu_data *sdp;
-cbdc98e93efa7b Paul E. McKenney 2022-01-26   993  	unsigned long sgsne;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   994  	struct srcu_node *snp;
-e2f638365dd628 Paul E. McKenney 2022-01-24   995  	int ss_state;
-6c366522e10f2b Paul E. McKenney 2023-03-18   996  	struct srcu_usage *sup = ssp->srcu_sup;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   997  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05   998  	/* Prevent more than one additional grace period. */
-dab06d6f93798f Paul E. McKenney 2026-08-18   999  	if (!is_atomic)
-6c366522e10f2b Paul E. McKenney 2023-03-18  1000  		mutex_lock(&sup->srcu_cb_mutex);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1001  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1002  	/* End the current grace period. */
-a1326e217e8047 Kunwu Chan       2026-09-14  1003  	raw_spin_lock_irqsave_rcu_node(sup, flags);
-6c366522e10f2b Paul E. McKenney 2023-03-18  1004  	idx = rcu_seq_state(sup->srcu_gp_seq);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1005  	WARN_ON_ONCE(idx != SRCU_STATE_SCAN2);
-e3d67186776286 Paul E. McKenney 2024-10-15  1006  	if (srcu_gp_is_expedited(ssp))
-4f2bfd9494a072 Neeraj Upadhyay  2022-07-01  1007  		cbdelay = 0;
-4f2bfd9494a072 Neeraj Upadhyay  2022-07-01  1008  
-6c366522e10f2b Paul E. McKenney 2023-03-18  1009  	WRITE_ONCE(sup->srcu_last_gp_end, ktime_get_mono_fast_ns());
-6c366522e10f2b Paul E. McKenney 2023-03-18  1010  	rcu_seq_end(&sup->srcu_gp_seq);
-6c366522e10f2b Paul E. McKenney 2023-03-18  1011  	gpseq = rcu_seq_current(&sup->srcu_gp_seq);
-6c366522e10f2b Paul E. McKenney 2023-03-18  1012  	if (ULONG_CMP_LT(sup->srcu_gp_seq_needed_exp, gpseq))
-6c366522e10f2b Paul E. McKenney 2023-03-18  1013  		WRITE_ONCE(sup->srcu_gp_seq_needed_exp, gpseq);
-a1326e217e8047 Kunwu Chan       2026-09-14  1014  	raw_spin_unlock_irqrestore_rcu_node(sup, flags);
-dab06d6f93798f Paul E. McKenney 2026-08-18  1015  	if (!is_atomic)
-6c366522e10f2b Paul E. McKenney 2023-03-18  1016  		mutex_unlock(&sup->srcu_gp_mutex);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1017  	/* A new grace period can start at this point.  But only one. */
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1018  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1019  	/* Initiate callback invocation as needed. */
-6c366522e10f2b Paul E. McKenney 2023-03-18  1020  	ss_state = smp_load_acquire(&sup->srcu_size_state);
-840b8874bf2a71 Kunwu Chan       2026-09-07  1021  	if (!is_atomic && ss_state < SRCU_SIZE_WAIT_BARRIER) {
-7f24626d6dd844 Pingfan Liu      2022-10-31  1022  		srcu_schedule_cbs_sdp(per_cpu_ptr(ssp->sda, get_boot_cpu_id()),
-7f24626d6dd844 Pingfan Liu      2022-10-31  1023  					cbdelay);
-840b8874bf2a71 Kunwu Chan       2026-09-07  1024  	} else if (!is_atomic) {
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1025  		idx = rcu_seq_ctr(gpseq) % ARRAY_SIZE(snp->srcu_have_cbs);
-aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1026  		srcu_for_each_node_breadth_first(ssp, snp) {
-175b45ed343a9c Paul E. McKenney 2026-03-14 @1027  			raw_spin_lock_irq_rcu_node(snp);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1028  			cbs = false;
-6c366522e10f2b Paul E. McKenney 2023-03-18  1029  			last_lvl = snp >= sup->level[rcu_num_lvls - 1];
-8ddbd8832d2546 Ildar Ismagilov  2018-01-31  1030  			if (last_lvl)
-c69a00a12e26cf Paul E. McKenney 2022-01-25  1031  				cbs = ss_state < SRCU_SIZE_BIG || snp->srcu_have_cbs[idx] == gpseq;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1032  			snp->srcu_have_cbs[idx] = gpseq;
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1033  			rcu_seq_set_state(&snp->srcu_have_cbs[idx], 1);
-cbdc98e93efa7b Paul E. McKenney 2022-01-26  1034  			sgsne = snp->srcu_gp_seq_needed_exp;
-cbdc98e93efa7b Paul E. McKenney 2022-01-26  1035  			if (srcu_invl_snp_seq(sgsne) || ULONG_CMP_LT(sgsne, gpseq))
-7ff8b4502bc0f5 Paul E. McKenney 2019-12-22  1036  				WRITE_ONCE(snp->srcu_gp_seq_needed_exp, gpseq);
-c69a00a12e26cf Paul E. McKenney 2022-01-25  1037  			if (ss_state < SRCU_SIZE_BIG)
-c69a00a12e26cf Paul E. McKenney 2022-01-25  1038  				mask = ~0;
-c69a00a12e26cf Paul E. McKenney 2022-01-25  1039  			else
-c7e88067c1ae89 Paul E. McKenney 2017-04-18  1040  				mask = snp->srcu_data_have_cbs[idx];
-c7e88067c1ae89 Paul E. McKenney 2017-04-18  1041  			snp->srcu_data_have_cbs[idx] = 0;
-175b45ed343a9c Paul E. McKenney 2026-03-14  1042  			raw_spin_unlock_irq_rcu_node(snp);
-a3883df3935e10 Paul E. McKenney 2017-05-09  1043  			if (cbs)
-aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1044  				srcu_schedule_cbs_snp(ssp, snp, mask, cbdelay);
-994f706872e6ce Paul E. McKenney 2022-01-24  1045  		}
-994f706872e6ce Paul E. McKenney 2022-01-24  1046  	}
-c350c008297643 Paul E. McKenney 2017-05-03  1047  
-c350c008297643 Paul E. McKenney 2017-05-03  1048  	/* Occasionally prevent srcu_data counter wrap. */
-994f706872e6ce Paul E. McKenney 2022-01-24  1049  	if (!(gpseq & counter_wrap_check))
-994f706872e6ce Paul E. McKenney 2022-01-24  1050  		for_each_possible_cpu(cpu) {
-aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1051  			sdp = per_cpu_ptr(ssp->sda, cpu);
-a1326e217e8047 Kunwu Chan       2026-09-14  1052  			raw_spin_lock_irqsave_rcu_node(sdp, flags);
-994f706872e6ce Paul E. McKenney 2022-01-24  1053  			if (ULONG_CMP_GE(gpseq, sdp->srcu_gp_seq_needed + 100))
-c350c008297643 Paul E. McKenney 2017-05-03  1054  				sdp->srcu_gp_seq_needed = gpseq;
-994f706872e6ce Paul E. McKenney 2022-01-24  1055  			if (ULONG_CMP_GE(gpseq, sdp->srcu_gp_seq_needed_exp + 100))
-a35d13ec368661 Ildar Ismagilov  2018-01-31  1056  				sdp->srcu_gp_seq_needed_exp = gpseq;
-a1326e217e8047 Kunwu Chan       2026-09-14  1057  			raw_spin_unlock_irqrestore_rcu_node(sdp, flags);
-c350c008297643 Paul E. McKenney 2017-05-03  1058  		}
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1059  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1060  	/* Callback initiation done, allow grace periods after next. */
-dab06d6f93798f Paul E. McKenney 2026-08-18  1061  	if (!is_atomic)
-6c366522e10f2b Paul E. McKenney 2023-03-18  1062  		mutex_unlock(&sup->srcu_cb_mutex);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1063  
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1064  	/* Start a new grace period if needed. */
-a1326e217e8047 Kunwu Chan       2026-09-14  1065  	raw_spin_lock_irqsave_rcu_node(sup, flags);
-6c366522e10f2b Paul E. McKenney 2023-03-18  1066  	gpseq = rcu_seq_current(&sup->srcu_gp_seq);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1067  	if (!rcu_seq_state(gpseq) &&
-6c366522e10f2b Paul E. McKenney 2023-03-18  1068  	    ULONG_CMP_LT(gpseq, sup->srcu_gp_seq_needed)) {
-dab06d6f93798f Paul E. McKenney 2026-08-18  1069  		WARN_ON_ONCE(ssp->srcu_reader_flavor & SRCU_READ_FLAVOR_ATOMIC);
-aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1070  		srcu_gp_start(ssp);
-a1326e217e8047 Kunwu Chan       2026-09-14  1071  		raw_spin_unlock_irqrestore_rcu_node(sup, flags);
-aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1072  		srcu_reschedule(ssp, 0);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1073  	} else {
-a1326e217e8047 Kunwu Chan       2026-09-14  1074  		raw_spin_unlock_irqrestore_rcu_node(sup, flags);
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1075  	}
-e2f638365dd628 Paul E. McKenney 2022-01-24  1076  
-b19888cb203839 Kunwu Chan       2026-09-11  1077  	/* Transition to big if needed, but never for atomic SRCU. */
-b19888cb203839 Kunwu Chan       2026-09-11  1078  	if (ssp->srcu_reader_flavor == SRCU_READ_FLAVOR_ATOMIC && ss_state != SRCU_SIZE_SMALL) {
-b19888cb203839 Kunwu Chan       2026-09-11  1079  		WARN_ON_ONCE(1);
-b19888cb203839 Kunwu Chan       2026-09-11  1080  	} else if (ss_state != SRCU_SIZE_SMALL && ss_state != SRCU_SIZE_BIG) {
-e2f638365dd628 Paul E. McKenney 2022-01-24  1081  		if (ss_state == SRCU_SIZE_ALLOC)
-c69a00a12e26cf Paul E. McKenney 2022-01-25  1082  			init_srcu_struct_nodes(ssp, GFP_KERNEL);
-e2f638365dd628 Paul E. McKenney 2022-01-24  1083  		else
-6c366522e10f2b Paul E. McKenney 2023-03-18  1084  			smp_store_release(&sup->srcu_size_state, ss_state + 1);
-e2f638365dd628 Paul E. McKenney 2022-01-24  1085  	}
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1086  }
-da915ad5cf25b5 Paul E. McKenney 2017-04-05  1087  
+b46524b57afdde Benjamin Berg 2025-02-05  147  
+b46524b57afdde Benjamin Berg 2025-02-05  148  static void test_determine_chan_mode(struct kunit *test)
+b46524b57afdde Benjamin Berg 2025-02-05  149  {
+b46524b57afdde Benjamin Berg 2025-02-05  150  	const struct determine_chan_mode_case *params = test->param_value;
+b46524b57afdde Benjamin Berg 2025-02-05  151  	struct t_sdata *t_sdata = T_SDATA(test);
+b46524b57afdde Benjamin Berg 2025-02-05  152  	struct ieee80211_conn_settings conn = {
+b46524b57afdde Benjamin Berg 2025-02-05  153  		.mode = params->conn_mode,
+75575e2d252afb Benjamin Berg 2025-08-26  154  		.bw_limit = params->conn_bw_limit,
+b46524b57afdde Benjamin Berg 2025-02-05  155  	};
+b46524b57afdde Benjamin Berg 2025-02-05  156  	struct cfg80211_bss cbss = {
+b46524b57afdde Benjamin Berg 2025-02-05  157  		.channel = &t_sdata->band_5ghz.channels[0],
+b46524b57afdde Benjamin Berg 2025-02-05  158  	};
+b46524b57afdde Benjamin Berg 2025-02-05  159  	unsigned long userspace_selectors[BITS_TO_LONGS(128)] = {};
+b46524b57afdde Benjamin Berg 2025-02-05  160  	u8 bss_ies[] = {
+b46524b57afdde Benjamin Berg 2025-02-05  161  		/* Supported Rates */
+b46524b57afdde Benjamin Berg 2025-02-05  162  		WLAN_EID_SUPP_RATES, 0x08,
+b46524b57afdde Benjamin Berg 2025-02-05  163  		0x82, 0x84, 0x8b, 0x96, 0xc, 0x12, 0x18, 0x24,
+b46524b57afdde Benjamin Berg 2025-02-05  164  		/* Extended Supported Rates */
+b46524b57afdde Benjamin Berg 2025-02-05  165  		WLAN_EID_EXT_SUPP_RATES, 0x05,
+b46524b57afdde Benjamin Berg 2025-02-05  166  		0x30, 0x48, 0x60, 0x6c, params->extra_supp_rate,
+b46524b57afdde Benjamin Berg 2025-02-05  167  		/* HT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  168  		WLAN_EID_HT_CAPABILITY, 0x1a,
+b46524b57afdde Benjamin Berg 2025-02-05  169  		0x0c, 0x00, 0x1b, 0xff, 0xff, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  170  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+b46524b57afdde Benjamin Berg 2025-02-05  171  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  172  		0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  173  		/* HT Information (0xff for 1 stream) */
+b46524b57afdde Benjamin Berg 2025-02-05  174  		WLAN_EID_HT_OPERATION, 0x16,
+b46524b57afdde Benjamin Berg 2025-02-05  175  		0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  176  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  177  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  178  		/* VHT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  179  		WLAN_EID_VHT_CAPABILITY, 0xc,
+b46524b57afdde Benjamin Berg 2025-02-05  180  		0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  181  		0xff, 0xff, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  182  		/* VHT Operation */
+b46524b57afdde Benjamin Berg 2025-02-05  183  		WLAN_EID_VHT_OPERATION, 0x05,
+b46524b57afdde Benjamin Berg 2025-02-05  184  		0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  185  		params->vht_basic_mcs_1_4_set ?
+b46524b57afdde Benjamin Berg 2025-02-05  186  			params->vht_basic_mcs_1_4 :
+b46524b57afdde Benjamin Berg 2025-02-05  187  			le16_get_bits(t_sdata->band_5ghz.vht_cap.vht_mcs.rx_mcs_map, 0xff),
+b46524b57afdde Benjamin Berg 2025-02-05  188  		params->vht_basic_mcs_5_8_set ?
+b46524b57afdde Benjamin Berg 2025-02-05  189  			params->vht_basic_mcs_5_8 :
+b46524b57afdde Benjamin Berg 2025-02-05  190  			le16_get_bits(t_sdata->band_5ghz.vht_cap.vht_mcs.rx_mcs_map, 0xff00),
+b46524b57afdde Benjamin Berg 2025-02-05  191  		/* HE Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  192  		WLAN_EID_EXTENSION, 0x16, WLAN_EID_EXT_HE_CAPABILITY,
+b46524b57afdde Benjamin Berg 2025-02-05  193  		0x01, 0x78, 0xc8, 0x1a, 0x40, 0x00, 0x00, 0xbf,
+b46524b57afdde Benjamin Berg 2025-02-05  194  		0xce, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  195  		0x00, 0xfa, 0xff, 0xfa, 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  196  		/* HE Operation (permit overriding values) */
+b46524b57afdde Benjamin Berg 2025-02-05  197  		WLAN_EID_EXTENSION, 0x07, WLAN_EID_EXT_HE_OPERATION,
+b46524b57afdde Benjamin Berg 2025-02-05  198  		0xf0, 0x3f, 0x00, 0xb0,
+b46524b57afdde Benjamin Berg 2025-02-05  199  		params->he_basic_mcs_1_4_set ? params->he_basic_mcs_1_4 : 0xfc,
+b46524b57afdde Benjamin Berg 2025-02-05  200  		params->he_basic_mcs_5_8_set ? params->he_basic_mcs_5_8 : 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  201  		/* EHT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  202  		WLAN_EID_EXTENSION, 0x12, WLAN_EID_EXT_EHT_CAPABILITY,
+b46524b57afdde Benjamin Berg 2025-02-05  203  		0x07, 0x00, 0x1c, 0x00, 0x00, 0xfe, 0xff, 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  204  		0x7f, 0x01, 0x00, 0x88, 0x88, 0x88, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  205  		0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  206  		/* EHT Operation */
+75575e2d252afb Benjamin Berg 2025-08-26  207  		WLAN_EID_EXTENSION, 0x0b, WLAN_EID_EXT_EHT_OPERATION,
+75575e2d252afb Benjamin Berg 2025-08-26  208  		0x03, params->eht_mcs7_min_nss ? params->eht_mcs7_min_nss : 0x11,
+75575e2d252afb Benjamin Berg 2025-08-26  209  		0x00, 0x00, 0x00, params->eht_bw,
+75575e2d252afb Benjamin Berg 2025-08-26  210  		params->eht_bw == IEEE80211_EHT_OPER_CHAN_WIDTH_80MHZ ? 42 : 36,
+75575e2d252afb Benjamin Berg 2025-08-26  211  		0x00,
+75575e2d252afb Benjamin Berg 2025-08-26  212  		u16_get_bits(params->eht_disabled_subchannels, 0xff),
+75575e2d252afb Benjamin Berg 2025-08-26  213  		u16_get_bits(params->eht_disabled_subchannels, 0xff00),
+b46524b57afdde Benjamin Berg 2025-02-05  214  	};
+b46524b57afdde Benjamin Berg 2025-02-05  215  	struct ieee80211_chan_req chanreq = {};
+b46524b57afdde Benjamin Berg 2025-02-05  216  	struct cfg80211_chan_def ap_chandef = {};
+b46524b57afdde Benjamin Berg 2025-02-05  217  	struct ieee802_11_elems *elems;
+b46524b57afdde Benjamin Berg 2025-02-05  218  
+75575e2d252afb Benjamin Berg 2025-08-26  219  	/* To force EHT downgrade to HE on punctured 80 MHz downgraded to 40 MHz */
+75575e2d252afb Benjamin Berg 2025-08-26  220  	set_bit(IEEE80211_HW_DISALLOW_PUNCTURING, t_sdata->local.hw.flags);
+75575e2d252afb Benjamin Berg 2025-08-26  221  
+b46524b57afdde Benjamin Berg 2025-02-05  222  	if (params->strict)
+b46524b57afdde Benjamin Berg 2025-02-05  223  		set_bit(IEEE80211_HW_STRICT, t_sdata->local.hw.flags);
+b46524b57afdde Benjamin Berg 2025-02-05  224  	else
+b46524b57afdde Benjamin Berg 2025-02-05  225  		clear_bit(IEEE80211_HW_STRICT, t_sdata->local.hw.flags);
+b46524b57afdde Benjamin Berg 2025-02-05  226  
+b46524b57afdde Benjamin Berg 2025-02-05  227  	t_sdata->sdata->u.mgd.ht_capa_mask = params->ht_capa_mask;
+b46524b57afdde Benjamin Berg 2025-02-05  228  	t_sdata->sdata->u.mgd.vht_capa = params->vht_capa;
+b46524b57afdde Benjamin Berg 2025-02-05  229  	t_sdata->sdata->u.mgd.vht_capa_mask = params->vht_capa_mask;
+b46524b57afdde Benjamin Berg 2025-02-05  230  
+b46524b57afdde Benjamin Berg 2025-02-05  231  	if (params->userspace_selector)
+b46524b57afdde Benjamin Berg 2025-02-05  232  		set_bit(params->userspace_selector, userspace_selectors);
+b46524b57afdde Benjamin Berg 2025-02-05  233  
+b46524b57afdde Benjamin Berg 2025-02-05  234  	rcu_assign_pointer(cbss.ies,
+b46524b57afdde Benjamin Berg 2025-02-05  235  			   kunit_kzalloc(test,
+b46524b57afdde Benjamin Berg 2025-02-05  236  					 sizeof(cbss) + sizeof(bss_ies),
+b46524b57afdde Benjamin Berg 2025-02-05  237  					 GFP_KERNEL));
+b46524b57afdde Benjamin Berg 2025-02-05  238  	KUNIT_ASSERT_NOT_NULL(test, rcu_access_pointer(cbss.ies));
+b46524b57afdde Benjamin Berg 2025-02-05  239  	((struct cfg80211_bss_ies *)rcu_access_pointer(cbss.ies))->len = sizeof(bss_ies);
+b46524b57afdde Benjamin Berg 2025-02-05  240  
+b46524b57afdde Benjamin Berg 2025-02-05  241  	memcpy((void *)rcu_access_pointer(cbss.ies)->data, bss_ies,
+b46524b57afdde Benjamin Berg 2025-02-05  242  	       sizeof(bss_ies));
+b46524b57afdde Benjamin Berg 2025-02-05  243  
+b46524b57afdde Benjamin Berg 2025-02-05  244  	rcu_read_lock();
+b46524b57afdde Benjamin Berg 2025-02-05  245  	elems = ieee80211_determine_chan_mode(t_sdata->sdata, &conn, &cbss,
+b46524b57afdde Benjamin Berg 2025-02-05  246  					      0, &chanreq, &ap_chandef,
+b46524b57afdde Benjamin Berg 2025-02-05  247  					      userspace_selectors);
+b46524b57afdde Benjamin Berg 2025-02-05  248  	rcu_read_unlock();
+b46524b57afdde Benjamin Berg 2025-02-05  249  
+b46524b57afdde Benjamin Berg 2025-02-05  250  	/* We do not need elems, free them if they are valid. */
+b46524b57afdde Benjamin Berg 2025-02-05  251  	if (!IS_ERR_OR_NULL(elems))
+b46524b57afdde Benjamin Berg 2025-02-05 @252  		kfree(elems);
+b46524b57afdde Benjamin Berg 2025-02-05  253  
+b46524b57afdde Benjamin Berg 2025-02-05  254  	if (params->error) {
+b46524b57afdde Benjamin Berg 2025-02-05  255  		KUNIT_ASSERT_TRUE(test, IS_ERR(elems));
+b46524b57afdde Benjamin Berg 2025-02-05 @256  		KUNIT_ASSERT_EQ(test, PTR_ERR(elems), -params->error);
+b46524b57afdde Benjamin Berg 2025-02-05  257  	} else {
+b46524b57afdde Benjamin Berg 2025-02-05  258  		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, elems);
+b46524b57afdde Benjamin Berg 2025-02-05  259  		KUNIT_ASSERT_EQ(test, conn.mode, params->expected_mode);
+75575e2d252afb Benjamin Berg 2025-08-26  260  		KUNIT_ASSERT_EQ(test, conn.bw_limit, params->expected_bw_limit);
+b46524b57afdde Benjamin Berg 2025-02-05  261  	}
+b46524b57afdde Benjamin Berg 2025-02-05  262  }
+b46524b57afdde Benjamin Berg 2025-02-05  263  
 
-:::::: The code at line 1027 was first introduced by commit
-:::::: 175b45ed343a9c547b5f45293d3ea08d38a7b6f4 srcu: Use raw spinlocks so call_srcu() can be used under preempt_disable()
+:::::: The code at line 256 was first introduced by commit
+:::::: b46524b57afdde8ed9ee9567e78d1293ad0e6ea7 wifi: mac80211: tests: add tests for ieee80211_determine_chan_mode
 
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Boqun Feng <boqun@kernel.org>
+:::::: TO: Benjamin Berg <benjamin.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 --
 0-DAY CI Kernel Test Service
