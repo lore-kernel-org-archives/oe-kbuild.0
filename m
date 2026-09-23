@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D035DA6E
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 03:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C376F361DBE
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 03:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790133583; cv=none; b=gef0aSa1PQ4iwJN6kIf/igXJnAJrRVm0aEP2b/Z8kljeDPTg/kd4A3wMnlukGrVi3l7OqKXtkiP4zMc7WrNUBWguTW0EFFcqqTumJazIYsm0xAh4P17X1NTVW+0XzQD+K5DQeNuvo1WdEMT05jHlncY7YVFx3Zr/W3fu+4ZYaTE=
+	t=1790135452; cv=none; b=MDTAx5+edyn1KkylD1r5RIaJdlJPhrWMRgAVFk8gvHjrV7uIFIVHUDz5ypYRMWrXwXNYAu3zYo82B/iXBIu2CBVk5FagE0EbGU+nUVOAbKUS6wDvJKR4767ZNEz4hWF/5xCyUQvwWI70fE9EwMeiZ5lAodN4FDo08vQZTxKTrPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790133583; c=relaxed/simple;
-	bh=6f1MrPBxEAKbvTTTEw2PY4gJ+xydlzQLRMDx0gU4b4A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YRMcyWDCrEg01tetyB/lm9X2dc4Y3oefD+Fo3coUjaD3bSS8xC/kDr6TrAINWTeeN4W++H8zYvmN3ORnUaTwzzSpg3wjKoUxDZSLoJL+xXZ6dy9odOgARKCVdvWsQMzpKVOmCTNUUQntTXMSe4AuXj/QAVM+9rZb9cFGZMMwOj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExLzS0e2; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1790135452; c=relaxed/simple;
+	bh=A4iskOZ4jJ2rihrxUIgHTxmFfRUi8atPdlZdHQeASBM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=csEWWd7awTsOv6JzOlZF2El+QwTucW3Z8eKdlFmIAX+fCWgZo600vK/LsqUXLnDNCRvwE5hGQXJtHvzbA7xKGr2rV2t7z8iwpl3rYr3gNEIqyr3ZMzNzgnjL3ab/RRP5qP6f9tQVm0FtA/id2trliSCsDYW4C/XhoCZTZPj6WwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJhoaTWP; arc=none smtp.client-ip=192.198.163.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExLzS0e2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJhoaTWP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790133581; x=1821669581;
+  t=1790135450; x=1821671450;
   h=date:from:to:cc:subject:message-id;
-  bh=6f1MrPBxEAKbvTTTEw2PY4gJ+xydlzQLRMDx0gU4b4A=;
-  b=ExLzS0e20CgAHGT8VvpDvukyvXuS+vSTRk4okc5W+n8YQIMVgg26Odgg
-   68uptwN4w/loQfAh19Ph8spdLaC/ZuO8WMrzInshiQ929iYjGQD8eUocT
-   GuyYQKMd9IBClYEhXql+bqz7N+N+w9iG7qUQU76IRqLfGi4QRfxwXRb/d
-   uIk3cGR1B699pNEeEDijolwtVPRfdAWqUDR7/Fi0gIXIWc+lwVvq2dX38
-   9OmvcA8pSagaoHx+C0eHNANLmeVjhRdfJ3//xtb29aPk5Vg2UyYsATEBu
-   f3B4127p/IObednnPl/WVYNemjVq8peErBAEC0EaRd/9FRNBxN2ULrueJ
-   A==;
-X-CSE-ConnectionGUID: ISj9WllQRbS1sq/Z7DsUgw==
-X-CSE-MsgGUID: HhStT/rDSHOlGqx2FnmY+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1303247"
+  bh=A4iskOZ4jJ2rihrxUIgHTxmFfRUi8atPdlZdHQeASBM=;
+  b=HJhoaTWPs4Qd212cOJVdYNj45CqDonyMT8DugsmAh4Kq4piq4NtW7Oog
+   Lx9FSQMpwTTX2lxqlGzx1tGwAbTDyHOHt95nLc52JjsoYsjZW/SE5B7kt
+   z85jTpbz+Qb0+Gs8MG7bw4s8pTrLdYhKBpExTS32rGFWdnnQ3uKAzWfyA
+   DMq7hD2waBABODDYfGqa22EyPCwaFAwiVyWjRss2lqbMc/vi3kQOz8jPL
+   A9Y1UVadSi3K9A9+54+Md5GP2xFcMSVKO9N4DS6h/lfR42A5c5zt38342
+   hFdAEw2B56bOc7SImyXa9rQpe8ERgmfYpVFSvctAypoIJvsJI24/l+xrH
+   g==;
+X-CSE-ConnectionGUID: JLurIdhYTsO9aNXIVMyLDw==
+X-CSE-MsgGUID: p4ewzgwvSXupTgXGjVFp2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1288003"
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="1303247"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 20:19:40 -0700
-X-CSE-ConnectionGUID: 1S3txwr+TWqw2/FEqBun8g==
-X-CSE-MsgGUID: ttQcR7tOQvWjDBlqbWEgpw==
+   d="scan'208";a="1288003"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 20:50:49 -0700
+X-CSE-ConnectionGUID: ZqED5qw2R3OvfbW9VhqTaQ==
+X-CSE-MsgGUID: K0Q6DQfNTUS1h6KVUfEKRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="278169569"
+   d="scan'208";a="281500113"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2026 20:19:39 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Sep 2026 20:50:48 -0700
 Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9DWC-000000000Rv-44tO;
-	Wed, 23 Sep 2026 03:19:36 +0000
-Date: Wed, 23 Sep 2026 05:18:48 +0200
+	id 1x9E0M-000000000Sz-2Tnw;
+	Wed, 23 Sep 2026 03:50:46 +0000
+Date: Wed, 23 Sep 2026 05:50:31 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 8362/8910] drivers/hid/hid-steam.c:557
- steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__454'
-Message-ID: <202609230541.BkD5hphD-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [pci:controller/dwc-rcar-gen4 7/9]
+ Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml:
+ properties:reset-names: {'minItems': 1, 'maxItems': 2, 'items': [{'const':
+ 'pwr'}, {'const': 'core'}]} should not be valid under {'required':
+ ['maxItems']}
+Message-ID: <202609230547.zdjJoKk2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,97 +62,37 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-pci@vger.kernel.org
+TO: Marek Vasut <marek.vasut+renesas@mailbox.org>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a8c591ed6b672915e0be57843f943a2a723aff40
-commit: 7ecf3a4b15beabcd17c4a2ab2e97c68d9a29e691 [8362/8910] mm: add mmap action for discontiguous kernel page mapping
-:::::: branch date: 14 hours ago
-:::::: commit date: 28 hours ago
-config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230541.BkD5hphD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-rcar-gen4
+head:   7fc9907223d6fa1bea13f896af7d0c77b36724e0
+commit: 50b1333e0c7b40ca203e8c5834ea1ffa7362097c [7/9] dt-bindings: PCI: rcar-gen4-pci-host: Document Application/Local register reset
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: arc-randconfig-2401-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230547.zdjJoKk2-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+dtschema: 2026.10.dev2+g840a01d41
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230547.zdjJoKk2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609230541.BkD5hphD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609230547.zdjJoKk2-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__454'
-
-vim +/__UNIQUE_ID_x__454 +557 drivers/hid/hid-steam.c
-
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
-cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
-cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
-cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
-cd11d1a6114bd4 Lee Jones           2022-07-08  531  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
-de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
-de435b770cd949 Vicki Pfau          2026-07-29  545  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
-cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
-cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
-cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
-cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
-cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
-
-:::::: TO: Vicki Pfau <vi@endrift.com>
-:::::: CC: Jiri Kosina <jkosina@suse.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml: properties:reset-names: {'minItems': 1, 'maxItems': 2, 'items': [{'const': 'pwr'}, {'const': 'core'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
 --
 0-DAY CI Kernel Test Service
