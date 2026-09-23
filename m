@@ -1,215 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B7545A29E
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 07:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08C945FFA2
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 08:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790149830; cv=none; b=NYG9efFGcidKx2kWEV8FKZY/734unk2mOTMV840CrFoxP4+1CmKUERjoX9Mj5APOEYRYxpvFC99mCAT6vHdB5WPNfZ6cnXw1qnLDNNRb89KvTz+W/4wry1ZZAHk6NQP4+VJQzJtJ8ZT50JEInXzvkkKWmxbOjyqVk1UPxS/y6qc=
+	t=1790150839; cv=none; b=ei7ZRuuuaMYW4UQZH+3W4SJ+WuT4hwQxdgi/dWhacuLKJRRCPnkCEgVjx3cYDkdAVGm9Mtmht2v45or2oDTn13F9fupnxnLP4NPPvxxbjob7uCqEELNabyn5+tpNM7NdL1IuMa5SfCPDyVZHirydJxiWT3hR5/EFMbsGl7C+1RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790149830; c=relaxed/simple;
-	bh=07aAva4tvOpEFAT1uhpgmAWehN4ZOj1HI6KGunjQJOg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=c2r/DRg7FBiJ9BAeq4jMYvYMKiQh69bww2JH3zfcCNBEACMLlPa+lKKZzNSTz87Omh8gSSmVy+tIQpmLW4ckRTcS+hj06FWdcLmuCWsiHKG1MWMoPbFfplPZShAV8xXDNizCnI/jC1NuMy1JOQJfbbcmDDb9IZox0BW2Lmv8cbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIQbp9mN; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790150839; c=relaxed/simple;
+	bh=wdWYojEt48ftP9ujjDAWl7rD+7XfcjcbNcf5JZZmNu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQhh5+L4+Yrxhlo/YAz3xyrG1AE+bWYVpF7DGqjRHqOiYa3LRfn79zA26e303J0VQmC2x21c8gydUYYB/ar87Axc2WKhwKOtWDV7ZIey15POmll/VmUpyBEqm4nVTVN9WnTKagTEQ4QHEiQiat1d2fq2aMVtEXww4/HP3IJCLoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cktl6qfr; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIQbp9mN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790149825; x=1821685825;
-  h=date:from:to:cc:subject:message-id;
-  bh=07aAva4tvOpEFAT1uhpgmAWehN4ZOj1HI6KGunjQJOg=;
-  b=VIQbp9mNjhvCBgIf9bbG0ISnedTR0EYtV51Tq26JcZIQH42lYV0FXY7N
-   oeqoj0lviW3jDOMPFus6UenVj3nl2KnzANVFhj6a1GA+H7oK/m3euOlHQ
-   Ji87hJ9i98eY4mvhFcy/yrO7jMLKwy+8k7ff6I1t+i6NRuWuy6pSTpLAs
-   H4khvvusAhbPOcq5jzGUx5vWwgePq7GCAFOUJTBafSan7IiGQc4iYeEfl
-   VdRaOAQ01jgPaVuwJNyj2E+MnhihGaTLo0MZklwciczWW2q1SjxmJXzVc
-   b54lcLAlw5AkOSsIVmxyC/9lUFLYBJbC/hAe34fkljUH52BjibRL6BKrd
-   Q==;
-X-CSE-ConnectionGUID: SBuYiSt8R8eLCdDPOD4GQg==
-X-CSE-MsgGUID: rqVx8bzNTg+Qw+0VLVnITQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="102175856"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="102175856"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 00:50:24 -0700
-X-CSE-ConnectionGUID: emAKTPOdSlai0B6bt3RaIA==
-X-CSE-MsgGUID: OZyk6QJ6SmibdcZ7XDUAkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="272703400"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2026 00:50:23 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9HkD-000000000ZX-0UFd;
-	Wed, 23 Sep 2026 07:50:21 +0000
-Date: Wed, 23 Sep 2026 09:49:48 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-unstable 425/627] fs/btrfs/extent_io.c:1262
- can_skip_one_ordered_range() error: 'folio' dereferencing possible ERR_PTR()
-Message-ID: <202609230931.jQfYVMCZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cktl6qfr"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f6c7a56so74566966b.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 01:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790150836; x=1790755636; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yaSZkWQ2JAEPbtr/y1XvAGtkxaY0QvD+qsHMDQEgS6Q=;
+        b=cktl6qfr0PxMmcdG/Beu26s/uEqC1XuS5/0l1nfK65ILETtx+us+UggqCTbBXMxEPp
+         52aVgnN9rAQzX/Q7wbdeGeXMh6RlVCxUfltgm759yv4DV3UEceHKaWoWr2uExFQtWwt4
+         +DsrI0Cp1GQlgIv1nkIcyyprxiL9GKWjGQcFjEx+IRQWMQE3+JiQv6v5Cz4e+2zIekqc
+         B9U03IukoqS9fV0Jruf2YK0/D7Y4t/XEsSAi67GMipoqP0J5z70ivooyv88y7uSy1hjy
+         +0BTauxRJ6Y346B8LegjzgC3FQwUXerjDKId4nEn+LvcCrsIFE0ErVdo/JUdRb8c3Wrk
+         wHkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790150836; x=1790755636;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yaSZkWQ2JAEPbtr/y1XvAGtkxaY0QvD+qsHMDQEgS6Q=;
+        b=KsS17ehIvBbvf7LnjuaccGk7aRpXEeHozPJISsi8l4IBU72S6B1tiI4lUXpWmXqLjl
+         8lzZdbGg97p0hroHmXmdpLD+BRiL+PNreviFxYHktB61k816aDDYhfdsYQOmxRyQY/lN
+         k8WoFroMtlnbGESEyYtwUpkk/RtlKBW4IWmNbJCrprJtaY+gE8nG7MH7B3mqICrbwTo5
+         tj7z1JNSf8wOsp1ad7eBpIcIYTNwP6gbq09sY/SccHrZTXTISWHUxIbfMTAjFIAIFHeJ
+         qX1lhcBJHNnHx0X/12Ih5WgqMf2aT4fpMYXhqCyJwnFFygSfDBoDuYXVZ7M8B2o3lB9e
+         TYAQ==
+X-Gm-Message-State: AFuF++lgI8cpgkpkDIANrv1+OmfaEocz7cVkw+l8+gQ/3IYDxwj2YXCs
+	PTuqSZ0l0mRT33neJSlw5bifLP2qyTfBX2WXEVzu3TBS09rhsFfOILnn2PPHjPjB4tna3w==
+X-Gm-Gg: AYBFou2sptZQodLv6E5Bfi1tfgnuP5fme0bEFuwT6DfBnHZUTmqp/mswgaCh8sS68fA
+	VacWKfp9yzsprkIcMZPK4Qs44ucX54uWq45DK3PDoJcYA/vUrA3pCCXwCwLPvWDeiMaV47CZGDC
+	3rpM6aFxMLcV7ecgPxljtZ/Sy0lgetyfq3WNHEt12HYacCQ6OsnAWLUpemSQw6Q0BQwTtRPXm6X
+	YZ+f2FzWNuOUTdWNTIlhZhF1s2DbXyFCVZ8EdlyEln+9XyabpbQVajjkNfB34DnsYit83RmQM44
+	ZWu7CTxqnZpruilwoNnPus/7y/VRvpB7wPeBjL1dBzHDzCuly88H5jLVyq1nSXeIT8xDAiS0ndH
+	F4jmZlmc3zIf36j2I9YaLOnbe0R1NYv3wV3xi6vDKYdEv26eDNIyRnfwiXfj7K4Kn7Y+hju/0/v
+	LAyzV5zFiw7AE/U+Jc9OFwUgTfVsJR3ATjcyDYJBpzzGq+nT+RolxMUZazBcPvDU9mXYM=
+X-Received: by 2002:a17:907:6ea2:b0:c29:5340:182e with SMTP id a640c23a62f3a-c2aade19438mr144048266b.2.1790150835570;
+        Wed, 23 Sep 2026 01:07:15 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c6022sm63898766b.14.2026.09.23.01.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 01:07:14 -0700 (PDT)
+Date: Wed, 23 Sep 2026 11:07:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Suraj Gupta <suraj.gupta2@amd.com>
+Subject: Re: [linux-next:master 4776/8910]
+ drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2974 axienet_probe() warn:
+ platform_get_irq() does not return zero
+Message-ID: <arOIr1dTk46HVFFn@stanley.mountain>
+References: <202609230734.R1jtbjb4-lkp@intel.com>
+ <CAABR9nGwX8v2sdRCe1+NBVTS2O+7s3GiJpTVJ-0mK23p1YLUCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAABR9nGwX8v2sdRCe1+NBVTS2O+7s3GiJpTVJ-0mK23p1YLUCA@mail.gmail.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: Zi Yan <ziy@nvidia.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+On Wed, Sep 23, 2026 at 02:35:58PM +0700, Bui Duc Phuc wrote:
+> It seems the analysis tool may have been mistaken in this case.
+> 
+> 
+> > bb2b71024976a39 bui duc phuc             2026-09-09 @2974               if (!lp->rx_irq || !lp->tx_irq) {
+> >
+> > These should be checks for negative instead of zero.
+> >
+> 
+> The check is intended for the case where rx_irq and tx_irq are obtained from
+> irq_of_parse_and_map(), which returns 0 on failure.
+> 
+> > 95219aa538e11d5 Srikanth Thokala         2015-05-05  2975                       dev_err(&pdev->dev, "could not determine irqs\n");
+> > bb2b71024976a39 bui duc phuc             2026-09-09  2976                       return -EINVAL;
+> > 8a3b7a252dca9fb Daniel Borkmann          2012-01-19  2977               }
+> > bb2b71024976a39 bui duc phuc             2026-09-09  2978               if (lp->rx_irq < 0)
+> >
+> 
+> This check handles the error return from platform_get_irq()
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   fff9c87241bb46aa09ed3a91d6002cba966d7776
-commit: bdc31ca0397d6bcfb19301b8a8ca56f822165bde [425/627] mm/page-flags: check page/folio->private instead of PG_private
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: sparc64-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230931.jQfYVMCZ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 4b99afb361a8cfd45fc17aebc637688661e9e472)
-smatch: v0.5.0-9187-g5189e3fb
+Ah.  Right.  That works.  Sorry.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609230931.jQfYVMCZ-lkp@intel.com/
+I kind of hate that we still have irq functions that return zero on
+error instead of a normal error code.  It's a historical artifact.
 
-New smatch warnings:
-fs/btrfs/extent_io.c:1262 can_skip_one_ordered_range() error: 'folio' dereferencing possible ERR_PTR()
+regards,
+dan carpenter
 
-Old smatch warnings:
-fs/btrfs/extent_io.c:906 submit_extent_folio() error: we previously assumed 'bio_ctrl->bbio' could be null (see line 837)
-
-vim +/folio +1262 fs/btrfs/extent_io.c
-
-d1310b2e0cd98eb Chris Mason             2008-01-24  1216  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1217  /*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1218   * Check if we can skip waiting the @ordered extent covering the block at @fileoff.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1219   *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1220   * @fileoff:	Both input and output.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1221   *		Input as the file offset where the check should start at.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1222   *		Output as where the next check should start at,
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1223   *		if the function returns true.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1224   *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1225   * Return true if we can skip to @fileoff. The caller needs to check the new
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1226   * @fileoff value to make sure it covers the full range, before skipping the
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1227   * full OE.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1228   *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1229   * Return false if we must wait for the ordered extent.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1230   */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1231  static bool can_skip_one_ordered_range(struct btrfs_inode *inode,
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1232  				       struct btrfs_ordered_extent *ordered,
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1233  				       u64 *fileoff)
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1234  {
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1235  	const struct btrfs_fs_info *fs_info = inode->root->fs_info;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1236  	struct folio *folio;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1237  	const u32 blocksize = fs_info->sectorsize;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1238  	u64 cur = *fileoff;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1239  	bool ret;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1240  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1241  	folio = filemap_get_folio(inode->vfs_inode.i_mapping, cur >> PAGE_SHIFT);
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1242  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1243  	/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1244  	 * We should have locked the folio(s) for range [start, end], thus
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1245  	 * there must be a folio and it must be locked.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1246  	 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1247  	ASSERT(!IS_ERR(folio));
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1248  	ASSERT(folio_test_locked(folio));
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1249  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1250  	/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1251  	 * There are several cases for the folio and OE combination:
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1252  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1253  	 * 1) Folio has no private flag
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1254  	 *    The OE has all its IO done but not yet finished, and folio got
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1255  	 *    invalidated.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1256  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1257  	 * Have we have to wait for the OE to finish, as it may contain the
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1258  	 * to-be-inserted data checksum.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1259  	 * Without the data checksum inserted into the csum tree, read will
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1260  	 * just fail with missing csum.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1261  	 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10 @1262  	if (!folio_test_private(folio)) {
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1263  		ret = false;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1264  		goto out;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1265  	}
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1266  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1267  	/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1268  	 * 2) The first block is DIRTY.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1269  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1270  	 * This means the OE is created by some other folios whose file pos is
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1271  	 * before this one. And since we are holding the folio lock, the writeback
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1272  	 * of this folio cannot start.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1273  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1274  	 * We must skip the whole OE, because it will never start until we
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1275  	 * finished our folio read and unlocked the folio.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1276  	 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1277  	if (btrfs_folio_test_dirty(fs_info, folio, cur, blocksize)) {
-48f3784b17d9145 Matthew Wilcox (Oracle  2025-10-24  1278) 		u64 range_len = umin(folio_next_pos(folio),
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1279  				    ordered->file_offset + ordered->num_bytes) - cur;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1280  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1281  		ret = true;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1282  		/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1283  		 * At least inside the folio, all the remaining blocks should
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1284  		 * also be dirty.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1285  		 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1286  		ASSERT(btrfs_folio_test_dirty(fs_info, folio, cur, range_len));
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1287  		*fileoff = ordered->file_offset + ordered->num_bytes;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1288  		goto out;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1289  	}
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1290  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1291  	/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1292  	 * 3) The first block is uptodate.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1293  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1294  	 * At least the first block can be skipped, but we are still not fully
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1295  	 * sure. E.g. if the OE has some other folios in the range that cannot
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1296  	 * be skipped.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1297  	 * So we return true and update @next_ret to the OE/folio boundary.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1298  	 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1299  	if (btrfs_folio_test_uptodate(fs_info, folio, cur, blocksize)) {
-48f3784b17d9145 Matthew Wilcox (Oracle  2025-10-24  1300) 		u64 range_len = umin(folio_next_pos(folio),
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1301  				    ordered->file_offset + ordered->num_bytes) - cur;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1302  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1303  		/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1304  		 * The whole range to the OE end or folio boundary should also
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1305  		 * be uptodate.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1306  		 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1307  		ASSERT(btrfs_folio_test_uptodate(fs_info, folio, cur, range_len));
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1308  		ret = true;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1309  		*fileoff = cur + range_len;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1310  		goto out;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1311  	}
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1312  
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1313  	/*
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1314  	 * 4) The first block is not uptodate.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1315  	 *
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1316  	 * This means the folio is invalidated after the writeback was finished,
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1317  	 * but by some other operations (e.g. block aligned buffered write) the
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1318  	 * folio is inserted into filemap.
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1319  	 * Very much the same as case 1).
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1320  	 */
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1321  	ret = false;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1322  out:
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1323  	folio_put(folio);
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1324  	return ret;
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1325  }
-d2da21a6e06c40b Qu Wenruo               2025-02-10  1326  
-
-:::::: The code at line 1262 was first introduced by commit
-:::::: d2da21a6e06c40b9fd380ada93f1b48279e48b16 btrfs: introduce a read path dedicated extent lock helper
-
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
