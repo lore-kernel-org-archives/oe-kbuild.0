@@ -1,135 +1,206 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6425B404BF9
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 08:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E66041A4E8
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 09:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152674; cv=none; b=a4hZ77VAdbAHpDYbTPRANbUETPnAIr+6Qg2iGM8WoUMWawCdPOH7LLMnhFVThh4QGFX9CPk5SOVFt+o2pKoB2rzbI0xgyL1GRP65mGk1Z5O8WVORh+NEM9aJm0Gmw/WonBlhALXGGHBdzmHvZEeymH07RIjwNug6ZdhyLw5GSyg=
+	t=1790156906; cv=none; b=uaZ85TQM9W8tYqE78P1s46ZXdN4JSPvZUbed6S0bpzKLl3hb9+kK6nUcxq7qkt232vpC+38ZxuSqCJ5c7zY9mIa/Hi+5fmwYh/4SwGtZyYzv3bu8x1t/hhCq6Q8KaJHJetquaUffADhA4s6Jt7jeR/cSZrfNBJ44FDAHKVSW+mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152674; c=relaxed/simple;
-	bh=uRjcUxeEQmV6ec9npQjX5uza5dm9WIobiw1akWmO/XA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qN+fP4xg08j8lBqtO70DsYEDROjk/S37esz25nD5yv8pv264GcRqQ6zdSlqQaOXXcezVtaEugU6ZfNzSpitkwD2LTbhFuE4crsu4tYWbVsKsQ+uQobq3F8zeASUg5VvfssIqKpsyMLPb0DpXvqXNjd4Q9CG/JQH86jWt2iPb2zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIQcyBh4; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790156906; c=relaxed/simple;
+	bh=MVzXFpHpFIo3s/12QNgC+TmQP68tCCtJ/SglJIrktrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=YsI+htchS48GYgy5Nj/3J18SlOiRZ/9s11w8P//w6Jo8bUmx6PLmSjBuNjqKDoBM0Klx5NEWW1Q5sYa/W4uzZ+9UumrQg3fZE03iRIa6lMzW9Jiz5VQAqRG6Im9Ds/uIrGlPttqMISpzi6yAteHReRq3EbFv/DSiMmMZsGVH+Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MY1XSGDC; arc=none smtp.client-ip=192.198.163.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIQcyBh4"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9f7dbeso78121566b.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 23 Sep 2026 01:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790152655; x=1790757455; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pxCaWNZSnkou9hfi8CjdDjOclTIQWCL/F4nwtl/yEwI=;
-        b=lIQcyBh4bR9Ep8MG75eQyS182ShKWK1OOrdogXYOe4I0MsFTVKsU3niFIz0c4VWVlm
-         2REUlMdKK6cvCDVls54Lx9k1DK1kE7/f4UZg7gymTj+vIS8VJp37d5yZHtEc6ng+dXDe
-         rLCfkTcfgzxDutxFjlzVH5DBl41E/a1heC7mg/E9qcffNKF52DYNe1Oq1KDCw48AWzO8
-         kuk5ONO0wYlEJrffkhGCB1EPF67PNbBxFVt+O4jvvJjLYBc+CWEjgY79fPe1iyTj9LdM
-         NhMAXQRBwQvFPctoR9aTKAKwSeeFc0wMB1PSUbUUTymy5v117W4rPK2s6vRPxZQpwf8I
-         INOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790152655; x=1790757455;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pxCaWNZSnkou9hfi8CjdDjOclTIQWCL/F4nwtl/yEwI=;
-        b=R6sQ2j1877PgHT90mvJjO/sZdN252GH7abFPCiipJlmP/kL00r4ugDqeBSEByng+dQ
-         6RvSGEjkiHlc6Wqt0FHKQb5Rd2wBzSeialPn62mm5vNC2CDx0bC8CrwZfXg4zMBeau3j
-         foMp9mpeMY7iMu8+XNqHjXeRHuzFDQBiT925o+H9915JZVGWhQRko1ICIXAxPV5J90qq
-         ZM12h90sePOA9yGO6CmI//B+VZAPqyXLfdo0VLu2+QuZOYmTrgaH1ZdRRBGeziQ4IVNB
-         1gUJvVGCAnk5GIcuJbxoqhpE9ykBUQMAvaRxZhmdHBNH5mOItPyA7XqRPdQfqWjjgmXU
-         oUEQ==
-X-Gm-Message-State: AFuF++lbXwdAvvRr/f2To0tmvnYD2r747pd8oct6W5SitZXcHiBni5k/
-	nmIyW+hKYBRpI5ezC8Bno0mHDG0+ZDzSgYsEsNZy2fEDqSXwlhhoEkIi3titoH2YipWt8g==
-X-Gm-Gg: AYBFou2QMLM9Gcbr7CcybpJMvG5rBshVYUxMUG3XAdaV3b5b6w10EP3+YDO+RFbRJ7W
-	4K1RE1WwycI9HmlNWDgg2OQrG69uhgqaTX+sbPyvuSThYucHjujTx83/etGcubVASRLpYbWl5LJ
-	oXekbnGY0D5QjCqU5df0RicYB1Gc4eReLijtXb0ET/FNkJFhqEqiRFfB3SjVClZYxQp6+cBZe90
-	MfYHz7lN3D36E9MHZ3Agh6//NXgXvhZiiQGQ0aHrF6bp8bG8o8qNULBO3cCKj2zTZS0gdg3oIxk
-	AurWJmGK0xyq4M2w+5HL6HD/mPxwmh2AhS1LDBcz+sPFcLX2L4x5LkVJEuOjjKeLZMASQufwCsi
-	K2rSi/bHYy/XWzQo5OG5FU7/CzGqbSOfwC4U2TeQ164IFf4BOykQy4yoxDRwcZfdfLPKpyQzHkn
-	kVwd66y35zYjst85WVNgayo9lgLhireLgzxedK0+KVvpqMYyCNXp5CbqAUkG2/tzkgKFs=
-X-Received: by 2002:a17:907:e84b:b0:c25:cb7e:1cc9 with SMTP id a640c23a62f3a-c2aade3f821mr149296466b.7.1790152654819;
-        Wed, 23 Sep 2026 01:37:34 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae6b9b2bsm72131866b.50.2026.09.23.01.37.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 01:37:33 -0700 (PDT)
-Date: Wed, 23 Sep 2026 11:37:30 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jimc:m10 35/44] lib/dynamic_debug.c:854
- param_set_dyndbg_module_classes() error: we previously assumed 'map' could
- be null (see line 841)
-Message-ID: <202609230952.6jFrseQb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MY1XSGDC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790156905; x=1821692905;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MVzXFpHpFIo3s/12QNgC+TmQP68tCCtJ/SglJIrktrY=;
+  b=MY1XSGDC4KFxc+s3od9eo4gH2/Cjj3lEgc/xNDrftwb27Ki5GK4EP3nH
+   YpAwcKMUATy+3lrPTGcoQFISUsHig69qOxI4/BcDYYypHpzNwen/t0oRd
+   wBrhQjEix3dWofuEP46OGarkiBvCS5Bmwtg1s5gXGq3opMvymsu+fEiJ5
+   hYZ7YT4mteZY3K/vxYQCR1/VkLbyJkBSZYkgODvQCJkdY+P2v1CoOuVCa
+   cG8N5v3yzbnCEcE2atoYMX0vujoi3mFPDeLPq2iBiifLsqTCuHc2BsnfZ
+   ldQEDqPMElChMN/qUVK3r6AQx5AKIWF3FV+IDe+ip6B7SlCtFjldIGOa9
+   A==;
+X-CSE-ConnectionGUID: nXNaQyg1T3SyuGmSRDH3qw==
+X-CSE-MsgGUID: 3uqjrMqMTwun7fWM1D8Ouw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1328293"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="1328293"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 02:48:24 -0700
+X-CSE-ConnectionGUID: zl2nIKmNQNeU1Y/ggJBNUA==
+X-CSE-MsgGUID: knI1M1dWRyCMp4Q8/jFVBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="4811492"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 23 Sep 2026 02:48:23 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9JaP-000000000be-0V6n;
+	Wed, 23 Sep 2026 09:48:21 +0000
+Date: Wed, 23 Sep 2026 11:47:20 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jimc:dyndbg-maple-clean 45/45] lib/dynamic_debug.c:1962
+ ddebug_reconstruct_site_map() error: double free of 'decompressed_sites'
+ (line 1940)
+Message-ID: <202609231115.ZePNk5fP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260923083730.tU3TSNUKFwhCP2uxI_sBnSS1CLU4Zz7LjXFByA6DyzQ@z>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/jimc/linux.git m10
-head:   f95e4f1e4ce035c9b5f8da68c66d83f2452d92d5
-commit: feb8ec0044ac67921562346a4a6b831204667ea9 [35/44] dyndbg: resolve "protection" of class'd pr_debug
-config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230952.6jFrseQb-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jim Cromie <jim.cromie@gmail.com>
+TO: "=C5=81ukasz Bartosik" <ukaszb@chromium.org>
+
+tree:   https://github.com/jimc/linux.git dyndbg-maple-clean
+head:   66849149b0a8cab7cdac143b22fd88b3df05636b
+commit: 66849149b0a8cab7cdac143b22fd88b3df05636b [45/45] dyndbg: Compress s=
+ite-data with zstd and reclaim trees via shrinker
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/ar=
+chive/20260923/202609231115.ZePNk5fP-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609230952.6jFrseQb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609231115.ZePNk5fP-lkp@intel.com/
 
-smatch warnings:
-lib/dynamic_debug.c:854 param_set_dyndbg_module_classes() error: we previously assumed 'map' could be null (see line 841)
+New smatch warnings:
+lib/dynamic_debug.c:1962 ddebug_reconstruct_site_map() error: double free o=
+f 'decompressed_sites' (line 1940)
 
-vim +/map +854 lib/dynamic_debug.c
+Old smatch warnings:
+lib/dynamic_debug.c:965 param_set_dyndbg_module_classes() error: we previou=
+sly assumed 'map' could be null (see line 952)
 
-7f10c4fc568572 Jim Cromie 2025-11-18  832  static int param_set_dyndbg_module_classes(const char *instr,
-7f10c4fc568572 Jim Cromie 2025-11-18  833  					   const struct kernel_param *kp,
-7f10c4fc568572 Jim Cromie 2025-11-18  834  					   const char *mod_name)
-b9400852c0801a Jim Cromie 2022-09-04  835  {
-feb8ec0044ac67 Jim Cromie 2025-11-18  836  	struct ddebug_class_param *dcp = kp->arg;
-feb8ec0044ac67 Jim Cromie 2025-11-18  837  	struct ddebug_class_map *map = dcp->map;
-62b32b2a95ef1c Jim Cromie 2025-11-18  838  	u32 inrep, new_bits, old_bits, old_val;
-b9400852c0801a Jim Cromie 2022-09-04  839  	int rc, totct = 0;
-b9400852c0801a Jim Cromie 2022-09-04  840  
-feb8ec0044ac67 Jim Cromie 2025-11-18 @841  	if (map && !map->controlling_param)
-                                                    ^^^
-Can map really be NULL?
+vim +/decompressed_sites +1962 lib/dynamic_debug.c
 
-feb8ec0044ac67 Jim Cromie 2025-11-18  842  		map->controlling_param = dcp;
-feb8ec0044ac67 Jim Cromie 2025-11-18  843  
-62b32b2a95ef1c Jim Cromie 2025-11-18  844  	rc = kstrtou32(instr, 0, &inrep);
-b9400852c0801a Jim Cromie 2022-09-04  845  	if (rc) {
-cec8bafd130370 Jim Cromie 2025-11-18  846  		int len = strcspn(instr, "\n");
-cec8bafd130370 Jim Cromie 2025-11-18  847  
-cec8bafd130370 Jim Cromie 2025-11-18  848  		pr_err("expecting numeric input, not: %.*s > %s\n",
-cec8bafd130370 Jim Cromie 2025-11-18  849  		       len, instr, KP_NAME(kp));
-b9400852c0801a Jim Cromie 2022-09-04  850  		return -EINVAL;
-b9400852c0801a Jim Cromie 2022-09-04  851  	}
-d88925c4b39c80 Jim Cromie 2025-11-18  852  	ddebug_class_param_clamp_input(&inrep, kp);
-b9400852c0801a Jim Cromie 2022-09-04  853  
-b9400852c0801a Jim Cromie 2022-09-04 @854  	switch (map->map_type) {
-                                                        ^^^^^
-Because if so we are in trouble.
-
-b9400852c0801a Jim Cromie 2022-09-04  855  	case DD_CLASS_TYPE_DISJOINT_BITS:
-7f10c4fc568572 Jim Cromie 2025-11-18  856  		old_val = READ_ONCE(*dcp->bits);
-62b32b2a95ef1c Jim Cromie 2025-11-18  857  		v2pr_info("bits:0x%x > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
-a62837264de615 Jim Cromie 2025-11-18  858  		totct += ddebug_apply_class_bitmap(dcp, &inrep, old_val, mod_name);
-7f10c4fc568572 Jim Cromie 2025-11-18  859  		WRITE_ONCE(*dcp->bits, inrep);
+66849149b0a8ca Jim Cromie 2026-07-08  1913 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1914  static int ddebug_reconstruct_s=
+ite_map(void)
+66849149b0a8ca Jim Cromie 2026-07-08  1915  {
+66849149b0a8ca Jim Cromie 2026-07-08  1916  	struct ddebug_table *dt;
+66849149b0a8ca Jim Cromie 2026-07-08  1917  	struct _ddebug_info di;
+66849149b0a8ca Jim Cromie 2026-07-08  1918  	struct _ddebug_site *decompres=
+sed_sites =3D NULL;
+66849149b0a8ca Jim Cromie 2026-07-08  1919  	int ret;
+66849149b0a8ca Jim Cromie 2026-07-08  1920 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1921  	if (!mtree_empty(&dd_site_map))
+66849149b0a8ca Jim Cromie 2026-07-08  1922  		return 0;
+66849149b0a8ca Jim Cromie 2026-07-08  1923 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1924  	/* 1. Reconstruct built-in sit=
+e map */
+66849149b0a8ca Jim Cromie 2026-07-08  1925  	if (dd_builtin_compressed_site=
+s) {
+66849149b0a8ca Jim Cromie 2026-07-08  1926  		unsigned int count =3D __stop=
+___dyndbg_descs - __start___dyndbg_descs;
+66849149b0a8ca Jim Cromie 2026-07-08  1927 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1928  		ret =3D ddebug_decompress_sit=
+es(dd_builtin_compressed_sites,
+66849149b0a8ca Jim Cromie 2026-07-08  1929  					      dd_builtin_compresse=
+d_len,
+66849149b0a8ca Jim Cromie 2026-07-08  1930  					      &decompressed_sites,=
+ count);
+66849149b0a8ca Jim Cromie 2026-07-08  1931  		if (ret)
+66849149b0a8ca Jim Cromie 2026-07-08  1932  			return ret;
+66849149b0a8ca Jim Cromie 2026-07-08  1933 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1934  		di.descs.start =3D __start___=
+dyndbg_descs;
+66849149b0a8ca Jim Cromie 2026-07-08  1935  		di.descs.len =3D count;
+66849149b0a8ca Jim Cromie 2026-07-08  1936  		di.sites.start =3D decompress=
+ed_sites;
+66849149b0a8ca Jim Cromie 2026-07-08  1937  		di.sites.len =3D count;
+66849149b0a8ca Jim Cromie 2026-07-08  1938 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1939  		ddebug_condense_sites(&di);
+66849149b0a8ca Jim Cromie 2026-07-08 @1940  		kvfree(decompressed_sites);
+66849149b0a8ca Jim Cromie 2026-07-08  1941  	}
+66849149b0a8ca Jim Cromie 2026-07-08  1942 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1943  	/* 2. Reconstruct loadable mod=
+ule site maps */
+66849149b0a8ca Jim Cromie 2026-07-08  1944  	list_for_each_entry(dt, &ddebu=
+g_tables, link) {
+66849149b0a8ca Jim Cromie 2026-07-08  1945  		if (dt->info.descs.start >=3D =
+__start___dyndbg_descs &&
+66849149b0a8ca Jim Cromie 2026-07-08  1946  		    dt->info.descs.start < __=
+stop___dyndbg_descs)
+66849149b0a8ca Jim Cromie 2026-07-08  1947  			continue;
+66849149b0a8ca Jim Cromie 2026-07-08  1948 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1949  		if (dt->compressed_sites) {
+66849149b0a8ca Jim Cromie 2026-07-08  1950  			ret =3D ddebug_decompress_si=
+tes(dt->compressed_sites,
+66849149b0a8ca Jim Cromie 2026-07-08  1951  						      dt->compressed_len,
+66849149b0a8ca Jim Cromie 2026-07-08  1952  						      &decompressed_sites,
+66849149b0a8ca Jim Cromie 2026-07-08  1953  						      dt->info.descs.len);
+66849149b0a8ca Jim Cromie 2026-07-08  1954  			if (ret)
+66849149b0a8ca Jim Cromie 2026-07-08  1955  				continue;
+66849149b0a8ca Jim Cromie 2026-07-08  1956 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1957  			di =3D dt->info;
+66849149b0a8ca Jim Cromie 2026-07-08  1958  			di.sites.start =3D decompres=
+sed_sites;
+66849149b0a8ca Jim Cromie 2026-07-08  1959  			di.sites.len =3D dt->info.de=
+scs.len;
+66849149b0a8ca Jim Cromie 2026-07-08  1960 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1961  			ddebug_condense_sites(&di);
+66849149b0a8ca Jim Cromie 2026-07-08 @1962  			kvfree(decompressed_sites);
+66849149b0a8ca Jim Cromie 2026-07-08  1963  		}
+66849149b0a8ca Jim Cromie 2026-07-08  1964  	}
+66849149b0a8ca Jim Cromie 2026-07-08  1965 =20
+66849149b0a8ca Jim Cromie 2026-07-08  1966  	return 0;
+66849149b0a8ca Jim Cromie 2026-07-08  1967  }
+a07d3696825a7a Jim Cromie 2026-09-06  1968  static void ddebug_condense_sit=
+es(struct _ddebug_info *di)
+a07d3696825a7a Jim Cromie 2026-09-06  1969  {
+a07d3696825a7a Jim Cromie 2026-09-06  1970  	int funcs =3D 0, files =3D 0, =
+mods =3D 0;
+a07d3696825a7a Jim Cromie 2026-09-06  1971 =20
+a07d3696825a7a Jim Cromie 2026-09-06  1972  	if (!di->sites.len)
+a07d3696825a7a Jim Cromie 2026-09-06  1973  		return;
+a07d3696825a7a Jim Cromie 2026-09-06  1974 =20
+a07d3696825a7a Jim Cromie 2026-09-06  1975  	if (WARN_ON(di->descs.len !=3D =
+di->sites.len))
+a07d3696825a7a Jim Cromie 2026-09-06  1976  		return;
+a07d3696825a7a Jim Cromie 2026-09-06  1977 =20
+a07d3696825a7a Jim Cromie 2026-09-06  1978  	funcs =3D ddebug_grow_tree(di,=
+ &dd_site_map,
+a07d3696825a7a Jim Cromie 2026-09-06  1979  				 "func", ddebug_get_functio=
+n, DD_TAG_FUNC);
+a07d3696825a7a Jim Cromie 2026-09-06  1980  	files =3D ddebug_grow_tree(di,=
+ &dd_site_map,
+a07d3696825a7a Jim Cromie 2026-09-06  1981  				 "file", ddebug_get_filenam=
+e, DD_TAG_FILE);
+a07d3696825a7a Jim Cromie 2026-09-06  1982  	mods =3D ddebug_grow_tree(di, =
+&dd_site_map,
+a07d3696825a7a Jim Cromie 2026-09-06  1983  				"mod", ddebug_get_modname, =
+DD_TAG_MOD);
+a07d3696825a7a Jim Cromie 2026-09-06  1984 =20
+a07d3696825a7a Jim Cromie 2026-09-06  1985  	ddebug_log_compression_stats(d=
+i->descs.len, mods, files, funcs);
+a07d3696825a7a Jim Cromie 2026-09-06  1986  	di->sites.len =3D 0;
+a07d3696825a7a Jim Cromie 2026-09-06  1987  }
+a07d3696825a7a Jim Cromie 2026-09-06  1988 =20
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
