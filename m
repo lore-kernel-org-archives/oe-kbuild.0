@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E938384258
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 15:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CB84A0EF3
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 15:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790263320; cv=none; b=fWgdtQIuG/8ImxvwKlOHjT8MVKlNW0opd8dwAWwpb7vK0RPtfCekcWadSRT80mLiWutHYLEamhm/J3c45YHWOTbAQ1gCs5R2oOuKVGo1CbW8DRUnFHIZsXpZJjCbGEyNk89KVFO2miqtNs+pFBXJqQ9ZUAb8N2MLejzf7oUYRAc=
+	t=1790263559; cv=none; b=PcN697lqp2hlmD6TZKIoKBREHJ2DmU5D0P0Ii6o9W0C/Pgl7MYBnIioKBSuQ6kMqjDMjpsJT77aE4RdYTazA2JwBiuus66m+uekM3Z1W4Y9gWg6vCY8O/goBHErS9WQ6UfccEUCYW00CBEoPsJJU1tz4eCnzuK9swatLqFssw9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790263320; c=relaxed/simple;
-	bh=o8+aVDhARCrGvck6fKXhyDw/hPQ6ZX7yyMrhOCEIPh4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=utzFZ9UTGMVIrOZ3GFxghchBnIgOGbNq57o7yEnovmeDphNYkUNVxSoHhQZ0Ims73D0hIJ1RZsU3q6MJ+N0aKIjxXvSAcitiQvl9pwZ5wnaUCjSaBHntWwWzXqRuG/CnK4YsXQics3g4LKD2ea+F0KmNTlD63Hsc2teXK+4enrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mF1+BroN; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790263559; c=relaxed/simple;
+	bh=2+YkLo4wSFHTza09N1zFlgYimVr1H2EpNRPMDvZASuU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uoze4gKhDKLfzrAgK5CgYKQg8C6aB65M/40EjylKC7PYJ7Nbw07qVf2Ek3iz6juKqlOU5eOsScLwMkS+qdEGPPNwbZKL8FA1gXggUsic/HAxVCbmlW0KqYflq+77yUvVEsOd4R0LW+vAZVR5h+eQ1L7xvET46J8XIbhqk0TyzAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CefKEKCi; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mF1+BroN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CefKEKCi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790263320; x=1821799320;
+  t=1790263558; x=1821799558;
   h=date:from:to:cc:subject:message-id;
-  bh=o8+aVDhARCrGvck6fKXhyDw/hPQ6ZX7yyMrhOCEIPh4=;
-  b=mF1+BroNZkludzE8lpbiY2iOY1YJ4Af1LwQmzc+Te720QLEFYJ3+2V4t
-   EcUcpq3EH6lzDgywRp8uv8cV6KIZ8YTBuX0TK/XkYwXYcWp/x2dOoWFAj
-   311YXo3GTnbdNYRqjRTBbEqZG7vfMQ7Dqw6FwselGsYmy1hnwQMOE0SMo
-   fufNqWVzv54PZRyqtszT2/bz2etBuDqxl6IxhPmLAyl5QcT9viRpSibw6
-   BAjOnnW0A1WLVhNEKGe49zvvh8/c6igYYdih5u1FZlOaP2l5K9eIjAAQ2
-   K6Ds9dcOhgavQHaay5mCrIl406052OplgpRSIOsmyhAMC3FIE91V4zozo
-   A==;
-X-CSE-ConnectionGUID: 5vm0UVMWRui3ZTODMmawPQ==
-X-CSE-MsgGUID: 0KGUvcL6RF2Lzh52ISYpGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89900273"
+  bh=2+YkLo4wSFHTza09N1zFlgYimVr1H2EpNRPMDvZASuU=;
+  b=CefKEKCivxKHbwZ2jZZgoJD1iOc5f7+UbYfqMlkF5gD+ROC3oWwB//Mf
+   22QxqODTprgwsVZlebcvGoiLSRtoL3008Jaj3eSQ77fQlhpQoj+1bUDyA
+   lHIHcFJu2r7LF9Lj8V9jEtR3FWphL/HtuvQ40AxuHxcnRikjAFIbH+UXZ
+   tix73kBSxfq6VU9hoETgM9AEYvFtbLSdIF0G2zvBzcnjKH5PPZ6WwmG6r
+   b483dUYxFX1PqwGDbEWTrgMtYcJciuBZD4/U1cgaidXgSzWP+q/vKCNhr
+   DNhKJ+cqg/0/CCwkSRL/+NTfywFPMQM1o5JB5dT6YwCf6Gh7/rhc1GGJ/
+   Q==;
+X-CSE-ConnectionGUID: Me05wQFlTl2O7Uf9pZU6IA==
+X-CSE-MsgGUID: 9EaADM31T4ySJvXaMGzllQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="108532553"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="89900273"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:21:30 -0700
-X-CSE-ConnectionGUID: BCwa+CJDTda9fFLUSBoNPw==
-X-CSE-MsgGUID: ypWej6r8QqK+6mBcD/k6Xg==
+   d="scan'208";a="108532553"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:25:58 -0700
+X-CSE-ConnectionGUID: lWUWaAfERgW6ZcBi5qzIHg==
+X-CSE-MsgGUID: uoP4UsgHTbW5+VLjqEGxig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="273172500"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2026 08:21:29 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 24 Sep 2026 08:25:57 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9lGI-000000000Lw-0pWj;
-	Thu, 24 Sep 2026 15:21:26 +0000
-Date: Thu, 24 Sep 2026 17:21:04 +0200
+	id 1x9lKc-00000000J2c-35oe;
+	Thu, 24 Sep 2026 15:25:54 +0000
+Date: Thu, 24 Sep 2026 23:24:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/crc/crc64-neon.c:22 crc64_nvme_neon() warn: statement
- has no effect 'uint64x2_t'
-Message-ID: <202609241758.XPJQfSEm-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [bvanassche:scsi-thread-safety 59/61]
+ drivers/scsi/BusLogic.c:3102:8: warning: calling function 'blogic_qcmd_lck'
+ requires holding spinlock 'command->device->host->host_lock' exclusively
+Message-ID: <202609242309.SIM27DBi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,58 +58,62 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: Eric Biggers <ebiggers@kernel.org>
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62f4c998b297cf233997a2b4cd6fc2d2df0319c9
-commit: 061cef5fcee5a4bbaa8726f8c5fc1d5e2f89bff7 lib/crc: Turn NEON intrinsics crc64 implementation into common code
-date:   4 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-r2200-20260923 (https://download.01.org/0day-ci/archive/20260924/202609241758.XPJQfSEm-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 4b99afb361a8cfd45fc17aebc637688661e9e472)
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Bart Van Assche <bvanassche@acm.org>
+
+tree:   https://github.com/bvanassche/linux scsi-thread-safety
+head:   7d0e7ae45b2d0446db9f464c5fabb2da366c9bab
+commit: 0db28c081d322fcd2e3eda3ec8c8b8fddd79b9c5 [59/61] scsi: drivers: Enable lock context analysis
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260924/202609242309.SIM27DBi-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609242309.SIM27DBi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 061cef5fcee5 ("lib/crc: Turn NEON intrinsics crc64 implementation into common code")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609241758.XPJQfSEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609242309.SIM27DBi-lkp@intel.com/
 
-New smatch warnings:
-lib/crc/crc64-neon.c:22 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-lib/crc/crc64-neon.c:23 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
-lib/crc/crc64-neon.c:24 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
-lib/crc/crc64-neon.c:41 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
-lib/crc/crc64-neon.c:42 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+>> drivers/scsi/BusLogic.c:3102:8: warning: calling function 'blogic_qcmd_lck' requires holding spinlock 'command->device->host->host_lock' exclusively [-Wthread-safety-precise]
+    3102 | static DEF_SCSI_QCMD(blogic_qcmd)
+         |        ^
+   include/scsi/scsi_host.h:537:8: note: expanded from macro 'DEF_SCSI_QCMD'
+     537 |                 rc = func_name##_lck(cmd);                              \
+         |                      ^
+   <scratch space>:67:1: note: expanded from here
+      67 | blogic_qcmd_lck
+         | ^
+   drivers/scsi/BusLogic.c:3102:8: note: found near match 'h->host_lock'
+   include/scsi/scsi_host.h:537:8: note: expanded from macro 'DEF_SCSI_QCMD'
+     537 |                 rc = func_name##_lck(cmd);                              \
+         |                      ^
+   <scratch space>:67:1: note: expanded from here
+      67 | blogic_qcmd_lck
+         | ^
+   1 warning generated.
 
-vim +/uint64x2_t +22 lib/crc/crc64-neon.c
 
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  12  
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  13  /* x^191 mod G, x^127 mod G */
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  14  static const u64 fold_consts_val[2] = { 0xeadc41fd2ba3d420ULL,
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  15  					0x21e9761e252621acULL };
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  16  /* floor(x^127 / G), (G - x^64) / x */
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  17  static const u64 bconsts_val[2] = { 0x27ecfa329aef9f77ULL,
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  18  				    0x34d926535897936aULL };
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  19  
-061cef5fcee5a4 lib/crc/crc64-neon.c             Ard Biesheuvel 2026-04-22  20  u64 crc64_nvme_neon(u64 crc, const u8 *p, size_t len)
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  21  {
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @22  	uint64x2_t fold_consts = vld1q_u64(fold_consts_val);
+vim +3102 drivers/scsi/BusLogic.c
 
-:::::: The code at line 22 was first introduced by commit
-:::::: 8fdef85d601db670e9c178314eedffe7bbb07e52 lib/crc: arm64: Simplify intrinsics implementation
+^1da177e4c3f41 Linus Torvalds 2005-04-16  3101  
+839cb99e8f7483 Khalid Aziz    2013-05-16 @3102  static DEF_SCSI_QCMD(blogic_qcmd)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  3103  
 
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Eric Biggers <ebiggers@kernel.org>
+:::::: The code at line 3102 was first introduced by commit
+:::::: 839cb99e8f748391059d10388c8aea48a88c142c [SCSI] BusLogic: Fix style issues
+
+:::::: TO: Khalid Aziz <khalid.aziz@oracle.com>
+:::::: CC: James Bottomley <JBottomley@Parallels.com>
 
 --
 0-DAY CI Kernel Test Service
