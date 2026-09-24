@@ -1,117 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5D0428475
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 22:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB62C40B110
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 23:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790290443; cv=none; b=ePCimnhmkluCXeDqr0z9kKGH0zFxlMRaNwYz07APtnPNU455oIih760zieqBSLx9KZ9jSzhrjDMnBe7LMROQLCSqZOKsCiy7EuaKbvGvWWH0edDM9vEKJoj3Uqtm+Mo7pa4DJLlFeRubXwaJdj0J8Xndd1bCbO/SQww1OgelBf8=
+	t=1790291641; cv=none; b=T1PhAlu0MlYLGkXLQO6vijvas7tZ1FQU5Pb06ZEaVuPKjKnK4IvYaXvuZ+cYqjskNMQC6PDWXqM6nm7dTlZfUG9xBjXPrZzFr6yopqu0x4ySeBbr829KIMvJGd3PLj4xqENkqtvP7XVlrrN9S3TxUCxCwxbEOLI4Lxbn3GVuRY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790290443; c=relaxed/simple;
-	bh=C68nBKtuMX6NCH1C9H+1vvTK/oKmbmwqq5HPfHpAAIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=r8Vy7Q8EjrktCkqqW1EQkHqI8spaM0yRR9hjncZEfCOvBzhYb7aeMEntR3i0tlaRR6Q2dre/5U6P2BcvUx9JNcVeBOPObAN4h6HkZmfc9rHRsi7P/t5r6i8PbPQOsjSbaKFLZATwHhg0Do17ZT64ZwRkHw++SAs5xrcfzy8sZTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKmrxrBr; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1790291641; c=relaxed/simple;
+	bh=VVX2dRYgTCJcXYCdg3hANnaNq2KBK3YSfbM+X3L6blc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mvCy7Ru/7YtQxgEa/b7lKqd9IVQxAKv4x8ZSVRHptCaqrN7R91LZyRveX28X/v9q7TPj0vh0V/dNHgoWEe0ye7w52P7PNWoWj3SCIFWl/uC/zxn/tixWZVvE6WdQlV3+zCNVY8tlaibzXz06xH3AEB778QaU2Ph6QSTQvfiC/II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CVKD2eAy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKmrxrBr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CVKD2eAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790290440; x=1821826440;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=C68nBKtuMX6NCH1C9H+1vvTK/oKmbmwqq5HPfHpAAIM=;
-  b=gKmrxrBrU7kdQ/hsDoSoju+Q0ezMgPLU528qdZ9GavTNubkwiPuqIfxl
-   +2n3lWyLovuZEq+OGSrNYzi2qswAyGGD6knbKsJCLXdn4JbMGVpY6lbDt
-   qJCg1DTFmzULR5Nkk8iw9cIZ4D/HDcRK2b66EUjMeQ5g6TWfVE13miqRu
-   Afb26akjsYznR2uxun5CRVKS874OqAZ3ixPZRlF5k6auTUyeuo5W5bifL
-   YTYcN0qS9MVzs+GIBsA9caGPFnRrd+I9a+qsxerfumoFa6LuLjVoRZ/zp
-   6laNqND+8AMfYU+ASHaH7ipDfJc5sswAan2pFfwfod3+hnt4L09nzI8Qs
-   w==;
-X-CSE-ConnectionGUID: ZNsDIIcSRm28wX8jE7k5/w==
-X-CSE-MsgGUID: Z6WOs2dbTaWtx+sybc15HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="112863610"
+  t=1790291639; x=1821827639;
+  h=date:from:to:cc:subject:message-id;
+  bh=VVX2dRYgTCJcXYCdg3hANnaNq2KBK3YSfbM+X3L6blc=;
+  b=CVKD2eAye1QL0PQ0RY6CQa4FjLJTmalLnTWzA+25T8KJeXMJw065GRWz
+   7FjjLkNBa3MH3NMderzSTuFXrVDcf/nmuPmERumdt/oIwF8Y1KL36cdsp
+   g5y21YgdSHr5q5EwwRxYFfzgH37UyP/YftvopFwFVY7GqXksVIu6xwUdd
+   hESnE4UPMBezYVT88GWPMvoEb/6ZYlYmXvRIc5lO8VLArBhrVMaDA8xPo
+   c/okeITdenzWwh1SycQalIk0YnWbdj3dMloser6fJqZYCmkMND5YR1Q0d
+   M/W1Jn9++cAwxiEDIKjesCyjba7kjRKGj4T5RPAocIFPpOy5zNVgKPELd
+   A==;
+X-CSE-ConnectionGUID: o6cqzD02QX+bRIhZKlcS+g==
+X-CSE-MsgGUID: iADTiLoFTgK5+pOOKQAulA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="108569266"
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="112863610"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 15:53:56 -0700
-X-CSE-ConnectionGUID: dCaV4fjuRjGeR0taIrMUDw==
-X-CSE-MsgGUID: ZrFVS85/QumDSwXohMRcAw==
+   d="scan'208";a="108569266"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 16:13:58 -0700
+X-CSE-ConnectionGUID: UPdm2ZIITMy2Vlt0u40btQ==
+X-CSE-MsgGUID: uJN3bBljT5evCAJmIAPgMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="277552749"
+   d="scan'208";a="272003493"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 24 Sep 2026 15:53:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2026 16:13:57 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9sK9-000000000T0-15Jl;
-	Thu, 24 Sep 2026 22:53:53 +0000
-Date: Fri, 25 Sep 2026 00:52:50 +0200
+	id 1x9sdW-000000000TD-2VVm;
+	Thu, 24 Sep 2026 23:13:54 +0000
+Date: Fri, 25 Sep 2026 01:13:46 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [nolibc:for-next 12/14]
- ./../../../../include/nolibc/types.h:122:39: warning: 'status' may be used
- uninitialized
-Message-ID: <202609250003.hvssJlRZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 9787/10113] kernel/bpf/verifier.c:6753
+ check_func_ptr_read() warn: missing unwind goto?
+Message-ID: <202609250112.LVBgdeoy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning =
-on old compiler"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Danish Khateeb <danishkhateeb03@gmail.com>
-CC: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
+TO: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/nolibc/linux-nolibc=
-.git for-next
-head:   6f114ae7b6006ca7cf72e3e3348d263bbfec4525
-commit: 368fae47c6cae28a312c5dc86e5bdb8f9369fd26 [12/14] tools/nolibc: fix =
-WIFSIGNALED() for status 0
-:::::: branch date: 3 hours ago
-:::::: commit date: 14 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/2026=
-0925/202609250003.hvssJlRZ-lkp@intel.com/config)
-compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260925/202609250003.hvssJlRZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
+commit: a04286f6d828870f2ad6b8eb18191b1b24a00f23 [9787/10113] bpf: Recognize pointers to functions in read-only maps
+:::::: branch date: 4 hours ago
+:::::: commit date: 17 hours ago
+config: m68k-randconfig-r2202-20260924 (https://download.01.org/0day-ci/archive/20260925/202609250112.LVBgdeoy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609250003.hvssJlRZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609250112.LVBgdeoy-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+smatch warnings:
+kernel/bpf/verifier.c:6753 check_func_ptr_read() warn: missing unwind goto?
 
-All warnings (new ones prefixed by >>):
+vim +6753 kernel/bpf/verifier.c
 
-   In file included from ./../../../../include/nolibc/nolibc.h:97,
-                    from <command-line>:
-   vstate_exec_nolibc.c: In function 'main':
->> ./../../../../include/nolibc/types.h:122:39: warning: 'status' may be us=
-ed uninitialized [-Wmaybe-uninitialized]
-     122 | #define WIFSIGNALED(status) ((status) - 1U < 0xff)
-         |                              ~~~~~~~~~^~~~
-   vstate_exec_nolibc.c:78:13: note: in expansion of macro 'WIFSIGNALED'
-      78 |         if (WIFSIGNALED(status)) {
-         |             ^~~~~~~~~~~
-   vstate_exec_nolibc.c:9:22: note: 'status' was declared here
-       9 |         int rc, pid, status, test_inherit =3D 0, xtheadvector =
-=3D 0;
-         |                      ^~~~~~
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6695  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6696  /*
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6697   * A read from a frozen read-only map that has pointers to functions, see
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6698   * resolve_func_ptrs(). The bounds and var_off of the offset tell where the read
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6699   * is possible at, e.g. var_off is the stride of the elements of an array.
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6700   * A read of exactly one pointer yields PTR_TO_FUNC. When the offset is variable
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6701   * and only pointers can be read, which is how an element of a table of
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6702   * functions is loaded, the verification continues with each of them. Other
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6703   * reads that overlap with a pointer are rejected, because their result is not
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6704   * known until the program is jitted.
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6705   *
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6706   * Return -ENOENT if there are no pointers to functions in the bytes that are read.
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6707   */
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6708  static int check_func_ptr_read(struct bpf_verifier_env *env, struct bpf_reg_state *reg, int off,
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6709  			       int size, int value_regno)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6710  {
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6711  	u64 min_off = reg_umin(reg) + off, max_off = reg_umax(reg) + off;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6712  	struct tnum offs = tnum_add(reg->var_off, tnum_const(off));
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6713  	struct bpf_reg_state *regs = cur_regs(env);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6714  	struct bpf_map *map = reg->map_ptr;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6715  	struct bpf_verifier_state *branch;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6716  	int subprog, targets[BPF_MAX_FUNC_PTR_TARGETS];
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6717  	struct bpf_func_ptr *ptrs;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6718  	u32 i, cnt, n = 0;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6719  	u64 o, lo, hi;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6720  	int err;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6721  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6722  	ptrs = bpf_map_range_func_ptrs(env, map, min_off, max_off - min_off + size, &cnt);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6723  	if (!ptrs)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6724  		return -ENOENT;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6725  	if (cnt > BPF_MAX_FUNC_PTR_RANGE)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6726  		goto overlap;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6727  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6728  	for (i = 0; i < cnt; i++) {
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6729  		/* the offsets at which the read overlaps with the pointer */
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6730  		lo = ptrs[i].map_off >= size ? ptrs[i].map_off - size + 1 : 0;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6731  		lo = max(lo, min_off);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6732  		hi = min(ptrs[i].map_off + sizeof(u64) - 1, max_off);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6733  		for (o = lo; o <= hi; o++) {
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6734  			if (!tnum_in(offs, tnum_const(o)))
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6735  				continue;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6736  			if (o != ptrs[i].map_off || size != sizeof(u64) || value_regno < 0)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6737  				goto overlap;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6738  			if (n == BPF_MAX_FUNC_PTR_TARGETS) {
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6739  				verbose(env, "read from map '%s' may yield more than %d pointers to functions\n",
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6740  					map->name, BPF_MAX_FUNC_PTR_TARGETS);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6741  				return -E2BIG;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6742  			}
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6743  			subprog = bpf_find_subprog(env, ptrs[i].xlated_off);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6744  			if (verifier_bug_if(subprog <= 0, env,
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6745  					    "no function at insn %u for map '%s' offset %u",
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6746  					    ptrs[i].xlated_off, map->name, ptrs[i].map_off))
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6747  				return -EFAULT;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6748  			targets[n++] = subprog;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6749  		}
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6750  	}
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6751  	/* pointers are next to what is read, e.g. the data of an array of vtables */
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6752  	if (!n)
+a04286f6d828870 Alexei Starovoitov 2026-09-24 @6753  		return -ENOENT;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6754  	/* either every offset that the read is possible at is a pointer or none */
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6755  	if (count_read_offsets(offs, min_off, max_off, n + 1) != n)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6756  		goto overlap;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6757  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6758  	/* the map has the offset of the function until the program is jitted */
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6759  	err = require_callx_jit(env);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6760  	if (err)
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6761  		return err;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6762  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6763  	for (i = 0; i < n - 1; i++) {
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6764  		branch = push_stack(env, env->insn_idx + 1, env->insn_idx,
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6765  				    env->cur_state->speculative);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6766  		if (IS_ERR(branch))
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6767  			return PTR_ERR(branch);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6768  		mark_reg_func_ptr(env, branch->frame[branch->curframe]->regs, value_regno,
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6769  				  targets[i]);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6770  	}
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6771  	mark_reg_func_ptr(env, regs, value_regno, targets[n - 1]);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6772  	return 0;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6773  
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6774  overlap:
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6775  	verbose(env, "read of %d bytes at offset [%llu,%llu] of map '%s' overlaps with a pointer to a function\n",
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6776  		size, min_off, max_off, map->name);
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6777  	return -EACCES;
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6778  }
+a04286f6d828870 Alexei Starovoitov 2026-09-24  6779  
 
 --
 0-DAY CI Kernel Test Service
