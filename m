@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC1737E2E2
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 06:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCED30AAD8
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 06:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790230907; cv=none; b=WJGlEEFnghoPtJbC3hmsoGv/rIHJoKz6mFa5vhqxZRsZgQLeG5UizfTpV0GrkE8ltChCljmCVh95SLAix/9YDwM+aplNhP93OAdVr9ZN8ivg0f87NcmyuiNoHrQLvL90Ky9A7KyoiCHIhXU61YJ5kIjNf7cJpl9RvXhm0WhZJdo=
+	t=1790231617; cv=none; b=mJuXn6Rlj2dNEOz9YLiKOOhTO1Q/zaV4wH28YQ88I2hRX6oPPi7oI87IQe7iY72m2yJ+WA4O3/Lf+1m0aiVWUWmmB3drECt9tiiXY7kbJ4zSYs74uGSmaEVjA6ZpmkLUZrfbRwbcuMoMuXcxQSKfe65aOmgm1JqQRG1IGK1BFC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790230907; c=relaxed/simple;
-	bh=3+vYA/S03aZt96icXSPfNRHl2ObIYgkFr46JBjbfx4I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gZNZvyCSLUQ1Cu4k7tU8PfFTokYmoGsDytPfOBvTWiFskZUEM1Q+B33QVPgzTKGtotA8t3XfzdsvVI3Jwaf5xu2Zfg/kPKUg8nor/KgpzDt9v5iKMc0xvhPIn2SB52tzhHJHAVddvIu7tv1DmtB/QLmqldoOMz4MElvRcy1WTH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DACpBHay; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1790231617; c=relaxed/simple;
+	bh=RzqzbjcCPvuUlgqkf99bZMdRmIYkarfeAwb4obumokY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gfeZf0TFvdysg4y2xIO6zkulMpA/ghDUKNYN/XjT72bexCR1o77OcoGKKOLvMF41xvO6fRbA+QonKIp/UQ31gW1OfDMBFSh8+eIeCCODn7kMvgPhckr82j2rchnqowSjSWinPRCkBk6zV7OQRM6ivXj31KgWb5TqBvpRZBg1GPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGwyqOST; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DACpBHay"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGwyqOST"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790230906; x=1821766906;
+  t=1790231615; x=1821767615;
   h=date:from:to:cc:subject:message-id;
-  bh=3+vYA/S03aZt96icXSPfNRHl2ObIYgkFr46JBjbfx4I=;
-  b=DACpBHaygrgwSc5ZVvQC5luagHRHvywYXufuF+pY+RSUXXRMwVzNLKCY
-   YppxKGqUWGXL8W8KCx+atzRNzK4nNyQpuyia9ad0QSrn9IwU3/meR2v0k
-   ak0rQlXMyoQ7hiRdY8QoY8hS2MGEOl/+QGv9YmKfB1pr2Woqhx54AQz4v
-   e3hL9SaGl0U5qVtMgnAYAWrwqCSrwEKvxPvJrngMuKoD2OpS3wOmVbqln
-   qNYIarmvgyikz35PuQfuNsYpWOXdSQ9gfR1b5bguSZNTmQhOMradYLG31
-   d+OMb1P7qvvpMM3AyAMy2qOxwFVv4usNZOhE4ExUqZJjxx7Hz9QLilNE3
-   w==;
-X-CSE-ConnectionGUID: EoEbNoS+Rl23RH3iaudDWg==
-X-CSE-MsgGUID: xwDQOSbfS5mON/vbg1g0WQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="107377245"
+  bh=RzqzbjcCPvuUlgqkf99bZMdRmIYkarfeAwb4obumokY=;
+  b=UGwyqOSTrC7GWwsj5xlBnsKFEnYRJcYubBMAmvTQ9SNrhgNAchibsza9
+   O7F510NDscnxMzlp5BMzWyOWDIJTkcFDszrphnY5JoW4yYGvTWbwHWscF
+   z8n597TB3g6JKq68OC96hdnhI+yW60XPlwLGulRsA5ZtrvvhHrOqT54TG
+   SfO1TveYjN1tH7dA14C2PNDV6nvyPPDY31ARWmJM4dwHlz57Vb462zPjZ
+   bltdiXDMsdvVmXAB4AI+MCeNH0KdW+P1aS4wP6BvudvbWKzOpizFsWII3
+   GwqrGsqQoPvelwibblMVs7tf/1G/5lctJ7HCm6bvOWTgSaO5zETSIDKR4
+   Q==;
+X-CSE-ConnectionGUID: 8ipRmAYWRNqbhBEOryW0fA==
+X-CSE-MsgGUID: Z4RhqwM9S3OGo/Fmp1hF7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="89854448"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="107377245"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 23:21:43 -0700
-X-CSE-ConnectionGUID: /nvRFCf2TmWbp7ASufRpCA==
-X-CSE-MsgGUID: 6nQP7+OuTCGe8i+KZCMQhQ==
+   d="scan'208";a="89854448"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 23:33:34 -0700
+X-CSE-ConnectionGUID: Ip8cR354RkmLlR0yixfDVg==
+X-CSE-MsgGUID: pZGl3fMzSQCOGlqGqjaTQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="273075430"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 23 Sep 2026 23:21:41 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="270425765"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2026 23:33:33 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9cpu-000000000Ec-0y9D;
-	Thu, 24 Sep 2026 06:21:38 +0000
-Date: Thu, 24 Sep 2026 08:21:37 +0200
+	id 1x9d1P-00000000IIq-1H66;
+	Thu, 24 Sep 2026 06:33:31 +0000
+Date: Thu, 24 Sep 2026 14:33:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/trace/trace.c:6382:27-28: ERROR: invalid reference to
- the index variable of the iterator on line 6308
-Message-ID: <202609240843.D5xZylT7-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/xtensa/include/asm/cmpxchg.h:88:58: warning: pointer
+ type mismatch in conditional expression
+Message-ID: <202609241434.P2ykgBuJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,150 +59,172 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Bradley-Morgan/lib-Add-two-byte-cmpxchg-emulation-function/20260922-173350, commit: 1eef3d8b352da80a750e9fbfdb7a33b8a0109492"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Steven Rostedt <rostedt@goodmis.org>
+TO: Bradley Morgan <brads@mainlining.org>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62f4c998b297cf233997a2b4cd6fc2d2df0319c9
-commit: 428add559b6923f13acc591913cda3467be98dfd tracing: Have tracer option be instance specific
-date:   11 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 months ago
-config: mips-randconfig-r2106-20260924 (https://download.01.org/0day-ci/archive/20260924/202609240843.D5xZylT7-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8ec2ba57f65624b4fdcca0fe2b0ff9bfcfe4c4cd)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Bradley-Morgan/lib-Add-two-byte-cmpxchg-emulation-function/20260922-173350
+head:   1eef3d8b352da80a750e9fbfdb7a33b8a0109492
+commit: 1eef3d8b352da80a750e9fbfdb7a33b8a0109492 xtensa: Emulate two-byte cmpxchg
+date:   2 days ago
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: xtensa-randconfig-r1300-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241434.P2ykgBuJ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241434.P2ykgBuJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 428add559b69 ("tracing: Have tracer option be instance specific")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202609240843.D5xZylT7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609241434.P2ykgBuJ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/trace/trace.c:6382:27-28: ERROR: invalid reference to the index variable of the iterator on line 6308
-   kernel/trace/trace.c:6382:40-41: ERROR: invalid reference to the index variable of the iterator on line 6308
+All warnings (new ones prefixed by >>):
 
-vim +6382 kernel/trace/trace.c
+   In file included from arch/xtensa/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/xtensa/include/asm/bitops.h:192,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/xtensa/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs_dirent.h:5,
+                    from include/linux/fs/super_types.h:5,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/fscrypt.h:16,
+                    from fs/crypto/fscrypt_private.h:15,
+                    from fs/crypto/hooks.c:10:
+   fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+>> arch/xtensa/include/asm/cmpxchg.h:88:58: warning: pointer type mismatch in conditional expression
+      88 |         unsigned long _new_ = (unsigned long)(0 ? *(ptr) : (n));              \
+         |                                                          ^
+   include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
+      82 | #define raw_cmpxchg_release arch_cmpxchg
+         |                             ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
+    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
+     420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
+         |             ^~~~~~~~~~~~~~~
 
-ef9188bcc6ca1d Mark-PK Tsai             2022-04-26  6286  
-9c5b9d3d65e485 Masami Hiramatsu         2020-01-11  6287  int tracing_set_tracer(struct trace_array *tr, const char *buf)
-09d23a1d8a82e8 Steven Rostedt (Red Hat  2015-02-03  6288) {
-428add559b6923 Steven Rostedt           2025-11-11  6289  	struct tracer *trace = NULL;
-428add559b6923 Steven Rostedt           2025-11-11  6290  	struct tracers *t;
-12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6291) #ifdef CONFIG_TRACER_MAX_TRACE
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6292  	bool had_max_tr;
-12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6293) #endif
-d33b10c0c73adc Steven Rostedt           2024-12-24  6294  	int ret;
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6295  
-d33b10c0c73adc Steven Rostedt           2024-12-24  6296  	guard(mutex)(&trace_types_lock);
-1027fcb206a0fb Steven Rostedt           2009-03-12  6297  
-7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6298) 	update_last_data(tr);
-7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6299) 
-a1f157c7a3bb34 Zheng Yejian             2023-09-06  6300  	if (!tr->ring_buffer_expanded) {
-2b6080f28c7cc3 Steven Rostedt           2012-05-11  6301  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
-438ced1720b584 Vaibhav Nagarnaik        2012-02-02  6302  						RING_BUFFER_ALL_CPUS);
-73c5162aa362a5 Steven Rostedt           2009-03-11  6303  		if (ret < 0)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6304  			return ret;
-73c5162aa362a5 Steven Rostedt           2009-03-11  6305  		ret = 0;
-73c5162aa362a5 Steven Rostedt           2009-03-11  6306  	}
-73c5162aa362a5 Steven Rostedt           2009-03-11  6307  
-428add559b6923 Steven Rostedt           2025-11-11 @6308  	list_for_each_entry(t, &tr->tracers, list) {
-428add559b6923 Steven Rostedt           2025-11-11  6309  		if (strcmp(t->tracer->name, buf) == 0) {
-428add559b6923 Steven Rostedt           2025-11-11  6310  			trace = t->tracer;
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6311  			break;
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6312  		}
-428add559b6923 Steven Rostedt           2025-11-11  6313  	}
-428add559b6923 Steven Rostedt           2025-11-11  6314  	if (!trace)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6315  		return -EINVAL;
-d33b10c0c73adc Steven Rostedt           2024-12-24  6316  
-428add559b6923 Steven Rostedt           2025-11-11  6317  	if (trace == tr->current_trace)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6318  		return 0;
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6319  
-a35873a0993b4d Tom Zanussi              2019-02-13  6320  #ifdef CONFIG_TRACER_SNAPSHOT
-428add559b6923 Steven Rostedt           2025-11-11  6321  	if (trace->use_max_tr) {
-c0a581d7126c0b Waiman Long              2022-09-22  6322  		local_irq_disable();
-a35873a0993b4d Tom Zanussi              2019-02-13  6323  		arch_spin_lock(&tr->max_lock);
-22bec11a569983 Steven Rostedt           2025-01-06  6324  		ret = tr->cond_snapshot ? -EBUSY : 0;
-a35873a0993b4d Tom Zanussi              2019-02-13  6325  		arch_spin_unlock(&tr->max_lock);
-c0a581d7126c0b Waiman Long              2022-09-22  6326  		local_irq_enable();
-a35873a0993b4d Tom Zanussi              2019-02-13  6327  		if (ret)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6328  			return ret;
-a35873a0993b4d Tom Zanussi              2019-02-13  6329  	}
-a35873a0993b4d Tom Zanussi              2019-02-13  6330  #endif
-c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6331) 	/* Some tracers won't work on kernel command line */
-428add559b6923 Steven Rostedt           2025-11-11  6332  	if (system_state < SYSTEM_RUNNING && trace->noboot) {
-c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6333) 		pr_warn("Tracer '%s' is not allowed on command line, ignored\n",
-428add559b6923 Steven Rostedt           2025-11-11  6334  			trace->name);
-d1e27ee9c6f21c Steven Rostedt           2024-12-19  6335  		return -EINVAL;
-c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6336) 	}
-c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6337) 
-607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6338) 	/* Some tracers are only allowed for the top level buffer */
-428add559b6923 Steven Rostedt           2025-11-11  6339  	if (!trace_ok_for_array(trace, tr))
-d33b10c0c73adc Steven Rostedt           2024-12-24  6340  		return -EINVAL;
-607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6341) 
-cf6ab6d9143b15 Steven Rostedt (Red Hat  2014-12-15  6342) 	/* If trace pipe files are being read, we can't change the tracer */
-d33b10c0c73adc Steven Rostedt           2024-12-24  6343  	if (tr->trace_ref)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6344  		return -EBUSY;
-cf6ab6d9143b15 Steven Rostedt (Red Hat  2014-12-15  6345) 
-9f029e83e968e5 Steven Rostedt           2008-11-12  6346  	trace_branch_disable();
-613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6347) 
-50512ab576e1ce Steven Rostedt (Red Hat  2014-01-14  6348) 	tr->current_trace->enabled--;
-613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6349) 
-2b6080f28c7cc3 Steven Rostedt           2012-05-11  6350  	if (tr->current_trace->reset)
-2b6080f28c7cc3 Steven Rostedt           2012-05-11  6351  		tr->current_trace->reset(tr);
-613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6352) 
-a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6353) #ifdef CONFIG_TRACER_MAX_TRACE
-a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6354) 	had_max_tr = tr->current_trace->use_max_tr;
-a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6355) 
-7440172974e85b Paul E. McKenney         2018-11-06  6356  	/* Current trace needs to be nop_trace before synchronize_rcu */
-2b6080f28c7cc3 Steven Rostedt           2012-05-11  6357  	tr->current_trace = &nop_trace;
-428add559b6923 Steven Rostedt           2025-11-11  6358  	tr->current_trace_flags = nop_trace.flags;
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6359  
-428add559b6923 Steven Rostedt           2025-11-11  6360  	if (had_max_tr && !trace->use_max_tr) {
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6361  		/*
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6362  		 * We need to make sure that the update_max_tr sees that
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6363  		 * current_trace changed to nop_trace to keep it from
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6364  		 * swapping the buffers after we resize it.
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6365  		 * The update_max_tr is called from interrupts disabled
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6366  		 * so a synchronized_sched() is sufficient.
-34600f0e9c33c9 Steven Rostedt           2013-01-22  6367  		 */
-7440172974e85b Paul E. McKenney         2018-11-06  6368  		synchronize_rcu();
-3209cff4490bee Steven Rostedt (Red Hat  2013-03-12  6369) 		free_snapshot(tr);
-180e4e390978af Vincent Donnefort        2024-02-20  6370  		tracing_disarm_snapshot(tr);
-ef710e100c1068 KOSAKI Motohiro          2010-07-01  6371  	}
-12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6372) 
-428add559b6923 Steven Rostedt           2025-11-11  6373  	if (!had_max_tr && trace->use_max_tr) {
-180e4e390978af Vincent Donnefort        2024-02-20  6374  		ret = tracing_arm_snapshot_locked(tr);
-180e4e390978af Vincent Donnefort        2024-02-20  6375  		if (ret)
-d33b10c0c73adc Steven Rostedt           2024-12-24  6376  			return ret;
-ef710e100c1068 KOSAKI Motohiro          2010-07-01  6377  	}
-a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6378) #else
-a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6379) 	tr->current_trace = &nop_trace;
-12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6380) #endif
-577b785f55168d Steven Rostedt           2009-02-26  6381  
-428add559b6923 Steven Rostedt           2025-11-11 @6382  	tr->current_trace_flags = t->flags ? : t->tracer->flags;
-428add559b6923 Steven Rostedt           2025-11-11  6383  
-428add559b6923 Steven Rostedt           2025-11-11  6384  	if (trace->init) {
-428add559b6923 Steven Rostedt           2025-11-11  6385  		ret = tracer_init(trace, tr);
-180e4e390978af Vincent Donnefort        2024-02-20  6386  		if (ret) {
-180e4e390978af Vincent Donnefort        2024-02-20  6387  #ifdef CONFIG_TRACER_MAX_TRACE
-428add559b6923 Steven Rostedt           2025-11-11  6388  			if (trace->use_max_tr)
-180e4e390978af Vincent Donnefort        2024-02-20  6389  				tracing_disarm_snapshot(tr);
-180e4e390978af Vincent Donnefort        2024-02-20  6390  #endif
-428add559b6923 Steven Rostedt           2025-11-11  6391  			tr->current_trace_flags = nop_trace.flags;
-d33b10c0c73adc Steven Rostedt           2024-12-24  6392  			return ret;
-1c80025a49855b Frederic Weisbecker      2008-11-16  6393  		}
-180e4e390978af Vincent Donnefort        2024-02-20  6394  	}
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6395  
-428add559b6923 Steven Rostedt           2025-11-11  6396  	tr->current_trace = trace;
-50512ab576e1ce Steven Rostedt (Red Hat  2014-01-14  6397) 	tr->current_trace->enabled++;
-9f029e83e968e5 Steven Rostedt           2008-11-12  6398  	trace_branch_enable(tr);
-bc0c38d139ec7f Steven Rostedt           2008-05-12  6399  
-d33b10c0c73adc Steven Rostedt           2024-12-24  6400  	return 0;
-d9e540762f5cdd Peter Zijlstra           2008-11-01  6401  }
-d9e540762f5cdd Peter Zijlstra           2008-11-01  6402  
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
+   kernel/events/core.c:1586:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1586:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1586:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1599:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1599:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1599:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3784:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3784:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3784:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3788:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3788:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3788:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3789:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3789:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3789:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3842:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3842:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3842:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3843:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3843:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3843:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:4261:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4261:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4261:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4669:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4669:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4669:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:5155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5155:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:5155:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6931:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6931:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6931:9: sparse:    struct perf_buffer *
+>> kernel/events/core.c:5431:21: sparse: sparse: incompatible types in conditional expression (different address spaces):
+   kernel/events/core.c:5431:21: sparse:    struct perf_ctx_data [noderef] __rcu *
+   kernel/events/core.c:5431:21: sparse:    struct perf_ctx_data *
+   kernel/events/core.c:5431:21: sparse: sparse: cast from unknown type
+   kernel/events/core.c:6682:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6682:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6682:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6806:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6806:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6806:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6839:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6839:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6839:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6952:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6952:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6952:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6968:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6968:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6968:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:9054:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9054:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:9054:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9142:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9142:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:9142:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:9984:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9984:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:9984:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:11209:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11209:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11209:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11248:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11248:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11248:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11528:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11528:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:11528:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:14667:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:14667:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:14667:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:15205:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:15205:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:15205:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11062:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11062:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11062:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11082:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11082:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11082:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
+
+vim +88 arch/xtensa/include/asm/cmpxchg.h
+
+f9aa7e1882f3cee David Howells  2012-03-28  85  
+b9b12978a8e9a4b Mark Rutland   2021-05-25  86  #define arch_cmpxchg(ptr,o,n)						      \
+1eef3d8b352da80 Bradley Morgan 2026-09-22  87  	({ unsigned long _old_ = (unsigned long)(0 ? *(ptr) : (o));	      \
+1eef3d8b352da80 Bradley Morgan 2026-09-22 @88  	unsigned long _new_ = (unsigned long)(0 ? *(ptr) : (n));	      \
+1eef3d8b352da80 Bradley Morgan 2026-09-22  89  	(__typeof__(*(ptr))) __cmpxchg((ptr), _old_,		      \
+1eef3d8b352da80 Bradley Morgan 2026-09-22  90  				_new_, sizeof (*(ptr))); \
+f9aa7e1882f3cee David Howells  2012-03-28  91  	})
+f9aa7e1882f3cee David Howells  2012-03-28  92  
 
 --
 0-DAY CI Kernel Test Service
