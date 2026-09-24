@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B594F49F107
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 15:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E938384258
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 15:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790262843; cv=none; b=NGlZFTl3cDB74Qeu6KnJPR2FequOk4kgz9cf0EtPgUrW4+0AK/kt7o1Ffs9aSKHtOVbCQmDs86T8ouprYb7y1WXqxdxUhO/WsdaqCiCRgwULKT3OOsVdJIS75HnRzSJH/ZdoYF9jOtxavvg6UnVyhXpso1jMw9nAZXkRVuG/1aY=
+	t=1790263320; cv=none; b=fWgdtQIuG/8ImxvwKlOHjT8MVKlNW0opd8dwAWwpb7vK0RPtfCekcWadSRT80mLiWutHYLEamhm/J3c45YHWOTbAQ1gCs5R2oOuKVGo1CbW8DRUnFHIZsXpZJjCbGEyNk89KVFO2miqtNs+pFBXJqQ9ZUAb8N2MLejzf7oUYRAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790262843; c=relaxed/simple;
-	bh=4lbaVqHA4+KdNHyQEll5CVU5G2FKzzpnDcBTBXoAQMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cJyzuobwKtZKPiU879OohmtmbKc7ZGxYxJEOf45zqRVhOh11zAJqPj2UaAI1NJ0rM1DWonf5GF9aRxQ3r/96ZJxkhaFQ0NSuEOmyr9CPJp9TvvIToK0GPZ65oHZGgjuMj8SWp14gZ1f+XixSG4OImeIwLQBhGmdRrVItI7x/+Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMBA1Mh6; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1790263320; c=relaxed/simple;
+	bh=o8+aVDhARCrGvck6fKXhyDw/hPQ6ZX7yyMrhOCEIPh4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=utzFZ9UTGMVIrOZ3GFxghchBnIgOGbNq57o7yEnovmeDphNYkUNVxSoHhQZ0Ims73D0hIJ1RZsU3q6MJ+N0aKIjxXvSAcitiQvl9pwZ5wnaUCjSaBHntWwWzXqRuG/CnK4YsXQics3g4LKD2ea+F0KmNTlD63Hsc2teXK+4enrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mF1+BroN; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMBA1Mh6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mF1+BroN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790262841; x=1821798841;
+  t=1790263320; x=1821799320;
   h=date:from:to:cc:subject:message-id;
-  bh=4lbaVqHA4+KdNHyQEll5CVU5G2FKzzpnDcBTBXoAQMQ=;
-  b=lMBA1Mh6n4b7PIA2/Wyvrw1Rx0P5fPIWMDLlq3oKt/2+mJb9S6Si0C3f
-   VYt3uCbfuDGkQy0Fc1D0M0i9wc6FDH6MkBrF6LAw66C0r9MurBw58beRG
-   KUezRuLf7WZ0s7Bd9sitVWv9uHFLBQho+atQIrgMBGbJ2pivYfE1mCtNo
-   yFHGZvVTIBXxagCnoQUJTVBaAMpznYfCo7TSL5KAPlZCvO+5nGIFu8vY4
-   IWPl6Waaiy/OrUpEvZZ+XD5+eBxZJmH+9PoVi/nH2hnZk0DGcf1t22qKw
-   cNrzJMlreCtxzb4HeqmqDw6kc8hl14Qk970mzBAEDwojxJ0D/vR5opsX+
-   Q==;
-X-CSE-ConnectionGUID: nlOpfoDtQsWPRMGLy2nV3Q==
-X-CSE-MsgGUID: k0VbYLkZQmKPSgiTyQ+STQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90079345"
+  bh=o8+aVDhARCrGvck6fKXhyDw/hPQ6ZX7yyMrhOCEIPh4=;
+  b=mF1+BroNZkludzE8lpbiY2iOY1YJ4Af1LwQmzc+Te720QLEFYJ3+2V4t
+   EcUcpq3EH6lzDgywRp8uv8cV6KIZ8YTBuX0TK/XkYwXYcWp/x2dOoWFAj
+   311YXo3GTnbdNYRqjRTBbEqZG7vfMQ7Dqw6FwselGsYmy1hnwQMOE0SMo
+   fufNqWVzv54PZRyqtszT2/bz2etBuDqxl6IxhPmLAyl5QcT9viRpSibw6
+   BAjOnnW0A1WLVhNEKGe49zvvh8/c6igYYdih5u1FZlOaP2l5K9eIjAAQ2
+   K6Ds9dcOhgavQHaay5mCrIl406052OplgpRSIOsmyhAMC3FIE91V4zozo
+   A==;
+X-CSE-ConnectionGUID: 5vm0UVMWRui3ZTODMmawPQ==
+X-CSE-MsgGUID: 0KGUvcL6RF2Lzh52ISYpGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89900273"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="90079345"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:14:00 -0700
-X-CSE-ConnectionGUID: 7M7XbxZeS/WO+Lwa+g5lOw==
-X-CSE-MsgGUID: ptPQZN/6QK+qZf/k0jAzmQ==
+   d="scan'208";a="89900273"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:21:30 -0700
+X-CSE-ConnectionGUID: BCwa+CJDTda9fFLUSBoNPw==
+X-CSE-MsgGUID: ypWej6r8QqK+6mBcD/k6Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="274243927"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Sep 2026 08:13:57 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="273172500"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2026 08:21:29 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9l8z-00000000J1e-2kW1;
-	Thu, 24 Sep 2026 15:13:53 +0000
-Date: Thu, 24 Sep 2026 23:13:37 +0800
+	id 1x9lGI-000000000Lw-0pWj;
+	Thu, 24 Sep 2026 15:21:26 +0000
+Date: Thu, 24 Sep 2026 17:21:04 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/media/virtio/virtio_media_driver.c:135:28: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202609242359.AZKGUgSK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: lib/crc/crc64-neon.c:22 crc64_nvme_neon() warn: statement
+ has no effect 'uint64x2_t'
+Message-ID: <202609241758.XPJQfSEm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,216 +59,58 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Nick-Rogers/media-v4l2-ioctl-zero-the-ext-control-built-for-VIDIOC_-G-S-_CTRL/20260923-170936, commit: 70a69cb9bc258501e453e51b35468173aa4358b5"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alexandre Courbot <gnurou@gmail.com>
-CC: 0day robot <lkp@intel.com>
-CC: Brian Daniels <briandaniels@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Eric Biggers <ebiggers@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Nick-Rogers/media-v4l2-ioctl-zero-the-ext-control-built-for-VIDIOC_-G-S-_CTRL/20260923-170936
-head:   e2cb6fe169d834d225215b07eac8cf91200e372a
-commit: 70a69cb9bc258501e453e51b35468173aa4358b5 media: virtio: Add session management
-date:   7 days ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-r1304-20260924 (https://download.01.org/0day-ci/archive/20260924/202609242359.AZKGUgSK-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609242359.AZKGUgSK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   62f4c998b297cf233997a2b4cd6fc2d2df0319c9
+commit: 061cef5fcee5a4bbaa8726f8c5fc1d5e2f89bff7 lib/crc: Turn NEON intrinsics crc64 implementation into common code
+date:   4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-r2200-20260923 (https://download.01.org/0day-ci/archive/20260924/202609241758.XPJQfSEm-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 4b99afb361a8cfd45fc17aebc637688661e9e472)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 061cef5fcee5 ("lib/crc: Turn NEON intrinsics crc64 implementation into common code")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609242359.AZKGUgSK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609241758.XPJQfSEm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/virtio/virtio_media_driver.c:135:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/media/virtio/virtio_media_driver.c:135:28: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/media/virtio/virtio_media_driver.c:135:28: sparse:     got int
->> drivers/media/virtio/virtio_media_driver.c:136:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] session_id @@     got unsigned int [usertype] id @@
-   drivers/media/virtio/virtio_media_driver.c:136:31: sparse:     expected restricted __le32 [usertype] session_id
-   drivers/media/virtio/virtio_media_driver.c:136:31: sparse:     got unsigned int [usertype] id
->> drivers/media/virtio/virtio_media_driver.c:272:32: sparse: sparse: restricted __le32 degrades to integer
->> drivers/media/virtio/virtio_media_driver.c:462:60: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] id @@     got restricted __le32 [usertype] session_id @@
-   drivers/media/virtio/virtio_media_driver.c:462:60: sparse:     expected unsigned int [usertype] id
-   drivers/media/virtio/virtio_media_driver.c:462:60: sparse:     got restricted __le32 [usertype] session_id
-   drivers/media/virtio/virtio_media_driver.c:469:28: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_media_driver.c:469:28: sparse: sparse: restricted __le32 degrades to integer
-   drivers/media/virtio/virtio_media_driver.c:562:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/media/virtio/virtio_media_driver.c:562:27: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/media/virtio/virtio_media_driver.c:562:27: sparse:     got int
->> drivers/media/virtio/virtio_media_driver.c:565:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] session_id @@     got restricted __le32 [usertype] session_id @@
-   drivers/media/virtio/virtio_media_driver.c:565:20: sparse:     expected unsigned int [usertype] session_id
-   drivers/media/virtio/virtio_media_driver.c:565:20: sparse:     got restricted __le32 [usertype] session_id
+New smatch warnings:
+lib/crc/crc64-neon.c:22 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
 
-vim +135 drivers/media/virtio/virtio_media_driver.c
+Old smatch warnings:
+lib/crc/crc64-neon.c:23 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:24 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:41 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:42 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
 
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  116  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  117  /**
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  118   * virtio_media_session_close() - Close and free a session.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  119   * @vv: virtio-media device the session belongs to.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  120   * @session: session to close and destroy.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  121   *
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  122   * This sends the ``VIRTIO_MEDIA_CMD_CLOSE`` command to the device, and frees
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  123   * all resources used by @session.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  124   */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  125  static int virtio_media_session_close(struct virtio_media *vv,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  126  				      struct virtio_media_session *session)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  127  {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  128  	struct virtio_media_cmd_close *cmd_close = &session->cmd.close;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  129  	struct scatterlist cmd_sg = {};
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  130  	struct scatterlist *sgs[1] = { &cmd_sg };
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  131  	int ret;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  132  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  133  	mutex_lock(&vv->vlock);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  134  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17 @135  	cmd_close->hdr.cmd = VIRTIO_MEDIA_CMD_CLOSE;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17 @136  	cmd_close->session_id = session->id;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  137  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  138  	sg_set_buf(&cmd_sg, cmd_close, sizeof(*cmd_close));
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  139  	sg_mark_end(&cmd_sg);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  140  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  141  	ret = virtio_media_send_command(vv, sgs, 1, 0, 0, NULL);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  142  	mutex_unlock(&vv->vlock);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  143  	if (ret < 0)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  144  		return ret;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  145  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  146  	virtio_media_session_free(vv, session);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  147  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  148  	return 0;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  149  }
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  150  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  151  /**
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  152   * virtio_media_find_session() - Look up a session with a given ID.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  153   * @vv: virtio-media device to lookup the session from.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  154   * @id: ID of the session to lookup.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  155   */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  156  static struct virtio_media_session *
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  157  virtio_media_find_session(struct virtio_media *vv, u32 id)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  158  {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  159  	struct list_head *p;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  160  	struct virtio_media_session *session = NULL;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  161  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  162  	mutex_lock(&vv->sessions_lock);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  163  	list_for_each(p, &vv->sessions) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  164  		struct virtio_media_session *s =
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  165  			list_entry(p, struct virtio_media_session, list);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  166  		if (s->id == id) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  167  			session = s;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  168  			break;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  169  		}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  170  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  171  	mutex_unlock(&vv->sessions_lock);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  172  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  173  	return session;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  174  }
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  175  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  176  /**
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  177   * struct virtio_media_cmd_callback_param - Callback parameters to the virtio
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  178   *                                          command queue.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  179   * @vv: virtio-media device in use.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  180   * @done: flag to be switched once the command is completed.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  181   * @resp_len: length of the received response from the command. Only valid
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  182   *            after @done flag has switched to %true.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  183   */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  184  struct virtio_media_cmd_callback_param {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  185  	struct virtio_media *vv;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  186  	bool done;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  187  	size_t resp_len;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  188  };
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  189  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  190  /**
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  191   * commandq_callback() - Callback for the command queue.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  192   * @queue: command virtqueue.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  193   *
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  194   * This just wakes up the thread that was waiting on the command to complete.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  195   */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  196  static void commandq_callback(struct virtqueue *queue)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  197  {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  198  	unsigned int len;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  199  	struct virtio_media_cmd_callback_param *param;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  200  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  201  process_bufs:
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  202  	while ((param = virtqueue_get_buf(queue, &len))) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  203  		param->done = true;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  204  		param->resp_len = len;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  205  		wake_up(&param->vv->wq);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  206  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  207  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  208  	if (!virtqueue_enable_cb(queue)) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  209  		virtqueue_disable_cb(queue);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  210  		goto process_bufs;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  211  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  212  }
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  213  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  214  /**
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  215   * virtio_media_kick_command() - send a command to the commandq.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  216   * @vv: virtio-media device in use.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  217   * @sgs: descriptor chain to send.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  218   * @out_sgs: number of device-readable descriptors in @sgs.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  219   * @in_sgs: number of device-writable descriptors in @sgs.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  220   * @resp_len: output parameter. Upon success, contains the size of the response
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  221   *            in bytes.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  222   */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  223  static int virtio_media_kick_command(struct virtio_media *vv,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  224  				     struct scatterlist **sgs,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  225  				     const size_t out_sgs, const size_t in_sgs,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  226  				     size_t *resp_len)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  227  {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  228  	struct virtio_media_cmd_callback_param cb_param = {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  229  		.vv = vv,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  230  		.done = false,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  231  		.resp_len = 0,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  232  	};
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  233  	struct virtio_media_resp_header *resp_header;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  234  	int ret = virtqueue_add_sgs(vv->commandq, sgs, out_sgs, in_sgs,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  235  		  &cb_param, GFP_ATOMIC);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  236  	if (ret) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  237  		v4l2_err(&vv->v4l2_dev,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  238  			 "failed to add sgs to command virtqueue\n");
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  239  		return ret;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  240  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  241  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  242  	if (!virtqueue_kick(vv->commandq)) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  243  		v4l2_err(&vv->v4l2_dev, "failed to kick command virtqueue\n");
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  244  		return -EINVAL;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  245  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  246  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  247  	/* Wait for the response. */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  248  	ret = wait_event_timeout(vv->wq, cb_param.done, 5 * HZ);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  249  	if (ret == 0) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  250  		v4l2_err(&vv->v4l2_dev,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  251  			 "timed out waiting for response to command\n");
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  252  		return -ETIMEDOUT;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  253  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  254  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  255  	if (resp_len)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  256  		*resp_len = cb_param.resp_len;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  257  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  258  	if (in_sgs > 0) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  259  		/*
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  260  		 * If we expect a response, make sure we have at least a
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  261  		 * response header - anything shorter is invalid.
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  262  		 */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  263  		if (cb_param.resp_len < sizeof(*resp_header)) {
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  264  			v4l2_err(&vv->v4l2_dev,
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  265  				 "received response header is too short\n");
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  266  			return -EINVAL;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  267  		}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  268  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  269  		resp_header = sg_virt(sgs[out_sgs]);
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  270  		if (resp_header->status)
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  271  			/* Host returns a positive error code. */
-70a69cb9bc25850 Alexandre Courbot 2026-09-17 @272  			return -resp_header->status;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  273  	}
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  274  
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  275  	return 0;
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  276  }
-70a69cb9bc25850 Alexandre Courbot 2026-09-17  277  
+vim +/uint64x2_t +22 lib/crc/crc64-neon.c
+
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  12  
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  13  /* x^191 mod G, x^127 mod G */
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  14  static const u64 fold_consts_val[2] = { 0xeadc41fd2ba3d420ULL,
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  15  					0x21e9761e252621acULL };
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  16  /* floor(x^127 / G), (G - x^64) / x */
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  17  static const u64 bconsts_val[2] = { 0x27ecfa329aef9f77ULL,
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  18  				    0x34d926535897936aULL };
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  19  
+061cef5fcee5a4 lib/crc/crc64-neon.c             Ard Biesheuvel 2026-04-22  20  u64 crc64_nvme_neon(u64 crc, const u8 *p, size_t len)
+8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  21  {
+8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @22  	uint64x2_t fold_consts = vld1q_u64(fold_consts_val);
+
+:::::: The code at line 22 was first introduced by commit
+:::::: 8fdef85d601db670e9c178314eedffe7bbb07e52 lib/crc: arm64: Simplify intrinsics implementation
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Eric Biggers <ebiggers@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
