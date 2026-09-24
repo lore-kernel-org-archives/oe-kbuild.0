@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCED30AAD8
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 06:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD0D427FA0
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 07:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790231617; cv=none; b=mJuXn6Rlj2dNEOz9YLiKOOhTO1Q/zaV4wH28YQ88I2hRX6oPPi7oI87IQe7iY72m2yJ+WA4O3/Lf+1m0aiVWUWmmB3drECt9tiiXY7kbJ4zSYs74uGSmaEVjA6ZpmkLUZrfbRwbcuMoMuXcxQSKfe65aOmgm1JqQRG1IGK1BFC0=
+	t=1790234605; cv=none; b=EMr7PjOezHdSs61BEDyBqa/L/GKK0OXyWIGXIDqBvKR23pkRz6zQxKl042Xr5UejQwfQbJHBF6+YbVNjC3ZyvUhwQ8aK0qSECsHAI7AjsYyxfyiMiHWlkhJAnbLjAE/o38Z/VCHqoKe3/zO1fEj4aL3ukEzBgxrvuuY3lyWuOTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790231617; c=relaxed/simple;
-	bh=RzqzbjcCPvuUlgqkf99bZMdRmIYkarfeAwb4obumokY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gfeZf0TFvdysg4y2xIO6zkulMpA/ghDUKNYN/XjT72bexCR1o77OcoGKKOLvMF41xvO6fRbA+QonKIp/UQ31gW1OfDMBFSh8+eIeCCODn7kMvgPhckr82j2rchnqowSjSWinPRCkBk6zV7OQRM6ivXj31KgWb5TqBvpRZBg1GPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGwyqOST; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790234605; c=relaxed/simple;
+	bh=z8rv70cPDC1FGjbDXzy1MqpGJAwj1KolvFSRrW+3670=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FYFfzWQx8/MtN8QkRv0YXvF1WLVK5kbX1XplXxHof+Fr1KSlEL9vgxMrwtLdwxllB3iu1TJueSwyslXSNbO7U+4s67VyuuyHK4BMIHCWhmjd9dPnmYwt0x/HCgOvJq7gGSEOeDuBJPIHzDqig2ZrZ9tVUKQU3bRqepJ+DLzP+Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gf89I50w; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGwyqOST"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gf89I50w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790231615; x=1821767615;
+  t=1790234604; x=1821770604;
   h=date:from:to:cc:subject:message-id;
-  bh=RzqzbjcCPvuUlgqkf99bZMdRmIYkarfeAwb4obumokY=;
-  b=UGwyqOSTrC7GWwsj5xlBnsKFEnYRJcYubBMAmvTQ9SNrhgNAchibsza9
-   O7F510NDscnxMzlp5BMzWyOWDIJTkcFDszrphnY5JoW4yYGvTWbwHWscF
-   z8n597TB3g6JKq68OC96hdnhI+yW60XPlwLGulRsA5ZtrvvhHrOqT54TG
-   SfO1TveYjN1tH7dA14C2PNDV6nvyPPDY31ARWmJM4dwHlz57Vb462zPjZ
-   bltdiXDMsdvVmXAB4AI+MCeNH0KdW+P1aS4wP6BvudvbWKzOpizFsWII3
-   GwqrGsqQoPvelwibblMVs7tf/1G/5lctJ7HCm6bvOWTgSaO5zETSIDKR4
-   Q==;
-X-CSE-ConnectionGUID: 8ipRmAYWRNqbhBEOryW0fA==
-X-CSE-MsgGUID: Z4RhqwM9S3OGo/Fmp1hF7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="89854448"
+  bh=z8rv70cPDC1FGjbDXzy1MqpGJAwj1KolvFSRrW+3670=;
+  b=Gf89I50wyikuj7CecULXQTrblYfklgbpuPgxC/Cc8pjwdw1T/5QmscsC
+   0lKADdrLbMWtMca7zHfB6iMCyy1jpDylEBybxUvtj9ZBOk7ywP3BkPZQ3
+   9hua3rRq+f+LvdKak/0qhXpHy6DKGrmhXPXrWG2ly+PvSceJfLNbpflax
+   43yywgpHl28uVdaAwdObf5g6QpFHwP1Bh9US4qWn4OeU/4WRfDl3noFfB
+   pDHdwOOyeDt2Vq2cyIrKGAdGz4IedtA1PFh/X1rPkuCbmyQAzPB09cNhH
+   /3sSPj5T2IwMJK2T8GxjqpWhGHo01nhxLVEI7SWsnMP3tlslmSFFcIbkN
+   g==;
+X-CSE-ConnectionGUID: X0KMb8QKS2mEc0kaJFDGWg==
+X-CSE-MsgGUID: 8z/+kmQDSBSNKvMD0jLiyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="91013899"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="89854448"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 23:33:34 -0700
-X-CSE-ConnectionGUID: Ip8cR354RkmLlR0yixfDVg==
-X-CSE-MsgGUID: pZGl3fMzSQCOGlqGqjaTQw==
+   d="scan'208";a="91013899"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 00:23:23 -0700
+X-CSE-ConnectionGUID: oOHDxlmfRieH5QAoDEUl6A==
+X-CSE-MsgGUID: RuCRDglHTo2Ad4mjaIAuYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="270425765"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2026 23:33:33 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="271781328"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2026 00:23:22 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9d1P-00000000IIq-1H66;
-	Thu, 24 Sep 2026 06:33:31 +0000
-Date: Thu, 24 Sep 2026 14:33:24 +0800
+	id 1x9dnZ-000000000Fy-3iDh;
+	Thu, 24 Sep 2026 07:23:17 +0000
+Date: Thu, 24 Sep 2026 09:23:00 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/xtensa/include/asm/cmpxchg.h:88:58: warning: pointer
- type mismatch in conditional expression
-Message-ID: <202609241434.P2ykgBuJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 5416/9480]
+ drivers/memory/tegra/tegra264.c:964:7-28: opportunity for
+ str_write_read(value & fault -> rw_bit)
+Message-ID: <202609240937.ZhKteWVi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,172 +60,85 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Bradley-Morgan/lib-Add-two-byte-cmpxchg-emulation-function/20260922-173350, commit: 1eef3d8b352da80a750e9fbfdb7a33b8a0109492"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bradley Morgan <brads@mainlining.org>
-CC: 0day robot <lkp@intel.com>
+TO: Ketan Patil <ketanp@nvidia.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Bradley-Morgan/lib-Add-two-byte-cmpxchg-emulation-function/20260922-173350
-head:   1eef3d8b352da80a750e9fbfdb7a33b8a0109492
-commit: 1eef3d8b352da80a750e9fbfdb7a33b8a0109492 xtensa: Emulate two-byte cmpxchg
-date:   2 days ago
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r1300-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241434.P2ykgBuJ-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241434.P2ykgBuJ-lkp@intel.com/reproduce)
+Hi Ketan,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3d7783543c2646af69ad65825e810060494bea21
+commit: f4e16143420f4021431cc652ebd71e176267ecbc [5416/9480] memory: tegra: Refactor Tegra264 mc-err code
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-r2107-20260924 (https://download.01.org/0day-ci/archive/20260924/202609240937.ZhKteWVi-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7e4b8ae111298941e0c31052a7124ab36f5365b5)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609241434.P2ykgBuJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609240937.ZhKteWVi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/memory/tegra/tegra264.c:964:7-28: opportunity for str_write_read(value & fault -> rw_bit)
 
-   In file included from arch/xtensa/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/xtensa/include/asm/bitops.h:192,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/xtensa/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/fscrypt.h:16,
-                    from fs/crypto/fscrypt_private.h:15,
-                    from fs/crypto/hooks.c:10:
-   fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
->> arch/xtensa/include/asm/cmpxchg.h:88:58: warning: pointer type mismatch in conditional expression
-      88 |         unsigned long _new_ = (unsigned long)(0 ? *(ptr) : (n));              \
-         |                                                          ^
-   include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
-      82 | #define raw_cmpxchg_release arch_cmpxchg
-         |                             ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
-     420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
-         |             ^~~~~~~~~~~~~~~
+vim +964 drivers/memory/tegra/tegra264.c
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/events/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
-   kernel/events/core.c:1586:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1586:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:1586:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:1599:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1599:28: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:1599:28: sparse:    struct perf_event_context *
-   kernel/events/core.c:3784:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3784:20: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3784:20: sparse:    struct perf_event_context *
-   kernel/events/core.c:3788:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3788:18: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3788:18: sparse:    struct perf_event_context *
-   kernel/events/core.c:3789:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3789:23: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3789:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:3842:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3842:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3842:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:3843:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3843:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3843:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:4261:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4261:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:4261:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:4669:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4669:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:4669:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:5155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5155:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:5155:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:6931:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6931:9: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6931:9: sparse:    struct perf_buffer *
->> kernel/events/core.c:5431:21: sparse: sparse: incompatible types in conditional expression (different address spaces):
-   kernel/events/core.c:5431:21: sparse:    struct perf_ctx_data [noderef] __rcu *
-   kernel/events/core.c:5431:21: sparse:    struct perf_ctx_data *
-   kernel/events/core.c:5431:21: sparse: sparse: cast from unknown type
-   kernel/events/core.c:6682:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6682:22: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6682:22: sparse:    struct perf_buffer *
-   kernel/events/core.c:6806:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6806:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6806:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6839:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6839:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6839:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6952:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6952:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6952:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6968:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6968:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6968:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:9054:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:9054:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:9054:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:9142:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:9142:13: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:9142:13: sparse:    struct perf_buffer *
-   kernel/events/core.c:9984:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:9984:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:9984:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:11209:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11209:9: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11209:9: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11248:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11248:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11248:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11528:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11528:23: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:11528:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:14667:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:14667:9: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:14667:9: sparse:    struct perf_event_context *
-   kernel/events/core.c:15205:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:15205:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:15205:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11062:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11062:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11062:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11082:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11082:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11082:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:11198:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:11198:16: sparse:    struct swevent_hlist *
-
-vim +88 arch/xtensa/include/asm/cmpxchg.h
-
-f9aa7e1882f3cee David Howells  2012-03-28  85  
-b9b12978a8e9a4b Mark Rutland   2021-05-25  86  #define arch_cmpxchg(ptr,o,n)						      \
-1eef3d8b352da80 Bradley Morgan 2026-09-22  87  	({ unsigned long _old_ = (unsigned long)(0 ? *(ptr) : (o));	      \
-1eef3d8b352da80 Bradley Morgan 2026-09-22 @88  	unsigned long _new_ = (unsigned long)(0 ? *(ptr) : (n));	      \
-1eef3d8b352da80 Bradley Morgan 2026-09-22  89  	(__typeof__(*(ptr))) __cmpxchg((ptr), _old_,		      \
-1eef3d8b352da80 Bradley Morgan 2026-09-22  90  				_new_, sizeof (*(ptr))); \
-f9aa7e1882f3cee David Howells  2012-03-28  91  	})
-f9aa7e1882f3cee David Howells  2012-03-28  92  
+82169065ffb075 Ketan Patil 2026-02-26  924  
+f4e16143420f40 Ketan Patil 2026-09-03  925  static void tegra264_mc_report_fault(struct tegra_mc *mc, u32 channel,
+f4e16143420f40 Ketan Patil 2026-09-03  926  				     unsigned int interrupt,
+f4e16143420f40 Ketan Patil 2026-09-03  927  				     const struct tegra264_mc_fault *fault)
+f4e16143420f40 Ketan Patil 2026-09-03  928  {
+f4e16143420f40 Ketan Patil 2026-09-03  929  	const char *client = "unknown", *desc = "NA";
+f4e16143420f40 Ketan Patil 2026-09-03  930  	u32 value, client_id, status1 = 0;
+f4e16143420f40 Ketan Patil 2026-09-03  931  	phys_addr_t addr = 0;
+f4e16143420f40 Ketan Patil 2026-09-03  932  	unsigned int i;
+f4e16143420f40 Ketan Patil 2026-09-03  933  	u8 type;
+82169065ffb075 Ketan Patil 2026-02-26  934  
+f4e16143420f40 Ketan Patil 2026-09-03  935  	value = mc_ch_readl(mc, channel, fault->status_reg);
+82169065ffb075 Ketan Patil 2026-02-26  936  
+f4e16143420f40 Ketan Patil 2026-09-03  937  	if (fault->addr_hi_reg) {
+f4e16143420f40 Ketan Patil 2026-09-03  938  		addr = mc_ch_readl(mc, channel, fault->addr_hi_reg);
+f4e16143420f40 Ketan Patil 2026-09-03  939  	} else if (fault->status1_reg) {
+f4e16143420f40 Ketan Patil 2026-09-03  940  		status1 = mc_ch_readl(mc, channel, fault->status1_reg);
+f4e16143420f40 Ketan Patil 2026-09-03  941  		addr = (status1 >> fault->addr_hi_shift) & fault->addr_hi_mask;
+82169065ffb075 Ketan Patil 2026-02-26  942  	} else {
+f4e16143420f40 Ketan Patil 2026-09-03  943  		addr = (value >> fault->addr_hi_shift) & fault->addr_hi_mask;
+82169065ffb075 Ketan Patil 2026-02-26  944  	}
+82169065ffb075 Ketan Patil 2026-02-26  945  
+82169065ffb075 Ketan Patil 2026-02-26  946  	addr <<= 32;
+f4e16143420f40 Ketan Patil 2026-09-03  947  	addr |= mc_ch_readl(mc, channel, fault->addr_reg);
+82169065ffb075 Ketan Patil 2026-02-26  948  
+82169065ffb075 Ketan Patil 2026-02-26  949  	client_id = value & mc->soc->client_id_mask;
+82169065ffb075 Ketan Patil 2026-02-26  950  	for (i = 0; i < mc->soc->num_clients; i++) {
+82169065ffb075 Ketan Patil 2026-02-26  951  		if (mc->soc->clients[i].id == client_id) {
+82169065ffb075 Ketan Patil 2026-02-26  952  			client = mc->soc->clients[i].name;
+82169065ffb075 Ketan Patil 2026-02-26  953  			break;
+82169065ffb075 Ketan Patil 2026-02-26  954  		}
+82169065ffb075 Ketan Patil 2026-02-26  955  	}
+82169065ffb075 Ketan Patil 2026-02-26  956  
+f4e16143420f40 Ketan Patil 2026-09-03  957  	if (fault->type_names) {
+f4e16143420f40 Ketan Patil 2026-09-03  958  		type = (value & fault->type_mask) >> fault->type_shift;
+f4e16143420f40 Ketan Patil 2026-09-03  959  		desc = fault->type_names[type];
+82169065ffb075 Ketan Patil 2026-02-26  960  	}
+82169065ffb075 Ketan Patil 2026-02-26  961  
+82169065ffb075 Ketan Patil 2026-02-26  962  	dev_err_ratelimited(mc->dev, "%s: %s %s @%pa: %s (%s)\n",
+f4e16143420f40 Ketan Patil 2026-09-03  963  			    client, value & fault->sec_bit ? "secure" : "non-secure",
+f4e16143420f40 Ketan Patil 2026-09-03 @964  			    value & fault->rw_bit ? "write" : "read", &addr,
+f4e16143420f40 Ketan Patil 2026-09-03  965  			    tegra_mc_status_names[interrupt] ?: "unknown", desc);
+f4e16143420f40 Ketan Patil 2026-09-03  966  
+f4e16143420f40 Ketan Patil 2026-09-03  967  	if (fault->status1_reg)
+82169065ffb075 Ketan Patil 2026-02-26  968  		dev_err_ratelimited(mc->dev, "gsc_apr_id=%u gsc_co_apr_id=%u\n",
+f4e16143420f40 Ketan Patil 2026-09-03  969  				    (status1 >> ERR_GENERALIZED_APERTURE_ID_SHIFT) &
+f4e16143420f40 Ketan Patil 2026-09-03  970  				    ERR_GENERALIZED_APERTURE_ID_MASK,
+f4e16143420f40 Ketan Patil 2026-09-03  971  				    (status1 >> ERR_GENERALIZED_CARVEOUT_APERTURE_ID_SHIFT) &
+f4e16143420f40 Ketan Patil 2026-09-03  972  				    ERR_GENERALIZED_CARVEOUT_APERTURE_ID_MASK);
+f4e16143420f40 Ketan Patil 2026-09-03  973  }
+f4e16143420f40 Ketan Patil 2026-09-03  974  
 
 --
 0-DAY CI Kernel Test Service
