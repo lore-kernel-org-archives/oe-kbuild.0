@@ -1,234 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156A63D9DD8
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 03:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A9C3BCD16
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Sep 2026 05:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790221206; cv=none; b=CTOVNt/92ml6BfAj6q/i5ecexCIn1m5hdWZO32FiMwm7PYMAlW5P1YRq3wxJA3lgCHSmisRCgJQ6s4t7MOQJDOsZPrD+yo5An1grwGGtpXv5VlNS0abimAC5V6o0U8ayUfYCHrQKNxHcyPTdSvpPoO4HWwPDveUqgBb9pavqSvY=
+	t=1790228973; cv=none; b=QH+17SufvV1DKZ8stWj2OFiGgfxYAlD9tK3kLcmU5il+PkVVwbDmS1qhcTNvl2m6d6gQY850Yj7+BvgffhB7aTCKbULCUoEpQgIxVkIQrOvjJgMY5R1YhU54vgGilFbcwEmLsR7AsBUxS52tHSb3yNYXIK1+knqpIKboV1J6FR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790221206; c=relaxed/simple;
-	bh=PPyy+bHKPTsvLroBDmWsnSnFru603CpcPFPl0a2TLeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cNaLIa2KEeZowYZTbr6rF+KHibPI8qZF4Xg11HgZbTXhgeFqpLDf8sxUvkLTQI0xfDLpink79BWTdb5BVtecSUcX84pWLggWsIQSvj+WntfnI6gEIVnbjxq8w0Ikt9sciWKCj+ZneTnp617cT5bBGrdPEHGNzdcvaaRischtNSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQ3QdFdl; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790228973; c=relaxed/simple;
+	bh=sF5P3DqAyTvvtf/qy5Lr+qGaCx11V4Bmfxn4rLjxFw0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tSNxPho+r/xQWbZXqdTr3niOqg1EVUefXfxcjR/BLxHOXSzE89rebcyasbxyBpy4fHmPEdH6oZbfky9PTfw2avEAbQAZz9xIjgyuxnKu9zeub97Nx4F0ZhZfvbrS9wRPV/mdGkcY0mzxqarifG80/w0FmJfvNWz4QwIUu1GpQCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jw3K6QOm; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQ3QdFdl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jw3K6QOm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790221204; x=1821757204;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PPyy+bHKPTsvLroBDmWsnSnFru603CpcPFPl0a2TLeg=;
-  b=EQ3QdFdl33p+12OOZlYYH/6EBsBXEq+Zr7/NGvvCri+99fXUsJs3VWTg
-   fSNNGf8TMiVyJW2EKm0h8+xeChVub3gU+2JLBv4IgH2ivtqVFcvq2xv3T
-   V3jIo1w/7wt/K+D4eEMrDQt+ppj5QHfnf6UnKllkbuoJmYTUmbM76KHVc
-   4sKlbWXeWwuN7/lfD7NmpcYdZ5f/oAvYpn8HkL4sqPJTUo++HC3dG56gu
-   ILN5G+Y7nHopAHKBabAp1VRcFLuBb8mu3px2r88Ih2pTscttyTE7/RzIG
-   hEC4pXb+PGUcVgyKfMvd84uwZ/tzvUuFAVS5ISu6Ffz7PMn0nyoBbn1q0
-   g==;
-X-CSE-ConnectionGUID: Mdkl6mTGT+SGz4TA2vpdtQ==
-X-CSE-MsgGUID: SItzQCoHROaSVCENwO5ZiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="90844484"
-X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="90844484"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 20:40:04 -0700
-X-CSE-ConnectionGUID: blEv79PQSaCHUi4YvS+Wkw==
-X-CSE-MsgGUID: aRuvoE/8QbaZlyUZXvrBCg==
+  t=1790228973; x=1821764973;
+  h=date:from:to:cc:subject:message-id;
+  bh=sF5P3DqAyTvvtf/qy5Lr+qGaCx11V4Bmfxn4rLjxFw0=;
+  b=Jw3K6QOmMeCdDSKi2f2vHl67D1AkLJhzxbxvrxEeGrLv/f+RhMvPvM2O
+   wJdIosDc9Swap7i3hNUjPx7lGsqp965F7Sav/CU05LjDXL2Jfwrmn0IQI
+   cOQ5cHUonWQmBF3pPo1LK9XQ7udvNvThJBo96hLEq6izipofZyxEBASRs
+   E9eloabQ1MkvAm0t5JhBO7kol/I9/yytJC6MMSv6LaKHZV387P6652DN+
+   jiGKNOFA7+kohc/tCmjvKFLAYyg/ErhEUmxDtJZynl8RMNy3hd6QN+7Oy
+   6bUPEx94XjnPipLiL9jU4p4s88QBM7p9TsBCZmCg2UNauVkB+ku18zpvp
+   Q==;
+X-CSE-ConnectionGUID: C+RPUwHrSp+1EhDuiXMvGQ==
+X-CSE-MsgGUID: exG5N7OiQQCo1g+kmi7oeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="108482730"
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="108482730"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 22:49:32 -0700
+X-CSE-ConnectionGUID: 3aqn2QArTy+gqHldwIFZSQ==
+X-CSE-MsgGUID: Pwv+ocgzQx6GG+toSFu6yQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="278630213"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2026 20:40:02 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="273415468"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Sep 2026 22:49:30 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9aJU-000000000Ba-1st2;
-	Thu, 24 Sep 2026 03:40:00 +0000
-Date: Thu, 24 Sep 2026 05:39:30 +0200
+	id 1x9cKl-00000000IGA-0H9x;
+	Thu, 24 Sep 2026 05:49:27 +0000
+Date: Thu, 24 Sep 2026 13:48:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v10 2/2] dmaengine: fsl-edma: Support dynamic
- scatter/gather chaining
-Message-ID: <202609240552.xlFOcW61-lkp@intel.com>
+Subject: sound/soc/cdns/cdns-i2s-sc.c:232:9: error: call to
+ undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202609241324.MzjC9b4E-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/joakim-zhang-cixtech-com/ASoC-dt-bindings-Add-Cadence-I2S-SC-controller/20260922-192131, commit: ceb4920112712870b0dd31d742dface1b1c8b338"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260911-fsl-edma-dyn-sg-v10-2-700eb72def57@bootlin.com>
-References: <20260911-fsl-edma-dyn-sg-v10-2-700eb72def57@bootlin.com>
-TO: "Benoît Monin" <benoit.monin@bootlin.com>
-TO: Frank Li <Frank.Li@nxp.com>
-TO: Vinod Koul <vkoul@kernel.org>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: imx@lists.linux.dev
-CC: dmaengine@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: "Benoît Monin" <benoit.monin@bootlin.com>
+TO: Joakim Zhang <joakim.zhang@cixtech.com>
+CC: 0day robot <lkp@intel.com>
 
-Hi Benoît,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cee9395acd8043be0644b25c34bfa86623f2b935]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Beno-t-Monin/dmaengine-fsl-edma-Implement-device_prep_peripheral_dma_vec/20260911-151136
-base:   cee9395acd8043be0644b25c34bfa86623f2b935
-patch link:    https://lore.kernel.org/r/20260911-fsl-edma-dyn-sg-v10-2-700eb72def57%40bootlin.com
-patch subject: [PATCH v10 2/2] dmaengine: fsl-edma: Support dynamic scatter/gather chaining
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20260924/202609240552.xlFOcW61-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240552.xlFOcW61-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/joakim-zhang-cixtech-com/ASoC-dt-bindings-Add-Cadence-I2S-SC-controller/20260922-192131
+head:   dc6b48e1eafbce3d63c74ad72cc99e76d3318cc1
+commit: ceb4920112712870b0dd31d742dface1b1c8b338 ASoC: cdns: Add Cadence I2S-SC controller driver
+date:   2 days ago
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: um-randconfig-r1305-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241324.MzjC9b4E-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241324.MzjC9b4E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609240552.xlFOcW61-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609241324.MzjC9b4E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/dma/fsl-edma-common.c:758:41: error: call to undeclared function 'FIELD_MAX'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     758 |                 if (!nbytes || vecs[i].len / nbytes > FIELD_MAX(EDMA_TCD_ITER_MASK))
-         |                                                       ^
-   1 error generated.
+   In file included from sound/soc/cdns/cdns-i2s-sc.c:10:
+   In file included from include/linux/regmap.h:18:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> sound/soc/cdns/cdns-i2s-sc.c:232:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     232 |                                            FIELD_PREP(I2S_TDM_CTRL_CHN_NO,
+         |                                            ^
+   sound/soc/cdns/cdns-i2s-sc.c:290:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     290 |                                            FIELD_PREP(I2S_TDM_FD_DIR_CHN_TXEN,
+         |                                            ^
+   sound/soc/cdns/cdns-i2s-sc.c:346:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     346 |                                            FIELD_PREP(I2S_TDM_FD_DIR_CHN_RXEN,
+         |                                            ^
+   sound/soc/cdns/cdns-i2s-sc.c:457:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     457 |                 ctrl |= FIELD_PREP(I2S_CTRL_WS_MODE, 1) |
+         |                         ^
+   sound/soc/cdns/cdns-i2s-sc.c:675:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     675 |                            FIELD_PREP(I2S_CTRL_CHN_WIDTH, val));
+         |                            ^
+   1 warning and 5 errors generated.
 
 
-vim +/FIELD_MAX +758 drivers/dma/fsl-edma-common.c
+vim +/FIELD_PREP +232 sound/soc/cdns/cdns-i2s-sc.c
 
-9d831528a6567d Angelo Dureghello 2018-08-19  675  
-526bb30b847c23 Benoît Monin      2026-09-11  676  struct dma_async_tx_descriptor *
-526bb30b847c23 Benoît Monin      2026-09-11  677  fsl_edma_prep_peripheral_dma_vec(struct dma_chan *chan, const struct dma_vec *vecs,
-526bb30b847c23 Benoît Monin      2026-09-11  678  				 size_t nb, enum dma_transfer_direction direction,
-526bb30b847c23 Benoît Monin      2026-09-11  679  				 unsigned long flags)
-526bb30b847c23 Benoît Monin      2026-09-11  680  {
-526bb30b847c23 Benoît Monin      2026-09-11  681  	struct fsl_edma_chan *fsl_chan = to_fsl_edma_chan(chan);
-526bb30b847c23 Benoît Monin      2026-09-11  682  	dma_addr_t src_addr, dst_addr, last_sg;
-526bb30b847c23 Benoît Monin      2026-09-11  683  	struct fsl_edma_desc *fsl_desc;
-526bb30b847c23 Benoît Monin      2026-09-11  684  	u16 soff, doff, iter;
-526bb30b847c23 Benoît Monin      2026-09-11  685  	u32 nbytes;
-526bb30b847c23 Benoît Monin      2026-09-11  686  	int i;
-526bb30b847c23 Benoît Monin      2026-09-11  687  
-526bb30b847c23 Benoît Monin      2026-09-11  688  	if (!is_slave_direction(direction))
-526bb30b847c23 Benoît Monin      2026-09-11  689  		return NULL;
-526bb30b847c23 Benoît Monin      2026-09-11  690  
-526bb30b847c23 Benoît Monin      2026-09-11  691  	if (!fsl_edma_prep_slave_dma(fsl_chan, direction))
-526bb30b847c23 Benoît Monin      2026-09-11  692  		return NULL;
-526bb30b847c23 Benoît Monin      2026-09-11  693  
-526bb30b847c23 Benoît Monin      2026-09-11  694  	fsl_desc = fsl_edma_alloc_desc(fsl_chan, nb);
-526bb30b847c23 Benoît Monin      2026-09-11  695  	if (!fsl_desc)
-526bb30b847c23 Benoît Monin      2026-09-11  696  		return NULL;
-526bb30b847c23 Benoît Monin      2026-09-11  697  	fsl_desc->iscyclic = flags & DMA_PREP_REPEAT;
-526bb30b847c23 Benoît Monin      2026-09-11  698  	fsl_desc->dirn = direction;
-526bb30b847c23 Benoît Monin      2026-09-11  699  
-526bb30b847c23 Benoît Monin      2026-09-11  700  	if (direction == DMA_MEM_TO_DEV) {
-526bb30b847c23 Benoît Monin      2026-09-11  701  		if (!fsl_chan->cfg.src_addr_width)
-526bb30b847c23 Benoît Monin      2026-09-11  702  			fsl_chan->cfg.src_addr_width = fsl_chan->cfg.dst_addr_width;
-526bb30b847c23 Benoît Monin      2026-09-11  703  		fsl_chan->attr =
-526bb30b847c23 Benoît Monin      2026-09-11  704  			fsl_edma_get_tcd_attr(fsl_chan->cfg.src_addr_width,
-526bb30b847c23 Benoît Monin      2026-09-11  705  					      fsl_chan->cfg.dst_addr_width);
-526bb30b847c23 Benoît Monin      2026-09-11  706  		nbytes = fsl_chan->cfg.dst_addr_width * fsl_chan->cfg.dst_maxburst;
-526bb30b847c23 Benoît Monin      2026-09-11  707  	} else {
-526bb30b847c23 Benoît Monin      2026-09-11  708  		if (!fsl_chan->cfg.dst_addr_width)
-526bb30b847c23 Benoît Monin      2026-09-11  709  			fsl_chan->cfg.dst_addr_width = fsl_chan->cfg.src_addr_width;
-526bb30b847c23 Benoît Monin      2026-09-11  710  		fsl_chan->attr =
-526bb30b847c23 Benoît Monin      2026-09-11  711  			fsl_edma_get_tcd_attr(fsl_chan->cfg.src_addr_width,
-526bb30b847c23 Benoît Monin      2026-09-11  712  					      fsl_chan->cfg.dst_addr_width);
-526bb30b847c23 Benoît Monin      2026-09-11  713  		nbytes = fsl_chan->cfg.src_addr_width * fsl_chan->cfg.src_maxburst;
-526bb30b847c23 Benoît Monin      2026-09-11  714  	}
-526bb30b847c23 Benoît Monin      2026-09-11  715  
-526bb30b847c23 Benoît Monin      2026-09-11  716  	for (i = 0; i < nb; i++) {
-526bb30b847c23 Benoît Monin      2026-09-11  717  		if (direction == DMA_MEM_TO_DEV) {
-526bb30b847c23 Benoît Monin      2026-09-11  718  			src_addr = vecs[i].addr;
-526bb30b847c23 Benoît Monin      2026-09-11  719  			dst_addr = fsl_chan->dma_dev_addr;
-526bb30b847c23 Benoît Monin      2026-09-11  720  			soff = fsl_chan->cfg.dst_addr_width;
-526bb30b847c23 Benoît Monin      2026-09-11  721  			doff = 0;
-526bb30b847c23 Benoît Monin      2026-09-11  722  		} else if (direction == DMA_DEV_TO_MEM) {
-526bb30b847c23 Benoît Monin      2026-09-11  723  			src_addr = fsl_chan->dma_dev_addr;
-526bb30b847c23 Benoît Monin      2026-09-11  724  			dst_addr = vecs[i].addr;
-526bb30b847c23 Benoît Monin      2026-09-11  725  			soff = 0;
-526bb30b847c23 Benoît Monin      2026-09-11  726  			doff = fsl_chan->cfg.src_addr_width;
-526bb30b847c23 Benoît Monin      2026-09-11  727  		} else {
-526bb30b847c23 Benoît Monin      2026-09-11  728  			/* DMA_DEV_TO_DEV */
-526bb30b847c23 Benoît Monin      2026-09-11  729  			src_addr = fsl_chan->cfg.src_addr;
-526bb30b847c23 Benoît Monin      2026-09-11  730  			dst_addr = fsl_chan->cfg.dst_addr;
-526bb30b847c23 Benoît Monin      2026-09-11  731  			soff = 0;
-526bb30b847c23 Benoît Monin      2026-09-11  732  			doff = 0;
-526bb30b847c23 Benoît Monin      2026-09-11  733  		}
-526bb30b847c23 Benoît Monin      2026-09-11  734  
-526bb30b847c23 Benoît Monin      2026-09-11  735  		/*
-526bb30b847c23 Benoît Monin      2026-09-11  736  		 * Choose the suitable burst length if dma_vec length is not
-526bb30b847c23 Benoît Monin      2026-09-11  737  		 * multiple of burst length so that the whole transfer length is
-526bb30b847c23 Benoît Monin      2026-09-11  738  		 * multiple of minor loop(burst length).
-526bb30b847c23 Benoît Monin      2026-09-11  739  		 */
-526bb30b847c23 Benoît Monin      2026-09-11  740  		if (nbytes && vecs[i].len % nbytes) {
-526bb30b847c23 Benoît Monin      2026-09-11  741  			u32 width = (direction == DMA_DEV_TO_MEM) ? doff : soff;
-526bb30b847c23 Benoît Monin      2026-09-11  742  			u32 burst = (direction == DMA_DEV_TO_MEM) ?
-526bb30b847c23 Benoît Monin      2026-09-11  743  						fsl_chan->cfg.src_maxburst :
-526bb30b847c23 Benoît Monin      2026-09-11  744  						fsl_chan->cfg.dst_maxburst;
-526bb30b847c23 Benoît Monin      2026-09-11  745  			int j;
-526bb30b847c23 Benoît Monin      2026-09-11  746  
-526bb30b847c23 Benoît Monin      2026-09-11  747  			for (j = burst; j > 1; j--) {
-526bb30b847c23 Benoît Monin      2026-09-11  748  				if (!(vecs[i].len % (j * width))) {
-526bb30b847c23 Benoît Monin      2026-09-11  749  					nbytes = j * width;
-526bb30b847c23 Benoît Monin      2026-09-11  750  					break;
-526bb30b847c23 Benoît Monin      2026-09-11  751  				}
-526bb30b847c23 Benoît Monin      2026-09-11  752  			}
-526bb30b847c23 Benoît Monin      2026-09-11  753  			/* Set burst size as 1 if there's no suitable one */
-526bb30b847c23 Benoît Monin      2026-09-11  754  			if (j == 1)
-526bb30b847c23 Benoît Monin      2026-09-11  755  				nbytes = width;
-526bb30b847c23 Benoît Monin      2026-09-11  756  		}
-526bb30b847c23 Benoît Monin      2026-09-11  757  
-526bb30b847c23 Benoît Monin      2026-09-11 @758  		if (!nbytes || vecs[i].len / nbytes > FIELD_MAX(EDMA_TCD_ITER_MASK))
-526bb30b847c23 Benoît Monin      2026-09-11  759  			goto err_free_desc;
-526bb30b847c23 Benoît Monin      2026-09-11  760  
-526bb30b847c23 Benoît Monin      2026-09-11  761  		iter = vecs[i].len / nbytes;
-526bb30b847c23 Benoît Monin      2026-09-11  762  		if (i < nb - 1) {
-526bb30b847c23 Benoît Monin      2026-09-11  763  			last_sg = fsl_desc->tcd[(i + 1)].ptcd;
-526bb30b847c23 Benoît Monin      2026-09-11  764  			fsl_edma_fill_tcd(fsl_chan, fsl_desc->tcd[i].vtcd, src_addr,
-526bb30b847c23 Benoît Monin      2026-09-11  765  					  dst_addr, fsl_chan->attr, soff,
-526bb30b847c23 Benoît Monin      2026-09-11  766  					  nbytes, 0, iter, iter, doff, last_sg,
-526bb30b847c23 Benoît Monin      2026-09-11  767  					  false, false, true);
-526bb30b847c23 Benoît Monin      2026-09-11  768  		} else {
-526bb30b847c23 Benoît Monin      2026-09-11  769  			if (fsl_desc->iscyclic) {
-526bb30b847c23 Benoît Monin      2026-09-11  770  				last_sg = fsl_desc->tcd[0].ptcd;
-526bb30b847c23 Benoît Monin      2026-09-11  771  				fsl_edma_fill_tcd(fsl_chan, fsl_desc->tcd[i].vtcd, src_addr,
-526bb30b847c23 Benoît Monin      2026-09-11  772  						  dst_addr, fsl_chan->attr, soff,
-526bb30b847c23 Benoît Monin      2026-09-11  773  						  nbytes, 0, iter, iter, doff, last_sg,
-526bb30b847c23 Benoît Monin      2026-09-11  774  						  true, false, true);
-526bb30b847c23 Benoît Monin      2026-09-11  775  			} else {
-526bb30b847c23 Benoît Monin      2026-09-11  776  				last_sg = 0;
-526bb30b847c23 Benoît Monin      2026-09-11  777  				fsl_edma_fill_tcd(fsl_chan, fsl_desc->tcd[i].vtcd, src_addr,
-526bb30b847c23 Benoît Monin      2026-09-11  778  						  dst_addr, fsl_chan->attr, soff,
-526bb30b847c23 Benoît Monin      2026-09-11  779  						  nbytes, 0, iter, iter, doff, last_sg,
-526bb30b847c23 Benoît Monin      2026-09-11  780  						  true, true, false);
-526bb30b847c23 Benoît Monin      2026-09-11  781  			}
-526bb30b847c23 Benoît Monin      2026-09-11  782  		}
-526bb30b847c23 Benoît Monin      2026-09-11  783  	}
-526bb30b847c23 Benoît Monin      2026-09-11  784  
-526bb30b847c23 Benoît Monin      2026-09-11  785  	return vchan_tx_prep(&fsl_chan->vchan, &fsl_desc->vdesc, flags);
-526bb30b847c23 Benoît Monin      2026-09-11  786  
-526bb30b847c23 Benoît Monin      2026-09-11  787  err_free_desc:
-526bb30b847c23 Benoît Monin      2026-09-11  788  	fsl_edma_free_desc(&fsl_desc->vdesc);
-526bb30b847c23 Benoît Monin      2026-09-11  789  	return NULL;
-526bb30b847c23 Benoît Monin      2026-09-11  790  }
-526bb30b847c23 Benoît Monin      2026-09-11  791  
+ceb49201127128 Joakim Zhang 2026-09-22  216  
+ceb49201127128 Joakim Zhang 2026-09-22  217  static void cdns_i2s_sc_rxtx_common_config(struct cdns_i2s_sc_priv *i2s_sc_priv, bool on)
+ceb49201127128 Joakim Zhang 2026-09-22  218  {
+ceb49201127128 Joakim Zhang 2026-09-22  219  	if (on) {
+ceb49201127128 Joakim Zhang 2026-09-22  220  		/* Full-duplex mode enable */
+ceb49201127128 Joakim Zhang 2026-09-22  221  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL_FDX,
+ceb49201127128 Joakim Zhang 2026-09-22  222  				   I2S_CTRL_FDX_FULL_DUPLEX, I2S_CTRL_FDX_FULL_DUPLEX);
+ceb49201127128 Joakim Zhang 2026-09-22  223  
+ceb49201127128 Joakim Zhang 2026-09-22  224  		if (i2s_sc_priv->is_tdm_mode) {
+ceb49201127128 Joakim Zhang 2026-09-22  225  			/* TDM mode enable */
+ceb49201127128 Joakim Zhang 2026-09-22  226  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  227  					   I2S_TDM_CTRL_TDM_EN, I2S_TDM_CTRL_TDM_EN);
+ceb49201127128 Joakim Zhang 2026-09-22  228  
+ceb49201127128 Joakim Zhang 2026-09-22  229  			/* Number of supported audio channels in TDM mode */
+ceb49201127128 Joakim Zhang 2026-09-22  230  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  231  					   I2S_TDM_CTRL_CHN_NO,
+ceb49201127128 Joakim Zhang 2026-09-22 @232  					   FIELD_PREP(I2S_TDM_CTRL_CHN_NO,
+ceb49201127128 Joakim Zhang 2026-09-22  233  						      i2s_sc_priv->tdm_config.slots - 1));
+ceb49201127128 Joakim Zhang 2026-09-22  234  
+ceb49201127128 Joakim Zhang 2026-09-22  235  			/* TDM mode channels enable */
+ceb49201127128 Joakim Zhang 2026-09-22  236  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL, I2S_TDM_CTRL_CHN_EN,
+ceb49201127128 Joakim Zhang 2026-09-22  237  					   FIELD_PREP(I2S_TDM_CTRL_CHN_EN,
+ceb49201127128 Joakim Zhang 2026-09-22  238  						      i2s_sc_priv->tdm_config.rx_mask |
+ceb49201127128 Joakim Zhang 2026-09-22  239  						      i2s_sc_priv->tdm_config.tx_mask));
+ceb49201127128 Joakim Zhang 2026-09-22  240  		}
+ceb49201127128 Joakim Zhang 2026-09-22  241  
+ceb49201127128 Joakim Zhang 2026-09-22  242  		/* Transceiver clock enable */
+ceb49201127128 Joakim Zhang 2026-09-22  243  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  244  				   I2S_CTRL_I2S_STB, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  245  
+ceb49201127128 Joakim Zhang 2026-09-22  246  		/* All interrupt requests unmask */
+ceb49201127128 Joakim Zhang 2026-09-22  247  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  248  				   I2S_CTRL_INTREQ_MASK, I2S_CTRL_INTREQ_MASK);
+ceb49201127128 Joakim Zhang 2026-09-22  249  	} else {
+ceb49201127128 Joakim Zhang 2026-09-22  250  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  251  				   I2S_CTRL_INTREQ_MASK, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  252  
+ceb49201127128 Joakim Zhang 2026-09-22  253  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  254  				   I2S_CTRL_I2S_STB, I2S_CTRL_I2S_STB);
+ceb49201127128 Joakim Zhang 2026-09-22  255  
+ceb49201127128 Joakim Zhang 2026-09-22  256  		if (i2s_sc_priv->is_tdm_mode) {
+ceb49201127128 Joakim Zhang 2026-09-22  257  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  258  					   I2S_TDM_CTRL_TDM_EN, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  259  
+ceb49201127128 Joakim Zhang 2026-09-22  260  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  261  					   I2S_TDM_CTRL_CHN_NO, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  262  
+ceb49201127128 Joakim Zhang 2026-09-22  263  			regmap_update_bits(i2s_sc_priv->regmap, I2S_TDM_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  264  					   I2S_TDM_CTRL_CHN_EN, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  265  		}
+ceb49201127128 Joakim Zhang 2026-09-22  266  
+ceb49201127128 Joakim Zhang 2026-09-22  267  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL_FDX,
+ceb49201127128 Joakim Zhang 2026-09-22  268  				   I2S_CTRL_FDX_FULL_DUPLEX, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  269  		regmap_update_bits(i2s_sc_priv->regmap, I2S_CTRL,
+ceb49201127128 Joakim Zhang 2026-09-22  270  				   I2S_CTRL_I2S_EN, 0);
+ceb49201127128 Joakim Zhang 2026-09-22  271  	}
+ceb49201127128 Joakim Zhang 2026-09-22  272  }
+ceb49201127128 Joakim Zhang 2026-09-22  273  
 
 --
 0-DAY CI Kernel Test Service
