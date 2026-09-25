@@ -1,167 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE942571B8
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 01:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05383396585;
+	Fri, 25 Sep 2026 06:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790299668; cv=none; b=Ght1yJ/IEVAi3Nm+6erm0VmeRwcQdFPHJLYPEl6VBQOYepGEIPPyUeD6c6ba7wTYUtMB7cxKmYfEANrq67EGcicFp4w/U77a/CqkT0/cHrRcGTbgVbmMiRCqe8WUOtF6m/jbEcjUvfnFsOg5YpRiKTN9m3zdWH2eDh1xaWETzA8=
+	t=1790318663; cv=none; b=btFHBgZmUhb5hfWNf8WEcpylgimZ3qM5MucoBiyWX/w7onVTr0Y+mvZc1nOpQcluK06wT9Rmxv7Gc6vTyjvX2hQFdgOd1CHg0G326pWloSwdF5LJg5VQYl0v+gwqnWVIdp0PXiBJ4uzoNU3YhRqn7JtkO7ioAzAzyoRhAZaGMc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790299668; c=relaxed/simple;
-	bh=QcB7KCJdFuo3C//ke7NxePL7i47+znI9pDVl2VINkRU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mmNdgKy/RE+TE0nl2u70jNDsqy/uKTc9FSmo2MvvYWJI6bEy2Q69udzQhcb+OJxEiYtq3sOsvxR/ObpMn/f34ifDfJmcIbpwz4LluxYPfYe5dxfA2Ctud0oQxsvw//+how7vdqlqggVAtjejgei/vWhF7N2wyu8LTpxRTUmQ5pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXRElN8g; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790318663; c=relaxed/simple;
+	bh=03IrB9vAF/bkxYF/q/kywUS8ATF2rd0t56Gfd6VXeNs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=tvuMwCUQwvJdTE/j7VPfeHH1QJ0oJs3VXE70yhNViVhpC7vTdur4SChtEtP3/mhyKQF+zC2V00BA7TeCfruSWyfocTDizAO5KY+jAu4B+FlBIlGTjNIKCCAtdyq3QLf8nJMY1BBuqVasqiWZw5G2X3bhyUfH8QfwaggKnTys8r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Nu0oj7Ul; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BgM0Gyvv; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXRElN8g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790299667; x=1821835667;
-  h=date:from:to:cc:subject:message-id;
-  bh=QcB7KCJdFuo3C//ke7NxePL7i47+znI9pDVl2VINkRU=;
-  b=nXRElN8gyYszgbH3y6KUw24WHq5vwIMVotKTTBOnAIo0VAPbVDXt/dJS
-   CaVleny8P8XKcFOQvMxrVLM2EBZrbJmOiRB6H+TWNvA5ojAc04ZHuS5Oh
-   GwTj+RuIILP41RsZsjrk5ChGSmkSmcMGpp6r0laLoky/Y+oW7dm/hSSWU
-   u0vJDE8NYmmh+u/iNRHDSq0u1aPGJvIxmuzj4uKSEKey6HcxInZ9GHO54
-   LUkvY/Gc9f8NYQty3wSNNyylmx7/zXepGGRLRTv9v421BX/+8ZWNz39j3
-   ieYRArA1pszDcx7n8YDMk6CMjjGLC9yHQgvY0nUAdzS6V1mp7TDEpfexs
-   A==;
-X-CSE-ConnectionGUID: 55ZUN3/IR16AozL/OFAt6w==
-X-CSE-MsgGUID: 23EiEDH0QDyf7/zQw5cY7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="112872261"
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="112872261"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 18:27:46 -0700
-X-CSE-ConnectionGUID: 2YG+mUnITfGhB5C5wd3OhA==
-X-CSE-MsgGUID: MSvuHNQJQgqLs5BLmbdKlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="303711446"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 24 Sep 2026 18:27:45 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9uj0-000000000Yc-2Mqm;
-	Fri, 25 Sep 2026 01:27:42 +0000
-Date: Fri, 25 Sep 2026 03:27:00 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [perf-tools-next:tmp.perf-tools-next 63/112]
- ./linux/mm.h:112:21: error: conflicting types for 'kmalloc'; have 'void
- *(unsigned int,  unsigned int)'
-Message-ID: <202609250359.tPKYrQbd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Nu0oj7Ul";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BgM0Gyvv"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 33DC71400150;
+	Fri, 25 Sep 2026 02:44:20 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 02:44:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790318659;
+	 x=1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=
+	Nu0oj7UlIMonbzdFuiOnXEWPF2hJYzyzOAljnTNeALWZYE+crT5NlZVumdUphWuo
+	RZfkszIAbYJ63RItV/vEeOiQ74DLVVtT9yETf+2AJF3Il3Eex3n0xgcWnaeuY6cY
+	6wAQ652I4qv5mzSSgasKwoKYU+wCzLh52vxBQtMU0A1NGLzTkU08uoOOv1YJHDNS
+	ckaCEp+UHTtrcaBH6hQjxny3jF7C9TpRGj0uTrpkGWUCUr66kKW6kP3H8y7Ud+l1
+	gwVry7mP+a34dtogloyKtXCbn8Yshbn9oEBHJaRjbb4wzCv636+Ld2fSI4+wZHCL
+	bp3lDOJZ7vw0Y/KnzuS3FQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790318659; x=
+	1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=B
+	gM0Gyvv3PiGDCIXQOHuxl6hJHi3qhgh7HkwPgl/OcTXEjOB3+UqitNM84mISi+iz
+	+ycfiYljhdmWBwO0wKZRXBfXuBfOqTioznIm+HWkfsKX23zU2Sb00pQljzDUbuIr
+	HkCvLt+gVhdFM5OfjBUcWNpyOT7+RVLygdng5266IoTu+8jNHrxCxDIzdsBEBvPw
+	++iA2YoJUtZuy7QvTTU1Uv+PgEFSueGgJvqQzKnpBprx9voPJ3rNvJQFKBk96l2m
+	O0NqblZtGOUxFcZGNEIVKtIRSuIVTPDsCyZDqC1Ue/3ZAE0DCEy27p98K+Oq1l3t
+	kwmxWfaZ1uuOee0Vrj96Q==
+X-ME-Sender: <xms:Phi2apPO9ujYSIDasbhJpnMTzke4qSpbwvrwzhlkXuIAI7-cnSWZfw>
+    <xme:Phi2amzawLOHn6D_TcxFB_sryNZBvDNGlXG3Mk5xGBUhjGYtjqB5YZpcBGi2Vvxu4
+    LO4jainLSHlBfr9xfRwMoKueRag02HeC2zWkT5k5Me375Lln4hJE4Xm>
+X-ME-Proxy-Cause: dmFkZTFwSDqkQ+iCgv9bfoZ7OnGDv2/E32uPE8Fd0Y8/G3hqdMfXKGBRJsqwYtMQUVYQrL
+    6rBdD5WBkmP95rwBjb56UCQmEFVpH1MQeNf2EH79A9tcFirxDEH49FPSDtgesI6qTlZLhS
+    FyGt8jwZs6/BRCK8WQBtj8/8wSniM5z0sAeYIZUw6RfTL0VgIo3U3fygtLYZE95pxCSHFZ
+    WepR8wEVKtPNAYRuRFUV+Y6YLWfdH1/Sqbu3qA9d12FobAwCl+aIFvcISyJveD7NAd69ne
+    nat+mzAMqvQmRT39Um5yv7DBEV4FS8+RYnZbN6r0+WRL47rc70az+oyh1zU2Ychr2GGWJK
+    u2fZydkW07nhk+soJMbSuvqR99kgSdHxX+7M/qJVrV5nxIlqC/RPoPvuKCMjyhYck5Mn+f
+    AdFbaAQW7BZ/q/bJBeQ9EqwX0ccvLKpZIf0UH39rOJ8ygTbhJoyyJz7XCaowgaxqDiq2/t
+    d7BY1jleB6/ow+3+ojRHL8gX24SKUACYZjIQrd7G0Brdt9XWe0nPXJMcfi9IIQWoiFdlP5
+    UsrXZxRyK7FVGTK3USyOhdqLn7j9uBACH1EQaZAZnz0Wxhmaz8p7Rx9+/rfD741yv1TZ5H
+    xDqojH1YmlZuRqBLUIoKWOM7MzgbFiWpplx5yWj8NVeSv+K0ybsfoQUp/sgQ
+X-ME-Proxy: <xmx:QBi2aks9cVmtVVgDWOpZQLMYJnnq0WiDCmfwfRCxnKtd462F6IWytw>
+    <xmx:QBi2akh84Y1eWIqTMNJITEkMXmXRjN7zw_8ZM-RSgwQZXQSLDngT3Q>
+    <xmx:QBi2aqZyKF1u83uvY6x5VtDegQdByG0waYvUbau_-OqIjkhMPjJFWg>
+    <xmx:QBi2ajZsRH8i_I6LnZImUEKiEH8hyvZa7XSe454pHywC3zynHKSWFA>
+    <xmx:Qxi2aoPDxdGsEJ87ytSqbbO4qDTPCBr6tYWu0Df0M_3PB94lWMJwcP_a>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 7288232A0087; Fri, 25 Sep 2026 02:44:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-ThreadId: Am_z2EeL-WEB
+Date: Fri, 25 Sep 2026 08:43:54 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dan Carpenter" <error27@gmail.com>, oe-kbuild@lists.linux.dev
+Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "Juergen Gross" <jgross@suse.com>,
+ xen-devel@lists.xenproject.org,
+ "Stefano Stabellini" <sstabellini@kernel.org>,
+ "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>
+Message-Id: <94cbe491-1b32-47ec-a9b5-bed69bc4d52c@app.fastmail.com>
+In-Reply-To: <202609241805.VsLzGPLn-lkp@intel.com>
+References: <202609241805.VsLzGPLn-lkp@intel.com>
+Subject: Re: drivers/xen/gntdev.c:817 gntdev_get_page() warn: mask and shift to zero:
+ expr='(addr & ~(~((1 << 12) - 1))) >> 12'
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Thu, Sep 24, 2026, at 21:39, Dan Carpenter wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Ian Rogers <irogers@google.com>
-CC: Arnaldo Carvalho de Melo <acme@redhat.com>
+>    489                          return -EFAULT;
+>    490                  break;
+>    491          case 2:
+>    492                  if (copy_from_user(&m, udata, sizeof(struct 
+> privcmd_mmapbatch_v2)))
+>    493                          return -EFAULT;
+>    494                  /* Returns per-frame error code in m.err. */
+>    495                  if (!access_ok(m.err, m.num * (sizeof(*m.err))))
+>                                               ^^^^^^^^^^^^^^^^^^^^^^^
+> These integer overflow bugs are from 2012, but I guess your patch 
+> exposed
+> the arm32 build to the zero day bot.  The bugs only affect 32bit 
+> systems.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git tmp.perf-tools-next
-head:   fcf1fccdc9d5d7fe463c6c1869c9af6edbdd59eb
-commit: 63394d06643ae1a094bc1af832d9710d7318f1b3 [63/112] perf test: Isolate test suite from user .perfconfig natively
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 days ago
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260925/202609250359.tPKYrQbd-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609250359.tPKYrQbd-lkp@intel.com/reproduce)
+Right, the randconfig came up with an ARMv6 Xen build, which was not
+possible before my patch. I'm sure this was reported for other configs
+before and just showed up as introduced by my patch here.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609250359.tPKYrQbd-lkp@intel.com/
+This is clearly a bug but it does look harmless to me, as it only
+results in the userspace corrupting itself when passing invalid
+data.
 
-Note: the perf-tools-next/tmp.perf-tools-next HEAD fcf1fccdc9d5d7fe463c6c1869c9af6edbdd59eb builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   In file included from ./linux/scatterlist.h:7,
-                    from scatterlist.c:9:
-   ../../include/linux/bug.h:9:9: warning: "BUILD_BUG_ON_ZERO" redefined
-       9 | #define BUILD_BUG_ON_ZERO(e) (sizeof(struct { int:-!!(e); }))
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from ../../include/linux/bits.h:30,
-                    from ../../include/linux/gfp_types.h:5,
-                    from ../../include/linux/gfp.h:6,
-                    from ../../include/linux/slab.h:6,
-                    from scatterlist.c:8:
-   ../../include/linux/build_bug.h:16:9: note: this is the location of the previous definition
-      16 | #define BUILD_BUG_ON_ZERO(e, ...) \
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from ./linux/scatterlist.h:8:
-   ./linux/mm.h:13:9: warning: "unlikely" redefined
-      13 | #define unlikely
-         |         ^~~~~~~~
-   In file included from ../../include/linux/build_bug.h:5:
-   ../../include/linux/compiler.h:154:10: note: this is the location of the previous definition
-     154 | # define unlikely(x)            __builtin_expect(!!(x), 0)
-         |          ^~~~~~~~
-   ./linux/mm.h:33:9: warning: "__ALIGN_KERNEL" redefined
-      33 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
-         |         ^~~~~~~~~~~~~~
-   In file included from ../../include/vdso/const.h:5,
-                    from ../../include/vdso/bits.h:5,
-                    from ../../include/linux/bits.h:5:
-   ../../include/uapi/linux/const.h:48:9: note: this is the location of the previous definition
-      48 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
-         |         ^~~~~~~~~~~~~~
-   ./linux/mm.h:62:9: warning: "__PASTE" redefined
-      62 | #define __PASTE(a,b) ___PASTE(a,b)
-         |         ^~~~~~~
-   ../../include/linux/compiler.h:243:9: note: this is the location of the previous definition
-     243 | #define __PASTE(a, b) ___PASTE(a, b)
-         |         ^~~~~~~
->> ./linux/mm.h:112:21: error: conflicting types for 'kmalloc'; have 'void *(unsigned int,  unsigned int)'
-     112 | static inline void *kmalloc(unsigned int size, unsigned int flags)
-         |                     ^~~~~~~
-   ../../include/linux/slab.h:33:7: note: previous declaration of 'kmalloc' with type 'void *(size_t,  gfp_t)' {aka 'void *(long unsigned int,  gfp_t)'}
-      33 | void *kmalloc(size_t size, gfp_t gfp);
-         |       ^~~~~~~
->> ./linux/mm.h:118:1: error: conflicting types for 'kmalloc_array'; have 'void *(unsigned int,  unsigned int,  unsigned int)'
-     118 | kmalloc_array(unsigned int n, unsigned int size, unsigned int flags)
-         | ^~~~~~~~~~~~~
-   ../../include/linux/slab.h:35:7: note: previous declaration of 'kmalloc_array' with type 'void *(size_t,  size_t,  gfp_t)' {aka 'void *(long unsigned int,  long unsigned int,  gfp_t)'}
-      35 | void *kmalloc_array(size_t n, size_t size, gfp_t gfp);
-         |       ^~~~~~~~~~~~~
-   ./linux/scatterlist.h: In function 'sg_set_page':
-   ./linux/scatterlist.h:161:9: error: implicit declaration of function 'VM_WARN_ON_ONCE'; did you mean 'WARN_ON_ONCE'? [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
-         |         ^~~~~~~~~~~~~~~
-         |         WARN_ON_ONCE
-   ./linux/scatterlist.h:161:26: error: implicit declaration of function 'page_range_contiguous' [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-   ./linux/scatterlist.h: At top level:
-   ./linux/scatterlist.h:181:64: warning: 'struct folio' declared inside parameter list will not be visible outside of this definition or declaration
-     181 | static inline void sg_set_folio(struct scatterlist *sg, struct folio *folio,
-         |                                                                ^~~~~
-   ./linux/scatterlist.h: In function 'sg_set_folio':
-   ./linux/scatterlist.h:186:34: error: invalid use of undefined type 'struct folio'
-     186 |         sg_assign_page(sg, &folio->page);
-         |                                  ^~
-   ./linux/scatterlist.h: In function 'sg_page_iter_page':
-   ./linux/scatterlist.h:606:35: error: invalid use of undefined type 'struct page'
-     606 |         return sg_page(piter->sg) + piter->sg_pgoffset;
-         |                                   ^
-   scatterlist.c: At top level:
-   scatterlist.c:12:10: fatal error: linux/bvec.h: No such file or directory
-      12 | #include <linux/bvec.h>
-         |          ^~~~~~~~~~~~~~
-   compilation terminated.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
