@@ -1,124 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F873B14C1
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 17:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A973E63AC
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 17:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790358176; cv=none; b=a9gWMDUsoxW1qa69Y3B5zUecNOE1IaHX9/u91qU3fsm6lyZ8YK7o15/vSAzuhOJegZHlzrHwv3FL3+V1gnWcOJIZrAa0/CAXNj0t9qZXVn191LW485nmxc5x+yLpCj9g7P2fLwDOkt02WQAV3WczlkQkE5nfA9dr+19sdc8JH5s=
+	t=1790358469; cv=none; b=U2bwcbi2cIoQdjyh4Ip7azCbnprt2e946nxMc3mXCdeET1dMvcGvllpM38eA9LFSgtnKC7gB++YmRjQW7f0TjAnuuI7UdDDg920D+IUxVIvKr8Odcnz+EOCkFDNsb0UyAy3GgUdAkPEfnbNCE3CRgw3zFYTzuRxvUGxPgF8R5tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790358176; c=relaxed/simple;
-	bh=IYDNW9Wz0OTWrOC8hYsrjQj8nBwpCyFyLdV2b+9PMQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F0dy/dMeLtIeAuJVcX+CoTgxSDjirlvP/RFDB8zh6hV69Tar5Xv6JBQ8pxjSW6+QCRn1V76kacuJez5Wubec+9Kp7IXLV8y9WtrVTBfsM8Q69k/uX1wlXZAPPwyumkgtGHfqy0qKuyMxnh7WevAvIgNhldlfK3rrL5/cfMwiMZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsklQtua; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790358469; c=relaxed/simple;
+	bh=7bOYbBLfPcldmnYgyQ4mX5LnzFZDGICYUzIjbi+hHJI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VZ67tsr63io1otzZ373zT9Do322FyRd30BiC+W+DkEEV8TI1nIuemnJ/dwnzbfWyk16M32m3m1NCGR7gt1rEiR2bn4tAc/xDlk4jNl8/3S3t4tzP0oH/91ZYlAC6zaFnlWGE9SOj/pODVsG7vtqXtycLpp2zVbOAeonPS8wjQkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQ4+4G5y; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsklQtua"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQ4+4G5y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790358175; x=1821894175;
-  h=date:from:to:cc:subject:message-id;
-  bh=IYDNW9Wz0OTWrOC8hYsrjQj8nBwpCyFyLdV2b+9PMQ0=;
-  b=hsklQtuacjDzY2Z5mYAYjVXhCqC5BCvLbfLlyvZS0dtygWbHbQp5flaq
-   H9Jc/nFPUCHBAZ64eWIHA3/X9v2UOl6ZXeOU/LS1lkTLI83TYLYYHGRD3
-   fw3isK5CYFnL407545oB9SKNRfXj36NMt9+IAJoB9tbx69AfJplGuas/v
-   6tgq/HZX+EPmjU1ZdAYIT/59LK0bk5mFyUCf2hCkBz2luR6j1Cq5s9UGe
-   l+DIQV9PV8f5tZTgoZtXdKUFa4EeZE4Qdepd56Eb1E+xdaZ2wWOwoJ8cs
-   9tLqdKlc9yS02PGRQW6Pmu1teqBnNLnbYPIN6Dlryvm0C9Ryd0zVq6ZcO
-   w==;
-X-CSE-ConnectionGUID: jMByLGaFS0emdmaNz1kEhg==
-X-CSE-MsgGUID: eDz/i33xTqiXHGN69MF76Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="116678333"
+  t=1790358467; x=1821894467;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7bOYbBLfPcldmnYgyQ4mX5LnzFZDGICYUzIjbi+hHJI=;
+  b=UQ4+4G5yDhZemnufEF9drXceMXVCo5lL2D1NGLTp2BECP4D0lpbqwZ5f
+   xkZbkAZ9hMhqR2QyEwTmhETUKpCb1vCWn4KB1PPPEoPf/LjwIzSWlyq3k
+   bjmxjF2ah8VSc5QGByeav8059e1q2dhVl7lJrdv5BSs2Tfv2FKG5CGEJE
+   FHvo/hV54yPEIrDvxOE6ERPXOJaFefUtOmCxDN5ywaKoJr5xCSCjZLD8J
+   eXylNWPcR4b9A9A1HUtPIDA/OOhspEKmf2rvRpH1jtJwPi17sYck2Np1L
+   tugbfEWgVG1tgMsSTVAmgO+VywKnsPziyL+dCZQWJ3HYhzv5wPtGrMUPy
+   Q==;
+X-CSE-ConnectionGUID: ZWVyKQalRQWnbeOmxBWuaQ==
+X-CSE-MsgGUID: +kqiFSBxQjCi9wiARuAx6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90014057"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="116678333"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 10:42:54 -0700
-X-CSE-ConnectionGUID: Mh1UOLOFTi6a2bTYFmTpYw==
-X-CSE-MsgGUID: HqgSooFZTKiE6tZabh93eA==
+   d="scan'208";a="90014057"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 10:47:47 -0700
+X-CSE-ConnectionGUID: bKPDv4/2Qky59YvfuygUYA==
+X-CSE-MsgGUID: 0/6aq/4DQLOIbbyPleXk2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="282463875"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2026 10:42:53 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="272199316"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2026 10:47:46 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA9wh-000000000qU-17LJ;
-	Fri, 25 Sep 2026 17:42:51 +0000
-Date: Fri, 25 Sep 2026 19:42:44 +0200
+	id 1xAA1P-00000000KzI-3w3p;
+	Fri, 25 Sep 2026 17:47:43 +0000
+Date: Sat, 26 Sep 2026 01:47:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: 
- [geert-renesas-drivers:topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v4-wip
- 4/85] arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014000
- (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai',
- 'cmpbi'] is too short
-Message-ID: <202609251958.yyy5pE7O-lkp@intel.com>
+Subject: drivers/gpu/drm/tiny/ch1115-i2c.c:493:11: error: use of
+ undeclared identifier 'drm_atomic_helper_crtc_reset'; did you mean
+ 'drm_atomic_helper_check_modeset'?
+Message-ID: <202609260122.KLDd6aW4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+::::::=20
+:::::: Manual check reason: "bisect to a FBC not belonging to original linu=
+x-review patches: branch: linux-review/UPDATE-20260924-184557/Nicol-s-Antin=
+ori/dt-bindings-display-add-Chipwealth-CH1115-OLED-Controller/20260923-1935=
+13, commit: ec9256c9e620f5fb54a559661a9f714e40157b48"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: "Nicol=C3=A1s Antinori" <nico.antinori.7@gmail.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v4-wip
-head:   61382c1026cdebbf608e3aecb95c11d1cdbb9bb2
-commit: b508d6fb28fe406c12e2070c53db79c57143d592 [4/85] arm64: dts: renesas: r9a09g077: Drop unwired ADC interrupts
-:::::: branch date: 8 hours ago
-:::::: commit date: 29 hours ago
-config: arm64-randconfig-2400-20260925 (https://download.01.org/0day-ci/archive/20260925/202609251958.yyy5pE7O-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.10.dev2+g840a01d41
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251958.yyy5pE7O-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20260924-1845=
+57/Nicol-s-Antinori/dt-bindings-display-add-Chipwealth-CH1115-OLED-Controll=
+er/20260923-193513
+head:   55ad3472c1a2fa78925e731df3f9af6c1f482948
+commit: ec9256c9e620f5fb54a559661a9f714e40157b48 drm/ch1115: add support fo=
+r Chipwealth CH1115 OLED controller
+date:   20 hours ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: loongarch-randconfig-r1305-20260925 (https://download.01.org/0day-c=
+i/archive/20260926/202609260122.KLDd6aW4-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c=
+1ec4a3095ab096dd780e84d7ab81f3d7ff)
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260926/202609260122.KLDd6aW4-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609251958.yyy5pE7O-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609260122.KLDd6aW4-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014000 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014000 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014000 (renesas,r9a09g077-adc): interrupts: [[0, 698, 1], [0, 699, 1], [0, 700, 1], [0, 701, 4], [0, 702, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014400 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014400 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014400 (renesas,r9a09g077-adc): interrupts: [[0, 703, 1], [0, 704, 1], [0, 705, 1], [0, 706, 4], [0, 707, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@80008000 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@80008000 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
---
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014000 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014000 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014000 (renesas,r9a09g077-adc): interrupts: [[0, 698, 1], [0, 699, 1], [0, 700, 1], [0, 701, 4], [0, 702, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014400 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014400 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@90014400 (renesas,r9a09g077-adc): interrupts: [[0, 703, 1], [0, 704, 1], [0, 705, 1], [0, 706, 4], [0, 707, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@80008000 (renesas,r9a09g077-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk-cn15-lcdc.dtb: adc@80008000 (renesas,r9a09g077-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tiny/ch1115-i2c.c:493:11: error: use of undeclared ident=
+ifier 'drm_atomic_helper_crtc_reset'; did you mean 'drm_atomic_helper_check=
+_modeset'?
+     493 |         .reset =3D drm_atomic_helper_crtc_reset,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                  drm_atomic_helper_check_modeset
+   include/drm/drm_atomic_helper.h:50:5: note: 'drm_atomic_helper_check_mod=
+eset' declared here
+      50 | int drm_atomic_helper_check_modeset(struct drm_device *dev,
+         |     ^
+>> drivers/gpu/drm/tiny/ch1115-i2c.c:493:3: error: field designator 'reset'=
+ does not refer to any field in type 'const struct drm_crtc_funcs'
+     493 |         .reset =3D drm_atomic_helper_crtc_reset,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +493 drivers/gpu/drm/tiny/ch1115-i2c.c
+
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  491 =20
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  492  static const struct d=
+rm_crtc_funcs ch1115_crtc_funcs =3D {
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23 @493  	.reset =3D drm_atomi=
+c_helper_crtc_reset,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  494  	.destroy =3D drm_crt=
+c_cleanup,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  495  	.set_config =3D drm_=
+atomic_helper_set_config,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  496  	.page_flip =3D drm_a=
+tomic_helper_page_flip,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  497  	.atomic_duplicate_st=
+ate =3D drm_atomic_helper_crtc_duplicate_state,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  498  	.atomic_destroy_stat=
+e =3D drm_atomic_helper_crtc_destroy_state,
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  499  };
+ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  500 =20
 
 --
 0-DAY CI Kernel Test Service
