@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E660B3B71B0
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 21:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B7847CC78
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 21:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790372681; cv=none; b=qRCCgoWX9+Y4NwsgEAVw3FHtd9VlqJSoY1s0ykHGuAiT9TzgPW6+wyObrOPgVjJcFLxRA7cy2yXd1f47md/mje/Vi0LnhMDvLWtAyLcUSmXWfe3EoNotcvM2w6pfzXgEl4YpZW1rms15Va7Xi4g2CRsFj4qbsqNx1apaO0G9N24=
+	t=1790372812; cv=none; b=IopmmaVMOdch5RwnbrhEdY3WlqSPDzLQaKtiPVcKgP6qAPlA/3deu4Px+C412NJLikms+K37GV86QFEUDgff4vK1zBm9L1HNQjtF5/DQ8yFgo6M4AOlEec0VR+zbxl+WdEmXmo+sYqBW/TKUPkGRBF3Kz6bh7wV+pzSstkHAIk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790372681; c=relaxed/simple;
-	bh=r07CzdfNCjJQ5ILmy4BXeLI9Tag0sD5JbXGZLrbWj+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ffyZNMCV+ccCAc9hXet4vS/k2HfweF83ony/LSr4r/ZDQGUygVM78QuySHH19hcb8uHXS/HkizP0KzQlEucz7i9KHP0eqjsFYYCKklLftdoL10u353VoMbS2zqi0LIcbdlHOXGkCiSgZEwbMPS8Q1say0IqV0HEIiiT3evz5Xa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DunOiBvj; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1790372812; c=relaxed/simple;
+	bh=sWONxxNCSmx7d5eOSYxEMz+ScAjeeTb+YfOxfnrBgZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kpG507h7SoguS9bMJ3+0Z5ggz1zO9zvT4YqMafl/EBL5xpk/NJUOXrYsrtVIe0xdr7K+BD2Nzt0pK/XcnrmaIy5o3DO2kc/r/mpZwHPNsvzCDFI/0uQjh9BgTjL+9zZ1fVH+8TM618i1uQVE4gbdVI407PaGobr7pk731XUsOAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmNH0fZl; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DunOiBvj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmNH0fZl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790372679; x=1821908679;
+  t=1790372810; x=1821908810;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=r07CzdfNCjJQ5ILmy4BXeLI9Tag0sD5JbXGZLrbWj+U=;
-  b=DunOiBvjo4IgPNVpYTYdCGmwTsY9b92pxGXUVHxNd7k7bedrZzqMy1bq
-   yAKyXHZkyZw4+8cV8cGyhMeoQCk7GlmrKxu1QaHGNnm1dOI74bAxypjRd
-   kRHYKcoXi3+0k18+4RFlOIKo9IETvPzX5hKZHrtuGikoxQHNf8uEONrO/
-   Jeuh56mcyByxOrvOUiDTAN9uPML7CqQt2ZOG7KZvlhB9smkwKToYCN/04
-   +vVlK7Pm38HwrqrRvCklOZdHkPK6AU925IV1pvcKbiNDRoH/dCfwm72dm
-   AQHeImIzDLBIIq+hw5jTN/qfQoW/mPnr7MahAhLsX8TjknGCsiU+VS2YZ
-   Q==;
-X-CSE-ConnectionGUID: Gf4gfUaTTSGGQIMAclS3UQ==
-X-CSE-MsgGUID: kYOGQAqFTxe7tBzJWg/YOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="101825912"
+  bh=sWONxxNCSmx7d5eOSYxEMz+ScAjeeTb+YfOxfnrBgZc=;
+  b=SmNH0fZlBQ+zqbmPFY49+ExMZYkohZXCftWLBRTogorn14HEPhj5iso2
+   zKfqLRhNu7mo+J7+RX0WFQU6XHInPLbKdtKn2TbbfFFLfW/JH45tkgyfz
+   fbnSFTj9d4v5lFpSE9Zet6WO/Znrium/zOIs+uzKodq9t93r251H64F9n
+   h/zg01dZPzXT0ITw6OJZ2ykLf5l7D5BNPBUC8gA+QvED9zTMQdAuFBUAh
+   wZcUcS31VmTGGu8W9z2CtcVWJYhwupUphRs6Zp7yayWZAonA65KMtKrgh
+   LoopTIQeMkPWmSolKSLYQQWjuzmHeLD1uxmR2h5/3RTi0Tn9oILYpxJql
+   w==;
+X-CSE-ConnectionGUID: BKvW1irzRreyDpXKFI7A8g==
+X-CSE-MsgGUID: oqa6NyxSTZWXw2Jd1ws0Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="102529010"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="101825912"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:44:38 -0700
-X-CSE-ConnectionGUID: GPAY8lCyTIKY5kBeXdL59Q==
-X-CSE-MsgGUID: uffmUfaGRGKpED8W/39K6Q==
+   d="scan'208";a="102529010"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:46:44 -0700
+X-CSE-ConnectionGUID: 7AaxCImySQmHN+6hnLsE3g==
+X-CSE-MsgGUID: if7nv3SVS+2z6Y3cyq9xNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="312359572"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Sep 2026 14:44:37 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="303948784"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 25 Sep 2026 14:46:42 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xADid-00000000LEu-0MbP;
-	Fri, 25 Sep 2026 21:44:35 +0000
-Date: Sat, 26 Sep 2026 05:44:21 +0800
+	id 1xADke-000000000ua-2LNv;
+	Fri, 25 Sep 2026 21:46:40 +0000
+Date: Fri, 25 Sep 2026 23:46:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/tiny/ch1115-i2c.c:493:10: error: 'const
- struct drm_crtc_funcs' has no member named 'reset'
-Message-ID: <202609260545.eEm9FCKo-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/dma-buf/st-dma-fence-unwrap.c:78:39-45: ERROR:
+ reference preceded by free on line 73
+Message-ID: <202609252334.75g7QwVZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,72 +63,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "bisect to a FBC not belonging to original linu=
-x-review patches: branch: linux-review/UPDATE-20260924-184557/Nicol-s-Antin=
-ori/dt-bindings-display-add-Chipwealth-CH1115-OLED-Controller/20260923-1935=
-13, commit: ec9256c9e620f5fb54a559661a9f714e40157b48"
-::::::=20
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Nicol=C3=A1s Antinori" <nico.antinori.7@gmail.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20260924-1845=
-57/Nicol-s-Antinori/dt-bindings-display-add-Chipwealth-CH1115-OLED-Controll=
-er/20260923-193513
-head:   55ad3472c1a2fa78925e731df3f9af6c1f482948
-commit: ec9256c9e620f5fb54a559661a9f714e40157b48 drm/ch1115: add support fo=
-r Chipwealth CH1115 OLED controller
-date:   24 hours ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260926/=
-202609260545.eEm9FCKo-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260926/202609260545.eEm9FCKo-lkp@intel.com/reproduce)
+Hi Jason,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   165768bb70265b5c38cf0b73fafd75be235f8b14
+commit: 465f3934381c4e9a5bf9fe0eb866275b0ece5a5d dma-buf: Change st-dma-fen=
+ce-unwrap.c to use kunit
+date:   5 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-2100-20260925 (https://download.01.org/0day-ci/arch=
+ive/20260925/202609252334.75g7QwVZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
+| Fixes: 465f3934381c ("dma-buf: Change st-dma-fence-unwrap.c to use kunit")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609260545.eEm9FCKo-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202609252334.75g7QwVZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/st-dma-fence-unwrap.c:78:39-45: ERROR: reference precede=
+d by free on line 73
 
->> drivers/gpu/drm/tiny/ch1115-i2c.c:493:10: error: 'const struct drm_crtc_=
-funcs' has no member named 'reset'
-     493 |         .reset =3D drm_atomic_helper_crtc_reset,
-         |          ^~~~~
->> drivers/gpu/drm/tiny/ch1115-i2c.c:493:18: error: 'drm_atomic_helper_crtc=
-_reset' undeclared here (not in a function); did you mean 'drm_atomic_helpe=
-r_check_modeset'?
-     493 |         .reset =3D drm_atomic_helper_crtc_reset,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  drm_atomic_helper_check_modeset
+vim +78 drivers/dma-buf/st-dma-fence-unwrap.c
 
+d2a0b1bc5773d3 Tvrtko Ursulin  2024-11-15  48 =20
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  49  static struct dma_fence=
+ *mock_array(unsigned int num_fences, ...)
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  50  {
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  51  	struct dma_fence_array=
+ *array;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  52  	struct dma_fence **fen=
+ces;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  53  	va_list valist;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  54  	int i;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  55 =20
+bf4afc53b77aea Linus Torvalds  2026-02-21  56  	fences =3D kzalloc_objs(*fe=
+nces, num_fences);
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  57  	if (!fences)
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  58  		goto error_put;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  59 =20
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  60  	va_start(valist, num_f=
+ences);
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  61  	for (i =3D 0; i < num_=
+fences; ++i)
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  62  		fences[i] =3D va_arg(=
+valist, typeof(*fences));
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  63  	va_end(valist);
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  64 =20
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  65  	array =3D dma_fence_ar=
+ray_create(num_fences, fences,
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  66  				       dma_fence_co=
+ntext_alloc(1),
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  67  				       1, false);
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  68  	if (!array)
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  69  		goto error_free;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  70  	return &array->base;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  71 =20
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  72  error_free:
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11 @73  	kfree(fences);
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  74 =20
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  75  error_put:
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  76  	va_start(valist, num_f=
+ences);
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  77  	for (i =3D 0; i < num_=
+fences; ++i)
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04 @78  		dma_fence_put(va_arg(=
+valist, typeof(*fences)));
+0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  79  	va_end(valist);
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  80  	return NULL;
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  81  }
+64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  82 =20
 
-vim +493 drivers/gpu/drm/tiny/ch1115-i2c.c
+:::::: The code at line 78 was first introduced by commit
+:::::: 0c5064fa8d5a02dc2dcc6c674a0ad1bbaf79efda dma-buf: cleanup dma_fence_=
+unwrap selftest v2
 
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  491 =20
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  492  static const struct d=
-rm_crtc_funcs ch1115_crtc_funcs =3D {
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23 @493  	.reset =3D drm_atomi=
-c_helper_crtc_reset,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  494  	.destroy =3D drm_crt=
-c_cleanup,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  495  	.set_config =3D drm_=
-atomic_helper_set_config,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  496  	.page_flip =3D drm_a=
-tomic_helper_page_flip,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  497  	.atomic_duplicate_st=
-ate =3D drm_atomic_helper_crtc_duplicate_state,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  498  	.atomic_destroy_stat=
-e =3D drm_atomic_helper_crtc_destroy_state,
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  499  };
-ec9256c9e620f5 Nicol=C3=A1s Antinori 2026-09-23  500 =20
+:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
 
 --
 0-DAY CI Kernel Test Service
