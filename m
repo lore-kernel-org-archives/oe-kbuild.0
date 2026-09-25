@@ -1,118 +1,113 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f13.google.com (mail-wr2-f13.google.com [74.125.225.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05383396585;
-	Fri, 25 Sep 2026 06:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF7C28850E
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 07:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790318663; cv=none; b=btFHBgZmUhb5hfWNf8WEcpylgimZ3qM5MucoBiyWX/w7onVTr0Y+mvZc1nOpQcluK06wT9Rmxv7Gc6vTyjvX2hQFdgOd1CHg0G326pWloSwdF5LJg5VQYl0v+gwqnWVIdp0PXiBJ4uzoNU3YhRqn7JtkO7ioAzAzyoRhAZaGMc0=
+	t=1790322166; cv=none; b=TDAQXon9memDvwXuCsv9k7rpVFGVC7Iu19pqOp4vgSx+vqTSbtL/oYMLEYFCrMYLl4VT4RF8yVvjsVCDN1rAcCCND4v/OCI7lvCC7+8rO3jN9u9awHc8hE9CGpfRQAtZVbbQBgsh7psXZEfvL1j7J7D5QJ78wSGXMj1WHNce6ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790318663; c=relaxed/simple;
-	bh=03IrB9vAF/bkxYF/q/kywUS8ATF2rd0t56Gfd6VXeNs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tvuMwCUQwvJdTE/j7VPfeHH1QJ0oJs3VXE70yhNViVhpC7vTdur4SChtEtP3/mhyKQF+zC2V00BA7TeCfruSWyfocTDizAO5KY+jAu4B+FlBIlGTjNIKCCAtdyq3QLf8nJMY1BBuqVasqiWZw5G2X3bhyUfH8QfwaggKnTys8r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Nu0oj7Ul; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BgM0Gyvv; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1790322166; c=relaxed/simple;
+	bh=4Ms1j6HDHR9POx8IQpp5n2Cvct/LATjoKlGYR8Bb2vM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2R0SG500PAY8stH/C7o8tsMsV+z30RcZ9YQbFbrBdL6kL6pGr/W1j/nStB6Zr07Mf5Q8JKjRV52IfPKN2tWSW3reMynzhD93QtAmV3FTC9TABeW0xI/6LSlvclyA1mDVnTDG3P9gXgAayVNSDXtaf5ZHa42dzVY+Lbul9efom0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jv8O1BBf; arc=none smtp.client-ip=74.125.225.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Nu0oj7Ul";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BgM0Gyvv"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 33DC71400150;
-	Fri, 25 Sep 2026 02:44:20 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 02:44:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1790318659;
-	 x=1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=
-	Nu0oj7UlIMonbzdFuiOnXEWPF2hJYzyzOAljnTNeALWZYE+crT5NlZVumdUphWuo
-	RZfkszIAbYJ63RItV/vEeOiQ74DLVVtT9yETf+2AJF3Il3Eex3n0xgcWnaeuY6cY
-	6wAQ652I4qv5mzSSgasKwoKYU+wCzLh52vxBQtMU0A1NGLzTkU08uoOOv1YJHDNS
-	ckaCEp+UHTtrcaBH6hQjxny3jF7C9TpRGj0uTrpkGWUCUr66kKW6kP3H8y7Ud+l1
-	gwVry7mP+a34dtogloyKtXCbn8Yshbn9oEBHJaRjbb4wzCv636+Ld2fSI4+wZHCL
-	bp3lDOJZ7vw0Y/KnzuS3FQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790318659; x=
-	1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=B
-	gM0Gyvv3PiGDCIXQOHuxl6hJHi3qhgh7HkwPgl/OcTXEjOB3+UqitNM84mISi+iz
-	+ycfiYljhdmWBwO0wKZRXBfXuBfOqTioznIm+HWkfsKX23zU2Sb00pQljzDUbuIr
-	HkCvLt+gVhdFM5OfjBUcWNpyOT7+RVLygdng5266IoTu+8jNHrxCxDIzdsBEBvPw
-	++iA2YoJUtZuy7QvTTU1Uv+PgEFSueGgJvqQzKnpBprx9voPJ3rNvJQFKBk96l2m
-	O0NqblZtGOUxFcZGNEIVKtIRSuIVTPDsCyZDqC1Ue/3ZAE0DCEy27p98K+Oq1l3t
-	kwmxWfaZ1uuOee0Vrj96Q==
-X-ME-Sender: <xms:Phi2apPO9ujYSIDasbhJpnMTzke4qSpbwvrwzhlkXuIAI7-cnSWZfw>
-    <xme:Phi2amzawLOHn6D_TcxFB_sryNZBvDNGlXG3Mk5xGBUhjGYtjqB5YZpcBGi2Vvxu4
-    LO4jainLSHlBfr9xfRwMoKueRag02HeC2zWkT5k5Me375Lln4hJE4Xm>
-X-ME-Proxy-Cause: dmFkZTFwSDqkQ+iCgv9bfoZ7OnGDv2/E32uPE8Fd0Y8/G3hqdMfXKGBRJsqwYtMQUVYQrL
-    6rBdD5WBkmP95rwBjb56UCQmEFVpH1MQeNf2EH79A9tcFirxDEH49FPSDtgesI6qTlZLhS
-    FyGt8jwZs6/BRCK8WQBtj8/8wSniM5z0sAeYIZUw6RfTL0VgIo3U3fygtLYZE95pxCSHFZ
-    WepR8wEVKtPNAYRuRFUV+Y6YLWfdH1/Sqbu3qA9d12FobAwCl+aIFvcISyJveD7NAd69ne
-    nat+mzAMqvQmRT39Um5yv7DBEV4FS8+RYnZbN6r0+WRL47rc70az+oyh1zU2Ychr2GGWJK
-    u2fZydkW07nhk+soJMbSuvqR99kgSdHxX+7M/qJVrV5nxIlqC/RPoPvuKCMjyhYck5Mn+f
-    AdFbaAQW7BZ/q/bJBeQ9EqwX0ccvLKpZIf0UH39rOJ8ygTbhJoyyJz7XCaowgaxqDiq2/t
-    d7BY1jleB6/ow+3+ojRHL8gX24SKUACYZjIQrd7G0Brdt9XWe0nPXJMcfi9IIQWoiFdlP5
-    UsrXZxRyK7FVGTK3USyOhdqLn7j9uBACH1EQaZAZnz0Wxhmaz8p7Rx9+/rfD741yv1TZ5H
-    xDqojH1YmlZuRqBLUIoKWOM7MzgbFiWpplx5yWj8NVeSv+K0ybsfoQUp/sgQ
-X-ME-Proxy: <xmx:QBi2aks9cVmtVVgDWOpZQLMYJnnq0WiDCmfwfRCxnKtd462F6IWytw>
-    <xmx:QBi2akh84Y1eWIqTMNJITEkMXmXRjN7zw_8ZM-RSgwQZXQSLDngT3Q>
-    <xmx:QBi2aqZyKF1u83uvY6x5VtDegQdByG0waYvUbau_-OqIjkhMPjJFWg>
-    <xmx:QBi2ajZsRH8i_I6LnZImUEKiEH8hyvZa7XSe454pHywC3zynHKSWFA>
-    <xmx:Qxi2aoPDxdGsEJ87ytSqbbO4qDTPCBr6tYWu0Df0M_3PB94lWMJwcP_a>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 7288232A0087; Fri, 25 Sep 2026 02:44:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jv8O1BBf"
+Received: by mail-wr2-f13.google.com with SMTP id ffacd0b85a97d-4843378fb37so300430f8f.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 25 Sep 2026 00:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790322164; x=1790926964; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zWr1PMB3Rc/UXhUDgKdBkp20G3Gj5KQDsYg0EGVPPQM=;
+        b=Jv8O1BBft8uXSA1KffURs2DoRNVPPtujkoy6TlWUlsmWW1nKF4IyG1ZWXohaeNbQge
+         ih7dMRgkisb7PwtPdhaz3oORvlRjVfQ9oniOPSDJ83fL3yBadJT7yKaOZAOvye453VGw
+         MjLBKh0Ytv0A21z86jCZZHKHTw28i+X74Nbq0neYZdtavkxcgDAo1SZPnFIvYtxeoYvC
+         DFVV++U3ksFOXpGDcpf5+v9BcCGyZVpPYWmLL+MX6jXsEjJPosYa7cCuuab2PibHcyVN
+         qR/UHjYoelgoyxBCqE5gT0e2xCIlEdwlHoQieQlFAbAtaX68SVNcQiwZl4h7qm2OnVWb
+         u0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790322164; x=1790926964;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zWr1PMB3Rc/UXhUDgKdBkp20G3Gj5KQDsYg0EGVPPQM=;
+        b=0QpTyAX1VFvYOQ8ib321RbyII8yDiNPB4PflJtDH3p18qGVQE+vuWZY93E8pMAV+Tw
+         px75fDTaVcnadSZjludEeYql/RXFZ+qYZxCDxhCS9NwxdaXmIB0Kg8amVvC8yhcLI1YS
+         LW8R/7FtZQQwLcrkA+SeGOYndqnRoYoFBEZ/JXdiidJdMhHR0Re3gOyq3iz8Rs3Xp3Aq
+         pD+xTOPnV6VCHxjMuXvJAZNeGPMSgqvrpD2q+iYchKy02G1MzTOTU2Z00bsb8YR93MHJ
+         pV6ieBz7BVa9XHSu727pKQSZPCqXhi48uqA4+m9h6sIaluQACidjFy2CtuQw7lL2he2I
+         MFzQ==
+X-Gm-Message-State: AFuF++lJfoJGDHGGWcAzcmeBs+lrK6NdkwnyqZEDvFWCj2VlMH/xJ7SQ
+	K6OSOXmn9tV7CEAflO7TGe5MZBrIizs8vgGqUgzqBuweVSntdCAdGezb
+X-Gm-Gg: AYBFou1Cm+x7+6zXNqV6Sh+PrEhogz61uY2URjjTWsrUVkfnzAMCbIYcXWBRbvJ1FAS
+	6HSZWbOnpIL2yNZr9KDxgbdnm5fI4BfDbp/X1InESz4jc2+g/Ftjn2lh7sS78FO5V2tmaN2XqFs
+	Q8/8OzUGmzKhFGB7rvHiuGwYPPyuouI8ekGVoDBeQ7EbcnMvQiS6NLcQXS4DgRYKBAwwQDfU7GL
+	oN9tN0UengXFRTwxfo574NfooEENIvceapwnBgX1FQQLUpUUvgRvK3IH6DWba0whZt+qOGW1y38
+	f/K4lq2+4JsSbXmB8Tw+YG4vVXJgZTeh5i1XGqrjNnFunMGAfMitbMlF7sSTZIRiokRSpb1g03k
+	6Ah/Ozi6+6agMKUNxyh6rnX/yXcdKkx7nKgJ9QNOr3kL/L/KBwoGoalrLOGPetew/ObpB4R6kDK
+	Ulxp2fvYPuGghzHg5uheGJEmasj0hD3aDQXpRVO8ZwwbdYF+XZkT57ZE8OdbJBVdlIhmw=
+X-Received: by 2002:a05:6000:4103:b0:488:7496:15b5 with SMTP id ffacd0b85a97d-48874961605mr5882933f8f.47.1790322163538;
+        Fri, 25 Sep 2026 00:42:43 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a355d96sm5487752f8f.17.2026.09.25.00.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 00:42:42 -0700 (PDT)
+Date: Fri, 25 Sep 2026 10:42:38 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild@lists.linux.dev, kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Juergen Gross <jgross@suse.com>, xen-devel@lists.xenproject.org,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Subject: Re: drivers/xen/gntdev.c:817 gntdev_get_page() warn: mask and shift
+ to zero: expr='(addr & ~(~((1 << 12) - 1))) >> 12'
+Message-ID: <arYl7m87hzxROT86@stanley.mountain>
+References: <202609241805.VsLzGPLn-lkp@intel.com>
+ <94cbe491-1b32-47ec-a9b5-bed69bc4d52c@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Am_z2EeL-WEB
-Date: Fri, 25 Sep 2026 08:43:54 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dan Carpenter" <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Juergen Gross" <jgross@suse.com>,
- xen-devel@lists.xenproject.org,
- "Stefano Stabellini" <sstabellini@kernel.org>,
- "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>
-Message-Id: <94cbe491-1b32-47ec-a9b5-bed69bc4d52c@app.fastmail.com>
-In-Reply-To: <202609241805.VsLzGPLn-lkp@intel.com>
-References: <202609241805.VsLzGPLn-lkp@intel.com>
-Subject: Re: drivers/xen/gntdev.c:817 gntdev_get_page() warn: mask and shift to zero:
- expr='(addr & ~(~((1 << 12) - 1))) >> 12'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <94cbe491-1b32-47ec-a9b5-bed69bc4d52c@app.fastmail.com>
 
-On Thu, Sep 24, 2026, at 21:39, Dan Carpenter wrote:
+On Fri, Sep 25, 2026 at 08:43:54AM +0200, Arnd Bergmann wrote:
+> On Thu, Sep 24, 2026, at 21:39, Dan Carpenter wrote:
+> 
+> >    489                          return -EFAULT;
+> >    490                  break;
+> >    491          case 2:
+> >    492                  if (copy_from_user(&m, udata, sizeof(struct 
+> > privcmd_mmapbatch_v2)))
+> >    493                          return -EFAULT;
+> >    494                  /* Returns per-frame error code in m.err. */
+> >    495                  if (!access_ok(m.err, m.num * (sizeof(*m.err))))
+> >                                               ^^^^^^^^^^^^^^^^^^^^^^^
+> > These integer overflow bugs are from 2012, but I guess your patch 
+> > exposed
+> > the arm32 build to the zero day bot.  The bugs only affect 32bit 
+> > systems.
+> 
+> Right, the randconfig came up with an ARMv6 Xen build, which was not
+> possible before my patch. I'm sure this was reported for other configs
+> before and just showed up as introduced by my patch here.
+> 
+> This is clearly a bug but it does look harmless to me, as it only
+> results in the userspace corrupting itself when passing invalid
+> data.
 
->    489                          return -EFAULT;
->    490                  break;
->    491          case 2:
->    492                  if (copy_from_user(&m, udata, sizeof(struct 
-> privcmd_mmapbatch_v2)))
->    493                          return -EFAULT;
->    494                  /* Returns per-frame error code in m.err. */
->    495                  if (!access_ok(m.err, m.num * (sizeof(*m.err))))
->                                               ^^^^^^^^^^^^^^^^^^^^^^^
-> These integer overflow bugs are from 2012, but I guess your patch 
-> exposed
-> the arm32 build to the zero day bot.  The bugs only affect 32bit 
-> systems.
+In ancient times, these access_ok() overflows were a much bigger deal.
+Easy to solve with a size_mul(m.num, sizeof(*m.err)).
 
-Right, the randconfig came up with an ARMv6 Xen build, which was not
-possible before my patch. I'm sure this was reported for other configs
-before and just showed up as introduced by my patch here.
-
-This is clearly a bug but it does look harmless to me, as it only
-results in the userspace corrupting itself when passing invalid
-data.
-
-      Arnd
+regards,
+dan carpenter
