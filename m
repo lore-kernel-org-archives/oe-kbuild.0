@@ -1,70 +1,70 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618F6171BB
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Sep 2026 08:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC67377A83
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Sep 2026 08:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790411446; cv=none; b=UCR6SaeFY8CggSCGs4qTai+JKX1b7CziVJiQBToe9EL1zBLVAixjkEvHIzx/67rSrEHvzgYyl0ac8lITpudUO6KeFqYCrjKNaEe160bi+IClVF/jweQa8S3FwW7bFda5crltWQ57uouhNNPBAdG2kO958p/xOVFY8W/LhI0+ByI=
+	t=1790411515; cv=none; b=ILh2B7HRoZpjXtnCGcwvWwwkMEv8T78FNd6vn5Kxzw9eyJUxFMIeNf3SUfaSALFqfyagyci6gV8Y21bv0/dgBo5Gc34XVfVnJiNGAXyxVlXshplpcqgM9g71xPWySyQJbNCrdyx+vT9JZRvJ54wKBlMntpN8ZxXcffCn7g4LcNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790411446; c=relaxed/simple;
-	bh=wFUyTKcSxGf8hCqFkGzXTX4w8nNQraXMVczer2UfiF4=;
+	s=arc-20240116; t=1790411515; c=relaxed/simple;
+	bh=NiEos67o1uV/oekg83nF62AWMR/EP7PlYL9a/WOwnWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DLUa1mh2MzDDrkTlTczoCabvq68IMt40vlbdQP8lwoyWHMJJJN9K1BnyYoV7MfCG6UN3ccFNw/zXcFevs8fXQmhG36qRYMPpHQuog73h0YbkjJn0mzfn68a8ROfVN6hgZO9FhAhSOgWPj7XqWgqQrtM85N4aX++H1vA5Txx32PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X15qDuhW; arc=none smtp.client-ip=74.125.225.99
+	 Content-Disposition; b=CADx0Q1VgcB8zR8y1V6vLDc/0ymOk5ssZ+yXepxWPs6rbq2VQ2Ka4Fk5JHUK/fJqQfiURizbrmad+L3gdtd5lOjTP5x/plNqtouuxZt8xHCwMiFcOOQhiIoSFQ7+YqRQJCdQZZfFcwU6OqDr+PgzswCtnwEdLKLFhmb5IjA+t+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OX7R2nAn; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X15qDuhW"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887f6cf16bso859936f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 26 Sep 2026 01:30:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OX7R2nAn"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so17706625e9.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 26 Sep 2026 01:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790411444; x=1791016244; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790411512; x=1791016312; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HgepCkWhzrCUbBePrewWkZkNqMvah0hcnaeJktodMBg=;
-        b=X15qDuhWpUxzgjqcslQTAH2fh4tQRcuSrZzf020zZ2C82qF5digG+rhsTw70uiiXJg
-         DYlPGbH3F6pWuiyq4jNwf0V3+fBfJ3cB2F56j07iBjVyAnfpG1aAtitOxRJbrnUnycN/
-         RjcZTxSZgSopY48zygUrRxoey2IivxDCASGRL5NfyU+t7YGDoPU0A+H5LT95dBSm+Xug
-         3giGYtE5wbOIPa8M7Wamc6Z0ZKCpuOw0wNNy2uzdSNuV/snTlrzvaom85Jrww6AOewXM
-         3k8CBqnmTPXsvLRkZHwUMfbjrwWvkjiqgwqw7OQ1+VfeDSak1IYo1gIviRc+/iCz3W/7
-         KQxQ==
+        bh=V1uNkkv6u3fjmZgc8we/Y10DE/uAYX60y02iebyfGzU=;
+        b=OX7R2nAnac6oLiDOKyv3qEqJVYtRdmJ4kOVQUrHu/SVsDSDjbNO8FB/v39F6eToLXU
+         HUpkv8uXCSaG0y9oyhZsMypm1p6N7Te0yzR64YJkxp4fV5hW26DeP9J4kziPhes48Ea9
+         dL539pkOvl5slJjqkL1010H9JGD/ePr5VoegAXTxFn7p0S4CWcsg1W7aEiu9HGD1xHXQ
+         yseNsGjmkQd7BdRPgFNpRcFNnKYs11OwzC8yzMTbPdW9wSiqr3N5g4NENbSr1jK2nFF5
+         +KqNI31WsbcAXDcfojLVS4CxubMqIYDIK835NuB1AlQ1VSvJ/HmX/GYWH2oIQwcJj9Du
+         NySw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790411444; x=1791016244;
+        d=1e100.net; s=20260707; t=1790411512; x=1791016312;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HgepCkWhzrCUbBePrewWkZkNqMvah0hcnaeJktodMBg=;
-        b=kRFT15qygP5vJIwPxKun0zRNzrd0MU+yJqKAqVwnpWSh550AEIx2ZXpWNX4A4L2ZGy
-         LmcVl9momnrjLDK+C7c0zeZG9vKIGOkaRsHfyMxsyUlJDN6KabB0zkNCVGoIsZtVJPhE
-         UtmZZuszPl3MHXbOi8XNHwRj/JhlyUPGNTcs6t6Tevmhn3TRv9GisjmQfd73MA6ud7Ym
-         2e4EM6pDvHiMPfuWfIHEBeIN91t1WctBfQ9+T0nDTC+iBCNaemyQXK+C9aGP3hXzocsN
-         4kD3O0amY9BBpPuV7+GnurCWA8HRMmJipMftkeyYU+LTC6xlYiPv4zEGyZuYcxXS4e/C
-         vntA==
-X-Gm-Message-State: AFuF++mFPgXfLdC88Mn0HWLstLFYH5OHgTzaQgO06mro+FrLXVinVBS2
-	u+jl+BuevKb9q+Zj9Y1cUDGmlsx3rE+E0rZAUSGqnwnYXWaV52mdLP8Cf5qah8czgLIhvA==
-X-Gm-Gg: AYBFou2HcTKozMqh3le2B3SJ1mMYYAEbRlbn154A1Fwc3BMajLagsGBvK0ymMvRed5W
-	AdSiyT+d6br/iHOyA+lqoIjvm2qk9bT0EVt+cUs+xMXfVsl3t3uHqllft4gw7IXcY53YDr84Tp/
-	uTu9eHdNb+Aw+WyZ0Y8zW9qO+I/sWX7HFJxS88dyYRwZ/9f9eUdVXkks5U447oY+O7fYyqxFmcJ
-	zL62dZe6ndovZU7htLa1EF+ZBJm9btCF7pkk7t6dsGGpWJUkiVRVtNDErMkRV1EBpVxdGoCbY+L
-	BY7Qehxic6SeU5i35fMDeyscMb9fW1vy4zrDI/4ktiTWTf/4yjVyW/ET0RjjDIQiH2RjYWMTxQi
-	w7DyCgVh8NKUwMq1TSqGcsfBAe4kX4nAyfXuTn4lBavPEqCbdrvPOuW7GIn9MnY3qAMPw5ZsrGo
-	IXxh9RR6ecy4Uz8Dzl4/5hXBLGCAPKZKjBQV4I5FttrmKeVMVSGImLYmzOJXNrg+pPuhQ=
-X-Received: by 2002:a5d:59c4:0:b0:488:6da0:b83d with SMTP id ffacd0b85a97d-4887db39e6cmr9014448f8f.44.1790411443421;
-        Sat, 26 Sep 2026 01:30:43 -0700 (PDT)
+        bh=V1uNkkv6u3fjmZgc8we/Y10DE/uAYX60y02iebyfGzU=;
+        b=qeLSX56XFL+OzFUD24yAbJieVAhbQYRiQrx0ijZy7AL2zu9myyF5g3rREO2PljIXL5
+         LebSqKNTr/hj3I2M6/t9SKkryOMxbG71Jn98Nbg8h8+oD3c2yvpUV0ogOF/ZiTUW/xZA
+         mOlvLFG71PtwQ3vtdT9B6REghkv422b9+C2qUl0YAMf3EREap5uPq/qHxro2saYJrjid
+         dJROjryATxolGTegmK3GzvH25XRLaTbbfQk99CBQgZ4t8lksyNnLNoivilqLY8K54ETP
+         nbTSFcuPM1flT3jpDxDpquS3QRMw0caVwDbdbZ8i8T9lgsoRQNGbf4HVlMqWSSYiNyg9
+         l86g==
+X-Gm-Message-State: AFuF++mhJSYZEV/ARiGTfK3E9iv2qtYtfTDT6+lnNDU7+W0so9KobtAH
+	hDpnJ1EWLcx4ZeEaCzxHS+gdl4ibTWAzzXgCNFItcW0jJHiJokNUoVcO3M2pCMOH/KCfww==
+X-Gm-Gg: AYBFou3aVJSAwHN2cFNAM4rdK0vjd3MzRjUF4OddIhOcajrh8oQ1B+p59ATZUcvABiV
+	pr2vR5uYBeb/KmcEd8+dzZpzec97CHK7Y3THJHdj/OqxsD9Gm0FtbqhySGucLNVGgcKzUdbmrmO
+	LNqaaabKswNVc2xZDHA9eK7CkvWl4m8XnKPBlURStnXhzq25E2C9YMp8AmZ/59NvDzMZVZpxzTt
+	1+JHA6YL/IBT4VLNQhVl+G8A+dOdb/VyUrEQQmpjy+5N9q0hkdwTrGnUpbLETB4r8NGH6E6gFSt
+	47b0NHmX90lPVu8OI5s0e6WxYOqaxRChULnfYNp/ZrH+B9mYynkiiD0NlroAtdstC/G55UZhfGs
+	km4i4ganNoq9aCRbV5bJQ7OqU8ru3ftvmXyutpoViQ0LrvcPPdUeAD5GdTHPwnXyNpGiHHCEQU3
+	VmXJldHbiNNSlemYEdMIUyszlKPfTa1UpW11bhHE3HQbSANEsPmdqpb2MO93m2aydk0OM=
+X-Received: by 2002:a05:600c:4e12:b0:49d:1842:f001 with SMTP id 5b1f17b1804b1-49fe66b6e0emr143497685e9.14.1790411511759;
+        Sat, 26 Sep 2026 01:31:51 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm13289281f8f.3.2026.09.26.01.30.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06bdd58sm135523645e9.10.2026.09.26.01.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 01:30:42 -0700 (PDT)
-Date: Sat, 26 Sep 2026 11:30:38 +0300
+        Sat, 26 Sep 2026 01:31:51 -0700 (PDT)
+Date: Sat, 26 Sep 2026 11:31:47 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 539/673]
- drivers/tty/serial/serial_port.c:247 __uart_read_properties() warn: if
- statement not indented
-Message-ID: <202609260413.K1JgJ8UK-lkp@intel.com>
+Subject: [arnd-playground:randconfig-7.3-next 562/673]
+ drivers/tty/serial/8250/8250_dw.c:591 dw8250_quirks() warn: if statement not
+ indented
+Message-ID: <202609260659.bEI1s3z6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,12 +73,16 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260926083038.f3nI13oy_lgMMf9BrVhiy2RSWK78f_nnuLUHCbpMVPs@z>
+Message-ID: <20260926083147.IAT1vOUdwn1no3d8QOXQbMFTSAMC_iQUID-5u3um0nk@z>
+
+Hi Arnd,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
 head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: c859e8d1c0dd5308ff6e4ab5c280b589a191e1a4 [539/673] 8250: port settings
-config: i386-randconfig-2200-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260413.K1JgJ8UK-lkp@intel.com/config)
+commit: 065c245ab6ac3537488e5c410d38d4768824dd07 [562/673] random hacks
+config: i386-randconfig-2200-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260659.bEI1s3z6-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
@@ -86,38 +90,32 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609260413.K1JgJ8UK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609260659.bEI1s3z6-lkp@intel.com/
 
-smatch warnings:
-drivers/tty/serial/serial_port.c:247 __uart_read_properties() warn: if statement not indented
+New smatch warnings:
+drivers/tty/serial/8250/8250_dw.c:591 dw8250_quirks() warn: if statement not indented
+drivers/tty/serial/8250/8250_dw.c:686 dw8250_probe() warn: if statement not indented
+drivers/tty/serial/8250/8250_of.c:181 of_platform_serial_setup() warn: if statement not indented
 
-vim +247 drivers/tty/serial/serial_port.c
+Old smatch warnings:
+drivers/tty/serial/8250/8250_dw.c:592 dw8250_quirks() warn: if statement not indented
+drivers/tty/serial/8250/8250_of.c:184 of_platform_serial_setup() warn: if statement not indented
 
-e894b6005dce0e Andy Shevchenko 2024-03-04  239  	/* Check for shifted address mapping overflow */
-e894b6005dce0e Andy Shevchenko 2024-03-04  240  	if (!use_defaults && port->mapsize < value) {
-e894b6005dce0e Andy Shevchenko 2024-03-04  241  		dev_err(dev, "reg-offset %u exceeds region size %pa\n", value, &port->mapsize);
-e894b6005dce0e Andy Shevchenko 2024-03-04  242  		return -EINVAL;
-e894b6005dce0e Andy Shevchenko 2024-03-04  243  	}
-e894b6005dce0e Andy Shevchenko 2024-03-04  244  
-e894b6005dce0e Andy Shevchenko 2024-03-04  245  	/* Read optional FIFO size */
-e894b6005dce0e Andy Shevchenko 2024-03-04  246  
-e894b6005dce0e Andy Shevchenko 2024-03-04 @247  	if (device_property_read_bool(dev, "no-loopback-test"))
+vim +591 drivers/tty/serial/8250/8250_dw.c
 
-Stray if statement.
+0946efc2255fee drivers/tty/serial/8250/8250_dw.c Andy Shevchenko      2021-10-05  590  
+4a218b277fdba3 drivers/tty/serial/8250/8250_dw.c Emil Renner Berthing 2022-04-22 @591  	if (quirks & DW_UART_QUIRK_ARMADA_38X)
+4a218b277fdba3 drivers/tty/serial/8250/8250_dw.c Emil Renner Berthing 2022-04-22  592  	if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  593  	if (quirks & DW_UART_QUIRK_IS_DMA_FC) {
+                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-e894b6005dce0e Andy Shevchenko 2024-03-04  248  
-e894b6005dce0e Andy Shevchenko 2024-03-04  249  	/* Get index of serial line, if found in DT aliases */
-e894b6005dce0e Andy Shevchenko 2024-03-04  250  	ret = of_alias_get_id(dev_of_node(dev), "serial");
-c859e8d1c0dd53 Arnd Bergmann   2025-08-07  251  	if (ret >= 0) {
-c859e8d1c0dd53 Arnd Bergmann   2025-08-07  252  	}
-
-Also clearly a draft...
-
-e894b6005dce0e Andy Shevchenko 2024-03-04  253  
-c859e8d1c0dd53 Arnd Bergmann   2025-08-07  254  	if (dev_is_platform(dev)) {
-e894b6005dce0e Andy Shevchenko 2024-03-04  255  		ret = platform_get_irq(to_platform_device(dev), 0);
-c859e8d1c0dd53 Arnd Bergmann   2025-08-07  256  	} else if (dev_is_pnp(dev)) {
-18ba7f2d99f698 Guanbing Huang  2024-04-16  257  		ret = pnp_irq(to_pnp_dev(dev), 0);
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  594  		data->data.dma.txconf.device_fc = 1;
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  595  		data->data.dma.rxconf.device_fc = 1;
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  596  		data->data.dma.prepare_tx_dma = dw8250_prepare_tx_dma;
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  597  		data->data.dma.prepare_rx_dma = dw8250_prepare_rx_dma;
+aa63d786cea273 drivers/tty/serial/8250/8250_dw.c Phil Edworthy        2022-04-22  598  	}
+173b097dcc8d74 drivers/tty/serial/8250/8250_dw.c Andy Shevchenko      2024-03-06  599  	if (quirks & DW_UART_QUIRK_APMC0D08) {
+c73942e22aa4a3 drivers/tty/serial/8250/8250_dw.c Heikki Krogerus      2015-09-21  600  		data->uart_16550_compatible = true;
 
 --
 0-DAY CI Kernel Test Service
