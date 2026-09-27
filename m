@@ -1,74 +1,72 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1ED27281E
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 14:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1613B14A4
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 15:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790520581; cv=none; b=tEJm4Idb34d2RsQhmE4GiQ9FgEK6TY0siaLtldyMvTOplJtZU93VasK2FDitUosvw6XjTLkw4TtYy2tdIzxHyg3TWZsDn5kAgyCByK0zCkCjsLdDhQi7zbx7JBRs79h4+tg9IsrOyiRy8gEs0A64Ceg/O77+sAIIMbdGlozMSHg=
+	t=1790522547; cv=none; b=OxQYkVCSzQOwbzDal6TscRD5nySquE23MkDQU1ll0v0mac7MmWBk2+doOtnLbzVu0HCsQTIUeU1+8mji8AON/iqW7ARVEZP0i+mGAW0Pc+5DJJvtwMnN94cQt7mGBCQRpuXuP/azj2xiLnJkc+tH3qk0vrlmf/RYVc0u6D/jXRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790520581; c=relaxed/simple;
-	bh=aF0fMAAd3piHMjAy72ykHjBCFrHa2kWMGDTHgf/9SEU=;
+	s=arc-20240116; t=1790522547; c=relaxed/simple;
+	bh=WhKephSsjMer+0AdGthL9sJ8W54L5v4NV/AVdi42PMQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=erRRyhOhrS2HwQTP3KdYlm1cB9SaEfrt3v6NPWWWnqp7rhCOawGSC/Xjje6VUIRqljzzIMnSZzACQVvW1BPeQA6w08WHcoC/lUJrRJOGHs3RHGC3MezlE6qsEu20VfQ/EYbzzYuliOVCcvnZpDPaJxyF2TslfgQQuJ2MDGH9eIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CgbWXDf/; arc=none smtp.client-ip=74.125.225.99
+	 Content-Disposition; b=lfHMQ4/u+oKb25H4t3mZfRpA3ELGooLfpG2nlvYUiFUs8VAn34+zaWQ81pct2oWcNFMHV1Z1i0PXzPb0kCj1fnvhwSMZYTpDTW4j3X1IfduWpCWYhncTPs7Gt6BYo5LVThNYuZ2Ay/LiBFKw9yPTgmGSVRtkcw30R33MRS40xk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RosVzjXd; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CgbWXDf/"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885d4825adso1303151f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 07:49:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RosVzjXd"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49fff72474fso3847815e9.3
+        for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 08:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790520577; x=1791125377; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790522544; x=1791127344; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vDBs+pGiiC8Zy3ZyTqjKtuxEwWOKvQV0mtUWYXMi48o=;
-        b=CgbWXDf/NH6Bca4IQGl4h2DHi8BqYLzMG3SN8sT5DE0uVYYHcBK3BVBwZ4O4fBh2Ea
-         Olgrl36oO4/LD7CKZVi0IAdPx3BBzBJAk64otYSqSR2s9haFJBaXEDwcj/v1gZl6VYRN
-         aI2MyKQIIusfzMBSFi95bf3sNqeNshwsl0Xc7Y7I2sxzHpsG7cHm7hotERDSe8Hj18vV
-         Z6LjriDnRxQ4YObiNr8CAfSDDE+5qRibfGKMSSRSiVdoPbF2Sqb+kM3rHVtmHeCCEDyH
-         EIRxUKdDHLt4+OFzEXCosgHzuu3rgzuDXJ/Qbbjr4XYJE/kXhJ7z+Cm4wptxkllo+gXr
-         6pEw==
+        bh=jLyhLiW6aMUR/R9iLn2Q9ShBXVKZvDs2mVWUdIwlPLk=;
+        b=RosVzjXd+Tbs9A9clDwutklUx0LmE258rkstfNnek4D8NTtCoCvMfK5nVdzft5oq9i
+         ygLVOgjFyGuiJ+QUccNuTwgVeC714sHad54rxOeI0zqicOZsRyi9LLCYx2EhmFbwrdUZ
+         0QLDTqsqK5KBj2iZskTxNlS9V0+HL3B/mg11e7Ba9MBph83rx358GaxIW3D2BS4dw/Cd
+         jRZbmJYO8SHqOz9DBB7ZyJU5p9sVISoyoTiw2Z8TG4+9m2RHEFq3LzsC1nBrRhN8+/uc
+         xFuZDOZSBgBVzYa4GDbGAbxdaZzMRgacnYbOjMGjbISsGq7dPXvaXaLCh9lWSJSEHXxW
+         n2RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790520577; x=1791125377;
+        d=1e100.net; s=20260707; t=1790522544; x=1791127344;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vDBs+pGiiC8Zy3ZyTqjKtuxEwWOKvQV0mtUWYXMi48o=;
-        b=0LiWIWoQULyWcMUJEybXHHJMyE3WzNQOYTQpTJK6GS2ZXjgbR8//x0jbvpfgv6BGF2
-         K3pm9tdqz752msolu8gVRcqVP/HMI8C8hVLTuwO9xxIV/s4bRhDIQLYi9MUmOeJXTXvC
-         NDZDKsPje8e4OJLrjFLKquODi2Letx5HNMjFEYX64Bh0WxFkPXo9CebjGK3D23dhhXFi
-         JYcZ7FrMg+hdPvwOrpMst1GdN7pKRFGGGaJb6afQcUWGp67sLkQorIzhvNqHlaA+BkiH
-         ovxuydGqP7XE7ICqxay5oH/zb24Ru//hKwjfBakaEcqTSu4btFhc+GZEJMaOMt7cX7cD
-         MQfg==
-X-Gm-Message-State: AFq9FYLuafOJUi8IFixh5WuSXnIbgyryjDJqkuXwsiZZDQaAJT98akQG
-	JJFb77BC3A/Q8S/OEydBHcqE0FoahzYQT56am+wmAogA+kfJQz7mLVZkQkElX5NuLMYcgQ==
-X-Gm-Gg: AYBFou2YIxX028wjCCGtro8YGqorHn0VYmzStqyhe4QA41bxUawpOefqLzXotYVZvlU
-	lhqp1zefUWbgjqj52t9o4Cw85gsgJ6XLLGpzVFyiQq0FBzi/rGQzTOKBDt/4H38KzrCLR1upled
-	bsxZiy93H6ZXU5q+hAyy7ZAcP37rFLivtV3izSAJhpCTdnd5/M7nGh4yW3seWxyUdP7QsWAlU8i
-	nS9UWmCuyjHNdh8e7byoiOIctQZHmDxWBBz8Gr4b373o/Q/hCXBmO3KFwtK/PGdd5SAzkPKgoa8
-	AatI16J/4fYYfHN/w224SmxEj+rO+s3hnJTsli7xPi3YlOv+gnRoJUyGEdJwvht7hhKDeeYYZ55
-	AZnmvj91yO/H/2rj1zYchPJTOsPkw9l/DFvcgqyrrreD2k/Eh/KZImxBzPI5mSkLMHf4boNW6ES
-	vI138URdeYFRo+6aVh3dN4AxscrIXQtRSx9+jYD/o6/UNjGjz3gwgI7osmWU0VxlcR75Kvj+MsL
-	FzZOA==
-X-Received: by 2002:a5d:5f87:0:b0:488:8468:3bc0 with SMTP id ffacd0b85a97d-48884683e06mr8818136f8f.17.1790520577283;
-        Sun, 27 Sep 2026 07:49:37 -0700 (PDT)
+        bh=jLyhLiW6aMUR/R9iLn2Q9ShBXVKZvDs2mVWUdIwlPLk=;
+        b=SALE6E2Zi8lpulA7h6zVX/tNO/wmhi0Gt8tHnon37ZpVwCQWskcwISIe/F5LW3YeVq
+         1K0ezPgxyYiKDaXerdIpFmuDd5i3qFV1IZNYQrBSbmW74a6TsyaNaPHRFQGa2WrYqzqp
+         3jnRR+Xp8NLYQ/b7iX9+Rw0ElNkSMbqH/3ZxfSEfRnXNlu086d8IS3lRl4r2RR0FOsek
+         ASSooq/D2bPL0Gc3u8hKeGEY9Clv6rMw62c3ixsMW4OZ465UdkHXpOkq9yhTqD+Nw3di
+         pp01WVCvsE56y9Mk1bygWtE53Xg3jSfonqIr6zjCXw1Gf59OVBdZnYgxROH97x/1WQmB
+         3OMw==
+X-Gm-Message-State: AFuF++larMP0KITtOkNhfrXzIdORhdJcRM3GmumGxrL2YVtJebvdp/JC
+	c99pvi0x9Eu20o7sYTX2fPonjNSpsNr54NzCcU0dQ8BeSgx00DgDnxdGM4Lup6T8LKw6ig==
+X-Gm-Gg: AYBFou0xoeYMKPNiHrPjGq/jKr5HQGU3f9Ff0Eoj4CK7d9AI10tmK/cGQDTMCQB3AGU
+	Ku5J4bHxZa8L0DwZUBxJ137zrz1NBbmQIFhfPPluT9xBsTyqsaNpcUFnorX/c6E2qakI77BQNyY
+	/AJS0JYXOP1WhZ2sEJGus8Q6D+5fmW1BKku31mMaE+ocOacP4iyd6H2Uyl/vJuaIC9tB0ko/yDf
+	LodxVaK0N4g6jEERX3xDU6bCJQraHPiWcdU1TC/reTuXLzdbXIVZ6pKTGF4dkVdfhZFzM7ruj1A
+	bOkh1DD1lyP3poYMrblRB+Az3UV2fNhreQLn4zTm+KzVaenyMoyQqDwNgj1dozXYUumXUBwMzK2
+	Nrtlgmc3FA1sY5nREhBQMUPQfwhp3o4KL/T3MlUp+YiaWKJPgeNJRcdbrV7sPJjgeDaJEJ3C5ir
+	StRm7wQLQYleFUmpAFW2QQuOb0/toMvDWI68pQozZqnEoUtYqzWjUsCDIqwspAliBot4SLigpj7
+	Xul8A==
+X-Received: by 2002:a05:600c:354e:b0:49f:ce78:356f with SMTP id 5b1f17b1804b1-49fe670b511mr190438245e9.32.1790522544393;
+        Sun, 27 Sep 2026 08:22:24 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm21212184f8f.12.2026.09.27.07.49.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0019057cfsm83884715e9.11.2026.09.27.08.22.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 07:49:36 -0700 (PDT)
-Date: Sun, 27 Sep 2026 17:49:30 +0300
+        Sun, 27 Sep 2026 08:22:23 -0700 (PDT)
+Date: Sun, 27 Sep 2026 18:22:20 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: oe-kbuild@lists.linux.dev, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Joshua Crofts <joshua.crofts1@gmail.com>
-Subject: [jic23-iio:testing 66/82] drivers/iio/magnetometer/ak8975.c:627
- ak8975_setup() warn: passing zero to 'dev_err_probe'
-Message-ID: <202609270219.cCECv2b8-lkp@intel.com>
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 6294/10910] sound/soc/sof/amd/acp.c:1469
+ handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow
+ 'adata->sdw->pdev' 2 <= 3
+Message-ID: <202609271355.u0pymQoF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,12 +75,12 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260927144930.611_t8tZvJtrZAuBszSDq4gEoDRfeXLexMJsQlopG24@z>
+Message-ID: <20260927152220.X7_oCkJraLnTzw02e7HrMRHjptxpC5yp0tcFwbeZg-A@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   e5b9e42a20392b669097c8c4aa09c3aed82ba10c
-commit: 4f8ee49c28b1a537a23e64cfee6ff2e5ec616f7f [66/82] iio: magnetometer: ak8975: use temporary variable for struct device
-config: x86_64-randconfig-2200-20260926 (https://download.01.org/0day-ci/archive/20260927/202609270219.cCECv2b8-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+commit: be2823854e00558f46f5bbb124bb3f3a3bb9a94a [6294/10910] ASoC: SOF: amd: add SoundWire PM ops for ACP7.B/7.F
+config: i386-randconfig-2200-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271355.u0pymQoF-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 smatch: v0.5.0-9187-g5189e3fb
 
@@ -90,54 +88,58 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609270219.cCECv2b8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609271355.u0pymQoF-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/magnetometer/ak8975.c:627 ak8975_setup() warn: passing zero to 'dev_err_probe'
+New smatch warnings:
+sound/soc/sof/amd/acp.c:1469 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
 
-vim +/dev_err_probe +627 drivers/iio/magnetometer/ak8975.c
+Old smatch warnings:
+sound/soc/sof/amd/acp.c:663 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+sound/soc/sof/amd/acp.c:666 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+sound/soc/sof/amd/acp.c:1472 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
 
-79ab48ae4f9e06 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-11  608  static int ak8975_setup(struct ak8975_data *data)
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  609  {
-79ab48ae4f9e06 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-11  610  	struct i2c_client *client = data->client;
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  611  	struct device *dev = &client->dev;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  612  	int ret;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  613  
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  614  	/* Write the fused rom access mode. */
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2014-11-21  615  	ret = ak8975_set_mode(data, FUSE_ROM);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  616  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  617  		return dev_err_probe(dev, ret, "Error in setting fuse access mode\n");
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  618  
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  619  	/* Get asa data and store in the device data. */
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-05  620  	ret = i2c_smbus_read_i2c_block_data_or_emulated(client,
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-05  621  							data->def->ctrl_regs[ASA_BASE],
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-05  622  							sizeof(data->asa),
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-05-05  623  							data->asa);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  624  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  625  		return dev_err_probe(dev, ret, "Not able to read asa data\n");
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  626  	if (ret != sizeof(data->asa))
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20 @627  		return dev_err_probe(dev, ret, "Error reading asa data\n");
-                                                                                                                                  ^^^
-s/ret/-EINVAL/
+vim +1469 sound/soc/sof/amd/acp.c
 
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  628  
-040f3e5833b942 drivers/staging/iio/magnetometer/ak8975.c Leed Aguilar     2012-06-06  629  	/* After reading fuse ROM data set power-down mode */
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2014-11-21  630  	ret = ak8975_set_mode(data, POWER_DOWN);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  631  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  632  		return dev_err_probe(dev, ret, "Error in setting power-down mode\n");
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2013-05-07  633  
-2c289e63944467 drivers/iio/magnetometer/ak8975.c         Linus Walleij    2019-12-02  634  	if (data->eoc_gpiod || client->irq > 0) {
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2013-05-07  635  		ret = ak8975_setup_irq(data);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  636  		if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2026-09-20  637  			return dev_err_probe(dev, ret, "Error setting data ready interrupt\n");
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2013-05-07  638  	}
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2013-05-07  639  
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2014-11-21  640  	data->raw_to_gauss[0] = data->def->raw_to_gauss(data->asa[0]);
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2014-11-21  641  	data->raw_to_gauss[1] = data->def->raw_to_gauss(data->asa[1]);
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2014-11-21  642  	data->raw_to_gauss[2] = data->def->raw_to_gauss(data->asa[2]);
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  643  
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  644  	return 0;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2010-09-08  645  }
+be2823854e0055 Vijendar Mukunda 2026-09-10  1440  static void handle_amd_sof_acp7x_sdw_pme_event(struct snd_sof_dev *sdev)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1441  {
+be2823854e0055 Vijendar Mukunda 2026-09-10  1442  	struct acp_dev_data *adata;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1443  	struct amd_sdw_manager *amd_manager;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1444  	u32 sdw_pme_stat;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1445  	u32 sdw_wake_en;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1446  	u32 pme_reg;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1447  	u32 wake_mask;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1448  	unsigned int instance;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1449  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1450  	adata = sdev->pdata->hw_pdata;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1451  	if (!adata->sdw)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1452  		return;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1453  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1454  	for (instance = 0; instance < ACP7X_SDW_MAX_MANAGER_COUNT; instance++) {
+be2823854e0055 Vijendar Mukunda 2026-09-10  1455  		pme_reg = ACP7X_SW_PME_STS + (instance * 4);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1456  		wake_mask = ACP7X_SW_WAKE_EN_MASK << instance;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1457  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1458  		sdw_pme_stat = snd_sof_dsp_read(sdev, ACP_DSP_BAR, pme_reg);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1459  		if (!sdw_pme_stat)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1460  			continue;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1461  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1462  		mutex_lock(&adata->acp_lock);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1463  		sdw_wake_en = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1464  		sdw_wake_en &= ~wake_mask;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1465  		snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN, sdw_wake_en);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1466  		mutex_unlock(&adata->acp_lock);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1467  		snd_sof_dsp_write(sdev, ACP_DSP_BAR, pme_reg, sdw_pme_stat);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1468  
+be2823854e0055 Vijendar Mukunda 2026-09-10 @1469  		if (!adata->sdw->pdev[instance])
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Feels like a bug.  AMD_SDW_MAX_MANAGER_COUNT(2) vs ACP7X_SDW_MAX_MANAGER_COUNT(4)
+
+be2823854e0055 Vijendar Mukunda 2026-09-10  1470  			continue;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1471  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1472  		amd_manager = dev_get_drvdata(&adata->sdw->pdev[instance]->dev);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1473  		if (amd_manager)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1474  			pm_request_resume(amd_manager->dev);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1475  	}
+be2823854e0055 Vijendar Mukunda 2026-09-10  1476  }
 
 --
 0-DAY CI Kernel Test Service
