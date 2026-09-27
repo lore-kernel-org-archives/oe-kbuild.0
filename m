@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F213CF047
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3095D3C1D7B
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 12:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790508713; cv=none; b=HeicOHs04RvRPqXbhEtNJTutzWe1U2IfSnItvuLm5WY5OycFbkeC5N/+jFAk0/kTelPpNLnsh2YCTIfXlUCSSNxUoxFzqZ1ElpFCKyt285CMeDobWL+MW8CHUKCIWLibVlhs0RZF481Iq7TD5eWg0Zxhjf/WNn8sbJIrgGaQAts=
+	t=1790510609; cv=none; b=R2DYNrFmYICzuNp6ETAch8gac/W1SWgwMRrHzxc9Y/MKFOgXMPtQHxB3UBr8ptbxjThP2t9JWse5yjR4lexq9FR2+6k051HEsoQQY+lgvxNbjMqvz/V53/MQGt6MTsYhfLlzuAabTCxFRqUJt6QUrxos8CFtuqvS03M6ixug9Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790508713; c=relaxed/simple;
-	bh=o3aYPR5NgeVZhwk/0yO9Rf3F7SfKWarb0Ajia83ulKU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YN+tmjofWL32dUnmHLhBuyLUYTCXRKXsJiMaQKpDpA0OitNqnWfRFdGW+Fb1Y0DX/7TpB23VyxbPGXMy8LA5WSE6RWy5KMAHFRXNGoGSB6mP+hlQZGJ82s8Mxb5dhIxhI3hM7yx7wQVxS3LwDEP9q9m83YlgkOpo5zsCLklTOAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIOl7bee; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1790510609; c=relaxed/simple;
+	bh=eslsfZOCLO+x/gxS6tr04H+c0BlNkkkPLTAe9WKM8k0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kHiMVd7dE3QhIDsp3Zs2eWyf3xAyAADQPBxS1JciLSPjGMpgkP5GFOcD4pUp8bqorZf2WSykkskZ1w0D1uMnwh5QBP1bqRibhNTCZcCo4SN0pNZIb7j+A7IjKuvXHyXCR7Pa2bf2FaCnrTKhp2CSYcmyhZpkSsXbE8E4SxX8M4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+ryGuMk; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIOl7bee"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+ryGuMk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790508710; x=1822044710;
+  t=1790510607; x=1822046607;
   h=date:from:to:cc:subject:message-id;
-  bh=o3aYPR5NgeVZhwk/0yO9Rf3F7SfKWarb0Ajia83ulKU=;
-  b=dIOl7beeA8tVE+AK9A6EkaNwU8xW4pujq9YxNIUE9TPZr9bpoJqe2Pp3
-   YXkIP4dxwYuZkokzKHUsWDA1AH4UTV41AklDgh8E4JmYh61bjNaitgGY5
-   SvU+/IHpNSQvIGNPX2nw8Oa2AqYFOfhOfEKW1f3p5+1ZM8CcdvbhS/kC0
-   RmzSWoo6OCmaegaos0jDB24VuqadP9ClpCur2IwB53VYYYIJwiuDcIrJM
-   DI/SAMOC1iLTJARM7VLa3lvN+eKjCSKR03Sogtfh7seXiq3Wox3jL8adS
-   RbGiw67iH/6rpsUleXVCMabs/OCV4us1qOanARxOwcVvAeKnXNyNXsM9z
+  bh=eslsfZOCLO+x/gxS6tr04H+c0BlNkkkPLTAe9WKM8k0=;
+  b=S+ryGuMkwsCLNo5KFkUgYejAe/m/zpHUJFzwyvhw2epqBT5MUg2ZBZla
+   Di4VLnQj1m+IHDCnQWPPk+gyo2Ek8AG7aSlvLQu5RcgcTz/xyA6wjCDQV
+   i08nK6rJYgypTqyPnInJdh+zZrqcwxctmSAWm6Yxd8u9EBZd17YEvR50s
+   UsWuQaMBOPnppFS0rX6cR9HYzd1B90kl1XnxckWYsspmCYaQTvrtn1+nk
+   i4FMAO9rbddkEcgNtaMJxpGoVBwLH/DaVym6mg2+lfnKvHXHtK3shbzQo
+   OO+GV/OtcJFnaO0XhuCsE98Pu8CIC2Kdl6/bC+W91ZIPp9KLTiZ3p70g9
    Q==;
-X-CSE-ConnectionGUID: VdUsVnTfRmOqADn/CbywBw==
-X-CSE-MsgGUID: YSrkAvEvTCuN8T/bONG3Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="100562610"
+X-CSE-ConnectionGUID: YlmF5m+eTCKqxVRKRH6diw==
+X-CSE-MsgGUID: 4FdtaixkSq+UclniAiKBmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="116758931"
 X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="100562610"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 04:31:49 -0700
-X-CSE-ConnectionGUID: /h37Epl3TMWAgUbUhfA/wg==
-X-CSE-MsgGUID: G04C05rrTr2aG6u8KYp9Eg==
+   d="scan'208";a="116758931"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 05:03:26 -0700
+X-CSE-ConnectionGUID: VkejHZqITJGGpY8lMvHy3Q==
+X-CSE-MsgGUID: RE+TamBYTbmropBKwqSPFg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="301066241"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Sep 2026 04:31:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Sep 2026 05:03:25 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAn6f-000000000Z5-3eNw;
-	Sun, 27 Sep 2026 11:31:45 +0000
-Date: Sun, 27 Sep 2026 13:31:23 +0200
+	id 1xAnbG-000000000ZN-1zlX;
+	Sun, 27 Sep 2026 12:03:22 +0000
+Date: Sun, 27 Sep 2026 14:02:40 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [dhowells-fs:netfs-next-3 21/26]
- fs/netfs/iterator.c:138:26-35: WARNING: Unsigned expression compared with
- zero: max_pages > 0
-Message-ID: <202609271323.ddF8olh0-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 6294/10910] sound/soc/sof/amd/acp.c:1469
+ handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow
+ 'adata->sdw->pdev' 2 <= 3
+Message-ID: <202609271355.u0pymQoF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,169 +60,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
-CC: Paulo Alcantara <pc@manguebit.org>
+TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next-3
-head:   65d1ffcb408ea16b3a4a497269da871c62b7faa3
-commit: eba2ce39522a73cddc7bbf0f5a6e7ecd2cf8a05c [21/26] netfs: Add a function to extract from an iter into a bvecq
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+commit: be2823854e00558f46f5bbb124bb3f3a3bb9a94a [6294/10910] ASoC: SOF: amd: add SoundWire PM ops for ACP7.B/7.F
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: sparc-randconfig-r2105-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271323.ddF8olh0-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.3.0
+:::::: commit date: 10 days ago
+config: i386-randconfig-2200-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271355.u0pymQoF-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202609271323.ddF8olh0-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609271355.u0pymQoF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/netfs/iterator.c:138:26-35: WARNING: Unsigned expression compared with zero: max_pages > 0
+New smatch warnings:
+sound/soc/sof/amd/acp.c:1469 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
 
-vim +138 fs/netfs/iterator.c
+Old smatch warnings:
+sound/soc/sof/amd/acp.c:663 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+sound/soc/sof/amd/acp.c:666 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+sound/soc/sof/amd/acp.c:1472 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
 
-85dd2c8ff368b1 David Howells 2022-10-20   15  
-eba2ce39522a73 David Howells 2026-01-07   16  /**
-eba2ce39522a73 David Howells 2026-01-07   17   * netfs_extract_iter - Extract virtually contiguous pages from an iterator into a bvecq
-eba2ce39522a73 David Howells 2026-01-07   18   * @orig: The original iterator
-eba2ce39522a73 David Howells 2026-01-07   19   * @max_len: Maximum number of bytes to extract
-eba2ce39522a73 David Howells 2026-01-07   20   * @max_pages: Maximum number of pages to extract
-eba2ce39522a73 David Howells 2026-01-07   21   * @_bvecq_head: Where to cache the bvec queue
-eba2ce39522a73 David Howells 2026-01-07   22   * @extraction_flags: Flags to qualify the request
-eba2ce39522a73 David Howells 2026-01-07   23   * @gfp: Allocation mode for bvecq structs.
-eba2ce39522a73 David Howells 2026-01-07   24   *
-eba2ce39522a73 David Howells 2026-01-07   25   * Extract virtually contiguous page fragments from the source iterator up to
-eba2ce39522a73 David Howells 2026-01-07   26   * the given maxima and build bvec queue that refers to all of those bits.
-eba2ce39522a73 David Howells 2026-01-07   27   * This allows the original iterator to disposed of.
-eba2ce39522a73 David Howells 2026-01-07   28   *
-eba2ce39522a73 David Howells 2026-01-07   29   * @extraction_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA
-eba2ce39522a73 David Howells 2026-01-07   30   * be allowed on the pages extracted.
-eba2ce39522a73 David Howells 2026-01-07   31   *
-eba2ce39522a73 David Howells 2026-01-07   32   * On success or partial success, the amount of data in the bvec is returned,
-eba2ce39522a73 David Howells 2026-01-07   33   * the original iterator will have been advanced by the amount extracted.
-eba2ce39522a73 David Howells 2026-01-07   34   *
-eba2ce39522a73 David Howells 2026-01-07   35   * If an error occurs and no pages are extracted, an error will be returned and
-eba2ce39522a73 David Howells 2026-01-07   36   * any allocated bvecq will be freed.  If there is no data to be extracted (or
-eba2ce39522a73 David Howells 2026-01-07   37   * @max_len or @max_pages are zero), a single empty bvecq will be returned.
-eba2ce39522a73 David Howells 2026-01-07   38   *
-eba2ce39522a73 David Howells 2026-01-07   39   * The bvecq segments are marked with indications on how to get clean up the
-eba2ce39522a73 David Howells 2026-01-07   40   * extracted fragments.
-eba2ce39522a73 David Howells 2026-01-07   41   */
-eba2ce39522a73 David Howells 2026-01-07   42  ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pages,
-eba2ce39522a73 David Howells 2026-01-07   43  			   struct bvecq **_bvecq_head,
-eba2ce39522a73 David Howells 2026-01-07   44  			   iov_iter_extraction_t extraction_flags, gfp_t gfp)
-eba2ce39522a73 David Howells 2026-01-07   45  {
-eba2ce39522a73 David Howells 2026-01-07   46  	struct bvecq *bq_tail = NULL, *bq;
-eba2ce39522a73 David Howells 2026-01-07   47  	ssize_t ret = 0;
-eba2ce39522a73 David Howells 2026-01-07   48  	size_t extracted = 0;
-eba2ce39522a73 David Howells 2026-01-07   49  
-eba2ce39522a73 David Howells 2026-01-07   50  	_enter("{%u,%zx},%zx", orig->iter_type, orig->count, max_len);
-eba2ce39522a73 David Howells 2026-01-07   51  
-eba2ce39522a73 David Howells 2026-01-07   52  	*_bvecq_head = NULL;
-eba2ce39522a73 David Howells 2026-01-07   53  	if (max_len > orig->count)
-eba2ce39522a73 David Howells 2026-01-07   54  		max_len = orig->count;
-eba2ce39522a73 David Howells 2026-01-07   55  	if (!max_len || !max_pages)
-eba2ce39522a73 David Howells 2026-01-07   56  		goto alloc_empty;
-eba2ce39522a73 David Howells 2026-01-07   57  	if (WARN_ON_ONCE(max_pages > INT_MAX))
-eba2ce39522a73 David Howells 2026-01-07   58  		max_pages = INT_MAX; /* Protect iov_iter_npages(). */
-eba2ce39522a73 David Howells 2026-01-07   59  
-eba2ce39522a73 David Howells 2026-01-07   60  	max_pages = iov_iter_npages(orig, max_pages);
-eba2ce39522a73 David Howells 2026-01-07   61  	if (!max_pages)
-eba2ce39522a73 David Howells 2026-01-07   62  		goto alloc_empty;
-eba2ce39522a73 David Howells 2026-01-07   63  
-eba2ce39522a73 David Howells 2026-01-07   64  	do {
-eba2ce39522a73 David Howells 2026-01-07   65  		bq = bvecq_alloc_one(max_pages, gfp, false);
-eba2ce39522a73 David Howells 2026-01-07   66  		if (!bq) {
-eba2ce39522a73 David Howells 2026-01-07   67  			ret = -ENOMEM;
-eba2ce39522a73 David Howells 2026-01-07   68  			break;
-eba2ce39522a73 David Howells 2026-01-07   69  		}
-eba2ce39522a73 David Howells 2026-01-07   70  		if (user_backed_iter(orig))
-eba2ce39522a73 David Howells 2026-01-07   71  			bq->mem_type = iov_iter_extract_will_pin(orig) ?
-eba2ce39522a73 David Howells 2026-01-07   72  				BVECQ_MEM_GUP : BVECQ_MEM_PAGECACHE;
-eba2ce39522a73 David Howells 2026-01-07   73  
-eba2ce39522a73 David Howells 2026-01-07   74  		if (bq_tail)
-eba2ce39522a73 David Howells 2026-01-07   75  			bvecq_append(bq_tail, bq);
-eba2ce39522a73 David Howells 2026-01-07   76  		else
-eba2ce39522a73 David Howells 2026-01-07   77  			*_bvecq_head = bq;
-eba2ce39522a73 David Howells 2026-01-07   78  		bq_tail = bq;
-eba2ce39522a73 David Howells 2026-01-07   79  
-eba2ce39522a73 David Howells 2026-01-07   80  		if (max_len == 0)
-eba2ce39522a73 David Howells 2026-01-07   81  			break;
-eba2ce39522a73 David Howells 2026-01-07   82  
-eba2ce39522a73 David Howells 2026-01-07   83  		struct bio_vec *bv = bq->bv;
-eba2ce39522a73 David Howells 2026-01-07   84  		unsigned int slot = 0;
-eba2ce39522a73 David Howells 2026-01-07   85  		do {
-eba2ce39522a73 David Howells 2026-01-07   86  			struct page **pages;
-eba2ce39522a73 David Howells 2026-01-07   87  			ssize_t got;
-eba2ce39522a73 David Howells 2026-01-07   88  			size_t offset;
-eba2ce39522a73 David Howells 2026-01-07   89  			size_t space = bq->max_slots - slot;
-eba2ce39522a73 David Howells 2026-01-07   90  			size_t bv_size = array_size(bq->max_slots, sizeof(*bv));
-eba2ce39522a73 David Howells 2026-01-07   91  			size_t pg_size = array_size(space, sizeof(*pages));
-eba2ce39522a73 David Howells 2026-01-07   92  
-eba2ce39522a73 David Howells 2026-01-07   93  			/* Put the page list at the end of the bvec list
-eba2ce39522a73 David Howells 2026-01-07   94  			 * storage.  bvec elements are larger than page
-eba2ce39522a73 David Howells 2026-01-07   95  			 * pointers, so as long as we work 0->last, we should
-eba2ce39522a73 David Howells 2026-01-07   96  			 * be fine.
-eba2ce39522a73 David Howells 2026-01-07   97  			 */
-eba2ce39522a73 David Howells 2026-01-07   98  			pages = (void *)bv + bv_size - pg_size;
-eba2ce39522a73 David Howells 2026-01-07   99  
-eba2ce39522a73 David Howells 2026-01-07  100  			got = iov_iter_extract_pages(orig, &pages, max_len,
-eba2ce39522a73 David Howells 2026-01-07  101  						     min(space, max_pages),
-eba2ce39522a73 David Howells 2026-01-07  102  						     extraction_flags, &offset);
-eba2ce39522a73 David Howells 2026-01-07  103  			if (got < 0) {
-eba2ce39522a73 David Howells 2026-01-07  104  				ret = got;
-eba2ce39522a73 David Howells 2026-01-07  105  				goto out;
-eba2ce39522a73 David Howells 2026-01-07  106  			}
-eba2ce39522a73 David Howells 2026-01-07  107  
-eba2ce39522a73 David Howells 2026-01-07  108  			if (got == 0) {
-eba2ce39522a73 David Howells 2026-01-07  109  				pr_err("extract_pages gave nothing from %zx, %zx\n",
-eba2ce39522a73 David Howells 2026-01-07  110  				       extracted, max_len);
-eba2ce39522a73 David Howells 2026-01-07  111  				ret = -EIO;
-eba2ce39522a73 David Howells 2026-01-07  112  				goto out;
-eba2ce39522a73 David Howells 2026-01-07  113  			}
-eba2ce39522a73 David Howells 2026-01-07  114  
-eba2ce39522a73 David Howells 2026-01-07  115  			if (WARN(got > max_len,
-eba2ce39522a73 David Howells 2026-01-07  116  				 "%s: extract_pages overrun %zx > %zx bytes\n",
-eba2ce39522a73 David Howells 2026-01-07  117  				 __func__, got, max_len)) {
-eba2ce39522a73 David Howells 2026-01-07  118  				ret = -EIO;
-eba2ce39522a73 David Howells 2026-01-07  119  				goto out;
-eba2ce39522a73 David Howells 2026-01-07  120  			}
-eba2ce39522a73 David Howells 2026-01-07  121  
-eba2ce39522a73 David Howells 2026-01-07  122  			extracted += got;
-eba2ce39522a73 David Howells 2026-01-07  123  			max_len -= got;
-eba2ce39522a73 David Howells 2026-01-07  124  
-eba2ce39522a73 David Howells 2026-01-07  125  			do {
-eba2ce39522a73 David Howells 2026-01-07  126  				size_t len = umin(got, PAGE_SIZE - offset);
-eba2ce39522a73 David Howells 2026-01-07  127  
-eba2ce39522a73 David Howells 2026-01-07  128  				BUG_ON(slot >= bq->max_slots);
-eba2ce39522a73 David Howells 2026-01-07  129  
-eba2ce39522a73 David Howells 2026-01-07  130  				bvec_set_page(&bq->bv[slot], *pages++, len, offset);
-eba2ce39522a73 David Howells 2026-01-07  131  				slot++;
-eba2ce39522a73 David Howells 2026-01-07  132  				max_pages--;
-eba2ce39522a73 David Howells 2026-01-07  133  				got -= len;
-eba2ce39522a73 David Howells 2026-01-07  134  				offset = 0;
-eba2ce39522a73 David Howells 2026-01-07  135  			} while (got > 0);
-eba2ce39522a73 David Howells 2026-01-07  136  
-eba2ce39522a73 David Howells 2026-01-07  137  			bvecq_filled_to(bq, slot);
-eba2ce39522a73 David Howells 2026-01-07 @138  		} while (max_len > 0 && max_pages > 0 && !bvecq_is_full(bq));
-eba2ce39522a73 David Howells 2026-01-07  139  
-eba2ce39522a73 David Howells 2026-01-07  140  	} while (max_len > 0 && max_pages > 0);
-eba2ce39522a73 David Howells 2026-01-07  141  
-eba2ce39522a73 David Howells 2026-01-07  142  out:
-eba2ce39522a73 David Howells 2026-01-07  143  	if (extracted || ret == 0)
-eba2ce39522a73 David Howells 2026-01-07  144  		return extracted;
-eba2ce39522a73 David Howells 2026-01-07  145  	bvecq_put(*_bvecq_head);
-eba2ce39522a73 David Howells 2026-01-07  146  	*_bvecq_head = NULL;
-eba2ce39522a73 David Howells 2026-01-07  147  	return ret;
-eba2ce39522a73 David Howells 2026-01-07  148  
-eba2ce39522a73 David Howells 2026-01-07  149  alloc_empty:
-eba2ce39522a73 David Howells 2026-01-07  150  	bq = bvecq_alloc_one(1, gfp, false);
-eba2ce39522a73 David Howells 2026-01-07  151  	if (!bq)
-eba2ce39522a73 David Howells 2026-01-07  152  		return -ENOMEM;
-eba2ce39522a73 David Howells 2026-01-07  153  	*_bvecq_head = bq;
-eba2ce39522a73 David Howells 2026-01-07  154  	return 0;
-eba2ce39522a73 David Howells 2026-01-07  155  
+vim +1469 sound/soc/sof/amd/acp.c
+
+78d99c2c5eee0f Vijendar Mukunda 2026-07-01  1439  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1440  static void handle_amd_sof_acp7x_sdw_pme_event(struct snd_sof_dev *sdev)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1441  {
+be2823854e0055 Vijendar Mukunda 2026-09-10  1442  	struct acp_dev_data *adata;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1443  	struct amd_sdw_manager *amd_manager;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1444  	u32 sdw_pme_stat;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1445  	u32 sdw_wake_en;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1446  	u32 pme_reg;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1447  	u32 wake_mask;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1448  	unsigned int instance;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1449  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1450  	adata = sdev->pdata->hw_pdata;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1451  	if (!adata->sdw)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1452  		return;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1453  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1454  	for (instance = 0; instance < ACP7X_SDW_MAX_MANAGER_COUNT; instance++) {
+be2823854e0055 Vijendar Mukunda 2026-09-10  1455  		pme_reg = ACP7X_SW_PME_STS + (instance * 4);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1456  		wake_mask = ACP7X_SW_WAKE_EN_MASK << instance;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1457  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1458  		sdw_pme_stat = snd_sof_dsp_read(sdev, ACP_DSP_BAR, pme_reg);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1459  		if (!sdw_pme_stat)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1460  			continue;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1461  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1462  		mutex_lock(&adata->acp_lock);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1463  		sdw_wake_en = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1464  		sdw_wake_en &= ~wake_mask;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1465  		snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN, sdw_wake_en);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1466  		mutex_unlock(&adata->acp_lock);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1467  		snd_sof_dsp_write(sdev, ACP_DSP_BAR, pme_reg, sdw_pme_stat);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1468  
+be2823854e0055 Vijendar Mukunda 2026-09-10 @1469  		if (!adata->sdw->pdev[instance])
+be2823854e0055 Vijendar Mukunda 2026-09-10  1470  			continue;
+be2823854e0055 Vijendar Mukunda 2026-09-10  1471  
+be2823854e0055 Vijendar Mukunda 2026-09-10  1472  		amd_manager = dev_get_drvdata(&adata->sdw->pdev[instance]->dev);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1473  		if (amd_manager)
+be2823854e0055 Vijendar Mukunda 2026-09-10  1474  			pm_request_resume(amd_manager->dev);
+be2823854e0055 Vijendar Mukunda 2026-09-10  1475  	}
+be2823854e0055 Vijendar Mukunda 2026-09-10  1476  }
+be2823854e0055 Vijendar Mukunda 2026-09-10  1477  
 
 --
 0-DAY CI Kernel Test Service
