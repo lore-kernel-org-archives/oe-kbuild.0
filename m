@@ -1,199 +1,159 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463963BB57
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 00:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F13350298
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 04:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790469987; cv=none; b=oGZvrIQeQ7AjZX7QsRJch3F69SpVh5nJ1Q0oSxAuCh1Qb4FqsoPn7HYTUA1Yd9nVIA0oPpgXaz20s0kohX+zlKYNIT0L1j1FtVaCNNoS0g66qLC/Og/yVQMx0xQ3Y2JT8j9gdbgHQw4P9Yb3O+RmRnGC5TmIsFBXF+b554wTCE4=
+	t=1790484162; cv=none; b=IbPOCbmitHgs4pgnTUsuRd65lrABPiRZENdNc0x0Dlybc9fAsvCyaQmitU/w3+iCucOzUGrfjZz8DUkAkcLqJ8EB1l1dAUaEmjWbGZEIGPclhhlw8miutHeSaZyvbPGb4TwJ9m7B9TZMCVMCnM/ab2KO4rbuJja6fI03Wp4kang=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790469987; c=relaxed/simple;
-	bh=yTV8TVX2q9LDkPMurhsoivKOh1HMkPdpsV9D5oWJ7Po=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Iqe6XNsEdQvf6q4aEPXCcxVb8OBFiQRgTL2IWklgpXpHdLQF1Ce5be6Jmy03mqr8dNAcNfLMRVfo5dn0d9/7k60t9IIPn7AYxnL5+sX9NyzPAwmkXifr33cmeJ/VaxlJH1dMrcsaszwu266ggsRVSvGar9Jnrai4GBZfSa3BakE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+wxPc45; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1790484162; c=relaxed/simple;
+	bh=AONQdI3DdPSszaPrq4or1p5MZ6bcbwQ3OoJKq0k+OE8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Tp1Q8nCykXiey8mUiPs/Hz595Mpy+nafxs5qdZJ+PjgmpOV7V5SoJU/teos9juZQSj2WfY7hzs25fXmVHEkMkjeCtUkLWmoFIC8HBLCgBujr5gLpIP6grkw4Ms0bS5iMr1P+V0dvl5c+VDPzQcO9ghLRflhLRj2PD8EDlYcFXQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/03cxl7; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+wxPc45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/03cxl7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790469985; x=1822005985;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yTV8TVX2q9LDkPMurhsoivKOh1HMkPdpsV9D5oWJ7Po=;
-  b=f+wxPc45X7VzkOttP0owYgxe5cJ47USzv7FbMNvTDayI4NyRSyp16eJ8
-   VXPQgKP4ezk9MpL71NhzVSvjVerzTgs1dg+E5vucI+slqvSPVFmc7SxV3
-   Tb1HmTbqWrF8TDmFYaAk3Hdi7i4YD0W7/nFkPA98wUjbLQz5+uAkV1wyX
-   0/0VJozLJ0g+Uy01eknvTjEexE2NvzB/meMLTRPCy+sVWvN7gHdAFEXuU
-   pembrH0EqUiol/Y47H/GYVlwPdYq8s0C31+fpnqoSQj8JmV5atiT7hN8a
-   QYItTavBYZ0pJX4TkDjusNvTetA/YKTM6eH51UJB5dmumh8q+3X2IZStG
-   g==;
-X-CSE-ConnectionGUID: Yi1kLJ9GRCaZWA9e8ifMtA==
-X-CSE-MsgGUID: gxOyd4xXT9qiCgqaeISAYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="94091694"
+  t=1790484159; x=1822020159;
+  h=date:from:to:cc:subject:message-id;
+  bh=AONQdI3DdPSszaPrq4or1p5MZ6bcbwQ3OoJKq0k+OE8=;
+  b=T/03cxl7wfNOK6Zsjtg2a4IxIkamcMEZdTihxzNTxGq/CAYPmE7lUXwV
+   9e/0YKG1sfmU4pnxD9TYsUtzXledSi8Cr7KovKmbHeQTjq9pt8I5pckdc
+   3bJZ6oX2Tcn32JRjNrwBAjSpcZYk9QSmaL3Ir8/iL3VZt8sNPk2pOSDRC
+   sS7K9B4Y1Gplevk8blCTUEgNFpccmZSdNM1FBIEnUBqhI0LRBDgaBk7eQ
+   l72mpD6euBrgT7Tmj2yRls6QM0H62GizyQHgV59DThqdYr1Y7fzPIu3K5
+   vJvCZJ6/EU/QVfVWqnMUYAnk068Z3qbse4sP6lAMSsm7vwGVO9RJ+hvLs
+   Q==;
+X-CSE-ConnectionGUID: wxLFFeXpTWWlT9JXQEfXNA==
+X-CSE-MsgGUID: HmZHEbk1Q8OU6gs01tZWHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="94096495"
 X-IronPort-AV: E=Sophos;i="6.27,125,1787036400"; 
-   d="scan'208";a="94091694"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2026 17:46:25 -0700
-X-CSE-ConnectionGUID: 2dMM0z9xSAKIScCRabl57A==
-X-CSE-MsgGUID: EnlynVcfQ4qDsAJU0nN6Bg==
+   d="scan'208";a="94096495"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2026 21:42:39 -0700
+X-CSE-ConnectionGUID: vlzsCphVRvy+PmPYwglXCg==
+X-CSE-MsgGUID: 2czgvkf/TsuJesxMZayy5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,125,1787036400"; 
-   d="scan'208";a="282750928"
+   d="scan'208";a="312641919"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Sep 2026 17:46:23 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Sep 2026 21:42:37 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAd25-000000000JW-2zis;
-	Sun, 27 Sep 2026 00:46:21 +0000
-Date: Sun, 27 Sep 2026 02:45:48 +0200
+	id 1xAgid-000000000RH-34BY;
+	Sun, 27 Sep 2026 04:42:31 +0000
+Date: Sun, 27 Sep 2026 06:42:26 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jic23-iio:testing 66/82]
- drivers/iio/magnetometer/ak8975.c:627 ak8975_setup() warn: passing zero to
- 'dev_err_probe'
-Message-ID: <202609270219.cCECv2b8-lkp@intel.com>
+Subject: [akpm-mm:mm-unstable 461/655] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__431'
+Message-ID: <202609270603.cdeWallu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-CC: "Nuno S=C3=A1" <nuno.sa@analog.com>
-CC: Joshua Crofts <joshua.crofts1@gmail.com>
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testi=
-ng
-head:   e5b9e42a20392b669097c8c4aa09c3aed82ba10c
-commit: 4f8ee49c28b1a537a23e64cfee6ff2e5ec616f7f [66/82] iio: magnetometer:=
- ak8975: use temporary variable for struct device
-:::::: branch date: 23 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-2200-20260926 (https://download.01.org/0day-ci/ar=
-chive/20260927/202609270219.cCECv2b8-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   09d9672a5d4f5bea0730a26f2c3eb94fe194a6bc
+commit: 2fbedcdfe40458ae3dd9b635f4b49118fd9117e7 [461/655] mm: add mmap action for discontiguous kernel page mapping
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: x86_64-randconfig-r2201-20260926 (https://download.01.org/0day-ci/archive/20260927/202609270603.cdeWallu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609270219.cCECv2b8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609270603.cdeWallu-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/magnetometer/ak8975.c:627 ak8975_setup() warn: passing zero to =
-'dev_err_probe'
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__431'
 
-vim +/dev_err_probe +627 drivers/iio/magnetometer/ak8975.c
+vim +/__UNIQUE_ID_x__431 +557 drivers/hid/hid-steam.c
 
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2=
-013-05-07  603 =20
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  604  /*
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  605   * Perform some start-of-day setup, including reading the a=
-sa calibration
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  606   * values and caching them.
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  607   */
-79ab48ae4f9e06 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-11  608  static int ak8975_setup(struct ak8975_data *data)
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  609  {
-79ab48ae4f9e06 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-11  610  	struct i2c_client *client =3D data->client;
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  611  	struct device *dev =3D &client->dev;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  612  	int ret;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  613 =20
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  614  	/* Write the fused rom access mode. */
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2=
-014-11-21  615  	ret =3D ak8975_set_mode(data, FUSE_ROM);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  616  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  617  		return dev_err_probe(dev, ret, "Error in setting fuse acc=
-ess mode\n");
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  618 =20
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  619  	/* Get asa data and store in the device data. */
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-05  620  	ret =3D i2c_smbus_read_i2c_block_data_or_emulated(client,
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-05  621  							data->def->ctrl_regs[ASA_BASE],
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-05  622  							sizeof(data->asa),
-dbb1f2fa2bba8d drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-05-05  623  							data->asa);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  624  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  625  		return dev_err_probe(dev, ret, "Not able to read asa data=
-\n");
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  626  	if (ret !=3D sizeof(data->asa))
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20 @627  		return dev_err_probe(dev, ret, "Error reading asa data\n"=
-);
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  628 =20
-040f3e5833b942 drivers/staging/iio/magnetometer/ak8975.c Leed Aguilar     2=
-012-06-06  629  	/* After reading fuse ROM data set power-down mode */
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2=
-014-11-21  630  	ret =3D ak8975_set_mode(data, POWER_DOWN);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  631  	if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  632  		return dev_err_probe(dev, ret, "Error in setting power-do=
-wn mode\n");
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2=
-013-05-07  633 =20
-2c289e63944467 drivers/iio/magnetometer/ak8975.c         Linus Walleij    2=
-019-12-02  634  	if (data->eoc_gpiod || client->irq > 0) {
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2=
-013-05-07  635  		ret =3D ak8975_setup_irq(data);
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  636  		if (ret < 0)
-4f8ee49c28b1a5 drivers/iio/magnetometer/ak8975.c         Andy Shevchenko  2=
-026-09-20  637  			return dev_err_probe(dev, ret, "Error setting data ready=
- interrupt\n");
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2=
-013-05-07  638  	}
-94a6d5cf7caa50 drivers/iio/magnetometer/ak8975.c         Jacek Anaszewski 2=
-013-05-07  639 =20
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2=
-014-11-21  640  	data->raw_to_gauss[0] =3D data->def->raw_to_gauss(data->as=
-a[0]);
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2=
-014-11-21  641  	data->raw_to_gauss[1] =3D data->def->raw_to_gauss(data->as=
-a[1]);
-286f74c2533ac4 drivers/iio/magnetometer/ak8975.c         Gwendal Grignou  2=
-014-11-21  642  	data->raw_to_gauss[2] =3D data->def->raw_to_gauss(data->as=
-a[2]);
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  643 =20
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  644  	return 0;
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  645  }
-3285aae1edd04f drivers/staging/iio/magnetometer/ak8975.c Andrew Chew      2=
-010-09-08  646 =20
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4 Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd949 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
+
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
