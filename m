@@ -1,157 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011048.outbound.protection.outlook.com [40.93.194.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178F22E92B3
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Sep 2026 15:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790524216; cv=none; b=jp1kcBil9mdvuV1MkEaqd8YRndRkj7bn9ZDwGSTUcz5JwPTeNqGt+M33zFoxBmjN3D3rnFk6MTSRRDIru4lQNqcY69b68Yp8EoMBomNtBJ8s95L9LjEp6+ComdC3l8X+bhuGStWUZWndXJkmaO6fvakkWfR8m2sHxTTch9Vvjrs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790524216; c=relaxed/simple;
-	bh=6QrIcxqP2TEP5Li59KKCmqGkBpA057V5nu96FEuM+84=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=T48Zly8chQob7s0/PkqvKX4EMlTpTn4vsCn5Fn+7fM0KCPTo+n0In97KMq2usZzsRa9zTHhq2zcY6pb92Kt4GmTuUGsa7GjEpQZA7NJurf/Njo9X34WEiLoYtvXSY4orJOipL44EiebzvvQkid0VhnOyx+Z530YEGT4eoxXhIv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPEU6Bhr; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231CC3E49CD;
+	Sun, 27 Sep 2026 16:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790524833; cv=fail; b=r8FBS93AN97ahd7WfsjApqDWDn6IZJZG5nyMUcRclSceEh42PPeWj+5/j0OLShY+VR1GBqqWXm14R5v/DUdVR2GQNRuvLKeV4n9j9V63wEHFkRNMpfolHeN6D0HVnO880WKLP4SYvg3T3254bTOqEHF1nS94pndJnL4b8sS9S3g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790524833; c=relaxed/simple;
+	bh=lGXph9KAv3R5TMSexrNYklypy3wMVD2dGDadbK1YObo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cP84+nIIXFQnTkKHLVl2qkT2dDECyuvVJFU+3/Fahag6oaL3oruic9m0TlUKBQ2e5FlnaGrHAfak7kTJnRRA4f6Oo8OxLXmPmDrZCrVtvp/9YFbVPkjxyyNlZ0HDlQHa/GVA5zwR8xnIa+/Qyz8I6yDOrS9jYn4LZpvgnEJEDXs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lUP6DFp3; arc=fail smtp.client-ip=40.93.194.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPEU6Bhr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790524214; x=1822060214;
-  h=date:from:to:cc:subject:message-id;
-  bh=6QrIcxqP2TEP5Li59KKCmqGkBpA057V5nu96FEuM+84=;
-  b=MPEU6BhrbNVQQ1B956jWcRRdj+l+BrS3cHWwYEyG96KXGyU+F7tPh03U
-   kKjbZ/f3FU6TDUNcu8nMov1R+ZFTBZEzASFwidfSP8TQg+BfIf5MLvTlz
-   VTcZfcSm5WmGBIGRzp83kXoCq/3w4JnyJs1CwA2yDe2B361BdqgJTf0kS
-   GI9aFdlJKsMatq8F3YMtB3ORVHC8aIi6c/Pfk69vdPR2RzD7bV0Td/s1Z
-   bNCnUtoKUnKlnY680WJT8cnrZzkPeJWfAKsbf7T+wZyiP00JbPu7CPBlG
-   jX7nOj9pfBVnKWq/ZaNxBUzLAzO2r68dibKfqIvVfggHvx2dR3GVilz9K
-   A==;
-X-CSE-ConnectionGUID: 5hPb4m7QSim3iN4qWCS7yw==
-X-CSE-MsgGUID: kKpsIzWcQc6te4J00xcszw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="101897637"
-X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="101897637"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 08:50:13 -0700
-X-CSE-ConnectionGUID: Kgaaq+a5Tz2vICFnJUgFQg==
-X-CSE-MsgGUID: N4H/1R+SRjizcyu40dGDzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="274356378"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Sep 2026 08:50:12 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xAr8i-000000000cV-4AJv;
-	Sun, 27 Sep 2026 15:50:08 +0000
-Date: Sun, 27 Sep 2026 17:50:04 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [mm:staging/for-test 6/7] drivers/hid/hid-steam.c:557
- steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__478'
-Message-ID: <202609271719.GrVmXzWL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lUP6DFp3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pa/qeaVpgCOlxQICwTg8AyhRuWKJ4zg2CfBI9ar2wmbFHVmQavkZpfFeuXAEJtp3WqyFdCFAOiodDEpyiD5IJa8kDOUTehkqcZ6RIExldr2EI7S7hano2A+ZIIr3D3PX1eMHSUl1swoVSg3M/8T/xf+UfKiW1ccce1jv5sagYRizIspMRNiuLRJ9CzY8tZ9hfUUD/+kL0Qk6DJUe2R1MYnYFWEvaptvEoh9orgfyB4dV92g6MKd4zglQpEu7JXFxagowNqeY+LvAW+KE9nyOpT7IaeT/PeBMhUISYs913g0ijd/EDUFEgvJOisz+ZjrGlXAoPNpmUCVS7JK19sfgiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GKu1FO+oVZXrt3khKd3GB0yJe+ZY+IKHQMyeDhqntfk=;
+ b=EmX0z96nZ7cS0sXkqv4ucP/F6YgID4GA8ojP27R7/2OaMvuSke+u8PqILFqBX7ceKppM2EPmNWi2zj0GxPt11jME1X9WJV5UvUIbI9AZoAqupQ1NeitTxfPnGQE4gVkEoPtmqC4UYL56XGxCexZKrIUI3t8dnJqrtxXTSlIaKUTzEHuEMJXfECt6zCFhqDTyyp9NdDparp6P1NrOkn1RaxYpH/ldwNfFc7CvRxNBtwAbEE6XSvk5SVJ6GX97GQGDOQjIVgaxURAfq34e3pOXa6IG+86gId6wAaoiBjiCbPR9QASsJ+TGSo9lywAVJVEGuSDnWpI7V1Gm+c+wYjkLCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GKu1FO+oVZXrt3khKd3GB0yJe+ZY+IKHQMyeDhqntfk=;
+ b=lUP6DFp3HWopDKbhzGR996WIJpsMf/eKJEqxmcwkPt2amd5/8ao15ILR2PhQwphigR7x/G43WzYUR3uHj99FIcpcTgT94bB/agn1LucgMSjWb457HU55KeaEvIpMOEG00XBj37OKwh7YkCw5M4fvAd1dpnG1cn9L0BKFevGIOCs=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ CYXPR12MB9428.namprd12.prod.outlook.com (2603:10b6:930:d5::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.23; Sun, 27 Sep 2026 16:00:27 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0451.022; Sun, 27 Sep 2026
+ 16:00:27 +0000
+Message-ID: <eebb7c55-e999-4aa8-a1ab-5a56f39b2382@amd.com>
+Date: Sun, 27 Sep 2026 21:29:09 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 6294/10910] sound/soc/sof/amd/acp.c:1469
+ handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow
+ 'adata->sdw->pdev' 2 <= 3
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>,
+ Mario Limonciello <Mario.Limonciello@amd.com>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ "Prasad, Prasad" <venkataprasad.potturu@amd.com>,
+ Syed Saba Kareem <syed.sabakareem@amd.com>
+References: <202609271355.u0pymQoF-lkp@intel.com>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <202609271355.u0pymQoF-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2P287CA0004.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:21b::6) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CYXPR12MB9428:EE_
+X-MS-Office365-Filtering-Correlation-Id: 810bf340-28b4-4ac0-dd43-08df1cb07271
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|10067099003|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Gjr58VyaJI4O9WojfgkpkIqhR8DvjD5c91DO+et4hyWWTx+Jn4EJ58EGuU/4zSRYa4ux9vzxp+oIDabGVSEuPYL3nbm96OBdLmKdM2hbHP2kwS/UwLTxanMfrcSBLKzZt56wzk+rPQ2+JGVCESGpXsU+aEW7A12yJ6xY4j1iZPsjhjBVHCtO50GMixIPdnY/o9ah+jJjy7s+BILBqTVwLKd82YUyiwhpfJyeMFH7ye2kBTmyNU/Yog6AIeRbCer+OstEJNMHP/JRZ/7eJuPvyqs5yONt3Yfbpem/5DO+og7YPWnaooWrp+iPjVNDui2DmC6gtAVO8TKzNG5/XOI7HGwLoFduMcw4FIpsYg5k4f5qF7HDsaXtTaumKbSD+VII3HLCCK2jtsXnNZe/DHiI4g9HnfPaDpby8cOFb4OPp/cAdRoqBYfNnTYIu04vzdVXj+vCFEc6HWnel7WMfzGC0da7yoAEj6pmTmF6LROuUvM6ANa17cC5jQlprstRj6s5wrtdpDaK6IKc3LkamjtEVSUYJ55GtIg7WOCoSBoxkwFoKLNss7ZrX/S+2V881thzgwrCk+6dnRvyTR68MdCofTxTZpWBoU79DZinZESb/O4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(10067099003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SE0vUnR1ajBmZ0kxbXJaUlZtZ3ovb3ZwN0I0MmdmOXJLMkFQdnRiYVFRc2J5?=
+ =?utf-8?B?ZUVvOHRKWmpScmpyc3Y4OEZhejNhQUdUTUp6ODJjYnpCdEVJa0ZFRWViclNR?=
+ =?utf-8?B?VlRJbnhMZWJVWXpOMnJaZHJMU2JDN09DTG9uU3JJbzlDeWwybHQ1Qi9RbC81?=
+ =?utf-8?B?czdIeDZNcWQ0dzl6S2U4WTFmTjZiRTRKMktTVzIxQm5IOWFrSFJicnpzcTNI?=
+ =?utf-8?B?WWdPRThNRlVQM2l5RU53SHRDUFpDYjQ3aURmV1V1Slc2NWsrc0RiYVQxZ29X?=
+ =?utf-8?B?V1hZd2VZQ2ZwTDF2bndnU1JDRytXT2ppQ0x4Z1dJd1RoV3pzUUtKbncxUW9m?=
+ =?utf-8?B?aXdweXFwcTIxSzhIOW9wM0FqRnA3cUtCUHA1RlNTTGttV0VjMjhsVWFSQzBs?=
+ =?utf-8?B?QTJwQjU5MjJheUx4TWxrUllJZCtOL01iMWlyYXQwK092UnJjZ3BHbVUzNmRX?=
+ =?utf-8?B?UlNZWmcvaTkrZnNDaVdzT1hBUkpXeG0wcTU4Y1RvQkV3Q3N5NnU0ell3eko0?=
+ =?utf-8?B?YXA1dGI1RFhUT3ZxVnlhSFhRbXU0cCtIOTM0WWYxaVlqYVZleVNGM09Qb3Ev?=
+ =?utf-8?B?UXJMc3FuNW1OK2c2ZnlOSkQ1UENieVF6Mzh0djR3MVMyeURGOTFYZTVKZXpE?=
+ =?utf-8?B?Mk9aTjB1S2UxOE1Oa0FrY2N3VytLUTNISlBrZjdTT2pQVTVnT0ZOTFJxRDJs?=
+ =?utf-8?B?VXlXcFdhbEttQ1ozOUpONXhzK1owczlNVVRlUjJFREZKSWRNZ0RyUTZYODA5?=
+ =?utf-8?B?ZG0xbzE0NUhVZ0Q2UUs2TGZBZWVmZ2poQVVPSG0xMW1pOXRuUjNveDBsQ1VQ?=
+ =?utf-8?B?RDZnNW9DcGgxeGViMHNXeld2QnVZOEZBVjZITHZNb0kvNElydUZ3RzZDSlVs?=
+ =?utf-8?B?bFprLzFkaXlIT3BGSVNPMWFNYWxrbEFXYlJuNnlXenFhaUh5dUZFT0VTQjI5?=
+ =?utf-8?B?b2RBd2tkNzBkTXlWeHFsWTFWdFpYbXVNemx1eG91ZEZSUUZWVlE0MVp0ZmRl?=
+ =?utf-8?B?RlpXanp5ZS9lekpZZUZseHN4NzdnVUkyQ0ovZEdIWlBzQm1jQzVTVCtNci9Y?=
+ =?utf-8?B?a3MzcmhKL08yS2VYQmI1S3ZiRDFIeFRqVXZweVVyUkFhUGhHTG1hMW5uZWhU?=
+ =?utf-8?B?cWpKaktqNUtadmRxSVFuMkFTZytzb3FKUUJFQ3N4SFRNMFp4WUxmVHhGNE1L?=
+ =?utf-8?B?cjdTOFpKN2ExeXJVajY4TDJJYi9wc0s2ZWhkQjlSVVlla3lhYTFpNG5SZHBm?=
+ =?utf-8?B?M3JuZiszdVFJQjROcEJ0ajRFMTFzR2lCRUZSeEZOamtYeDJKd2ZFNm9zMUs0?=
+ =?utf-8?B?anRNU0VkV2gxRS9GVFNkcVY3TU1ZUlVvdGN3aytqSjFnaEpwdk5hSVIwSE5U?=
+ =?utf-8?B?U20wNDVLN1dtQUZXdkcraW5sLy8yQ3B4TDV4aEhqUGlQNVFwN25ScXRtTWQr?=
+ =?utf-8?B?aGR6THFCWVNraFpLQ1dxTm9mWERQVFZPZlVTb1FMTS93Tk5GeHFaV0p3TjM4?=
+ =?utf-8?B?ak9XdWEwV3FTbVoyUExNSVNvd2I3U0s3aHllVitKakhOWnFlOTQ0T1ZsOHFi?=
+ =?utf-8?B?MGtleGoxM2IyYldrU3NEOHEwaTUrNXo1ZFp5MFhHekQ2OFRTVVZFN1VaRzZZ?=
+ =?utf-8?B?V1N1Sm56aE9ENm96TDFrdlZXa1F4a2c4WlFsUldwWm5EM3MyeUNFblZuU0Uv?=
+ =?utf-8?B?QUFkSllqMWhHcWRTeWx4M3dmUTJZQXBYN3RWZldiMnYvUHhJQk5Eb3hUUkN4?=
+ =?utf-8?B?dllxaUVhRzVscUNOd1gwY1BoQUlzcFI2d2ZLNHNHc0ZnQUNxcTlEQ28rcGVI?=
+ =?utf-8?B?b0lBRlpESmFUa1h3eW1HNVl6WXcrSExwNExpMlIxc3B4MEN1ZlFxRXRGZmti?=
+ =?utf-8?B?SEo0cFpyTlBtN3g5eFBYcThQRzhiTHNpNHZyS2xiMUZKZ2M1V1FLaWVrUTJG?=
+ =?utf-8?B?WUhDRzcxUUNNUmJEVDBqRkI1b0oyY0lOVUoxV3dsZE9iQXhHMFNvSlNyaHFy?=
+ =?utf-8?B?N25yZk03U1FRNVIwS0w3Tk12d242cmxvSVc4NkpPV2hUYXMxeVlkeVFEdzJI?=
+ =?utf-8?B?bkVvbTB1cTZnbzQ4dmx3QnlFbllQcXNURFgyelhRVkROeHZSOTNnTDhSNExa?=
+ =?utf-8?B?M3lmZDlyYWR6YmlFSUMxd3JJSk05bWZKMXcvSU9LNGdCb0FEdnZUdG0wNlJn?=
+ =?utf-8?B?SkVLM1NrYnNQTkQyNTdHSitVaTg3L2d0dy9EVkdTOCtRVlJWRW55c1dZdjhG?=
+ =?utf-8?B?L2xHRGczNHIxbnAxejFWN1JSTkZwZDQybXFsTm9LNEdLajBuczJCZkRKMHA2?=
+ =?utf-8?B?amQwWitZeWVPSTU3MjhySmVhOTRYYWZFWStvYTVaUHFOQkRNWW9Ndz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 810bf340-28b4-4ac0-dd43-08df1cb07271
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2026 16:00:27.3113
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SQzGLeZw5mqHIDl6Ndsl8ZKV0TQ6GOE7Edn4Swqv5Rf6OLa27hI5UFuBJstaIbI1hurda4VD6c3Qxtj150qpPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9428
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "David Hildenbrand (Arm)" <david@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mm/linux.git staging/for-test
-head:   bc9a9bc8e8f6d1feaeb494b99e36424ef870d773
-commit: 1732e42dd48f83f345cbe9b6ca4a1838656aa399 [6/7] Merge https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable into for-next
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: sparc64-randconfig-r2200-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271719.GrVmXzWL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609271719.GrVmXzWL-lkp@intel.com/
+On 9/27/26 20:52, Dan Carpenter wrote:
+> [You don't often get email from error27@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+> commit: be2823854e00558f46f5bbb124bb3f3a3bb9a94a [6294/10910] ASoC: SOF: amd: add SoundWire PM ops for ACP7.B/7.F
+> config: i386-randconfig-2200-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271355.u0pymQoF-lkp@intel.com/config)
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> smatch: v0.5.0-9187-g5189e3fb
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202609271355.u0pymQoF-lkp@intel.com/
+>
+> New smatch warnings:
+> sound/soc/sof/amd/acp.c:1469 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+++
 
-smatch warnings:
-drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__478'
+Thank you for the report. This smatch warning is reported because the 
+ACP7.B/7.F SoundWire specific patches have not yet landed. Those patches 
+add support for 4 SoundWire manager instances and allocate the platform 
+device array based on the maximum instance count, which resolves the 
+buffer overflow concern flagged here. We are currently waiting for the 
+dependent patch series to complete upstream review: 
+https://lkml.org/lkml/2026/9/17/1422 
+https://lkml.org/lkml/2026/9/17/2552 If the review of the above series 
+takes longer, we will post the ACP7.B/7.F SoundWire patches for upstream 
+review independently and include a note in the cover letter documenting 
+the patch series dependency.
+>
+> Old smatch warnings:
+> sound/soc/sof/amd/acp.c:663 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+> sound/soc/sof/amd/acp.c:666 sof_amd_handle_acp7x_sdw_wake_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+> sound/soc/sof/amd/acp.c:1472 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
+>
+> vim +1469 sound/soc/sof/amd/acp.c
+>
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1440  static void handle_amd_sof_acp7x_sdw_pme_event(struct snd_sof_dev *sdev)
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1441  {
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1442        struct acp_dev_data *adata;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1443        struct amd_sdw_manager *amd_manager;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1444        u32 sdw_pme_stat;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1445        u32 sdw_wake_en;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1446        u32 pme_reg;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1447        u32 wake_mask;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1448        unsigned int instance;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1449
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1450        adata = sdev->pdata->hw_pdata;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1451        if (!adata->sdw)
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1452                return;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1453
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1454        for (instance = 0; instance < ACP7X_SDW_MAX_MANAGER_COUNT; instance++) {
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1455                pme_reg = ACP7X_SW_PME_STS + (instance * 4);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1456                wake_mask = ACP7X_SW_WAKE_EN_MASK << instance;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1457
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1458                sdw_pme_stat = snd_sof_dsp_read(sdev, ACP_DSP_BAR, pme_reg);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1459                if (!sdw_pme_stat)
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1460                        continue;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1461
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1462                mutex_lock(&adata->acp_lock);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1463                sdw_wake_en = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1464                sdw_wake_en &= ~wake_mask;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1465                snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP7X_SW_WAKE_EN, sdw_wake_en);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1466                mutex_unlock(&adata->acp_lock);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1467                snd_sof_dsp_write(sdev, ACP_DSP_BAR, pme_reg, sdw_pme_stat);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1468
+> be2823854e0055 Vijendar Mukunda 2026-09-10 @1469                if (!adata->sdw->pdev[instance])
+>                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Feels like a bug.  AMD_SDW_MAX_MANAGER_COUNT(2) vs ACP7X_SDW_MAX_MANAGER_COUNT(4)
+>
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1470                        continue;
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1471
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1472                amd_manager = dev_get_drvdata(&adata->sdw->pdev[instance]->dev);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1473                if (amd_manager)
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1474                        pm_request_resume(amd_manager->dev);
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1475        }
+> be2823854e0055 Vijendar Mukunda 2026-09-10  1476  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-vim +/__UNIQUE_ID_x__478 +557 drivers/hid/hid-steam.c
-
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
-cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
-cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
-cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
-cd11d1a6114bd4 Lee Jones           2022-07-08  531  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
-de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
-de435b770cd949 Vicki Pfau          2026-07-29  545  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
-cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
-cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
-cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
-cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
-cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
-
-:::::: TO: Vicki Pfau <vi@endrift.com>
-:::::: CC: Jiri Kosina <jkosina@suse.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
