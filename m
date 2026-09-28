@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5606249CF39
-	for <oe-kbuild@lists.linux.dev>; Mon, 28 Sep 2026 12:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3474BD786
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Sep 2026 13:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790597299; cv=none; b=d7+u/m+bJ6FOmFLJBkA+PODSQZMxzogEu0Jvxb+1gXarjJjxyZONrdiIHbcLy91W0jgR8fLqnG0RbCnmXCpBRGvz1W+QwPA/WhttsRQ1KAIsFzaMfoX5Lx6IS/LpZf4rXTOOsYFaUvD7TWRdWr6IU6s5jUH+6sA3pWpElmvTsvg=
+	t=1790601797; cv=none; b=Zs+Z5F0SFlyuTx4xnuYl0dNh5YV+iguCOxn5UuiJZMwkRP2WZQxJq+FX+3LtE4iLK5wum/1XWj2W738giQKZMNWOdD/ASz5Mg/aF0waSLwozKSIAy2WXnfUi+7//JvZ5orRrPyCLKic8XAMo4WtgTKN2D4LhMZrFLqmlsO6bS0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790597299; c=relaxed/simple;
-	bh=eiXiVpPRqKBxgSFmcnK/T24Dbrrl/QuFC5p+gnfvm9I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Onm4NsARxTHgOdXOmT+yscShM0KtANqor1AIl0RIUt6sGuAHCoPms1iumGrcmip6f7WJXPkqubYWrUFNhD7FBBCdhNcVqr54FmOTMdQRQSYYahb2x147jnyLJQk9X6lIFPrBhbrzQVL3TvnIa1O7en5QakQlB9xZJaFaI/smlzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZ2POrcR; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1790601797; c=relaxed/simple;
+	bh=YmNnZbRDwEglQNZO3qoDJGMxlTvOmRCTC8lLlTBYBDA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uiX34Tpt+7qEYtiCOubvGmgH2bXaCljdikOkwSJaZQVpTgEDTWhBZ5NH5zSa3FRZfpmjtgLiElkc1vX8mgmyq2WTY02FxCBxCWk68QusHrDX82MMygiRh68Wdb9FUSZ45iwsfbgAzShCAB80csuqy/dQyUjZmcEjYUvs1HEEb+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9ucdSi3; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZ2POrcR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9ucdSi3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790597298; x=1822133298;
+  t=1790601795; x=1822137795;
   h=date:from:to:cc:subject:message-id;
-  bh=eiXiVpPRqKBxgSFmcnK/T24Dbrrl/QuFC5p+gnfvm9I=;
-  b=RZ2POrcRy4C8PQ1QfK0kTsfCH/jbpMj43YSCdFmdbZgIrQiWCb/0tDer
-   IGsI7GRnzM4UoFsLbCtLHUxKnJAvk/Yv2OBVDDvLmD296+6jZA+t2Fk5G
-   byKcPMejZMcsaxWlL2pLLtXzJqBWmIXY3BLGhCD48UmnVnqQb8waDvB6/
-   +ZOh+Z0nKOigQkLk24r4tUqIxl/hRZi87yqqbYvz9M8PfUA7qvKSaQEIW
-   +4iU5vFZSQEUBfQtQSSsy4nqOnFcx8UQJyzJqeQ1h88LNiTTmxpqCivAW
-   PUAGfX14oKsbwXkb730l/WPE1+oehb/+/dtG7lpyrXxEzRgHU0HJckl1D
-   A==;
-X-CSE-ConnectionGUID: W03QdARRTOupaBneKfgKNw==
-X-CSE-MsgGUID: z0ajlmgBQ++w9uqLg+7b1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90060335"
+  bh=YmNnZbRDwEglQNZO3qoDJGMxlTvOmRCTC8lLlTBYBDA=;
+  b=m9ucdSi3HurG1bk/ySEJirqg8JmsKLYbBOEomyHr18Y8RusKE2et+v87
+   k+eZc33f3oy8TchoRP+nHQxzYsEKgAJVRt6jx9UfNb7FMzdGmmsz2ytV3
+   rumIbHodjeN+cA175KUhas82CXDS8aqUYoEW1iNIuLTJJi73saqoXfyMS
+   1gPTUzONgJyMn/fYuNwnNtWl1ZIs7czCg0o2MJbvsJY85IDAzuL49Cta3
+   ExmTvQFMtdMlp9kYn5fmv/MvxlyVSu/udGGOqCcuac/JS0R0leegHvPx/
+   rg68DKcFYdEt5zHepWc7naiNlt8LIyCK5eDzFDCV65CyqGEiP7lFyJ+51
+   g==;
+X-CSE-ConnectionGUID: Nr/yyTQVTCq+LFjDcitoFA==
+X-CSE-MsgGUID: msfF5/66SjmTfT8E3uGKFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="101823830"
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="90060335"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:08:17 -0700
-X-CSE-ConnectionGUID: y7gvBcryTc2qLhioyKCtfQ==
-X-CSE-MsgGUID: IK9OTYkkQrSfKYqO32flgA==
+   d="scan'208";a="101823830"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 06:23:15 -0700
+X-CSE-ConnectionGUID: 8HjcdBQSSVO5cqClx3ddNg==
+X-CSE-MsgGUID: WGfC1cVuS2qI+ePdya82sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="273640015"
+   d="scan'208";a="275176373"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2026 05:08:16 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2026 06:23:12 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBA9U-000000000zZ-2ldC;
-	Mon, 28 Sep 2026 12:08:12 +0000
-Date: Mon, 28 Sep 2026 14:07:11 +0200
+	id 1xBBJi-0000000010N-1jbE;
+	Mon, 28 Sep 2026 13:22:50 +0000
+Date: Mon, 28 Sep 2026 15:21:58 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: net/sunrpc/backchannel_rqst.c:249:2-31: opportunity for
- str_true_false(list_empty ( & xprt -> bc_pa_list ))
-Message-ID: <202609281359.Rw9Guzpb-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [akpm-mm:mm-unstable 462/660] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__441'
+Message-ID: <202609281522.oy2lIVoj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,68 +61,99 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Anna Schumaker <anna.schumaker@oracle.com>
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Anna,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
-commit: 7537db24806fdc3d3ec4fef53babdc22c9219e75 NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4
-date:   8 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-2101-20260928 (https://download.01.org/0day-ci/archive/20260928/202609281359.Rw9Guzpb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   57e4ac91fc62d75d84b5a03827a19ceb4094ecd9
+commit: 2da9da558c118486ca252a96ff117b09583cf558 [462/660] mm: add mmap action for discontiguous kernel page mapping
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: alpha-randconfig-r2201-20260928 (https://download.01.org/0day-ci/archive/20260928/202609281522.oy2lIVoj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7537db24806f ("NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202609281359.Rw9Guzpb-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609281522.oy2lIVoj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> net/sunrpc/backchannel_rqst.c:249:2-31: opportunity for str_true_false(list_empty ( & xprt -> bc_pa_list ))
+smatch warnings:
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__441'
 
-vim +249 net/sunrpc/backchannel_rqst.c
+vim +/__UNIQUE_ID_x__441 +557 drivers/hid/hid-steam.c
 
-42e5c3e2725ba0 Chuck Lever           2015-10-24  224  
-42e5c3e2725ba0 Chuck Lever           2015-10-24  225  void xprt_destroy_bc(struct rpc_xprt *xprt, unsigned int max_reqs)
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  226  {
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  227  	struct rpc_rqst *req = NULL, *tmp = NULL;
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  228  
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  229  	dprintk("RPC:        destroy backchannel transport\n");
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  230  
-c4ded8d9771c8e Weston Andros Adamson 2012-10-23  231  	if (max_reqs == 0)
-c4ded8d9771c8e Weston Andros Adamson 2012-10-23  232  		goto out;
-c4ded8d9771c8e Weston Andros Adamson 2012-10-23  233  
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  234  	spin_lock_bh(&xprt->bc_pa_lock);
-669996add4c924 Trond Myklebust       2019-10-17  235  	xprt->bc_alloc_max -= min(max_reqs, xprt->bc_alloc_max);
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  236  	list_for_each_entry_safe(req, tmp, &xprt->bc_pa_list, rq_bc_pa_list) {
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  237  		dprintk("RPC:        req=%p\n", req);
-628356791b04ea Trond Myklebust       2014-02-11  238  		list_del(&req->rq_bc_pa_list);
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  239  		xprt_free_allocation(req);
-7402a4fedc2bc4 Trond Myklebust       2019-07-16  240  		xprt->bc_alloc_count--;
-7402a4fedc2bc4 Trond Myklebust       2019-07-16  241  		atomic_dec(&xprt->bc_slot_count);
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  242  		if (--max_reqs == 0)
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  243  			break;
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  244  	}
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  245  	spin_unlock_bh(&xprt->bc_pa_lock);
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  246  
-c4ded8d9771c8e Weston Andros Adamson 2012-10-23  247  out:
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  248  	dprintk("RPC:        backchannel list empty= %s\n",
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01 @249  		list_empty(&xprt->bc_pa_list) ? "true" : "false");
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  250  }
-fb7a0b9addbdbb Ricardo Labiaga       2009-04-01  251  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4 Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd949 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
 
-:::::: The code at line 249 was first introduced by commit
-:::::: fb7a0b9addbdbbb13b7bc02abf55ee524ea19ce1 nfs41: New backchannel helper routines
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
 
-:::::: TO: Ricardo Labiaga <Ricardo.Labiaga@netapp.com>
-:::::: CC: Benny Halevy <bhalevy@panasas.com>
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
