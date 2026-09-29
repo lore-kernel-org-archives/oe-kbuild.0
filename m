@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA2A23AE87
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 00:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85403CA4B6
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 02:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790640726; cv=none; b=CLdswPxoEkCvkwSOAW2S/bc+cxrRKAhugvESlCuCRB3Xrc55v8fhry4CH/ce41nRaghurr1uTZkZRZNDUgFL/trzGwHBQw6UGXAGxAoePKeIKHtqtYI3sRahcnUQsMc7K8E41fUVfkav9kBA+sR3vWSufqdgl5yqC0pv042Wgkg=
+	t=1790650361; cv=none; b=G0u2iz7XaplmBHY94aP3Pxo+7JEb2IvlhhFOSPJPBNIthH1pUvYFUO1wvTz5Z/jf2A/iOTd16nDDhTnnkGhDgAZnp6AgJUAinuS0TZ17q4m1GHfqEKig0js1pquyNGdFxNsleq2E0GFbAX6GlTmfYiWYLX9I8LASwXEbRee/uTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790640726; c=relaxed/simple;
-	bh=rvRpB855sDnO/jshFxhrTpvzQMDeKWS3bXdcryVZx5Q=;
+	s=arc-20240116; t=1790650361; c=relaxed/simple;
+	bh=s4YgYyrFYiEn0ZZe6ZGXZXC9eQZbMbGfNbmL46/w56c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hmHFNuSSpvkhDpnq1GtgmNcKy5gSnb2hsLcTXeFb9cZYdsabQIVjb7FKZMIyJZqe1S5hep6brHuNu+i2cXimqv5remzXJCq3d3LpsfCHlU22kntNeJ/VhvfWqVpCkWFUx/XY7bD2YWNxhOGWqb1hrz9/27pDCsPg4IW+M0GNNwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lk/MbLWF; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=nSalHGgN8A8jzWjXe9Vwequp9qAhGHJZvg+taakh/8wE4z01kYwLHbhgTzXPtCdnENkd5QoV3D802naKkZAvbXjhwHiYuJj5WmHWe6o687hQG3aGUCmGXkwF1YonuDSzi+eiC+S2x+wcoLdG43by2Hb53hTEcmrFPiBw8EkBwZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JW9es/Te; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lk/MbLWF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JW9es/Te"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790640725; x=1822176725;
+  t=1790650358; x=1822186358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rvRpB855sDnO/jshFxhrTpvzQMDeKWS3bXdcryVZx5Q=;
-  b=lk/MbLWFk3r/bcepchaf6cw2s2OXghdw5P7MJoJa5uWdqsWQGQtD34J/
-   icI/Bd9mpBn8nceVk1h3fXHcL9EJc5rKI3nIrtvh5e2nUuil4fbOcKCPc
-   ozyar2BS1ar4qDfdnTqBNv3PS6P2USc1IWUdG8CL/6eoTNw4RThJEheSD
-   xjNlNX3U8oWw0MF2xdhjVdJFH/8FlTsOXPDLLNoYFbBvaHqN4aUtbHMth
-   y3lxkIMRLts2nkLduZbk3RPKrYGLhG6zkzQDI4AkNfa3yLBuAjRhYvZyU
-   9eeOIK51g1kJbovdw62xF4s3FK3oO2bQjIIy2LVSQBO1nEZmLBV/wO3UZ
-   w==;
-X-CSE-ConnectionGUID: NKuZxJy0Qrm/Q1nbsHJG+Q==
-X-CSE-MsgGUID: /u6DxrNWQw2t0ABSEfeG6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="101516895"
+  bh=s4YgYyrFYiEn0ZZe6ZGXZXC9eQZbMbGfNbmL46/w56c=;
+  b=JW9es/TeEuhUyHaYVLUOm0y23KPpidSUepoLHJXawL+cv+z3D4im2jwl
+   TX0EOiT7EeVPbrEvTUEIcL3ZiUD6VwL1Jh3sbww8sVXQAa3+yasfMrwFw
+   ovkEiuQDED4RTDAHIWjkSxMgxALSIArdL1gzzN2/3FqqL4bLvESCqsjZv
+   QQfgEusrz12ipH9qif87bTO4lXRf3Q7DhO41yJob5rAcVTsSRLmXVPLkh
+   6RcXYfPrQZdzo1Z/48mmJ/GIxYNoU3Go30efLSjunvUwPNJR6jT0i87Pz
+   4w8gk1pHYHGQrSZXy2IKeS9XGexD50mEGhzYcfGLM0SCdgWUcZYmWFVtr
+   g==;
+X-CSE-ConnectionGUID: yENxvSKSQVWZKCYECXfFHA==
+X-CSE-MsgGUID: XUL7cwcpQCeH13cy0l/CKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="91222496"
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="101516895"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 17:12:05 -0700
-X-CSE-ConnectionGUID: /H49v+OOSYqQFYhtVWm1XQ==
-X-CSE-MsgGUID: Urk4tgueSAWFHLIgNb3mAw==
+   d="scan'208";a="91222496"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 19:52:38 -0700
+X-CSE-ConnectionGUID: qeyEkFI3TmSyzeo4AlRmHw==
+X-CSE-MsgGUID: mPwxsHvQQeO07vsyTL8GjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="283279620"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2026 17:12:03 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="273849521"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2026 19:52:37 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBLRx-00000000OhM-098A;
-	Tue, 29 Sep 2026 00:12:01 +0000
-Date: Tue, 29 Sep 2026 08:11:19 +0800
+	id 1xBNxK-000000001Fz-3fJF;
+	Tue, 29 Sep 2026 02:52:34 +0000
+Date: Tue, 29 Sep 2026 04:52:14 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: net: ethtool: add BaseC2C medium & AUI C2C link modes
-Message-ID: <202609290735.6l9LLSfn-lkp@intel.com>
+Subject: Re: [PATCH v4] ACPI: button: Report wakeup key only for power button
+ wakeups
+Message-ID: <202609290454.LJrhMCb3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,120 +63,134 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <202609290735.6l9LLSfn-lkp@intel.com>
-References: <202609290735.6l9LLSfn-lkp@intel.com>
+In-Reply-To: <20260922024232.816-1-baorliu@amd.com>
+References: <20260922024232.816-1-baorliu@amd.com>
+TO: "Baorui.Liu" <baorliu@amd.com>
+TO: rafael@kernel.org
+CC: lenb@kernel.org
+CC: linux-acpi@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: acpica-devel@lists.linuxfoundation.org
+CC: "Baorui.Liu" <baorliu@amd.com>
 
-Hi Siddaraju,
+Hi Baorui.Liu,
 
 kernel test robot noticed the following build errors:
 
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v7.3-rc5 next-20260928]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddaraju-DH/net-ethtool-add-BaseC2C-medium-AUI-C2C-link-modes/20260928-040656
-base:   
-patch link:    https://lore.kernel.org/r/202609290735.6l9LLSfn-lkp%40intel.com
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260929/202609290735.6l9LLSfn-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290735.6l9LLSfn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baorui-Liu/ACPI-button-Report-wakeup-key-only-for-power-button-wakeups/20260922-104232
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260922024232.816-1-baorliu%40amd.com
+patch subject: [PATCH v4] ACPI: button: Report wakeup key only for power button wakeups
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-2100-20260928 (https://download.01.org/0day-ci/archive/20260929/202609290454.LJrhMCb3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290454.LJrhMCb3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609290735.6l9LLSfn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609290454.LJrhMCb3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/phy/phy-core.c:21:2: error: call to '__compiletime_assert_605' declared with 'error' attribute: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
---
-   21 |         BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
-   |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-   |                                     ^
-   include/linux/compiler_types.h:702:2: note: expanded from macro 'compiletime_assert'
-   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   |         ^
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-   690 |         __compiletime_assert(condition, msg, prefix, suffix)
-   |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-   683 |                         prefix ## suffix();                             \
-   |                         ^
-   <scratch space>:141:1: note: expanded from here
-   141 | __compiletime_assert_605
-   | ^
->> drivers/net/phy/phy-core.c:21:2: error: call to '__compiletime_assert_605' declared with 'error' attribute: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
+   ld: vmlinux.o: in function `acpi_suspend_enter':
+>> drivers/acpi/sleep.c:643:(.text+0x147f324): undefined reference to `acpi_button_power_wakeup_pending'
 
 
-vim +21 drivers/net/phy/phy-core.c
+vim +643 drivers/acpi/sleep.c
 
-a3e51d4711793b Heiner Kallweit 2025-02-22  13  
-4069a572d423b7 Andrew Lunn     2020-09-23  14  /**
-4069a572d423b7 Andrew Lunn     2020-09-23  15   * phy_speed_to_str - Return a string representing the PHY link speed
-4069a572d423b7 Andrew Lunn     2020-09-23  16   *
-4069a572d423b7 Andrew Lunn     2020-09-23  17   * @speed: Speed of the link
-4069a572d423b7 Andrew Lunn     2020-09-23  18   */
-da4625ac2637e4 Russell King    2017-07-25  19  const char *phy_speed_to_str(int speed)
-da4625ac2637e4 Russell King    2017-07-25  20  {
-491c5dc98b848c Yael Chemla     2025-11-19 @21  	BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
-c6576bfe2f4baa Heiner Kallweit 2019-04-13  22  		"Enum ethtool_link_mode_bit_indices and phylib are out of sync. "
-c6576bfe2f4baa Heiner Kallweit 2019-04-13  23  		"If a speed or mode has been added please update phy_speed_to_str "
-c6576bfe2f4baa Heiner Kallweit 2019-04-13  24  		"and the PHY settings array.\n");
-c6576bfe2f4baa Heiner Kallweit 2019-04-13  25  
-da4625ac2637e4 Russell King    2017-07-25  26  	switch (speed) {
-da4625ac2637e4 Russell King    2017-07-25  27  	case SPEED_10:
-da4625ac2637e4 Russell King    2017-07-25  28  		return "10Mbps";
-da4625ac2637e4 Russell King    2017-07-25  29  	case SPEED_100:
-da4625ac2637e4 Russell King    2017-07-25  30  		return "100Mbps";
-da4625ac2637e4 Russell King    2017-07-25  31  	case SPEED_1000:
-da4625ac2637e4 Russell King    2017-07-25  32  		return "1Gbps";
-da4625ac2637e4 Russell King    2017-07-25  33  	case SPEED_2500:
-da4625ac2637e4 Russell King    2017-07-25  34  		return "2.5Gbps";
-da4625ac2637e4 Russell King    2017-07-25  35  	case SPEED_5000:
-da4625ac2637e4 Russell King    2017-07-25  36  		return "5Gbps";
-da4625ac2637e4 Russell King    2017-07-25  37  	case SPEED_10000:
-da4625ac2637e4 Russell King    2017-07-25  38  		return "10Gbps";
-da4625ac2637e4 Russell King    2017-07-25  39  	case SPEED_14000:
-da4625ac2637e4 Russell King    2017-07-25  40  		return "14Gbps";
-da4625ac2637e4 Russell King    2017-07-25  41  	case SPEED_20000:
-da4625ac2637e4 Russell King    2017-07-25  42  		return "20Gbps";
-da4625ac2637e4 Russell King    2017-07-25  43  	case SPEED_25000:
-da4625ac2637e4 Russell King    2017-07-25  44  		return "25Gbps";
-da4625ac2637e4 Russell King    2017-07-25  45  	case SPEED_40000:
-da4625ac2637e4 Russell King    2017-07-25  46  		return "40Gbps";
-da4625ac2637e4 Russell King    2017-07-25  47  	case SPEED_50000:
-da4625ac2637e4 Russell King    2017-07-25  48  		return "50Gbps";
-da4625ac2637e4 Russell King    2017-07-25  49  	case SPEED_56000:
-da4625ac2637e4 Russell King    2017-07-25  50  		return "56Gbps";
-a9927022c4491b Mika Westerberg 2026-01-15  51  	case SPEED_80000:
-a9927022c4491b Mika Westerberg 2026-01-15  52  		return "80Gbps";
-da4625ac2637e4 Russell King    2017-07-25  53  	case SPEED_100000:
-da4625ac2637e4 Russell King    2017-07-25  54  		return "100Gbps";
-5a3144e4195621 Heiner Kallweit 2019-04-13  55  	case SPEED_200000:
-5a3144e4195621 Heiner Kallweit 2019-04-13  56  		return "200Gbps";
-14af7fd1d4279c Jiri Pirko      2019-10-12  57  	case SPEED_400000:
-14af7fd1d4279c Jiri Pirko      2019-10-12  58  		return "400Gbps";
-404c76783f3221 Amit Cohen      2022-10-20  59  	case SPEED_800000:
-404c76783f3221 Amit Cohen      2022-10-20  60  		return "800Gbps";
-491c5dc98b848c Yael Chemla     2025-11-19  61  	case SPEED_1600000:
-491c5dc98b848c Yael Chemla     2025-11-19  62  		return "1600Gbps";
-da4625ac2637e4 Russell King    2017-07-25  63  	case SPEED_UNKNOWN:
-da4625ac2637e4 Russell King    2017-07-25  64  		return "Unknown";
-da4625ac2637e4 Russell King    2017-07-25  65  	default:
-da4625ac2637e4 Russell King    2017-07-25  66  		return "Unsupported (update phy-core.c)";
-da4625ac2637e4 Russell King    2017-07-25  67  	}
-da4625ac2637e4 Russell King    2017-07-25  68  }
-da4625ac2637e4 Russell King    2017-07-25  69  EXPORT_SYMBOL_GPL(phy_speed_to_str);
-da4625ac2637e4 Russell King    2017-07-25  70  
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  589  
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  590  /**
+2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  591   *	acpi_suspend_enter - Actually enter a sleep state.
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  592   *	@pm_state: ignored
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  593   *
+50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  594   *	Flush caches and go to sleep. For STR we have to call arch-specific
+50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  595   *	assembly, which in turn call acpi_enter_sleep_state().
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  596   *	It's unfortunate, but it works. Please fix if you're feeling frisky.
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  597   */
+2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  598  static int acpi_suspend_enter(suspend_state_t pm_state)
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  599  {
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  600  	acpi_status status = AE_OK;
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  601  	u32 acpi_state = acpi_target_sleep_state;
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  602  	int error;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  603  
+bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  604  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, true);
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  605  	switch (acpi_state) {
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  606  	case ACPI_STATE_S1:
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  607  		barrier();
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  608  		status = acpi_enter_sleep_state(acpi_state);
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  609  		break;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  610  
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  611  	case ACPI_STATE_S3:
+d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14  612  		if (!acpi_suspend_lowlevel)
+d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14  613  			return -ENOSYS;
+f1a2003e22f6b5 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  614  		error = acpi_suspend_lowlevel();
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  615  		if (error)
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  616  			return error;
+f5ee87df7a4dab drivers/acpi/sleep.c      Hanjun Guo            2021-06-02  617  		pr_info("Low-level resume complete\n");
+ef25ba04760159 drivers/acpi/sleep.c      Rafael J. Wysocki     2015-10-07  618  		pm_set_resume_via_firmware();
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  619  		break;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  620  	}
+bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  621  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, false);
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  622  
+b6dacf63e9fb2e drivers/acpi/sleep.c      Matthew Garrett       2010-05-11  623  	/* This violates the spec but is required for bug compatibility. */
+50ffba1bd3120b drivers/acpi/sleep.c      Bob Moore             2009-02-23  624  	acpi_write_bit_register(ACPI_BITREG_SCI_ENABLE, 1);
+65df78473ffbf3 drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-11-26  625  
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  626  	/* Reprogram control registers */
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  627  	acpi_leave_sleep_state_prep(acpi_state);
+c95d47a868f35c drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-01-08  628  
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  629  	/*
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  630  	 * ACPI 3.0 (P62): OSPM should clear the fixed power-button status bit
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  631  	 * so the event does not reach userspace as KEY_POWER. Remember that a
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  632  	 * power-button wake occurred so button resume can report KEY_WAKEUP
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  633  	 * and acpi_pm_finish() can emit a PM wakeup event.
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  634  	 */
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  635  	if (ACPI_SUCCESS(status) && (acpi_state == ACPI_STATE_S3)) {
+51468a9d3a8024 drivers/acpi/sleep.c      Al Stone              2013-11-20  636  		acpi_event_status pwr_btn_status = ACPI_EVENT_FLAG_DISABLED;
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  637  
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  638  		acpi_get_event_status(ACPI_EVENT_POWER_BUTTON, &pwr_btn_status);
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  639  
+18864cc4892d20 drivers/acpi/sleep.c      Lv Zheng              2016-08-04  640  		if (pwr_btn_status & ACPI_EVENT_FLAG_STATUS_SET) {
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  641  			acpi_clear_event(ACPI_EVENT_POWER_BUTTON);
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  642  			pwr_btn_event_pending = true;
+81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22 @643  			acpi_button_power_wakeup_pending();
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  644  		}
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  645  	}
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  646  
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  647  	/*
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  648  	 * Disable all GPE and clear their status bits before interrupts are
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  649  	 * enabled. Some GPEs (like wakeup GPEs) have no handlers and this can
+a508939e15356d drivers/acpi/sleep.c      Chu Guangqing         2025-11-25  650  	 * prevent them from producing spurious interrupts.
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  651  	 *
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  652  	 * acpi_leave_sleep_state() will reenable specific GPEs later.
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  653  	 *
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  654  	 * Because this code runs on one CPU with disabled interrupts (all of
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  655  	 * the other CPUs are offline at this time), it need not acquire any
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  656  	 * sleeping locks which may trigger an implicit preemption point even
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  657  	 * if there is no contention, so avoid doing that by using a low-level
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  658  	 * library routine here.
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  659  	 */
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  660  	acpi_hw_disable_all_gpes();
+d5a64513c6a171 drivers/acpi/sleep.c      Rafael J. Wysocki     2010-04-09  661  	/* Allow EC transactions to happen. */
+c2b46d679b30c5 drivers/acpi/sleep.c      Lv Zheng              2016-08-03  662  	acpi_ec_unblock_transactions();
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  663  
+2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  664  	suspend_nvs_restore();
+2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  665  
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  666  	return ACPI_SUCCESS(status) ? 0 : -EFAULT;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  667  }
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  668  
 
 --
 0-DAY CI Kernel Test Service
