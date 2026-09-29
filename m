@@ -1,76 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57452DEA68
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 05:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A4F40926C
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 06:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790661458; cv=none; b=XOIPIAIEmC0d1lWOroF4237C0/ris0KsaRrNhEGirs+gYAKIjmF2L4afV2eima8DvghquMgqn2TSZI3dyKnJVL6TVGkksXV5cwW85mr0kKwj4CuJdFWAWEZJiAm6gzZnr4lkhE1vl06PUryV2sK6Zby5S8ykIskTcQzlfiFj1mg=
+	t=1790662369; cv=none; b=VUlO3EG9NWTq72YgMZTU05ru9HnAOq3aCk4I+Ab0fyp7FGOrrS+reGlJqXoS+UtfD7z+L6wbje4yfF5BudKAnnb+pQ7EKYMCKC33b6JTI5ltTultsYROB9J6Q/GPXZxrY05yUsb+xqpUhxN308PFDYGEbze3pVfPzLFngsSvdJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790661458; c=relaxed/simple;
-	bh=gkp9ExwRe28U+ca5EM6ozdWjXkjS3wJ4sXw7rezadlE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i0B4F1UwJvtwZ6Sl2jQNAwSilniD+FGq23r5lH4GHFb1mu7BWbBxpVQrqL6TsCPb7nXol5VhPE2dDMfhh8EmIJHagDKukBR1124/h7n3e432+E3Kgz3VVrnH+AjXw8pFhRKJTaO0fQF97MwkvIXUVy+06ap8AMWknc8BghMRCRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N95QN/Gl; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790662369; c=relaxed/simple;
+	bh=G9lae3Lsn5+0FCEPnjOl/ccfareAgNkGhwXDSlmUW4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e+ReNSlrgpAtrdSmcHtAhnx4YLsvVIG6EhkaOP76WH8+zwHbMcsTUv/DfgyuefH6oKOsO2gN37bnbqo7m+WEWdNH7nwwtAW/cmA5oNRFsPqH/t9xs7B6PKq0IOiYi+nn5to1OzSfvVqkzwsoeRa5+NQLnT4NQXSUVo3dQDbrGys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtDIjbbS; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N95QN/Gl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790661457; x=1822197457;
-  h=date:from:to:cc:subject:message-id;
-  bh=gkp9ExwRe28U+ca5EM6ozdWjXkjS3wJ4sXw7rezadlE=;
-  b=N95QN/GlDtIZOlt8KBCP7KI8nf+rtzPIfNm2P3OxpWAGihG0OY72YQ7k
-   hwFWjLJybFu4OLDDiEA3BJ1+DqilYZSq6VHuy1ENj9rH2Qb2kZ2NZ2qJA
-   Wu7tUr6QYOWNKmV1673PDQTgIKzRwo4QC16WeJ4T1/o/68nsGd9jWb/0n
-   yqwe38dNwaiof5PBTmMvwWLWlXKRPWwaBRaF3ZneXHLzaQ3fAoX3xX/Ay
-   +YLpdOJ8plk0DahQgkQgerJIZih5vqfjDtO3Xnv7yZsurhmymebdwwPDS
-   QPDL0LMphkjXuC0V7UcQJfaMiwxpQLRQ19KkvgeBCZOy7D39eyAf33ub/
-   A==;
-X-CSE-ConnectionGUID: yO5gs0k5QZq9nRmpsC9n9w==
-X-CSE-MsgGUID: XKjt96qJRxepdzUJlLpeow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90235573"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90235573"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 22:57:36 -0700
-X-CSE-ConnectionGUID: NThC1qyeQVmm9Me3ghQdpw==
-X-CSE-MsgGUID: EKSBr0n8Tp+MRndPRInciA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="271755744"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Sep 2026 22:57:34 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xBQqK-000000001Jf-1MDJ;
-	Tue, 29 Sep 2026 05:57:32 +0000
-Date: Tue, 29 Sep 2026 07:57:29 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtDIjbbS"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48449f62b93so1312842f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 28 Sep 2026 23:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790662365; x=1791267165; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
+        b=mtDIjbbS0Zyyti2WmXVrG+Pjijx3OUifbT1NGC6m8cdkS1BE46eFxFPIVPUqdgV+zf
+         rlZs6eaaZ4Zj2T3iZgfPqULt+ad4CboGxBH1kOSopWlTuJwKpJj7M4FZefU2bwXnpDm0
+         dqwV1fJPUDNQ6x5XhxcgDR9xfZo3rrCXVmOxP2lSyshkEj1i8B4W4MQXyxXOxAnCASYN
+         HNvRZyZX+VAEkpHi+Fj0fmNTYyBLAQ/CskImdYKT6rDW4JTojPi1W6yaGM9rUErPlIk6
+         ftX6t11FXKCyiqTlr1f69Q358NHhhicL3QxfS7KY1rezK7dF0nuUaUpoyOL7gzTJcgz1
+         xAbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790662365; x=1791267165;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
+        b=yYYMKQgyRpExieHDBgPbrXP4DF9NOq/ZyqJl8bIpeKKRoOdEVIq96BpVB6AcSr5QMG
+         HDLlYuPm7a8ddCCiBaPB1gDlTzs1Mga3I2aVEzUwvzsXW6FQK9CwIRGcm/06PnkQbA0r
+         1YS/tbgW4GXO+0DYKMVDwcMBJcwRFXoTjYAY8FgSij6REfrYganUCz0WUSujzdFGj5wm
+         UGW1q2VIaLlBZLscK0SsrqaA6mU3z9GFNn2NeiHrcBxBq1f6fMUMbmJSOkRWdF2IuMxZ
+         ctYG6IHIcZmvJC146DIX3+Tg2BAZYqwCcQGg93nJqbdZBzSOoSwQi+yLgfiaMJ1+dNU8
+         LOsQ==
+X-Gm-Message-State: AFq9FYIHNEOVn4xJu4tT7jMGFHECdjlW2g1Ux5oII0Vf5kQn5Ubx+gQd
+	rY3iBQvs2nuccgxrLAtqAHleSn3g/2LbGURhruOJgnfREoMorfG7w1vw+gkxFgjTafs=
+X-Gm-Gg: AYBFou3J6vO7AGCIpUsqm/x5unmdz7dlwr/LEz5dESIc0eojo+zPkSFp4qIYrkG3Guf
+	JM7YPiN2IGwTecq68/FP70NGZUaFVMa/raZ9tDm64zvSO5kKvkvl9vObO8c3E+rMewQV16X8E7S
+	BCeHBnZk5XR+eKgOjb6uqOZlcHXbtKb3PtwP28VSb79MMwnqJ8QH8V22zBQyDe5UBv5LDvvHMaZ
+	+ZpJYeMs8C6MBlbSxXAb7Tg1+MNnUDJITNEnk768kEfNBnUHG3YFr/IWJ5uPU7cHPHnE+9w+lNV
+	xr9rMuOS46oJ5PUrF89oqiczUMSXj51oI1UOWAWVIzQ2d7GbKWJ86cQr8I1yYiU3adqBBPJm/Y6
+	NYL4lf2Iule4uFbZflZo1IiPW3qUBwiZWWF4Bx+X7v1lpP/HO5eMLHfLXLLBD9BtIBIdWFNdHn5
+	cHKb1ZXt79eym3IsaGvHso6SGrdqoomA2v3iYGMb7NavwwizYtXmPGd7uIu5A5KzWH+tg=
+X-Received: by 2002:a5d:5d04:0:b0:487:146f:7c88 with SMTP id ffacd0b85a97d-48af1a8f1afmr2366650f8f.4.1790662365144;
+        Mon, 28 Sep 2026 23:12:45 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48af50923f0sm1298428f8f.31.2026.09.28.23.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 23:12:44 -0700 (PDT)
+Date: Tue, 29 Sep 2026 09:12:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android16-6.12-kminext 7/7]
  kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
 Message-ID: <202609290742.QWPr7C7s-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260929061241.Qxe6IKm-TZdIVt3dSbJPB6vEOruEETxcNgt9fszDbG4@z>
 
 tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
 head:   46c9dcf34122090162fe8bdaf2c9f5c17fc95448
 commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [7/7] ANDROID: cgroup: Use backport reservation for freeze time
-:::::: branch date: 4 days ago
-:::::: commit date: 1 year ago
 config: x86_64-randconfig-2200-20260929 (https://download.01.org/0day-ci/archive/20260929/202609290742.QWPr7C7s-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 smatch: v0.5.0-9187-g5189e3fb
@@ -86,11 +92,6 @@ kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
 
 vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
 
-c81c925ad9b046 kernel/cgroup.c        Tejun Heo          2013-12-06  5736  
-07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5737  /*
-07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5738   * The returned cgroup is fully initialized including its control mask, but
-a3fdeeb3f1c1fa kernel/cgroup/cgroup.c Miaohe Lin         2023-07-19  5739   * it doesn't have the control mask applied.
-07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5740   */
 743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
 743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
 ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
@@ -142,6 +143,9 @@ f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
 caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
 caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
 caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
+
+ret = -ENOMEM;
+
 caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
 76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
 76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
@@ -215,14 +219,8 @@ a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_f
 a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
 a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
 a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5865  
-
-:::::: The code at line 5863 was first introduced by commit
-:::::: a5bca2152036de826595723437c5cbe8f6c13983 cgroup: factor out cgroup_create() out of cgroup_mkdir()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
