@@ -1,196 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85403CA4B6
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 02:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34FC36B05E
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 03:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790650361; cv=none; b=G0u2iz7XaplmBHY94aP3Pxo+7JEb2IvlhhFOSPJPBNIthH1pUvYFUO1wvTz5Z/jf2A/iOTd16nDDhTnnkGhDgAZnp6AgJUAinuS0TZ17q4m1GHfqEKig0js1pquyNGdFxNsleq2E0GFbAX6GlTmfYiWYLX9I8LASwXEbRee/uTE=
+	t=1790652248; cv=none; b=GIqO1ZdkyFvntOriW2QV84BrfdktN9DpMRGciSKMbjcSdvTLqeHr24T/6i0ivsyRnOblJtUQ53wOHQfV87X8T7OCAKWlyOTKrxeYpEgQWAt6HWx9Ic9TsyASetG8HNxpaABcRFsn/+/6jD9b4wHjmZqav22iJM+Xi9mUqr1hh80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790650361; c=relaxed/simple;
-	bh=s4YgYyrFYiEn0ZZe6ZGXZXC9eQZbMbGfNbmL46/w56c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nSalHGgN8A8jzWjXe9Vwequp9qAhGHJZvg+taakh/8wE4z01kYwLHbhgTzXPtCdnENkd5QoV3D802naKkZAvbXjhwHiYuJj5WmHWe6o687hQG3aGUCmGXkwF1YonuDSzi+eiC+S2x+wcoLdG43by2Hb53hTEcmrFPiBw8EkBwZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JW9es/Te; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790652248; c=relaxed/simple;
+	bh=XY47yTaFaHZ3AG1bOac1aOf/BqCRKDwP6Tg1X69Ays0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gvBAEEX7wcIRKy8nn0FumEBMSeVF5HDgoYPo2JqRxQB7bPs9pa3bqzN+/g5cvDlW0ZmRGb6jDigS5RJMl8K3x3ZfwhYVBEiBaRrQEkDk9EllGsYfUNvjYKooYAlAijyHvS/1vcrBOxO7U/iuQibP9vzYWdm8GmTJ9g3YWJZFQGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWSr58Pc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JW9es/Te"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWSr58Pc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790650358; x=1822186358;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s4YgYyrFYiEn0ZZe6ZGXZXC9eQZbMbGfNbmL46/w56c=;
-  b=JW9es/TeEuhUyHaYVLUOm0y23KPpidSUepoLHJXawL+cv+z3D4im2jwl
-   TX0EOiT7EeVPbrEvTUEIcL3ZiUD6VwL1Jh3sbww8sVXQAa3+yasfMrwFw
-   ovkEiuQDED4RTDAHIWjkSxMgxALSIArdL1gzzN2/3FqqL4bLvESCqsjZv
-   QQfgEusrz12ipH9qif87bTO4lXRf3Q7DhO41yJob5rAcVTsSRLmXVPLkh
-   6RcXYfPrQZdzo1Z/48mmJ/GIxYNoU3Go30efLSjunvUwPNJR6jT0i87Pz
-   4w8gk1pHYHGQrSZXy2IKeS9XGexD50mEGhzYcfGLM0SCdgWUcZYmWFVtr
-   g==;
-X-CSE-ConnectionGUID: yENxvSKSQVWZKCYECXfFHA==
-X-CSE-MsgGUID: XUL7cwcpQCeH13cy0l/CKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="91222496"
+  t=1790652245; x=1822188245;
+  h=date:from:to:cc:subject:message-id;
+  bh=XY47yTaFaHZ3AG1bOac1aOf/BqCRKDwP6Tg1X69Ays0=;
+  b=EWSr58PcnQ0+VoJy4r7PpKIyfi9BglQSJpqkMDy8LmRYxo30e6ueW2nf
+   sAJqDLl0lH4lHxtUce2+JC93qONh811Mx6NiaXdmI0EQ+DHG6Xvi2erMt
+   a800nqb4RyYl92E1crzdvIUPjuoMUCZXWNEIlcovl45GyibB0TRRwb0LB
+   D2vuWNdV/30ORC0CL2VkOha3j+FH5B8wtJqTT9wlcy5BQeFxm7upot5/c
+   VJON3JrFUqo6ol5uPY0EXDWiX7d84O55AyJcDHemQ3wBc8oLeyOa6YnlL
+   tTQewFsNtlS37zOSUlIjz7d5KqBzVQavJHbxawtjomOGuILlLsP2YsSpG
+   Q==;
+X-CSE-ConnectionGUID: jy4UH5uWQWKCj7ePWGabjw==
+X-CSE-MsgGUID: uj9eOgT0TH68yjLFcrUe+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90581733"
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="91222496"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 19:52:38 -0700
-X-CSE-ConnectionGUID: qeyEkFI3TmSyzeo4AlRmHw==
-X-CSE-MsgGUID: mPwxsHvQQeO07vsyTL8GjA==
+   d="scan'208";a="90581733"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 20:24:05 -0700
+X-CSE-ConnectionGUID: rFSo+pC+SdG1Tjs6DSBg+A==
+X-CSE-MsgGUID: 5PkZeKQ1ROaMLW6kEsyKag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="273849521"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2026 19:52:37 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Sep 2026 20:24:03 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBNxK-000000001Fz-3fJF;
-	Tue, 29 Sep 2026 02:52:34 +0000
-Date: Tue, 29 Sep 2026 04:52:14 +0200
+	id 1xBORk-000000001HP-3Jrf;
+	Tue, 29 Sep 2026 03:24:00 +0000
+Date: Tue, 29 Sep 2026 05:23:28 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4] ACPI: button: Report wakeup key only for power button
- wakeups
-Message-ID: <202609290454.LJrhMCb3-lkp@intel.com>
+Subject: lib/raid/raid6/arm/recov_neon_inner.c:23:9: sparse: sparse:
+ Trying to use reserved word 'return' as identifier
+Message-ID: <202609290546.XKNiSECn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "low confidence static check warning: lib/raid/raid6/arm/recov_neon_inner.c:23:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260922024232.816-1-baorliu@amd.com>
-References: <20260922024232.816-1-baorliu@amd.com>
-TO: "Baorui.Liu" <baorliu@amd.com>
-TO: rafael@kernel.org
-CC: lenb@kernel.org
-CC: linux-acpi@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: acpica-devel@lists.linuxfoundation.org
-CC: "Baorui.Liu" <baorliu@amd.com>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Baorui.Liu,
+Hi Christoph,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v7.3-rc5 next-20260928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baorui-Liu/ACPI-button-Report-wakeup-key-only-for-power-button-wakeups/20260922-104232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260922024232.816-1-baorliu%40amd.com
-patch subject: [PATCH v4] ACPI: button: Report wakeup key only for power button wakeups
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-2100-20260928 (https://download.01.org/0day-ci/archive/20260929/202609290454.LJrhMCb3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290454.LJrhMCb3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+commit: 3626738bc7147d52cb49f3994a9846aa2d34810a raid6: move to lib/raid/
+date:   4 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-r2305-20260929 (https://download.01.org/0day-ci/archive/20260929/202609290546.XKNiSECn-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7615da10b75c57286a4032eac8bb43c1b8d2ba46)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290546.XKNiSECn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3626738bc714 ("raid6: move to lib/raid/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609290454.LJrhMCb3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609290546.XKNiSECn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/raid/raid6/arm/recov_neon_inner.c: note: in included file:
+   /opt/cross/clang-7615da10b7/lib/clang/24/include/arm_neon.h:30:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid/raid6/arm/recov_neon_inner.c: note: in included file:
+   lib/raid/raid6/arm/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon.h:15:50: sparse: sparse: got *
+   lib/raid/raid6/arm/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon.h:19:50: sparse: sparse: got *
+   lib/raid/raid6/arm/recov_neon_inner.c:16:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:16:19: sparse: sparse: got vqtbl1q_u8
+   lib/raid/raid6/arm/recov_neon_inner.c:20:33: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:20:33: sparse: sparse: got pair
+   lib/raid/raid6/arm/recov_neon_inner.c:21:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:21:9: sparse: sparse: got }
+>> lib/raid/raid6/arm/recov_neon_inner.c:23:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/recov_neon_inner.c:23:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:23:16: sparse: sparse: got vcombine_u8
+   lib/raid/raid6/arm/recov_neon_inner.c:25:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:25:1: sparse: sparse: got }
+   lib/raid/raid6/arm/recov_neon_inner.c:33:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:33:20: sparse: sparse: got pm1
+   lib/raid/raid6/arm/recov_neon_inner.c:34:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:34:20: sparse: sparse: got qm0
+   lib/raid/raid6/arm/recov_neon_inner.c:35:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:35:20: sparse: sparse: got qm1
+   lib/raid/raid6/arm/recov_neon_inner.c:36:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:36:20: sparse: sparse: got x0f
+   lib/raid/raid6/arm/recov_neon_inner.c:50:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+   lib/raid/raid6/arm/recov_neon_inner.c:50:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid/raid6/arm/recov_neon_inner.c:51:28: sparse: sparse: Expected ; at end of statement
+   lib/raid/raid6/arm/recov_neon_inner.c:51:28: sparse: sparse: got vx
+   lib/raid/raid6/arm/recov_neon_inner.c:76:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:76:1: sparse: sparse: got }
+   lib/raid/raid6/arm/recov_neon_inner.c:82:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:82:20: sparse: sparse: got qm1
+   lib/raid/raid6/arm/recov_neon_inner.c:83:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:83:20: sparse: sparse: got x0f
+   lib/raid/raid6/arm/recov_neon_inner.c:92:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+   lib/raid/raid6/arm/recov_neon_inner.c:92:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid/raid6/arm/recov_neon_inner.c:93:28: sparse: sparse: Expected ; at end of statement
+   lib/raid/raid6/arm/recov_neon_inner.c:93:28: sparse: sparse: got vx
+   lib/raid/raid6/arm/recov_neon_inner.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/recov_neon_inner.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/recov_neon_inner.c:53:17: sparse: sparse: undefined identifier 'px'
+   lib/raid/raid6/arm/recov_neon_inner.c:53:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:54:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:54:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:56:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:56:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:57:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:57:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:58:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:58:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:59:17: sparse: sparse: undefined identifier 'qx'
+   lib/raid/raid6/arm/recov_neon_inner.c:59:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:61:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:61:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:62:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:62:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:63:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:63:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:64:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:64:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:65:17: sparse: sparse: undefined identifier 'db'
+   lib/raid/raid6/arm/recov_neon_inner.c:65:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:67:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:68:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:71:17: sparse: sparse: undefined identifier 'p'
+   lib/raid/raid6/arm/recov_neon_inner.c:72:17: sparse: sparse: undefined identifier 'q'
+   lib/raid/raid6/arm/recov_neon_inner.c:73:17: sparse: sparse: undefined identifier 'dp'
+   lib/raid/raid6/arm/recov_neon_inner.c:74:17: sparse: sparse: undefined identifier 'dq'
+   lib/raid/raid6/arm/recov_neon_inner.c:95:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:95:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:97:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:97:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:98:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:98:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:99:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:99:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:100:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid/raid6/arm/recov_neon_inner.c:100:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:101:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid/raid6/arm/recov_neon_inner.c:101:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:103:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:104:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid/raid6/arm/recov_neon_inner.c:107:17: sparse: sparse: undefined identifier 'p'
+   lib/raid/raid6/arm/recov_neon_inner.c:108:17: sparse: sparse: undefined identifier 'q'
+   lib/raid/raid6/arm/recov_neon_inner.c:109:17: sparse: sparse: undefined identifier 'dq'
 
-   ld: vmlinux.o: in function `acpi_suspend_enter':
->> drivers/acpi/sleep.c:643:(.text+0x147f324): undefined reference to `acpi_button_power_wakeup_pending'
+vim +/return +23 lib/raid/raid6/arm/recov_neon_inner.c
 
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13   9  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  10  #ifdef CONFIG_ARM
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  11  /*
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  12   * AArch32 does not provide this intrinsic natively because it does not
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  13   * implement the underlying instruction. AArch32 only provides a 64-bit
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  14   * wide vtbl.8 instruction, so use that instead.
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  15   */
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  16  static uint8x16_t vqtbl1q_u8(uint8x16_t a, uint8x16_t b)
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  17  {
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  18  	union {
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  19  		uint8x16_t	val;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  20  		uint8x8x2_t	pair;
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  21  	} __a = { a };
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  22  
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13 @23  	return vcombine_u8(vtbl2_u8(__a.pair, vget_low_u8(b)),
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  24  			   vtbl2_u8(__a.pair, vget_high_u8(b)));
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  25  }
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  26  #endif
+6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel 2017-07-13  27  
 
-vim +643 drivers/acpi/sleep.c
+:::::: The code at line 23 was first introduced by commit
+:::::: 6ec4e2514decd6fb4782a9364fa71d6244d05af4 md/raid6: implement recovery using ARM NEON intrinsics
 
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  589  
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  590  /**
-2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  591   *	acpi_suspend_enter - Actually enter a sleep state.
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  592   *	@pm_state: ignored
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  593   *
-50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  594   *	Flush caches and go to sleep. For STR we have to call arch-specific
-50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  595   *	assembly, which in turn call acpi_enter_sleep_state().
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  596   *	It's unfortunate, but it works. Please fix if you're feeling frisky.
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  597   */
-2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  598  static int acpi_suspend_enter(suspend_state_t pm_state)
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  599  {
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  600  	acpi_status status = AE_OK;
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  601  	u32 acpi_state = acpi_target_sleep_state;
-979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  602  	int error;
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  603  
-bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  604  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, true);
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  605  	switch (acpi_state) {
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  606  	case ACPI_STATE_S1:
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  607  		barrier();
-3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  608  		status = acpi_enter_sleep_state(acpi_state);
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  609  		break;
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  610  
-e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  611  	case ACPI_STATE_S3:
-d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14  612  		if (!acpi_suspend_lowlevel)
-d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14  613  			return -ENOSYS;
-f1a2003e22f6b5 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  614  		error = acpi_suspend_lowlevel();
-979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  615  		if (error)
-979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  616  			return error;
-f5ee87df7a4dab drivers/acpi/sleep.c      Hanjun Guo            2021-06-02  617  		pr_info("Low-level resume complete\n");
-ef25ba04760159 drivers/acpi/sleep.c      Rafael J. Wysocki     2015-10-07  618  		pm_set_resume_via_firmware();
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  619  		break;
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  620  	}
-bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  621  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, false);
-872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  622  
-b6dacf63e9fb2e drivers/acpi/sleep.c      Matthew Garrett       2010-05-11  623  	/* This violates the spec but is required for bug compatibility. */
-50ffba1bd3120b drivers/acpi/sleep.c      Bob Moore             2009-02-23  624  	acpi_write_bit_register(ACPI_BITREG_SCI_ENABLE, 1);
-65df78473ffbf3 drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-11-26  625  
-3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  626  	/* Reprogram control registers */
-3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  627  	acpi_leave_sleep_state_prep(acpi_state);
-c95d47a868f35c drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-01-08  628  
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  629  	/*
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  630  	 * ACPI 3.0 (P62): OSPM should clear the fixed power-button status bit
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  631  	 * so the event does not reach userspace as KEY_POWER. Remember that a
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  632  	 * power-button wake occurred so button resume can report KEY_WAKEUP
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22  633  	 * and acpi_pm_finish() can emit a PM wakeup event.
-872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  634  	 */
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  635  	if (ACPI_SUCCESS(status) && (acpi_state == ACPI_STATE_S3)) {
-51468a9d3a8024 drivers/acpi/sleep.c      Al Stone              2013-11-20  636  		acpi_event_status pwr_btn_status = ACPI_EVENT_FLAG_DISABLED;
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  637  
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  638  		acpi_get_event_status(ACPI_EVENT_POWER_BUTTON, &pwr_btn_status);
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  639  
-18864cc4892d20 drivers/acpi/sleep.c      Lv Zheng              2016-08-04  640  		if (pwr_btn_status & ACPI_EVENT_FLAG_STATUS_SET) {
-872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  641  			acpi_clear_event(ACPI_EVENT_POWER_BUTTON);
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  642  			pwr_btn_event_pending = true;
-81320b20cf47de drivers/acpi/sleep.c      Baorui.Liu            2026-09-22 @643  			acpi_button_power_wakeup_pending();
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  644  		}
-c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  645  	}
-872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  646  
-a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  647  	/*
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  648  	 * Disable all GPE and clear their status bits before interrupts are
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  649  	 * enabled. Some GPEs (like wakeup GPEs) have no handlers and this can
-a508939e15356d drivers/acpi/sleep.c      Chu Guangqing         2025-11-25  650  	 * prevent them from producing spurious interrupts.
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  651  	 *
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  652  	 * acpi_leave_sleep_state() will reenable specific GPEs later.
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  653  	 *
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  654  	 * Because this code runs on one CPU with disabled interrupts (all of
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  655  	 * the other CPUs are offline at this time), it need not acquire any
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  656  	 * sleeping locks which may trigger an implicit preemption point even
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  657  	 * if there is no contention, so avoid doing that by using a low-level
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  658  	 * library routine here.
-a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  659  	 */
-22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  660  	acpi_hw_disable_all_gpes();
-d5a64513c6a171 drivers/acpi/sleep.c      Rafael J. Wysocki     2010-04-09  661  	/* Allow EC transactions to happen. */
-c2b46d679b30c5 drivers/acpi/sleep.c      Lv Zheng              2016-08-03  662  	acpi_ec_unblock_transactions();
-a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  663  
-2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  664  	suspend_nvs_restore();
-2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  665  
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  666  	return ACPI_SUCCESS(status) ? 0 : -EFAULT;
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  667  }
-^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  668  
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 --
 0-DAY CI Kernel Test Service
