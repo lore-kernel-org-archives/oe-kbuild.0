@@ -1,72 +1,134 @@
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E669569F1D;
-	Tue, 29 Sep 2026 19:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B273603EE
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 22:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790711315; cv=none; b=NBu1EjV7gTD861B1HAlfbgfdOW1D5m4Ww86FNWp4yW2AY9TKLtBVX8q7O2eIc5y7eqq3GKes1Gv8qkgk+E5kLkASzHQUqau5vE2kkBWIOWBc3h2hCZShdlIkNbB9oHgh/MVHWyCftni7RBGbGKLDzOpA5IKIiqAZ/CVHOPj+vQc=
+	t=1790722598; cv=none; b=OsRseYKh25R7UjlePfyVtK78eRxHrqiaF5uuA65jQbW+EF0M74LQIBFBhGfz2FPVC0C+1agKX7ummEdttnZ7GF7kVbIazIFZxUYhO5JhNUkLNJGtF0ST53V9Xw4MtJ67YyvEisBQ9v0lSQdlmrFrg1N6oMUmX2oSzJPeeys71+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790711315; c=relaxed/simple;
-	bh=x2HBXj7BphhLV/5zf9OMiBld4v5xmycaFT6YzFzXDOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRLfDYA8ogRdZbCf8xDem830UJTqbxewmPQt15AagCXYxf5FBjqC5H+SuBH/BOfletzb5n+LGIWKaWnpq3JFjfb6hMOToNHQWz30TQUVGaNkArXKWpC4xx6/Lpa5NoQ3u68j8w2Oa4gP9IQBwPr2P4rH1wo5/0ONQSomzs7bZYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=nMcl27hm; arc=none smtp.client-ip=212.27.42.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	s=arc-20240116; t=1790722598; c=relaxed/simple;
+	bh=pfbGVhfZxEDO/bSVIJThHc85CJLibeiFP1EgufFn4Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WE4yi6ypruwfM2GBOQaT5OjXvjKWLhnlsPIAaIsZSStypFCM5xn5sGE9VEuw6lKO2/NQHmRbaODk4GkZKkIeKADXXDenRgaxvSyUUUPiwm0X/XEYJhCPelaTYWUBBN8Ecnykh5aBhdRP5xUxbe20yRRpohRHgU7E9bth07LCMas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2DCVwpG; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="nMcl27hm"
-Received: from L30177.local (unknown [IPv6:2a01:e0a:ac2:22b0:fd38:7b91:be5e:6aee])
-	(Authenticated sender: vjardin@free.fr)
-	by smtp5-g21.free.fr (Postfix) with ESMTPSA id 800125FFB1;
-	Tue, 29 Sep 2026 21:48:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1790711303;
-	bh=x2HBXj7BphhLV/5zf9OMiBld4v5xmycaFT6YzFzXDOw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nMcl27hma7267u99G1Xm803mZveu0PybXpBS8ey/9gh6wValqug61FOMWGalr5wSx
-	 L2enfpZwvY7WQ3vPjyXHO1wo56MPFtU2LQcW+cTizbhfZtqLa0oL+UUPL59IZD3/1k
-	 E6r1fkQuC5e+SwCdU0D+8Ovxi4L2QZ8RUGKQnr/ewJDmgvIgJHbJyIZpUaNllThOe1
-	 CDkJ/BYyaG1m0gxaW0VHtLRnzm0BXcENk7bf5gUyvw16wSAYDdaRjCnpWv/f2IEaUi
-	 Q11e/sBTsKEinpRdYUArHUyPaEIaEG96SroLxWPqHNFRwR674B4rvz5MIKn63/Djh+
-	 6Qjl/ucclF32A==
-Date: Tue, 29 Sep 2026 21:48:18 +0200
-From: Vincent Jardin <vjardin@free.fr>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev
-Subject: Re: [frank-li:imx/dt64 65/103]
- arch/arm64/boot/dts/freescale/fsl-lx2160a-nbxv3.dtb: gpio@2310000
- (fsl,ls2080a-gpio): 'pltrst-hog' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <arwWAqkwvlf79z45@L30177.local>
-References: <202609291726.iogWKGg7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2DCVwpG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790722595; x=1822258595;
+  h=date:from:to:cc:subject:message-id;
+  bh=pfbGVhfZxEDO/bSVIJThHc85CJLibeiFP1EgufFn4Ec=;
+  b=l2DCVwpGTNlF8A9YLsYEBZ9UifXWGazO+0EU2ITszhXVSNUw4OFxdrYy
+   mex6SNBjdX2ymqE9RjxHxtSdGNJeOb9mhkF/scaYqBQt17Xm54w3eDLMB
+   1SA+kot74UxCq5dx1idRFm4VDa9MQDp29CrfO9pLtPvUXALnUKsCwPC3g
+   PDw9gGKXjiqAPvsTxStv2y6iJzdwS7me2KJDhSiSc3kH9TYI/KNnMQqe7
+   supNbd1fV0ic40Y3bD/QV6Mb78oBTfOzTvzNa9c+/tYSiLwhMoAKfb9g6
+   V+B7ZEHz4H+Y6SlzvptQxoUNHfe5T6G6Cc6ktJd0QZGBRFvYzZDm+cDl4
+   Q==;
+X-CSE-ConnectionGUID: 3BWa4HUQQ+iZHiou6PRnQg==
+X-CSE-MsgGUID: PbPteQ8sTGKqnTgTibTqvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90671666"
+X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
+   d="scan'208";a="90671666"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 15:56:34 -0700
+X-CSE-ConnectionGUID: /SmaqMUqRHqvHA9WWmANAg==
+X-CSE-MsgGUID: kkqBgPGdTZq4f9crzFWmlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
+   d="scan'208";a="279315509"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 29 Sep 2026 15:56:33 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xBgkQ-000000001b9-0goV;
+	Tue, 29 Sep 2026 22:56:30 +0000
+Date: Wed, 30 Sep 2026 00:56:05 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/clocksource/timer-fsl-ftm.c:258 __ftm_clk_init()
+ warn: 'clk' from clk_prepare_enable() not released on lines: 251.
+Message-ID: <202609300032.prOzrvtY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609291726.iogWKGg7-lkp@intel.com>
 
-On Tue, Sep 29, 2026 at 05:36:04PM +0200, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
-> head:   8c40f32361d566c0882e9d92abab36256b268291
-> commit: 565b6713a460126874d15654fe24d995a57c822b [65/103] arm64: dts: freescale: add Nodebox v3 CPU Module
-[...]
-> >> arch/arm64/boot/dts/freescale/fsl-lx2160a-nbxv3.dtb: gpio@2310000 (fsl,ls2080a-gpio): 'pltrst-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
->        from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
-It is the dependency mentioned in the cover letter: the gpio-hog child
-nodes are allowed by
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Ralf Lici <ralf@mandelbit.com>
+CC: Antonio Quartulli <antonio@openvpn.net>
 
-  78c0baf85cd0 ("dt-bindings: gpio: fsl,qoriq-gpio: allow gpio-hog child nodes")
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a243ede718463c7b481878656f1ff32a0ce0fd54
+commit: 006208026819d5e9e5ec07b3e73d95960a059327 selftests: ovpn: validate peer VPN addresses
+date:   9 days ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 days ago
+config: arm-randconfig-r2202-20260929 (https://download.01.org/0day-ci/archive/20260930/202609300032.prOzrvtY-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch: v0.5.0-9187-g5189e3fb
 
-which Bartosz applied to gpio/for-next, not to imx/dt64. The warning goes
-away once both trees are merged for v7.4-rc1, so nothing is needed on the
-imx side.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 006208026819 ("selftests: ovpn: validate peer VPN addresses")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609300032.prOzrvtY-lkp@intel.com/
 
-Best regards,
-  Vincent
+smatch warnings:
+drivers/clocksource/timer-fsl-ftm.c:258 __ftm_clk_init() warn: 'clk' from clk_prepare_enable() not released on lines: 251.
+
+vim +/clk +258 drivers/clocksource/timer-fsl-ftm.c
+
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  229  
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  230  static int __init __ftm_clk_init(struct device_node *np, char *cnt_name,
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  231  				 char *ftm_name)
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  232  {
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  233  	struct clk *clk;
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  234  	int err;
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  235  
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  236  	clk = of_clk_get_by_name(np, cnt_name);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  237  	if (IS_ERR(clk)) {
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  238  		pr_err("ftm: Cannot get \"%s\": %ld\n", cnt_name, PTR_ERR(clk));
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  239  		return PTR_ERR(clk);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  240  	}
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  241  	err = clk_prepare_enable(clk);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  242  	if (err) {
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  243  		pr_err("ftm: clock failed to prepare+enable \"%s\": %d\n",
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  244  			cnt_name, err);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  245  		return err;
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  246  	}
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  247  
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  248  	clk = of_clk_get_by_name(np, ftm_name);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  249  	if (IS_ERR(clk)) {
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  250  		pr_err("ftm: Cannot get \"%s\": %ld\n", ftm_name, PTR_ERR(clk));
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  251  		return PTR_ERR(clk);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  252  	}
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  253  	err = clk_prepare_enable(clk);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  254  	if (err)
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  255  		pr_err("ftm: clock failed to prepare+enable \"%s\": %d\n",
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  256  			ftm_name, err);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  257  
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23 @258  	return clk_get_rate(clk);
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  259  }
+2529c3a3307970 drivers/clocksource/fsl_ftm_timer.c Xiubo Li 2014-05-23  260  
+
+:::::: The code at line 258 was first introduced by commit
+:::::: 2529c3a330797000d699d70c9a65b8525c6652de clocksource: Add Freescale FlexTimer Module (FTM) timer support
+
+:::::: TO: Xiubo Li <Li.Xiubo@freescale.com>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
