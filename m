@@ -1,190 +1,182 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010062.outbound.protection.outlook.com [52.101.193.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921684BFE83;
-	Mon, 28 Sep 2026 19:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790625026; cv=fail; b=CGrHpQQRucgGspxq2bG8aa2nS8PnIx/ZVrSfP6cWjwZle+AE8kDpT9bIC5Jpsk7NGpyUwceT+slz+zhQ0/trF7tvYkXfp6RZIl08i6FoyMOrt9j63oGdGwChzjj08wleFX4HWN8d85liwICA3pMn+xyns6K/WZ6L1nMQN4Z4oOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790625026; c=relaxed/simple;
-	bh=DnehGOHkN06AAVRazQdxA3sTe6UXWg5ZQUE5Qh8miN4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CcvemQUJOuSIKtxgcbKVjKMfSzWJXazk48/Y9DrN85wNThVuVBM9UqmbCcWU/fP+7CMJbQkiPphO3WtXEvo4dIHYJjVMEPL1IhE+/ACPuiDQpE6wEJVXrzv7XRTKQp9pYwOj/TbPt2f76/RDepxM4ZrIMQtElwnCaN8Wf1HeeW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t54IhABi; arc=fail smtp.client-ip=52.101.193.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA2A23AE87
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 00:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790640726; cv=none; b=CLdswPxoEkCvkwSOAW2S/bc+cxrRKAhugvESlCuCRB3Xrc55v8fhry4CH/ce41nRaghurr1uTZkZRZNDUgFL/trzGwHBQw6UGXAGxAoePKeIKHtqtYI3sRahcnUQsMc7K8E41fUVfkav9kBA+sR3vWSufqdgl5yqC0pv042Wgkg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790640726; c=relaxed/simple;
+	bh=rvRpB855sDnO/jshFxhrTpvzQMDeKWS3bXdcryVZx5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hmHFNuSSpvkhDpnq1GtgmNcKy5gSnb2hsLcTXeFb9cZYdsabQIVjb7FKZMIyJZqe1S5hep6brHuNu+i2cXimqv5remzXJCq3d3LpsfCHlU22kntNeJ/VhvfWqVpCkWFUx/XY7bD2YWNxhOGWqb1hrz9/27pDCsPg4IW+M0GNNwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lk/MbLWF; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t54IhABi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UC2FpFbTYj7qrODaMngNwpVie2twYsnspnxq1zadTuJCiDKno7yxh97SsyXxcwPMof16KR1UBvNRPQSV59ClHODK8iL2wcupA6Dl2A5vkQ+cJcmTXLV0Df54YB6Uq0W/rDHpP/a9o66092tcusRLaLrw1vN3U0sPGGR4LFky5ZnUzuAEgPysr4C83CS8n4kGvyIt3Z7E7CMXdiD61tYRcZ/cjtxBoyIE8l7etGgEI4J0QMYNhbPLRZ0gJZk6d2GKIA9xj1C/E4jbQak1PVxamDJ78FMsW7eRYaJgaGBiOaZ233DjRFWdqZ8U4bHIWLAWonii68iqdH0J+1xIj7/z0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=40phGd4tLLR7M10vBR6Zljm4/XOWVMwh8Y/DwD9VcOw=;
- b=UtdCkLNEy6jSHyUSLpAQSIQwRFzMd/bwi+EtoMwnvDEWyzKwPj4LON7D44H3djJxxZdrmWToajsbs+ojMLr1YNcgRITHsSmXJzWeSoXCsTsQYbpDWSX+x5KMnW+fzWEYiLx+o6iaOR1lW9m+hUJRn7MHr/x9GDEjWqwRwNrHTB7BxwfQkirGtkxUm+UiYGs4wPrmOegSJSWh6QVMlGccJ6kohhNWtIX1OmcTZ/KJmxoVDwztymOjdk1ffZGS8XafztHL54iYRffXsF9nRchLTN0ZZXzc7oNLOJAdaNgpanRsfhIjEFQBSJnD6HBUQihlxhM1m+N0eHa4hdLQVJIJSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=40phGd4tLLR7M10vBR6Zljm4/XOWVMwh8Y/DwD9VcOw=;
- b=t54IhABi3rAh6X/eDvB4pufKlS9jNPg53QuwQ1S/vnPTaNmylBYHEy/4+Qf32M9M8lKl8xrD4VGxqm98w3lE/H5fE013E079LnXaEztyvTjbsv+XmZzK+joMa37G2FNQNsz6lL018/t2FdzSckMdcXDTYZokfrqKLggBrBQvpMc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- SJ2PR12MB8111.namprd12.prod.outlook.com (2603:10b6:a03:4fe::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
- 2026 19:50:19 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 19:50:18 +0000
-Message-ID: <590e390d-3c39-41de-9531-492ec4559220@amd.com>
-Date: Tue, 29 Sep 2026 01:19:00 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 6294/10910] sound/soc/sof/amd/acp.c:1469
- handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow
- 'adata->sdw->pdev' 2 <= 3
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>,
- Mario Limonciello <Mario.Limonciello@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- "Prasad, Prasad" <venkataprasad.potturu@amd.com>,
- Syed Saba Kareem <syed.sabakareem@amd.com>
-References: <202609271355.u0pymQoF-lkp@intel.com>
- <eebb7c55-e999-4aa8-a1ab-5a56f39b2382@amd.com>
- <aroOvlIaaXjiT_Ti@stanley.mountain>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <aroOvlIaaXjiT_Ti@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0169.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::13) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lk/MbLWF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790640725; x=1822176725;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rvRpB855sDnO/jshFxhrTpvzQMDeKWS3bXdcryVZx5Q=;
+  b=lk/MbLWFk3r/bcepchaf6cw2s2OXghdw5P7MJoJa5uWdqsWQGQtD34J/
+   icI/Bd9mpBn8nceVk1h3fXHcL9EJc5rKI3nIrtvh5e2nUuil4fbOcKCPc
+   ozyar2BS1ar4qDfdnTqBNv3PS6P2USc1IWUdG8CL/6eoTNw4RThJEheSD
+   xjNlNX3U8oWw0MF2xdhjVdJFH/8FlTsOXPDLLNoYFbBvaHqN4aUtbHMth
+   y3lxkIMRLts2nkLduZbk3RPKrYGLhG6zkzQDI4AkNfa3yLBuAjRhYvZyU
+   9eeOIK51g1kJbovdw62xF4s3FK3oO2bQjIIy2LVSQBO1nEZmLBV/wO3UZ
+   w==;
+X-CSE-ConnectionGUID: NKuZxJy0Qrm/Q1nbsHJG+Q==
+X-CSE-MsgGUID: /u6DxrNWQw2t0ABSEfeG6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="101516895"
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="101516895"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 17:12:05 -0700
+X-CSE-ConnectionGUID: /H49v+OOSYqQFYhtVWm1XQ==
+X-CSE-MsgGUID: Urk4tgueSAWFHLIgNb3mAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="283279620"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2026 17:12:03 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xBLRx-00000000OhM-098A;
+	Tue, 29 Sep 2026 00:12:01 +0000
+Date: Tue, 29 Sep 2026 08:11:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: net: ethtool: add BaseC2C medium & AUI C2C link modes
+Message-ID: <202609290735.6l9LLSfn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|SJ2PR12MB8111:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78d5c128-a01e-4f1e-f059-08df1d99b93a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|13003099007|10067099003|56012099006|4143699003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	H1fNazODOz8zdb9xoJVDCo7jBBTf6+rIySeEj1JWIh6A1ngpyhI3IY0m1upCkB10NSS/eaHcXDLgOncKpdQLb6KkY8L89eiYmWr0GbMpY56q61vv6ZqFQwnrz/4Kxa5CgxGCHHCahcO76+y3R0hU6ueRh4GecQT9FVMI5SyxQSs3frSD6m9mbjNzKdM82z9bRHzGjuNYSR3YQ/KGot9wrB6DUvADfEkIDUINfxWvM21G7RPzP/qNBoXbhYwjdyTn5uWeIXnhdmTnCLfz+l2r4/Ejva+q03X8ZDnFIM0A50dorpQFOt6Wz3UfZbQHg8i0tivs9KjKHN8HdT/lfJct/wW5lECUFz3qX8hvWXWKrQww8ONhb/ZP59+tCDlmwRUBqy0+nxEX21jp6J2/G45dVjNp7YNOsRmg8eByfENmWTQOJdZL/6AL0oxhoCy1fYRmvKlMvm/izrWl81YrZBoqWvqtCD0a+uC/nSbP3EiDT4OrG1wXmMVefzekV7pduozBRA3dE3zZMDgWQM9POtEVTfLjGXVCDTluila54Hx+wZXGCYdUkgyg3TZt0t46e6fJvkVcMHp1K7NTyB5kqdC/FglK3X36hve29Wr23pZUcN8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(13003099007)(10067099003)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Qi9YS2hCRjJDQytVODhQcGZvUHJLajZ6RXlyZXovUnhRNTNYS1IwTWg1b2pI?=
- =?utf-8?B?c2IwMklLdVlIbTY0ditJaHhORGJlelV6UjA3c293S2NjeE1tNnJPQ3lBTDZk?=
- =?utf-8?B?WDdVaFE4Rm9hSmlwR0M0dVp2SDRTcENjR2F6cCsreXFBT3NFTmhFOS95ZjRR?=
- =?utf-8?B?VGNHVmhNTElxSHJHMkZOaUplcWY2ejdMcVc0RDRXV3licUU0YzlmN2xmeTB3?=
- =?utf-8?B?bGt5b1RqZ2lqT0VMZGdTL2plL1RZWC9lRTBXWDlFZVVzaTNNVHdxRHNlWmVZ?=
- =?utf-8?B?MGhKMWZqaXJ5eVNKT2pEMUdhaE1hQVdtUVhrWFA5RUhKY3M2T3FBN0JlcHI3?=
- =?utf-8?B?cDZDd1ZUQXNDdE1tNEpwY1FRS2c2c2dGSDZsU3lROHJGdVNQU0o5VmJWMW95?=
- =?utf-8?B?WDlrZzR3aE5FWndVTFEzWFljOS9STTFjRWZJRjVtVWtXOTlQU2E4VnRxYUcr?=
- =?utf-8?B?bnFSMFI4cVp6SmNGSnVjaGRhSTVIQ0tGNnA0YjlqUjdyMWMyNno3RmNDTGln?=
- =?utf-8?B?dXd5UlRUenBrdHdYNkZCMlVZUHF0OWhqa1dJRmszMEdFajArbTdHNmZDWlpx?=
- =?utf-8?B?b1B4NmRyYWpQNkZNWnNGU2ZIUmhzNFBOSkpTQzR0Vm4yQmJVdmhPclp4ejFO?=
- =?utf-8?B?Qm84MzBIMjB5MXJPb2lWb3hKQ2UwSUd5UHB1eXVkdUNKdWxwTXB6U1FsZnN6?=
- =?utf-8?B?SnNtZmFOakJhdnNNeDZXWFh5RTBCVldtc3g1NU51eitJVmZqeFRRRmpHTTZz?=
- =?utf-8?B?enNoTUJzVE5ScmtFWm5MVXNxRG1pbEJ1WnlvR0ZDazhFclFjSHQ5OXpFK3FW?=
- =?utf-8?B?dzJHUFpoZEczZ1p4Q2JkRFNBUjdLaGdLcjhDUHNaRlM0QitqT3dzcCtqUzQ2?=
- =?utf-8?B?VHY3U2IvSE5nQkdRa1lTQk1ONGFGRDRtNVF6U2hyUnhXVTVwcVBJQ0p1RTJk?=
- =?utf-8?B?Vkk4UTZFM0dCN00wTERWdzdVWUFhTTBhdngvVkJXalZ5T0JoNlF3SUVOVTlR?=
- =?utf-8?B?MTR1b2tFZnFDR1hLdWNoa3ArQy9mSUhLQVZqSFNwU2Y4QTMrL1FzbGp1MVhr?=
- =?utf-8?B?TFlrK0JqYmFCQlMzb2ZET1ZqaC85OUpBYmQ4NzJpOUFLdElOUWZKdXBVY05l?=
- =?utf-8?B?V2IwbVhENlo4b2ZKQjEwUkh1eE43RTZ3eHpkNXlHZHlYVkZqOVdvUXVVT0NV?=
- =?utf-8?B?a21rZktiNGtnTkU0L3N4U2E5cVBkZ0poQnpVcTM0dzF3VjZxN3NheHRscjI4?=
- =?utf-8?B?SHJ5NGNPZmVEOEhKc0dHak5Cc3FSMC9mNUhBWENYMFB0U0ZNTTZIcTVpSjBK?=
- =?utf-8?B?YVJUcCtaRXMyUm1TbTRUV0VWOGUzazkzMkdQYmw4V3FrSjNMenhwcjBzZzA3?=
- =?utf-8?B?QnhSaWpNb1Q5RHlHRVZURlBvUXF3ME1QOVRQTkxaTjQxR2g2bFVVRy9GbCt4?=
- =?utf-8?B?VExyWmZ1ZmZuKzRBMmNWVHV5emh0cTNpZDFpVjduNDVCRzkzcnUvRWxOVkRU?=
- =?utf-8?B?bHhock5jaHV2di9WeU83VXdkc1JkTVFMcmxXRlhENHdTRUMvTHR3dzFVazRP?=
- =?utf-8?B?clNqa0h3VlpwODNlVUw1T3ZoZUpocS82ZjR6a3p4czFrRlFqeDlHUlR5ZFpz?=
- =?utf-8?B?aC9JcWV6UG1ZUFIrQkJ5eWtvWXVkdXZVVldaam9SL0xOZVIveFhsM2NXMlJh?=
- =?utf-8?B?dFY0cHllQzhOL2JoN0JBNVVHREFLWmFnT1M3aFg3cHFuVmJUWjZkQlovR05a?=
- =?utf-8?B?bnZEY0dpWFZnT0NwR0JmWHRtN1ZGWVRtNlhLNnYwdUlYUHN5aVhWUzlDVzNi?=
- =?utf-8?B?cVQxMWZoRkZhTDNDN1pBOExTMkdjRTc3UnBEcDF6Y1MyRGRJeVlkY0h5dzRE?=
- =?utf-8?B?c3dHMFR4WWVYMjRiRXkvUDVDUlluZXZ1a25WeU1BTHl1dHZuSHNsdVBsT3BY?=
- =?utf-8?B?NDFmWmhpWXRjc0VlNk5oNWN6TkFEYStpNys2K01BZ25lbnZ0RkUyRDFSeXlK?=
- =?utf-8?B?ODFnQXVsYlptOGxoSGVZdlpURmtFcE14UEg4WVROc29TN1c3SHJyTDJLa1Vw?=
- =?utf-8?B?TVZTYk5QdzlIUndMc2FELzgxaWtuN3NQaER2MDlZK3M0Sm1OcWlsbFRRUzVW?=
- =?utf-8?B?VkxuRldlb3diUHBwTldPam9OVDhmZDl2dVhVSmh4YUkvTVJTcXllMVJYajlQ?=
- =?utf-8?B?d25HQXh5bG1lWFYwM2hrMTNzUWNxRXFjYkUvNjA1UzU2WkhoZTBuSStKZnJK?=
- =?utf-8?B?WlJBRUhhQS9WY1NlWWh6OTlFV3JtVGEvVE1uYWlFL0FBUEJ0UEZvRFlubjNN?=
- =?utf-8?B?eHhRSTB0UFpYRGNHek1rK0xpVVFvbmVYb3FMVmk4aDhMNDRVdXdudz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78d5c128-a01e-4f1e-f059-08df1d99b93a
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2026 19:50:18.8145
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dzNDcvcgGtOuX3ETl00co+GF31KoVKK8amIPW+cH9q+Lnt1wmQL/FChownHCBWY3bPBJAz9++iLZ4GLMdevv3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <202609290735.6l9LLSfn-lkp@intel.com>
+References: <202609290735.6l9LLSfn-lkp@intel.com>
+
+Hi Siddaraju,
+
+kernel test robot noticed the following build errors:
 
 
 
-On 9/28/26 12:22, Dan Carpenter wrote:
-> [You don't often get email from error27@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> On Sun, Sep 27, 2026 at 09:29:09PM +0530, Mukunda,Vijendar wrote:
->>
->> On 9/27/26 20:52, Dan Carpenter wrote:
->>> [You don't often get email from error27@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->>>
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>> head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
->>> commit: be2823854e00558f46f5bbb124bb3f3a3bb9a94a [6294/10910] ASoC: SOF: amd: add SoundWire PM ops for ACP7.B/7.F
->>> config: i386-randconfig-2200-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271355.u0pymQoF-lkp@intel.com/config)
->>> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
->>> smatch: v0.5.0-9187-g5189e3fb
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Reported-by: Dan Carpenter <error27@gmail.com>
->>> | Closes: https://lore.kernel.org/r/202609271355.u0pymQoF-lkp@intel.com/
->>>
->>> New smatch warnings:
->>> sound/soc/sof/amd/acp.c:1469 handle_amd_sof_acp7x_sdw_pme_event() error: buffer overflow 'adata->sdw->pdev' 2 <= 3
->> ++
->>
->> Thank you for the report. This smatch warning is reported because the
->> ACP7.B/7.F SoundWire specific patches have not yet landed. Those patches add
->> support for 4 SoundWire manager instances and allocate the platform device
->> array based on the maximum instance count, which resolves the buffer
->> overflow concern flagged here. We are currently waiting for the dependent
->> patch series to complete upstream review:
->> https://lkml.org/lkml/2026/9/17/1422 https://lkml.org/lkml/2026/9/17/2552 If
->> the review of the above series takes longer, we will post the ACP7.B/7.F
->> SoundWire patches for upstream review independently and include a note in
->> the cover letter documenting the patch series dependency.
-> Just to be clear, it looks like the bug is there in linux-next already.
->
-> Btw, it's better to link to lore.kernel.org instead of lkml.org because
-> everyone uses b4 these days and we need the email's msg-id and lkml.org
-> doesn't give you that.
->
-> regards,
-> dan carpenter
-Below is the dependent patch series.
-https://lore.kernel.org/alsa-devel/20260917090407.3828816-1-Vijendar.Mukunda@amd.com/T/#t
-https://lore.kernel.org/alsa-devel/305d8770-50f5-4489-a901-f73069a1b964@amd.com/T/#t
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddaraju-DH/net-ethtool-add-BaseC2C-medium-AUI-C2C-link-modes/20260928-040656
+base:   
+patch link:    https://lore.kernel.org/r/202609290735.6l9LLSfn-lkp%40intel.com
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260929/202609290735.6l9LLSfn-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290735.6l9LLSfn-lkp@intel.com/reproduce)
 
-Will share the link once the ACP7.B/7.F SoundWire patches are posted for 
-upstream
-on top of the dependent series.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202609290735.6l9LLSfn-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> drivers/net/phy/phy-core.c:21:2: error: call to '__compiletime_assert_605' declared with 'error' attribute: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
+--
+   21 |         BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
+   |         ^
+   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+   |                                     ^
+   include/linux/compiler_types.h:702:2: note: expanded from macro 'compiletime_assert'
+   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   |         ^
+   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
+   690 |         __compiletime_assert(condition, msg, prefix, suffix)
+   |         ^
+   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
+   683 |                         prefix ## suffix();                             \
+   |                         ^
+   <scratch space>:141:1: note: expanded from here
+   141 | __compiletime_assert_605
+   | ^
+>> drivers/net/phy/phy-core.c:21:2: error: call to '__compiletime_assert_605' declared with 'error' attribute: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
+
+
+vim +21 drivers/net/phy/phy-core.c
+
+a3e51d4711793b Heiner Kallweit 2025-02-22  13  
+4069a572d423b7 Andrew Lunn     2020-09-23  14  /**
+4069a572d423b7 Andrew Lunn     2020-09-23  15   * phy_speed_to_str - Return a string representing the PHY link speed
+4069a572d423b7 Andrew Lunn     2020-09-23  16   *
+4069a572d423b7 Andrew Lunn     2020-09-23  17   * @speed: Speed of the link
+4069a572d423b7 Andrew Lunn     2020-09-23  18   */
+da4625ac2637e4 Russell King    2017-07-25  19  const char *phy_speed_to_str(int speed)
+da4625ac2637e4 Russell King    2017-07-25  20  {
+491c5dc98b848c Yael Chemla     2025-11-19 @21  	BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
+c6576bfe2f4baa Heiner Kallweit 2019-04-13  22  		"Enum ethtool_link_mode_bit_indices and phylib are out of sync. "
+c6576bfe2f4baa Heiner Kallweit 2019-04-13  23  		"If a speed or mode has been added please update phy_speed_to_str "
+c6576bfe2f4baa Heiner Kallweit 2019-04-13  24  		"and the PHY settings array.\n");
+c6576bfe2f4baa Heiner Kallweit 2019-04-13  25  
+da4625ac2637e4 Russell King    2017-07-25  26  	switch (speed) {
+da4625ac2637e4 Russell King    2017-07-25  27  	case SPEED_10:
+da4625ac2637e4 Russell King    2017-07-25  28  		return "10Mbps";
+da4625ac2637e4 Russell King    2017-07-25  29  	case SPEED_100:
+da4625ac2637e4 Russell King    2017-07-25  30  		return "100Mbps";
+da4625ac2637e4 Russell King    2017-07-25  31  	case SPEED_1000:
+da4625ac2637e4 Russell King    2017-07-25  32  		return "1Gbps";
+da4625ac2637e4 Russell King    2017-07-25  33  	case SPEED_2500:
+da4625ac2637e4 Russell King    2017-07-25  34  		return "2.5Gbps";
+da4625ac2637e4 Russell King    2017-07-25  35  	case SPEED_5000:
+da4625ac2637e4 Russell King    2017-07-25  36  		return "5Gbps";
+da4625ac2637e4 Russell King    2017-07-25  37  	case SPEED_10000:
+da4625ac2637e4 Russell King    2017-07-25  38  		return "10Gbps";
+da4625ac2637e4 Russell King    2017-07-25  39  	case SPEED_14000:
+da4625ac2637e4 Russell King    2017-07-25  40  		return "14Gbps";
+da4625ac2637e4 Russell King    2017-07-25  41  	case SPEED_20000:
+da4625ac2637e4 Russell King    2017-07-25  42  		return "20Gbps";
+da4625ac2637e4 Russell King    2017-07-25  43  	case SPEED_25000:
+da4625ac2637e4 Russell King    2017-07-25  44  		return "25Gbps";
+da4625ac2637e4 Russell King    2017-07-25  45  	case SPEED_40000:
+da4625ac2637e4 Russell King    2017-07-25  46  		return "40Gbps";
+da4625ac2637e4 Russell King    2017-07-25  47  	case SPEED_50000:
+da4625ac2637e4 Russell King    2017-07-25  48  		return "50Gbps";
+da4625ac2637e4 Russell King    2017-07-25  49  	case SPEED_56000:
+da4625ac2637e4 Russell King    2017-07-25  50  		return "56Gbps";
+a9927022c4491b Mika Westerberg 2026-01-15  51  	case SPEED_80000:
+a9927022c4491b Mika Westerberg 2026-01-15  52  		return "80Gbps";
+da4625ac2637e4 Russell King    2017-07-25  53  	case SPEED_100000:
+da4625ac2637e4 Russell King    2017-07-25  54  		return "100Gbps";
+5a3144e4195621 Heiner Kallweit 2019-04-13  55  	case SPEED_200000:
+5a3144e4195621 Heiner Kallweit 2019-04-13  56  		return "200Gbps";
+14af7fd1d4279c Jiri Pirko      2019-10-12  57  	case SPEED_400000:
+14af7fd1d4279c Jiri Pirko      2019-10-12  58  		return "400Gbps";
+404c76783f3221 Amit Cohen      2022-10-20  59  	case SPEED_800000:
+404c76783f3221 Amit Cohen      2022-10-20  60  		return "800Gbps";
+491c5dc98b848c Yael Chemla     2025-11-19  61  	case SPEED_1600000:
+491c5dc98b848c Yael Chemla     2025-11-19  62  		return "1600Gbps";
+da4625ac2637e4 Russell King    2017-07-25  63  	case SPEED_UNKNOWN:
+da4625ac2637e4 Russell King    2017-07-25  64  		return "Unknown";
+da4625ac2637e4 Russell King    2017-07-25  65  	default:
+da4625ac2637e4 Russell King    2017-07-25  66  		return "Unsupported (update phy-core.c)";
+da4625ac2637e4 Russell King    2017-07-25  67  	}
+da4625ac2637e4 Russell King    2017-07-25  68  }
+da4625ac2637e4 Russell King    2017-07-25  69  EXPORT_SYMBOL_GPL(phy_speed_to_str);
+da4625ac2637e4 Russell King    2017-07-25  70  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
