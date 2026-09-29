@@ -1,150 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A724718C5
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Sep 2026 19:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E669569F1D;
+	Tue, 29 Sep 2026 19:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790709192; cv=none; b=V9ucO1cXS3tNzKWxu7/X0ze+uxNwmPpcGARQNElYTV1MslbGdn4jrxgigEHBcYy27Iwn1XLcz7VAZTdTHyKnpKn1iNKXST/rdXQpUmsgEy+rtaIlWLUcvLL1E389xkuWWWwu/56iRDe80zKR4EolraoAxkTvHPk1BzhCYrzOBd0=
+	t=1790711315; cv=none; b=NBu1EjV7gTD861B1HAlfbgfdOW1D5m4Ww86FNWp4yW2AY9TKLtBVX8q7O2eIc5y7eqq3GKes1Gv8qkgk+E5kLkASzHQUqau5vE2kkBWIOWBc3h2hCZShdlIkNbB9oHgh/MVHWyCftni7RBGbGKLDzOpA5IKIiqAZ/CVHOPj+vQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790709192; c=relaxed/simple;
-	bh=7zJwHFxO6taphCBZf5nWW9u2AKJbxDe8XJ7BpVY/MaE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ryX3ab91L51ImyTlOmKAlI0PyYa21ZC0QOOIzQZyQWFKzsZ9G3nG5mSw+BN+yPYBDj2BR+btOfHk55Q03pdNkc//WkZhWrnA5FfbT7hxQ7YdtRIu03mLRUB6qm/tDpRVVaija1iNdjjiCV9Y9s+dzaG1l3l774zHu7EJnUdyaQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcIZA0kQ; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790711315; c=relaxed/simple;
+	bh=x2HBXj7BphhLV/5zf9OMiBld4v5xmycaFT6YzFzXDOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dRLfDYA8ogRdZbCf8xDem830UJTqbxewmPQt15AagCXYxf5FBjqC5H+SuBH/BOfletzb5n+LGIWKaWnpq3JFjfb6hMOToNHQWz30TQUVGaNkArXKWpC4xx6/Lpa5NoQ3u68j8w2Oa4gP9IQBwPr2P4rH1wo5/0ONQSomzs7bZYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=nMcl27hm; arc=none smtp.client-ip=212.27.42.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcIZA0kQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790709188; x=1822245188;
-  h=date:from:to:cc:subject:message-id;
-  bh=7zJwHFxO6taphCBZf5nWW9u2AKJbxDe8XJ7BpVY/MaE=;
-  b=XcIZA0kQ4PuDMq3WzsUQHOaypNNNZn8b4PvTDbv48IE+rLgZ3SSFfXDx
-   5WMFpzUnRnWX6tWQapEtjQzsmN8bodNbYFvXWNnAZ+P68QlOpoNpHjL8g
-   9ehfr/Ki1IB5DioF2vIzSZXbNrCJ1mxWhEJcd+TOKFlNJGhjfMSLV6EA8
-   8MLxCRjMfrkDco1Qe6zPKooMi1u9+uO9kXp5iBzgq05bRlt5VRwK8CqRy
-   ObTAxm87T2Kn/QzWqhI9nNWZ4HPJ87defYdSyaK/dKxUyag7j9BzQc7+N
-   NomYHE2xT38S+DOJ/eUgHi9ubh11+QtgbZRV3mMDTu8nBfAV5aBZ3hHle
-   A==;
-X-CSE-ConnectionGUID: vghQLVyoRLKEauO4BapxvA==
-X-CSE-MsgGUID: a0tPABTEQEWRZ3dgrQ/yww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90481951"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90481951"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 12:13:07 -0700
-X-CSE-ConnectionGUID: xWr1gdSBTOudGHjaWJsiJA==
-X-CSE-MsgGUID: 9dAEDz44RJ+JUXCKSzjJYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="274570177"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Sep 2026 12:13:06 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xBdGB-00000000PhP-3kKO;
-	Tue, 29 Sep 2026 19:13:03 +0000
-Date: Wed, 30 Sep 2026 03:12:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/net/dsa/motorcomm/chip.c:4500:2: warning: variable
- 'ctrl' is uninitialized when used here
-Message-ID: <202609300309.dYcjWGg9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="nMcl27hm"
+Received: from L30177.local (unknown [IPv6:2a01:e0a:ac2:22b0:fd38:7b91:be5e:6aee])
+	(Authenticated sender: vjardin@free.fr)
+	by smtp5-g21.free.fr (Postfix) with ESMTPSA id 800125FFB1;
+	Tue, 29 Sep 2026 21:48:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1790711303;
+	bh=x2HBXj7BphhLV/5zf9OMiBld4v5xmycaFT6YzFzXDOw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nMcl27hma7267u99G1Xm803mZveu0PybXpBS8ey/9gh6wValqug61FOMWGalr5wSx
+	 L2enfpZwvY7WQ3vPjyXHO1wo56MPFtU2LQcW+cTizbhfZtqLa0oL+UUPL59IZD3/1k
+	 E6r1fkQuC5e+SwCdU0D+8Ovxi4L2QZ8RUGKQnr/ewJDmgvIgJHbJyIZpUaNllThOe1
+	 CDkJ/BYyaG1m0gxaW0VHtLRnzm0BXcENk7bf5gUyvw16wSAYDdaRjCnpWv/f2IEaUi
+	 Q11e/sBTsKEinpRdYUArHUyPaEIaEG96SroLxWPqHNFRwR674B4rvz5MIKn63/Djh+
+	 6Qjl/ucclF32A==
+Date: Tue, 29 Sep 2026 21:48:18 +0200
+From: Vincent Jardin <vjardin@free.fr>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev
+Subject: Re: [frank-li:imx/dt64 65/103]
+ arch/arm64/boot/dts/freescale/fsl-lx2160a-nbxv3.dtb: gpio@2310000
+ (fsl,ls2080a-gpio): 'pltrst-hog' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <arwWAqkwvlf79z45@L30177.local>
+References: <202609291726.iogWKGg7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609291726.iogWKGg7-lkp@intel.com>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Kyle-Switch/net-dsa-motorcomm-initialize-dsa_switch-based-on-chipid/20260929-105407, commit: 6dee6eb3082287bee0e5a28b0e83b5ddab25482b"
-:::::: 
+On Tue, Sep 29, 2026 at 05:36:04PM +0200, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
+> head:   8c40f32361d566c0882e9d92abab36256b268291
+> commit: 565b6713a460126874d15654fe24d995a57c822b [65/103] arm64: dts: freescale: add Nodebox v3 CPU Module
+[...]
+> >> arch/arm64/boot/dts/freescale/fsl-lx2160a-nbxv3.dtb: gpio@2310000 (fsl,ls2080a-gpio): 'pltrst-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
+>        from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml
 
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kyle Switch <kyle.switch@motor-comm.com>
-CC: 0day robot <lkp@intel.com>
+It is the dependency mentioned in the cover letter: the gpio-hog child
+nodes are allowed by
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Kyle-Switch/net-dsa-motorcomm-initialize-dsa_switch-based-on-chipid/20260929-105407
-head:   17230188d88553553a3648a5296554ff1e98926a
-commit: 6dee6eb3082287bee0e5a28b0e83b5ddab25482b net: dsa: motorcomm: Add support for Motorcomm YT922x
-date:   16 hours ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 16 hours ago
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260930/202609300309.dYcjWGg9-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300309.dYcjWGg9-lkp@intel.com/reproduce)
+  78c0baf85cd0 ("dt-bindings: gpio: fsl,qoriq-gpio: allow gpio-hog child nodes")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609300309.dYcjWGg9-lkp@intel.com/
+which Bartosz applied to gpio/for-next, not to imx/dt64. The warning goes
+away once both trees are merged for v7.4-rc1, so nothing is needed on the
+imx side.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/dsa/motorcomm/chip.c:4500:2: warning: variable 'ctrl' is uninitialized when used here [-Wuninitialized]
-    4500 |         ctrl |= ps;
-         |         ^~~~
-   drivers/net/dsa/motorcomm/chip.c:4495:10: note: initialize the variable 'ctrl' to silence this warning
-    4495 |         u32 ctrl;
-         |                 ^
-         |                  = 0
-   1 warning generated.
-
-
-vim +/ctrl +4500 drivers/net/dsa/motorcomm/chip.c
-
-6dee6eb3082287 Kyle Switch 2026-09-29  4487  
-6dee6eb3082287 Kyle Switch 2026-09-29  4488  static int
-6dee6eb3082287 Kyle Switch 2026-09-29  4489  yt922x_port_up(struct yt921x_priv *priv, int port, unsigned int mode,
-6dee6eb3082287 Kyle Switch 2026-09-29  4490  	       phy_interface_t interface, int speed, int duplex,
-6dee6eb3082287 Kyle Switch 2026-09-29  4491  	       bool tx_pause, bool rx_pause)
-6dee6eb3082287 Kyle Switch 2026-09-29  4492  {
-6dee6eb3082287 Kyle Switch 2026-09-29  4493  	int ps = ethtool_speed_to_yt921x(speed);
-6dee6eb3082287 Kyle Switch 2026-09-29  4494  	u32 mask;
-6dee6eb3082287 Kyle Switch 2026-09-29  4495  	u32 ctrl;
-6dee6eb3082287 Kyle Switch 2026-09-29  4496  	int res;
-6dee6eb3082287 Kyle Switch 2026-09-29  4497  
-6dee6eb3082287 Kyle Switch 2026-09-29  4498  	if (ps == YT921X_SPEED_INVALID)
-6dee6eb3082287 Kyle Switch 2026-09-29  4499  		return -EINVAL;
-6dee6eb3082287 Kyle Switch 2026-09-29 @4500  	ctrl |= ps;
-6dee6eb3082287 Kyle Switch 2026-09-29  4501  
-6dee6eb3082287 Kyle Switch 2026-09-29  4502  	if (duplex == DUPLEX_FULL)
-6dee6eb3082287 Kyle Switch 2026-09-29  4503  		ctrl |= YT922X_PORT_DUPLEX_FULL;
-6dee6eb3082287 Kyle Switch 2026-09-29  4504  	if (tx_pause)
-6dee6eb3082287 Kyle Switch 2026-09-29  4505  		ctrl |= YT922X_PORT_TX_PAUSE;
-6dee6eb3082287 Kyle Switch 2026-09-29  4506  	if (rx_pause)
-6dee6eb3082287 Kyle Switch 2026-09-29  4507  		ctrl |= YT922X_PORT_RX_PAUSE;
-6dee6eb3082287 Kyle Switch 2026-09-29  4508  	ctrl |= YT922X_PORT_RX_MAC_EN | YT922X_PORT_TX_MAC_EN |
-6dee6eb3082287 Kyle Switch 2026-09-29  4509  			YT922X_PORT_CFG_TX_EN | YT922X_PORT_LINK |
-6dee6eb3082287 Kyle Switch 2026-09-29  4510  			YT922X_PORT_CFG_RX_EN;
-6dee6eb3082287 Kyle Switch 2026-09-29  4511  	ctrl &= ~(YT922X_PORT_FC_AN | YT922X_PORT_LINK_AN);
-6dee6eb3082287 Kyle Switch 2026-09-29  4512  	res = yt921x_reg_write(priv, YT922X_PORTn_CTRL(port), ctrl);
-6dee6eb3082287 Kyle Switch 2026-09-29  4513  	if (res)
-6dee6eb3082287 Kyle Switch 2026-09-29  4514  		return res;
-6dee6eb3082287 Kyle Switch 2026-09-29  4515  
-6dee6eb3082287 Kyle Switch 2026-09-29  4516  	/* force op */
-6dee6eb3082287 Kyle Switch 2026-09-29  4517  	mask = YT922X_PORT_FORCE_OP;
-6dee6eb3082287 Kyle Switch 2026-09-29  4518  	res = yt921x_reg_set_bits(priv, YT922X_PORTn_CTRL(port), mask);
-6dee6eb3082287 Kyle Switch 2026-09-29  4519  	if (res)
-6dee6eb3082287 Kyle Switch 2026-09-29  4520  		return res;
-6dee6eb3082287 Kyle Switch 2026-09-29  4521  
-6dee6eb3082287 Kyle Switch 2026-09-29  4522  	/* enable en_phy */
-6dee6eb3082287 Kyle Switch 2026-09-29  4523  	res = yt921x_reg_set_bits(priv, YT922X_EN_PHY_VALUE, BIT(port));
-6dee6eb3082287 Kyle Switch 2026-09-29  4524  	if (res)
-6dee6eb3082287 Kyle Switch 2026-09-29  4525  		return res;
-6dee6eb3082287 Kyle Switch 2026-09-29  4526  	res = yt921x_reg_set_bits(priv, YT922X_EN_PHY_OVERWRITE, BIT(port));
-6dee6eb3082287 Kyle Switch 2026-09-29  4527  	if (res)
-6dee6eb3082287 Kyle Switch 2026-09-29  4528  		return res;
-6dee6eb3082287 Kyle Switch 2026-09-29  4529  
-6dee6eb3082287 Kyle Switch 2026-09-29  4530  	return 0;
-6dee6eb3082287 Kyle Switch 2026-09-29  4531  }
-6dee6eb3082287 Kyle Switch 2026-09-29  4532  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+  Vincent
