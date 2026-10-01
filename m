@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6343340800D
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 16:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D6E1FDE31
+	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 16:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790871458; cv=none; b=tTs1YJhyED/OjA6pXETcJjNS5HIa1p78R8MsLAQnGwsn95RRFNb9Crhat7ok4exfvPS80X1Nb9OOEmSMEDPw76OWZfQou0a0y/yODl2XeV2LEKW9LgcxTnuC8lLXIMf9uKukpv5Oh2M3sl0dROczSNidUYceySqQ8n7Zm7/AaGs=
+	t=1790873931; cv=none; b=brwJhfbJtePtGBPlfW+VosgiPl6gzWwwRc5FdjN7H4MYaqGqjLTdd1O6OAKpDKkfzRwzK1F79VXa7zHtrQJGxzJIwzNH/LAABqajmwd2yB8zMnRiwlfLp13sc/1FfM+TqCT4YnPH0Np5bIGs78q9kg/YRQdrdR9H7zY9dWrJBUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790871458; c=relaxed/simple;
-	bh=mm8tTd663wWUcYhW4lWUJIWHUZwlWLmwqkV7S5GF+sE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VjKJd1aWsm26Ck4D5BqC5fW2WCeNZv81v7vA3P5BcO9HNTEmnppn+8QsmXFjYB/baCGlRrRqTRhfZpDpvC5kFKXXeRVVfoOMLX1yUHHkvCjDC6kWdhaOQMmgzwusBpaOB9X0jjoYs5YFDGCYS2/VoU/rpzEmhqVaYWtEl3v29RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HH7kmGE3; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790873931; c=relaxed/simple;
+	bh=5bJGzhAz90QEG1GVDMFMDrp6VOHy0Sra4trMCfHqQx8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Myms2N9y0NX8g1tnhOMuhfi3Qgo/kq0NGmbsKo/4dNQ3Kvf+HwlrWYqbU+agaZShG2zdo6VPMgMCZ8N6tP72/DyQ0ovWvtlq8jTKJbdtTN862OSzlcOYE09L97qXL5lfMDmLvsowratsQf4CX7V3CMQjASHuNOYS7h1tdKLRHyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSmKmHur; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HH7kmGE3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSmKmHur"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790871456; x=1822407456;
+  t=1790873928; x=1822409928;
   h=date:from:to:cc:subject:message-id;
-  bh=mm8tTd663wWUcYhW4lWUJIWHUZwlWLmwqkV7S5GF+sE=;
-  b=HH7kmGE3LW8ohoNsbelV8k9Q0JwYCEzIY59k0EzvS4Kqp4xs9WHLzi40
-   AQKfML6TB8IIgYJIk98bGgWovb8zQbXxUcVW3pOxJsX0bSl87FlDCeJhx
-   HhFLNNcXBxYiAQvGoCrNOW+QnOhixbppMRqG1b7NJd+o5v7Rlb6JILTyK
-   MS3bINZvUaOPf/wSmcR3lRzOy/99Qc3lu8EhAoT/EOx5N+NFO9ssgAPXA
-   iFkEpPSEqxo3y6GN9v0tZw3DoYq5Ws1lbCCyAClbaQcKeyKwzkB33rVtf
-   Pck2x/zlJ3j1e4nffwWWiOdzqcZxAyT4u4zEoRuCgoxeKNKo6xr+0kXkG
-   Q==;
-X-CSE-ConnectionGUID: tk1FMQhQRgu+X/hzQBbm7g==
-X-CSE-MsgGUID: IGST3n/ITQugko/hSCfcqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94119001"
+  bh=5bJGzhAz90QEG1GVDMFMDrp6VOHy0Sra4trMCfHqQx8=;
+  b=VSmKmHurf3JzbZPucir5gY3A133NvzOTfJAoVROo3UyY65fZjh3uEP8T
+   k1RtxaR6BkVO0v8jhSTJ4Ngqquk4O5nsw2BILPr+KpxeJp/YXLgW5OM+D
+   vWHL2ZMKQKerp5iiJ7OV71hc8b+ogECpy1GRJ06CUo622LHNWT/OEEiv9
+   w0xoIx0fnGv3fsUkUaubLBUUIrgPS6RJnkuCnic9zy/OI+F46N8Y9EmM0
+   ghKkmME2yr1NTNhJjivIy44qLW9AnojvdtvA+xi0fsAT/VMBRwmCOs8g1
+   D/iDJQThM1iOwBAAloYzcn6aBc7+gduQ6jxaOi/aq9QV7c5Vcrgs8Evtx
+   A==;
+X-CSE-ConnectionGUID: PUSdIve+SgKN1ncuXlU8tw==
+X-CSE-MsgGUID: pQktaVcgSTO0teGZoq6FjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94353610"
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="94119001"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 09:17:31 -0700
-X-CSE-ConnectionGUID: HgVs3NpnTRyokHL28m+qrw==
-X-CSE-MsgGUID: EJ+p82n0Rym+OAiw3gTKUg==
+   d="scan'208";a="94353610"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 09:58:47 -0700
+X-CSE-ConnectionGUID: SKmBGoIwTxa+nEDuoHioBg==
+X-CSE-MsgGUID: H0IsPv8RRJuY9mlzZhdbzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="274669473"
+   d="scan'208";a="284101685"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Oct 2026 09:17:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Oct 2026 09:58:46 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCJTM-0000000008l-1F9a;
-	Thu, 01 Oct 2026 16:17:28 +0000
-Date: Thu, 01 Oct 2026 18:17:05 +0200
+	id 1xCK7G-0000000009H-1Jre;
+	Thu, 01 Oct 2026 16:58:42 +0000
+Date: Thu, 01 Oct 2026 18:58:10 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/um/kernel/um_arch.c:330 linux_main() warn: impossible
- condition '(task_size > 1024 * (1 << 22)) => (4294955008 > 4294967296)'
-Message-ID: <202610011854.JCCRwVIQ-lkp@intel.com>
+Subject: [tip:sched/core 16/25] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__507'
+Message-ID: <202610011841.x1lrKFqP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,138 +65,97 @@ reviewed for false positives, so please treat it with due skepticism.
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Tiwei Bie <tiwei.btw@antgroup.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+CC: x86@kernel.org
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Shrikanth Hegde <sshegde@linux.ibm.com>
+CC: Jinjie Ruan <ruanjinjie@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   551c722f40809618230001baccf219193e22fc5a
-commit: de203267483de10bdfc3ec74fac246e879361819 um: Use PAGE_ALIGN() for address alignment
-date:   11 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: um-randconfig-r2201-20261001 (https://download.01.org/0day-ci/archive/20261001/202610011854.JCCRwVIQ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e4505dd447d115d85fdea45cd71030ac1d86ee)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   1fb28c664a19df8d45a6afa04d28d102b04ea680
+commit: b9d267b9d632feec9ddd1ce12078b7113f429a51 [16/25] sched: dynamic: Simplify preempt_schedule{,_notrace}()
+:::::: branch date: 3 days ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-2200-20261001 (https://download.01.org/0day-ci/archive/20261001/202610011841.x1lrKFqP-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: de203267483d ("um: Use PAGE_ALIGN() for address alignment")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610011854.JCCRwVIQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610011841.x1lrKFqP-lkp@intel.com/
 
 smatch warnings:
-arch/um/kernel/um_arch.c:330 linux_main() warn: impossible condition '(task_size > 1024 * (1 << 22)) => (4294955008 > 4294967296)'
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__507'
 
-vim +330 arch/um/kernel/um_arch.c
+vim +/__UNIQUE_ID_x__507 +557 drivers/hid/hid-steam.c
 
-68b9883cc16ec2 Benjamin Berg                  2024-09-19  299  
-68b9883cc16ec2 Benjamin Berg                  2024-09-19  300  int __init linux_main(int argc, char **argv, char **envp)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  301  {
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  302  	unsigned long avail, diff;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  303  	unsigned long virtmem_size, max_physmem;
-691ff5914835a6 Tiwei Bie                      2025-10-27  304  	unsigned long host_task_size;
-60a2988aea701a Jeff Dike                      2008-05-12  305  	unsigned long stack;
-3af9c5bed1b8f2 WANG Cong                      2008-04-28  306  	unsigned int i;
-3af9c5bed1b8f2 WANG Cong                      2008-04-28  307  	int add;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  308  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  309  	for (i = 1; i < argc; i++) {
-ba180fd437156f Jeff Dike                      2007-10-16  310  		if ((i == 1) && (argv[i][0] == ' '))
-ba180fd437156f Jeff Dike                      2007-10-16  311  			continue;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  312  		add = 1;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  313  		uml_checksetup(argv[i], &add);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  314  		if (add)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  315  			add_arg(argv[i]);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  316  	}
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  317  	if (have_root == 0)
-d7ffac33631b2f Thomas Meyer                   2021-01-05  318  		add_arg(DEFAULT_COMMAND_LINE_ROOT);
-d7ffac33631b2f Thomas Meyer                   2021-01-05  319  
-d7ffac33631b2f Thomas Meyer                   2021-01-05  320  	if (have_console == 0)
-d7ffac33631b2f Thomas Meyer                   2021-01-05  321  		add_arg(DEFAULT_COMMAND_LINE_CONSOLE);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  322  
-68b9883cc16ec2 Benjamin Berg                  2024-09-19  323  	host_task_size = get_top_address(envp);
-91f0a0c5cc5bc8 Benjamin Berg                  2024-09-19  324  	/* reserve a few pages for the stubs */
-e047f9af9d6948 Tiwei Bie                      2025-08-27  325  	stub_start = host_task_size - STUB_SIZE;
-6032aca0deb9c1 Johannes Berg                  2023-04-14  326  	host_task_size = stub_start;
-bfc58e2b98e997 Johannes Berg                  2021-01-13  327  
-830003c73d1902 Benjamin Berg                  2024-09-19  328  	/* Limit TASK_SIZE to what is addressable by the page table */
-830003c73d1902 Benjamin Berg                  2024-09-19  329  	task_size = host_task_size;
-830003c73d1902 Benjamin Berg                  2024-09-19 @330  	if (task_size > (unsigned long long) PTRS_PER_PGD * PGDIR_SIZE)
-830003c73d1902 Benjamin Berg                  2024-09-19  331  		task_size = PTRS_PER_PGD * PGDIR_SIZE;
-830003c73d1902 Benjamin Berg                  2024-09-19  332  
-536788fe2d28e1 Jeff Dike                      2008-02-08  333  	/*
-536788fe2d28e1 Jeff Dike                      2008-02-08  334  	 * TASK_SIZE needs to be PGDIR_SIZE aligned or else exit_mmap craps
-536788fe2d28e1 Jeff Dike                      2008-02-08  335  	 * out
-536788fe2d28e1 Jeff Dike                      2008-02-08  336  	 */
-830003c73d1902 Benjamin Berg                  2024-09-19  337  	task_size = task_size & PGDIR_MASK;
-536788fe2d28e1 Jeff Dike                      2008-02-08  338  
-ba180fd437156f Jeff Dike                      2007-10-16  339  	/* OS sanity checks that need to happen before the kernel runs */
-60d339f6fe0831 Gennady Sharapov               2005-09-03  340  	os_early_checks();
-cb66504d65e542 Paolo 'Blaisorblade' Giarrusso 2005-07-27  341  
-d8fb32f4790f2a Anton Ivanov                   2021-03-12  342  	get_host_cpu_features(parse_host_cpu_flags, parse_cache_line);
-d8fb32f4790f2a Anton Ivanov                   2021-03-12  343  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  344  	brk_start = (unsigned long) sbrk(0);
-77bf4400319db9 Jeff Dike                      2007-10-16  345  
-ba180fd437156f Jeff Dike                      2007-10-16  346  	/*
-ba180fd437156f Jeff Dike                      2007-10-16  347  	 * Increase physical memory size for exec-shield users
-ba180fd437156f Jeff Dike                      2007-10-16  348  	 * so they actually get what they asked for. This should
-ba180fd437156f Jeff Dike                      2007-10-16  349  	 * add zero for non-exec shield users
-ba180fd437156f Jeff Dike                      2007-10-16  350  	 */
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  351  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  352  	diff = UML_ROUND_UP(brk_start) - UML_ROUND_UP(&_end);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  353  	if (diff > 1024 * 1024) {
-d3878bb8003009 Masami Hiramatsu               2017-05-18  354  		os_info("Adding %ld bytes to physical memory to account for "
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  355  			"exec-shield gap\n", diff);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  356  		physmem_size += UML_ROUND_UP(brk_start) - UML_ROUND_UP(&_end);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  357  	}
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  358  
-05eacfd00ccf23 Nicolas Iooss                  2014-10-12  359  	uml_physmem = (unsigned long) __binary_start & PAGE_MASK;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  360  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  361  	/* Reserve up to 4M after the current brk */
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  362  	uml_reserved = ROUND_4M(brk_start) + (1 << 22);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  363  
-96b644bdec977b Serge Hallyn                   2006-10-02  364  	setup_machinename(init_utsname()->machine);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  365  
-de203267483de1 Tiwei Bie                      2025-10-27  366  	physmem_size = PAGE_ALIGN(physmem_size);
-de203267483de1 Tiwei Bie                      2025-10-27  367  	iomem_size = PAGE_ALIGN(iomem_size);
-cd05cbed42b731 Tiwei Bie                      2024-09-16  368  
-536788fe2d28e1 Jeff Dike                      2008-02-08  369  	max_physmem = TASK_SIZE - uml_physmem - iomem_size - MIN_VMALLOC;
-06e0e629595759 Tiwei Bie                      2024-11-28  370  	if (physmem_size > max_physmem) {
-06e0e629595759 Tiwei Bie                      2024-11-28  371  		physmem_size = max_physmem;
-cd05cbed42b731 Tiwei Bie                      2024-09-16  372  		os_info("Physical memory size shrunk to %llu bytes\n",
-cd05cbed42b731 Tiwei Bie                      2024-09-16  373  			physmem_size);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  374  	}
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  375  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  376  	high_physmem = uml_physmem + physmem_size;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  377  	end_iomem = high_physmem + iomem_size;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  378  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  379  	start_vm = VMALLOC_START;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  380  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  381  	virtmem_size = physmem_size;
-60a2988aea701a Jeff Dike                      2008-05-12  382  	stack = (unsigned long) argv;
-60a2988aea701a Jeff Dike                      2008-05-12  383  	stack &= ~(1024 * 1024 - 1);
-60a2988aea701a Jeff Dike                      2008-05-12  384  	avail = stack - start_vm;
-ba180fd437156f Jeff Dike                      2007-10-16  385  	if (physmem_size > avail)
-ba180fd437156f Jeff Dike                      2007-10-16  386  		virtmem_size = avail;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  387  	end_vm = start_vm + virtmem_size;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  388  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  389  	if (virtmem_size < physmem_size)
-d3878bb8003009 Masami Hiramatsu               2017-05-18  390  		os_info("Kernel virtual memory size shrunk to %lu bytes\n",
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  391  			virtmem_size);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  392  
-3f17fed2149192 Benjamin Berg                  2024-10-23  393  	arch_task_struct_size = sizeof(struct task_struct) + host_fp_size;
-3f17fed2149192 Benjamin Berg                  2024-10-23  394  
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  395  	os_flush_stdout();
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  396  
-77bf4400319db9 Jeff Dike                      2007-10-16  397  	return start_uml();
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  398  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  399  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4b Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4b Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4b Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4b Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd9492 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd9492 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  548  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  574  
 
-:::::: The code at line 330 was first introduced by commit
-:::::: 830003c73d190259e45d0a99a0e3d14cb73e0af0 um: Limit TASK_SIZE to the addressable range
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
 
-:::::: TO: Benjamin Berg <benjamin.berg@intel.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
