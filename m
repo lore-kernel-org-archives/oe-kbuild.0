@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB0D36655D
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 03:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DE4366051
+	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 05:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790824990; cv=none; b=CBe3y2Imr7ok74ezYgoc7VI9s4O33cqS8L3NQizcp9otHVmFr7HWaQfs8LFEpCEZ37b7hCdVrsLjiu8Td9xxoNHPI9A1w5BqrT5P3bnpcLb0IrKEY7J4TXbVNU32Y2r8XSkTaTCXi1+C2g4C0en1wyRHTpjswBv1Or0H1x3n1Uo=
+	t=1790833631; cv=none; b=uh0b7vQMwv/OTjVFMoK+ezqpSaO7nocMrJmMTqTr6xfnghZ+bF5epBD+CMzxnAoRkClFEGqxOkC7ljA/otoM7n1SrzZbwR64lWBfU49cf3Uu67zMwBZQDBe98rnfR8x7SpjWFM2LtwJc9S00uEQr++Rsodl6VptGaBQy/usELM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790824990; c=relaxed/simple;
-	bh=bZaYIkUp8qs5RV4E+y9qXbJHwch8EjrC/5S2yLpxITU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ExYWgDqF9Q2IIYiOAqpzaKUnYzkykEBvxY4CFFltIwpsKrR1llOyZduW9NjZbiMA317q/HhQZd/dZTDWyEnX2Bsd+KJ6nAvpgmd/x4wE7ha946FmsCBiaLP22V0gzY+ezFT4pRZc3GZcpt0VbUHwSOskreAaI6a6OLK5mVIKdnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvIUCxlI; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790833631; c=relaxed/simple;
+	bh=VPs9w5D1XtWPPI8mB6hrmjrac/IMLCV+ts3y9PXYhJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OjeQJA00W8kUm7ZPeayyY49PAKed3dLdUv/5Qz6GbtBL+SoKL30d1A91mXRYCdXEweQ+vcPW+nCGqHD/xC5tktdw0jsAaojPP517oLCMnIrFQBXiH7nx/QkzvNGSnmDLyQSvA9ppUe9eris1HHqORTD2ByF9/6WhZ6jVWtNG3oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmAUZC3u; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvIUCxlI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmAUZC3u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790824986; x=1822360986;
+  t=1790833630; x=1822369630;
   h=date:from:to:cc:subject:message-id;
-  bh=bZaYIkUp8qs5RV4E+y9qXbJHwch8EjrC/5S2yLpxITU=;
-  b=mvIUCxlIBNRLwLmRUwV2dk57kimA2ZqvNgLz4dEYTUdFokFwAfYSoy31
-   6s6qNNsmY42BpB+eUKCosNNiKhro3QeHY6JznNTOb0Uy0Qx0QoBiZERy7
-   4NE4ddybrEK5a62KPgFYWnqsfMqpxDLOGct5JGT/74j7StMK8RLKBXA2p
-   sLAfzmahFnIjg/vojXqFHFtNo8c4rIZpr9b8zeBNQUkLFOqTKJIUOwr5f
-   dAYuUa1NbzIuVSGfdyePSPa5AhSz+8bfge/SJEZ0i74gTzjhxUjjolGAQ
-   0lkd0mROiIJ9EUzhLZYS0VhBwwwD/+kzBGPnPvNXGfrrzvAVwdCasshiS
+  bh=VPs9w5D1XtWPPI8mB6hrmjrac/IMLCV+ts3y9PXYhJ8=;
+  b=mmAUZC3uNBUKNHZyO1enfXtrRvNYRWE08d8aXOD1qFONuKQrC890m2gj
+   Tp96Keodd5TOFh3zO5qPtF9w/BWjV1Ky7G/t/UCmdMejY+p9jN5GMHrCN
+   qM+6glIVwgqqdPys0WvdAVeLLwo8AKq694+G3PXiabb5NI4SwQ6x27y9i
+   Ilw5x4bdpfegBRr9zQX4bJkIz7EX80WLzJd8Zr+7h6xlz97PfLOmckqg2
+   wjsPNCa0yCKc64ixpVfn7b4e+lEw7RZxgydacQpDf9bBhqmmGP9OaHzO9
+   6odCLAnUmIXDQtqAenrisNEZsiRJNaLwaP5eP3j5WEc/xmNEdqPKvNupZ
    Q==;
-X-CSE-ConnectionGUID: aebn2XeNQ8yXMnj4wogPlQ==
-X-CSE-MsgGUID: LihTvIC8S26qp052jaKN4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="91672993"
-X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
-   d="scan'208";a="91672993"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 20:23:04 -0700
-X-CSE-ConnectionGUID: fDClUFY2Rn+QeESdqU1p9Q==
-X-CSE-MsgGUID: F6JA798DSLqTBwtCVzoPkA==
+X-CSE-ConnectionGUID: dF0VEEQ0S2G72XrFBbXKxg==
+X-CSE-MsgGUID: t7zKrICNQyK1Ickdy9HBpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="95389939"
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="95389939"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 22:47:09 -0700
+X-CSE-ConnectionGUID: 2GVKgJPJQWOqz/nBkPs+rw==
+X-CSE-MsgGUID: +iwG3FRcSqKVPhycewbo1Q==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="275088510"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Sep 2026 20:23:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Sep 2026 22:47:07 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xC7Nt-000000002EF-0xus;
-	Thu, 01 Oct 2026 03:23:01 +0000
-Date: Thu, 01 Oct 2026 05:22:57 +0200
+	id 1xC9dB-000000002Fj-2fnK;
+	Thu, 01 Oct 2026 05:46:57 +0000
+Date: Thu, 01 Oct 2026 07:45:59 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [tamird:b4/bitmap-kunit-convert 4/4]
- lib/bitmap_kunit.c:1251:2: error: call to '__compiletime_assert_486' declared
- with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-Message-ID: <202610010508.bIpbuVCE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [akpm-mm:mm-unstable 457/694] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__545'
+Message-ID: <202610010759.MInrK7CJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -58,127 +59,104 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Tamir Duberstein <tamird@kernel.org>
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/tamird/linux b4/bitmap-kunit-convert
-head:   c4e92606ad54da7a5b46c2787f54d1ae3f3958b2
-commit: c4e92606ad54da7a5b46c2787f54d1ae3f3958b2 [4/4] bitmap: break kunit into test cases
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: x86_64-randconfig-r2301-20261001 (https://download.01.org/0day-ci/archive/20261001/202610010508.bIpbuVCE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   039e8c592b38f1c4f34dc4923f48a2d12f219fb6
+commit: 386f62b599a1de981e1884579f9e2f659bdc0afd [457/694] mm: add mmap action for discontiguous kernel page mapping
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: x86_64-randconfig-2200-20261001 (https://download.01.org/0day-ci/archive/20261001/202610010759.MInrK7CJ-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610010508.bIpbuVCE-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610010508.bIpbuVCE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610010759.MInrK7CJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__545'
 
->> lib/bitmap_kunit.c:1251:2: error: call to '__compiletime_assert_486' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-    1251 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
-         |         ^
-   include/linux/build_bug.h:51:2: note: expanded from macro 'BUILD_BUG_ON'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:702:2: note: expanded from macro 'compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:93:1: note: expanded from here
-      93 | __compiletime_assert_486
-         | ^
-   1 error generated.
+vim +/__UNIQUE_ID_x__545 +557 drivers/hid/hid-steam.c
 
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4 Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd949 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
 
-vim +1251 lib/bitmap_kunit.c
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
 
-291f93ca339f5b lib/test_bitmap.c  Barry Song        2021-08-06  1200  
-2356d198d2b4dd lib/test_bitmap.c  Yury Norov        2023-07-17  1201  /*
-2356d198d2b4dd lib/test_bitmap.c  Yury Norov        2023-07-17  1202   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd lib/test_bitmap.c  Yury Norov        2023-07-17  1203   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd lib/test_bitmap.c  Yury Norov        2023-07-17  1204   */
-c4e92606ad54da lib/bitmap_kunit.c Tamir Duberstein  2025-02-07  1205  static void test_bitmap_const_eval(struct kunit *kunittest)
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1206  {
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1207  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1208  	unsigned long initvar = BIT(2);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1209  	unsigned long bitopvar = 0;
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1210  	unsigned long var = 0;
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1211  	int res;
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1212  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1213  	/*
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1214  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1215  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1216  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1217  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1218  	 * in runtime.
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1219  	 */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1220  
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1221  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1222  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1223  	if (!test_bit(7, bitmap))
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1224  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1225  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1226  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1227  	__change_bit(31, &bitopvar);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1228  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1229  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1230  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1231  	var |= BIT(25);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1232  	if (var & BIT(0))
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1233  		var ^= GENMASK(9, 6);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1234  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1235  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1236  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1237  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1238  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1240  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1241  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1242  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1243  	BUILD_BUG_ON(!res);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1244  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1245  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1246  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1247  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1248  	BUILD_BUG_ON(res);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1249  
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1250  	/* ~BIT(25) */
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24 @1251  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1252  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1253  
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1254  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1255  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1256  	__assign_bit(25, &var, true);
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1257  
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1258  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1259  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1260  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a lib/test_bitmap.c  Alexander Lobakin 2024-03-27  1261  	BUILD_BUG_ON(!res);
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1262  }
-dc34d5036692c6 lib/test_bitmap.c  Alexander Lobakin 2022-06-24  1263  
-
-:::::: The code at line 1251 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
