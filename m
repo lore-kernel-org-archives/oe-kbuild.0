@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCB546A618
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 08:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8142B4D2EF4
+	for <oe-kbuild@lists.linux.dev>; Thu,  1 Oct 2026 13:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790842249; cv=none; b=LIs2enN5+GTr8IcCZIV0FV7ctnzUhbS83OnIEMWaVFXmIUKpscFGSKAxNkqujBCnTNdyR0kJvTN7Zi7aMGJ6kiJlDsGyBnDcJdb3EYwI5+ipBBh3FkDIPP38xBl63VuTmNC6fBcgDk8t8ZKB580zQIDDfrAE0kDQxIb4MOidzqM=
+	t=1790860907; cv=none; b=PujKRYA1lugt1qdUCZ9W1hTTJo9P32LWkaOKFYQ1bkS8X3kS17eBrQMHeqq5wLigQFB266bj3Qop6+PdOyiIfPq94NoEnBOLgIXSWqUr0xTwjiw3q0jJEmpdmLiLPUvoEEeuzG+OZYf6MKKhQ959mJoZEOwB+hR9wEFlrlUK0HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790842249; c=relaxed/simple;
-	bh=nDF9C+1Qa/DLZhDyqCZrW8+wi5tj/FUfd/kBz/hHFY8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OsKo49fzs25AN9a2LyXLgm8GZGZO0R30lxut04oqbnDklb4xc0NMz8Hz6pLfHJzaKh8yvsnIL7Fp9mQcyxvPAKkyY8us7i5gAlExsm9yjb7wFFvT2vZZZSmSEEEEfGB4bTx2ARE0Uc2wHzC1JquG/yHM859pk5BqCw7Xf2yI8Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hOzH5rOG; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1790860907; c=relaxed/simple;
+	bh=oIDpCgkfzOW4ZMAUDtC52BCEAsKbpUOXjgDYNBHD94U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KH0Tv+jnIXQuBJtBJZo4Li3c3NdfnfSSYH9Qj2LXGMACKK4xZqtTJuZAzbQSBwv++hT/y2+w0jQBnJ3y/Gxkfl3zG3kwmDWDO1QYLb9h7dZNZ+N68lmxlzPD96FX6d/V5Vad9hRPJeeHpS4oqhj7mlmdpsBuPGNVq0n0BdLCRYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKHPhF29; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hOzH5rOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKHPhF29"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790842245; x=1822378245;
+  t=1790860900; x=1822396900;
   h=date:from:to:cc:subject:message-id;
-  bh=nDF9C+1Qa/DLZhDyqCZrW8+wi5tj/FUfd/kBz/hHFY8=;
-  b=hOzH5rOGcmyR7fPghyZ+qwDCC10/DXh7wPxA3mewseY/Zv+3h3GGuIAX
-   MLKdk4KO1ei+jhLajTYSbsvNsgyNyIE4d3mM9G+H+rPHGEAK4PG1khX2J
-   dk5h4TcYheIbQ7oWT69bZ7dgo4mnNV2B1Vmj/pm0l6LqKkTlN0YHdj+WL
-   b7QvP17gN2nn+sM4e5WG5dPgYOkMbOVBst3EPiK49rjD0kTZJAljxq4/J
-   1zL2UxUE849Vz1DUkSQbhp/40aJGRXfTRlBS0LqxyBCHXDodQG7Nhwje6
-   IKpGZ/+nwZPOM1y5+ZfmYSCIKX0aBHsdYCrYBPdYzd5nXcRti0mMgLCFG
-   Q==;
-X-CSE-ConnectionGUID: uUBJjL5jQTi4L8ONvwuzDg==
-X-CSE-MsgGUID: eH4oZjkGSAeh1GvRQzffKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="90805981"
+  bh=oIDpCgkfzOW4ZMAUDtC52BCEAsKbpUOXjgDYNBHD94U=;
+  b=ZKHPhF29CKVzHIgNgKIX5fZammKMZkmOnQ+hdd5QnVJ/M9we26ncIWAH
+   7NpHE9VS6+kcuEQfPxMMbxHcN6rM89N/k22FvuQ/BtbUX/+8to0jd01m/
+   DpJYnOsxK+emk3oxQZpZ5KpVwbEjU+VNb6yjaAmLS1dYLEZCYqf8eqzH/
+   4EOZc3M22r5EXCNrQeHz0E4OUACUwUgFCsZHnuxjgIzzYnbjPTxTrKo8k
+   i7XrYuCa1lgsgr8bRS8gd0PQoT3y8a2pT+krenuaya24ASOtjiIHb1SY3
+   QqQYFuta4IrvH6Hlc3WwklxI1D60JQeJE0o2hA3VjJ0R1Kg6BTd4o/JMG
+   w==;
+X-CSE-ConnectionGUID: YuG3ohNHSx6wqYwYTuV+bQ==
+X-CSE-MsgGUID: Pdtq2s8VRcijEXCNC5/lhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="94097880"
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="90805981"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 01:10:41 -0700
-X-CSE-ConnectionGUID: eyQh519tR0arqM65XD0n/g==
-X-CSE-MsgGUID: b9CLHF/DRQa46I9xWvA2VQ==
+   d="scan'208";a="94097880"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 06:21:38 -0700
+X-CSE-ConnectionGUID: LhjO/Bg+Ti24C+qOr40rmA==
+X-CSE-MsgGUID: reZmGn0RRBmQb0f7Gg2quQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="274016962"
-Received: from igk-lkp-server01.igk.intel.com (HELO ae472ef62802) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 01 Oct 2026 01:10:39 -0700
-Received: from kbuild by ae472ef62802 with local (Exim 4.98.2)
+   d="scan'208";a="273815487"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 01 Oct 2026 06:21:37 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCBsC-0000000004c-0BA9;
-	Thu, 01 Oct 2026 08:10:36 +0000
-Date: Thu, 01 Oct 2026 10:10:13 +0200
+	id 1xCGj7-0000000006h-1Gzn;
+	Thu, 01 Oct 2026 13:21:33 +0000
+Date: Thu, 01 Oct 2026 15:21:27 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb:
- pinctrl@f100000 (qcom,sc8280xp-tlmm): ec-int-n-state: 'oneOf' conditional
- failed, one must be fixed:
-Message-ID: <202610010901.PKydksHK-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/trace/trace.c:6382:27-28: ERROR: invalid reference to
+ the index variable of the iterator on line 6308
+Message-ID: <202610011544.1F486kF7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,45 +59,150 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Clover <alex@ironrobin.net>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Steven Rostedt <rostedt@goodmis.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Clover/dt-bindings-embedded-controller-Add-Lenovo-ThinkPad-X13s-EC/20260926-195438
-head:   20b5e87ec82bddfeab758ba04e7736688e63c4dd
-commit: 20b5e87ec82bddfeab758ba04e7736688e63c4dd arm64: dts: qcom: sc8280xp-x13s: Add embedded controller
-date:   5 days ago
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2401-20260930 (https://download.01.org/0day-ci/archive/20261001/202610010901.PKydksHK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610010901.PKydksHK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   551c722f40809618230001baccf219193e22fc5a
+commit: 428add559b6923f13acc591913cda3467be98dfd tracing: Have tracer option be instance specific
+date:   11 months ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 11 months ago
+config: mips-randconfig-r2106-20260924 (https://download.01.org/0day-ci/archive/20261001/202610011544.1F486kF7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8ec2ba57f65624b4fdcca0fe2b0ff9bfcfe4c4cd)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 428add559b69 ("tracing: Have tracer option be instance specific")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610010901.PKydksHK-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610011544.1F486kF7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4957.28-5036.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:5058.28-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:6588.29-6648.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@22000000/dsi@22094000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:6670.29-6730.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@22000000/dsi@22096000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: pinctrl@f100000 (qcom,sc8280xp-tlmm): ec-int-n-state: 'oneOf' conditional failed, one must be fixed:
-   	False schema does not allow True
-   	'function', 'input-enable', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc8280xp-tlmm.yaml
---
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: pinctrl@f100000 (qcom,sc8280xp-tlmm): ec-int-n-state: 'oneOf' conditional failed, one must be fixed:
-   	False schema does not allow True
-   	'function', 'input-enable', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc8280xp-tlmm.yaml
+cocci warnings: (new ones prefixed by >>)
+>> kernel/trace/trace.c:6382:27-28: ERROR: invalid reference to the index variable of the iterator on line 6308
+   kernel/trace/trace.c:6382:40-41: ERROR: invalid reference to the index variable of the iterator on line 6308
+
+vim +6382 kernel/trace/trace.c
+
+ef9188bcc6ca1d Mark-PK Tsai             2022-04-26  6286  
+9c5b9d3d65e485 Masami Hiramatsu         2020-01-11  6287  int tracing_set_tracer(struct trace_array *tr, const char *buf)
+09d23a1d8a82e8 Steven Rostedt (Red Hat  2015-02-03  6288) {
+428add559b6923 Steven Rostedt           2025-11-11  6289  	struct tracer *trace = NULL;
+428add559b6923 Steven Rostedt           2025-11-11  6290  	struct tracers *t;
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6291) #ifdef CONFIG_TRACER_MAX_TRACE
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6292  	bool had_max_tr;
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6293) #endif
+d33b10c0c73adc Steven Rostedt           2024-12-24  6294  	int ret;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6295  
+d33b10c0c73adc Steven Rostedt           2024-12-24  6296  	guard(mutex)(&trace_types_lock);
+1027fcb206a0fb Steven Rostedt           2009-03-12  6297  
+7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6298) 	update_last_data(tr);
+7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6299) 
+a1f157c7a3bb34 Zheng Yejian             2023-09-06  6300  	if (!tr->ring_buffer_expanded) {
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6301  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
+438ced1720b584 Vaibhav Nagarnaik        2012-02-02  6302  						RING_BUFFER_ALL_CPUS);
+73c5162aa362a5 Steven Rostedt           2009-03-11  6303  		if (ret < 0)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6304  			return ret;
+73c5162aa362a5 Steven Rostedt           2009-03-11  6305  		ret = 0;
+73c5162aa362a5 Steven Rostedt           2009-03-11  6306  	}
+73c5162aa362a5 Steven Rostedt           2009-03-11  6307  
+428add559b6923 Steven Rostedt           2025-11-11 @6308  	list_for_each_entry(t, &tr->tracers, list) {
+428add559b6923 Steven Rostedt           2025-11-11  6309  		if (strcmp(t->tracer->name, buf) == 0) {
+428add559b6923 Steven Rostedt           2025-11-11  6310  			trace = t->tracer;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6311  			break;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6312  		}
+428add559b6923 Steven Rostedt           2025-11-11  6313  	}
+428add559b6923 Steven Rostedt           2025-11-11  6314  	if (!trace)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6315  		return -EINVAL;
+d33b10c0c73adc Steven Rostedt           2024-12-24  6316  
+428add559b6923 Steven Rostedt           2025-11-11  6317  	if (trace == tr->current_trace)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6318  		return 0;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6319  
+a35873a0993b4d Tom Zanussi              2019-02-13  6320  #ifdef CONFIG_TRACER_SNAPSHOT
+428add559b6923 Steven Rostedt           2025-11-11  6321  	if (trace->use_max_tr) {
+c0a581d7126c0b Waiman Long              2022-09-22  6322  		local_irq_disable();
+a35873a0993b4d Tom Zanussi              2019-02-13  6323  		arch_spin_lock(&tr->max_lock);
+22bec11a569983 Steven Rostedt           2025-01-06  6324  		ret = tr->cond_snapshot ? -EBUSY : 0;
+a35873a0993b4d Tom Zanussi              2019-02-13  6325  		arch_spin_unlock(&tr->max_lock);
+c0a581d7126c0b Waiman Long              2022-09-22  6326  		local_irq_enable();
+a35873a0993b4d Tom Zanussi              2019-02-13  6327  		if (ret)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6328  			return ret;
+a35873a0993b4d Tom Zanussi              2019-02-13  6329  	}
+a35873a0993b4d Tom Zanussi              2019-02-13  6330  #endif
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6331) 	/* Some tracers won't work on kernel command line */
+428add559b6923 Steven Rostedt           2025-11-11  6332  	if (system_state < SYSTEM_RUNNING && trace->noboot) {
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6333) 		pr_warn("Tracer '%s' is not allowed on command line, ignored\n",
+428add559b6923 Steven Rostedt           2025-11-11  6334  			trace->name);
+d1e27ee9c6f21c Steven Rostedt           2024-12-19  6335  		return -EINVAL;
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6336) 	}
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6337) 
+607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6338) 	/* Some tracers are only allowed for the top level buffer */
+428add559b6923 Steven Rostedt           2025-11-11  6339  	if (!trace_ok_for_array(trace, tr))
+d33b10c0c73adc Steven Rostedt           2024-12-24  6340  		return -EINVAL;
+607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6341) 
+cf6ab6d9143b15 Steven Rostedt (Red Hat  2014-12-15  6342) 	/* If trace pipe files are being read, we can't change the tracer */
+d33b10c0c73adc Steven Rostedt           2024-12-24  6343  	if (tr->trace_ref)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6344  		return -EBUSY;
+cf6ab6d9143b15 Steven Rostedt (Red Hat  2014-12-15  6345) 
+9f029e83e968e5 Steven Rostedt           2008-11-12  6346  	trace_branch_disable();
+613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6347) 
+50512ab576e1ce Steven Rostedt (Red Hat  2014-01-14  6348) 	tr->current_trace->enabled--;
+613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6349) 
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6350  	if (tr->current_trace->reset)
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6351  		tr->current_trace->reset(tr);
+613f04a0f51e6e Steven Rostedt (Red Hat  2013-03-14  6352) 
+a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6353) #ifdef CONFIG_TRACER_MAX_TRACE
+a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6354) 	had_max_tr = tr->current_trace->use_max_tr;
+a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6355) 
+7440172974e85b Paul E. McKenney         2018-11-06  6356  	/* Current trace needs to be nop_trace before synchronize_rcu */
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6357  	tr->current_trace = &nop_trace;
+428add559b6923 Steven Rostedt           2025-11-11  6358  	tr->current_trace_flags = nop_trace.flags;
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6359  
+428add559b6923 Steven Rostedt           2025-11-11  6360  	if (had_max_tr && !trace->use_max_tr) {
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6361  		/*
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6362  		 * We need to make sure that the update_max_tr sees that
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6363  		 * current_trace changed to nop_trace to keep it from
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6364  		 * swapping the buffers after we resize it.
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6365  		 * The update_max_tr is called from interrupts disabled
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6366  		 * so a synchronized_sched() is sufficient.
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6367  		 */
+7440172974e85b Paul E. McKenney         2018-11-06  6368  		synchronize_rcu();
+3209cff4490bee Steven Rostedt (Red Hat  2013-03-12  6369) 		free_snapshot(tr);
+180e4e390978af Vincent Donnefort        2024-02-20  6370  		tracing_disarm_snapshot(tr);
+ef710e100c1068 KOSAKI Motohiro          2010-07-01  6371  	}
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6372) 
+428add559b6923 Steven Rostedt           2025-11-11  6373  	if (!had_max_tr && trace->use_max_tr) {
+180e4e390978af Vincent Donnefort        2024-02-20  6374  		ret = tracing_arm_snapshot_locked(tr);
+180e4e390978af Vincent Donnefort        2024-02-20  6375  		if (ret)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6376  			return ret;
+ef710e100c1068 KOSAKI Motohiro          2010-07-01  6377  	}
+a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6378) #else
+a541a9559bb0a8 Steven Rostedt (Google   2022-10-05  6379) 	tr->current_trace = &nop_trace;
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6380) #endif
+577b785f55168d Steven Rostedt           2009-02-26  6381  
+428add559b6923 Steven Rostedt           2025-11-11 @6382  	tr->current_trace_flags = t->flags ? : t->tracer->flags;
+428add559b6923 Steven Rostedt           2025-11-11  6383  
+428add559b6923 Steven Rostedt           2025-11-11  6384  	if (trace->init) {
+428add559b6923 Steven Rostedt           2025-11-11  6385  		ret = tracer_init(trace, tr);
+180e4e390978af Vincent Donnefort        2024-02-20  6386  		if (ret) {
+180e4e390978af Vincent Donnefort        2024-02-20  6387  #ifdef CONFIG_TRACER_MAX_TRACE
+428add559b6923 Steven Rostedt           2025-11-11  6388  			if (trace->use_max_tr)
+180e4e390978af Vincent Donnefort        2024-02-20  6389  				tracing_disarm_snapshot(tr);
+180e4e390978af Vincent Donnefort        2024-02-20  6390  #endif
+428add559b6923 Steven Rostedt           2025-11-11  6391  			tr->current_trace_flags = nop_trace.flags;
+d33b10c0c73adc Steven Rostedt           2024-12-24  6392  			return ret;
+1c80025a49855b Frederic Weisbecker      2008-11-16  6393  		}
+180e4e390978af Vincent Donnefort        2024-02-20  6394  	}
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6395  
+428add559b6923 Steven Rostedt           2025-11-11  6396  	tr->current_trace = trace;
+50512ab576e1ce Steven Rostedt (Red Hat  2014-01-14  6397) 	tr->current_trace->enabled++;
+9f029e83e968e5 Steven Rostedt           2008-11-12  6398  	trace_branch_enable(tr);
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6399  
+d33b10c0c73adc Steven Rostedt           2024-12-24  6400  	return 0;
+d9e540762f5cdd Peter Zijlstra           2008-11-01  6401  }
+d9e540762f5cdd Peter Zijlstra           2008-11-01  6402  
 
 --
 0-DAY CI Kernel Test Service
