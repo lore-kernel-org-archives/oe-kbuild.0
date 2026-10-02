@@ -1,154 +1,158 @@
-Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26BD361953
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 05:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6BB3EFFBD
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 06:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790917593; cv=none; b=DUKcSW6qmhlTcE/yvz3gTNyjOZonXn5h2JA49nXnbL89F+vz8ElKVk7/88GLXw2dCVgNOJkCNVmAA81Y7IZFzbm8xXRiJpLFrX0QNRvAtpjsf7KX8YbAtd17wYD1+RWFhr80uKTVfmG76fki9MwlVgXOgf+sLOa0VCchzEjC1s4=
+	t=1790922393; cv=none; b=OiWAYXr3crLrHhCsxbZNOCb8SHaEVwgm545HKzHNVXjpWZ+0866t/72wWdUJVgRpo0/eiIBhqX0b5RZ56YblVEF4XL2zluaEZd0zlUuTjIkfSLRBqv6f2/m1jgtxqiVkaEJSAgnFBYe8p4xWEf0rhwkDNHbDD5nr3twq3xVeNXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790917593; c=relaxed/simple;
-	bh=b2PYffbQu0LiIrlwwgXBVJevEQgfnckMqQ11SN4MLWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZAsaSFyBTJFCmfeJzAMnFhgSAfBkGLgNjMpjNKL9PmT2ml8p7znSZ6KH6qgFcxGhkoSemDInBoTMJo1EC2qT8nC47MiCSLMd0rR7j/tR5nSDFJ3cOHpuDh942S5j1cXotBezSvU4pQDlwzMM9eWEuyELdDulF7HOV68t7SHqEv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I6GmSuHn; arc=none smtp.client-ip=74.125.225.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790922393; c=relaxed/simple;
+	bh=0T6W67Bvj7R5gO3ufoP8pvGw6QgyoC30ro+U3tdFGQs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AvNGmZECO7sEVo9h6pyBNa95yLUYF8K+/J0GIZW/xn2CE6RdWwehr8Jbc/lGOeOhWguCwlOh18TkzlE6lpsXhEdZis/tj6PE4QmL/L8PYKQZzAUyKTz4iDh++wGSwu9M0CxnsmKOaO+wpzsOyehZxakjKo+3Zv04bgWMm0UI64o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eigd9AIw; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I6GmSuHn"
-Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48aef5d66c1so2146824f8f.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 01 Oct 2026 22:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790917590; x=1791522390; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PTn0Od7NqDwouQEAooTW7xcGRo+VrAdp0mD9BcMogI0=;
-        b=I6GmSuHn32VJR31UW6hJ6ym2Nuh6azc0Kap2RrEgjh2Ep8saDt0GpvPDJqMjBHgzt2
-         dxilTvETsrEvfCOS+p0bJRVo87PZ8eG7LXb/6VmM780U6S4BWHDMlk5orLbcDZChnVSF
-         826BKQoHIbGiN0GohbtlHZe/cvUHSezg0XsSifI9b86Rur43qeoWpPl0cuNeGEGHpojg
-         FrtdkpiyyCjah7KsRo1Ty7vj7QKkKNgoGWtwiHcYd2qhDM1t9tQKc8OEZZDRJGLFX7Fx
-         3G6PdILqTqf5DWPkI5F9lmcWlvvsioIdA0fmB4BIJR/L8QTINPYOleK1va89Gvj1smyR
-         7T1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790917590; x=1791522390;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PTn0Od7NqDwouQEAooTW7xcGRo+VrAdp0mD9BcMogI0=;
-        b=IGjTxY9xE5yrakQXr/yQHOK9jmSFjB2YEwWWQLrc04O9SXGNEglj2uvOxg5F1anC7h
-         HlNKbE7J4+oKWCKToAdX64SiKiXC5SkiKLFK8hwmH11aLeisqrxWTDiTV46DROR2wacB
-         vHirRbXe7RyfBdIuy0PFVQT4LYrwOyYS3CeHYVUy5ZZJpCzUI/WhwEKkOSs0Xh3dgX/Q
-         SaKNjWZFD60RnoYGa3krdm4ukTA805RbUaBc0aEuP0NLxMXsMAOWv30AF8kSfl7QgWWd
-         T6sI3+YRKu6maQtdV+3tRm1G8zJXp2pmSoHz9NbkYgc7wOryke3lK7auWLLJ+7Jc6g9o
-         00hw==
-X-Gm-Message-State: AFq9FYJ5C3DyVCIOCJIvZJu6T8W8Rm6YZQoDVD4Nh7rrlj+k1SrjDXql
-	4xit6WRlCIF/KAJUCJxtqTexf3vQk7FnO0zRQloAqYcWcllN+NpoeDjwt5A0fdVobxbdCw==
-X-Gm-Gg: AYBFou1hxwdmOmdXtNiB675Khq3ZXSiGHy0Uoy5VrUo/5SAUlhmcj/r5lQ2qKMLrgM6
-	VCdYYG7eAMKyxsW+UjWikewgkDW4w2+EUz/l5PQc9YekyA9OT2PO/ightBDdoX79g3y7l6zpDZ+
-	0JmIXdZT+zpPmrH52Ale9OXd2VIpQ2Pw8x5oVRovCJCGzp3el2b8kc9FjWuRvU7PSNIZHw39WiE
-	ln2fyTREr2jQWWsDjDZruR5qnpgvag8sfnrUQap4b5+lQF7yfE9yigOgE6XCadzwL6fY9ir8dhE
-	5NTflurqvSb1Lu9C5nrFR9Ef3Njdzrs2VvPM0nr2NXp92pS9O1d/pJoB/bnjQE1CCZN5lKvYfQG
-	SbKa/tDZOpB8eZlg/MRkrwpJJCvSDvnTKPI8szAmO3PxlCTEjuZ+/9udoq6+SWygXKZ9aan61HV
-	KhXfKzUJN/h1RqZJE+3zpB+LzbkoWgyEum9F5LnqpuUo+cbipVfR74NZ7TB5VprQELqJg=
-X-Received: by 2002:a05:6000:3112:b0:487:faa:b1e0 with SMTP id ffacd0b85a97d-48b1270fb9amr2477283f8f.12.1790917589467;
-        Thu, 01 Oct 2026 22:06:29 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380fa61csm3083895f8f.17.2026.10.01.22.06.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 22:06:28 -0700 (PDT)
-Date: Fri, 2 Oct 2026 08:06:23 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 18/18] fs/smb/client/sess.c:310
- cifs_disable_secondary_channels() error: dereferencing freed memory 'iface'
- (line 308)
-Message-ID: <202610020116.n8KvKthY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eigd9AIw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790922392; x=1822458392;
+  h=date:from:to:cc:subject:message-id;
+  bh=0T6W67Bvj7R5gO3ufoP8pvGw6QgyoC30ro+U3tdFGQs=;
+  b=Eigd9AIwRT5BXulYE5iwsOutZQmrIUyJqRv9GRnKvt9YLp0KZ3riLjhN
+   OHWWg9xFeHCG2nK+Ey6b7y4Udy8QQNqGNb0p2P51d8P0NxB+jywpx8Jvy
+   k5igGY2zsImKGqoMX7Gu0U9hRRVFXM6X40WW6LQM+DQARJYzy0S/KUamu
+   ziCvBRPahO0yPeGpqo/tvxYUDLNhfnSj3thslYyuV1K1iEvuIAtVxlDwd
+   K5gxOBvfA/PHSX2KlHc6evuqNBuLQZ6/bGxGLkls3Wi+3x81IDJcqFmlo
+   QE0V6LGcwjgenBei9Iga0t03il6r6Mr3EB9XrbkNsbxCLCwIyWhcVVrdp
+   Q==;
+X-CSE-ConnectionGUID: 91XTH6/UStOcKFspvIRffA==
+X-CSE-MsgGUID: QFEv6K1IQ1u/61XL9KGpnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90744201"
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="90744201"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 23:26:31 -0700
+X-CSE-ConnectionGUID: dxMTGYZhQH+fJzHteOX6cw==
+X-CSE-MsgGUID: gr9CjEPlSWqJrxo42krbpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="260399"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 01 Oct 2026 23:26:29 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xCWix-00000000Sh8-1krd;
+	Fri, 02 Oct 2026 06:26:27 +0000
+Date: Fri, 02 Oct 2026 14:26:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/iio/adc/stm32-mdf-adc.c:2047:12: warning:
+ 'stm32_mdf_adc_resume' defined but not used
+Message-ID: <202610021438.gxPsdPBI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20261002050623.ktXvq4wO5u_Y6VKblIZloLOH0h-Re8ZS0nCngOOgpn8@z>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   e2d429338ffa976942aba4887d0b8a7e07dc0267
-commit: e341b7975bd72d3ebda92b8d747d0aad15ce8717 [18/18] cifs: handle when server stops supporting multichannel
-config: x86_64-randconfig-2200-20261001 (https://download.01.org/0day-ci/archive/20261002/202610020116.n8KvKthY-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-smatch: v0.5.0-9187-g5189e3fb
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Olivier-Moysan/dt-bindings-iio-adc-add-bindings-for-stm32-mdf-filter/20261001-165645, commit: 093a1f109deefe2285de38fae696822eabdd6338"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Olivier Moysan <olivier.moysan@foss.st.com>
+CC: 0day robot <lkp@intel.com>
+
+tree:   https://github.com/intel-lab-lkp/linux/commits/Olivier-Moysan/dt-bindings-iio-adc-add-bindings-for-stm32-mdf-filter/20261001-165645
+head:   45194ccfe8e4b43c0d49821b0839686030e0d99b
+commit: 093a1f109deefe2285de38fae696822eabdd6338 iio: adc: add stm32 mdf support
+date:   15 hours ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261002/202610021438.gxPsdPBI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021438.gxPsdPBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610020116.n8KvKthY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610021438.gxPsdPBI-lkp@intel.com/
 
-smatch warnings:
-fs/smb/client/sess.c:310 cifs_disable_secondary_channels() error: dereferencing freed memory 'iface' (line 308)
+All warnings (new ones prefixed by >>):
 
-vim +/iface +310 fs/smb/client/sess.c
+>> drivers/iio/adc/stm32-mdf-adc.c:2047:12: warning: 'stm32_mdf_adc_resume' defined but not used [-Wunused-function]
+    2047 | static int stm32_mdf_adc_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-adc.c:2032:12: warning: 'stm32_mdf_adc_suspend' defined but not used [-Wunused-function]
+    2032 | static int stm32_mdf_adc_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/iio/adc/stm32-mdf-core.c:833:12: warning: 'stm32_mdf_core_runtime_resume' defined but not used [-Wunused-function]
+     833 | static int stm32_mdf_core_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:828:12: warning: 'stm32_mdf_core_runtime_suspend' defined but not used [-Wunused-function]
+     828 | static int stm32_mdf_core_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:793:12: warning: 'stm32_mdf_core_resume' defined but not used [-Wunused-function]
+     793 | static int stm32_mdf_core_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:774:12: warning: 'stm32_mdf_core_suspend' defined but not used [-Wunused-function]
+     774 | static int stm32_mdf_core_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/iio/adc/stm32-mdf-serial.c:279:12: warning: 'stm32_mdf_sitf_runtime_resume' defined but not used [-Wunused-function]
+     279 | static int stm32_mdf_sitf_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-serial.c:274:12: warning: 'stm32_mdf_sitf_runtime_suspend' defined but not used [-Wunused-function]
+     274 | static int stm32_mdf_sitf_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-serial.c:265:12: warning: 'stm32_mdf_sitf_resume' defined but not used [-Wunused-function]
+     265 | static int stm32_mdf_sitf_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-serial.c:253:12: warning: 'stm32_mdf_sitf_suspend' defined but not used [-Wunused-function]
+     253 | static int stm32_mdf_sitf_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  285  void
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  286  cifs_disable_secondary_channels(struct cifs_ses *ses)
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  287  {
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  288  	int i, chan_count;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  289  	struct TCP_Server_Info *server;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  290  	struct cifs_server_iface *iface;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  291  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  292  	spin_lock(&ses->chan_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  293  	chan_count = ses->chan_count;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  294  	if (chan_count == 1)
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  295  		goto done;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  296  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  297  	ses->chan_count = 1;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  298  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  299  	/* for all secondary channels reset the need reconnect bit */
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  300  	ses->chans_need_reconnect &= 1;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  301  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  302  	for (i = 1; i < chan_count; i++) {
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  303  		iface = ses->chans[i].iface;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  304  		server = ses->chans[i].server;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  305  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  306  		if (iface) {
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  307  			spin_lock(&ses->iface_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16 @308  			kref_put(&iface->refcount, release_iface);
-                                                                                                                   ^^^^^^^^^^^^^
-iface released
 
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  309  			ses->chans[i].iface = NULL;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16 @310  			iface->num_channels--;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  311  			if (iface->weight_fulfilled)
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  312  				iface->weight_fulfilled--;
+vim +/stm32_mdf_adc_resume +2047 drivers/iio/adc/stm32-mdf-adc.c
 
-and then dereferenced.  Use after free.
-
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  313  			spin_unlock(&ses->iface_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  314  		}
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  315  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  316  		spin_unlock(&ses->chan_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  317  		if (server && !server->terminate) {
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  318  			server->terminate = true;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  319  			cifs_signal_cifsd_for_reconnect(server, false);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  320  		}
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  321  		spin_lock(&ses->chan_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  322  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  323  		if (server) {
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  324  			ses->chans[i].server = NULL;
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  325  			cifs_put_tcp_session(server, false);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  326  		}
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  327  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  328  	}
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  329  
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  330  done:
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  331  	spin_unlock(&ses->chan_lock);
-e341b7975bd72d fs/smb/client/sess.c Shyam Prasad N 2026-07-16  332  }
+093a1f109deefe Olivier Moysan 2026-10-01  2031  
+093a1f109deefe Olivier Moysan 2026-10-01 @2032  static int stm32_mdf_adc_suspend(struct device *dev)
+093a1f109deefe Olivier Moysan 2026-10-01  2033  {
+093a1f109deefe Olivier Moysan 2026-10-01  2034  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2035  	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2036  	int ret = 0;
+093a1f109deefe Olivier Moysan 2026-10-01  2037  
+093a1f109deefe Olivier Moysan 2026-10-01  2038  	if (iio_buffer_enabled(indio_dev))
+093a1f109deefe Olivier Moysan 2026-10-01  2039  		ret = stm32_mdf_adc_predisable(indio_dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2040  
+093a1f109deefe Olivier Moysan 2026-10-01  2041  	regcache_cache_only(adc->regmap, true);
+093a1f109deefe Olivier Moysan 2026-10-01  2042  	regcache_mark_dirty(adc->regmap);
+093a1f109deefe Olivier Moysan 2026-10-01  2043  
+093a1f109deefe Olivier Moysan 2026-10-01  2044  	return ret;
+093a1f109deefe Olivier Moysan 2026-10-01  2045  }
+093a1f109deefe Olivier Moysan 2026-10-01  2046  
+093a1f109deefe Olivier Moysan 2026-10-01 @2047  static int stm32_mdf_adc_resume(struct device *dev)
+093a1f109deefe Olivier Moysan 2026-10-01  2048  {
+093a1f109deefe Olivier Moysan 2026-10-01  2049  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2050  	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2051  	int ret;
+093a1f109deefe Olivier Moysan 2026-10-01  2052  
+093a1f109deefe Olivier Moysan 2026-10-01  2053  	regcache_cache_only(adc->regmap, false);
+093a1f109deefe Olivier Moysan 2026-10-01  2054  	ret = regcache_sync(adc->regmap);
+093a1f109deefe Olivier Moysan 2026-10-01  2055  
+093a1f109deefe Olivier Moysan 2026-10-01  2056  	if (!ret && iio_buffer_enabled(indio_dev))
+093a1f109deefe Olivier Moysan 2026-10-01  2057  		ret = stm32_mdf_adc_postenable(indio_dev);
+093a1f109deefe Olivier Moysan 2026-10-01  2058  
+093a1f109deefe Olivier Moysan 2026-10-01  2059  	return ret;
+093a1f109deefe Olivier Moysan 2026-10-01  2060  }
+093a1f109deefe Olivier Moysan 2026-10-01  2061  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
