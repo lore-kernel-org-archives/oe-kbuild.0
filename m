@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6BB3EFFBD
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 06:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDB02E8DE3
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 06:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790922393; cv=none; b=OiWAYXr3crLrHhCsxbZNOCb8SHaEVwgm545HKzHNVXjpWZ+0866t/72wWdUJVgRpo0/eiIBhqX0b5RZ56YblVEF4XL2zluaEZd0zlUuTjIkfSLRBqv6f2/m1jgtxqiVkaEJSAgnFBYe8p4xWEf0rhwkDNHbDD5nr3twq3xVeNXw=
+	t=1790922452; cv=none; b=IVtLuru3vExhJ1uu5S8O9OihS9iKtO1W13g10lJw4Ra60HbKNXSloZBD/kABuQ8knpTWlzOMS1tXTnR6f2799/Q2iTL1qXXA6tkvSP7X9wi0paF+3UDGOjAR+NTaW9TxQ5lXusKgXIwLImD90rIHlU+muJ9c5lUVljMlFhbb73s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790922393; c=relaxed/simple;
-	bh=0T6W67Bvj7R5gO3ufoP8pvGw6QgyoC30ro+U3tdFGQs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AvNGmZECO7sEVo9h6pyBNa95yLUYF8K+/J0GIZW/xn2CE6RdWwehr8Jbc/lGOeOhWguCwlOh18TkzlE6lpsXhEdZis/tj6PE4QmL/L8PYKQZzAUyKTz4iDh++wGSwu9M0CxnsmKOaO+wpzsOyehZxakjKo+3Zv04bgWMm0UI64o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eigd9AIw; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1790922452; c=relaxed/simple;
+	bh=gBmX54bImiXQ3th8xNmtGrYsFa8QFZTJnoiFzHP9fKg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iRCF6hd2eYV4X76pONYUQlnlRQEm2vQfZVX0Ydddik8ZuZJy5E0FgJS4uqUp3sja6Y7ktEo+BoEp6OlyDygXw9aJb4LS6Gsc4j5RaSXQhl7CBEEOgUZ/dNl77O4k3WGWC/mJU/idFcPc7HL6+o0NNp+eAwifk7YF9UlIVaeQfAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2WUHdDn; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eigd9AIw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2WUHdDn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790922392; x=1822458392;
+  t=1790922451; x=1822458451;
   h=date:from:to:cc:subject:message-id;
-  bh=0T6W67Bvj7R5gO3ufoP8pvGw6QgyoC30ro+U3tdFGQs=;
-  b=Eigd9AIwRT5BXulYE5iwsOutZQmrIUyJqRv9GRnKvt9YLp0KZ3riLjhN
-   OHWWg9xFeHCG2nK+Ey6b7y4Udy8QQNqGNb0p2P51d8P0NxB+jywpx8Jvy
-   k5igGY2zsImKGqoMX7Gu0U9hRRVFXM6X40WW6LQM+DQARJYzy0S/KUamu
-   ziCvBRPahO0yPeGpqo/tvxYUDLNhfnSj3thslYyuV1K1iEvuIAtVxlDwd
-   K5gxOBvfA/PHSX2KlHc6evuqNBuLQZ6/bGxGLkls3Wi+3x81IDJcqFmlo
-   QE0V6LGcwjgenBei9Iga0t03il6r6Mr3EB9XrbkNsbxCLCwIyWhcVVrdp
-   Q==;
-X-CSE-ConnectionGUID: 91XTH6/UStOcKFspvIRffA==
-X-CSE-MsgGUID: QFEv6K1IQ1u/61XL9KGpnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90744201"
+  bh=gBmX54bImiXQ3th8xNmtGrYsFa8QFZTJnoiFzHP9fKg=;
+  b=O2WUHdDnXv1iuT5GfZnanIZmOu4b+iI6tV2sjLNeZ3b+N9V9zk/kCm3Q
+   yZRfuNm7h+wlhvh283ffLSLn3PwI73oFME5kmjc8crAfv1PJfVlnlCogr
+   /4+q9MQSytse6K7RjgQ5colaUwIor4EzJ1CLeA31aHrO9cJs/kTN/VFSQ
+   tejoHMZRNtkGagFxm0kMWhLVKA7IM/iLPWGNDr7Q0zUWZUdCq6K9ziH3q
+   azKUi5vY61XVatKSacxcoVkUGKmx+qQFqae2k5gdKjaO2JnvhcohFQdcF
+   1f+oYkeUhCGjktAg7LS1yycHA5ZNKE3LeOfxa75vqbE0UP5UVe9Lk0wSd
+   A==;
+X-CSE-ConnectionGUID: dlcxjZcOSC+UjrsvCi5byw==
+X-CSE-MsgGUID: 4UdU5xGrTjiPEkTB8HkLuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="101850144"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="90744201"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 23:26:31 -0700
-X-CSE-ConnectionGUID: dxMTGYZhQH+fJzHteOX6cw==
-X-CSE-MsgGUID: gr9CjEPlSWqJrxo42krbpA==
+   d="scan'208";a="101850144"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 23:27:31 -0700
+X-CSE-ConnectionGUID: tw9jLdSSRV6+TF6KAQ1m4Q==
+X-CSE-MsgGUID: 4M39m3KJRVisVpQfnzC1Zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="260399"
+   d="scan'208";a="274265491"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 01 Oct 2026 23:26:29 -0700
+  by orviesa010.jf.intel.com with ESMTP; 01 Oct 2026 23:27:30 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCWix-00000000Sh8-1krd;
-	Fri, 02 Oct 2026 06:26:27 +0000
-Date: Fri, 02 Oct 2026 14:26:12 +0800
+	id 1xCWjv-00000000ShE-1vWL;
+	Fri, 02 Oct 2026 06:27:27 +0000
+Date: Fri, 02 Oct 2026 14:26:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/iio/adc/stm32-mdf-adc.c:2047:12: warning:
- 'stm32_mdf_adc_resume' defined but not used
-Message-ID: <202610021438.gxPsdPBI-lkp@intel.com>
+Subject: Warning: drivers/tee/qcomtee/call.c:205 function parameter
+ 'oic' not described in 'qcomtee_params_to_args'
+Message-ID: <202610021436.HDQInaZk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,98 +60,42 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Olivier-Moysan/dt-bindings-iio-adc-add-bindings-for-stm32-mdf-filter/20261001-165645, commit: 093a1f109deefe2285de38fae696822eabdd6338"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Harshal-Dev/tee-qcomtee-Track-the-object-invocation-context/20261001-163233, commit: 571ae3850d0efea9b1d925385c6b44d4cb639d8e"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Olivier Moysan <olivier.moysan@foss.st.com>
+TO: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 CC: 0day robot <lkp@intel.com>
+CC: Harshal Dev <harshal.dev@oss.qualcomm.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Olivier-Moysan/dt-bindings-iio-adc-add-bindings-for-stm32-mdf-filter/20261001-165645
-head:   45194ccfe8e4b43c0d49821b0839686030e0d99b
-commit: 093a1f109deefe2285de38fae696822eabdd6338 iio: adc: add stm32 mdf support
-date:   15 hours ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261002/202610021438.gxPsdPBI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021438.gxPsdPBI-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Harshal-Dev/tee-qcomtee-Track-the-object-invocation-context/20261001-163233
+head:   b59502937f7cb9085e9c5daf5541dc8f0e1286dc
+commit: 571ae3850d0efea9b1d925385c6b44d4cb639d8e tee: qcomtee: Allow object invokes from kernel clients
+date:   19 hours ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20261002/202610021436.HDQInaZk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021436.HDQInaZk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610021438.gxPsdPBI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610021436.HDQInaZk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/adc/stm32-mdf-adc.c:2047:12: warning: 'stm32_mdf_adc_resume' defined but not used [-Wunused-function]
-    2047 | static int stm32_mdf_adc_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-adc.c:2032:12: warning: 'stm32_mdf_adc_suspend' defined but not used [-Wunused-function]
-    2032 | static int stm32_mdf_adc_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
---
->> drivers/iio/adc/stm32-mdf-core.c:833:12: warning: 'stm32_mdf_core_runtime_resume' defined but not used [-Wunused-function]
-     833 | static int stm32_mdf_core_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-core.c:828:12: warning: 'stm32_mdf_core_runtime_suspend' defined but not used [-Wunused-function]
-     828 | static int stm32_mdf_core_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-core.c:793:12: warning: 'stm32_mdf_core_resume' defined but not used [-Wunused-function]
-     793 | static int stm32_mdf_core_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-core.c:774:12: warning: 'stm32_mdf_core_suspend' defined but not used [-Wunused-function]
-     774 | static int stm32_mdf_core_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/iio/adc/stm32-mdf-serial.c:279:12: warning: 'stm32_mdf_sitf_runtime_resume' defined but not used [-Wunused-function]
-     279 | static int stm32_mdf_sitf_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-serial.c:274:12: warning: 'stm32_mdf_sitf_runtime_suspend' defined but not used [-Wunused-function]
-     274 | static int stm32_mdf_sitf_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-serial.c:265:12: warning: 'stm32_mdf_sitf_resume' defined but not used [-Wunused-function]
-     265 | static int stm32_mdf_sitf_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/stm32-mdf-serial.c:253:12: warning: 'stm32_mdf_sitf_suspend' defined but not used [-Wunused-function]
-     253 | static int stm32_mdf_sitf_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/stm32_mdf_adc_resume +2047 drivers/iio/adc/stm32-mdf-adc.c
-
-093a1f109deefe Olivier Moysan 2026-10-01  2031  
-093a1f109deefe Olivier Moysan 2026-10-01 @2032  static int stm32_mdf_adc_suspend(struct device *dev)
-093a1f109deefe Olivier Moysan 2026-10-01  2033  {
-093a1f109deefe Olivier Moysan 2026-10-01  2034  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2035  	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2036  	int ret = 0;
-093a1f109deefe Olivier Moysan 2026-10-01  2037  
-093a1f109deefe Olivier Moysan 2026-10-01  2038  	if (iio_buffer_enabled(indio_dev))
-093a1f109deefe Olivier Moysan 2026-10-01  2039  		ret = stm32_mdf_adc_predisable(indio_dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2040  
-093a1f109deefe Olivier Moysan 2026-10-01  2041  	regcache_cache_only(adc->regmap, true);
-093a1f109deefe Olivier Moysan 2026-10-01  2042  	regcache_mark_dirty(adc->regmap);
-093a1f109deefe Olivier Moysan 2026-10-01  2043  
-093a1f109deefe Olivier Moysan 2026-10-01  2044  	return ret;
-093a1f109deefe Olivier Moysan 2026-10-01  2045  }
-093a1f109deefe Olivier Moysan 2026-10-01  2046  
-093a1f109deefe Olivier Moysan 2026-10-01 @2047  static int stm32_mdf_adc_resume(struct device *dev)
-093a1f109deefe Olivier Moysan 2026-10-01  2048  {
-093a1f109deefe Olivier Moysan 2026-10-01  2049  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2050  	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2051  	int ret;
-093a1f109deefe Olivier Moysan 2026-10-01  2052  
-093a1f109deefe Olivier Moysan 2026-10-01  2053  	regcache_cache_only(adc->regmap, false);
-093a1f109deefe Olivier Moysan 2026-10-01  2054  	ret = regcache_sync(adc->regmap);
-093a1f109deefe Olivier Moysan 2026-10-01  2055  
-093a1f109deefe Olivier Moysan 2026-10-01  2056  	if (!ret && iio_buffer_enabled(indio_dev))
-093a1f109deefe Olivier Moysan 2026-10-01  2057  		ret = stm32_mdf_adc_postenable(indio_dev);
-093a1f109deefe Olivier Moysan 2026-10-01  2058  
-093a1f109deefe Olivier Moysan 2026-10-01  2059  	return ret;
-093a1f109deefe Olivier Moysan 2026-10-01  2060  }
-093a1f109deefe Olivier Moysan 2026-10-01  2061  
+>> Warning: drivers/tee/qcomtee/call.c:205 function parameter 'oic' not described in 'qcomtee_params_to_args'
+>> Warning: drivers/tee/qcomtee/call.c:205 Excess function parameter 'ctx' description in 'qcomtee_params_to_args'
+>> Warning: drivers/tee/qcomtee/call.c:279 function parameter 'oic' not described in 'qcomtee_params_from_args'
+>> Warning: drivers/tee/qcomtee/call.c:279 Excess function parameter 'ctx' description in 'qcomtee_params_from_args'
+   Warning: drivers/tee/qcomtee/call.c:408 function parameter 'origin' not described in 'qcomtee_object_invoke'
+>> Warning: drivers/tee/qcomtee/call.c:205 function parameter 'oic' not described in 'qcomtee_params_to_args'
+>> Warning: drivers/tee/qcomtee/call.c:205 Excess function parameter 'ctx' description in 'qcomtee_params_to_args'
+>> Warning: drivers/tee/qcomtee/call.c:279 function parameter 'oic' not described in 'qcomtee_params_from_args'
+>> Warning: drivers/tee/qcomtee/call.c:279 Excess function parameter 'ctx' description in 'qcomtee_params_from_args'
+   Warning: drivers/tee/qcomtee/call.c:408 function parameter 'origin' not described in 'qcomtee_object_invoke'
 
 --
 0-DAY CI Kernel Test Service
