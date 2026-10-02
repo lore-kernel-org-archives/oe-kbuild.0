@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDB02E8DE3
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 06:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B77C299943
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Oct 2026 07:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790922452; cv=none; b=IVtLuru3vExhJ1uu5S8O9OihS9iKtO1W13g10lJw4Ra60HbKNXSloZBD/kABuQ8knpTWlzOMS1tXTnR6f2799/Q2iTL1qXXA6tkvSP7X9wi0paF+3UDGOjAR+NTaW9TxQ5lXusKgXIwLImD90rIHlU+muJ9c5lUVljMlFhbb73s=
+	t=1790925238; cv=none; b=k4rmj3X2FQyER3WLSlLo2kqNOP85LK0H6JvrMbt9jRcCeAvCSYJhVOR9OtRtT7KuUiVYLvIuCIoGQ53Q4klcG0SYNDf8UUpY4Zl4vqJEr+hLhIr2XS7iZGq/im931rerD8ih3Qmdr0ii6KPAOJZiarSkccgjNT0njPLq5PPMWlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790922452; c=relaxed/simple;
-	bh=gBmX54bImiXQ3th8xNmtGrYsFa8QFZTJnoiFzHP9fKg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iRCF6hd2eYV4X76pONYUQlnlRQEm2vQfZVX0Ydddik8ZuZJy5E0FgJS4uqUp3sja6Y7ktEo+BoEp6OlyDygXw9aJb4LS6Gsc4j5RaSXQhl7CBEEOgUZ/dNl77O4k3WGWC/mJU/idFcPc7HL6+o0NNp+eAwifk7YF9UlIVaeQfAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2WUHdDn; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1790925238; c=relaxed/simple;
+	bh=nMtLDbpVe+BqEIb4tShyxwSBHLeFnVijsLFo0jjHdDo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GHYAsuaUkjIEGpR/+SzQRR6N9tep04LVZBCvma3zkgciqWLPU4jA7REgdXaa8JrcpBKtxM/cI8q9dQuS22Jl1RUwh9TvBGs0/u3q3Tdo8TKsHjR4toDuT/KwTxmaFkQCtEPql+N5a5UQh96JKUg/lG0SU+MbCoDGh1EkAWEtyBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzljD3hX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2WUHdDn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzljD3hX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790922451; x=1822458451;
+  t=1790925237; x=1822461237;
   h=date:from:to:cc:subject:message-id;
-  bh=gBmX54bImiXQ3th8xNmtGrYsFa8QFZTJnoiFzHP9fKg=;
-  b=O2WUHdDnXv1iuT5GfZnanIZmOu4b+iI6tV2sjLNeZ3b+N9V9zk/kCm3Q
-   yZRfuNm7h+wlhvh283ffLSLn3PwI73oFME5kmjc8crAfv1PJfVlnlCogr
-   /4+q9MQSytse6K7RjgQ5colaUwIor4EzJ1CLeA31aHrO9cJs/kTN/VFSQ
-   tejoHMZRNtkGagFxm0kMWhLVKA7IM/iLPWGNDr7Q0zUWZUdCq6K9ziH3q
-   azKUi5vY61XVatKSacxcoVkUGKmx+qQFqae2k5gdKjaO2JnvhcohFQdcF
-   1f+oYkeUhCGjktAg7LS1yycHA5ZNKE3LeOfxa75vqbE0UP5UVe9Lk0wSd
+  bh=nMtLDbpVe+BqEIb4tShyxwSBHLeFnVijsLFo0jjHdDo=;
+  b=YzljD3hXkX9HY4X0hPFKNE7YXPA7vRQ3wZCP3RfPN+h51EZW9EmqUOWE
+   TvGnHbJXPFmorRLwpQ/qPgQTsEiTmPkJNfF0Ovl7OcVwxXFDa0QW4THiS
+   Lfg55FQGh7uVvgQf6m/H2SuojYvHjYhn9u/Vrk/Y6cBJ1XXdLnQFVj7xC
+   BCWbfK5pMKCZaZfdQCKVZ3u4bIFKmFEcPtGy2jdWqTokgN8y3/EX8/T5S
+   vhg6jJu15+ubMoy/8Ebp/l0i1nryghINgmeVtua/m/9u++khco/ep1nvF
+   sXV0m1ywlEm5vrJJOPQmgZPcK+8S5R47o5Y/4vQMAac6Fc1JDziWA8gBo
    A==;
-X-CSE-ConnectionGUID: dlcxjZcOSC+UjrsvCi5byw==
-X-CSE-MsgGUID: 4UdU5xGrTjiPEkTB8HkLuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="101850144"
+X-CSE-ConnectionGUID: IkUbRjKbQaSR2tBAEFD9Qw==
+X-CSE-MsgGUID: EZoJ/rn3QMSmooAU+gFqbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94178126"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="101850144"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 23:27:31 -0700
-X-CSE-ConnectionGUID: tw9jLdSSRV6+TF6KAQ1m4Q==
-X-CSE-MsgGUID: 4M39m3KJRVisVpQfnzC1Zw==
+   d="scan'208";a="94178126"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 00:13:56 -0700
+X-CSE-ConnectionGUID: 1qo/GSoyTdiq2hzDmFeobg==
+X-CSE-MsgGUID: DF713YmURcO83CT+7q2FCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="274265491"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Oct 2026 23:27:30 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="279479011"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 02 Oct 2026 00:13:55 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCWjv-00000000ShE-1vWL;
-	Fri, 02 Oct 2026 06:27:27 +0000
-Date: Fri, 02 Oct 2026 14:26:50 +0800
+	id 1xCXSp-000000000SB-2skb;
+	Fri, 02 Oct 2026 07:13:51 +0000
+Date: Fri, 02 Oct 2026 09:13:44 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Warning: drivers/tee/qcomtee/call.c:205 function parameter
- 'oic' not described in 'qcomtee_params_to_args'
-Message-ID: <202610021436.HDQInaZk-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+ Elena Reshetova <elena.reshetova@intel.com>
+Subject: fs/inode.c:1924:45-46: WARNING: atomic_add_unless
+Message-ID: <202610020909.QkfhfWQa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,43 +59,87 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Harshal-Dev/tee-qcomtee-Track-the-object-invocation-context/20261001-163233, commit: 571ae3850d0efea9b1d925385c6b44d4cb639d8e"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-CC: 0day robot <lkp@intel.com>
-CC: Harshal Dev <harshal.dev@oss.qualcomm.com>
+CC: linux-kernel@vger.kernel.org
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Mateusz Guzik <mjguzik@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Harshal-Dev/tee-qcomtee-Track-the-object-invocation-context/20261001-163233
-head:   b59502937f7cb9085e9c5daf5541dc8f0e1286dc
-commit: 571ae3850d0efea9b1d925385c6b44d4cb639d8e tee: qcomtee: Allow object invokes from kernel clients
-date:   19 hours ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20261002/202610021436.HDQInaZk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021436.HDQInaZk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+commit: 9e70e985bdc2c6fe7a160e4d59ddd7c0a39bc077 fs: rework iput logic
+date:   1 year, 1 month ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-r2107-20261001 (https://download.01.org/0day-ci/archive/20261002/202610020909.QkfhfWQa-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 9e70e985bdc2 ("fs: rework iput logic")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610021436.HDQInaZk-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610020909.QkfhfWQa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/inode.c:1924:45-46: WARNING: atomic_add_unless
 
->> Warning: drivers/tee/qcomtee/call.c:205 function parameter 'oic' not described in 'qcomtee_params_to_args'
->> Warning: drivers/tee/qcomtee/call.c:205 Excess function parameter 'ctx' description in 'qcomtee_params_to_args'
->> Warning: drivers/tee/qcomtee/call.c:279 function parameter 'oic' not described in 'qcomtee_params_from_args'
->> Warning: drivers/tee/qcomtee/call.c:279 Excess function parameter 'ctx' description in 'qcomtee_params_from_args'
-   Warning: drivers/tee/qcomtee/call.c:408 function parameter 'origin' not described in 'qcomtee_object_invoke'
->> Warning: drivers/tee/qcomtee/call.c:205 function parameter 'oic' not described in 'qcomtee_params_to_args'
->> Warning: drivers/tee/qcomtee/call.c:205 Excess function parameter 'ctx' description in 'qcomtee_params_to_args'
->> Warning: drivers/tee/qcomtee/call.c:279 function parameter 'oic' not described in 'qcomtee_params_from_args'
->> Warning: drivers/tee/qcomtee/call.c:279 Excess function parameter 'ctx' description in 'qcomtee_params_from_args'
-   Warning: drivers/tee/qcomtee/call.c:408 function parameter 'origin' not described in 'qcomtee_object_invoke'
+vim +1924 fs/inode.c
+
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1899  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1900  /**
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1901   *	iput	- put an inode
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1902   *	@inode: inode to put
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1903   *
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1904   *	Puts an inode, dropping its usage count. If the inode use count hits
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1905   *	zero, the inode is then freed and may also be destroyed.
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1906   *
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1907   *	Consequently, iput() can sleep.
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1908   */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1909  void iput(struct inode *inode)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1910  {
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1911  	if (unlikely(!inode))
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1912  		return;
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1913  
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1914  retry:
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1915  	lockdep_assert_not_held(&inode->i_lock);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1916  	VFS_BUG_ON_INODE(inode->i_state & I_CLEAR, inode);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1917  	/*
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1918  	 * Note this assert is technically racy as if the count is bogusly
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1919  	 * equal to one, then two CPUs racing to further drop it can both
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1920  	 * conclude it's fine.
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1921  	 */
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1922  	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) < 1, inode);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1923  
+9e70e985bdc2c6f Josef Bacik    2025-08-26 @1924  	if (atomic_add_unless(&inode->i_count, -1, 1))
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1925  		return;
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1926  
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1927  	if ((inode->i_state & I_DIRTY_TIME) && inode->i_nlink) {
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1928  		trace_writeback_lazytime_iput(inode);
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1929  		mark_inode_dirty_sync(inode);
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1930  		goto retry;
+0ae45f63d4ef8d8 Theodore Ts'o  2015-02-02  1931  	}
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1932  
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1933  	spin_lock(&inode->i_lock);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1934  	if (unlikely((inode->i_state & I_DIRTY_TIME) && inode->i_nlink)) {
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1935  		spin_unlock(&inode->i_lock);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1936  		goto retry;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1937  	}
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1938  
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1939  	if (!atomic_dec_and_test(&inode->i_count)) {
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1940  		spin_unlock(&inode->i_lock);
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1941  		return;
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1942  	}
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1943  
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1944  	/*
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1945  	 * iput_final() drops ->i_lock, we can't assert on it as the inode may
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1946  	 * be deallocated by the time the call returns.
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1947  	 */
+9e70e985bdc2c6f Josef Bacik    2025-08-26  1948  	iput_final(inode);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1949  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1950  EXPORT_SYMBOL(iput);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1951  
 
 --
 0-DAY CI Kernel Test Service
