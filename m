@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC8833DEC2
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 05:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F2D1FC4
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 06:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791007077; cv=none; b=SDzOq63FsaYZmmA9VhnRdOdA+5hdYmgA/fe7Tuu34ke4haHjaeqwRSM6wKYV1T6rSfgiJ9nwscQZNNE8ny0jGtPj30+ZFPgQpniYG/EOarlQIt3vyqzfF65HsrR4VAsT97r5eM2iEbOCGSTpPbbzkLfi/T/+PY8skIc+KKtR4Qo=
+	t=1791007669; cv=none; b=jBDwM08AonO8f7a9jYqwNUL5RTpbq4j/7Z8LUK/EKizpVnuI8WXrm0h+TlGHvx/tHF91PRg1FllXLsu+2sVH9oeyJJrAuPqfVcPyHMMUrh/f2cXNesE7+rXkjzBLjbi1to1atyXB11BSIirUduoFWgUXMGgdZUKzE3IKqYXEi/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791007077; c=relaxed/simple;
-	bh=WWsNtooKv3awCK6NnasNAmqbLNO0bcK28lMULGmy9qE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eQ8a/AsgXXC8V444A3IlsIzhe3jvG0MSvtAwmpvrfCmNyqJv7rpjkVc/TX99ekn5yzkZHfDcAZAIUhrfJxRksobvjXv9aimbFpDKT1jaTXrT2SZgDLyJuOuSA5K/A7hEJuvTRAt7NFMF0D7xab66f3oBUcIZZDAHHrG8629fB9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAAs2IvW; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791007669; c=relaxed/simple;
+	bh=uMxtYzNkNq01gZOvmXZE43TusSkHYlU+H7qkNv19asU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p2DtxJQbg3MXGp93jFyBhJ3xOgRhOnjfkma/5yXdF2waRSFl4J6DGNnaCtjyomrhURnc11q3N4omADB7C7MQlPFi15eWw21tga8jBPQRI3UOTl2Zll2DX8MP6AtJ5zMYDjM/bhPosCpBvlkdIKqf//FAtknQi0l8xU+rPq0RXnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5YgLqCj; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAAs2IvW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5YgLqCj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791007076; x=1822543076;
+  t=1791007668; x=1822543668;
   h=date:from:to:cc:subject:message-id;
-  bh=WWsNtooKv3awCK6NnasNAmqbLNO0bcK28lMULGmy9qE=;
-  b=RAAs2IvWOQolOOVkJxwNz34SzwQiL/vSJeMnRzgkZhsC6E2wS2YD3vw3
-   LVIz0AMy4nM0HMe2sgxjezQhGdNtOdzjEmQbhxJhuZTFfaq9Qswvq7JD2
-   pRcKYXNhYB9DUvowTbLVSGrqi9CkJyWDYAYNbPx9fEVB99AZGcytfvld/
-   HQ0TM1J/jzU/J3LX5mMw6pYhH1/Qnt0VCpngeVwxY0gbbcdbnOm44l4NA
-   Dz1nw+GQw3t8cLT6UeuyXkvQe3Ikr0UwE1D3iHtnMYLjYwMpnAw8nwsXG
-   g4HdIAxQnqsCbjc92Tcq5hhXdBE42AUMdFfu9RN778jNkhWLnWalVdfkX
-   w==;
-X-CSE-ConnectionGUID: ISfiSWzIT6mZKcDCvISEeQ==
-X-CSE-MsgGUID: DoqOTIL1SCG1mikwci69JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="90622655"
+  bh=uMxtYzNkNq01gZOvmXZE43TusSkHYlU+H7qkNv19asU=;
+  b=C5YgLqCj48lFLUpOPnjveWW8fIW2DWU/kEoBmTRj/IdsgWdR5auAFoMw
+   9iTa/W5uCiISMtooagwEDdYF7t8Rg+Emc2G9/F5w1lOtfsqsmkrL15Et9
+   4et/pDjhacPrDs6nJ+czq9ic44QM+qwmJYqZzjtvo20/XLw4zVxQ50Cuj
+   gxnruYI3LGfBHq6uMIy/7ovQFArpnXTWPMqm2/Z00U4Tf8s6/d746/Fzk
+   mnrPqA28vM4yagJdK46mVQC80VCZaqQA8junJ9e+McJJGg7BzTF7xK+MC
+   DOfWQUjlC7l4kV9UmAs8oLbX2y6QqqlvKj56Pq0aDwQ4KL54DDjqcLbV4
+   g==;
+X-CSE-ConnectionGUID: RGfrQb+9QAK70bSTUwzXXw==
+X-CSE-MsgGUID: XD9Hic2SS/CXO91GHUwj/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="94252322"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90622655"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 22:57:53 -0700
-X-CSE-ConnectionGUID: ReOsDBebTQClLebR6xoRxA==
-X-CSE-MsgGUID: hL6idsfHTsKl79c2I66UxA==
+   d="scan'208";a="94252322"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 23:07:48 -0700
+X-CSE-ConnectionGUID: YeMs5OF4QSeRnFcid966Dw==
+X-CSE-MsgGUID: JEhBVFk0R9yjdG2cNA0psQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="280138938"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Oct 2026 22:57:53 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="279652474"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 02 Oct 2026 23:07:46 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCsko-00000000Tkr-1zU8;
-	Sat, 03 Oct 2026 05:57:50 +0000
-Date: Sat, 03 Oct 2026 13:57:09 +0800
+	id 1xCsuK-000000000xv-3wD4;
+	Sat, 03 Oct 2026 06:07:41 +0000
+Date: Sat, 03 Oct 2026 08:07:23 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:6: error:
- call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202610031348.b9RoGfPS-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [akpm-mm:mm-unstable 457/706] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__440'
+Message-ID: <202610030831.YezuxgsZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,97 +59,104 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Alex-Robinson/dt-bindings-embedded-controller-Add-Lenovo-ThinkPad-X13s-EC/20261002-154256, commit: f38ab266d6f88b87e52532298f9a17a54bfb1f5b"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alex Robinson <alex@ironrobin.net>
-CC: 0day robot <lkp@intel.com>
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Alex-Robinson/dt-bindings-embedded-controller-Add-Lenovo-ThinkPad-X13s-EC/20261002-154256
-head:   31d99095c99452ff8bd0dc3779fe4bff05f1ca41
-commit: f38ab266d6f88b87e52532298f9a17a54bfb1f5b platform: arm64: Add Lenovo ThinkPad X13s EC driver
-date:   14 hours ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261003/202610031348.b9RoGfPS-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031348.b9RoGfPS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   33eb75fed9eef7a57e3f77c37c160d3e9ec55f2e
+commit: 1ff6d8554e97e41a8fd8b26da57f697f1417f616 [457/706] mm: add mmap action for discontiguous kernel page mapping
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: alpha-randconfig-r2200-20261003 (https://download.01.org/0day-ci/archive/20261003/202610030831.YezuxgsZ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610031348.b9RoGfPS-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610030831.YezuxgsZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__440'
 
->> drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:6: error: call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     270 |         if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
-         |             ^
->> drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:43: error: use of undeclared identifier 'IRQ_TYPE_EDGE_FALLING'
-     270 |         if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+vim +/__UNIQUE_ID_x__440 +557 drivers/hid/hid-steam.c
 
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4b Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4b Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4b Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4b Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd9492 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd9492 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  548  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff2 Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  574  
 
-vim +/irq_get_trigger_type +270 drivers/platform/arm64/lenovo-thinkpad-x13s.c
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
 
-f38ab266d6f88b Alex Robinson 2026-10-02  259  
-f38ab266d6f88b Alex Robinson 2026-10-02  260  static int x13s_probe(struct i2c_client *client)
-f38ab266d6f88b Alex Robinson 2026-10-02  261  {
-f38ab266d6f88b Alex Robinson 2026-10-02  262  	struct device *dev = &client->dev;
-f38ab266d6f88b Alex Robinson 2026-10-02  263  	struct x13s_ec *ec;
-f38ab266d6f88b Alex Robinson 2026-10-02  264  	int ret;
-f38ab266d6f88b Alex Robinson 2026-10-02  265  
-f38ab266d6f88b Alex Robinson 2026-10-02  266  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-f38ab266d6f88b Alex Robinson 2026-10-02  267  		return -EOPNOTSUPP;
-f38ab266d6f88b Alex Robinson 2026-10-02  268  	if (client->irq <= 0)
-f38ab266d6f88b Alex Robinson 2026-10-02  269  		return dev_err_probe(dev, -EINVAL, "Missing event IRQ\n");
-f38ab266d6f88b Alex Robinson 2026-10-02 @270  	if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
-f38ab266d6f88b Alex Robinson 2026-10-02  271  		return dev_err_probe(dev, -EINVAL, "Expected falling-edge IRQ\n");
-f38ab266d6f88b Alex Robinson 2026-10-02  272  
-f38ab266d6f88b Alex Robinson 2026-10-02  273  	ec = devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
-f38ab266d6f88b Alex Robinson 2026-10-02  274  	if (!ec)
-f38ab266d6f88b Alex Robinson 2026-10-02  275  		return -ENOMEM;
-f38ab266d6f88b Alex Robinson 2026-10-02  276  	ec->client = client;
-f38ab266d6f88b Alex Robinson 2026-10-02  277  	ret = devm_mutex_init(dev, &ec->lock);
-f38ab266d6f88b Alex Robinson 2026-10-02  278  	if (ret)
-f38ab266d6f88b Alex Robinson 2026-10-02  279  		return ret;
-f38ab266d6f88b Alex Robinson 2026-10-02  280  	i2c_set_clientdata(client, ec);
-f38ab266d6f88b Alex Robinson 2026-10-02  281  
-f38ab266d6f88b Alex Robinson 2026-10-02  282  	ec->power_state = devm_gpiod_get(dev, "power-state", GPIOD_OUT_HIGH);
-f38ab266d6f88b Alex Robinson 2026-10-02  283  	if (IS_ERR(ec->power_state)) {
-f38ab266d6f88b Alex Robinson 2026-10-02  284  		return dev_err_probe(dev, PTR_ERR(ec->power_state),
-f38ab266d6f88b Alex Robinson 2026-10-02  285  				     "Failed to acquire power-state GPIO high\n");
-f38ab266d6f88b Alex Robinson 2026-10-02  286  	}
-f38ab266d6f88b Alex Robinson 2026-10-02  287  
-f38ab266d6f88b Alex Robinson 2026-10-02  288  	ec->led.name = "platform::kbd_backlight";
-f38ab266d6f88b Alex Robinson 2026-10-02  289  	ec->led.max_brightness = 2;
-f38ab266d6f88b Alex Robinson 2026-10-02  290  	ec->led.flags = LED_BRIGHT_HW_CHANGED | LED_RETAIN_AT_SHUTDOWN;
-f38ab266d6f88b Alex Robinson 2026-10-02  291  	ec->led.brightness_get = x13s_brightness_get;
-f38ab266d6f88b Alex Robinson 2026-10-02  292  	ec->led.brightness_set_blocking = x13s_brightness_set;
-f38ab266d6f88b Alex Robinson 2026-10-02  293  	ret = devm_led_classdev_register(dev, &ec->led);
-f38ab266d6f88b Alex Robinson 2026-10-02  294  	if (ret)
-f38ab266d6f88b Alex Robinson 2026-10-02  295  		return dev_err_probe(dev, ret, "Failed to register keyboard backlight\n");
-f38ab266d6f88b Alex Robinson 2026-10-02  296  
-f38ab266d6f88b Alex Robinson 2026-10-02  297  	/* Devres synchronizes the IRQ before unregistering the LED. */
-f38ab266d6f88b Alex Robinson 2026-10-02  298  	ret = devm_request_threaded_irq(dev, client->irq, NULL, x13s_irq,
-f38ab266d6f88b Alex Robinson 2026-10-02  299  					IRQF_ONESHOT, dev_name(dev), ec);
-f38ab266d6f88b Alex Robinson 2026-10-02  300  	if (ret)
-f38ab266d6f88b Alex Robinson 2026-10-02  301  		return dev_err_probe(dev, ret, "Failed to request event IRQ\n");
-f38ab266d6f88b Alex Robinson 2026-10-02  302  
-f38ab266d6f88b Alex Robinson 2026-10-02  303  	/*
-f38ab266d6f88b Alex Robinson 2026-10-02  304  	 * As on the T14s, disable wakeup by default since selective EC event
-f38ab266d6f88b Alex Robinson 2026-10-02  305  	 * masking is not known. Keep runtime IRQ handling enabled.
-f38ab266d6f88b Alex Robinson 2026-10-02  306  	 */
-f38ab266d6f88b Alex Robinson 2026-10-02  307  	device_wakeup_disable(dev);
-f38ab266d6f88b Alex Robinson 2026-10-02  308  
-f38ab266d6f88b Alex Robinson 2026-10-02  309  	return 0;
-f38ab266d6f88b Alex Robinson 2026-10-02  310  }
-f38ab266d6f88b Alex Robinson 2026-10-02  311  
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
