@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A0F34EEE5
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 05:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC8833DEC2
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 05:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791007075; cv=none; b=ORNcW8O6c1Vq6sIjIMLAIyWuGeLzlatwOjZQy8TIeTweo6XTBNqyvoZyMpnIBCejx0tSEpNqjHVdcaSp3B1ZrYJ07XsoT4LkX7lhVaLKdVBU1gOGdmwzjuHi9A7gY4PpXyaayamzMdlzwvCgj2wWvrB5B9sK9Qe6jB/qfkVdNM0=
+	t=1791007077; cv=none; b=SDzOq63FsaYZmmA9VhnRdOdA+5hdYmgA/fe7Tuu34ke4haHjaeqwRSM6wKYV1T6rSfgiJ9nwscQZNNE8ny0jGtPj30+ZFPgQpniYG/EOarlQIt3vyqzfF65HsrR4VAsT97r5eM2iEbOCGSTpPbbzkLfi/T/+PY8skIc+KKtR4Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791007075; c=relaxed/simple;
-	bh=0UdSe8u4fjVL98JAmHBpcp4979D0UDe5EppG1T6zgh4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ub26JMkeY5tiTBx48lj8bRGbyZxoKk290vC/WynPq/fnvLhXLnUhkWiVmWntCtTeFE7/Rai5hz0Pgqs2BZV2R3o23FvyjOJbgcsRfkuiIv8DGzyNhdTiKvfZuWGY0efJbtL+pD5PYsRQC5gHUkrMwFgve5gTNph/RwGb6JDzOfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niUBsmG9; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791007077; c=relaxed/simple;
+	bh=WWsNtooKv3awCK6NnasNAmqbLNO0bcK28lMULGmy9qE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eQ8a/AsgXXC8V444A3IlsIzhe3jvG0MSvtAwmpvrfCmNyqJv7rpjkVc/TX99ekn5yzkZHfDcAZAIUhrfJxRksobvjXv9aimbFpDKT1jaTXrT2SZgDLyJuOuSA5K/A7hEJuvTRAt7NFMF0D7xab66f3oBUcIZZDAHHrG8629fB9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAAs2IvW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niUBsmG9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAAs2IvW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791007074; x=1822543074;
+  t=1791007076; x=1822543076;
   h=date:from:to:cc:subject:message-id;
-  bh=0UdSe8u4fjVL98JAmHBpcp4979D0UDe5EppG1T6zgh4=;
-  b=niUBsmG99yGLnwaSq+GT5+loFIYA7gbkXbj9pHLVJInwmfLTqofEAJdX
-   vbftweI9HKs9LR1y8liun01N4b/sTN17E/9TqmKpmLXg475UKUPGoXBLN
-   dEudk9TyrR3q81EDycxbqBlE2mqS++Zcw8op+mP6tja4sTq12HtcE32zA
-   iz+TPW97UFUrpIjHLSUzS9NYxToCYorQOJdyzw/KNzvYIR8lR17qRqz4S
-   nNcPtxWUSVLuv9pVlG5msYzzhImvDeW6WR3oJmn7R2Xd7MOwUYluvnVub
-   q+9U2sEAoJ1orXlGkMeTzQSouy5udhymNf+CRvyUKGvUhagQjZf4iPk8g
-   A==;
-X-CSE-ConnectionGUID: JhIgkDD0QgSEBT+m2RenYw==
-X-CSE-MsgGUID: 4RMVTc5mSNGfn3vQtSrDcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="90622654"
+  bh=WWsNtooKv3awCK6NnasNAmqbLNO0bcK28lMULGmy9qE=;
+  b=RAAs2IvWOQolOOVkJxwNz34SzwQiL/vSJeMnRzgkZhsC6E2wS2YD3vw3
+   LVIz0AMy4nM0HMe2sgxjezQhGdNtOdzjEmQbhxJhuZTFfaq9Qswvq7JD2
+   pRcKYXNhYB9DUvowTbLVSGrqi9CkJyWDYAYNbPx9fEVB99AZGcytfvld/
+   HQ0TM1J/jzU/J3LX5mMw6pYhH1/Qnt0VCpngeVwxY0gbbcdbnOm44l4NA
+   Dz1nw+GQw3t8cLT6UeuyXkvQe3Ikr0UwE1D3iHtnMYLjYwMpnAw8nwsXG
+   g4HdIAxQnqsCbjc92Tcq5hhXdBE42AUMdFfu9RN778jNkhWLnWalVdfkX
+   w==;
+X-CSE-ConnectionGUID: ISfiSWzIT6mZKcDCvISEeQ==
+X-CSE-MsgGUID: DoqOTIL1SCG1mikwci69JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="90622655"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90622654"
+   d="scan'208";a="90622655"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 22:57:53 -0700
-X-CSE-ConnectionGUID: 9lAVEnRPQSaqUD7NgSuYHA==
-X-CSE-MsgGUID: 7n7Zlee0QY+bx1rIYumnwQ==
+X-CSE-ConnectionGUID: ReOsDBebTQClLebR6xoRxA==
+X-CSE-MsgGUID: hL6idsfHTsKl79c2I66UxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="280138936"
+   d="scan'208";a="280138938"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 02 Oct 2026 22:57:53 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCsko-00000000Tkt-25ZH;
+	id 1xCsko-00000000Tkr-1zU8;
 	Sat, 03 Oct 2026 05:57:50 +0000
-Date: Sat, 03 Oct 2026 13:57:08 +0800
+Date: Sat, 03 Oct 2026 13:57:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/bpf/hashtab.c:812:3: warning: 'memcpy' forming offset
- [5, 8] is out of the bounds [0, 4] of object 'k' with type 'long unsigned
- int'
-Message-ID: <202610031355.lDxHBnxP-lkp@intel.com>
+Subject: drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:6: error:
+ call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202610031348.b9RoGfPS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,78 +61,96 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/T-J-Mercier/bpf-htab-Split-htab_elem_lru-and-htab_elem_pcpu-off-of-htab_elem/20261002-091734, commit: ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Alex-Robinson/dt-bindings-embedded-controller-Add-Lenovo-ThinkPad-X13s-EC/20261002-154256, commit: f38ab266d6f88b87e52532298f9a17a54bfb1f5b"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "T.J. Mercier" <tjmercier@google.com>
+TO: Alex Robinson <alex@ironrobin.net>
 CC: 0day robot <lkp@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/bpf-htab-Split-htab_elem_lru-and-htab_elem_pcpu-off-of-htab_elem/20261002-091734
-head:   ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78
-commit: ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78 bpf: htab: Reduce elem_size by 8 bytes for small key sizes
-date:   13 hours ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: arm-randconfig-1003-20261003 (https://download.01.org/0day-ci/archive/20261003/202610031355.lDxHBnxP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031355.lDxHBnxP-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alex-Robinson/dt-bindings-embedded-controller-Add-Lenovo-ThinkPad-X13s-EC/20261002-154256
+head:   31d99095c99452ff8bd0dc3779fe4bff05f1ca41
+commit: f38ab266d6f88b87e52532298f9a17a54bfb1f5b platform: arm64: Add Lenovo ThinkPad X13s EC driver
+date:   14 hours ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261003/202610031348.b9RoGfPS-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031348.b9RoGfPS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610031355.lDxHBnxP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610031348.b9RoGfPS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In function '__lookup_elem_raw',
-       inlined from 'lookup_nulls_elem_raw' at kernel/bpf/hashtab.c:843:6,
-       inlined from '__htab_lookup' at kernel/bpf/hashtab.c:866:6,
-       inlined from '__htab_map_lookup_elem_u64' at kernel/bpf/hashtab.c:890:9:
->> kernel/bpf/hashtab.c:812:3: warning: 'memcpy' forming offset [5, 8] is out of the bounds [0, 4] of object 'k' with type 'long unsigned int' [-Warray-bounds]
-      memcpy(&k, key, key_size);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/hashtab.c: In function '__htab_map_lookup_elem_u64':
-   kernel/bpf/hashtab.c:810:17: note: 'k' declared here
-      unsigned long k = 0;
-                    ^
+>> drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:6: error: call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     270 |         if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
+         |             ^
+>> drivers/platform/arm64/lenovo-thinkpad-x13s.c:270:43: error: use of undeclared identifier 'IRQ_TYPE_EDGE_FALLING'
+     270 |         if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +812 kernel/bpf/hashtab.c
+vim +/irq_get_trigger_type +270 drivers/platform/arm64/lenovo-thinkpad-x13s.c
 
-688ecfe6022051 tom.leiming@gmail.com 2015-12-29  791  
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  792  static __always_inline struct htab_elem *
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  793  __lookup_elem_raw(struct bpf_htab *htab, struct hlist_nulls_head *head,
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  794  		  u32 hash, void *key, u32 key_size,
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  795  		  struct hlist_nulls_node **out_n)
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  796  {
-4fe8435909fddc Alexei Starovoitov    2017-03-07  797  	struct hlist_nulls_node *n;
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  798  	struct htab_elem *l;
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  799  
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  800  	if (htab_has_hash(htab)) {
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  801  		hlist_nulls_for_each_entry_rcu(l, n, head, hash_node)
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  802  			if (htab_elem_hash(l) == hash &&
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  803  			    !memcmp(&l->key, key, key_size))
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  804  				return l;
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  805  	} else {
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  806  		/*
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  807  		 * When hash is omitted, key comparisons must be atomic. Zero extend
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  808  		 * the caller's key to the word size to support an atomic compare.
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  809  		 */
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  810  		unsigned long k = 0;
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  811  
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02 @812  		memcpy(&k, key, key_size);
-4fe8435909fddc Alexei Starovoitov    2017-03-07  813  		hlist_nulls_for_each_entry_rcu(l, n, head, hash_node)
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  814  			if (READ_ONCE(*(unsigned long *)l->key) == k)
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  815  				return l;
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  816  	}
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  817  
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  818  	if (out_n)
-ff6cf05dbbb8d2 T.J. Mercier          2026-10-02  819  		*out_n = n;
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  820  	return NULL;
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  821  }
-0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  822  
+f38ab266d6f88b Alex Robinson 2026-10-02  259  
+f38ab266d6f88b Alex Robinson 2026-10-02  260  static int x13s_probe(struct i2c_client *client)
+f38ab266d6f88b Alex Robinson 2026-10-02  261  {
+f38ab266d6f88b Alex Robinson 2026-10-02  262  	struct device *dev = &client->dev;
+f38ab266d6f88b Alex Robinson 2026-10-02  263  	struct x13s_ec *ec;
+f38ab266d6f88b Alex Robinson 2026-10-02  264  	int ret;
+f38ab266d6f88b Alex Robinson 2026-10-02  265  
+f38ab266d6f88b Alex Robinson 2026-10-02  266  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+f38ab266d6f88b Alex Robinson 2026-10-02  267  		return -EOPNOTSUPP;
+f38ab266d6f88b Alex Robinson 2026-10-02  268  	if (client->irq <= 0)
+f38ab266d6f88b Alex Robinson 2026-10-02  269  		return dev_err_probe(dev, -EINVAL, "Missing event IRQ\n");
+f38ab266d6f88b Alex Robinson 2026-10-02 @270  	if (irq_get_trigger_type(client->irq) != IRQ_TYPE_EDGE_FALLING)
+f38ab266d6f88b Alex Robinson 2026-10-02  271  		return dev_err_probe(dev, -EINVAL, "Expected falling-edge IRQ\n");
+f38ab266d6f88b Alex Robinson 2026-10-02  272  
+f38ab266d6f88b Alex Robinson 2026-10-02  273  	ec = devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
+f38ab266d6f88b Alex Robinson 2026-10-02  274  	if (!ec)
+f38ab266d6f88b Alex Robinson 2026-10-02  275  		return -ENOMEM;
+f38ab266d6f88b Alex Robinson 2026-10-02  276  	ec->client = client;
+f38ab266d6f88b Alex Robinson 2026-10-02  277  	ret = devm_mutex_init(dev, &ec->lock);
+f38ab266d6f88b Alex Robinson 2026-10-02  278  	if (ret)
+f38ab266d6f88b Alex Robinson 2026-10-02  279  		return ret;
+f38ab266d6f88b Alex Robinson 2026-10-02  280  	i2c_set_clientdata(client, ec);
+f38ab266d6f88b Alex Robinson 2026-10-02  281  
+f38ab266d6f88b Alex Robinson 2026-10-02  282  	ec->power_state = devm_gpiod_get(dev, "power-state", GPIOD_OUT_HIGH);
+f38ab266d6f88b Alex Robinson 2026-10-02  283  	if (IS_ERR(ec->power_state)) {
+f38ab266d6f88b Alex Robinson 2026-10-02  284  		return dev_err_probe(dev, PTR_ERR(ec->power_state),
+f38ab266d6f88b Alex Robinson 2026-10-02  285  				     "Failed to acquire power-state GPIO high\n");
+f38ab266d6f88b Alex Robinson 2026-10-02  286  	}
+f38ab266d6f88b Alex Robinson 2026-10-02  287  
+f38ab266d6f88b Alex Robinson 2026-10-02  288  	ec->led.name = "platform::kbd_backlight";
+f38ab266d6f88b Alex Robinson 2026-10-02  289  	ec->led.max_brightness = 2;
+f38ab266d6f88b Alex Robinson 2026-10-02  290  	ec->led.flags = LED_BRIGHT_HW_CHANGED | LED_RETAIN_AT_SHUTDOWN;
+f38ab266d6f88b Alex Robinson 2026-10-02  291  	ec->led.brightness_get = x13s_brightness_get;
+f38ab266d6f88b Alex Robinson 2026-10-02  292  	ec->led.brightness_set_blocking = x13s_brightness_set;
+f38ab266d6f88b Alex Robinson 2026-10-02  293  	ret = devm_led_classdev_register(dev, &ec->led);
+f38ab266d6f88b Alex Robinson 2026-10-02  294  	if (ret)
+f38ab266d6f88b Alex Robinson 2026-10-02  295  		return dev_err_probe(dev, ret, "Failed to register keyboard backlight\n");
+f38ab266d6f88b Alex Robinson 2026-10-02  296  
+f38ab266d6f88b Alex Robinson 2026-10-02  297  	/* Devres synchronizes the IRQ before unregistering the LED. */
+f38ab266d6f88b Alex Robinson 2026-10-02  298  	ret = devm_request_threaded_irq(dev, client->irq, NULL, x13s_irq,
+f38ab266d6f88b Alex Robinson 2026-10-02  299  					IRQF_ONESHOT, dev_name(dev), ec);
+f38ab266d6f88b Alex Robinson 2026-10-02  300  	if (ret)
+f38ab266d6f88b Alex Robinson 2026-10-02  301  		return dev_err_probe(dev, ret, "Failed to request event IRQ\n");
+f38ab266d6f88b Alex Robinson 2026-10-02  302  
+f38ab266d6f88b Alex Robinson 2026-10-02  303  	/*
+f38ab266d6f88b Alex Robinson 2026-10-02  304  	 * As on the T14s, disable wakeup by default since selective EC event
+f38ab266d6f88b Alex Robinson 2026-10-02  305  	 * masking is not known. Keep runtime IRQ handling enabled.
+f38ab266d6f88b Alex Robinson 2026-10-02  306  	 */
+f38ab266d6f88b Alex Robinson 2026-10-02  307  	device_wakeup_disable(dev);
+f38ab266d6f88b Alex Robinson 2026-10-02  308  
+f38ab266d6f88b Alex Robinson 2026-10-02  309  	return 0;
+f38ab266d6f88b Alex Robinson 2026-10-02  310  }
+f38ab266d6f88b Alex Robinson 2026-10-02  311  
 
 --
 0-DAY CI Kernel Test Service
