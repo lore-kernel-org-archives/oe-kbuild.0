@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A17396D03
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 04:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10E0625
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Oct 2026 05:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791003310; cv=none; b=Dgg5PRKzBem0YRf4WbF7lytD5yGpM18gQ0uwv1BsI5qu7uBbwHi8KJajmhD8CMAxE6C6PQLT7BotkwC4Fkffv1u1c9eq2UYsD+ryESs6wgTlJIdLwq3UEIVUTA7B3VDPWNk/p4XnpfwxgnteR9CcxVd/JC0myzQ6yW3L6tWzToQ=
+	t=1791007061; cv=none; b=gdhurB2R6/YREFp/USf9dZTvr1c0fTvRp+i6a3wt5M1DCgOubmHz7Sc9kR3kgEUjjLUcGWNxUtkguwTDzgezVL69O34vCN4LT4xvezotqevGIZfcNRH+n3aXZFqycose1CWv6l3+WxQVv7X1OCnfOxqUz6q28ZpUY6jz6LdhsYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791003310; c=relaxed/simple;
-	bh=U2bVXRw6KBTDC9b3O8kbHzbsVTOWDq1swMxsaHvwhPs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZICt36tVCa3NuP3sFutaY6877HcyZfPFtgUtQ5YAg/5Ajv6CuG+OjEY5Lray3PqGxxz5vTyDUkilTjug3qj3UTqnNQODEKh6xSxqxc+/ryAGy5da+UTCUWurasKAgR4k5FXmA+9Bt0b8P//yqXWVRcKHxggsGLYTC8oabWo+zcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImfejSon; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1791007061; c=relaxed/simple;
+	bh=JfT0GkzjmnmsP7kQhnAz/pFVRF0KX32LQN+jUuqaXU8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZNtyE/WHfMCgGdZoi69h+ANH+rRYRiSKtN9x8wLEszS841TFXuJaH8E8fhCALFcWIqlKxNtyIa24kFypPwIetJKM6anKxiPmMLYIcPaLOw4cxY2i4MB+6CG0EnNoeIlaSnKEXgocWEZYcdRjj+lN0hqJtcXiwtCT5Rj2gemxKtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mgZTa/dT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImfejSon"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mgZTa/dT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791003303; x=1822539303;
+  t=1791007058; x=1822543058;
   h=date:from:to:cc:subject:message-id;
-  bh=U2bVXRw6KBTDC9b3O8kbHzbsVTOWDq1swMxsaHvwhPs=;
-  b=ImfejSon+i89150/YcPBwpz4Se+xDbjEt3gpE/iRfcK1qlToNQT4BdjP
-   hz5pnJdJfQZHVARQ6k+O1iiFP7W4tK5Ks/7pAYe9bkp5X4TszCh/siOnN
-   0dPpe1S+Q2GQ428Mdg4Rlrf3UQCZXJ2FWfl8s7qTHBLrHyH4qRI7bGiI6
-   anuc0M5fX7Gyx6P/ZRIdzzKjZkWI6+C06ofB16n62jCC6SisD0FHx+4Yc
-   bx+bBhCmW0VEHAOTfF+XOmz5Uhs8b/JnvaCUlszezL+G1Ww9q2BfGvP7e
-   sQ0bGk7Vp33/qZstzeR0sCR4eA0sfk4fh1eVaaNQeqONsjl6YcLwJ7o+l
-   A==;
-X-CSE-ConnectionGUID: mzfveXi4T3aVqTqIY3tZew==
-X-CSE-MsgGUID: n+YkBZtaQOSazNHvB53Xig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="109251353"
+  bh=JfT0GkzjmnmsP7kQhnAz/pFVRF0KX32LQN+jUuqaXU8=;
+  b=mgZTa/dTY2O+1oboyBMTaixW43kmb6RYpnKOfz/SX9t/XwTXwyG3HgJ/
+   fJv9pCebPcYe3O99Pdp0FQID5N2VDzGDnBdWljLQxiEd0tc5BdQhfOsOE
+   ySc/M9+hOyoRqXEjnuv4nuCc/resiqzKjc8qCoCBAB5GWY3eJayOT4W+1
+   YrxZAw2foxDqksPErX0jGp2otual3q0yToqhfZTTvdTB3l6rW+8mFRmMl
+   XLrNTX4EnG59U1y1Ia1EvxqrVnCqb7y4elkBGAmrgg8zDwJhfMOZsoFYp
+   s1/Pj0rIcg9oXSaB6qvMLg4cMPi44pdPxXu0LZGmN8/2KAm2z89eduO/g
+   g==;
+X-CSE-ConnectionGUID: Ig5tNB6vSWmpha9P8CoXrg==
+X-CSE-MsgGUID: tgkFSGXeTTWw5y1fb/GhcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="109252687"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="109251353"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 21:54:52 -0700
-X-CSE-ConnectionGUID: Yca0FqhoTb6n1DOUXQfmsQ==
-X-CSE-MsgGUID: r9ztXK5FRwO2Aqb0KCwcnA==
+   d="scan'208";a="109252687"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 22:57:38 -0700
+X-CSE-ConnectionGUID: q7rdNh9xRKGwiXv+brxhWA==
+X-CSE-MsgGUID: YDTbPnJ0Tt+zfvNPUiuxHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="304349307"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2026 21:54:51 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="274208594"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 02 Oct 2026 22:57:37 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCrlp-00000000TkB-0zNn;
-	Sat, 03 Oct 2026 04:54:49 +0000
-Date: Sat, 03 Oct 2026 12:53:49 +0800
+	id 1xCskY-000000000xb-0Q8k;
+	Sat, 03 Oct 2026 05:57:34 +0000
+Date: Sat, 03 Oct 2026 07:56:33 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/sparc/include/asm/string.h:15:25: warning:
- '__builtin_memcpy' forming offset [5, 8] is out of the bounds [0, 4] of
- object 'k' with type 'long unsigned int'
-Message-ID: <202610031215.ybqsLvSp-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/sysfb/corebootdrm.c:103
+ corebootdrm_get_address_fb() warn: impossible condition '(size > (~0)) =>
+ (0-u64max > u64max)'
+Message-ID: <202610030702.Dp597k8b-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,72 +60,51 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/T-J-Mercier/bpf-htab-Split-htab_elem_lru-and-htab_elem_pcpu-off-of-htab_elem/20261002-091734, commit: ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "T.J. Mercier" <tjmercier@google.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Javier Martinez Canillas <javierm@redhat.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/bpf-htab-Split-htab_elem_lru-and-htab_elem_pcpu-off-of-htab_elem/20261002-091734
-head:   ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78
-commit: ff6cf05dbbb8d27bf0e53e860d6320dd75ab8f78 bpf: htab: Reduce elem_size by 8 bytes for small key sizes
-date:   12 hours ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: sparc-randconfig-1000-20261003 (https://download.01.org/0day-ci/archive/20261003/202610031215.ybqsLvSp-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031215.ybqsLvSp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e767a4ea70a3992c37ed604157d32f0dfbf9b1e3
+commit: a29a1f0ec8d69ee917a9d4c84b844df0decff0ef drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+date:   8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 months ago
+config: powerpc-randconfig-r2201-20261003 (https://download.01.org/0day-ci/archive/20261003/202610030702.Dp597k8b-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: a29a1f0ec8d6 ("drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610031215.ybqsLvSp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610030702.Dp597k8b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/sysfb/corebootdrm.c:103 corebootdrm_get_address_fb() warn: impossible condition '(size > (~0)) => (0-u64max > u64max)'
 
-   In file included from include/linux/string.h:65,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from arch/sparc/include/asm/smp_32.h:15,
-                    from arch/sparc/include/asm/smp.h:7,
-                    from arch/sparc/include/asm/switch_to_32.h:5,
-                    from arch/sparc/include/asm/switch_to.h:7,
-                    from arch/sparc/include/asm/ptrace.h:120,
-                    from arch/sparc/include/asm/thread_info_32.h:19,
-                    from arch/sparc/include/asm/thread_info.h:7,
-                    from include/linux/thread_info.h:62,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sparc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:107,
-                    from include/linux/alloc_tag.h:11,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:12,
-                    from kernel/bpf/hashtab.c:5:
-   In function '__lookup_elem_raw',
-       inlined from 'lookup_nulls_elem_raw' at kernel/bpf/hashtab.c:843:6,
-       inlined from '__htab_lookup' at kernel/bpf/hashtab.c:866:6,
-       inlined from '__htab_map_lookup_elem_u64' at kernel/bpf/hashtab.c:890:9:
->> arch/sparc/include/asm/string.h:15:25: warning: '__builtin_memcpy' forming offset [5, 8] is out of the bounds [0, 4] of object 'k' with type 'long unsigned int' [-Warray-bounds]
-    #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/hashtab.c:812:3: note: in expansion of macro 'memcpy'
-      memcpy(&k, key, key_size);
-      ^~~~~~
-   kernel/bpf/hashtab.c: In function '__htab_map_lookup_elem_u64':
-   kernel/bpf/hashtab.c:810:17: note: 'k' declared here
-      unsigned long k = 0;
-                    ^
+vim +103 drivers/gpu/drm/sysfb/corebootdrm.c
 
-
-vim +15 arch/sparc/include/asm/string.h
-
-70a6fcf3283a0a Al Viro 2016-01-17  13  
-70a6fcf3283a0a Al Viro 2016-01-17  14  #define __HAVE_ARCH_MEMCPY
-70a6fcf3283a0a Al Viro 2016-01-17 @15  #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-70a6fcf3283a0a Al Viro 2016-01-17  16  
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17   99  
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  100  static phys_addr_t corebootdrm_get_address_fb(struct drm_device *dev, resource_size_t size,
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  101  					      const struct lb_framebuffer *fb)
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  102  {
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17 @103  	if (size > PHYS_ADDR_MAX)
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  104  		return 0;
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  105  	if (!fb->physical_address)
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  106  		return 0;
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  107  	if (fb->physical_address > (PHYS_ADDR_MAX - size))
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  108  		return 0;
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  109  
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  110  	return fb->physical_address;
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  111  }
+a29a1f0ec8d69e Thomas Zimmermann 2026-02-17  112  
 
 --
 0-DAY CI Kernel Test Service
