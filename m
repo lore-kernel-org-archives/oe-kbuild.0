@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53137377A81
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 10:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0849227BB9
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 15:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791110504; cv=none; b=Yfk79uTgMUiJIeAb2MZ27McwDQgPOj0CeggM9/bGffjuUdZY7RqnN93plDKeeO35ps+C+pYecCy38vCcUx5Ot7FqN4vyb3b9T5N+p+341wXkAqZguchVhJISxr+MzN6chO0durLlw85OC/6VL82/hzkULe0aHrsABaf64ucH2cg=
+	t=1791126619; cv=none; b=X85ct2CVhuZG0qdH49EmJnwTH5Yuo6j6rtXo1uPYbVwhj+aix7HhDzdyu0/BH2Yq+LSoo4kHSqajdIPoXoowpygJV/O/A6nRRvWf9+p0t3Ifu3ETswA0MEYVqml1cD7VUr58iCqiJFo1WIgnD6zOnWUq1bQwB8nyiK/pH5O3ma4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791110504; c=relaxed/simple;
-	bh=+0CKYn1e8Z+9MdWqecf8cxzEz0zurmfNuDyHOqhv5tQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GNaDZTjl3XtKsV+Rxu7Ts2FxixoYYyCvhdJXd6CvrELO2UONLaBFZHpHewNXfeI9+pCH1dAqv5M5Ie7r24y/rkRa9oQeSBHMfrWxKVqkKRH6ZQwyB9IKPmtn/TjgMMzOS6xIAh5PXBF9LySzVoUi8b5yckfWzLgeAInF8ltf2Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oG7fKcX9; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1791126619; c=relaxed/simple;
+	bh=yl9v4ltkRrHN+8XmBiaF/10CvTOLAliveuSf4qtvdic=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rgmqi8oT/ryrRKXXEAl5t/9/Pms+Ap3ghZgUzmh0Li+S8JBizmaIkgoEVgb3LShI04TS3e7PrEfTUFNqzNx6VWa3IJhiXzPuh1rsVowT10jFRn5PNfkcxc3iM7ZU728KQcV3F2Ywt3zRf45lqoChdYKaen78fNKS+YD80MUYRoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NA2kNYGV; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oG7fKcX9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NA2kNYGV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791110502; x=1822646502;
+  t=1791126617; x=1822662617;
   h=date:from:to:cc:subject:message-id;
-  bh=+0CKYn1e8Z+9MdWqecf8cxzEz0zurmfNuDyHOqhv5tQ=;
-  b=oG7fKcX96al9A8I8whDsCV5VdV+qJS/FOePFpHMTIi8WEG8RWOt+z6l2
-   +Slalos+/T++xWHUkwQcIWOH+X7SadaKFfed63KbHyoKzL0+KvspE/Up5
-   TQmhnzt45/+3KTtaJ871TuNowRoXIwLl1X51yO/s71VM1kbTvp3bD8uVm
-   nWVumG+39fK0BdRVd3heP3+tlGcvNkYf0Adr3Nlj5aDuVdsfPq/bpFuEB
-   g2n9T+jzP4MBqDfNdibVWnVr1fesbVZQdCWM0QBMDOWxDCS7f4N3bsQvZ
-   oSiWe8Nl2zZmxrZB7kidQVoE5tkDIUCZduCiMk5/i8fVfr+oWLhwyjqjK
-   A==;
-X-CSE-ConnectionGUID: I48w1VLlQZ+lMDOquBEmYg==
-X-CSE-MsgGUID: KJT3RD3IQZePLQvTo1q57w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90862655"
+  bh=yl9v4ltkRrHN+8XmBiaF/10CvTOLAliveuSf4qtvdic=;
+  b=NA2kNYGV5i3LaxWCRW7qHk3EEHak4UGBZzZYqDc8APln1LqWfFs1p9g6
+   eEtQwzpYvtM6TM32O1phQn63hrN/eyWYGm1ooH/gLr1nvpTgPYo69+Xj4
+   erkcJD5xH2BjRSW/ysJl/Qew49Rmv7Uq2VxT9mmbIv8ygcpDYQqhJXW7W
+   nqvwhUScOjIyzIq7zS6NMxiBhYwy9SRE5qPJqQN8KjAYkc19Nvrv2+HSG
+   9rMJiRRKoFJ4uCr6cHL+A7xh5lIsgbWpLfi3+qiCb8kUSbijULv5xMBEK
+   5P0U+pG2pHjDBafpQ5uh3AoSCxzTVExh/mc1i5dp7hrTQdWbSidANxyoD
+   Q==;
+X-CSE-ConnectionGUID: FTW1P0TwTGKw0ECiqYYsXw==
+X-CSE-MsgGUID: hWEUkztFQF+cVOFfhhS7uA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="95626740"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="90862655"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 03:41:42 -0700
-X-CSE-ConnectionGUID: ZPKCR6DwTue3rIePSeJJKg==
-X-CSE-MsgGUID: 3e0AnHHPTTKPJ5hwSAVgMw==
+   d="scan'208";a="95626740"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 08:10:17 -0700
+X-CSE-ConnectionGUID: fqD9y959RjitcZNAA7QBFA==
+X-CSE-MsgGUID: hfh+nBWsSGq2GbxAglzFCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="276141209"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 04 Oct 2026 03:41:41 -0700
-Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
+   d="scan'208";a="273027417"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Oct 2026 08:10:16 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDJez-000000000Gv-2bSg;
-	Sun, 04 Oct 2026 10:41:37 +0000
-Date: Sun, 04 Oct 2026 12:41:19 +0200
+	id 1xDNqw-00000000Up7-19sz;
+	Sun, 04 Oct 2026 15:10:14 +0000
+Date: Sun, 04 Oct 2026 23:09:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-tegra:for-7.4/arm64/dt 31/33]
- arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /ahub@70300000: failed to
- match any schema with compatible: ['nvidia,tegra132-ahub',
- 'nvidia,tegra124-ahub']
-Message-ID: <202610041237.W4tqFlMB-lkp@intel.com>
+Subject: drivers/gpu/drm/tiny/ra8875.c:140:undefined reference to
+ `of_get_videomode'
+Message-ID: <202610042347.idGisdDW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,42 +60,48 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Adam-Azuddin/dt-bindings-display-panel-Add-RAiO-RA8875-display-controller/20261001-224125, commit: 9d03fa1e817a89924a845989503ebd78e0e6484e"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-tegra@vger.kernel.org
-TO: Thierry Reding <treding@nvidia.com>
+TO: Adam Azuddin <azuddinadam@gmail.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/swarren/linux-tegra.git for-7.4/arm64/dt
-head:   ad4deb2e42ebb94425c003ca3ca39691ebe61e0f
-commit: 13597d07c4e903cb351805636298608196a08a45 [31/33] arm64: tegra: Add Tegra132 specific compatible for AHUB
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2401-20261003 (https://download.01.org/0day-ci/archive/20261004/202610041237.W4tqFlMB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041237.W4tqFlMB-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Adam-Azuddin/dt-bindings-display-panel-Add-RAiO-RA8875-display-controller/20261001-224125
+head:   9d03fa1e817a89924a845989503ebd78e0e6484e
+commit: 9d03fa1e817a89924a845989503ebd78e0e6484e drm/tiny: Add RAiO RA8875 display controller driver
+date:   3 days ago
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: xtensa-randconfig-1000-20261003 (https://download.01.org/0day-ci/archive/20261004/202610042347.idGisdDW-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042347.idGisdDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610041237.W4tqFlMB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610042347.idGisdDW-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: sd1: ams,ext-control: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: ldo0: ams,ext-control: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra132-mc']
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible:0: 'nvidia,tegra132-emc' is not one of ['nvidia,tegra114-emc', 'nvidia,tegra124-emc']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc'] is too long
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc']
->> arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra132-ahub', 'nvidia,tegra124-ahub']
->> arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra132-ahub', 'nvidia,tegra124-ahub']
+All errors (new ones prefixed by >>):
+
+   xtensa-linux-ld: drivers/gpu/drm/tiny/ra8875.o: in function `ra8875_connector_get_modes':
+>> drivers/gpu/drm/tiny/ra8875.c:140:(.text+0x268): undefined reference to `of_get_videomode'
+   xtensa-linux-ld: drivers/gpu/drm/tiny/ra8875.o: in function `ra8875_probe':
+   drivers/gpu/drm/tiny/ra8875.c:614:(.text+0x3a2): undefined reference to `of_get_videomode'
+
+
+vim +140 drivers/gpu/drm/tiny/ra8875.c
+
+9d03fa1e817a89 Adam Azuddin 2026-10-01  133  
+9d03fa1e817a89 Adam Azuddin 2026-10-01  134  static int ra8875_connector_get_modes(struct drm_connector *connector)
+9d03fa1e817a89 Adam Azuddin 2026-10-01  135  {
+9d03fa1e817a89 Adam Azuddin 2026-10-01  136  	struct ra8875_device *ra8875 =
+9d03fa1e817a89 Adam Azuddin 2026-10-01  137  		container_of(connector, struct ra8875_device, connector);
+9d03fa1e817a89 Adam Azuddin 2026-10-01  138  
+9d03fa1e817a89 Adam Azuddin 2026-10-01  139  	return drm_connector_helper_get_modes_fixed(connector, &ra8875->mode);
+9d03fa1e817a89 Adam Azuddin 2026-10-01 @140  }
+9d03fa1e817a89 Adam Azuddin 2026-10-01  141  
 
 --
 0-DAY CI Kernel Test Service
