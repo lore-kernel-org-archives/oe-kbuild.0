@@ -1,196 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB49C12B94
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 05:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99242AE76
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 07:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791092796; cv=none; b=MUOBKT+MELnUEUOVXMbM4uhif8jvYz3CHQ0NZZUrvqNyAOwRwdNFirEhOQUI3TXXRtsXpH6dboEdszzyAlSCetrOM+YlObki9KQbn61KnrQxBif4p9pASwXJHHo+WxFlUnQnwPtoTAiqC6aVgl6o1TP24W5WjgHl36X92+AChbc=
+	t=1791098919; cv=none; b=LM8HuSQuGCVxWhaRqqi7aHJ0BYuAV4zDAWPrNkcnqYYT6s8zgyKZSOUSrMVRJlAH598D9oL+f6O9QcAW/K+UKEwLdqXZw9gAA/TPkq6zEeIj/1QJzkCH3Uiw2RMgE4c4VGeLpQFujn2gLTYq+xU7G8QXm1+QhS+QtZFUHNB6XtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791092796; c=relaxed/simple;
-	bh=GTPrCG6fGm2wmurzHDYCfAnFrH4u5dt1aXAVZHgsBAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Bt/wY434yDbcVdhAhv169NFBcWOEpxjf1VHrd6BistHX+9tcP6yZl7PenO/3gFpwP0OOfUwZrRwaehjVvOq7F2gboEXCyJJQZFPGMPf+m6EVgIkP0FQQUyHYIEC+R5k3CJohZWhVPORuvGp+n2IbbvG3AceWHZVWUiYNDNM+aJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xz1Cz4h0; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1791098919; c=relaxed/simple;
+	bh=otvHHPzKUdMYQfPuZ3YFF9P4kbEf8UVH50Qr3RsaY54=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mOkzjmf8v1dusybhg8frmP5bH7gk85t+pvJUlRXwj3PD3tD4g58BH9m8F4iSTI38p80rv6M4nfqX25ixyvEKMVtQ62BI4Miv8CabV5u8GxFYvlVMPOzRQ9pa1iE3DoRWXzfrpAQDMz5G3EUx87g66PVjZhNEpOGMgS4jHFqNy6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDRapS1N; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xz1Cz4h0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDRapS1N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791092795; x=1822628795;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GTPrCG6fGm2wmurzHDYCfAnFrH4u5dt1aXAVZHgsBAg=;
-  b=Xz1Cz4h0trCA/GsBb5WsRUTS3YdtzP33nYZulIqgWgmaZmW+b/ak4+7G
-   AFbAWBlKcNzs8Dky473PywSfRAeyZHuH9cfaYDN1PSNJ8YDgd2RZuYFz6
-   KccuN2pOikDbTknLNToED7jwhaBYqRwKR7/vJsATmsctGvh0VZHen/WLJ
-   5f6rSqv4P5N6Vsvdyq+79DTXNKx+YsZvI7/yf8K02wNrsOo9EMaF+05ab
-   lm6O4/kr7GlnOGxzlPGfALlvxgJvQvrgASgz4pQj11zNWFP9KbhJ52vsZ
-   ePt+DqKHKNs7CYRgQ9oACknWQnJPbGGNxuicI3/00+nnRk+J2zCmXeiED
+  t=1791098918; x=1822634918;
+  h=date:from:to:cc:subject:message-id;
+  bh=otvHHPzKUdMYQfPuZ3YFF9P4kbEf8UVH50Qr3RsaY54=;
+  b=mDRapS1NvLU9+4n8svn9FUclK+ELVWYbB4bgLRETLVUzEG8t8SoOQe6z
+   LuFN3qp00Px7s2eH1QZzhOOdoQ33ZanxhosnLknReU2ja1b3NEcCJacLL
+   7P99T2Os/YLn7742hk6zAdaRXnmYBvCbnm5uKObCLFL/g6ysKS9TKX9wT
+   hTdrv1xrkglYK3eqY7a/Mb+xkCRvx4H/6ua4Hyl4uiEpi4yRef/npj7lb
+   FNnWmkUslO/r8qTuGyJigckCawZPBROXrJvHHqFrD25clWiVgMBzhKdxz
+   dvIQWw8XqP8CGjD361QrTcYEOUkkPhGWTw4/PhieCI3I1+8nrSh1wzIdU
    w==;
-X-CSE-ConnectionGUID: isxLBkDKQQuQOG474XRmkA==
-X-CSE-MsgGUID: jZcMF9+3SCGGvKh9gKPk1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="91820673"
+X-CSE-ConnectionGUID: VULI7h4xT7mghL1M5qRwBg==
+X-CSE-MsgGUID: iZMa3MTXSSCX2V/ono1jfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="79359865"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="91820673"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 22:46:34 -0700
-X-CSE-ConnectionGUID: QuwHQlYaRseQJu/fOY5n6w==
-X-CSE-MsgGUID: 7uamM5PPQ/S8sX0Zf5RY5Q==
+   d="scan'208";a="79359865"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 00:28:37 -0700
+X-CSE-ConnectionGUID: KDfIPwWFQj2dd/2E0gQhcw==
+X-CSE-MsgGUID: MeJWXHnkQ1i8fDtEo+LkvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="304512884"
+   d="scan'208";a="274361739"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Oct 2026 22:46:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 04 Oct 2026 00:28:37 -0700
 Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDF3P-000000000D1-1F6w;
-	Sun, 04 Oct 2026 05:46:31 +0000
-Date: Sun, 04 Oct 2026 07:45:48 +0200
+	id 1xDGe9-000000000Eb-2Ql4;
+	Sun, 04 Oct 2026 07:28:33 +0000
+Date: Sun, 04 Oct 2026 09:28:01 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/drm_pagemap.c:480:12: error: call to
- '__compiletime_assert_425' declared with 'error' attribute: BUILD_BUG failed
-Message-ID: <202610040740.EoZ1nOY4-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: arch/powerpc/perf/vpa-dtl.c:151:40-50: ERROR: function
+ vpa_dtl_mem_alloc called on line 208 inside lock on line 190 but uses
+ GFP_KERNEL
+Message-ID: <202610040941.syatldib-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "__compiletime_assert_NNN"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Brost <matthew.brost@intel.com>
-CC: Francois Dugast <francois.dugast@intel.com>
-CC: Balbir Singh <balbirs@nvidia.com>
+TO: Kajol Jain <kjain@linux.ibm.com>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
 
-Hi Matthew,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6addb4f385570ebc11c4eb499a4f1c149f313e84
-commit: 139ab31aea8a9436460568d556b432bb7e9311f7 drm/pagemap: Correct cpage=
-s calculation for migrate_vma_setup
-date:   7 months ago
-:::::: branch date: 86 minutes ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-r2302-20261003 (https://download.01.org/0day-ci/a=
-rchive/20261004/202610040740.EoZ1nOY4-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261004/202610040740.EoZ1nOY4-lkp@intel.com/reproduce)
+commit: 4708fba19adee9ba14ef28af6face4ab043d9cd6 powerpc/vpa_dtl: Add interface to expose vpa dtl counters via perf
+date:   1 year ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year ago
+config: powerpc64-randconfig-r2103-20261004 (https://download.01.org/0day-ci/archive/20261004/202610040941.syatldib-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e4505dd447d115d85fdea45cd71030ac1d86ee)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 139ab31aea8a ("drm/pagemap: Correct cpages calculation for migrate=
-_vma_setup")
+| Fixes: 4708fba19ade ("powerpc/vpa_dtl: Add interface to expose vpa dtl counters via perf")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610040740.EoZ1nOY4-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610040941.syatldib-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/powerpc/perf/vpa-dtl.c:151:40-50: ERROR: function vpa_dtl_mem_alloc called on line 208 inside lock on line 190 but uses GFP_KERNEL
 
->> drivers/gpu/drm/drm_pagemap.c:480:12: error: call to '__compiletime_asse=
-rt_425' declared with 'error' attribute: BUILD_BUG failed
-     480 |                         order =3D HPAGE_PMD_ORDER;
-         |                                 ^
-   include/linux/huge_mm.h:117:26: note: expanded from macro 'HPAGE_PMD_ORD=
-ER'
-     117 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHI=
-FT'
-     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:694:2: note: expanded from macro '_compil=
-etime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:687:4: note: expanded from macro '__compi=
-letime_assert'
-     687 |                         prefix ## suffix();                     =
-        \
-         |                         ^
-   <scratch space>:46:1: note: expanded from here
-      46 | __compiletime_assert_425
-         | ^
-   1 error generated.
+vim +151 arch/powerpc/perf/vpa-dtl.c
 
-
-vim +480 drivers/gpu/drm/drm_pagemap.c
-
-ec265e1f1cfcce Thomas Hellstr=C3=B6m 2025-12-19  454 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  455  /**
-139ab31aea8a94 Matthew Brost    2026-03-12  456   * drm_pagemap_cpages() - =
-Count collected pages
-139ab31aea8a94 Matthew Brost    2026-03-12  457   * @migrate_pfn: Array of =
-migrate_pfn entries to account
-139ab31aea8a94 Matthew Brost    2026-03-12  458   * @npages: Number of entr=
-ies in @migrate_pfn
-139ab31aea8a94 Matthew Brost    2026-03-12  459   *
-139ab31aea8a94 Matthew Brost    2026-03-12  460   * Compute the total numbe=
-r of minimum-sized pages represented by the
-139ab31aea8a94 Matthew Brost    2026-03-12  461   * collected entries in @m=
-igrate_pfn. The total is derived from the
-139ab31aea8a94 Matthew Brost    2026-03-12  462   * order encoded in each e=
-ntry.
-139ab31aea8a94 Matthew Brost    2026-03-12  463   *
-139ab31aea8a94 Matthew Brost    2026-03-12  464   * Return: Total number of=
- minimum-sized pages.
-139ab31aea8a94 Matthew Brost    2026-03-12  465   */
-139ab31aea8a94 Matthew Brost    2026-03-12  466  static int drm_pagemap_cpa=
-ges(unsigned long *migrate_pfn, unsigned long npages)
-139ab31aea8a94 Matthew Brost    2026-03-12  467  {
-139ab31aea8a94 Matthew Brost    2026-03-12  468  	unsigned long i, cpages =
-=3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  469 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  470  	for (i =3D 0; i < npages;=
-) {
-139ab31aea8a94 Matthew Brost    2026-03-12  471  		struct page *page =3D mi=
-grate_pfn_to_page(migrate_pfn[i]);
-139ab31aea8a94 Matthew Brost    2026-03-12  472  		struct folio *folio;
-139ab31aea8a94 Matthew Brost    2026-03-12  473  		unsigned int order =3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  474 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  475  		if (page) {
-139ab31aea8a94 Matthew Brost    2026-03-12  476  			folio =3D page_folio(pa=
-ge);
-139ab31aea8a94 Matthew Brost    2026-03-12  477  			order =3D folio_order(f=
-olio);
-139ab31aea8a94 Matthew Brost    2026-03-12  478  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  479  		} else if (migrate_pfn[i=
-] & MIGRATE_PFN_COMPOUND) {
-139ab31aea8a94 Matthew Brost    2026-03-12 @480  			order =3D HPAGE_PMD_ORD=
-ER;
-139ab31aea8a94 Matthew Brost    2026-03-12  481  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  482  		}
-139ab31aea8a94 Matthew Brost    2026-03-12  483 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  484  		i +=3D NR_PAGES(order);
-139ab31aea8a94 Matthew Brost    2026-03-12  485  	}
-139ab31aea8a94 Matthew Brost    2026-03-12  486 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  487  	return cpages;
-139ab31aea8a94 Matthew Brost    2026-03-12  488  }
-139ab31aea8a94 Matthew Brost    2026-03-12  489 =20
+4708fba19adee9b Kajol Jain 2025-09-15  141  
+4708fba19adee9b Kajol Jain 2025-09-15  142  static int vpa_dtl_mem_alloc(int cpu)
+4708fba19adee9b Kajol Jain 2025-09-15  143  {
+4708fba19adee9b Kajol Jain 2025-09-15  144  	struct vpa_dtl *dtl = &per_cpu(vpa_dtl_cpu, cpu);
+4708fba19adee9b Kajol Jain 2025-09-15  145  	struct dtl_entry *buf = NULL;
+4708fba19adee9b Kajol Jain 2025-09-15  146  
+4708fba19adee9b Kajol Jain 2025-09-15  147  	/* Check for dispatch trace log buffer cache */
+4708fba19adee9b Kajol Jain 2025-09-15  148  	if (!dtl_cache)
+4708fba19adee9b Kajol Jain 2025-09-15  149  		return -ENOMEM;
+4708fba19adee9b Kajol Jain 2025-09-15  150  
+4708fba19adee9b Kajol Jain 2025-09-15 @151  	buf = kmem_cache_alloc_node(dtl_cache, GFP_KERNEL | GFP_ATOMIC, cpu_to_node(cpu));
+4708fba19adee9b Kajol Jain 2025-09-15  152  	if (!buf) {
+4708fba19adee9b Kajol Jain 2025-09-15  153  		pr_warn("buffer allocation failed for cpu %d\n", cpu);
+4708fba19adee9b Kajol Jain 2025-09-15  154  		return -ENOMEM;
+4708fba19adee9b Kajol Jain 2025-09-15  155  	}
+4708fba19adee9b Kajol Jain 2025-09-15  156  	dtl->buf = buf;
+4708fba19adee9b Kajol Jain 2025-09-15  157  	return 0;
+4708fba19adee9b Kajol Jain 2025-09-15  158  }
+4708fba19adee9b Kajol Jain 2025-09-15  159  
+4708fba19adee9b Kajol Jain 2025-09-15  160  static int vpa_dtl_event_init(struct perf_event *event)
+4708fba19adee9b Kajol Jain 2025-09-15  161  {
+4708fba19adee9b Kajol Jain 2025-09-15  162  	struct hw_perf_event *hwc = &event->hw;
+4708fba19adee9b Kajol Jain 2025-09-15  163  
+4708fba19adee9b Kajol Jain 2025-09-15  164  	/* test the event attr type for PMU enumeration */
+4708fba19adee9b Kajol Jain 2025-09-15  165  	if (event->attr.type != event->pmu->type)
+4708fba19adee9b Kajol Jain 2025-09-15  166  		return -ENOENT;
+4708fba19adee9b Kajol Jain 2025-09-15  167  
+4708fba19adee9b Kajol Jain 2025-09-15  168  	if (!perfmon_capable())
+4708fba19adee9b Kajol Jain 2025-09-15  169  		return -EACCES;
+4708fba19adee9b Kajol Jain 2025-09-15  170  
+4708fba19adee9b Kajol Jain 2025-09-15  171  	/* Return if this is a counting event */
+4708fba19adee9b Kajol Jain 2025-09-15  172  	if (!is_sampling_event(event))
+4708fba19adee9b Kajol Jain 2025-09-15  173  		return -EOPNOTSUPP;
+4708fba19adee9b Kajol Jain 2025-09-15  174  
+4708fba19adee9b Kajol Jain 2025-09-15  175  	/* no branch sampling */
+4708fba19adee9b Kajol Jain 2025-09-15  176  	if (has_branch_stack(event))
+4708fba19adee9b Kajol Jain 2025-09-15  177  		return -EOPNOTSUPP;
+4708fba19adee9b Kajol Jain 2025-09-15  178  
+4708fba19adee9b Kajol Jain 2025-09-15  179  	/* Invalid eventcode */
+4708fba19adee9b Kajol Jain 2025-09-15  180  	switch (event->attr.config) {
+4708fba19adee9b Kajol Jain 2025-09-15  181  	case DTL_LOG_CEDE:
+4708fba19adee9b Kajol Jain 2025-09-15  182  	case DTL_LOG_PREEMPT:
+4708fba19adee9b Kajol Jain 2025-09-15  183  	case DTL_LOG_FAULT:
+4708fba19adee9b Kajol Jain 2025-09-15  184  	case DTL_LOG_ALL:
+4708fba19adee9b Kajol Jain 2025-09-15  185  		break;
+4708fba19adee9b Kajol Jain 2025-09-15  186  	default:
+4708fba19adee9b Kajol Jain 2025-09-15  187  		return -EINVAL;
+4708fba19adee9b Kajol Jain 2025-09-15  188  	}
+4708fba19adee9b Kajol Jain 2025-09-15  189  
+4708fba19adee9b Kajol Jain 2025-09-15 @190  	spin_lock(&dtl_global_lock);
+4708fba19adee9b Kajol Jain 2025-09-15  191  
+4708fba19adee9b Kajol Jain 2025-09-15  192  	/*
+4708fba19adee9b Kajol Jain 2025-09-15  193  	 * To ensure there are no other conflicting dtl users
+4708fba19adee9b Kajol Jain 2025-09-15  194  	 * (example: /proc/powerpc/vcpudispatch_stats or debugfs dtl),
+4708fba19adee9b Kajol Jain 2025-09-15  195  	 * below code try to take the dtl_access_lock.
+4708fba19adee9b Kajol Jain 2025-09-15  196  	 * The dtl_access_lock is a rwlock defined in dtl.h, which is used
+4708fba19adee9b Kajol Jain 2025-09-15  197  	 * to unsure there is no conflicting dtl users.
+4708fba19adee9b Kajol Jain 2025-09-15  198  	 * Based on below code, vpa_dtl pmu tries to take write access lock
+4708fba19adee9b Kajol Jain 2025-09-15  199  	 * and also checks for dtl_global_refc, to make sure that the
+4708fba19adee9b Kajol Jain 2025-09-15  200  	 * dtl_access_lock is taken by vpa_dtl pmu interface.
+4708fba19adee9b Kajol Jain 2025-09-15  201  	 */
+4708fba19adee9b Kajol Jain 2025-09-15  202  	if (dtl_global_refc == 0 && !down_write_trylock(&dtl_access_lock)) {
+4708fba19adee9b Kajol Jain 2025-09-15  203  		spin_unlock(&dtl_global_lock);
+4708fba19adee9b Kajol Jain 2025-09-15  204  		return -EBUSY;
+4708fba19adee9b Kajol Jain 2025-09-15  205  	}
+4708fba19adee9b Kajol Jain 2025-09-15  206  
+4708fba19adee9b Kajol Jain 2025-09-15  207  	/* Allocate dtl buffer memory */
+4708fba19adee9b Kajol Jain 2025-09-15 @208  	if (vpa_dtl_mem_alloc(event->cpu)) {
+4708fba19adee9b Kajol Jain 2025-09-15  209  		spin_unlock(&dtl_global_lock);
+4708fba19adee9b Kajol Jain 2025-09-15  210  		return -ENOMEM;
+4708fba19adee9b Kajol Jain 2025-09-15  211  	}
+4708fba19adee9b Kajol Jain 2025-09-15  212  
+4708fba19adee9b Kajol Jain 2025-09-15  213  	/*
+4708fba19adee9b Kajol Jain 2025-09-15  214  	 * Increment the number of active vpa_dtl pmu threads. The
+4708fba19adee9b Kajol Jain 2025-09-15  215  	 * dtl_global_refc is used to keep count of cpu threads that
+4708fba19adee9b Kajol Jain 2025-09-15  216  	 * currently capturing dtl data using vpa_dtl pmu interface.
+4708fba19adee9b Kajol Jain 2025-09-15  217  	 */
+4708fba19adee9b Kajol Jain 2025-09-15  218  	dtl_global_refc++;
+4708fba19adee9b Kajol Jain 2025-09-15  219  
+4708fba19adee9b Kajol Jain 2025-09-15  220  	spin_unlock(&dtl_global_lock);
+4708fba19adee9b Kajol Jain 2025-09-15  221  
+4708fba19adee9b Kajol Jain 2025-09-15  222  	hrtimer_setup(&hwc->hrtimer, vpa_dtl_hrtimer_handle, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+4708fba19adee9b Kajol Jain 2025-09-15  223  
+4708fba19adee9b Kajol Jain 2025-09-15  224  	/*
+4708fba19adee9b Kajol Jain 2025-09-15  225  	 * Since hrtimers have a fixed rate, we can do a static freq->period
+4708fba19adee9b Kajol Jain 2025-09-15  226  	 * mapping and avoid the whole period adjust feedback stuff.
+4708fba19adee9b Kajol Jain 2025-09-15  227  	 */
+4708fba19adee9b Kajol Jain 2025-09-15  228  	if (event->attr.freq) {
+4708fba19adee9b Kajol Jain 2025-09-15  229  		long freq = event->attr.sample_freq;
+4708fba19adee9b Kajol Jain 2025-09-15  230  
+4708fba19adee9b Kajol Jain 2025-09-15  231  		event->attr.sample_period = NSEC_PER_SEC / freq;
+4708fba19adee9b Kajol Jain 2025-09-15  232  		hwc->sample_period = event->attr.sample_period;
+4708fba19adee9b Kajol Jain 2025-09-15  233  		local64_set(&hwc->period_left, hwc->sample_period);
+4708fba19adee9b Kajol Jain 2025-09-15  234  		hwc->last_period = hwc->sample_period;
+4708fba19adee9b Kajol Jain 2025-09-15  235  		event->attr.freq = 0;
+4708fba19adee9b Kajol Jain 2025-09-15  236  	}
+4708fba19adee9b Kajol Jain 2025-09-15  237  
+4708fba19adee9b Kajol Jain 2025-09-15  238  	event->destroy = vpa_dtl_reset_global_refc;
+4708fba19adee9b Kajol Jain 2025-09-15  239  	return 0;
+4708fba19adee9b Kajol Jain 2025-09-15  240  }
+4708fba19adee9b Kajol Jain 2025-09-15  241  
 
 --
 0-DAY CI Kernel Test Service
