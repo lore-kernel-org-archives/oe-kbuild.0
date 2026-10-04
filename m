@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65423EDE43
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 08:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B19414A2A
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Oct 2026 08:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791101383; cv=none; b=rHd8GI4+2uyFtiaLrrXdTFcx2rXzgP4rsn2tr2PdzWaRGAlohA4Ed5j5nCXjokDK9xaxBQHWfpDcGeyELVSCxiAUjEEwNu0wwtPHu8vHfmIpjSWLU5oTyrCmT5M5lj6LVmruSuv1OI+zSs+vqvrJYKXEBZcFGf7+RDPDu+OrFXI=
+	t=1791103786; cv=none; b=sIUUeW5xuoymGMT/gsw40/w5hXgmPe4tmXsaNjqcCoiwQyrAx6VbKRSIZfS1TOyRTJHkX9hYaMEI2PqsAIHzQcso/nPZ7hmhw+QWJ536xJqx2y1mIrMw4iDhpjy2n+rETxH1YIIy+6AlJ8BIsS8/Uo5p9P1aUZpxHhntT9tRO+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791101383; c=relaxed/simple;
-	bh=d1Qzc5l3b/LTqO98poWr6U+l1oFHww9c81qF6PSulss=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J8FmxJDkTAQqSdCa8egqdaiGXQyGBZajzqp7Ert/0VOUv2Qn2ZoecloqrXoeMbYCe4DC5b4pRZ1Ci9Gzd/uY3SpDAJTGemHsBCC9RVWcKO2bAbi4RLYJc+tnO5NYh1HiLcRpnwo2R9C9a31PgJq8nNWootSGh8Tz7nj+XZUclr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2PhmKX6; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1791103786; c=relaxed/simple;
+	bh=M3mvx261y7TpD5ov5MoAajZEfX57wK0IsnE5ZQ0rUHM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LkJXF/DRoCrulgCCpMjHpYDtOToF/CHcRvGjdHfO8Icc/mq6uWkpCK0slTNaso6Id/ipaol5I/tnFnuYKikcI5yIU1CIKV2BueEOebvsKoyJQ9Ja83EkdbGnpA6BzjQauaXaaTZYJ1hUnYomk16dcoRjfv1oN/8q3WkFok5q7ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a2rxXZ3I; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2PhmKX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2rxXZ3I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791101380; x=1822637380;
+  t=1791103782; x=1822639782;
   h=date:from:to:cc:subject:message-id;
-  bh=d1Qzc5l3b/LTqO98poWr6U+l1oFHww9c81qF6PSulss=;
-  b=L2PhmKX6qatPSpxAY8jN09E9hWKiDPo0/KqLuxIhVE2rZetCtbJakDTv
-   IgK5n9pZethBnnjOp8nuEnN14ii9H+UT+Xws5p8WtbFgX6uml6ywPTJF7
-   itHw+pW4l3LUFJNtk/DzL0d+UzMUaxElOOvCcUtyIyUpDkdq560g7+ElY
-   hpZPeoEilDdhpyAwG9ubVYGAd0GIox4sXZr4pxZNFQyBYN8ApQFmS7ItD
-   vvvZu6b37E9ucODUPcMl8ne5NlOIYAc5+hnw6wpcvpjLIXMbsAxZY1QRn
-   VO2e4sguVPeteZY8Sq+BaKcc8QSzhUY2+F8gt1RnGmlqfBnIjTukWn5VI
-   w==;
-X-CSE-ConnectionGUID: 7vLsTY5pQTazXQ6MrPVfuw==
-X-CSE-MsgGUID: TepowHkPS76cEXaAo9FmLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="113581073"
+  bh=M3mvx261y7TpD5ov5MoAajZEfX57wK0IsnE5ZQ0rUHM=;
+  b=a2rxXZ3IAeKaZVRyff4k9UjpK4z3Q/0muVnIYSYhoO0azpErsw0r93tW
+   ly7F1S4ocEAFmcIYgvV3r/x+7YINv86dG2kxDKuSKPpy8G0Jf9mYhlOXD
+   MKOxAWo0tselRFAwPXXtbRzuN/HJLJTvmvShvlJ97+meuq/bNK7br6tRE
+   XXhX/dRHTulexgYtqPUi6wwK+wI+Nmp+wkzqKOr0HHThBRosXdHzmD7fN
+   SqtiBd7DA+LriIf+rajCkCz88u/Id4fQY7zX2E5HgbYx00aUNwgQvI+LT
+   6it51HdY4UiY1H4yyZFl8/7icnC2in+4ts5mDbXHV7lVOMmtJLSgEsv3g
+   g==;
+X-CSE-ConnectionGUID: m9VO8Fv9ThqjrJx6KEIbAg==
+X-CSE-MsgGUID: hvNlnR15SfS6PcBf7oK4Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="91908133"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="113581073"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 01:09:38 -0700
-X-CSE-ConnectionGUID: myDREIKJQPKRpyoh1VZwqw==
-X-CSE-MsgGUID: z8JieV7LT+qP/QkRuNKhIQ==
+   d="scan'208";a="91908133"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 01:49:38 -0700
+X-CSE-ConnectionGUID: 3Rj66pz1SIS4n+hMIA4BAg==
+X-CSE-MsgGUID: wvgoqr50STGONiiW92J1jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="274369169"
+   d="scan'208";a="276126570"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 04 Oct 2026 01:09:36 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Oct 2026 01:49:37 -0700
 Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDHHq-000000000FD-1Ot2;
-	Sun, 04 Oct 2026 08:09:34 +0000
-Date: Sun, 04 Oct 2026 10:08:48 +0200
+	id 1xDHuY-000000000FT-3NBo;
+	Sun, 04 Oct 2026 08:49:34 +0000
+Date: Sun, 04 Oct 2026 10:49:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing
- put_device; call of_find_device_by_node on line 168, but without a
- corresponding object release within this function.
-Message-ID: <202610041029.n0Doj3ta-lkp@intel.com>
+Subject: drivers/tty/serial/cpm_uart.c:1533:5-20: WARNING: Unsigned
+ expression compared with zero: pinfo -> port . irq < 0
+Message-ID: <202610041027.gpXgSTFO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,79 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+TO: Rosen Penev <rosenp@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6addb4f385570ebc11c4eb499a4f1c149f313e84
-commit: 4c413248920106393b35b5e014e6ac525405437e PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices
-date:   9 months ago
+commit: 831603b3e8aa3892de229fda846b2f859c518699 serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq
+date:   3 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: um-randconfig-r2105-20261004 (https://download.01.org/0day-ci/archive/20261004/202610041029.n0Doj3ta-lkp@intel.com/config)
+:::::: commit date: 3 months ago
+config: powerpc-randconfig-r2105-20261004 (https://download.01.org/0day-ci/archive/20261004/202610041027.gpXgSTFO-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e4505dd447d115d85fdea45cd71030ac1d86ee)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4c4132489201 ("PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices")
+| Fixes: 831603b3e8aa ("serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610041029.n0Doj3ta-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610041027.gpXgSTFO-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call of_find_device_by_node on line 168, but without a corresponding object release within this function.
+>> drivers/tty/serial/cpm_uart.c:1533:5-20: WARNING: Unsigned expression compared with zero: pinfo -> port . irq < 0
 
-vim +198 drivers/pci/pwrctrl/core.c
+vim +1533 drivers/tty/serial/cpm_uart.c
 
-4565d2652a37e43 drivers/pci/pwrctl/core.c  Bartosz Golaszewski       2024-06-12  154  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  155  static int pci_pwrctrl_create_device(struct device_node *np,
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  156  				     struct device *parent)
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  157  {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  158  	struct platform_device *pdev;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  159  	int ret;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  160  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  161  	for_each_available_child_of_node_scoped(np, child) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  162  		ret = pci_pwrctrl_create_device(child, parent);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  163  		if (ret)
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  164  			return ret;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  165  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  166  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  167  	/* Bail out if the platform device is already available for the node */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @168  	pdev = of_find_device_by_node(np);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  169  	if (pdev) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  170  		platform_device_put(pdev);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  171  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  172  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  173  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  174  	/*
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  175  	 * Sanity check to make sure that the node has the compatible property
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  176  	 * to allow driver binding.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  177  	 */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  178  	if (!of_property_present(np, "compatible"))
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  179  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  180  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  181  	/*
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  182  	 * Check whether the pwrctrl device really needs to be created or not.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  183  	 * This is decided based on at least one of the power supplies being
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  184  	 * defined in the devicetree node of the device.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  185  	 */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  186  	if (!of_pci_supply_present(np)) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  187  		dev_dbg(parent, "Skipping OF node: %s\n", np->name);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  188  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  189  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  190  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  191  	/* Now create the pwrctrl device */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  192  	pdev = of_platform_device_create(np, NULL, parent);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  193  	if (!pdev) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  194  		dev_err(parent, "Failed to create pwrctrl device for node: %s\n", np->name);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  195  		return -EINVAL;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  196  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  197  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @198  	return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  199  }
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  200  
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1515  
+9671f09921d93e7 drivers/tty/serial/cpm_uart/cpm_uart_core.c Bill Pemberton   2012-11-19  1516  static int cpm_uart_probe(struct platform_device *ofdev)
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1517  {
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1518  	int index = probe_index++;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1519  	struct uart_cpm_port *pinfo = &cpm_uart_ports[index];
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1520  	int ret;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1521  
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1522  	pinfo->port.line = index;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1523  
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1524  	if (index >= UART_NR)
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1525  		return -ENODEV;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1526  
+696faedd616e202 drivers/tty/serial/cpm_uart/cpm_uart_core.c Jingoo Han       2013-05-23  1527  	platform_set_drvdata(ofdev, pinfo);
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1528  
+bd86ef378412fc3 drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2009-04-03  1529  	/* initialize the device pointer for the port */
+bd86ef378412fc3 drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2009-04-03  1530  	pinfo->port.dev = &ofdev->dev;
+bd86ef378412fc3 drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2009-04-03  1531  
+831603b3e8aa389 drivers/tty/serial/cpm_uart.c               Rosen Penev      2026-06-06  1532  	pinfo->port.irq = platform_get_irq(ofdev, 0);
+831603b3e8aa389 drivers/tty/serial/cpm_uart.c               Rosen Penev      2026-06-06 @1533  	if (pinfo->port.irq < 0)
+831603b3e8aa389 drivers/tty/serial/cpm_uart.c               Rosen Penev      2026-06-06  1534  		return pinfo->port.irq;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1535  
+30963b2f75bfdbb drivers/tty/serial/cpm_uart/cpm_uart_core.c Christophe Leroy 2022-09-30  1536  	ret = cpm_uart_init_port(ofdev->dev.of_node, pinfo);
+30963b2f75bfdbb drivers/tty/serial/cpm_uart/cpm_uart_core.c Christophe Leroy 2022-09-30  1537  	if (!ret)
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1538  		return uart_add_one_port(&cpm_reg, &pinfo->port);
+30963b2f75bfdbb drivers/tty/serial/cpm_uart/cpm_uart_core.c Christophe Leroy 2022-09-30  1539  
+30963b2f75bfdbb drivers/tty/serial/cpm_uart/cpm_uart_core.c Christophe Leroy 2022-09-30  1540  	return ret;
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1541  }
+7ae870368d198af drivers/serial/cpm_uart/cpm_uart_core.c     Scott Wood       2007-07-17  1542  
 
 --
 0-DAY CI Kernel Test Service
