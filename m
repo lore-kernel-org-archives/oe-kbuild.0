@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE37354704E
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 04:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92282248A5
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 06:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791260967; cv=none; b=DticgoXtVCYjI3H0sLebJpglEwQIhk6bP+7sZ6cp4DhzYG3+cvv8YWXLaVtL2DCjUln8rovjy0bYK0y/Y6BRaC886f+tQy5x1huUkqDAodh/ChHIbq8yQjbpAGBl6T0k5l4HH81HDUfU2Cuu3L7DqUpLxAbBiI5eFwbuyyYkrZI=
+	t=1791267036; cv=none; b=QE3mlnvzh5j/WlMywq/DJA8ovl1zhQ5v0WIT+zZP/2MZv6DwRQW19SFPb7oqUY5YQqinmNa08bOZpR+AVilOefmtGbSUfFiQv0Mn6mkXc1UGPUJ2oUD7IinDCq3AiFMdYdqPcXwKIu76RfAUcyqXoOZ87t0e0DdElPWv2OkmrFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791260967; c=relaxed/simple;
-	bh=LEbmp9EuShhWub0bhPRnBwvw4B1WdYf/z0Z04+or46I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bLggyGsQW1Y2jL5uMdR6HTubiBO2dD1jibmxJtLdCIT8wI48heCDtsShKmVQBAqtiOvA/0IJVCwJCR1wX1qIaEVRW558fN9CYH6whSMkCkr9s18zXUVvcE7L/HXGupWdtn4txsmMuCQlH7m3vvVlGMnXYHlVmiQnVQB4FcKgVNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+OaIz7s; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1791267036; c=relaxed/simple;
+	bh=jcvE+f3o3ncIE9fvvAWWhQ4o7MyQrIKEUO1ApkcKCmg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HnyddHIVx7heeUenVnHmPuufyUhalnOoAEwRwlyZqJhpI8/6zOj1YVEGZQSijwCf6SG0wGWUt4ZK8N4nK9RXVniLyvh3F4unobzK50ZrFb+2vzhJCYf3PZb9Uzuy43i8mFlNyGdKk0ZZ3Bm3iifxekQjW1VN9K6li6miVACyqP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1iiJoJk; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+OaIz7s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1iiJoJk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791260966; x=1822796966;
+  t=1791267035; x=1822803035;
   h=date:from:to:cc:subject:message-id;
-  bh=LEbmp9EuShhWub0bhPRnBwvw4B1WdYf/z0Z04+or46I=;
-  b=i+OaIz7s6VCCLmCRGdaguHtzzYsF17AeMDwqub5b2r1xt6XiwTXAhx7C
-   UZpKrx3q41FSly0POzFFgwqcIeSiOs4vdH/0tknagAz574TM+Ic03d9OF
-   BSAfK/3npQeNLCo4SyhGJDB8qeRurKc8iIBu3/PbFnLuV+cM5xWHSYijm
-   tZ1mYXQtD6d+kurfpfp5kEUJ0f4nYXl5yB6eAluV5Phk1tS4j2XMqyKlg
-   hH9YqN0wslloSu0mUO2iaFJ9nWXrmbLOcv8aLJ+Xp7cJB18x8rslawxnk
-   IUFkUTX+CcdqVsml8uwVOokgOXvOxaeLQai33LcCXiTLmYXRtFqGhKYes
-   A==;
-X-CSE-ConnectionGUID: NuzJA00CQA+gLzm0b+mxNw==
-X-CSE-MsgGUID: n7x+0YjWRleUFnnKMAZDsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="102103321"
+  bh=jcvE+f3o3ncIE9fvvAWWhQ4o7MyQrIKEUO1ApkcKCmg=;
+  b=J1iiJoJkV9c9tENaS4P4cju9qeoBw4p+pJorFEkHgKybNmtCD/87bYSh
+   abHXBsha6aLtD9WLyEl9IUBJxefQy+qUBWPlXUzzFRI5SbYE8bhQCVAXX
+   w0BYZInssVqDBwRZIVrw4rqP/0dSU/8aE0lpb3r59fQWCAIYwEW3/ui86
+   KD76i9rVeyxH6j5idjK8lxYiQnRT+IH4Cx2VFXjep+QE4Vai2jOgLGVPB
+   s9fgexvukAVBGCAR3267UKpOT45l7HaRTwBlpMr9IKlI8jVgHOkq/Ksmm
+   5PUGbzQlFwGLJZU/uNlyNWnCSODfbZHXBED0wjGO4fi25WKh7trWGWr7E
+   g==;
+X-CSE-ConnectionGUID: u+7HYa6KQESFKtAhAcfaHg==
+X-CSE-MsgGUID: sAURXEs7QcK95oHiKAPgLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="2383"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="102103321"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 21:29:25 -0700
-X-CSE-ConnectionGUID: OTfwNQ7FSTCn11KI0jXNFg==
-X-CSE-MsgGUID: mSz/X/GLSgmlqSwKTTfx+Q==
+   d="scan'208";a="2383"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 23:10:34 -0700
+X-CSE-ConnectionGUID: LWFYVtSITw+Yl1d94ynmjw==
+X-CSE-MsgGUID: ew+G9dR2T4arxRIyZXyclg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="276160492"
+   d="scan'208";a="280310324"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 05 Oct 2026 21:29:24 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Oct 2026 23:10:33 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDwnp-000000000iB-0kbI;
-	Tue, 06 Oct 2026 04:29:21 +0000
-Date: Tue, 06 Oct 2026 06:28:22 +0200
+	id 1xDyNi-000000000ob-2CGb;
+	Tue, 06 Oct 2026 06:10:30 +0000
+Date: Tue, 06 Oct 2026 08:10:04 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [geert-renesas-drivers:master 8/75]
- arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot.dtb: hub@1
- (usb4b4,6502): 'peer-hub' is a required property
-Message-ID: <202610060654.oBFL9Jcr-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/video/fbdev/omap2/omapfb/dss/dispc.c:2392:21-22:
+ WARNING opportunity for max()
+Message-ID: <202610060856.DAXkynw7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,86 +59,83 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Josua Mayer <josua@solid-run.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: linux-kernel@vger.kernel.org
+TO: Chintan Patel <chintanlike@gmail.com>
+CC: Helge Deller <deller@gmx.de>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   1320b9000130f6240b4f713b0948dcab4dfd95fa
-commit: 17ed07aa3b1222da7c33635cf47c4832d6c8f910 [8/75] arm64: dts: renesas: Add support for solidrun rzg2lc som and hb-iiot evb
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm64-randconfig-2402-20260929 (https://download.01.org/0day-ci/archive/20261006/202610060654.oBFL9Jcr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610060654.oBFL9Jcr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2c3418fffa9d037b2038a6db48be63f9e2291806
+commit: bf9ec461a7d1b82bbc3fe110fba9e9533879849d fbdev: omapfb: Make FB_DEVICE dependency optional
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: powerpc64-randconfig-r2104-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060856.DAXkynw7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bf9ec461a7d1 ("fbdev: omapfb: Make FB_DEVICE dependency optional")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610060654.oBFL9Jcr-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610060856.DAXkynw7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit-uhs: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot.dtb: hub@1 (usb4b4,6502): 'peer-hub' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-a.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-a.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit-uhs: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-a.dtb: hub@1 (usb4b4,6502): 'peer-hub' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-b.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit-uhs: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-b.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-rs485-b.dtb: hub@1 (usb4b4,6502): 'peer-hub' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-emmc.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-emmc.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit-uhs: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-emmc.dtb: hub@1 (usb4b4,6502): 'peer-hub' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-microsd.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
-   arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-microsd.dtb: pinctrl@11030000 (renesas,r9a07g044-pinctrl): sdhi0-4bit-uhs: 'anyOf' conditional failed, one must be fixed:
-   	'sd0_ctrl_dat03', 'sd0_dat47' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'input-disable' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-hummingboard-iiot-microsd.dtb: hub@1 (usb4b4,6502): 'peer-hub' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml
+cocci warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/omap2/omapfb/dss/dispc.c:2392:21-22: WARNING opportunity for max()
+
+vim +2392 drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2368  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2369  static int dispc_ovl_calc_scaling_44xx(unsigned long pclk, unsigned long lclk,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2370  		const struct omap_video_timings *mgr_timings,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2371  		u16 width, u16 height, u16 out_width, u16 out_height,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2372  		enum omap_color_mode color_mode, bool *five_taps,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2373  		int *x_predecim, int *y_predecim, int *decim_x, int *decim_y,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2374  		u16 pos_x, unsigned long *core_clk, bool mem_to_mem)
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2375  {
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2376  	u16 in_width, in_width_max;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2377  	int decim_x_min = *decim_x;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2378  	u16 in_height = height / *decim_y;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2379  	const int maxsinglelinewidth =
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2380  				dss_feat_get_param_max(FEAT_PARAM_LINEWIDTH);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2381  	const int maxdownscale = dss_feat_get_param_max(FEAT_PARAM_DOWNSCALE);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2382  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2383  	if (mem_to_mem) {
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2384  		in_width_max = out_width * maxdownscale;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2385  	} else {
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2386  		in_width_max = dispc_core_clk_rate() /
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2387  					DIV_ROUND_UP(pclk, out_width);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2388  	}
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2389  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2390  	*decim_x = DIV_ROUND_UP(width, in_width_max);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2391  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09 @2392  	*decim_x = *decim_x > decim_x_min ? *decim_x : decim_x_min;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2393  	if (*decim_x > *x_predecim)
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2394  		return -EINVAL;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2395  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2396  	do {
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2397  		in_width = width / *decim_x;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2398  	} while (*decim_x <= *x_predecim &&
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2399  			in_width > maxsinglelinewidth && ++*decim_x);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2400  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2401  	if (in_width > maxsinglelinewidth) {
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2402  		DSSERR("Cannot scale width exceeds max line width");
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2403  		return -EINVAL;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2404  	}
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2405  
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2406  	*core_clk = dispc.feat->calc_core_clk(pclk, in_width, in_height,
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2407  				out_width, out_height, mem_to_mem);
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2408  	return 0;
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2409  }
+f76ee892a99e68b Tomi Valkeinen 2015-12-09  2410  
+
+:::::: The code at line 2392 was first introduced by commit
+:::::: f76ee892a99e68b55402b8d4b8aeffcae2aff34d omapfb: copy omapdss & displays for omapfb
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
+:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 --
 0-DAY CI Kernel Test Service
