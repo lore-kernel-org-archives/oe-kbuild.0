@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189613DA5BA
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 10:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DB53B5850
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 11:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791281818; cv=none; b=SxbIbSIJosRcIn0cS/KNmLXfyRmSLfO58Um+6nx+J5N/kqAU6cG0RbugdthK5bTOXSC32pga4vKeEGk58jfQ3SnCvQr2oAiEzJAZOe9/UtrG6zZW+TW/wutzA3oBPK0JnHfLvn8T6r6fP/D6pPlqA0wZryj2YgyLCdzRQK7ypR8=
+	t=1791286224; cv=none; b=blZ/qLe2s+kClhz+rgx6zsCLY+KtSzoE4GV1Vd+FqaRS0bN59irL67j7XFHgNxLIKDjfCPVYvQkaEJT82j8kI2Ris38X5vsGxe8+HRu7eCuxgCk/wPU50yrAs2y7zcsWxgMPh6S/MpzSTbvDC+L8ovr5kWJAMNBGiuD7G2av+fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791281818; c=relaxed/simple;
-	bh=cfz0D0nqkivtd6IFybsWT7bUJup4bxyE+GUqXiqC+Xk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fC39843O8YT7gelAOIvTVXggh2pdmW1ch+7LbxWHL619R5p+fEMAuwcihTdqBx4haJmo8RrwNOBKcW0pUl7McczbXC0E6nGHH2lyxkWEeQ+cOL4SDkl18eCzNOTjcDSI66OUS+s8PwgjpQw3Sgeozifa5h8SqHFzt5/Hzzn5cwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlQv9Wur; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1791286224; c=relaxed/simple;
+	bh=n/ZpZ5Ss8Q0cmd1d2cHw6NfQt7Of9CnbUmGXQiR2hEM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qL46mQUBEGiC0PcvjckloEFSGXK8vEa+TBqCkihNMPd0OlmOdnHEHJ8jeSgRexypruTOjqMffO12YcVdoZJI6DHmPdHwhj5jDFWp/2aowFOLfI/IBcOO2UTP/fqVrmxQVxUyAF6hkoBLummuFpTz5KO/hfwQhWnhjDqkETm6jvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wkplsv0C; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlQv9Wur"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wkplsv0C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791281816; x=1822817816;
+  t=1791286223; x=1822822223;
   h=date:from:to:cc:subject:message-id;
-  bh=cfz0D0nqkivtd6IFybsWT7bUJup4bxyE+GUqXiqC+Xk=;
-  b=FlQv9WurYZeq5nVTAzY/Yw8/xWNmHNWQbJyjFRkSQ1sucTqlD+8qWUSa
-   jX9nC2VOLrDsUT8l1HiMOY/LMWXMpdStng2WHou6MD9BCbq+5zFPejTLA
-   3Y0MYxEUPgxzp+GBKFoF0n+qZna+QluaP3WQQQ2ZZDqdSMXHDFwcVUHAr
-   5euBU7gKY+zQ8QPbwEhaMSrEgbd1uYRD8XQ7jiLUspZNPjgiDtaWuWb2W
-   0K1ckhCIKivRg+izdHlE05dceP5log6pqd8qBoZIym38VHNBmJXxCwCYl
-   KvGp4dfnxuRivAKlyRdWKNekKmi5A69BT99y8Lv7G79bZn1qso4OQ/UUf
+  bh=n/ZpZ5Ss8Q0cmd1d2cHw6NfQt7Of9CnbUmGXQiR2hEM=;
+  b=Wkplsv0CcGQ+TFwp3qa3CteRZteplAfhGmkHMX7W9T1xihAwo6c08uH1
+   POZZIVU6YEGLB9m4Nz1WWo2VzYM/2PwKD9rQ6jc0aJnnlJX39yQEaXZfd
+   fWX0z4lwRTfrKylYwnHGrcd6RhPX8jjN41Pn9V4R2mjgIZHQX4Ujb7cQB
+   FZrs9e0rxcQxnZDMzNJoEiith6XOCYwRO/4Hg+95S21L6c7V/+z717r7v
+   Yw84hKLMPa+BY0wMC+AxBKEAvUsu5CW1djtviG2ktdCVIGDs59yzweO96
+   9P1vLAqeDHftP+AXvlN9OMsdIfG1SrpF20Gm9M5SwBpFhnh4+i+61LDpB
    w==;
-X-CSE-ConnectionGUID: zifK7uNKReWZ2agTlC6sPA==
-X-CSE-MsgGUID: NYIbX9KHTIK9xkOCBiE5kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="108340843"
+X-CSE-ConnectionGUID: zOFPQU4iSlO7T7j68YvtLA==
+X-CSE-MsgGUID: TvIv6HxMQxSjQIIybS1Dkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="29880"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="108340843"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 03:16:53 -0700
-X-CSE-ConnectionGUID: HwMCcdxsTnWOQXIQTcIi5A==
-X-CSE-MsgGUID: HOmQ9LggSvuATp8ldnmo2Q==
+   d="scan'208";a="29880"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 04:30:23 -0700
+X-CSE-ConnectionGUID: busbf4fFT76XASzR0jbPGw==
+X-CSE-MsgGUID: gPNrbF4OSh2emLQARX5rrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="276641352"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 06 Oct 2026 03:16:52 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="281910942"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Oct 2026 04:30:21 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xE2E5-0000000015v-109z;
-	Tue, 06 Oct 2026 10:16:49 +0000
-Date: Tue, 06 Oct 2026 12:16:22 +0200
+	id 1xE3NC-000000001XY-32Aq;
+	Tue, 06 Oct 2026 11:30:18 +0000
+Date: Tue, 06 Oct 2026 19:30:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/cisco/enic/enic_res.c:219:2-25:
- opportunity for str_yes_no(enic -> has_admin_channel)
-Message-ID: <202610061215.L3KeOUeP-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/net/dsa/motorcomm/chip.c:3928:36: error: 'priv'
+ undeclared
+Message-ID: <202610061956.2FNvr49S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,66 +59,80 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Kyle-Switch/net-dsa-motorcomm-initialize-dsa_switch-based-on-chipid/20260929-105407, commit: 6487dda010cebf1838d44e9ef59cdf8dbcf6a47d"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Satish Kharat <satishkh@cisco.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: Kyle Switch <kyle.switch@motor-comm.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2c3418fffa9d037b2038a6db48be63f9e2291806
-commit: 4368f5fab419b43068dea912536b1f4a724b4bba enic: detect admin channel resources for SR-IOV
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
-config: powerpc64-randconfig-r2104-20261005 (https://download.01.org/0day-ci/archive/20261006/202610061215.L3KeOUeP-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Kyle-Switch/net-dsa-motorcomm-initialize-dsa_switch-based-on-chipid/20260929-105407
+head:   17230188d88553553a3648a5296554ff1e98926a
+commit: 6487dda010cebf1838d44e9ef59cdf8dbcf6a47d net: dsa: motorcomm: move mib stop from remove() to teardown()
+date:   7 days ago
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: s390-randconfig-1001-20261006 (https://download.01.org/0day-ci/archive/20261006/202610061956.2FNvr49S-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061956.2FNvr49S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4368f5fab419 ("enic: detect admin channel resources for SR-IOV")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610061215.L3KeOUeP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610061956.2FNvr49S-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/cisco/enic/enic_res.c:101:2-25: opportunity for str_yes_no(ENIC_SETTING ( enic , LRO ))
-   drivers/net/ethernet/cisco/enic/enic_res.c:102:2-25: opportunity for str_yes_no(ENIC_SETTING ( enic , RSS ))
-   drivers/net/ethernet/cisco/enic/enic_res.c:99:2-28: opportunity for str_yes_no(ENIC_SETTING ( enic , RXCSUM ))
-   drivers/net/ethernet/cisco/enic/enic_res.c:100:2-25: opportunity for str_yes_no(ENIC_SETTING ( enic , TSO ))
-   drivers/net/ethernet/cisco/enic/enic_res.c:98:2-28: opportunity for str_yes_no(ENIC_SETTING ( enic , TXCSUM ))
->> drivers/net/ethernet/cisco/enic/enic_res.c:219:2-25: opportunity for str_yes_no(enic -> has_admin_channel)
+All errors (new ones prefixed by >>):
 
-vim +219 drivers/net/ethernet/cisco/enic/enic_res.c
+   In file included from include/linux/kernel.h:16,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/net/dsa/motorcomm/chip.c:12:
+   drivers/net/dsa/motorcomm/chip.c: In function 'yt921x_dsa_teardown':
+>> drivers/net/dsa/motorcomm/chip.c:3928:36: error: 'priv' undeclared (first use in this function)
+    3928 |         for (size_t i = ARRAY_SIZE(priv->ports); i-- > 0; ) {
+         |                                    ^~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   drivers/net/dsa/motorcomm/chip.c:3928:36: note: each undeclared identifier is reported only once for each function it appears in
+    3928 |         for (size_t i = ARRAY_SIZE(priv->ports); i-- > 0; ) {
+         |                                    ^~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/net/dsa/motorcomm/chip.c:12:
+   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/net/dsa/motorcomm/chip.c:3928:25: note: in expansion of macro 'ARRAY_SIZE'
+    3928 |         for (size_t i = ARRAY_SIZE(priv->ports); i-- > 0; ) {
+         |                         ^~~~~~~~~~
 
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  194  
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  195  void enic_get_res_counts(struct enic *enic)
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  196  {
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  197  	enic->wq_avail = vnic_dev_get_res_count(enic->vdev, RES_TYPE_WQ);
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  198  	enic->rq_avail = vnic_dev_get_res_count(enic->vdev, RES_TYPE_RQ);
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  199  	enic->cq_avail = vnic_dev_get_res_count(enic->vdev, RES_TYPE_CQ);
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  200  	enic->intr_avail = vnic_dev_get_res_count(enic->vdev,
-717258ba4b3ecc drivers/net/enic/enic_res.c                Vasanthy Kolluri 2010-10-20  201  						  RES_TYPE_INTR_CTRL);
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  202  
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  203  	enic->wq_count = enic->wq_avail;
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  204  	enic->rq_count = enic->rq_avail;
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  205  	enic->cq_count = enic->cq_avail;
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  206  	enic->intr_count = enic->intr_avail;
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  207  
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  208  	enic->has_admin_channel =
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  209  		vnic_dev_get_res_count(enic->vdev, RES_TYPE_ADMIN_WQ) >= 1 &&
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  210  		vnic_dev_get_res_count(enic->vdev, RES_TYPE_ADMIN_RQ) >= 1 &&
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  211  		vnic_dev_get_res_count(enic->vdev, RES_TYPE_ADMIN_CQ) >=
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  212  			ARRAY_SIZE(enic->admin_cq) &&
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  213  		vnic_dev_get_res_count(enic->vdev, RES_TYPE_SRIOV_INTR) >= 1;
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  214  
-a7a79debcca02f drivers/net/enic/enic_res.c                Vasanthy Kolluri 2010-06-24  215  	dev_info(enic_get_dev(enic),
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  216  		"vNIC resources avail: wq %d rq %d cq %d intr %d admin %s\n",
-5aee3324724a7a drivers/net/ethernet/cisco/enic/enic_res.c Nelson Escobar   2024-11-13  217  		enic->wq_avail, enic->rq_avail,
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01  218  		enic->cq_avail, enic->intr_avail,
-4368f5fab419b4 drivers/net/ethernet/cisco/enic/enic_res.c Satish Kharat    2026-04-01 @219  		enic->has_admin_channel ? "yes" : "no");
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  220  }
-01f2e4ead2c512 drivers/net/enic/enic_res.c                Scott Feldman    2008-09-15  221  
+
+vim +/priv +3928 drivers/net/dsa/motorcomm/chip.c
+
+6487dda010cebf1 Kyle Switch 2026-09-29  3927  
+6487dda010cebf1 Kyle Switch 2026-09-29 @3928  	for (size_t i = ARRAY_SIZE(priv->ports); i-- > 0; ) {
+6487dda010cebf1 Kyle Switch 2026-09-29  3929  		struct yt921x_port *pp = &priv->ports[i];
+6487dda010cebf1 Kyle Switch 2026-09-29  3930  
+6487dda010cebf1 Kyle Switch 2026-09-29  3931  		disable_delayed_work_sync(&pp->mib_read);
+6487dda010cebf1 Kyle Switch 2026-09-29  3932  	}
+9af9a816821365e David Yang  2026-08-31  3933  }
+9af9a816821365e David Yang  2026-08-31  3934  
 
 --
 0-DAY CI Kernel Test Service
