@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB64A547061
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 02:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B4D2D3ED1
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 03:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791253576; cv=none; b=AZlUUm+2wrdjCTIfXt63wU97m7FkpRiB63o1TomhrChYil6OdUj/AKMFKk53zV1E/FdV6IMe9FbCWNr50epYjGRKT5NNU2ECl2MjaWoj4H0L9JJOW1pImi50cKoKK3U5TYBaHk9RmRqwGXI7JmbfTat9ke2RDCo9L2ara25ZkLE=
+	t=1791258445; cv=none; b=iwZnYDkEhCuV9r4bxVwl20shPhikh9TKpYVH7C5UZBfd5bw/b0A+4fUrviobyRH/rpIddfDJOkVPxppxY2zJndZyJ/8zCc2t8RYH10ZFc2z1aXPQJqSjrijF2DzZiC0VkRsRPKJNgEUbyote+qYQu1Hpkix7KPQwFTNFzRpu4No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791253576; c=relaxed/simple;
-	bh=pNfPLRIyumw4vGxGIh0wZlY5T979lWdK50xtetE9ihY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=K5h7TOmbyXr6XdKakB+QJbumQBXiPNbsgUdX2ULmksWYJPG83UNrXBlKQx4jzCw8BYWeBEhA2nUKYS8RR7oITNElntDJG9P/9TEeDf04IC+v98uGEc2NE/HANlEHOalQSjAIjrHEbEJn3B4oj5A8mM+4I5elhxpr3NT3ltqhTY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L5LG6QDj; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1791258445; c=relaxed/simple;
+	bh=MofLGUzpZcOcol+h5AThVAfJ+UnMX5TGHQHHCj8nlYo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DcSa01NhQdvMZ4/3WYKSAYD3F54WroTkCP6WDmCw3hLiPqvnyhB2EjLcpe4sDm+N4F+VDdG8dSWgA8x8YN7NqZfvradVGnjDPk3QUaJNdrwxXg3rGbXBMUN8E9W7t4MGo31b2iAmZhehZAuWBnLr7n0KUBLkZ8eRa12RhlCd6LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+y6V/+b; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L5LG6QDj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+y6V/+b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791253574; x=1822789574;
+  t=1791258443; x=1822794443;
   h=date:from:to:cc:subject:message-id;
-  bh=pNfPLRIyumw4vGxGIh0wZlY5T979lWdK50xtetE9ihY=;
-  b=L5LG6QDjzDCOQ+BAQJv8OzvRiehlPLtgTu9eMpDke+j73ukIaa/LLJJ5
-   ZgCYpjvjY4VPZKwqeR6Rk1ZVAF64WQdaXWbsbDeKGQWK4C/sCepH+FIh3
-   UcGAAgSGuzqyjMPwcKmaSBuT8XeIwhswF8GpST2ZdOEjxxkC8ziPL91cq
-   vvYm/n0rKxiig7XGMehGpd4qGYlBXi4SpcSQjPWDmqe1UMWZKluzCQNFH
-   6ZQt1z2hW9Eu9I2iTWP/u6dpDxlST3HYDelMK9u3Uqfbe3K1P98evK3bs
-   nHq1CzP44q6joHMemCp6It3BpMDSMrs58tmhx69iPJXJWnjedzH062Acb
-   g==;
-X-CSE-ConnectionGUID: afmtxCKxSoy5oAbs+C4D+A==
-X-CSE-MsgGUID: 9GgBn5HWSraluhLJ97+VKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="94424146"
+  bh=MofLGUzpZcOcol+h5AThVAfJ+UnMX5TGHQHHCj8nlYo=;
+  b=F+y6V/+bIX+wmSTZV/F1sSDk5Si9j7fDlp6Q9FgLFixC+flsn+dT9+Qd
+   DRhpqkAWOnR5JGkfWf9cohywIcTkOXRBFO1TVu1xZY1p5fuEAEoWA/Ej2
+   aLgqVkpXiSXXFjTySshXwy+Lr3DgZ3M7qhN+IuR/KZTLCj44Gk1OVax07
+   cLdmr0eYX5J1CwAa6OUMg3XxLsfUmoaYpLujqyIqKf8n617Elsb/ouAb2
+   3ryhgAIslVe7QtI83quLap4SK9V2CvIos0WPX1z64ReMAYtbdnTre8e1o
+   D5Jm+Bo4E8oFWCO/guWb6PZKO49OM+DLyb6TwODD03zomXTthas+Li82z
+   Q==;
+X-CSE-ConnectionGUID: Yi6zy42AR5ys+CiKXn7vtg==
+X-CSE-MsgGUID: j68Yz3OQSLG/UTsdNunKaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="103308412"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="94424146"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:26:14 -0700
-X-CSE-ConnectionGUID: dw3InV0gSZux+gOkzyi5Fw==
-X-CSE-MsgGUID: ko96p5DfR+GqCcwAdpi4RA==
+   d="scan'208";a="103308412"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 20:47:23 -0700
+X-CSE-ConnectionGUID: Khyzpa9HRciYrdNfkyDsTw==
+X-CSE-MsgGUID: kyXLodxoRq+WEijM7SNXdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="273383119"
+   d="scan'208";a="303283867"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Oct 2026 19:26:13 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 05 Oct 2026 20:47:21 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDusc-000000000at-2sLz;
-	Tue, 06 Oct 2026 02:26:10 +0000
-Date: Tue, 06 Oct 2026 04:25:36 +0200
+	id 1xDw99-000000000fn-1bU1;
+	Tue, 06 Oct 2026 03:47:19 +0000
+Date: Tue, 06 Oct 2026 05:47:15 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:irq/drivers 3/22] drivers/irqchip/irq-qcom-mpm.c:444
- qcom_mpm_probe() warn: missing unwind goto?
-Message-ID: <202610060433.10zppuxU-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/power/supply/macsmc-power.c:322:20-21: WARNING
+ opportunity for min()
+Message-ID: <202610060538.UmT4sXA7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,200 +59,195 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Thomas Gleixner <tglx@kernel.org>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+TO: Hector Martin <marcan@marcan.st>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: Joey Gouly <joey.gouly@arm.com>
+CC: Janne Grunau <j@jannau.net>
+CC: Neal Gompa <neal@gompa.dev>
+CC: Sven Peter <sven@kernel.org>
+CC: Michael Reeves <michael.reeves077@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/drivers
-head:   0c65a1331928d0207c385f03fb5eba0cfecce0e6
-commit: 1b852de05f74cfc96c58caad9df4cc1fa2dc7689 [3/22] irqchip/qcom: Enable compile testing for QCOM_PDC and QCOM_MPM
-:::::: branch date: 4 weeks ago
-:::::: commit date: 5 weeks ago
-config: microblaze-randconfig-r2201-20261006 (https://download.01.org/0day-ci/archive/20261006/202610060433.10zppuxU-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   67f0943b394d920b6c142aad8c6af94340342ae7
+commit: 0ebf821cf6c75de2d95d3db277617ec685498e7c power: supply: Add macsmc-power driver for Apple Silicon
+date:   7 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 7 months ago
+config: sparc64-randconfig-r2106-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060538.UmT4sXA7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 0ebf821cf6c7 ("power: supply: Add macsmc-power driver for Apple Silicon")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610060433.10zppuxU-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610060538.UmT4sXA7-lkp@intel.com/
 
-smatch warnings:
-drivers/irqchip/irq-qcom-mpm.c:444 qcom_mpm_probe() warn: missing unwind goto?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/power/supply/macsmc-power.c:322:20-21: WARNING opportunity for min()
+   drivers/power/supply/macsmc-power.c:329:20-21: WARNING opportunity for min()
+   drivers/power/supply/macsmc-power.c:345:20-21: WARNING opportunity for min()
 
-vim +444 drivers/irqchip/irq-qcom-mpm.c
+vim +322 drivers/power/supply/macsmc-power.c
 
-a6199bb514d8a63 Shawn Guo         2022-03-08  324  
-1e3e330c07076a0 Johan Hovold      2025-10-13  325  static int qcom_mpm_probe(struct platform_device *pdev, struct device_node *parent)
-a6199bb514d8a63 Shawn Guo         2022-03-08  326  {
-1e3e330c07076a0 Johan Hovold      2025-10-13  327  	struct device_node *np = pdev->dev.of_node;
-a6199bb514d8a63 Shawn Guo         2022-03-08  328  	struct device *dev = &pdev->dev;
-a6199bb514d8a63 Shawn Guo         2022-03-08  329  	struct irq_domain *parent_domain;
-a6199bb514d8a63 Shawn Guo         2022-03-08  330  	struct generic_pm_domain *genpd;
-221b110d87c2d3e Konrad Dybcio     2023-11-27  331  	struct device_node *msgram_np;
-a6199bb514d8a63 Shawn Guo         2022-03-08  332  	struct qcom_mpm_priv *priv;
-a6199bb514d8a63 Shawn Guo         2022-03-08  333  	unsigned int pin_cnt;
-221b110d87c2d3e Konrad Dybcio     2023-11-27  334  	struct resource res;
-a6199bb514d8a63 Shawn Guo         2022-03-08  335  	int i, irq;
-a6199bb514d8a63 Shawn Guo         2022-03-08  336  	int ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  337  
-a6199bb514d8a63 Shawn Guo         2022-03-08  338  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-a6199bb514d8a63 Shawn Guo         2022-03-08  339  	if (!priv)
-a6199bb514d8a63 Shawn Guo         2022-03-08  340  		return -ENOMEM;
-a6199bb514d8a63 Shawn Guo         2022-03-08  341  
-a6199bb514d8a63 Shawn Guo         2022-03-08  342  	ret = of_property_read_u32(np, "qcom,mpm-pin-count", &pin_cnt);
-a6199bb514d8a63 Shawn Guo         2022-03-08  343  	if (ret) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  344  		dev_err(dev, "failed to read qcom,mpm-pin-count: %d\n", ret);
-a6199bb514d8a63 Shawn Guo         2022-03-08  345  		return ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  346  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  347  
-a6199bb514d8a63 Shawn Guo         2022-03-08  348  	priv->reg_stride = DIV_ROUND_UP(pin_cnt, 32);
-a6199bb514d8a63 Shawn Guo         2022-03-08  349  
-a6199bb514d8a63 Shawn Guo         2022-03-08  350  	ret = of_property_count_u32_elems(np, "qcom,mpm-pin-map");
-a6199bb514d8a63 Shawn Guo         2022-03-08  351  	if (ret < 0) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  352  		dev_err(dev, "failed to read qcom,mpm-pin-map: %d\n", ret);
-a6199bb514d8a63 Shawn Guo         2022-03-08  353  		return ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  354  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  355  
-a6199bb514d8a63 Shawn Guo         2022-03-08  356  	if (ret % 2) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  357  		dev_err(dev, "invalid qcom,mpm-pin-map\n");
-a6199bb514d8a63 Shawn Guo         2022-03-08  358  		return -EINVAL;
-a6199bb514d8a63 Shawn Guo         2022-03-08  359  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  360  
-a6199bb514d8a63 Shawn Guo         2022-03-08  361  	priv->map_cnt = ret / 2;
-a6199bb514d8a63 Shawn Guo         2022-03-08  362  	priv->maps = devm_kcalloc(dev, priv->map_cnt, sizeof(*priv->maps),
-a6199bb514d8a63 Shawn Guo         2022-03-08  363  				  GFP_KERNEL);
-a6199bb514d8a63 Shawn Guo         2022-03-08  364  	if (!priv->maps)
-a6199bb514d8a63 Shawn Guo         2022-03-08  365  		return -ENOMEM;
-a6199bb514d8a63 Shawn Guo         2022-03-08  366  
-a6199bb514d8a63 Shawn Guo         2022-03-08  367  	for (i = 0; i < priv->map_cnt; i++) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  368  		u32 pin, hwirq;
-a6199bb514d8a63 Shawn Guo         2022-03-08  369  
-a6199bb514d8a63 Shawn Guo         2022-03-08  370  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2, &pin);
-a6199bb514d8a63 Shawn Guo         2022-03-08  371  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2 + 1, &hwirq);
-a6199bb514d8a63 Shawn Guo         2022-03-08  372  
-a6199bb514d8a63 Shawn Guo         2022-03-08  373  		if (gic_hwirq_is_mapped(priv->maps, i, hwirq)) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  374  			dev_warn(dev, "failed to map pin %d as GIC hwirq %d is already mapped\n",
-a6199bb514d8a63 Shawn Guo         2022-03-08  375  				 pin, hwirq);
-a6199bb514d8a63 Shawn Guo         2022-03-08  376  			continue;
-a6199bb514d8a63 Shawn Guo         2022-03-08  377  		}
-a6199bb514d8a63 Shawn Guo         2022-03-08  378  
-a6199bb514d8a63 Shawn Guo         2022-03-08  379  		priv->maps[i].pin = pin;
-a6199bb514d8a63 Shawn Guo         2022-03-08  380  		priv->maps[i].hwirq = hwirq;
-a6199bb514d8a63 Shawn Guo         2022-03-08  381  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  382  
-a6199bb514d8a63 Shawn Guo         2022-03-08  383  	raw_spin_lock_init(&priv->lock);
-a6199bb514d8a63 Shawn Guo         2022-03-08  384  
-221b110d87c2d3e Konrad Dybcio     2023-11-27  385  	/* If we have a handle to an RPM message ram partition, use it. */
-221b110d87c2d3e Konrad Dybcio     2023-11-27  386  	msgram_np = of_parse_phandle(np, "qcom,rpm-msg-ram", 0);
-221b110d87c2d3e Konrad Dybcio     2023-11-27  387  	if (msgram_np) {
-221b110d87c2d3e Konrad Dybcio     2023-11-27  388  		ret = of_address_to_resource(msgram_np, 0, &res);
-221b110d87c2d3e Konrad Dybcio     2023-11-27  389  		if (ret) {
-221b110d87c2d3e Konrad Dybcio     2023-11-27  390  			of_node_put(msgram_np);
-221b110d87c2d3e Konrad Dybcio     2023-11-27  391  			return ret;
-221b110d87c2d3e Konrad Dybcio     2023-11-27  392  		}
-221b110d87c2d3e Konrad Dybcio     2023-11-27  393  
-221b110d87c2d3e Konrad Dybcio     2023-11-27  394  		/* Don't use devm_ioremap_resource, as we're accessing a shared region. */
-221b110d87c2d3e Konrad Dybcio     2023-11-27  395  		priv->base = devm_ioremap(dev, res.start, resource_size(&res));
-221b110d87c2d3e Konrad Dybcio     2023-11-27  396  		of_node_put(msgram_np);
-8ad032cc8c499af Dan Carpenter     2024-02-01  397  		if (!priv->base)
-8ad032cc8c499af Dan Carpenter     2024-02-01  398  			return -ENOMEM;
-221b110d87c2d3e Konrad Dybcio     2023-11-27  399  	} else {
-221b110d87c2d3e Konrad Dybcio     2023-11-27  400  		/* Otherwise, fall back to simple MMIO. */
-a6199bb514d8a63 Shawn Guo         2022-03-08  401  		priv->base = devm_platform_ioremap_resource(pdev, 0);
-76ff614a79152ce Yang Yingliang    2022-03-16  402  		if (IS_ERR(priv->base))
-a6199bb514d8a63 Shawn Guo         2022-03-08  403  			return PTR_ERR(priv->base);
-221b110d87c2d3e Konrad Dybcio     2023-11-27  404  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  405  
-a6199bb514d8a63 Shawn Guo         2022-03-08  406  	for (i = 0; i < priv->reg_stride; i++) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  407  		qcom_mpm_write(priv, MPM_REG_ENABLE, i, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  408  		qcom_mpm_write(priv, MPM_REG_FALLING_EDGE, i, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  409  		qcom_mpm_write(priv, MPM_REG_RISING_EDGE, i, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  410  		qcom_mpm_write(priv, MPM_REG_POLARITY, i, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  411  		qcom_mpm_write(priv, MPM_REG_STATUS, i, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  412  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  413  
-a6199bb514d8a63 Shawn Guo         2022-03-08  414  	irq = platform_get_irq(pdev, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  415  	if (irq < 0)
-a6199bb514d8a63 Shawn Guo         2022-03-08  416  		return irq;
-a6199bb514d8a63 Shawn Guo         2022-03-08  417  
-a6199bb514d8a63 Shawn Guo         2022-03-08  418  	genpd = &priv->genpd;
-a6199bb514d8a63 Shawn Guo         2022-03-08  419  	genpd->flags = GENPD_FLAG_IRQ_SAFE;
-a6199bb514d8a63 Shawn Guo         2022-03-08  420  	genpd->power_off = mpm_pd_power_off;
-a6199bb514d8a63 Shawn Guo         2022-03-08  421  
-a6199bb514d8a63 Shawn Guo         2022-03-08  422  	genpd->name = devm_kasprintf(dev, GFP_KERNEL, "%s", dev_name(dev));
-a6199bb514d8a63 Shawn Guo         2022-03-08  423  	if (!genpd->name)
-a6199bb514d8a63 Shawn Guo         2022-03-08  424  		return -ENOMEM;
-a6199bb514d8a63 Shawn Guo         2022-03-08  425  
-a6199bb514d8a63 Shawn Guo         2022-03-08  426  	ret = pm_genpd_init(genpd, NULL, false);
-a6199bb514d8a63 Shawn Guo         2022-03-08  427  	if (ret) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  428  		dev_err(dev, "failed to init genpd: %d\n", ret);
-a6199bb514d8a63 Shawn Guo         2022-03-08  429  		return ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  430  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  431  
-a6199bb514d8a63 Shawn Guo         2022-03-08  432  	ret = of_genpd_add_provider_simple(np, genpd);
-a6199bb514d8a63 Shawn Guo         2022-03-08  433  	if (ret) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  434  		dev_err(dev, "failed to add genpd provider: %d\n", ret);
-a6199bb514d8a63 Shawn Guo         2022-03-08  435  		goto remove_genpd;
-a6199bb514d8a63 Shawn Guo         2022-03-08  436  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  437  
-a6199bb514d8a63 Shawn Guo         2022-03-08  438  	priv->mbox_client.dev = dev;
-cfe02147e86307a Jassi Brar        2026-03-22  439  	priv->mbox_client.knows_txdone = true;
-a6199bb514d8a63 Shawn Guo         2022-03-08  440  	priv->mbox_chan = mbox_request_channel(&priv->mbox_client, 0);
-a6199bb514d8a63 Shawn Guo         2022-03-08  441  	if (IS_ERR(priv->mbox_chan)) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  442  		ret = PTR_ERR(priv->mbox_chan);
-a6199bb514d8a63 Shawn Guo         2022-03-08  443  		dev_err(dev, "failed to acquire IPC channel: %d\n", ret);
-a6199bb514d8a63 Shawn Guo         2022-03-08 @444  		return ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  445  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  446  
-a6199bb514d8a63 Shawn Guo         2022-03-08  447  	parent_domain = irq_find_host(parent);
-a6199bb514d8a63 Shawn Guo         2022-03-08  448  	if (!parent_domain) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  449  		dev_err(dev, "failed to find MPM parent domain\n");
-a6199bb514d8a63 Shawn Guo         2022-03-08  450  		ret = -ENXIO;
-a6199bb514d8a63 Shawn Guo         2022-03-08  451  		goto free_mbox;
-a6199bb514d8a63 Shawn Guo         2022-03-08  452  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  453  
-a6199bb514d8a63 Shawn Guo         2022-03-08  454  	priv->domain = irq_domain_create_hierarchy(parent_domain,
-a6199bb514d8a63 Shawn Guo         2022-03-08  455  				IRQ_DOMAIN_FLAG_QCOM_MPM_WAKEUP, pin_cnt,
-87228532e7e9687 Jiri Slaby (SUSE  2025-03-19  456) 				of_fwnode_handle(np), &qcom_mpm_ops, priv);
-a6199bb514d8a63 Shawn Guo         2022-03-08  457  	if (!priv->domain) {
-a6199bb514d8a63 Shawn Guo         2022-03-08  458  		dev_err(dev, "failed to create MPM domain\n");
-a6199bb514d8a63 Shawn Guo         2022-03-08  459  		ret = -ENOMEM;
-a6199bb514d8a63 Shawn Guo         2022-03-08  460  		goto free_mbox;
-a6199bb514d8a63 Shawn Guo         2022-03-08  461  	}
-a6199bb514d8a63 Shawn Guo         2022-03-08  462  
-a6199bb514d8a63 Shawn Guo         2022-03-08  463  	irq_domain_update_bus_token(priv->domain, DOMAIN_BUS_WAKEUP);
-a6199bb514d8a63 Shawn Guo         2022-03-08  464  
-a6199bb514d8a63 Shawn Guo         2022-03-08  465  	ret = devm_request_irq(dev, irq, qcom_mpm_handler, IRQF_NO_SUSPEND,
-a6199bb514d8a63 Shawn Guo         2022-03-08  466  			       "qcom_mpm", priv);
-9023960b74ab32b Pan Chuang        2026-07-14  467  	if (ret)
-a6199bb514d8a63 Shawn Guo         2022-03-08  468  		goto remove_domain;
-a6199bb514d8a63 Shawn Guo         2022-03-08  469  
-a6199bb514d8a63 Shawn Guo         2022-03-08  470  	return 0;
-a6199bb514d8a63 Shawn Guo         2022-03-08  471  
-a6199bb514d8a63 Shawn Guo         2022-03-08  472  remove_domain:
-a6199bb514d8a63 Shawn Guo         2022-03-08  473  	irq_domain_remove(priv->domain);
-a6199bb514d8a63 Shawn Guo         2022-03-08  474  free_mbox:
-a6199bb514d8a63 Shawn Guo         2022-03-08  475  	mbox_free_channel(priv->mbox_chan);
-a6199bb514d8a63 Shawn Guo         2022-03-08  476  remove_genpd:
-a6199bb514d8a63 Shawn Guo         2022-03-08  477  	pm_genpd_remove(genpd);
-a6199bb514d8a63 Shawn Guo         2022-03-08  478  	return ret;
-a6199bb514d8a63 Shawn Guo         2022-03-08  479  }
-a6199bb514d8a63 Shawn Guo         2022-03-08  480  
-
-:::::: The code at line 444 was first introduced by commit
-:::::: a6199bb514d8a63f61c2a22c1f912376e14d0fb2 irqchip: Add Qualcomm MPM controller driver
-
-:::::: TO: Shawn Guo <shawn.guo@linaro.org>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+0ebf821cf6c75d Hector Martin 2026-02-17  305  
+0ebf821cf6c75d Hector Martin 2026-02-17  306  static int macsmc_battery_get_property(struct power_supply *psy,
+0ebf821cf6c75d Hector Martin 2026-02-17  307  				       enum power_supply_property psp,
+0ebf821cf6c75d Hector Martin 2026-02-17  308  				       union power_supply_propval *val)
+0ebf821cf6c75d Hector Martin 2026-02-17  309  {
+0ebf821cf6c75d Hector Martin 2026-02-17  310  	struct macsmc_power *power = power_supply_get_drvdata(psy);
+0ebf821cf6c75d Hector Martin 2026-02-17  311  	int ret = 0;
+0ebf821cf6c75d Hector Martin 2026-02-17  312  	u8 vu8;
+0ebf821cf6c75d Hector Martin 2026-02-17  313  	u16 vu16;
+0ebf821cf6c75d Hector Martin 2026-02-17  314  	s16 vs16;
+0ebf821cf6c75d Hector Martin 2026-02-17  315  	s32 vs32;
+0ebf821cf6c75d Hector Martin 2026-02-17  316  	s64 vs64;
+0ebf821cf6c75d Hector Martin 2026-02-17  317  	bool flag;
+0ebf821cf6c75d Hector Martin 2026-02-17  318  
+0ebf821cf6c75d Hector Martin 2026-02-17  319  	switch (psp) {
+0ebf821cf6c75d Hector Martin 2026-02-17  320  	case POWER_SUPPLY_PROP_STATUS:
+0ebf821cf6c75d Hector Martin 2026-02-17  321  		val->intval = macsmc_battery_get_status(power);
+0ebf821cf6c75d Hector Martin 2026-02-17 @322  		ret = val->intval < 0 ? val->intval : 0;
+0ebf821cf6c75d Hector Martin 2026-02-17  323  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  324  	case POWER_SUPPLY_PROP_PRESENT:
+0ebf821cf6c75d Hector Martin 2026-02-17  325  		val->intval = 1;
+0ebf821cf6c75d Hector Martin 2026-02-17  326  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  327  	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
+0ebf821cf6c75d Hector Martin 2026-02-17  328  		val->intval = macsmc_battery_get_charge_behaviour(power);
+0ebf821cf6c75d Hector Martin 2026-02-17  329  		ret = val->intval < 0 ? val->intval : 0;
+0ebf821cf6c75d Hector Martin 2026-02-17  330  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  331  	case POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  332  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0TE), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  333  		val->intval = vu16 == 0xffff ? 0 : vu16 * 60;
+0ebf821cf6c75d Hector Martin 2026-02-17  334  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  335  	case POWER_SUPPLY_PROP_TIME_TO_FULL_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  336  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0TF), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  337  		val->intval = vu16 == 0xffff ? 0 : vu16 * 60;
+0ebf821cf6c75d Hector Martin 2026-02-17  338  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  339  	case POWER_SUPPLY_PROP_CAPACITY:
+0ebf821cf6c75d Hector Martin 2026-02-17  340  		ret = apple_smc_read_u8(power->smc, SMC_KEY(BUIC), &vu8);
+0ebf821cf6c75d Hector Martin 2026-02-17  341  		val->intval = vu8;
+0ebf821cf6c75d Hector Martin 2026-02-17  342  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  343  	case POWER_SUPPLY_PROP_CAPACITY_LEVEL:
+0ebf821cf6c75d Hector Martin 2026-02-17  344  		val->intval = macsmc_battery_get_capacity_level(power);
+0ebf821cf6c75d Hector Martin 2026-02-17  345  		ret = val->intval < 0 ? val->intval : 0;
+0ebf821cf6c75d Hector Martin 2026-02-17  346  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  347  	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  348  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0AV), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  349  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  350  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  351  	case POWER_SUPPLY_PROP_CURRENT_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  352  		ret = apple_smc_read_s16(power->smc, SMC_KEY(B0AC), &vs16);
+0ebf821cf6c75d Hector Martin 2026-02-17  353  		val->intval = vs16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  354  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  355  	case POWER_SUPPLY_PROP_POWER_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  356  		ret = apple_smc_read_s32(power->smc, SMC_KEY(B0AP), &vs32);
+0ebf821cf6c75d Hector Martin 2026-02-17  357  		val->intval = vs32 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  358  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  359  	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
+0ebf821cf6c75d Hector Martin 2026-02-17  360  		ret = apple_smc_read_u16(power->smc, SMC_KEY(BITV), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  361  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  362  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  363  	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
+0ebf821cf6c75d Hector Martin 2026-02-17  364  		/* Calculate total max design voltage from per-cell maximum voltage */
+0ebf821cf6c75d Hector Martin 2026-02-17  365  		ret = apple_smc_read_u16(power->smc, SMC_KEY(BVVN), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  366  		val->intval = vu16 * 1000 * power->num_cells;
+0ebf821cf6c75d Hector Martin 2026-02-17  367  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  368  	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
+0ebf821cf6c75d Hector Martin 2026-02-17  369  		/* Lifetime min */
+0ebf821cf6c75d Hector Martin 2026-02-17  370  		ret = apple_smc_read_s16(power->smc, SMC_KEY(BLPM), &vs16);
+0ebf821cf6c75d Hector Martin 2026-02-17  371  		val->intval = vs16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  372  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  373  	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
+0ebf821cf6c75d Hector Martin 2026-02-17  374  		/* Lifetime max */
+0ebf821cf6c75d Hector Martin 2026-02-17  375  		ret = apple_smc_read_s16(power->smc, SMC_KEY(BLPX), &vs16);
+0ebf821cf6c75d Hector Martin 2026-02-17  376  		val->intval = vs16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  377  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  378  	case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
+0ebf821cf6c75d Hector Martin 2026-02-17  379  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RC), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  380  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  381  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  382  	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX:
+0ebf821cf6c75d Hector Martin 2026-02-17  383  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RI), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  384  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  385  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  386  	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
+0ebf821cf6c75d Hector Martin 2026-02-17  387  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RV), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  388  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  389  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  390  	case POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN:
+0ebf821cf6c75d Hector Martin 2026-02-17  391  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0DC), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  392  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  393  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  394  	case POWER_SUPPLY_PROP_CHARGE_FULL:
+0ebf821cf6c75d Hector Martin 2026-02-17  395  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0FC), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  396  		val->intval = vu16 * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  397  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  398  	case POWER_SUPPLY_PROP_CHARGE_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  399  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  400  		/* B0RM is Big Endian, likely pass through from TI gas gauge */
+0ebf821cf6c75d Hector Martin 2026-02-17  401  		val->intval = (s16)swab16(vu16) * 1000;
+0ebf821cf6c75d Hector Martin 2026-02-17  402  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  403  	case POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN:
+0ebf821cf6c75d Hector Martin 2026-02-17  404  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0DC), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  405  		val->intval = vu16 * power->nominal_voltage_mv;
+0ebf821cf6c75d Hector Martin 2026-02-17  406  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  407  	case POWER_SUPPLY_PROP_ENERGY_FULL:
+0ebf821cf6c75d Hector Martin 2026-02-17  408  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0FC), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  409  		val->intval = vu16 * power->nominal_voltage_mv;
+0ebf821cf6c75d Hector Martin 2026-02-17  410  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  411  	case POWER_SUPPLY_PROP_ENERGY_NOW:
+0ebf821cf6c75d Hector Martin 2026-02-17  412  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  413  		/* B0RM is Big Endian, likely pass through from TI gas gauge */
+0ebf821cf6c75d Hector Martin 2026-02-17  414  		val->intval = (s16)swab16(vu16) * power->nominal_voltage_mv;
+0ebf821cf6c75d Hector Martin 2026-02-17  415  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  416  	case POWER_SUPPLY_PROP_TEMP:
+0ebf821cf6c75d Hector Martin 2026-02-17  417  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0AT), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  418  		val->intval = vu16 - 2732; /* Kelvin x10 to Celsius x10 */
+0ebf821cf6c75d Hector Martin 2026-02-17  419  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  420  	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
+0ebf821cf6c75d Hector Martin 2026-02-17  421  		ret = apple_smc_read_s64(power->smc, SMC_KEY(BAAC), &vs64);
+0ebf821cf6c75d Hector Martin 2026-02-17  422  		val->intval = vs64;
+0ebf821cf6c75d Hector Martin 2026-02-17  423  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  424  	case POWER_SUPPLY_PROP_CYCLE_COUNT:
+0ebf821cf6c75d Hector Martin 2026-02-17  425  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0CT), &vu16);
+0ebf821cf6c75d Hector Martin 2026-02-17  426  		val->intval = vu16;
+0ebf821cf6c75d Hector Martin 2026-02-17  427  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  428  	case POWER_SUPPLY_PROP_SCOPE:
+0ebf821cf6c75d Hector Martin 2026-02-17  429  		val->intval = POWER_SUPPLY_SCOPE_SYSTEM;
+0ebf821cf6c75d Hector Martin 2026-02-17  430  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  431  	case POWER_SUPPLY_PROP_HEALTH:
+0ebf821cf6c75d Hector Martin 2026-02-17  432  		flag = false;
+0ebf821cf6c75d Hector Martin 2026-02-17  433  		ret = apple_smc_read_flag(power->smc, SMC_KEY(BBAD), &flag);
+0ebf821cf6c75d Hector Martin 2026-02-17  434  		val->intval = flag ? POWER_SUPPLY_HEALTH_DEAD : POWER_SUPPLY_HEALTH_GOOD;
+0ebf821cf6c75d Hector Martin 2026-02-17  435  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  436  	case POWER_SUPPLY_PROP_MODEL_NAME:
+0ebf821cf6c75d Hector Martin 2026-02-17  437  		val->strval = power->model_name;
+0ebf821cf6c75d Hector Martin 2026-02-17  438  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  439  	case POWER_SUPPLY_PROP_SERIAL_NUMBER:
+0ebf821cf6c75d Hector Martin 2026-02-17  440  		val->strval = power->serial_number;
+0ebf821cf6c75d Hector Martin 2026-02-17  441  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  442  	case POWER_SUPPLY_PROP_MANUFACTURE_YEAR:
+0ebf821cf6c75d Hector Martin 2026-02-17  443  		ret = macsmc_battery_get_date(&power->mfg_date[0], &val->intval);
+0ebf821cf6c75d Hector Martin 2026-02-17  444  		/* The SMC reports the manufacture year as an offset from 1992. */
+0ebf821cf6c75d Hector Martin 2026-02-17  445  		val->intval += 1992;
+0ebf821cf6c75d Hector Martin 2026-02-17  446  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  447  	case POWER_SUPPLY_PROP_MANUFACTURE_MONTH:
+0ebf821cf6c75d Hector Martin 2026-02-17  448  		ret = macsmc_battery_get_date(&power->mfg_date[2], &val->intval);
+0ebf821cf6c75d Hector Martin 2026-02-17  449  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  450  	case POWER_SUPPLY_PROP_MANUFACTURE_DAY:
+0ebf821cf6c75d Hector Martin 2026-02-17  451  		ret = macsmc_battery_get_date(&power->mfg_date[4], &val->intval);
+0ebf821cf6c75d Hector Martin 2026-02-17  452  		break;
+0ebf821cf6c75d Hector Martin 2026-02-17  453  	default:
+0ebf821cf6c75d Hector Martin 2026-02-17  454  		return -EINVAL;
+0ebf821cf6c75d Hector Martin 2026-02-17  455  	}
+0ebf821cf6c75d Hector Martin 2026-02-17  456  
+0ebf821cf6c75d Hector Martin 2026-02-17  457  	return ret;
+0ebf821cf6c75d Hector Martin 2026-02-17  458  }
+0ebf821cf6c75d Hector Martin 2026-02-17  459  
 
 --
 0-DAY CI Kernel Test Service
