@@ -1,253 +1,198 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B4D2D3ED1
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 03:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C484284690
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 04:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791258445; cv=none; b=iwZnYDkEhCuV9r4bxVwl20shPhikh9TKpYVH7C5UZBfd5bw/b0A+4fUrviobyRH/rpIddfDJOkVPxppxY2zJndZyJ/8zCc2t8RYH10ZFc2z1aXPQJqSjrijF2DzZiC0VkRsRPKJNgEUbyote+qYQu1Hpkix7KPQwFTNFzRpu4No=
+	t=1791259707; cv=none; b=ScP2LyfUmrpE+Xxpq5dkkrsNPV2u+2ufDTlDqPT2QbeEex6D2Kg2Eb86ziecmiDhx5AOQ3GzypAOdtQeW9y38PFolh9kqt3+yscKuh7JR5/YAEbJeTZr4JbFoh5lQ8B5FDiXiu0xxsYXPPjPCsDziWJmFFRJrGuDaoihxpfP1uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791258445; c=relaxed/simple;
-	bh=MofLGUzpZcOcol+h5AThVAfJ+UnMX5TGHQHHCj8nlYo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DcSa01NhQdvMZ4/3WYKSAYD3F54WroTkCP6WDmCw3hLiPqvnyhB2EjLcpe4sDm+N4F+VDdG8dSWgA8x8YN7NqZfvradVGnjDPk3QUaJNdrwxXg3rGbXBMUN8E9W7t4MGo31b2iAmZhehZAuWBnLr7n0KUBLkZ8eRa12RhlCd6LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+y6V/+b; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1791259707; c=relaxed/simple;
+	bh=e603ANF5NFLouT4123VpUQWga/LErse9RPqFauhWOfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D1nfb0yK017olHwneb69B6k5KdbWrCaLCx2ZGM+7CAjV+IOZzwX+/LpVAFvhUYmfBQEjAcC4SrvjqNYFeFc58CM55xqHbV9YEqS9z8fADr4KL+GJjA6vAhkZZ9Mxb9jCOAlEM9y75UyL3IX8pnjgvJWCPmFm4aqZ9+YYUKYnII0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ej5v/IRI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+y6V/+b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ej5v/IRI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791258443; x=1822794443;
-  h=date:from:to:cc:subject:message-id;
-  bh=MofLGUzpZcOcol+h5AThVAfJ+UnMX5TGHQHHCj8nlYo=;
-  b=F+y6V/+bIX+wmSTZV/F1sSDk5Si9j7fDlp6Q9FgLFixC+flsn+dT9+Qd
-   DRhpqkAWOnR5JGkfWf9cohywIcTkOXRBFO1TVu1xZY1p5fuEAEoWA/Ej2
-   aLgqVkpXiSXXFjTySshXwy+Lr3DgZ3M7qhN+IuR/KZTLCj44Gk1OVax07
-   cLdmr0eYX5J1CwAa6OUMg3XxLsfUmoaYpLujqyIqKf8n617Elsb/ouAb2
-   3ryhgAIslVe7QtI83quLap4SK9V2CvIos0WPX1z64ReMAYtbdnTre8e1o
-   D5Jm+Bo4E8oFWCO/guWb6PZKO49OM+DLyb6TwODD03zomXTthas+Li82z
-   Q==;
-X-CSE-ConnectionGUID: Yi6zy42AR5ys+CiKXn7vtg==
-X-CSE-MsgGUID: j68Yz3OQSLG/UTsdNunKaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="103308412"
+  t=1791259704; x=1822795704;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e603ANF5NFLouT4123VpUQWga/LErse9RPqFauhWOfc=;
+  b=Ej5v/IRIWaqmO3vM6qe4iwrervcO6yUQBPzV+gTFYX3zfn72ceylOTLM
+   aAg0bnOlUNtkofdSnlDkdgI+to1lHPAfXd2Dy7GcQ+LigsbaTtvjVy9KG
+   DUZIIhZLUp5PutvEv7KVXVdml0a96f9tvTgk96dLtYpLfj1XjfWsZ2VIe
+   s5oxpKYa7gS+V1UOqA52ztvvc+PVN6re93gjwGe0DaWQLrBprLuhJ+vS0
+   It0u+fRkoH51IDWsVy7RYfljI3GffNg9QrM+shdKo2hA9QrSz/5OqP2TP
+   Yi0+9kDCL77C07p9MWtBrZ6HEznz485NAOGwzuNM4xXyX2z6Vg/Tzf1dZ
+   w==;
+X-CSE-ConnectionGUID: nTuRmtHxRgCN67ab9AemLw==
+X-CSE-MsgGUID: L82lSiUWTla0c9Hg4DcrPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="103309346"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="103308412"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 20:47:23 -0700
-X-CSE-ConnectionGUID: Khyzpa9HRciYrdNfkyDsTw==
-X-CSE-MsgGUID: kyXLodxoRq+WEijM7SNXdg==
+   d="scan'208";a="103309346"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 21:08:23 -0700
+X-CSE-ConnectionGUID: S/G4Uz9IS+O6wL/PtMv2XA==
+X-CSE-MsgGUID: Pa0C10PHS+ql3uEh+BkUJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="303283867"
+   d="scan'208";a="285135701"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Oct 2026 20:47:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Oct 2026 21:08:23 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDw99-000000000fn-1bU1;
-	Tue, 06 Oct 2026 03:47:19 +0000
-Date: Tue, 06 Oct 2026 05:47:15 +0200
+	id 1xDwTU-000000000hD-1scr;
+	Tue, 06 Oct 2026 04:08:20 +0000
+Date: Tue, 6 Oct 2026 06:07:46 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/power/supply/macsmc-power.c:322:20-21: WARNING
- opportunity for min()
-Message-ID: <202610060538.UmT4sXA7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: netfilter: nf_tables: switch chain_types array to rcu
+Message-ID: <202610060650.xzhIFZJL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Hector Martin <marcan@marcan.st>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: Joey Gouly <joey.gouly@arm.com>
-CC: Janne Grunau <j@jannau.net>
-CC: Neal Gompa <neal@gompa.dev>
-CC: Sven Peter <sven@kernel.org>
-CC: Michael Reeves <michael.reeves077@gmail.com>
+In-Reply-To: <202610060650.xzhIFZJL-lkp@intel.com>
+References: <202610060650.xzhIFZJL-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   67f0943b394d920b6c142aad8c6af94340342ae7
-commit: 0ebf821cf6c75de2d95d3db277617ec685498e7c power: supply: Add macsmc-power driver for Apple Silicon
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: sparc64-randconfig-r2106-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060538.UmT4sXA7-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
+Hi Florian,
+
+kernel test robot noticed the following build warnings:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-nf_tables-switch-chain_types-array-to-rcu/20260929-165944
+base:   
+patch link:    https://lore.kernel.org/r/202610060650.xzhIFZJL-lkp%40intel.com
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: xtensa-randconfig-r2200-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060650.xzhIFZJL-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0ebf821cf6c7 ("power: supply: Add macsmc-power driver for Apple Silicon")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610060538.UmT4sXA7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610060650.xzhIFZJL-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/power/supply/macsmc-power.c:322:20-21: WARNING opportunity for min()
-   drivers/power/supply/macsmc-power.c:329:20-21: WARNING opportunity for min()
-   drivers/power/supply/macsmc-power.c:345:20-21: WARNING opportunity for min()
+New smatch warnings:
+net/netfilter/nf_tables_api.c:2653 nft_chain_parse_hook() warn: missing unwind goto?
 
-vim +322 drivers/power/supply/macsmc-power.c
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
 
-0ebf821cf6c75d Hector Martin 2026-02-17  305  
-0ebf821cf6c75d Hector Martin 2026-02-17  306  static int macsmc_battery_get_property(struct power_supply *psy,
-0ebf821cf6c75d Hector Martin 2026-02-17  307  				       enum power_supply_property psp,
-0ebf821cf6c75d Hector Martin 2026-02-17  308  				       union power_supply_propval *val)
-0ebf821cf6c75d Hector Martin 2026-02-17  309  {
-0ebf821cf6c75d Hector Martin 2026-02-17  310  	struct macsmc_power *power = power_supply_get_drvdata(psy);
-0ebf821cf6c75d Hector Martin 2026-02-17  311  	int ret = 0;
-0ebf821cf6c75d Hector Martin 2026-02-17  312  	u8 vu8;
-0ebf821cf6c75d Hector Martin 2026-02-17  313  	u16 vu16;
-0ebf821cf6c75d Hector Martin 2026-02-17  314  	s16 vs16;
-0ebf821cf6c75d Hector Martin 2026-02-17  315  	s32 vs32;
-0ebf821cf6c75d Hector Martin 2026-02-17  316  	s64 vs64;
-0ebf821cf6c75d Hector Martin 2026-02-17  317  	bool flag;
-0ebf821cf6c75d Hector Martin 2026-02-17  318  
-0ebf821cf6c75d Hector Martin 2026-02-17  319  	switch (psp) {
-0ebf821cf6c75d Hector Martin 2026-02-17  320  	case POWER_SUPPLY_PROP_STATUS:
-0ebf821cf6c75d Hector Martin 2026-02-17  321  		val->intval = macsmc_battery_get_status(power);
-0ebf821cf6c75d Hector Martin 2026-02-17 @322  		ret = val->intval < 0 ? val->intval : 0;
-0ebf821cf6c75d Hector Martin 2026-02-17  323  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  324  	case POWER_SUPPLY_PROP_PRESENT:
-0ebf821cf6c75d Hector Martin 2026-02-17  325  		val->intval = 1;
-0ebf821cf6c75d Hector Martin 2026-02-17  326  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  327  	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-0ebf821cf6c75d Hector Martin 2026-02-17  328  		val->intval = macsmc_battery_get_charge_behaviour(power);
-0ebf821cf6c75d Hector Martin 2026-02-17  329  		ret = val->intval < 0 ? val->intval : 0;
-0ebf821cf6c75d Hector Martin 2026-02-17  330  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  331  	case POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  332  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0TE), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  333  		val->intval = vu16 == 0xffff ? 0 : vu16 * 60;
-0ebf821cf6c75d Hector Martin 2026-02-17  334  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  335  	case POWER_SUPPLY_PROP_TIME_TO_FULL_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  336  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0TF), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  337  		val->intval = vu16 == 0xffff ? 0 : vu16 * 60;
-0ebf821cf6c75d Hector Martin 2026-02-17  338  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  339  	case POWER_SUPPLY_PROP_CAPACITY:
-0ebf821cf6c75d Hector Martin 2026-02-17  340  		ret = apple_smc_read_u8(power->smc, SMC_KEY(BUIC), &vu8);
-0ebf821cf6c75d Hector Martin 2026-02-17  341  		val->intval = vu8;
-0ebf821cf6c75d Hector Martin 2026-02-17  342  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  343  	case POWER_SUPPLY_PROP_CAPACITY_LEVEL:
-0ebf821cf6c75d Hector Martin 2026-02-17  344  		val->intval = macsmc_battery_get_capacity_level(power);
-0ebf821cf6c75d Hector Martin 2026-02-17  345  		ret = val->intval < 0 ? val->intval : 0;
-0ebf821cf6c75d Hector Martin 2026-02-17  346  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  347  	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  348  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0AV), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  349  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  350  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  351  	case POWER_SUPPLY_PROP_CURRENT_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  352  		ret = apple_smc_read_s16(power->smc, SMC_KEY(B0AC), &vs16);
-0ebf821cf6c75d Hector Martin 2026-02-17  353  		val->intval = vs16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  354  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  355  	case POWER_SUPPLY_PROP_POWER_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  356  		ret = apple_smc_read_s32(power->smc, SMC_KEY(B0AP), &vs32);
-0ebf821cf6c75d Hector Martin 2026-02-17  357  		val->intval = vs32 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  358  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  359  	case POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN:
-0ebf821cf6c75d Hector Martin 2026-02-17  360  		ret = apple_smc_read_u16(power->smc, SMC_KEY(BITV), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  361  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  362  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  363  	case POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN:
-0ebf821cf6c75d Hector Martin 2026-02-17  364  		/* Calculate total max design voltage from per-cell maximum voltage */
-0ebf821cf6c75d Hector Martin 2026-02-17  365  		ret = apple_smc_read_u16(power->smc, SMC_KEY(BVVN), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  366  		val->intval = vu16 * 1000 * power->num_cells;
-0ebf821cf6c75d Hector Martin 2026-02-17  367  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  368  	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
-0ebf821cf6c75d Hector Martin 2026-02-17  369  		/* Lifetime min */
-0ebf821cf6c75d Hector Martin 2026-02-17  370  		ret = apple_smc_read_s16(power->smc, SMC_KEY(BLPM), &vs16);
-0ebf821cf6c75d Hector Martin 2026-02-17  371  		val->intval = vs16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  372  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  373  	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
-0ebf821cf6c75d Hector Martin 2026-02-17  374  		/* Lifetime max */
-0ebf821cf6c75d Hector Martin 2026-02-17  375  		ret = apple_smc_read_s16(power->smc, SMC_KEY(BLPX), &vs16);
-0ebf821cf6c75d Hector Martin 2026-02-17  376  		val->intval = vs16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  377  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  378  	case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
-0ebf821cf6c75d Hector Martin 2026-02-17  379  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RC), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  380  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  381  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  382  	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX:
-0ebf821cf6c75d Hector Martin 2026-02-17  383  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RI), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  384  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  385  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  386  	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
-0ebf821cf6c75d Hector Martin 2026-02-17  387  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RV), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  388  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  389  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  390  	case POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN:
-0ebf821cf6c75d Hector Martin 2026-02-17  391  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0DC), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  392  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  393  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  394  	case POWER_SUPPLY_PROP_CHARGE_FULL:
-0ebf821cf6c75d Hector Martin 2026-02-17  395  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0FC), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  396  		val->intval = vu16 * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  397  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  398  	case POWER_SUPPLY_PROP_CHARGE_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  399  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  400  		/* B0RM is Big Endian, likely pass through from TI gas gauge */
-0ebf821cf6c75d Hector Martin 2026-02-17  401  		val->intval = (s16)swab16(vu16) * 1000;
-0ebf821cf6c75d Hector Martin 2026-02-17  402  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  403  	case POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN:
-0ebf821cf6c75d Hector Martin 2026-02-17  404  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0DC), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  405  		val->intval = vu16 * power->nominal_voltage_mv;
-0ebf821cf6c75d Hector Martin 2026-02-17  406  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  407  	case POWER_SUPPLY_PROP_ENERGY_FULL:
-0ebf821cf6c75d Hector Martin 2026-02-17  408  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0FC), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  409  		val->intval = vu16 * power->nominal_voltage_mv;
-0ebf821cf6c75d Hector Martin 2026-02-17  410  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  411  	case POWER_SUPPLY_PROP_ENERGY_NOW:
-0ebf821cf6c75d Hector Martin 2026-02-17  412  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  413  		/* B0RM is Big Endian, likely pass through from TI gas gauge */
-0ebf821cf6c75d Hector Martin 2026-02-17  414  		val->intval = (s16)swab16(vu16) * power->nominal_voltage_mv;
-0ebf821cf6c75d Hector Martin 2026-02-17  415  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  416  	case POWER_SUPPLY_PROP_TEMP:
-0ebf821cf6c75d Hector Martin 2026-02-17  417  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0AT), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  418  		val->intval = vu16 - 2732; /* Kelvin x10 to Celsius x10 */
-0ebf821cf6c75d Hector Martin 2026-02-17  419  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  420  	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
-0ebf821cf6c75d Hector Martin 2026-02-17  421  		ret = apple_smc_read_s64(power->smc, SMC_KEY(BAAC), &vs64);
-0ebf821cf6c75d Hector Martin 2026-02-17  422  		val->intval = vs64;
-0ebf821cf6c75d Hector Martin 2026-02-17  423  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  424  	case POWER_SUPPLY_PROP_CYCLE_COUNT:
-0ebf821cf6c75d Hector Martin 2026-02-17  425  		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0CT), &vu16);
-0ebf821cf6c75d Hector Martin 2026-02-17  426  		val->intval = vu16;
-0ebf821cf6c75d Hector Martin 2026-02-17  427  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  428  	case POWER_SUPPLY_PROP_SCOPE:
-0ebf821cf6c75d Hector Martin 2026-02-17  429  		val->intval = POWER_SUPPLY_SCOPE_SYSTEM;
-0ebf821cf6c75d Hector Martin 2026-02-17  430  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  431  	case POWER_SUPPLY_PROP_HEALTH:
-0ebf821cf6c75d Hector Martin 2026-02-17  432  		flag = false;
-0ebf821cf6c75d Hector Martin 2026-02-17  433  		ret = apple_smc_read_flag(power->smc, SMC_KEY(BBAD), &flag);
-0ebf821cf6c75d Hector Martin 2026-02-17  434  		val->intval = flag ? POWER_SUPPLY_HEALTH_DEAD : POWER_SUPPLY_HEALTH_GOOD;
-0ebf821cf6c75d Hector Martin 2026-02-17  435  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  436  	case POWER_SUPPLY_PROP_MODEL_NAME:
-0ebf821cf6c75d Hector Martin 2026-02-17  437  		val->strval = power->model_name;
-0ebf821cf6c75d Hector Martin 2026-02-17  438  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  439  	case POWER_SUPPLY_PROP_SERIAL_NUMBER:
-0ebf821cf6c75d Hector Martin 2026-02-17  440  		val->strval = power->serial_number;
-0ebf821cf6c75d Hector Martin 2026-02-17  441  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  442  	case POWER_SUPPLY_PROP_MANUFACTURE_YEAR:
-0ebf821cf6c75d Hector Martin 2026-02-17  443  		ret = macsmc_battery_get_date(&power->mfg_date[0], &val->intval);
-0ebf821cf6c75d Hector Martin 2026-02-17  444  		/* The SMC reports the manufacture year as an offset from 1992. */
-0ebf821cf6c75d Hector Martin 2026-02-17  445  		val->intval += 1992;
-0ebf821cf6c75d Hector Martin 2026-02-17  446  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  447  	case POWER_SUPPLY_PROP_MANUFACTURE_MONTH:
-0ebf821cf6c75d Hector Martin 2026-02-17  448  		ret = macsmc_battery_get_date(&power->mfg_date[2], &val->intval);
-0ebf821cf6c75d Hector Martin 2026-02-17  449  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  450  	case POWER_SUPPLY_PROP_MANUFACTURE_DAY:
-0ebf821cf6c75d Hector Martin 2026-02-17  451  		ret = macsmc_battery_get_date(&power->mfg_date[4], &val->intval);
-0ebf821cf6c75d Hector Martin 2026-02-17  452  		break;
-0ebf821cf6c75d Hector Martin 2026-02-17  453  	default:
-0ebf821cf6c75d Hector Martin 2026-02-17  454  		return -EINVAL;
-0ebf821cf6c75d Hector Martin 2026-02-17  455  	}
-0ebf821cf6c75d Hector Martin 2026-02-17  456  
-0ebf821cf6c75d Hector Martin 2026-02-17  457  	return ret;
-0ebf821cf6c75d Hector Martin 2026-02-17  458  }
-0ebf821cf6c75d Hector Martin 2026-02-17  459  
+vim +2653 net/netfilter/nf_tables_api.c
+
+d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2585  
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2586  static int nft_chain_parse_hook(struct net *net,
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2587  				struct nft_base_chain *basechain,
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2588  				const struct nlattr * const nla[],
+36596dadf54a92 Pablo Neira Ayuso 2018-01-09  2589  				struct nft_chain_hook *hook, u8 family,
+207296f1a03bfe Pablo Neira Ayuso 2023-04-21  2590  				u32 flags, struct netlink_ext_ack *extack)
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2591  {
+d59d2f82f984df Pablo Neira Ayuso 2021-04-23  2592  	struct nftables_pernet *nft_net = nft_pernet(net);
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2593  	struct nlattr *ha[NFTA_HOOK_MAX + 1];
+32537e91847a56 Pablo Neira Ayuso 2018-03-27  2594  	const struct nft_chain_type *type;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2595  	int err;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2596  
+0854db2aaef3fc Florian Westphal  2021-04-01  2597  	lockdep_assert_held(&nft_net->commit_mutex);
+f102d66b335a41 Florian Westphal  2018-07-11  2598  	lockdep_nfnl_nft_mutex_not_held();
+f102d66b335a41 Florian Westphal  2018-07-11  2599  
+8cb081746c031f Johannes Berg     2019-04-26  2600  	err = nla_parse_nested_deprecated(ha, NFTA_HOOK_MAX,
+8cb081746c031f Johannes Berg     2019-04-26  2601  					  nla[NFTA_CHAIN_HOOK],
+fceb6435e85298 Johannes Berg     2017-04-12  2602  					  nft_hook_policy, NULL);
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2603  	if (err < 0)
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2604  		return err;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2605  
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2606  	if (!basechain) {
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2607  		if (!ha[NFTA_HOOK_HOOKNUM] ||
+8509f62b0b07ae Pablo Neira Ayuso 2023-04-25  2608  		    !ha[NFTA_HOOK_PRIORITY]) {
+8509f62b0b07ae Pablo Neira Ayuso 2023-04-25  2609  			NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_NAME]);
+8509f62b0b07ae Pablo Neira Ayuso 2023-04-25  2610  			return -ENOENT;
+8509f62b0b07ae Pablo Neira Ayuso 2023-04-25  2611  		}
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2612  
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2613  		hook->num = ntohl(nla_get_be32(ha[NFTA_HOOK_HOOKNUM]));
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2614  		hook->priority = ntohl(nla_get_be32(ha[NFTA_HOOK_PRIORITY]));
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2615  
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2616  		if (nla[NFTA_CHAIN_TYPE]) {
+452238e8d5ffd8 Florian Westphal  2018-07-11  2617  			type = nf_tables_chain_type_lookup(net, nla[NFTA_CHAIN_TYPE],
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2618  							   family, true);
+983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  2619  			if (IS_ERR(type)) {
+983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  2620  				NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2621  				return PTR_ERR(type);
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2622  			}
+a70566b815bfff Florian Westphal  2026-09-29  2623  		} else {
+a70566b815bfff Florian Westphal  2026-09-29  2624  			type = nft_chain_type_get(family, NFT_CHAIN_T_DEFAULT);
+a70566b815bfff Florian Westphal  2026-09-29  2625  			if (!type)
+a70566b815bfff Florian Westphal  2026-09-29  2626  				return -EOPNOTSUPP;
+983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  2627  		}
+a70566b815bfff Florian Westphal  2026-09-29  2628  
+a70566b815bfff Florian Westphal  2026-09-29  2629  		err = -EOPNOTSUPP;
+d25e2e9388eda6 Pablo Neira Ayuso 2020-10-14  2630  		if (hook->num >= NFT_MAX_HOOKS || !(type->hook_mask & (1 << hook->num)))
+a70566b815bfff Florian Westphal  2026-09-29  2631  			goto out_put_type;
+84ba7dd71add05 Florian Westphal  2017-12-08  2632  
+84ba7dd71add05 Florian Westphal  2017-12-08  2633  		if (type->type == NFT_CHAIN_T_NAT &&
+84ba7dd71add05 Florian Westphal  2017-12-08  2634  		    hook->priority <= NF_IP_PRI_CONNTRACK)
+a70566b815bfff Florian Westphal  2026-09-29  2635  			goto out_put_type;
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2636  	} else {
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2637  		if (ha[NFTA_HOOK_HOOKNUM]) {
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2638  			hook->num = ntohl(nla_get_be32(ha[NFTA_HOOK_HOOKNUM]));
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2639  			if (hook->num != basechain->ops.hooknum)
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2640  				return -EOPNOTSUPP;
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2641  		}
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2642  		if (ha[NFTA_HOOK_PRIORITY]) {
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2643  			hook->priority = ntohl(nla_get_be32(ha[NFTA_HOOK_PRIORITY]));
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2644  			if (hook->priority != basechain->ops.priority)
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2645  				return -EOPNOTSUPP;
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2646  		}
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2647  
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2648  		if (nla[NFTA_CHAIN_TYPE]) {
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2649  			type = __nf_tables_chain_type_lookup(nla[NFTA_CHAIN_TYPE],
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2650  							     family);
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2651  			if (!type) {
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2652  				NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14 @2653  				return -ENOENT;
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2654  			}
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2655  		} else {
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2656  			type = basechain->type;
+a70566b815bfff Florian Westphal  2026-09-29  2657  			__module_get(type->owner);
+b9703ed44ffbfb Pablo Neira Ayuso 2023-04-21  2658  		}
+aaba7ddc8507f4 Pablo Neira Ayuso 2023-12-14  2659  	}
+84ba7dd71add05 Florian Westphal  2017-12-08  2660  
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2661  	hook->type = type;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2662  
+d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2663  	INIT_LIST_HEAD(&hook->list);
+d3519cb89f6d59 Pablo Neira Ayuso 2020-10-08  2664  	if (nft_base_chain_netdev(family, hook->num)) {
+207296f1a03bfe Pablo Neira Ayuso 2023-04-21  2665  		err = nft_chain_parse_netdev(net, ha, &hook->list, extack, flags);
+a70566b815bfff Florian Westphal  2026-09-29  2666  		if (err < 0)
+a70566b815bfff Florian Westphal  2026-09-29  2667  			goto out_put_type;
+d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2668  	} else if (ha[NFTA_HOOK_DEV] || ha[NFTA_HOOK_DEVS]) {
+a70566b815bfff Florian Westphal  2026-09-29  2669  		err = -EOPNOTSUPP;
+a70566b815bfff Florian Westphal  2026-09-29  2670  		goto out_put_type;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2671  	}
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2672  
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2673  	return 0;
+a70566b815bfff Florian Westphal  2026-09-29  2674  
+a70566b815bfff Florian Westphal  2026-09-29  2675  out_put_type:
+a70566b815bfff Florian Westphal  2026-09-29  2676  	module_put(type->owner);
+a70566b815bfff Florian Westphal  2026-09-29  2677  	return err;
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2678  }
+508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  2679  
 
 --
 0-DAY CI Kernel Test Service
