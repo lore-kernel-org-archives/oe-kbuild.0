@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A7F2D0C94
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 21:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A998A3AB476
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 22:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791323982; cv=none; b=mzDU+HKmO3b92hJddbb7GSJtyJNYR7lNJNfO9RZJNxuQ2uL3hJEJB6qqAByF/25Tl7YFHwA06oYpPdwpHG7asUzbrqjwJazQQpfKCQx+2mcQz4FUFtNgQa3i9+EeI97TM6CwB0Kz93a1rfyx3v+/+wdOAyd0jXdaH8kywcO0ZgY=
+	t=1791327109; cv=none; b=LwMJFzX6w2TSmc2+ulljFHcPwbUNoBqcMgNWLcMP5nSrb/oZR8Vz0JGDZZH24f2JOdTrz2ExbPc61rJHN4qQ9MajdzLeMNF4Zo4MsXia7QAYol6zGjFHIoD2FVRfrL68U7ireyA1r+63mPIe0X3c8Zkpg4nGaPLe/0mbAyJ7iCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791323982; c=relaxed/simple;
-	bh=mwAopCjL1avVBp38PDN4DGpxXgyCTZSNs8XYktoKDlI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F/dQ8eOVcka8ILzjvzNDdDCPgw7Istr8uDKK3chKBizvvAceEbT8JjYGtlrKuIwt312Wh9kmW7PunKYDgd9wMM2O07ABHahNkwNhdYCRP6cgQn8ngCXqlhbEr7ySj0nFthauM3/SiTjVp/qncPzgNVHR14IMtnu2SsWxyCUCL7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eF4D4OKH; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1791327109; c=relaxed/simple;
+	bh=1Ad9h/dsUR1DcPmTz4Axf09rxc9ZA6NxHuIYbe4FNBs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Go1YfIf5cD/QUnfLa8PrdEGpsVomAXJ9I4gfLW+p6niuJcMAoaIlO75xjk/1mn3Te+ejy5K6N3wfBspfj7wW8tBPawoxnMEaCMaGZAVMbYDX8z3rTbKncVh55z02OHHF9sPI/jjPppxOSu9E/CSmYSS1lL3PmKLfWuXSi/TjZWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfkvPS5P; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eF4D4OKH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfkvPS5P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791323981; x=1822859981;
+  t=1791327108; x=1822863108;
   h=date:from:to:cc:subject:message-id;
-  bh=mwAopCjL1avVBp38PDN4DGpxXgyCTZSNs8XYktoKDlI=;
-  b=eF4D4OKH3wLy0oJMjYKdpDlVAx/q22xYdeqclyKUlM9SlS7khYT8kN3c
-   DJ5kkN7CzeUsHNrRbdmdPeW1U0KvES8pnHZ4VLG7WfoxY04+XQ5GpE2pt
-   dpzS5UFtUtPQxpFvESLb8buPS1vUWiliy2QxMevMj3dpFZLQg/oD1CxUc
-   pLUUSJ7ep6GFWVpK5OjekR8hVLyQ0r8HRnfjCm/6xODhMhnah/OWfYE2H
-   w2UjofTr3h/WQ9SRmDu9so6vQPxJE6Jb4FmlJPjlZpBwqdG7FoePa8enM
-   hQy1/znU9JMnyGjO6am8CHbr1SgaEbx/c1INirPOF7V2sWkQxnHSMJEh9
-   Q==;
-X-CSE-ConnectionGUID: t+2GkVcUSFqncK3eApu0SQ==
-X-CSE-MsgGUID: YEnVhEv7RKamf21/CWrHcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="84597"
+  bh=1Ad9h/dsUR1DcPmTz4Axf09rxc9ZA6NxHuIYbe4FNBs=;
+  b=kfkvPS5PxIymKEdVEogdCkecV7DuxZ56Vl44Zs3lSAPEW9BecYPbnt9q
+   LZTq+dJz6ffN1MFjCBstClWiWbkZgJ60QM8w8X9wgaSNJls3DGCWaxkcq
+   hxodWVNdEBm1uLRn62TyQwiE7zDKIIF6XQ3laG91EJIuPyVq38oDb1721
+   X1Fh/biC5tMmjOdm+eGFGYuMlgb92kmSuynXUvBAiCHVc1bZopNvbuTxq
+   jqrtd7RRrX9fTaiLsDoEvzSzoxbk2cwMlOsUnmpxhtD6dzYpjNrwjNjGT
+   fM6Gi3jbSH8wXt7ttJoKb6xw+li7QXYO4ANCMOTFO/CSEPZIAByup39Qd
+   g==;
+X-CSE-ConnectionGUID: VIE84xdbTtuV2kgN7DVpGg==
+X-CSE-MsgGUID: Y71v8xZHQuGjb9C6K4PtTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="81486"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="84597"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 14:59:40 -0700
-X-CSE-ConnectionGUID: apAORF0hRBW3/uAD0s6AKg==
-X-CSE-MsgGUID: FI05aNN/Q7euxJSaWvFGVg==
+   d="scan'208";a="81486"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 15:51:47 -0700
+X-CSE-ConnectionGUID: tdDoSAArSY+VdrS8HD9rbw==
+X-CSE-MsgGUID: vG7opMG/SZOf9aS19Cx6fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="305232179"
+   d="scan'208";a="276818402"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Oct 2026 14:59:39 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Oct 2026 15:51:46 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEDCD-000000001sD-0JkC;
-	Tue, 06 Oct 2026 21:59:37 +0000
-Date: Tue, 06 Oct 2026 23:59:31 +0200
+	id 1xEE0e-000000001zF-0KCS;
+	Tue, 06 Oct 2026 22:51:44 +0000
+Date: Wed, 07 Oct 2026 00:50:56 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 14132/14724]
- drivers/dma/dw-edma/dw-edma-core.c:367 dw_edma_device_config() error: we
- previously assumed 'dw_config' could be null (see line 345)
-Message-ID: <202610062331.3dnyLwz7-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [dhowells-fs:rxrpc-fixes 4/15] net/rxrpc/sendmsg.c:816:2-12:
+ second lock on line 816
+Message-ID: <202610070052.rAcnihPV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,88 +59,84 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Koichiro Den <den@valinux.co.jp>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eea3fef32a9cf36abcb5975a5a594e4135a6b026
-commit: 9d31ad3b331d5d78bd6a247a9d35f35a6a9bbd59 [14132/14724] dmaengine: dw-edma: Configure remote interrupt routing
-:::::: branch date: 10 hours ago
-:::::: commit date: 32 hours ago
-config: openrisc-randconfig-r2200-20261006 (https://download.01.org/0day-ci/archive/20261006/202610062331.3dnyLwz7-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-fixes
+head:   451b2bc96cf33e3f1ecb90e2d6a282c088421c67
+commit: e9d7d8a7356af5d7fbdf71e98533e791cc796604 [4/15] rxrpc: Fix lack of short-send handling in rxrpc_kernel_send_data()
+:::::: branch date: 9 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-r2104-20261006 (https://download.01.org/0day-ci/archive/20261007/202610070052.rAcnihPV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610062331.3dnyLwz7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610070052.rAcnihPV-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/dw-edma/dw-edma-core.c:367 dw_edma_device_config() error: we previously assumed 'dw_config' could be null (see line 345)
+cocci warnings: (new ones prefixed by >>)
+>> net/rxrpc/sendmsg.c:816:2-12: second lock on line 816
 
-vim +/dw_config +367 drivers/dma/dw-edma/dw-edma-core.c
+vim +816 net/rxrpc/sendmsg.c
 
-9d31ad3b331d5d Koichiro Den     2026-09-13  335  
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  336  static int dw_edma_device_config(struct dma_chan *dchan,
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  337  				 struct dma_slave_config *config)
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  338  {
-9d31ad3b331d5d Koichiro Den     2026-09-13  339  	const struct dw_edma_chan_config *dw_config = config->peripheral_config;
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  340  	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
-9d31ad3b331d5d Koichiro Den     2026-09-13  341  	bool non_ll = false;
-9d31ad3b331d5d Koichiro Den     2026-09-13  342  	u32 flags = 0;
-9d31ad3b331d5d Koichiro Den     2026-09-13  343  	int ret;
-9d31ad3b331d5d Koichiro Den     2026-09-13  344  
-9d31ad3b331d5d Koichiro Den     2026-09-13 @345  	if (dw_config) {
-9d31ad3b331d5d Koichiro Den     2026-09-13  346  		if (config->peripheral_size != sizeof(*dw_config) ||
-9d31ad3b331d5d Koichiro Den     2026-09-13  347  		    dw_config->flags & ~(DW_EDMA_CH_CONFIG_NON_LL |
-9d31ad3b331d5d Koichiro Den     2026-09-13  348  					 DW_EDMA_CH_CONFIG_IRQ_MODE))
-b7560798466a07 Devendra K Verma 2026-03-18  349  			return -EINVAL;
-9d31ad3b331d5d Koichiro Den     2026-09-13  350  		flags = dw_config->flags;
-b7560798466a07 Devendra K Verma 2026-03-18  351  	}
-b7560798466a07 Devendra K Verma 2026-03-18  352  
-b7560798466a07 Devendra K Verma 2026-03-18  353  	/*
-b7560798466a07 Devendra K Verma 2026-03-18  354  	 * When there is no valid LLP base address available then the
-b7560798466a07 Devendra K Verma 2026-03-18  355  	 * default DMA ops will use the non-LL mode.
-b7560798466a07 Devendra K Verma 2026-03-18  356  	 *
-9d31ad3b331d5d Koichiro Den     2026-09-13  357  	 * When LL mode is the default, clients can request non-LL mode
-9d31ad3b331d5d Koichiro Den     2026-09-13  358  	 * through DW_EDMA_CH_CONFIG_NON_LL.
-b7560798466a07 Devendra K Verma 2026-03-18  359  	 */
-9d31ad3b331d5d Koichiro Den     2026-09-13  360  	non_ll = chan->dw->chip->mf == EDMA_MF_HDMA_NATIVE &&
-9d31ad3b331d5d Koichiro Den     2026-09-13  361  		 chan->dw->chip->cfg_non_ll;
-b7560798466a07 Devendra K Verma 2026-03-18  362  
-9d31ad3b331d5d Koichiro Den     2026-09-13  363  	if (flags & DW_EDMA_CH_CONFIG_NON_LL) {
-9d31ad3b331d5d Koichiro Den     2026-09-13  364  		if (chan->dw->chip->mf != EDMA_MF_HDMA_NATIVE)
-9d31ad3b331d5d Koichiro Den     2026-09-13  365  			return -EINVAL;
-9d31ad3b331d5d Koichiro Den     2026-09-13  366  
-9d31ad3b331d5d Koichiro Den     2026-09-13 @367  		if (chan->dw->chip->cfg_non_ll && !dw_config->non_ll) {
-b7560798466a07 Devendra K Verma 2026-03-18  368  			dev_err(dchan->device->dev, "invalid configuration\n");
-b7560798466a07 Devendra K Verma 2026-03-18  369  			return -EINVAL;
-b7560798466a07 Devendra K Verma 2026-03-18  370  		}
-9d31ad3b331d5d Koichiro Den     2026-09-13  371  
-9d31ad3b331d5d Koichiro Den     2026-09-13  372  		non_ll = dw_config->non_ll;
-b7560798466a07 Devendra K Verma 2026-03-18  373  	}
-b7560798466a07 Devendra K Verma 2026-03-18  374  
-9d31ad3b331d5d Koichiro Den     2026-09-13  375  	if (flags & DW_EDMA_CH_CONFIG_IRQ_MODE) {
-9d31ad3b331d5d Koichiro Den     2026-09-13  376  		ret = dw_edma_device_config_irq_mode(chan, dw_config->irq_mode);
-9d31ad3b331d5d Koichiro Den     2026-09-13  377  		if (ret)
-9d31ad3b331d5d Koichiro Den     2026-09-13  378  			return ret;
-b7560798466a07 Devendra K Verma 2026-03-18  379  	}
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  380  
-9d31ad3b331d5d Koichiro Den     2026-09-13  381  	chan->non_ll = non_ll;
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  382  	memcpy(&chan->config, config, sizeof(*config));
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  383  	chan->configured = true;
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  384  
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  385  	return 0;
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  386  }
-e63d79d1ffcd22 Gustavo Pimentel 2019-06-04  387  
+df423a4af125f5b David Howells 2016-09-02  790  
+df423a4af125f5b David Howells 2016-09-02  791  /**
+df423a4af125f5b David Howells 2016-09-02  792   * rxrpc_kernel_send_data - Allow a kernel service to send data on a call
+df423a4af125f5b David Howells 2016-09-02  793   * @sock: The socket the call is on
+df423a4af125f5b David Howells 2016-09-02  794   * @call: The call to send data through
+df423a4af125f5b David Howells 2016-09-02  795   * @msg: The data to send
+e833251ad813168 David Howells 2017-08-29  796   * @notify_end_tx: Notification that the last packet is queued.
+df423a4af125f5b David Howells 2016-09-02  797   *
+df423a4af125f5b David Howells 2016-09-02  798   * Allow a kernel service to send data on a call.  The call must be in an state
+df423a4af125f5b David Howells 2016-09-02  799   * appropriate to sending data.  No control data should be supplied in @msg,
+df423a4af125f5b David Howells 2016-09-02  800   * nor should an address be supplied.  MSG_MORE should be flagged if there's
+df423a4af125f5b David Howells 2016-09-02  801   * more data to come, otherwise this data will end the transmission phase.
+28a79fc9b03e4ed David Howells 2025-04-11  802   *
+28a79fc9b03e4ed David Howells 2025-04-11  803   * Return: %0 if successful and a negative error code otherwise.
+df423a4af125f5b David Howells 2016-09-02  804   */
+df423a4af125f5b David Howells 2016-09-02  805  int rxrpc_kernel_send_data(struct socket *sock, struct rxrpc_call *call,
+e9d7d8a7356af5d David Howells 2026-09-10  806  			   struct msghdr *msg, rxrpc_notify_end_tx_t notify_end_tx)
+df423a4af125f5b David Howells 2016-09-02  807  {
+df423a4af125f5b David Howells 2016-09-02  808  	int ret;
+df423a4af125f5b David Howells 2016-09-02  809  
+2d689424b618453 David Howells 2022-11-11  810  	_enter("{%d},", call->debug_id);
+df423a4af125f5b David Howells 2016-09-02  811  
+df423a4af125f5b David Howells 2016-09-02  812  	ASSERTCMP(msg->msg_name, ==, NULL);
+df423a4af125f5b David Howells 2016-09-02  813  	ASSERTCMP(msg->msg_control, ==, NULL);
+df423a4af125f5b David Howells 2016-09-02  814  
+e9d7d8a7356af5d David Howells 2026-09-10  815  	for (;;) {
+540b1c48c37ac0a David Howells 2017-02-27 @816  		mutex_lock(&call->user_mutex);
+df423a4af125f5b David Howells 2016-09-02  817  
+e9d7d8a7356af5d David Howells 2026-09-10  818  		ret = rxrpc_send_data(rxrpc_sk(sock->sk), call, msg,
+e9d7d8a7356af5d David Howells 2026-09-10  819  				      msg_data_left(msg), notify_end_tx);
+2d689424b618453 David Howells 2022-11-11  820  		if (ret == -ESHUTDOWN)
+bd2db2d231b4a9d David Howells 2017-08-29  821  			ret = call->error;
+e9d7d8a7356af5d David Howells 2026-09-10  822  		if (ret < 0)
+e9d7d8a7356af5d David Howells 2026-09-10  823  			break;
+e9d7d8a7356af5d David Howells 2026-09-10  824  		if (msg_data_left(msg) == 0) {
+e9d7d8a7356af5d David Howells 2026-09-10  825  			ret = 0;
+e9d7d8a7356af5d David Howells 2026-09-10  826  			break;
+e9d7d8a7356af5d David Howells 2026-09-10  827  		}
+e9d7d8a7356af5d David Howells 2026-09-10  828  		if (ret == 0) {
+e9d7d8a7356af5d David Howells 2026-09-10  829  			ret = -EIO;
+e9d7d8a7356af5d David Howells 2026-09-10  830  			break;
+e9d7d8a7356af5d David Howells 2026-09-10  831  		}
+e9d7d8a7356af5d David Howells 2026-09-10  832  	}
+e9d7d8a7356af5d David Howells 2026-09-10  833  
+df423a4af125f5b David Howells 2016-09-02  834  	_leave(" = %d", ret);
+df423a4af125f5b David Howells 2016-09-02  835  	return ret;
+df423a4af125f5b David Howells 2016-09-02  836  }
+df423a4af125f5b David Howells 2016-09-02  837  EXPORT_SYMBOL(rxrpc_kernel_send_data);
+df423a4af125f5b David Howells 2016-09-02  838  
+
+:::::: The code at line 816 was first introduced by commit
+:::::: 540b1c48c37ac0ad66212004db21e1ff7e2d78be rxrpc: Fix deadlock between call creation and sendmsg/recvmsg
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 --
 0-DAY CI Kernel Test Service
