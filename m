@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6EB2EEE7E
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 01:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4BB23D7C2
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Oct 2026 02:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791249312; cv=none; b=Ohz4jhkikfBuEEMsoNpesRQXpdbKjMAMUAuG8fPXy71fUCBg/SdrHu2cq3lFP1Hy01nS4RvsY+5IqRSPeJLR7AXaEr4YX/2c3WpzJ+ueMoHvphD7TCuTDmPBpsZuDx5Uzidblhc6fOijhHTGhHDg8mUKf1mKWDCbLMU7J9COtV4=
+	t=1791252920; cv=none; b=cmrhphLDChdgbzoyTsDzXuEACT5lkK8p0ehpKnhmKJ0tKvPfBSgqDI0ydADLJqwuZ1ULs0Wxry3/D8MAg2jh4PURt+Qy8dgo68w/vr9RUoS2dFXLAJp2mfTVHcfJcHnyel/qUNPEsR1OteMEcpygEmtha2EBj6pufR0qr01lC5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791249312; c=relaxed/simple;
-	bh=eNc7VaB0i44VYNA9xtFNY+RtOwNwy09jSJ8sTqDRn38=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qcYPIVG0sqTiM4zNiUEbkrDQS95VfUnW7bbivIi5S2QomefCl2y92y4PWNJmthc63i1zz18cItgESQUXxYgL2lFUgUViRqyejntyBC71Cq7h7BKcJcryzlPKF0rQkfx1Jn+XI6IACphVOFAQSslE/aBjE54dSJymFiChUaWel4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxpEmYgP; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1791252920; c=relaxed/simple;
+	bh=kQZSrRYUBeT8Xe121oKS2786W/L6KX/vmL9vRpsLJ6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lM5ovMP/hkxSjTmjsIxD3fQfoX9HU1aQJtorcr5Z5cN9iNZynYRLVCKNtd+2ABb0T7hVyW45oTE187SqJ8UTaEfpmdkDy3WMdPys0oQTXifupbheKosGaKfaf+ovoVcv/KX8Vcwni24sBTKVPic0ilLqD68iv1tlWyfFdQpy6p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yv0kQDRf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxpEmYgP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yv0kQDRf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791249309; x=1822785309;
+  t=1791252916; x=1822788916;
   h=date:from:to:cc:subject:message-id;
-  bh=eNc7VaB0i44VYNA9xtFNY+RtOwNwy09jSJ8sTqDRn38=;
-  b=UxpEmYgPHD7vSaKYEgffknymaJGD1/ynz4KFbJv/d9rJt/GUz7+y4o02
-   Yrkxg2OrS822W9e3UyWe0TZohEkngDZqjh3ZqANFVlvf0Tn5udjKmlGX6
-   rsV2UIC2+GwqQ3RBOcXv5j3cDgTcgsDn5x2muHoqeCc+gyfAQRzgn3+3q
-   peZ/3gxzNlGO8YTMTBVQEAgRBlDf41ojExFXQCmfUjLyk84DkehVJwBB7
-   5uVJwB6ybh3Cf0SqdoY7RP55CQw97uT/hQg8m6+0UKdAcXXpiX+U76c3d
-   gJBOq6PVxt8pcv+/lg2jhlc0z5yqvDcsSBMgpfpChdUX/ywOsc1DBUNNw
-   g==;
-X-CSE-ConnectionGUID: a19XLo1pTqSN/79YjPSEjw==
-X-CSE-MsgGUID: N22AywPHQb6H8ovjc0jE3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="103302537"
+  bh=kQZSrRYUBeT8Xe121oKS2786W/L6KX/vmL9vRpsLJ6Y=;
+  b=Yv0kQDRfl/fvdb57sV6xZWDgXYpg17iyiUlJCXpfc4ww6zXyV4kzFIhY
+   zilQMoD4kCR3CJsZoQq38FSECXl46hpq53VlDobuxYc44V2c2BWbZKRMm
+   bAyWcYcrewNiwQV5UpdyhHY+Y40lbiTONJ850eyXzOSZbRgMV2ns9J0L5
+   yqqLQBygWjoQU3/sZC3k+FoD/QlRLQ2UdXozvVgAlETbLMJ6hpxxRgtXL
+   LBUSX9ZOQrHT+09iJ0AmTVWUQMJcdlbNYUkWVK2h0HDs7Vj90S2Xlgugg
+   hjiMZwg3wRXoCz2KIkxwoe2j6uwPpQYUag+HYN52gvE44+lt/aTeX90Tm
+   w==;
+X-CSE-ConnectionGUID: nPTS2AD5TrylLMCEdcGCVg==
+X-CSE-MsgGUID: ZCnOO+7ySZGrZnRJ1BWalg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="90968171"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="103302537"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 18:15:08 -0700
-X-CSE-ConnectionGUID: ySkgOJ4dRaepwX6/dWnFuQ==
-X-CSE-MsgGUID: lTfwp46hRKKpmU2X8+Uabw==
+   d="scan'208";a="90968171"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:15:14 -0700
+X-CSE-ConnectionGUID: QoYasOJORDuiam4CryVdkg==
+X-CSE-MsgGUID: sd9bC1XwQmmJGUHBxD/2JA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="281751216"
+   d="scan'208";a="1017933"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2026 18:15:07 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 05 Oct 2026 19:15:12 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDtlp-000000000Wl-0d79;
-	Tue, 06 Oct 2026 01:15:05 +0000
-Date: Tue, 06 Oct 2026 03:14:08 +0200
+	id 1xDuhy-000000000aA-0oXH;
+	Tue, 06 Oct 2026 02:15:10 +0000
+Date: Tue, 06 Oct 2026 04:15:05 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10709/14242]
- drivers/net/wireless/intel/iwlwifi/pcie/tx.c:725 iwl_pcie_txq_alloc() warn:
- check sign expansion for 'slots_num'
-Message-ID: <202610060307.l6rryyk7-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/wireless/realtek/rtw89/rtw8852c.c:2062:32-33:
+ WARNING opportunity for max()
+Message-ID: <202610060455.pNejDA8w-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,117 +59,74 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+CC: "Ping-Ke Shih" <pkshih@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bf1ee2bd5c2da8992f33c8950ef194aaff74ed6c
-commit: e07ca69f9f6621624e97917f7c2d099fbb6e9467 [10709/14242] wifi: iwlwifi: Revert "wifi: iwlwifi: pcie: move generation specific files to a folder"
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 days ago
-config: alpha-randconfig-r2200-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060307.l6rryyk7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 9.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   67f0943b394d920b6c142aad8c6af94340342ae7
+commit: 0d971ffdae584ea4a5b413318b4945b3d273a75a wifi: rtw89: Enable the new rtw89_8852cu module
+date:   11 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 11 months ago
+config: powerpc64-randconfig-r2104-20261005 (https://download.01.org/0day-ci/archive/20261006/202610060455.pNejDA8w-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 0d971ffdae58 ("wifi: rtw89: Enable the new rtw89_8852cu module")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610060307.l6rryyk7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610060455.pNejDA8w-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/tx.c:725 iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/realtek/rtw89/rtw8852c.c:2062:32-33: WARNING opportunity for max()
 
-vim +/slots_num +725 drivers/net/wireless/intel/iwlwifi/pcie/tx.c
+vim +2062 drivers/net/wireless/realtek/rtw89/rtw8852c.c
 
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  720  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  721  int iwl_pcie_txq_alloc(struct iwl_trans *trans, struct iwl_txq *txq,
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  722  		       int slots_num, bool cmd_queue)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  723  {
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  724  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2025-05-08 @725  	size_t num_entries = trans->mac_cfg->gen2 ?
-264e744fec0171f drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2025-05-08  726  		slots_num : trans->mac_cfg->base->max_tfd_queue_size;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  727  	size_t tfd_sz;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  728  	size_t tb0_buf_sz;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  729  	int i;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  730  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  731  	if (WARN_ONCE(slots_num <= 0, "Invalid slots num:%d\n", slots_num))
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  732  		return -EINVAL;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  733  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  734  	if (WARN_ON(txq->entries || txq->tfds))
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  735  		return -EINVAL;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  736  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  737  	tfd_sz = trans_pcie->txqs.tfd.size * num_entries;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  738  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  739  	timer_setup(&txq->stuck_timer, iwl_txq_stuck_timer, 0);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  740  	txq->trans = trans;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  741  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  742  	txq->n_window = slots_num;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  743  
-32a92f8c8932698 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c Linus Torvalds    2026-02-21  744  	txq->entries = kzalloc_objs(struct iwl_pcie_txq_entry, slots_num);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  745  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  746  	if (!txq->entries)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  747  		goto error;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  748  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  749  	if (cmd_queue)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  750  		for (i = 0; i < slots_num; i++) {
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  751  			txq->entries[i].cmd =
-bf4afc53b77aeaa drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c Linus Torvalds    2026-02-21  752  				kmalloc_obj(struct iwl_device_cmd);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  753  			if (!txq->entries[i].cmd)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  754  				goto error;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  755  		}
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  756  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  757  	/* Circular buffer of transmit frame descriptors (TFDs),
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  758  	 * shared with device
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  759  	 */
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  760  	txq->tfds = dma_alloc_coherent(trans->dev, tfd_sz,
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  761  				       &txq->dma_addr, GFP_KERNEL);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  762  	if (!txq->tfds)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  763  		goto error;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  764  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  765  	BUILD_BUG_ON(sizeof(*txq->first_tb_bufs) != IWL_FIRST_TB_SIZE_ALIGN);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  766  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  767  	tb0_buf_sz = sizeof(*txq->first_tb_bufs) * slots_num;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  768  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  769  	txq->first_tb_bufs = dma_alloc_coherent(trans->dev, tb0_buf_sz,
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  770  						&txq->first_tb_dma,
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  771  						GFP_KERNEL);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  772  	if (!txq->first_tb_bufs)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  773  		goto err_free_tfds;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  774  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  775  	for (i = 0; i < num_entries; i++) {
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  776  		void *tfd = iwl_txq_get_tfd(trans, txq, i);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  777  
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2025-05-08  778  		if (trans->mac_cfg->gen2)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  779  			iwl_txq_set_tfd_invalid_gen2(trans, tfd);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  780  		else
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  781  			iwl_txq_set_tfd_invalid_gen1(trans, tfd);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  782  	}
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  783  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  784  	return 0;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  785  err_free_tfds:
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  786  	dma_free_coherent(trans->dev, tfd_sz, txq->tfds, txq->dma_addr);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  787  	txq->tfds = NULL;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  788  error:
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  789  	if (txq->entries && cmd_queue)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  790  		for (i = 0; i < slots_num; i++)
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  791  			kfree(txq->entries[i].cmd);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  792  	kfree(txq->entries);
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  793  	txq->entries = NULL;
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  794  
-49101078be769e9 drivers/net/wireless/intel/iwlwifi/pcie/tx.c        Johannes Berg     2024-06-05  795  	return -ENOMEM;
-f02831be962c7be drivers/net/wireless/iwlwifi/pcie/tx.c              Emmanuel Grumbach 2012-11-14  796  }
-f02831be962c7be drivers/net/wireless/iwlwifi/pcie/tx.c              Emmanuel Grumbach 2012-11-14  797  
+a9ffae8d3f9d26 Yuan-Han Zhang  2022-03-17  2042  
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2043  static void rtw8852c_set_txpwr_ref(struct rtw89_dev *rtwdev,
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2044  				   enum rtw89_phy_idx phy_idx, s16 pwr_ofst)
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2045  {
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2046  	static const u32 addr[RF_PATH_NUM_8852C] = {0x5800, 0x7800};
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2047  	u16 ofst_dec[RF_PATH_NUM_8852C];
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2048  	const u32 mask = 0x7FFFFFF;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2049  	const u8 ofst_ofdm = 0x4;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2050  	const u8 ofst_cck = 0x8;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2051  	s16 ref_ofdm = 0;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2052  	s16 ref_cck = 0;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2053  	u32 val;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2054  	u8 i;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2055  
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2056  	rtw89_debug(rtwdev, RTW89_DBG_TXPWR, "[TXPWR] set txpwr reference\n");
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2057  
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2058  	rtw89_mac_txpwr_write32_mask(rtwdev, phy_idx, R_AX_PWR_RATE_CTRL,
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2059  				     GENMASK(27, 10), 0x0);
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2060  
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2061  	ofst_dec[RF_PATH_A] = pwr_ofst > 0 ? 0 : abs(pwr_ofst);
+50191eace88c41 Kuan-Chung Chen 2024-11-11 @2062  	ofst_dec[RF_PATH_B] = pwr_ofst > 0 ? pwr_ofst : 0;
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2063  
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2064  	rtw89_debug(rtwdev, RTW89_DBG_TXPWR, "[TXPWR] set bb ofdm txpwr ref\n");
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2065  	for (i = 0; i < RF_PATH_NUM_8852C; i++) {
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2066  		val = rtw8852c_bb_cal_txpwr_ref(rtwdev, phy_idx, ref_ofdm, ofst_dec[i]);
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2067  		rtw89_phy_write32_idx(rtwdev, addr[i] + ofst_ofdm, mask, val, phy_idx);
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2068  	}
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2069  
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2070  	rtw89_debug(rtwdev, RTW89_DBG_TXPWR, "[TXPWR] set bb cck txpwr ref\n");
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2071  	for (i = 0; i < RF_PATH_NUM_8852C; i++) {
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2072  		val = rtw8852c_bb_cal_txpwr_ref(rtwdev, phy_idx, ref_cck, ofst_dec[i]);
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2073  		rtw89_phy_write32_idx(rtwdev, addr[i] + ofst_cck, mask, val, phy_idx);
+50191eace88c41 Kuan-Chung Chen 2024-11-11  2074  	}
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2075  }
+af0cac159b1c96 Ping-Ke Shih    2022-04-21  2076  
 
-:::::: The code at line 725 was first introduced by commit
-:::::: c96a36491003d7a6fb6dd3c5bcf84cca15387109 wifi: iwlwifi: rename cfg_trans_params to mac_cfg
+:::::: The code at line 2062 was first introduced by commit
+:::::: 50191eace88c4163c8990984a8a156f09f226d39 wifi: rtw89: handle different TX power between RF path
 
-:::::: TO: Johannes Berg <johannes.berg@intel.com>
-:::::: CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: TO: Kuan-Chung Chen <damon.chen@realtek.com>
+:::::: CC: Ping-Ke Shih <pkshih@realtek.com>
 
 --
 0-DAY CI Kernel Test Service
