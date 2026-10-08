@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5942381EA3
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Oct 2026 18:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4D938655E
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Oct 2026 21:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791482699; cv=none; b=j4uqF+GpPvuoKe2qTycVByZ3k8i91cPHRZvKgTPh4P98+Bdmq/OCAHoo1KtSomxFAq4Qq6tbsXloWIF3U+AvYBurieXTUC7KMduEOjqTdpvtoKS5xCSBmNu8nE0MJUll/LninSyV2go32qN8dG7nU4qOaksI4E+nLJGQ6tZ4KTI=
+	t=1791494971; cv=none; b=SgQPkwyM5PbY98op8FzvBNTbBQKrIwu4W+FBMtwiWfwgQMvZL2ljsjmc0w/QGDVmgtV6Qzn+bzDAVCqysy9c2SfObCfxf+naoUWMhxvbtHVqHki6oDeTqrOC7cuJYFuUuuJ4RQVMYQgjxJyOR1dhTzWEzbEXTzHoVao5K0A1c0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791482699; c=relaxed/simple;
-	bh=dgGN5oJGd/8klt+Rv3JEY48Z0zHL8BupV9n89dfLxZk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eFwssfBdYipcbZkqRT2dj0QrpmWZjiU8Gx3KavTsRYydyxd7T7S5TnPnE/T2zajqAC4CGGlJelxeNgwlWqGd6r98wUiLanJZOwVATfdsmlqmV55HFTHLU++9MMMjfYaNDRyYSm0thbpfZn7UwglgIvcrkmkfDvhdegBRcBIxS1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/HQegw0; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1791494971; c=relaxed/simple;
+	bh=nKWdRh0K/I05eq5ze1DonkDhqr6z99ZQyvyoQKQXwBI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tSr1MTs0W5nJHu0lrJmR+ZPykWrvlx49+PK91U6Q7fjzoo22t6meFYmiZ8Tnr60hUgDdVyMKdqoAEqZK8qYCqq3oPZDpjHBBLmZPAAsWrOKPkKbM/DzLf0WF1MF84/tUyfZM9veCYSwRzXfWP1EPqo5djqNu5szXk/WsLvPpaRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQ28H1MS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/HQegw0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQ28H1MS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791482697; x=1823018697;
+  t=1791494971; x=1823030971;
   h=date:from:to:cc:subject:message-id;
-  bh=dgGN5oJGd/8klt+Rv3JEY48Z0zHL8BupV9n89dfLxZk=;
-  b=A/HQegw0q/W/Hze6BRZBaZk/H8IcKrlNtJ3UcKUz6bHKw5ad7ihEzN3s
-   wqRgVLoUNKD1a1eAgrO1Pnq5QDV1ieij6u+UBTHEJtcVZ1hpkPkpICku0
-   zZ1vgFj/uPl6n1apfPfEetbi+TeO2+WmlPnKIdiK0wDGyzDmjuLQOMKSw
-   599erviC9h6ZH4LoBJfxlWGUTMbEq+8v4aO2A+PgU8K2nGfVQGWx/dzA9
-   3/tCQpCghldlT/tF9/bGkfuE25pUzoi04q3+uPyf2r/yTX4mFbvMf3et1
-   mbU7u0oK5SRLq7oE77caAAX9k7IH0XO8m23bcvQpoFoakAe/ib97X/q7M
-   Q==;
-X-CSE-ConnectionGUID: 5j+6V6PRQfSxeBil2ytMhw==
-X-CSE-MsgGUID: 1dhqZznsQyeK8ktyAR0eLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="173222"
-X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="173222"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 11:04:56 -0700
-X-CSE-ConnectionGUID: YgPapURxRPuamZPl7m6wBQ==
-X-CSE-MsgGUID: /ozYPaBPRTSHzdvlHIcorA==
+  bh=nKWdRh0K/I05eq5ze1DonkDhqr6z99ZQyvyoQKQXwBI=;
+  b=IQ28H1MSDzyISasz3kACEjBLUQ7LQrrDnQBYX9Dw1rSktZd5JdtvAozl
+   +b1wq0Uj2dVCW0c3wxoo4bWQ8nvZPy5Tays6102RVMr4wQLDgDyIr3Tc7
+   sHGhGSsvwjjxwjLeko8XdJ5hBeuw1ppShwT4D5hn72XvUGZI3HFv3VcMB
+   5g6+qqrj+w6kzVt0v9l0XUJbEPec1Ta3Kr8xK1RB+BEi2/7o4MaGvtGxu
+   l8HpO+XrUwMa5fOZrPHPuM8heBgoSP3q3Zmtp7oZwMMpXcBtwOPMlyVmt
+   4uVaOROGaR8ILXBY7H6LqCeUpv2FF6i/DHPfBdsRteEUc/XGkmqNuFMP4
+   g==;
+X-CSE-ConnectionGUID: cgTjnK9MTviIhI0Y68c+og==
+X-CSE-MsgGUID: YbdQ75eySouopz0iVgNUAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="316803"
+X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
+   d="scan'208";a="316803"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 14:29:30 -0700
+X-CSE-ConnectionGUID: mRWN7nGlSr+Uh127RIaMXw==
+X-CSE-MsgGUID: H+LwQP8WQTKZb6Wg0g0poA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="199060"
+X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
+   d="scan'208";a="237684"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Oct 2026 11:04:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 08 Oct 2026 14:29:29 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEsU9-000000005qH-00ze;
-	Thu, 08 Oct 2026 18:04:53 +0000
-Date: Thu, 08 Oct 2026 20:04:51 +0200
+	id 1xEvg5-0000000066Z-423D;
+	Thu, 08 Oct 2026 21:29:25 +0000
+Date: Thu, 08 Oct 2026 23:29:16 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 591/15343]
- drivers/gpu/drm/amd/ras/core/ras_psp.c:137:15-16: WARNING opportunity for
- kfree_sensitive/kvfree_sensitive (memset at line 136)
-Message-ID: <202610081904.S2BQWEmZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [dhowells-fs:netfs-crypt 30/30] fs/netfs/direct_write.c:54
+ netfs_rmw_read_one() warn: signedness bug returning '(-12)'
+Message-ID: <202610082353.hZ3FyTnt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,51 +59,79 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: YiPeng Chai <YiPeng.Chai@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aac26bee2287c88af5be5a5ff96d783b19a28790
-commit: ba74c69d0c8c38b7df50a4201e0dc9557d11da95 [591/15343] drm/amdgpu: refactor memory handling to support both external and internal allocation
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 weeks ago
-config: x86_64-randconfig-2100-20261008 (https://download.01.org/0day-ci/archive/20261008/202610081904.S2BQWEmZ-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   870d31c7b4cbee9e73019466181a2e0c2c1094f8
+commit: 870d31c7b4cbee9e73019466181a2e0c2c1094f8 [30/30] netfs: Support encryption on unbuffered/DIO write
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: i386-randconfig-2200-20261008 (https://download.01.org/0day-ci/archive/20261008/202610082353.hZ3FyTnt-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610081904.S2BQWEmZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610082353.hZ3FyTnt-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/ras/core/ras_psp.c:137:15-16: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 136)
+smatch warnings:
+fs/netfs/direct_write.c:54 netfs_rmw_read_one() warn: signedness bug returning '(-12)'
 
-vim +137 drivers/gpu/drm/amd/ras/core/ras_psp.c
+vim +54 fs/netfs/direct_write.c
 
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  125  
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  126  static int ras_psp_free_mem(struct ras_core_context *ras_core,
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  127  			struct gpu_mem_block *gpu_mem)
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  128  {
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  129  	if (!gpu_mem)
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  130  		return 0;
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  131  
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  132  	if (!gpu_mem->ref_count) {
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  133  		return 0;
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  134  	} else if (gpu_mem->ref_count == 1) {
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  135  		ras_core_put_gpu_mem(ras_core, gpu_mem->mem_type, gpu_mem);
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19 @136  		memset(gpu_mem, 0, sizeof(*gpu_mem));
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19 @137  		kfree(gpu_mem);
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  138  	} else if (gpu_mem->ref_count > 1) {
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  139  		gpu_mem->ref_count--;
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  140  	}
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  141  
-c49ef01183b036 drivers/gpu/drm/amd/ras/rascore/ras_psp.c YiPeng Chai 2025-06-05  142  	return 0;
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  143  }
-ba74c69d0c8c38 drivers/gpu/drm/amd/ras/core/ras_psp.c    YiPeng Chai 2026-05-19  144  
+153a9961b551101 David Howells 2022-02-21  11  
+870d31c7b4cbee9 David Howells 2026-05-16  12  /*
+870d31c7b4cbee9 David Howells 2026-05-16  13   * Perform a read to a buffer from the server, slicing up the region to be read
+870d31c7b4cbee9 David Howells 2026-05-16  14   * according to the network rsize.
+870d31c7b4cbee9 David Howells 2026-05-16  15   */
+870d31c7b4cbee9 David Howells 2026-05-16  16  static bool netfs_rmw_read_one(struct netfs_io_request *rreq, struct bvecq *bq,
+870d31c7b4cbee9 David Howells 2026-05-16  17  			       uoff_t fpos)
+870d31c7b4cbee9 David Howells 2026-05-16  18  {
+870d31c7b4cbee9 David Howells 2026-05-16  19  	struct netfs_io_stream *stream = &rreq->io_streams[0];
+870d31c7b4cbee9 David Howells 2026-05-16  20  	size_t len = 0;
+870d31c7b4cbee9 David Howells 2026-05-16  21  	int ret = 0;
+870d31c7b4cbee9 David Howells 2026-05-16  22  
+870d31c7b4cbee9 David Howells 2026-05-16  23  	for (int i = 0; i < bq->nr_slots; i++)
+870d31c7b4cbee9 David Howells 2026-05-16  24  		len += bq->bv[i].bv_len;
+870d31c7b4cbee9 David Howells 2026-05-16  25  
+870d31c7b4cbee9 David Howells 2026-05-16  26  	rreq->start		= fpos;
+870d31c7b4cbee9 David Howells 2026-05-16  27  	rreq->len		= len;
+870d31c7b4cbee9 David Howells 2026-05-16  28  	stream->issue_from	= fpos;
+870d31c7b4cbee9 David Howells 2026-05-16  29  	stream->buffered	= len;
+870d31c7b4cbee9 David Howells 2026-05-16  30  
+870d31c7b4cbee9 David Howells 2026-05-16  31  	do {
+870d31c7b4cbee9 David Howells 2026-05-16  32  		struct netfs_io_subrequest *subreq;
+870d31c7b4cbee9 David Howells 2026-05-16  33  
+870d31c7b4cbee9 David Howells 2026-05-16  34  		subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
+870d31c7b4cbee9 David Howells 2026-05-16  35  		if (!subreq) {
+870d31c7b4cbee9 David Howells 2026-05-16  36  			ret = -ENOMEM;
+870d31c7b4cbee9 David Howells 2026-05-16  37  			break;
+870d31c7b4cbee9 David Howells 2026-05-16  38  		}
+870d31c7b4cbee9 David Howells 2026-05-16  39  
+870d31c7b4cbee9 David Howells 2026-05-16  40  		subreq->start	= stream->issue_from;
+870d31c7b4cbee9 David Howells 2026-05-16  41  		subreq->len	= stream->buffered;
+870d31c7b4cbee9 David Howells 2026-05-16  42  
+870d31c7b4cbee9 David Howells 2026-05-16  43  		spin_lock(&rreq->lock);
+870d31c7b4cbee9 David Howells 2026-05-16  44  		list_add_tail(&subreq->rreq_link, &stream->subrequests);
+870d31c7b4cbee9 David Howells 2026-05-16  45  		trace_netfs_sreq(subreq, netfs_sreq_trace_added);
+870d31c7b4cbee9 David Howells 2026-05-16  46  		spin_unlock(&rreq->lock);
+870d31c7b4cbee9 David Howells 2026-05-16  47  
+870d31c7b4cbee9 David Howells 2026-05-16  48  		netfs_stat(&netfs_n_rh_download);
+870d31c7b4cbee9 David Howells 2026-05-16  49  		rreq->netfs_ops->issue_read(subreq);
+870d31c7b4cbee9 David Howells 2026-05-16  50  
+870d31c7b4cbee9 David Howells 2026-05-16  51  		cond_resched();
+870d31c7b4cbee9 David Howells 2026-05-16  52  	} while (stream->buffered > 0);
+870d31c7b4cbee9 David Howells 2026-05-16  53  
+870d31c7b4cbee9 David Howells 2026-05-16 @54  	return ret;
+870d31c7b4cbee9 David Howells 2026-05-16  55  }
+870d31c7b4cbee9 David Howells 2026-05-16  56  
 
 --
 0-DAY CI Kernel Test Service
