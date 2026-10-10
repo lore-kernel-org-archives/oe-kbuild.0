@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0CA3C3437
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Oct 2026 05:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0BC39768D
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Oct 2026 14:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791608683; cv=none; b=TW7uz5hMJjQ857uaiGl1NFYp7S2smizOAYz/2UIeQ97QWzV1xObkvxDC+M4+tlQR06fOElX/+GjATjXK6oBmwu7hMU5FA2B7FRiW6q8bu0BZBJRHMIWrl5HjMiLGlPGyj+E10pDewKd+aysABSG9RP1kd8ceiAI6lSxDXRkFocs=
+	t=1791643832; cv=none; b=i4UmFFeKdIr/PQXV/i7jtonrPeepms754H2cfkt4unvTX0gzbPrallM0vduFlktSGXvouml2rS4fBFwp4AnjO8B1D3aruBrGNPyo3nJM+P09TM04Lf6zN1twcK33EZ8NMN2ZKzwLC6Ops4XTQpfOY+OY78qAIT+9don0DUQW89A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791608683; c=relaxed/simple;
-	bh=qY3NoPKts59Z83zB8qBbpYrNibGhn1lLQiGwaVWl/Yg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Zqv6hvhU6EIrfFfWdGKOyi4NKd9Gloi1mPM7GHvdrp1HVm+8j59pJDSpI5+Kg2S4gNKCC0y24/ha9bomW26v6LkPPnVOeUQ6/crot3qFUCtbihomGqboukWWFlBvxVrPXJ9gOugqKpv/uwYh9NGaMUfAUU7ebjq92dSHggP42/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuyuFqRf; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1791643832; c=relaxed/simple;
+	bh=pov6NwnfJBpt/eUAwfSZDDFNCY3G/KVuh6ooKVZ2v6s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lB0lrjjFAw3549JygkWLT+iw+/TbZbj4Ukh0jYTTarAC5pzAje13I5N3LTfyI4BXAIgeSTG2fYKnKRZbJK2ujClC84XOVdql5reyMRE3J7XOEk1RcCgft4SGYrzEVOsEcvG9GwsGSmeUxCg4XUe0ck1DKG4V+w0SEs+V/9OT+BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrdAgw4N; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuyuFqRf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrdAgw4N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791608681; x=1823144681;
+  t=1791643831; x=1823179831;
   h=date:from:to:cc:subject:message-id;
-  bh=qY3NoPKts59Z83zB8qBbpYrNibGhn1lLQiGwaVWl/Yg=;
-  b=SuyuFqRf3bJAU+BJFLDQg9FWWJV6vYz/gvFrCgc1KdT5t5fX6ZQm8gBK
-   jaTMGCDVrQJvyTpVhyo8UJb3p2B4/Oqo1G6Atkeon7gYwIC8JaVVmuEEG
-   sBnMUGwZomIqjyOcFM/Gifyr5mTBMBL1Zn72eFqTTgGbjX4diwRpTYRyO
-   40G/WOzshfnM19kcvBrXyvIx29ZoXLd6WLq3BnoyrzN2zZ2MLAUCmAzZN
-   P3HvvOXut0/lFHsxZ+7X+5dVDv2vX/QdMqP5rBvqbOBFHn+ooIgOvFC9Q
-   DiHYJYbOCzEh+ofbfBZPDhDEqHyd68E4qSJ+FSvRQgu/HkpY58ELw9GJU
-   Q==;
-X-CSE-ConnectionGUID: NS5D4gLmSBaUU31qvCxeWg==
-X-CSE-MsgGUID: njymqdQFSmmIGNx/bodvpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="398633"
-X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="398633"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 22:04:40 -0700
-X-CSE-ConnectionGUID: DW5YxdvTToGBuGo7QmiU8Q==
-X-CSE-MsgGUID: Hu5ial34SPmEOUCsfW81AA==
+  bh=pov6NwnfJBpt/eUAwfSZDDFNCY3G/KVuh6ooKVZ2v6s=;
+  b=lrdAgw4NXPgXRmjDh/rooaPicUwSv31gUWZuY2rDh7d63jFeLJhhJd8+
+   lDOM4Nolg56Og6fkzgJcdj9Eu8nVU1Yets0QPfszXygh6bML3LELFYyuZ
+   A49Yr3Ls0f7tetPwybbSiHh28lb/li12ty3bb6d4uGLfYxeO6hj0ZEix6
+   EbiB7WCF7viPPx5riKTu1BGdA8PoEPDFrHb3+2bhDkYU3DI/adq74jpLo
+   hM+L1eimkGVifNi5/kGur9vwzTcP5vzw9qhwEYCmyFb1ZhqlwbYXvnWNJ
+   gM9q1OxVDFuO/DsdE5KRLzjBuMXcoD9ciGpYW+KIQRRqXZI96vPR0TSVm
+   w==;
+X-CSE-ConnectionGUID: Cw0z5S6ETJqeB0MNMlORwA==
+X-CSE-MsgGUID: kz+ggfqOTpSE8DkpC86+0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11931"; a="516376"
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="516376"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2026 07:50:30 -0700
+X-CSE-ConnectionGUID: uEPhfA/sQPW3Vz0Pf2diRQ==
+X-CSE-MsgGUID: tyCy4w/iTv659nBAgoO4dA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="473315"
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="855308"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Oct 2026 22:04:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Oct 2026 07:50:30 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFPG8-000000007Zt-2jpS;
-	Sat, 10 Oct 2026 05:04:36 +0000
-Date: Sat, 10 Oct 2026 07:04:34 +0200
+	id 1xFYP4-00000000927-49yL;
+	Sat, 10 Oct 2026 14:50:26 +0000
+Date: Sat, 10 Oct 2026 16:49:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tty/amiserial.c:456 rs_startup() warn: missing error
- code 'retval'
-Message-ID: <202610100610.G565RJsp-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x545:
+ cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+Message-ID: <202610101604.FJT4WAKR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,90 +59,83 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
-
-Hi Josh,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Miguel Ojeda <ojeda@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3857c2fe5449541e24afc5efdb0f81a8a8f9a3a0
-commit: 845c09e4744f111eae894ad3b67a369bb43d50fb tty: amiserial: Fix namespace collision and startup() section placement with -ffunction-sections
-date:   11 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 11 months ago
-config: m68k-randconfig-r2201-20261010 (https://download.01.org/0day-ci/archive/20261010/202610100610.G565RJsp-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
+commit: 5febf432df1cfa5b25d99b54c32103fafbdd0eb9 kbuild: rust: keep Rust objects out of Clang LTO with inline helpers
+date:   7 weeks ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-r2308-20261010 (https://download.01.org/0day-ci/archive/20261010/202610101604.FJT4WAKR-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610101604.FJT4WAKR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 845c09e4744f ("tty: amiserial: Fix namespace collision and startup() section placement with -ffunction-sections")
+| Fixes: 5febf432df1c ("kbuild: rust: keep Rust objects out of Clang LTO with inline helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610100610.G565RJsp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610101604.FJT4WAKR-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/amiserial.c:456 rs_startup() warn: missing error code 'retval'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/tty/amiserial.c:343 check_modem_status() error: we previously assumed 'port->tty' could be null (see line 338)
-drivers/tty/amiserial.c:687 change_speed() warn: inconsistent indenting
-
-vim +/retval +456 drivers/tty/amiserial.c
-
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  425  
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  426  /*
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  427   * -------------------------------------------------------------------
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  428   * Here ends the serial interrupt routines.
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  429   * -------------------------------------------------------------------
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  430   */
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  431  
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  432  /*
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  433   * ---------------------------------------------------------------
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  434   * Low level utility subroutines for the serial driver:  routines to
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  435   * figure out the appropriate timeout for an interrupt chain, routines
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  436   * to initialize and startup a serial port, and routines to shutdown a
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  437   * serial port.  Useful stuff like that.
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  438   * ---------------------------------------------------------------
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  439   */
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  440  
-845c09e4744f111 drivers/tty/amiserial.c  Josh Poimboeuf 2025-11-20  441  static int rs_startup(struct tty_struct *tty, struct serial_state *info)
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  442  {
-01bd730d92bd002 drivers/tty/amiserial.c  Jiri Slaby     2012-03-05  443  	struct tty_port *port = &info->tport;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  444  	unsigned long flags;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  445  	int	retval=0;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  446  	unsigned long page;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  447  
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  448  	page = get_zeroed_page(GFP_KERNEL);
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  449  	if (!page)
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  450  		return -ENOMEM;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  451  
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  452  	local_irq_save(flags);
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  453  
-d41861ca19c9e96 drivers/tty/amiserial.c  Peter Hurley   2016-04-09  454  	if (tty_port_initialized(port)) {
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  455  		free_page(page);
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16 @456  		goto errout;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  457  	}
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  458  
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  459  	if (info->xmit.buf)
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  460  		free_page(page);
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  461  	else
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  462  		info->xmit.buf = (unsigned char *) page;
-^1da177e4c3f415 drivers/char/amiserial.c Linus Torvalds 2005-04-16  463  
-
-:::::: The code at line 456 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x545: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_staa_read+0x190: unreachable instruction
+>> vmlinux.o: warning: objtool: cfi_staa_write_buffers+0x42b: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_staa_lock+0x1d0: unreachable instruction
+>> vmlinux.o: warning: objtool: cfi_staa_unlock+0x1ec: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_staa_resume+0x137: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_amdstd_read+0x451: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_amdstd_resume+0x181: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: fixup_sst38vf640x_sectorsize+0x11f: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: do_read_secsi_onechip+0x2a0: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: fixup_sst39vf_rev_b+0xe2: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_amdstd_write_buffers+0x230: unreachable instruction
+>> vmlinux.o: warning: objtool: get_chip+0x2c1: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: put_chip+0x1c8: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: put_chip+0x277: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: chip_ready+0xce: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: chip_ready+0x9d: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_check_err_status+0x13b: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x171: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x168: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: cfi_amdstd_erase_chip+0x410: unreachable instruction
+>> vmlinux.o: warning: objtool: do_atmel_lock+0x14d: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: do_atmel_unlock+0x143: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_amdstd_reset+0x171: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_amdstd_otp_walk+0x388: cfi_qry_mode_on() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_otp_write+0x168: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_write_oneword+0x126: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_write_oneword+0x119: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_otp_lock+0x16e: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_otp_lock+0x75: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_amdstd_panic_wait+0x106: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_panic_write_oneword+0x190: unreachable instruction
+   vmlinux.o: warning: objtool: do_erase_oneblock+0x310: unreachable instruction
+   vmlinux.o: warning: objtool: do_erase_oneblock+0x1fd: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_read+0x2fe: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_suspend+0x4ec: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_resume+0x191: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: fixup_LH28F640BF+0x113: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_writev+0x290: unreachable instruction
+   vmlinux.o: warning: objtool: inval_cache_and_wait_for_operation+0x69: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_point+0x54d: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_reset+0x171: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: cfi_intelext_otp_walk+0x6b6: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_otp_read+0x161: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_xxlock_oneblock+0x14f: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: do_getlockstatus_oneblock+0xd3: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: jedec_probe_chip+0x150: unreachable instruction
+   vmlinux.o: warning: objtool: jedec_reset+0x80: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
 
 --
 0-DAY CI Kernel Test Service
