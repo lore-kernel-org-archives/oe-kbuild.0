@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055EE2F7F07
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Oct 2026 21:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FAF13CA92
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Oct 2026 23:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791754454; cv=none; b=Yjtl8rSJruulAsZY4Npx1qqd5ELjS+xuUKbC0EHzpwQttpZ6UdQt/g7jTljj7nB5bWbbumAKylcHgdk5s7Og8q0P2Hjx+oi9lBZYnCBP3WdFE9n/au+X0WfJVKSz+5zDlqQcEAllrqP4KW2IRVpJEcRMkBMGMQNzS6MgmGQ4Ysk=
+	t=1791760759; cv=none; b=gT6XGqck3Fy2zAClgFAjnw3UQaDf85WGP53Zy1e3erAK5JqEqaBTYmYpRFZqc77ujiRVK6H8AONb9+iVdpAZRgnyIunG+j6XasP8GacQ5jEzR3HKdG8i2vBHHZpdLMXk1M7nSp28APd6o/pTudhhZdHRFfxoElJOawX3Qtll4pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791754454; c=relaxed/simple;
-	bh=HPIJLV1D4A1vDh9AS8HcQiSctnZEiiUBXKr0bfzo4C4=;
+	s=arc-20240116; t=1791760759; c=relaxed/simple;
+	bh=yx5EMgo4x+MXOr/58wRPvqcXNsffQqWgQpLuXHXYhps=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R/LGuBwsBohnIIQp1ag2KVO2OpXt02tAO/4MfQLXtKSy/gv2ArK/Y0GABiGz/GK7TWQwfkzq3O+SdgaLargsbogPYUZH+wLiCnhMXE1QTZJxS/xJ+PixGZwRlNtWqJjW0jFHssy+ovY9tYUY1CP0roy0hOnFk5Qy3SjzQei7ndE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/kG96tq; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ekSNkt1DIrjk7HwW6GpZT7+kWq6JmBhbgK1/VicEBjxERCdd8R26EiRbhyEQepeSkUQiDaQ9UnzrBe9o0IgjIqaA5p90s337fOTnF9ld5NVHLtY60beDtW6iZGcHqSjcWrpUxYwvIberzbz9STT3jtkaI9NbfL9R2enKIurL1DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3wPypu5; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/kG96tq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3wPypu5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791754452; x=1823290452;
+  t=1791760757; x=1823296757;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HPIJLV1D4A1vDh9AS8HcQiSctnZEiiUBXKr0bfzo4C4=;
-  b=Q/kG96tq1H0WorURKvpgvDXpn5a8rZ30AMTKwA6MAMebiZkxfSvwccoC
-   tlr35pN0mzFw+37Lua1vVNB7mjjgKw+pnqTHmDELtaeEuOZgW+NWx3zFy
-   mqbdSbTsmzJ+fYzVU/i6Vi4oyeopCxJBa/JcvTft1L6hFgphDOKUK+FfA
-   v6jygGFeqiwWjD8yo5z+Q9RKGEyBdCPupsROfs2NXAoo105OmhpB2gA0T
-   PXglbTCcFcUmZpUvsh5RREuhfqIrXdFJZ+jtT3H3XyziqdeTV8qy9RJKq
-   OjvyLB74wpLm3YxQ/I3P7XI920O2NjhuwfNIe6SFICdUzVn4NEsd72B5n
-   A==;
-X-CSE-ConnectionGUID: NAKiLIqHT/CVoVnNvq7Mvw==
-X-CSE-MsgGUID: TeX6lWFjRLSSggTp/KSAZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="575380"
+  bh=yx5EMgo4x+MXOr/58wRPvqcXNsffQqWgQpLuXHXYhps=;
+  b=g3wPypu5xVtqZLsA/Pg4UksbucdNvm11TPKr+gASaRraumYlj+JZX0yt
+   eKxSUrPrhK/u5zddq3pS4JvZiRPomU6HC1Y85ib6xzaRZkRuVFTOUrHAj
+   d1f1aZw28VX5jZZQeU3MtYDkH0ZYV9PspbxKgqarc9WFGETMFVeCaQ1Ng
+   mFiOUBeI2c2xOBAm3ji7p2gvsZq/cK3qk0MXJJEvlJc4SifxbrVNgZDht
+   kXgy3hdRRhzsabKp2jyP3VMsWWymbE+SPYD8TXobC8v3oTLg3xsy6TirX
+   ZdwyVPZRuqzyaNMIRHuMLJLShLc7QSdq42RV+cLeYyrevvWa3Md1k24Fr
+   Q==;
+X-CSE-ConnectionGUID: ssGfQ8YKS+ilZocTSs0nIQ==
+X-CSE-MsgGUID: /zaTP/W4R5Ge6kv6llcuyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="343177"
 X-IronPort-AV: E=Sophos;i="6.27,152,1787036400"; 
-   d="scan'208";a="575380"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 14:34:11 -0700
-X-CSE-ConnectionGUID: c7CPoIRvQ+qETzdqvWqApQ==
-X-CSE-MsgGUID: Hjy8NYIERMqHTIkKFjB2fg==
+   d="scan'208";a="343177"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 16:19:16 -0700
+X-CSE-ConnectionGUID: 0+fHHpevRR2s1qMo+vsoug==
+X-CSE-MsgGUID: NY/9jPokRU2notWrB1x6TA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,152,1787036400"; 
-   d="scan'208";a="827276"
+   d="scan'208";a="890302"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Oct 2026 14:34:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Oct 2026 16:19:15 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xG1BI-00000000Amh-1EpX;
-	Sun, 11 Oct 2026 21:34:08 +0000
-Date: Mon, 12 Oct 2026 05:33:59 +0800
+	id 1xG2oy-00000000AqR-2gpC;
+	Sun, 11 Oct 2026 23:19:12 +0000
+Date: Mon, 12 Oct 2026 07:19:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH] lkdtm: Add more EFI runtime tests
-Message-ID: <202610120509.XpNwjH6O-lkp@intel.com>
+Message-ID: <202610120736.AeXVWn3u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,6 +67,7 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20261011114013.1130-2-ardb@kernel.org>
 References: <20261011114013.1130-2-ardb@kernel.org>
@@ -90,32 +91,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/lkdtm-Add-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
 patch link:    https://lore.kernel.org/r/20261011114013.1130-2-ardb%40kernel.org
 patch subject: [PATCH] lkdtm: Add more EFI runtime tests
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20261012/202610120509.XpNwjH6O-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610120509.XpNwjH6O-lkp@intel.com/reproduce)
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: i386-randconfig-1002-20261012 (https://download.01.org/0day-ci/archive/20261012/202610120736.AeXVWn3u-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610120736.AeXVWn3u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610120509.XpNwjH6O-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610120736.AeXVWn3u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/misc/lkdtm/bugs.c: In function 'efi_rt_test':
->> drivers/misc/lkdtm/bugs.c:846:34: error: 'struct efi' has no member named 'lkdtm_rt_test'
+>> drivers/misc/lkdtm/bugs.c:846:28: error: no member named 'lkdtm_rt_test' in 'struct efi'
      846 |         efi_status_t status = efi.lkdtm_rt_test(id);
-         |                                  ^
-   drivers/misc/lkdtm/bugs.c: In function 'lkdtm_EFI_RUNTIME_WRITE_TO_RO':
->> drivers/misc/lkdtm/bugs.c:857:21: error: 'EFI_LKDTM_RUNTIME_RO_TEST' undeclared (first use in this function)
+         |                               ~~~ ^
+>> drivers/misc/lkdtm/bugs.c:857:14: error: use of undeclared identifier 'EFI_LKDTM_RUNTIME_RO_TEST'
      857 |         efi_rt_test(EFI_LKDTM_RUNTIME_RO_TEST, "write to RO");
          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/lkdtm/bugs.c:857:21: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/misc/lkdtm/bugs.c: In function 'lkdtm_EFI_RUNTIME_BRANCH_TO_NX':
->> drivers/misc/lkdtm/bugs.c:862:21: error: 'EFI_LKDTM_RUNTIME_NX_TEST' undeclared (first use in this function)
+>> drivers/misc/lkdtm/bugs.c:862:14: error: use of undeclared identifier 'EFI_LKDTM_RUNTIME_NX_TEST'
      862 |         efi_rt_test(EFI_LKDTM_RUNTIME_NX_TEST, "branch to NX");
          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
 vim +846 drivers/misc/lkdtm/bugs.c
