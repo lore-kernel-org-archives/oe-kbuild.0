@@ -1,217 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ACB3C9EF1
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Oct 2026 18:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC924137BF
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Oct 2026 19:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791831265; cv=none; b=tdNAUHjaHwNbVSxpQvFA0IFfU8VauEVGlrWs9bvkyZOdiVU+BGVjGmpBrCEN3MDAVxg8uPcY6LvvHLbxiSsET9KretLsL09KvLPqQo/YcNE9cgSFYxEP+FYWBH8FwKhszwX/mYJHjoYhXXTDKQwnkyOio8Cq+9akyut/iRCJo4U=
+	t=1791833080; cv=none; b=GXIuJCed5Cd2z+52aLkTC12mRfL/6ntorvjZh3wbqG2xksvi7hkpM46mF9LKFXbnBDypZ0K+SDiTxYRsy+4vMA0xrH2HRUIET31L4lP62e3kIUD0Gs0N+kh9s9xfog8BzItzwPS7AjocaSz3Q6urpgnemyHDg8Q6iscVPj9I570=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791831265; c=relaxed/simple;
-	bh=qR3iaVqYItZJBNDxglxo7EEqUMzdu5y+Sxa4f4o9p3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Y6UERzwR8L0xfvRwCeXWVE9zosjsQXt3c1M34zHk7p118lrrXH5tucEIaAhmuibnqjutjWVhFoupXenLxJeU11MChK1UKz5NcBkTZsSxdAI4rDZr0ofQg1w5ojtppLLJQRmCYa0N8EVsm9QXhsB00rHnW81f3T6R6YrHIBt/iak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCGVBOSt; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1791833080; c=relaxed/simple;
+	bh=G+2+Ljw0/A6A4+obWS6Zqv+ijU7Cbce4qwd3lxg1Po8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jfAk9dTmGzcDEKzgYNJB8XHdJVIMnB24gq23BpeocKODAi+zLx7T2EvmplTMF36VVGVrBGxGBCaGY8344cZJImjTxPf6c1K3no/g4pzmV6Koh2C0v7oWm7tEjpGPYHQ7Ab7DmZaqq+mC9ZMIm4ac6LRQPco3BRCXYhPzR67K+1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7fAYptQ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCGVBOSt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7fAYptQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791831257; x=1823367257;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qR3iaVqYItZJBNDxglxo7EEqUMzdu5y+Sxa4f4o9p3k=;
-  b=DCGVBOStW9nCANTnEWPpf+5xXH5/7UA/EYM3aaUBMUTgai5uRiKBRe+q
-   Hj+luKvDmAnZKKWg+eR49TguN3s3j0AOwNMzy2xbFedUCwPpYPZTbGFeK
-   2hyHi3A8+pZ8W0D3rRHmSP0AQ+JbB5TvAjIEXvrqJLZCIMdjqMKUwGXZp
-   w7ob9csOc50IZKN8UblrQJ7OxQ4HNbkdB0ZraenPqbsddcPyYR7efUNzy
-   PrjumkyYMaBBKNIRhK/tDChNO9WZkWSy08YQxD1HT2kcMXdk2qD7mIFyx
-   Tu4RYPUbV09CU7Z1EfbLTujw2rmPP8DC3JCiKiguOae7jd4aZ1+VrXk2k
-   w==;
-X-CSE-ConnectionGUID: gsHQcuQTTZCkSAk2pGnfEQ==
-X-CSE-MsgGUID: 4MYQUhpiQYOhmFERrCPY4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="534523"
+  t=1791833079; x=1823369079;
+  h=date:from:to:cc:subject:message-id;
+  bh=G+2+Ljw0/A6A4+obWS6Zqv+ijU7Cbce4qwd3lxg1Po8=;
+  b=N7fAYptQFB/dWgTdUJpASL+xDMR7sZqOYk24TrG5uHQohRBhk1oQVMXx
+   ahzGQLw5jrDX72igPwvra6jF49r0RCsUd1Amc5B/fo1nQNkuC/GpVGO9I
+   2RqHTWIyOcZht2Dh4PkG4aDqZkx7m01MfaTAlVDnYcOgZJK8NHkKRxMBH
+   CKMbTTKrGyi6vF7LfvrbeVtUxelzet8tMY8T1YhoDh/Y7+LifcwWav1CS
+   4mcv+F/F0ebThSBEX+ItFoYztKDSB56cu3y07pj4M1Q6VEW6hbqD0XAmf
+   BkR+ua0rD0/q0tFYQe9Gwn/e/D2qNellWovuk3uxyggRCMlpnLEHZiwBd
+   Q==;
+X-CSE-ConnectionGUID: xNuApFglTYiS5xJ+e9/x2w==
+X-CSE-MsgGUID: /l1xyrGHS76cE7dHz+Rs+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="433811"
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="534523"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 11:54:16 -0700
-X-CSE-ConnectionGUID: qTFg+37JQt282mcjjOVVuQ==
-X-CSE-MsgGUID: n50ypcCDQ0G5kSbTaDNxfA==
+   d="scan'208";a="433811"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 12:24:39 -0700
+X-CSE-ConnectionGUID: voK4X/ltT+yIuFDQ16Ipmw==
+X-CSE-MsgGUID: KmbO3BxGQ3KkjXxUz2QGmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1082899"
+   d="scan'208";a="2750607"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Oct 2026 11:54:15 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 12 Oct 2026 12:24:37 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGLA5-00000000A9j-0VHt;
-	Mon, 12 Oct 2026 18:54:13 +0000
-Date: Mon, 12 Oct 2026 20:53:16 +0200
+	id 1xGLdT-00000000AAj-1bnD;
+	Mon, 12 Oct 2026 19:24:35 +0000
+Date: Mon, 12 Oct 2026 21:24:10 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-7.4 134/323]
- arch/arm64/boot/dts/qcom/nord-rrd.dtb:
- /soc@0/system-cache-controller@21800000: failed to match any schema with
- compatible: ['qcom,nord-llcc']
-Message-ID: <202610122026.da2uhZ1B-lkp@intel.com>
+Subject: [mark:arm64/fpsimd/cleanup 9/10]
+ arch/arm64/kernel/ptrace.c:1971:18: error: 'uregs' undeclared
+Message-ID: <202610122120.j9YbfsTj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anurag Pateriya <anurag.pateriya@oss.qualcomm.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-CC: Pankaj Patil <pankaj.patil@oss.qualcomm.com>
+TO: Mark Rutland <mark.rutland@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-fo=
-r-7.4
-head:   d053e38e614fb2e383b298ce8fc308a780d7f209
-commit: dfd81990d6129052e391968afed2fb2f27f8353d [134/323] arm64: dts: qcom=
-: nord: Add LLCC node
-:::::: branch date: 11 days ago
-:::::: commit date: 2 weeks ago
-config: arm64-randconfig-2403-20261001 (https://download.01.org/0day-ci/arc=
-hive/20261012/202610122026.da2uhZ1B-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e=
-4505dd447d115d85fdea45cd71030ac1d86ee)
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261012/202610122026.da2uhZ1B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/fpsimd/cleanup
+head:   5515c91b8b8000d4011b76d8fdfba6751874f943
+commit: 3514e4de75688ac8b8d28238e6b432a06942eca4 [9/10] arm64: ptrace: Flush state early in compat_vfp_set()
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261012/202610122120.j9YbfsTj-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610122120.j9YbfsTj-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610122026.da2uhZ1B-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610122120.j9YbfsTj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'qup1_se3_01' is not one of ['aoss_cti', 'atest_char', 'atest_usb20', '=
-atest_usb21', 'aud_intfc0_clk', 'aud_intfc0_data', 'aud_intfc0_ws', 'aud_in=
-tfc10_clk', 'aud_intfc10_data', 'aud_intfc10_ws', 'aud_intfc1_clk', 'aud_in=
-tfc1_data', 'aud_intfc1_ws', 'aud_intfc2_clk', 'aud_intfc2_data', 'aud_intf=
-c2_ws', 'aud_intfc3_clk', 'aud_intfc3_data', 'aud_intfc3_ws', 'aud_intfc4_c=
-lk', 'aud_intfc4_data', 'aud_intfc4_ws', 'aud_intfc5_clk', 'aud_intfc5_data=
-', 'aud_intfc5_ws', 'aud_intfc6_clk', 'aud_intfc6_data', 'aud_intfc6_ws', '=
-aud_intfc7_clk', 'aud_intfc7_data', 'aud_intfc7_ws', 'aud_intfc8_clk', 'aud=
-_intfc8_data', 'aud_intfc8_ws', 'aud_intfc9_clk', 'aud_intfc9_data', 'aud_i=
-ntfc9_ws', 'aud_mclk0_mira', 'aud_mclk0_mirb', 'aud_mclk1_mira', 'aud_mclk1=
-_mirb', 'aud_mclk2_mira', 'aud_mclk2_mirb', 'aud_refclk0', 'aud_refclk1', '=
-bist_done', 'ccu_async_in', 'ccu_i2c_scl', 'ccu_i2c_sda', 'ccu_timer', 'cli=
-nk_debug', 'dbg_out', 'dbg_out_clk', 'ddr_bist_complete', 'ddr_bist_fail', =
-'ddr_bist_start', 'ddr_bist_stop', 'ddr_pxi', 'dp_rx0', 'dp_rx00', 'dp_rx01=
-', 'dp_rx0_mute', 'dp_rx1', 'dp_rx10', 'dp_rx11', 'dp_rx1_mute', 'edp0_hot'=
-, 'edp0_lcd', 'edp1_hot', 'edp1_lcd', 'edp2_hot', 'edp2_lcd', 'edp3_hot', '=
-edp3_lcd', 'emac0_mcg', 'emac0_mdc', 'emac0_mdio', 'emac0_ptp', 'emac1_mcg'=
-, 'emac1_mdc', 'emac1_mdio', 'emac1_ptp', 'gcc_gp1_clk', 'gcc_gp2_clk', 'gc=
-c_gp3_clk', 'gcc_gp4_clk', 'gcc_gp5_clk', 'gcc_gp6_clk', 'gcc_gp7_clk', 'gc=
-c_gp8_clk', 'jitter_bist', 'lbist_pass', 'mbist_pass', 'mdp0_vsync_out', 'm=
-dp1_vsync_out', 'mdp_vsync_e', 'mdp_vsync_p', 'mdp_vsync_s', 'pcie0_clk_req=
-_n', 'pcie1_clk_req_n', 'pcie2_clk_req_n', 'pcie3_clk_req_n', 'phase_flag',=
- 'pll_bist_sync', 'pll_clk_aux', 'prng_rosc0', 'prng_rosc1', 'pwrbrk_i_n', =
-'qdss', 'qdss_cti', 'qspi', 'qup0_se0', 'qup0_se1', 'qup0_se2', 'qup0_se3',=
- 'qup0_se4', 'qup0_se5', 'qup1_se0', 'qup1_se1', 'qup1_se3', 'qup1_se2', 'q=
-up1_se4', 'qup1_se5', 'qup1_se6', 'qup2_se0', 'qup2_se1', 'qup2_se2', 'qup2=
-_se3', 'qup2_se4', 'qup2_se5', 'qup2_se6', 'sailss_ospi', 'sdc4_clk', 'sdc4=
-_cmd', 'sdc4_data', 'smb_alert', 'smb_alert_n', 'smb_clk', 'smb_dat', 'tb_t=
-rig_sdc4', 'tmess_prng0', 'tmess_prng1', 'tsc_timer', 'tsense_pwm', 'usb0_h=
-s', 'usb0_phy_ps', 'usb1_hs', 'usb1_phy_ps', 'usb2_hs', 'usxgmii0_phy', 'us=
-xgmii1_phy', 'vsense_trigger_mirnat', 'wcn_sw', 'wcn_sw_ctrl']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,nord-tlmm.y=
-aml
-   arch/arm64/boot/dts/qcom/nord-rrd.dtb: pinctrl@f100000 (qcom,nord-tlmm):=
- qup-uart9-default-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-disable', 'drive-strength', 'function', 'pins' do not match any o=
-f the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	'qup1_se2_23' is not one of ['aoss_cti', 'atest_char', 'atest_usb20', '=
-atest_usb21', 'aud_intfc0_clk', 'aud_intfc0_data', 'aud_intfc0_ws', 'aud_in=
-tfc10_clk', 'aud_intfc10_data', 'aud_intfc10_ws', 'aud_intfc1_clk', 'aud_in=
-tfc1_data', 'aud_intfc1_ws', 'aud_intfc2_clk', 'aud_intfc2_data', 'aud_intf=
-c2_ws', 'aud_intfc3_clk', 'aud_intfc3_data', 'aud_intfc3_ws', 'aud_intfc4_c=
-lk', 'aud_intfc4_data', 'aud_intfc4_ws', 'aud_intfc5_clk', 'aud_intfc5_data=
-', 'aud_intfc5_ws', 'aud_intfc6_clk', 'aud_intfc6_data', 'aud_intfc6_ws', '=
-aud_intfc7_clk', 'aud_intfc7_data', 'aud_intfc7_ws', 'aud_intfc8_clk', 'aud=
-_intfc8_data', 'aud_intfc8_ws', 'aud_intfc9_clk', 'aud_intfc9_data', 'aud_i=
-ntfc9_ws', 'aud_mclk0_mira', 'aud_mclk0_mirb', 'aud_mclk1_mira', 'aud_mclk1=
-_mirb', 'aud_mclk2_mira', 'aud_mclk2_mirb', 'aud_refclk0', 'aud_refclk1', '=
-bist_done', 'ccu_async_in', 'ccu_i2c_scl', 'ccu_i2c_sda', 'ccu_timer', 'cli=
-nk_debug', 'dbg_out', 'dbg_out_clk', 'ddr_bist_complete', 'ddr_bist_fail', =
-'ddr_bist_start', 'ddr_bist_stop', 'ddr_pxi', 'dp_rx0', 'dp_rx00', 'dp_rx01=
-', 'dp_rx0_mute', 'dp_rx1', 'dp_rx10', 'dp_rx11', 'dp_rx1_mute', 'edp0_hot'=
-, 'edp0_lcd', 'edp1_hot', 'edp1_lcd', 'edp2_hot', 'edp2_lcd', 'edp3_hot', '=
-edp3_lcd', 'emac0_mcg', 'emac0_mdc', 'emac0_mdio', 'emac0_ptp', 'emac1_mcg'=
-, 'emac1_mdc', 'emac1_mdio', 'emac1_ptp', 'gcc_gp1_clk', 'gcc_gp2_clk', 'gc=
-c_gp3_clk', 'gcc_gp4_clk', 'gcc_gp5_clk', 'gcc_gp6_clk', 'gcc_gp7_clk', 'gc=
-c_gp8_clk', 'jitter_bist', 'lbist_pass', 'mbist_pass', 'mdp0_vsync_out', 'm=
-dp1_vsync_out', 'mdp_vsync_e', 'mdp_vsync_p', 'mdp_vsync_s', 'pcie0_clk_req=
-_n', 'pcie1_clk_req_n', 'pcie2_clk_req_n', 'pcie3_clk_req_n', 'phase_flag',=
- 'pll_bist_sync', 'pll_clk_aux', 'prng_rosc0', 'prng_rosc1', 'pwrbrk_i_n', =
-'qdss', 'qdss_cti', 'qspi', 'qup0_se0', 'qup0_se1', 'qup0_se2', 'qup0_se3',=
- 'qup0_se4', 'qup0_se5', 'qup1_se0', 'qup1_se1', 'qup1_se3', 'qup1_se2', 'q=
-up1_se4', 'qup1_se5', 'qup1_se6', 'qup2_se0', 'qup2_se1', 'qup2_se2', 'qup2=
-_se3', 'qup2_se4', 'qup2_se5', 'qup2_se6', 'sailss_ospi', 'sdc4_clk', 'sdc4=
-_cmd', 'sdc4_data', 'smb_alert', 'smb_alert_n', 'smb_clk', 'smb_dat', 'tb_t=
-rig_sdc4', 'tmess_prng0', 'tmess_prng1', 'tsc_timer', 'tsense_pwm', 'usb0_h=
-s', 'usb0_phy_ps', 'usb1_hs', 'usb1_phy_ps', 'usb2_hs', 'usxgmii0_phy', 'us=
-xgmii1_phy', 'vsense_trigger_mirnat', 'wcn_sw', 'wcn_sw_ctrl']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,nord-tlmm.y=
-aml
-   arch/arm64/boot/dts/qcom/nord-rrd.dtb: pinctrl@f100000 (qcom,nord-tlmm):=
- qup-uart10-default-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-disable', 'drive-strength', 'function', 'pins' do not match any o=
-f the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	'qup1_se3_23' is not one of ['aoss_cti', 'atest_char', 'atest_usb20', '=
-atest_usb21', 'aud_intfc0_clk', 'aud_intfc0_data', 'aud_intfc0_ws', 'aud_in=
-tfc10_clk', 'aud_intfc10_data', 'aud_intfc10_ws', 'aud_intfc1_clk', 'aud_in=
-tfc1_data', 'aud_intfc1_ws', 'aud_intfc2_clk', 'aud_intfc2_data', 'aud_intf=
-c2_ws', 'aud_intfc3_clk', 'aud_intfc3_data', 'aud_intfc3_ws', 'aud_intfc4_c=
-lk', 'aud_intfc4_data', 'aud_intfc4_ws', 'aud_intfc5_clk', 'aud_intfc5_data=
-', 'aud_intfc5_ws', 'aud_intfc6_clk', 'aud_intfc6_data', 'aud_intfc6_ws', '=
-aud_intfc7_clk', 'aud_intfc7_data', 'aud_intfc7_ws', 'aud_intfc8_clk', 'aud=
-_intfc8_data', 'aud_intfc8_ws', 'aud_intfc9_clk', 'aud_intfc9_data', 'aud_i=
-ntfc9_ws', 'aud_mclk0_mira', 'aud_mclk0_mirb', 'aud_mclk1_mira', 'aud_mclk1=
-_mirb', 'aud_mclk2_mira', 'aud_mclk2_mirb', 'aud_refclk0', 'aud_refclk1', '=
-bist_done', 'ccu_async_in', 'ccu_i2c_scl', 'ccu_i2c_sda', 'ccu_timer', 'cli=
-nk_debug', 'dbg_out', 'dbg_out_clk', 'ddr_bist_complete', 'ddr_bist_fail', =
-'ddr_bist_start', 'ddr_bist_stop', 'ddr_pxi', 'dp_rx0', 'dp_rx00', 'dp_rx01=
-', 'dp_rx0_mute', 'dp_rx1', 'dp_rx10', 'dp_rx11', 'dp_rx1_mute', 'edp0_hot'=
-, 'edp0_lcd', 'edp1_hot', 'edp1_lcd', 'edp2_hot', 'edp2_lcd', 'edp3_hot', '=
-edp3_lcd', 'emac0_mcg', 'emac0_mdc', 'emac0_mdio', 'emac0_ptp', 'emac1_mcg'=
-, 'emac1_mdc', 'emac1_mdio', 'emac1_ptp', 'gcc_gp1_clk', 'gcc_gp2_clk', 'gc=
-c_gp3_clk', 'gcc_gp4_clk', 'gcc_gp5_clk', 'gcc_gp6_clk', 'gcc_gp7_clk', 'gc=
-c_gp8_clk', 'jitter_bist', 'lbist_pass', 'mbist_pass', 'mdp0_vsync_out', 'm=
-dp1_vsync_out', 'mdp_vsync_e', 'mdp_vsync_p', 'mdp_vsync_s', 'pcie0_clk_req=
-_n', 'pcie1_clk_req_n', 'pcie2_clk_req_n', 'pcie3_clk_req_n', 'phase_flag',=
- 'pll_bist_sync', 'pll_clk_aux', 'prng_rosc0', 'prng_rosc1', 'pwrbrk_i_n', =
-'qdss', 'qdss_cti', 'qspi', 'qup0_se0', 'qup0_se1', 'qup0_se2', 'qup0_se3',=
- 'qup0_se4', 'qup0_se5', 'qup1_se0', 'qup1_se1', 'qup1_se3', 'qup1_se2', 'q=
-up1_se4', 'qup1_se5', 'qup1_se6', 'qup2_se0', 'qup2_se1', 'qup2_se2', 'qup2=
-_se3', 'qup2_se4', 'qup2_se5', 'qup2_se6', 'sailss_ospi', 'sdc4_clk', 'sdc4=
-_cmd', 'sdc4_data', 'smb_alert', 'smb_alert_n', 'smb_clk', 'smb_dat', 'tb_t=
-rig_sdc4', 'tmess_prng0', 'tmess_prng1', 'tsc_timer', 'tsense_pwm', 'usb0_h=
-s', 'usb0_phy_ps', 'usb1_hs', 'usb1_phy_ps', 'usb2_hs', 'usxgmii0_phy', 'us=
-xgmii1_phy', 'vsense_trigger_mirnat', 'wcn_sw', 'wcn_sw_ctrl']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,nord-tlmm.y=
-aml
->> arch/arm64/boot/dts/qcom/nord-rrd.dtb: /soc@0/system-cache-controller@21=
-800000: failed to match any schema with compatible: ['qcom,nord-llcc']
---
->> arch/arm64/boot/dts/qcom/nord-ride.dtb: /soc@0/system-cache-controller@2=
-1800000: failed to match any schema with compatible: ['qcom,nord-llcc']
+All errors (new ones prefixed by >>):
+
+   arch/arm64/kernel/ptrace.c: In function 'compat_vfp_set':
+>> arch/arm64/kernel/ptrace.c:1971:18: error: 'uregs' undeclared (first use in this function)
+    1971 |         fpscr = (uregs->fpsr & VFP_FPSCR_STAT_MASK) |
+         |                  ^~~~~
+   arch/arm64/kernel/ptrace.c:1971:18: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/uregs +1971 arch/arm64/kernel/ptrace.c
+
+478fcb2cdb2351d Will Deacon      2012-03-05  1955  
+478fcb2cdb2351d Will Deacon      2012-03-05  1956  static int compat_vfp_set(struct task_struct *target,
+478fcb2cdb2351d Will Deacon      2012-03-05  1957  			  const struct user_regset *regset,
+478fcb2cdb2351d Will Deacon      2012-03-05  1958  			  unsigned int pos, unsigned int count,
+478fcb2cdb2351d Will Deacon      2012-03-05  1959  			  const void *kbuf, const void __user *ubuf)
+478fcb2cdb2351d Will Deacon      2012-03-05  1960  {
+3514e4de75688ac Mark Rutland     2026-09-23  1961  	struct user_fpsimd_state newstate;
+478fcb2cdb2351d Will Deacon      2012-03-05  1962  	compat_ulong_t fpscr;
+5fbd5fc49fc39ac Dave Martin      2017-06-29  1963  	int ret, vregs_end_pos;
+478fcb2cdb2351d Will Deacon      2012-03-05  1964  
+c9d66999f064947 Suzuki K Poulose 2020-01-13  1965  	if (!system_supports_fpsimd())
+c9d66999f064947 Suzuki K Poulose 2020-01-13  1966  		return -EINVAL;
+c9d66999f064947 Suzuki K Poulose 2020-01-13  1967  
+3514e4de75688ac Mark Rutland     2026-09-23  1968  	fpsimd_flush_task_state(target);
+3514e4de75688ac Mark Rutland     2026-09-23  1969  
+3514e4de75688ac Mark Rutland     2026-09-23  1970  	newstate = target->thread.uw.fpsimd_state;
+3514e4de75688ac Mark Rutland     2026-09-23 @1971  	fpscr = (uregs->fpsr & VFP_FPSCR_STAT_MASK) |
+3514e4de75688ac Mark Rutland     2026-09-23  1972  		(uregs->fpcr & VFP_FPSCR_CTRL_MASK);
+478fcb2cdb2351d Will Deacon      2012-03-05  1973  
+5fbd5fc49fc39ac Dave Martin      2017-06-29  1974  	vregs_end_pos = VFP_STATE_SIZE - sizeof(compat_ulong_t);
+3514e4de75688ac Mark Rutland     2026-09-23  1975  	ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, &newstate, 0,
+5fbd5fc49fc39ac Dave Martin      2017-06-29  1976  				 vregs_end_pos);
+3514e4de75688ac Mark Rutland     2026-09-23  1977  	if (ret)
+3514e4de75688ac Mark Rutland     2026-09-23  1978  		return ret;
+478fcb2cdb2351d Will Deacon      2012-03-05  1979  
+5fbd5fc49fc39ac Dave Martin      2017-06-29  1980  	ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, &fpscr,
+5fbd5fc49fc39ac Dave Martin      2017-06-29  1981  				 vregs_end_pos, VFP_STATE_SIZE);
+3514e4de75688ac Mark Rutland     2026-09-23  1982  	if (ret)
+478fcb2cdb2351d Will Deacon      2012-03-05  1983  		return ret;
+3514e4de75688ac Mark Rutland     2026-09-23  1984  
+3514e4de75688ac Mark Rutland     2026-09-23  1985  	newstate.fpsr = fpscr & VFP_FPSCR_STAT_MASK;
+3514e4de75688ac Mark Rutland     2026-09-23  1986  	newstate.fpcr = fpscr & VFP_FPSCR_CTRL_MASK;
+3514e4de75688ac Mark Rutland     2026-09-23  1987  	target->thread.uw.fpsimd_state = newstate;
+3514e4de75688ac Mark Rutland     2026-09-23  1988  
+3514e4de75688ac Mark Rutland     2026-09-23  1989  	return 0;
+478fcb2cdb2351d Will Deacon      2012-03-05  1990  }
+478fcb2cdb2351d Will Deacon      2012-03-05  1991  
 
 --
 0-DAY CI Kernel Test Service
