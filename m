@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797B03C342F
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Oct 2026 04:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308D23D9533
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Oct 2026 10:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791864578; cv=none; b=C/iM7fdkAps/uWZWCRU9ykYtD+bwnS8YhAxj7mXHwszFjDDalqpjIWD8oQaeJnqi8fmzl3vjFh1JTvCeoebnNQlDrg5Hg7LOnfgBffdRUkiLWYDou9JG04+fKKAZnXRCOLVdAZ5CvKYHLDu5bHhGPalrq+JTR7CP0kKVBZJ4tvU=
+	t=1791887256; cv=none; b=ipq+wwdTiaTWFalIsOjzhQkXEmpXP6/WFbxfd62rM5UfjDDqf7SVHQQUtvKKwhEy+nGo6TJY85cTT+UrBS/qgsXMrD6CjmpdnSI0/HK1xdcvi+MgrT5H3u6lpigbiDVXzCT+gpD9ryY6yPr55nWZinVJqU0khDGaMkyCGg47Lgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791864578; c=relaxed/simple;
-	bh=gu+DdmlUHxAP7iuuA4unsw/NleWniaGCvZZhITvxPG0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HnXbrMtw1IYUQvIJGE5s9l3rPa2IbQmiQjcjR2UoySjgoD4XX3vU19jtEsGomxnpt5cLkQcfJFUUK85ComPaP4I4d0cZulXDzAkCVWyixCe1W3YcdCUUG4OAZVsI4fjTDt5B3x8nznmcjjTfu9+ZpDZlpfyJAMGURXCZ7o1uIDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXNm3ZIX; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1791887256; c=relaxed/simple;
+	bh=djAWCdILj+jadoEh9BjIWjPnVnfAMr6zgCbMspyLWf0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ubXuiYWJQCxa/RfpWIrq180IPGf41h3ewtQ8SEoh/prgWdG4AegBdPPr7RbZiZRfBqXe4L7Dt79zJDZAWeUand+RoNa5yUaXBEenBdxLMbqaaa3vGY84YX9Yy1Bmao/0GOjg5l6t1CSuY2pmoCojOTjxa3P9rdt/7JwGvo+ipgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cb44DM5G; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXNm3ZIX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cb44DM5G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791864577; x=1823400577;
+  t=1791887254; x=1823423254;
   h=date:from:to:cc:subject:message-id;
-  bh=gu+DdmlUHxAP7iuuA4unsw/NleWniaGCvZZhITvxPG0=;
-  b=kXNm3ZIXvRasov17MmKHjZ9OiaDnycQwgKZFoiKmc2B4j5vsG4E85nxp
-   VsgUXIQ3WQ8PGRQRAJHFS9qD7MVtJbZ2aJiO6bXFZmKS6gAHm/doraI6L
-   RrZcgFCQoYA9dpRJIpS7DJ5xezZ7hVAH6pbjqktQ/gIsTt/fS5c4cmDGr
-   noPgfrqknAz4N7fHUba/qq1gjIvVBIcbOz+h9RCcjTEsUxNyXZMO4C6AQ
-   kx/kVUtO/A3qaKm49VzEV+c3nhcejMHbvI9FmvW3lIklg9pgwqxM3+KVs
-   9b/ABnS/5i/nh+edtkvs5lDPfRtdevky0QDVrlthFCDGMRUXaHQk94oEN
-   g==;
-X-CSE-ConnectionGUID: ySPAPZMnTAOKivcJFJlE3A==
-X-CSE-MsgGUID: MCavxhjbS+mpLpJotlh/Rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="468237"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="468237"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:09:36 -0700
-X-CSE-ConnectionGUID: lw+wr+sLRs2g9sYIOUgyCA==
-X-CSE-MsgGUID: /P6IP0xlR4Oc/wINW3JMWg==
+  bh=djAWCdILj+jadoEh9BjIWjPnVnfAMr6zgCbMspyLWf0=;
+  b=cb44DM5GHDy9+nFemkv7mZ1LhUgRt0xs4nk0lB1kL0BFja49pe3FLwRz
+   7LW0eMZvvB1SxUf4l0sC/IpSCm1lnDywQPAmqyHzQkiVk8zAmQB1cYfBq
+   vDkSS80w2uod7yrdkVtKVtF0Gln952rsS3ewDOjx7P7J68eVdeUZLeNN2
+   AyX+31xrb3467BtwhmBmlYuN4lmkntYkVf2fK7kE/4QtW7DSDiHVHyXsB
+   cs/zO7LcCaiTNDWDVh8guLSDFrucwZHn2ENeFRvoKJhccCi3+qrXZLd02
+   yFTl1V4ev4QhkuMyowj2e4kky9g+yCyNDFEgTcF6YxjWUC6xl/WYGt/pG
+   w==;
+X-CSE-ConnectionGUID: XzK7LWpuTuK5cte7iUqrxw==
+X-CSE-MsgGUID: WVQkp86qQWqgT47rV9lN3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="509132"
+X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
+   d="scan'208";a="509132"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 03:27:33 -0700
+X-CSE-ConnectionGUID: 2+WcX4BwQGOjSwl10bjJTg==
+X-CSE-MsgGUID: I9uE8FqOTai28LrzRdWMsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1388372"
+X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
+   d="scan'208";a="1455094"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Oct 2026 21:09:34 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Oct 2026 03:27:33 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGTpU-00000000AND-1eFq;
-	Tue, 13 Oct 2026 04:09:32 +0000
-Date: Tue, 13 Oct 2026 06:09:18 +0200
+	id 1xGZjG-00000000ATB-2D0W;
+	Tue, 13 Oct 2026 10:27:30 +0000
+Date: Tue, 13 Oct 2026 12:26:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kkdwivedi:coroutine 1/19] arch/arm/mach-mxs/mach-mxs.c:149
- mxs_get_ocotp() warn: 'ocotp_base' from of_iomap() not released on lines:
- 149.
-Message-ID: <202610130510.dfDBWM0r-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [mtd:nand/next 35/38] arch/powerpc/boot/dts/eiger.dtb:
+ ndfc@1,0 (ibm,ndfc): 'reg' is a required property
+Message-ID: <202610131226.fyDfUKNa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,106 +59,75 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+TO: Rosen Penev <rosenp@gmail.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://github.com/kkdwivedi/linux coroutine
-head:   0813a9d05d658bcd6b8f960368b4c046e24ae1c9
-commit: 87bfa22937000db29a9a09ec826ab7227eaf9e8c [1/19] bpf: Reject BTF ids with the same address in tracing_multi link
-:::::: branch date: 9 hours ago
-:::::: commit date: 19 hours ago
-config: arm-randconfig-r2202-20261012 (https://download.01.org/0day-ci/archive/20261013/202610130510.dfDBWM0r-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+head:   30daaf3e7897b4a8d9b72e5b0c86dd6e2a4d7d85
+commit: 0d1644566a1caaf71c8bf2a6689176e61749a85f [35/38] dt-bindings: mtd: convert IBM NDFC binding to YAML
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20261013/202610131226.fyDfUKNa-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 16.1.0
+dtschema: 2026.10.dev4+g568711590
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131226.fyDfUKNa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610130510.dfDBWM0r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610131226.fyDfUKNa-lkp@intel.com/
 
-smatch warnings:
-arch/arm/mach-mxs/mach-mxs.c:149 mxs_get_ocotp() warn: 'ocotp_base' from of_iomap() not released on lines: 149.
-
-vim +/ocotp_base +149 arch/arm/mach-mxs/mach-mxs.c
-
-1bff2d76ac88d5 Shawn Guo 2013-03-29   85  
-1bff2d76ac88d5 Shawn Guo 2013-03-29   86  static const u32 *mxs_get_ocotp(void)
-1bff2d76ac88d5 Shawn Guo 2013-03-29   87  {
-1bff2d76ac88d5 Shawn Guo 2013-03-29   88  	struct device_node *np;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   89  	void __iomem *ocotp_base;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   90  	int timeout = 0x400;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   91  	size_t i;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   92  	static int once;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   93  
-1bff2d76ac88d5 Shawn Guo 2013-03-29   94  	if (once)
-1bff2d76ac88d5 Shawn Guo 2013-03-29   95  		return ocotp_words;
-1bff2d76ac88d5 Shawn Guo 2013-03-29   96  
-1bff2d76ac88d5 Shawn Guo 2013-03-29   97  	np = of_find_compatible_node(NULL, NULL, "fsl,ocotp");
-1bff2d76ac88d5 Shawn Guo 2013-03-29   98  	ocotp_base = of_iomap(np, 0);
-1bff2d76ac88d5 Shawn Guo 2013-03-29   99  	WARN_ON(!ocotp_base);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  100  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  101  	mutex_lock(&ocotp_mutex);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  102  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  103  	/*
-1bff2d76ac88d5 Shawn Guo 2013-03-29  104  	 * clk_enable(hbus_clk) for ocotp can be skipped
-1bff2d76ac88d5 Shawn Guo 2013-03-29  105  	 * as it must be on when system is running.
-1bff2d76ac88d5 Shawn Guo 2013-03-29  106  	 */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  107  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  108  	/* try to clear ERROR bit */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  109  	__mxs_clrl(BM_OCOTP_CTRL_ERROR, ocotp_base);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  110  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  111  	/* check both BUSY and ERROR cleared */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  112  	while ((__raw_readl(ocotp_base) &
-1bff2d76ac88d5 Shawn Guo 2013-03-29  113  		(BM_OCOTP_CTRL_BUSY | BM_OCOTP_CTRL_ERROR)) && --timeout)
-1bff2d76ac88d5 Shawn Guo 2013-03-29  114  		cpu_relax();
-1bff2d76ac88d5 Shawn Guo 2013-03-29  115  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  116  	if (unlikely(!timeout))
-1bff2d76ac88d5 Shawn Guo 2013-03-29  117  		goto error_unlock;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  118  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  119  	/* open OCOTP banks for read */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  120  	__mxs_setl(BM_OCOTP_CTRL_RD_BANK_OPEN, ocotp_base);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  121  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  122  	/* approximately wait 32 hclk cycles */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  123  	udelay(1);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  124  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  125  	/* poll BUSY bit becoming cleared */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  126  	timeout = 0x400;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  127  	while ((__raw_readl(ocotp_base) & BM_OCOTP_CTRL_BUSY) && --timeout)
-1bff2d76ac88d5 Shawn Guo 2013-03-29  128  		cpu_relax();
-1bff2d76ac88d5 Shawn Guo 2013-03-29  129  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  130  	if (unlikely(!timeout))
-1bff2d76ac88d5 Shawn Guo 2013-03-29  131  		goto error_unlock;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  132  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  133  	for (i = 0; i < OCOTP_WORD_COUNT; i++)
-1bff2d76ac88d5 Shawn Guo 2013-03-29  134  		ocotp_words[i] = __raw_readl(ocotp_base + OCOTP_WORD_OFFSET +
-1bff2d76ac88d5 Shawn Guo 2013-03-29  135  						i * 0x10);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  136  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  137  	/* close banks for power saving */
-1bff2d76ac88d5 Shawn Guo 2013-03-29  138  	__mxs_clrl(BM_OCOTP_CTRL_RD_BANK_OPEN, ocotp_base);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  139  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  140  	once = 1;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  141  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  142  	mutex_unlock(&ocotp_mutex);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  143  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  144  	return ocotp_words;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  145  
-1bff2d76ac88d5 Shawn Guo 2013-03-29  146  error_unlock:
-1bff2d76ac88d5 Shawn Guo 2013-03-29  147  	mutex_unlock(&ocotp_mutex);
-1bff2d76ac88d5 Shawn Guo 2013-03-29  148  	pr_err("%s: timeout in reading OCOTP\n", __func__);
-1bff2d76ac88d5 Shawn Guo 2013-03-29 @149  	return NULL;
-1bff2d76ac88d5 Shawn Guo 2013-03-29  150  }
-1bff2d76ac88d5 Shawn Guo 2013-03-29  151  
-
-:::::: The code at line 149 was first introduced by commit
-:::::: 1bff2d76ac88d59e45d2ba0d1103be210a9eca11 ARM: mxs: move mxs_get_ocotp() into mach-mxs.c
-
-:::::: TO: Shawn Guo <shawn.guo@linaro.org>
-:::::: CC: Shawn Guo <shawn.guo@linaro.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/eiger.dtb: nor_flash@0,0 (amd,s29gl512n): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/eiger.dtb: nor_flash@0,0 (amd,s29gl512n): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/eiger.dtb: nor_flash@0,0 (amd,s29gl512n): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/eiger.dtb: nor_flash@0,0 (amd,s29gl512n): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/eiger.dtb: nor_flash@0,0 (amd,s29gl512n): Unevaluated properties are not allowed ('partition@0', 'partition@1600000', 'partition@1a00000', 'partition@1e0000', 'partition@200000', 'partition@3f60000', 'partition@3fa0000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+>> arch/powerpc/boot/dts/eiger.dtb: ndfc@1,0 (ibm,ndfc): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/ibm,ndfc.yaml
+   arch/powerpc/boot/dts/eiger.dtb: serial@ef600200 (ns16550): Unevaluated properties are not allowed ('device_type', 'virtual-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/eiger.dtb: serial@ef600200 (ns16550): virtual-reg: b'\xef`\x02\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/powerpc/boot/dts/eiger.dtb: serial@ef600300 (ns16550): Unevaluated properties are not allowed ('device_type', 'virtual-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/eiger.dtb: serial@ef600300 (ns16550): virtual-reg: b'\xef`\x03\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/powerpc/boot/dts/eiger.dtb: /plb/opb/i2c@ef600400: failed to match any schema with compatible: ['ibm,iic-460sx', 'ibm,iic']
+--
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/ebc: failed to match any schema with compatible: ['ibm,ebc-440ep', 'ibm,ebc-440gp', 'ibm,ebc']
+   arch/powerpc/boot/dts/warp.dtb: ebc (ibm,ebc-440ep): dcr-reg: b'\x00\x00\x00\x12\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/ebc/fpga@2,0: failed to match any schema with compatible: ['pika,fpga']
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/ebc/fpga@2,2000: failed to match any schema with compatible: ['pika,fpga-sgl']
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/ebc/fpga@2,4000: failed to match any schema with compatible: ['pika,fpga-sd']
+   arch/powerpc/boot/dts/warp.dtb: nor@0,0 (amd,s29gl032a): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/warp.dtb: nor@0,0 (amd,s29gl032a): Unevaluated properties are not allowed ('partition@0', 'partition@300000', 'partition@340000', 'partition@380000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+>> arch/powerpc/boot/dts/warp.dtb: ndfc@1,0 (ibm,ndfc): nand: Unevaluated properties are not allowed ('partition@C0000000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/ibm,ndfc.yaml
+   arch/powerpc/boot/dts/warp.dtb: serial@ef600300 (ns16550): Unevaluated properties are not allowed ('device_type', 'virtual-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/warp.dtb: serial@ef600300 (ns16550): virtual-reg: b'\xef`\x03\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/i2c@ef600700: failed to match any schema with compatible: ['ibm,iic-440ep', 'ibm,iic-440gp', 'ibm,iic']
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/i2c@ef600700: failed to match any schema with compatible: ['ibm,iic-440ep', 'ibm,iic-440gp', 'ibm,iic']
+   arch/powerpc/boot/dts/warp.dtb: /plb/opb/i2c@ef600700: failed to match any schema with compatible: ['ibm,iic-440ep', 'ibm,iic-440gp', 'ibm,iic']
+   arch/powerpc/boot/dts/warp.dtb: at24@52 (atmel,24c04): $nodename:0: 'at24@52' does not match '^eeprom@[0-9a-f]{1,2}$'
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
 
 --
 0-DAY CI Kernel Test Service
