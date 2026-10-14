@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A472C1594
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Oct 2026 04:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649CC547077
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Oct 2026 04:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791950964; cv=none; b=cMw88CcV5qD3540W/fbv38CDawipgG5hgWSX2wJbdogpnLqB2vMLllwRJe5gA19xTgheJK9L6UpO5Z4y3QdvcUiz5S62cuFNfD+KTCA7STxCqhoLsPOuokzAUnOjgw9zrUAtQcJPeHo1MSfDxD2w/FsftgB50iQuWg4g+my3Nys=
+	t=1791952225; cv=none; b=OfvNdK3SBoqDb81FH8YoSvhFG6UiSlhsI8m43xAyrsXgkdnFaHLphNI0v30Xv5+0+RRXRfBchR/ZBvPvfFELmX4kFPG/pvJnuliSc3Cf4u3H7bhQR2C8TApwDEOYJa4CxAReC8n1DCL2PvgQO/mGG9zwXUQjhSlcqV0s7XgvRyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791950964; c=relaxed/simple;
-	bh=u/2Nb+VyXxNMlMCZ8Z4l2BV2vmjBPDaafTqar/d/5p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ptm+t/68Px8xEFcW9hhS2u3B8bKMbx0DVdYeJ6SaR4aLhYL4vh78/VJvsWw2kdVN2oKN8L9+9Zdl1RTudpWtAfmSCZOeVyb8aXHndlLmoe+plrRijWlN+zRtpZW/ngpuj8RzZqQjv42PfAZYkl5RKAepLn1s4EPQrMOPovRHM/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eg+NsiaZ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1791952225; c=relaxed/simple;
+	bh=pikPeOibDV7DX7s8Q2P9bTPNZlbt1iREr++/3BD9Nq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AIQw8Cd3XfHGAQlCPk+5K8BjPQZil/Q6uaPQFKxRvn/fLT/9lbJfLEUbNylMukMQRr/3evo0jHCPsCAx7UaddwXvCxbv+T2hD4I2yo0c2OY/+INCz/pQBxFBOCdMr8+wok3sRyOL3Vqhyr3EDMn7138Lk4PFF1wkjDaRaaDULuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA3Nv/aM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eg+NsiaZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA3Nv/aM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791950961; x=1823486961;
+  t=1791952223; x=1823488223;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=u/2Nb+VyXxNMlMCZ8Z4l2BV2vmjBPDaafTqar/d/5p4=;
-  b=eg+NsiaZoerlCJqfxtned8IxpAGbcqWKcHjrrPv8VNobtDAOPbDQKbYN
-   J0iCmO5Axi0XVOzp4qlk89bjntlpGdGFg87EDlxhPTs8wZcqh7T7CFGFN
-   wxrdzoVjgLi5x7rkhMyAR1WQVZ1SKEKIwgU559G+KcAxxJishcM/LNpRm
-   sElTM1bolkjjs0SFhc1cB4BUCga+z6xtnwiZMFlYNprCG1FqZ2MY1IQ7r
-   Dnla5Y2PFwG726x+gk3XCtuT+X0SN7M4iXVFA9YqnOdMmYM4pockWUTOM
-   0LiXtTdsdPUU9I6sjI6S2bqzg01hzSXVRAvzsmn63ZLaD04OSLqgyfisd
-   Q==;
-X-CSE-ConnectionGUID: doRiirgSSu2H4H6PiVnV2g==
-X-CSE-MsgGUID: 2ruk8OJwRNqTmHwfIXuVfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="695761"
+  bh=pikPeOibDV7DX7s8Q2P9bTPNZlbt1iREr++/3BD9Nq0=;
+  b=VA3Nv/aMSMF95IkWw5ypdKhTtW4u+h8O4xnBvXDEym57Fw9mSveijYfI
+   b+xbXiXysuBVXUEPkwBHQiuw8BciqbvjR/30m7ODTG7AA6wpV9wf/BmhN
+   ezC2FAmaTQ7oFt6KqZ3mXED/1wbiZ3jcTnYAeTYg6tyZNjDpJRuAYQrx8
+   kDGME2O8/hBZtIy1wVYOMyNb64Q6a7OLmdLKgJoSTR/NQ+Ol9uckkQOE5
+   XOIhPUbAec3Pq/MB6sVHTUdQpKOanLMJTr6lbAnFwz9RLoTx71yxmEOmB
+   oRBpngj/0unT8l5rlInVWdZkflujjYvwI6tb7VNklYFhz7NUQBuSb+3R6
+   g==;
+X-CSE-ConnectionGUID: mhWnMyNVTRCh14ClwxKU8Q==
+X-CSE-MsgGUID: xkxL3rkzSXmGhvi1uB1dcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="573767"
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="695761"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 21:09:20 -0700
-X-CSE-ConnectionGUID: nMNiGV5vQTquevAwkTGKbg==
-X-CSE-MsgGUID: 3L9Qsm1lTmO5c5ZdQ52txg==
+   d="scan'208";a="573767"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 21:30:23 -0700
+X-CSE-ConnectionGUID: pLnPBLP0Q+q+3WOpdbIEdg==
+X-CSE-MsgGUID: XJyt14e2T3a4SzATIeXMWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1782054"
+   d="scan'208";a="1269322"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Oct 2026 21:09:19 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Oct 2026 21:30:22 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGqIm-00000000Aqj-2lSy;
-	Wed, 14 Oct 2026 04:09:16 +0000
-Date: Wed, 14 Oct 2026 06:08:27 +0200
+	id 1xGqd9-00000000ArL-2v1L;
+	Wed, 14 Oct 2026 04:30:19 +0000
+Date: Wed, 14 Oct 2026 06:29:21 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: [thomas-weissschuh:b4/kbuild-error-propagation 3/3] WARNING:
- modpost: vmlinux: EXPORT symbol 'x86_apple_machine' version generation
- failed, symbol will not be versioned.
-Message-ID: <202610140645.kN3IWAvp-lkp@intel.com>
+ modpost: vmlinux: EXPORT symbol 'get_ibs_caps' version generation failed,
+ symbol will not be versioned.
+Message-ID: <202610140618.Jag93D4y-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -78,98 +78,74 @@ head:   e7f0b27fbbf1115d93bd108f00ebe7a0428e7e38
 commit: e7f0b27fbbf1115d93bd108f00ebe7a0428e7e38 [3/3] kbuild
 :::::: branch date: 12 hours ago
 :::::: commit date: 12 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261=
-014/202610140645.kN3IWAvp-lkp@intel.com/config)
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
+61014/202610140618.Jag93D4y-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261014/202610140645.kN3IWAvp-lkp@intel.com/reproduce)
+/20261014/202610140618.Jag93D4y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610140645.kN3IWAvp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610140618.Jag93D4y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: vmlinux: EXPORT symbol 'system_state' version generation =
-failed, symbol will not be versioned.
-Is 'system_state' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'static_key_initialized' version g=
-eneration failed, symbol will not be versioned.
-Is 'static_key_initialized' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'reset_devices' version generation=
- failed, symbol will not be versioned.
-Is 'reset_devices' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'loops_per_jiffy' version generati=
-on failed, symbol will not be versioned.
-Is 'loops_per_jiffy' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_assign_events' version gener=
-ation failed, symbol will not be versioned.
-Is 'perf_assign_events' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'events_sysfs_show' version genera=
+WARNING: modpost: vmlinux: EXPORT symbol 'asm_load_gs_index' version genera=
 tion failed, symbol will not be versioned.
-Is 'events_sysfs_show' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'events_hybrid_sysfs_show' version=
- generation failed, symbol will not be versioned.
-Is 'events_hybrid_sysfs_show' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_ibs_caps' version generation =
-failed, symbol will not be versioned.
+Is 'asm_load_gs_index' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'get_ibs_caps' version generati=
+on failed, symbol will not be versioned.
 Is 'get_ibs_caps' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'x86_apple_machine' version gen=
-eration failed, symbol will not be versioned.
-Is 'x86_apple_machine' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'irq_fpu_usable' version generatio=
-n failed, symbol will not be versioned.
-Is 'irq_fpu_usable' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kernel_fpu_begin_mask' version ge=
-neration failed, symbol will not be versioned.
-Is 'kernel_fpu_begin_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kernel_fpu_end' version generatio=
-n failed, symbol will not be versioned.
-Is 'kernel_fpu_end' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_info' version generation fail=
-ed, symbol will not be versioned.
-Is 'cpu_info' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'USER_PTR_MAX' version generation =
-failed, symbol will not be versioned.
-Is 'USER_PTR_MAX' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__max_threads_per_core' version g=
-eneration failed, symbol will not be versioned.
-Is '__max_threads_per_core' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__max_dies_per_package' version g=
-eneration failed, symbol will not be versioned.
-Is '__max_dies_per_package' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__max_logical_packages' version g=
-eneration failed, symbol will not be versioned.
-Is '__max_logical_packages' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__num_nodes_per_package' version =
-generation failed, symbol will not be versioned.
-Is '__num_nodes_per_package' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__num_cores_per_package' version =
-generation failed, symbol will not be versioned.
-Is '__num_cores_per_package' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__num_threads_per_package' versio=
-n generation failed, symbol will not be versioned.
-Is '__num_threads_per_package' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'gdt_page' version generation fail=
-ed, symbol will not be versioned.
-Is 'gdt_page' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'native_write_cr0' version generat=
+WARNING: modpost: vmlinux: EXPORT symbol '__SCT__WARN_trap' version generat=
 ion failed, symbol will not be versioned.
-Is 'native_write_cr0' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'load_fixmap_gdt' version generati=
-on failed, symbol will not be versioned.
-Is 'load_fixmap_gdt' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'current_task' version generation =
-failed, symbol will not be versioned.
-Is 'current_task' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'const_current_task' version gener=
-ation failed, symbol will not be versioned.
-Is 'const_current_task' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__preempt_count' version generati=
-on failed, symbol will not be versioned.
-Is '__preempt_count' prototyped in <asm/asm-prototypes.h>?
+Is '__SCT__WARN_trap' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'irq_stat' version generation fail=
+ed, symbol will not be versioned.
+Is 'irq_stat' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol '__softirq_pending' version gen=
+eration failed, symbol will not be versioned.
+Is '__softirq_pending' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'alternatives_patched' version gen=
+eration failed, symbol will not be versioned.
+Is 'alternatives_patched' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'nop_func' version generation fail=
+ed, symbol will not be versioned.
+Is 'nop_func' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'BUG_func' version generation fail=
+ed, symbol will not be versioned.
+Is 'BUG_func' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpu_tss_rw' version generation fa=
+iled, symbol will not be versioned.
+Is 'cpu_tss_rw' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__tss_limit_invalid' version gene=
+ration failed, symbol will not be versioned.
+Is '__tss_limit_invalid' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'boot_option_idle_override' versio=
+n generation failed, symbol will not be versioned.
+Is 'boot_option_idle_override' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'arch_cpu_idle' version generation=
+ failed, symbol will not be versioned.
+Is 'arch_cpu_idle' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'x86_spec_ctrl_current' version=
+ generation failed, symbol will not be versioned.
+Is 'x86_spec_ctrl_current' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'x86_ibpb_exit_to_user' version=
+ generation failed, symbol will not be versioned.
+Is 'x86_ibpb_exit_to_user' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'spec_ctrl_current' version gen=
+eration failed, symbol will not be versioned.
+Is 'spec_ctrl_current' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'cpu_buf_idle_clear' version ge=
+neration failed, symbol will not be versioned.
+Is 'cpu_buf_idle_clear' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'smp_ops' version generation fa=
+iled, symbol will not be versioned.
+Is 'smp_ops' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'arch_cpu_rescan_dead_smt_sibli=
+ngs' version generation failed, symbol will not be versioned.
+Is 'arch_cpu_rescan_dead_smt_siblings' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'cpu_sibling_map' version generati=
 on failed, symbol will not be versioned.
 Is 'cpu_sibling_map' prototyped in <asm/asm-prototypes.h>?
@@ -182,30 +158,66 @@ Is 'cpu_die_map' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'cpu_clustergroup_mask' version ge=
 neration failed, symbol will not be versioned.
 Is 'cpu_clustergroup_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'boot_cpu_physical_apicid' version=
- generation failed, symbol will not be versioned.
+>> WARNING: modpost: vmlinux: EXPORT symbol 'boot_cpu_physical_apicid' vers=
+ion generation failed, symbol will not be versioned.
 Is 'boot_cpu_physical_apicid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'local_apic_timer_c2_ok' version g=
-eneration failed, symbol will not be versioned.
+>> WARNING: modpost: vmlinux: EXPORT symbol 'local_apic_timer_c2_ok' versio=
+n generation failed, symbol will not be versioned.
 Is 'local_apic_timer_c2_ok' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'setup_APIC_eilvt' version generat=
-ion failed, symbol will not be versioned.
-Is 'setup_APIC_eilvt' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kvm_para_available' version gener=
-ation failed, symbol will not be versioned.
-Is 'kvm_para_available' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kvm_arch_para_hints' version gene=
+>> WARNING: modpost: vmlinux: EXPORT symbol 'setup_APIC_eilvt' version gene=
 ration failed, symbol will not be versioned.
-Is 'kvm_arch_para_hints' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_enable' version gen=
-eration failed, symbol will not be versioned.
-Is 'arch_haltpoll_enable' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_disable' version ge=
+Is 'setup_APIC_eilvt' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'x2apic_mode' version generatio=
+n failed, symbol will not be versioned.
+Is 'x2apic_mode' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'IO_APIC_get_PCI_irq_vector' ve=
+rsion generation failed, symbol will not be versioned.
+Is 'IO_APIC_get_PCI_irq_vector' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'is_hpet_enabled' version generati=
+on failed, symbol will not be versioned.
+Is 'is_hpet_enabled' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'kvm_para_available' version ge=
 neration failed, symbol will not be versioned.
+Is 'kvm_para_available' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'kvm_arch_para_hints' version g=
+eneration failed, symbol will not be versioned.
+Is 'kvm_arch_para_hints' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_enable' version =
+generation failed, symbol will not be versioned.
+Is 'arch_haltpoll_enable' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_disable' version=
+ generation failed, symbol will not be versioned.
 Is 'arch_haltpoll_disable' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'unwind_get_return_address' ver=
+sion generation failed, symbol will not be versioned.
+Is 'unwind_get_return_address' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol 'unwind_next_frame' version gen=
+eration failed, symbol will not be versioned.
+Is 'unwind_next_frame' prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: vmlinux: EXPORT symbol '__unwind_start' version genera=
+tion failed, symbol will not be versioned.
+Is '__unwind_start' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cachemode2protval' version genera=
+tion failed, symbol will not be versioned.
+Is 'cachemode2protval' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__supported_pte_mask' version gen=
+eration failed, symbol will not be versioned.
+Is '__supported_pte_mask' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__default_kernel_pte_mask' versio=
+n generation failed, symbol will not be versioned.
+Is '__default_kernel_pte_mask' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'leave_mm' version generation fail=
+ed, symbol will not be versioned.
+Is 'leave_mm' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpu_tlbstate_shared' version gene=
+ration failed, symbol will not be versioned.
+Is 'cpu_tlbstate_shared' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'clflush_cache_range' version gene=
 ration failed, symbol will not be versioned.
 Is 'clflush_cache_range' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'arch_invalidate_pmem' version gen=
+eration failed, symbol will not be versioned.
+Is 'arch_invalidate_pmem' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'cpu_cache_has_invalidate_memregio=
 n' version generation failed, symbol will not be versioned.
 Is 'cpu_cache_has_invalidate_memregion' prototyped in <asm/asm-prototypes.h=
@@ -228,6 +240,12 @@ Is 'set_memory_wc' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_wb' version generation=
  failed, symbol will not be versioned.
 Is 'set_memory_wb' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'set_mce_nospec' version generatio=
+n failed, symbol will not be versioned.
+Is 'set_mce_nospec' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'clear_mce_nospec' version generat=
+ion failed, symbol will not be versioned.
+Is 'clear_mce_nospec' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_encrypted' version gen=
 eration failed, symbol will not be versioned.
 Is 'set_memory_encrypted' prototyped in <asm/asm-prototypes.h>?
@@ -249,383 +267,86 @@ Is 'set_pages_wb' prototyped in <asm/asm-prototypes.h>?
 WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_array_wb' version gener=
 ation failed, symbol will not be versioned.
 Is 'set_pages_array_wb' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_timeout' version generation=
- failed, symbol will not be versioned.
-Is 'panic_timeout' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_notifier_list' version gene=
-ration failed, symbol will not be versioned.
-Is 'panic_notifier_list' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_blink' version generation f=
+WARNING: modpost: vmlinux: EXPORT symbol 'pat_enabled' version generation f=
 ailed, symbol will not be versioned.
-Is 'panic_blink' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_try_start' version generati=
-on failed, symbol will not be versioned.
-Is 'panic_try_start' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_reset' version generation f=
-ailed, symbol will not be versioned.
-Is 'panic_reset' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_in_progress' version genera=
-tion failed, symbol will not be versioned.
-Is 'panic_in_progress' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'panic_on_this_cpu' version genera=
-tion failed, symbol will not be versioned.
---
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_free_noncontiguous' version g=
-eneration failed, symbol will not be versioned.
-Is 'dma_free_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_vmap_noncontiguous' version g=
-eneration failed, symbol will not be versioned.
-Is 'dma_vmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_vunmap_noncontiguous' version=
- generation failed, symbol will not be versioned.
-Is 'dma_vunmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_mmap_noncontiguous' version g=
-eneration failed, symbol will not be versioned.
-Is 'dma_mmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_pci_p2pdma_supported' version=
- generation failed, symbol will not be versioned.
-Is 'dma_pci_p2pdma_supported' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_set_mask' version generation =
-failed, symbol will not be versioned.
-Is 'dma_set_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_set_coherent_mask' version ge=
-neration failed, symbol will not be versioned.
-Is 'dma_set_coherent_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_addressing_limited' version g=
-eneration failed, symbol will not be versioned.
-Is 'dma_addressing_limited' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_max_mapping_size' version gen=
-eration failed, symbol will not be versioned.
-Is 'dma_max_mapping_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_opt_mapping_size' version gen=
-eration failed, symbol will not be versioned.
-Is 'dma_opt_mapping_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_get_merge_boundary' version g=
-eneration failed, symbol will not be versioned.
-Is 'dma_get_merge_boundary' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'register_module_notifier' version=
- generation failed, symbol will not be versioned.
-Is 'register_module_notifier' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'unregister_module_notifier' versi=
+Is 'pat_enabled' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'arch_io_reserve_memtype_wc' versi=
 on generation failed, symbol will not be versioned.
-Is 'unregister_module_notifier' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__module_put_and_kthread_exit' ve=
-rsion generation failed, symbol will not be versioned.
-Is '__module_put_and_kthread_exit' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__tracepoint_module_get' version =
+Is 'arch_io_reserve_memtype_wc' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'arch_io_free_memtype_wc' version =
 generation failed, symbol will not be versioned.
-Is '__tracepoint_module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__traceiter_module_get' version g=
-eneration failed, symbol will not be versioned.
-Is '__traceiter_module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__SCK__tp_func_module_get' versio=
-n generation failed, symbol will not be versioned.
-Is '__SCK__tp_func_module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__SCT__tp_func_module_get' versio=
-n generation failed, symbol will not be versioned.
-Is '__SCT__tp_func_module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'module_refcount' version generati=
-on failed, symbol will not be versioned.
-Is 'module_refcount' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__symbol_put' version generation =
-failed, symbol will not be versioned.
-Is '__symbol_put' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'symbol_put_addr' version generati=
-on failed, symbol will not be versioned.
-Is 'symbol_put_addr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__module_get' version generation =
-failed, symbol will not be versioned.
-Is '__module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'try_module_get' version generatio=
-n failed, symbol will not be versioned.
-Is 'try_module_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'module_put' version generation fa=
-iled, symbol will not be versioned.
-Is 'module_put' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__symbol_get' version generation =
-failed, symbol will not be versioned.
-Is '__symbol_get' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'sys_tz' version generation failed=
-, symbol will not be versioned.
-Is 'sys_tz' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mktime64' version generation fail=
+Is 'arch_io_free_memtype_wc' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'pgprot_writecombine' version gene=
+ration failed, symbol will not be versioned.
+Is 'pgprot_writecombine' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'pgprot_writethrough' version gene=
+ration failed, symbol will not be versioned.
+Is 'pgprot_writethrough' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'lockdep_tasklist_lock_is_held' ve=
+rsion generation failed, symbol will not be versioned.
+Is 'lockdep_tasklist_lock_is_held' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'free_task' version generation fai=
+led, symbol will not be versioned.
+Is 'free_task' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__mmdrop' version generation fail=
 ed, symbol will not be versioned.
-Is 'mktime64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'ns_to_kernel_old_timeval' version=
+Is '__mmdrop' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__put_task_struct' version genera=
+tion failed, symbol will not be versioned.
+Is '__put_task_struct' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__put_task_struct_rcu_cb' version=
  generation failed, symbol will not be versioned.
-Is 'ns_to_kernel_old_timeval' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_normalized_timespec64' versio=
-n generation failed, symbol will not be versioned.
-Is 'set_normalized_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'ns_to_timespec64' version generat=
+Is '__put_task_struct_rcu_cb' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'mmput' version generation failed,=
+ symbol will not be versioned.
+Is 'mmput' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'mmput_async' version generation f=
+ailed, symbol will not be versioned.
+Is 'mmput_async' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'get_task_mm' version generation f=
+ailed, symbol will not be versioned.
+Is 'get_task_mm' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpuhp_tasks_frozen' version gener=
+ation failed, symbol will not be versioned.
+Is 'cpuhp_tasks_frozen' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_lock' version generatio=
+n failed, symbol will not be versioned.
+Is 'cpus_read_lock' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_trylock' version genera=
+tion failed, symbol will not be versioned.
+Is 'cpus_read_trylock' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_unlock' version generat=
 ion failed, symbol will not be versioned.
-Is 'ns_to_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__msecs_to_jiffies' version gener=
-ation failed, symbol will not be versioned.
-Is '__msecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__usecs_to_jiffies' version gener=
-ation failed, symbol will not be versioned.
-Is '__usecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'timespec64_to_jiffies' version ge=
-neration failed, symbol will not be versioned.
-Is 'timespec64_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_to_timespec64' version ge=
-neration failed, symbol will not be versioned.
-Is 'jiffies_to_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_to_clock_t' version gener=
-ation failed, symbol will not be versioned.
-Is 'jiffies_to_clock_t' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'clock_t_to_jiffies' version gener=
-ation failed, symbol will not be versioned.
-Is 'clock_t_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_64_to_clock_t' version ge=
-neration failed, symbol will not be versioned.
-Is 'jiffies_64_to_clock_t' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies64_to_nsecs' version gener=
-ation failed, symbol will not be versioned.
-Is 'jiffies64_to_nsecs' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies64_to_msecs' version gener=
-ation failed, symbol will not be versioned.
-Is 'jiffies64_to_msecs' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nsecs_to_jiffies64' version gener=
-ation failed, symbol will not be versioned.
-Is 'nsecs_to_jiffies64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nsecs_to_jiffies' version generat=
-ion failed, symbol will not be versioned.
-Is 'nsecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'timespec64_add_safe' version gene=
+Is 'cpus_read_unlock' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'lockdep_assert_cpus_held' version=
+ generation failed, symbol will not be versioned.
+Is 'lockdep_assert_cpus_held' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpu_hotplug_disable' version gene=
 ration failed, symbol will not be versioned.
-Is 'timespec64_add_safe' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_timespec64' version generatio=
-n failed, symbol will not be versioned.
-Is 'get_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'put_timespec64' version generatio=
-n failed, symbol will not be versioned.
-Is 'put_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_old_timespec32' version gener=
+Is 'cpu_hotplug_disable' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpu_hotplug_enable' version gener=
 ation failed, symbol will not be versioned.
-Is 'get_old_timespec32' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'put_old_timespec32' version gener=
-ation failed, symbol will not be versioned.
-Is 'put_old_timespec32' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_itimerspec64' version generat=
+Is 'cpu_hotplug_enable' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'cpu_smt_possible' version generat=
 ion failed, symbol will not be versioned.
-Is 'get_itimerspec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'put_itimerspec64' version generat=
-ion failed, symbol will not be versioned.
-Is 'put_itimerspec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_old_itimerspec32' version gen=
-eration failed, symbol will not be versioned.
-Is 'get_old_itimerspec32' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'put_old_itimerspec32' version gen=
-eration failed, symbol will not be versioned.
-Is 'put_old_itimerspec32' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_64' version generation=
- failed, symbol will not be versioned.
-Is 'jiffies_64' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol '__round_jiffies_relative' vers=
-ion generation failed, symbol will not be versioned.
-Is '__round_jiffies_relative' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'round_jiffies' version generat=
-ion failed, symbol will not be versioned.
-Is 'round_jiffies' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'round_jiffies_relative' versio=
-n generation failed, symbol will not be versioned.
-Is 'round_jiffies_relative' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol '__round_jiffies_up_relative' v=
+Is 'cpu_smt_possible' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'remove_cpu' version generation fa=
+iled, symbol will not be versioned.
+Is 'remove_cpu' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol 'add_cpu' version generation faile=
+d, symbol will not be versioned.
+Is 'add_cpu' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_state_add_instance' versi=
+on generation failed, symbol will not be versioned.
+Is '__cpuhp_state_add_instance' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_setup_state_cpuslocked' v=
 ersion generation failed, symbol will not be versioned.
-Is '__round_jiffies_up_relative' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'round_jiffies_up' version gene=
+Is '__cpuhp_setup_state_cpuslocked' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_setup_state' version gene=
 ration failed, symbol will not be versioned.
-Is 'round_jiffies_up' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'round_jiffies_up_relative' ver=
-sion generation failed, symbol will not be versioned.
-Is 'round_jiffies_up_relative' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_init_key' version genera=
-tion failed, symbol will not be versioned.
-Is 'timer_init_key' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'mod_timer_pending' version gen=
-eration failed, symbol will not be versioned.
-Is 'mod_timer_pending' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'mod_timer' version generation =
-failed, symbol will not be versioned.
-Is 'mod_timer' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_reduce' version generati=
-on failed, symbol will not be versioned.
-Is 'timer_reduce' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'add_timer' version generation =
-failed, symbol will not be versioned.
-Is 'add_timer' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'add_timer_local' version gener=
-ation failed, symbol will not be versioned.
-Is 'add_timer_local' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'add_timer_global' version gene=
-ration failed, symbol will not be versioned.
-Is 'add_timer_global' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'add_timer_on' version generati=
-on failed, symbol will not be versioned.
-Is 'add_timer_on' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_delete' version generati=
-on failed, symbol will not be versioned.
-Is 'timer_delete' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_shutdown' version genera=
-tion failed, symbol will not be versioned.
-Is 'timer_shutdown' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_delete_sync_try' version=
- generation failed, symbol will not be versioned.
-Is 'timer_delete_sync_try' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'timer_delete_sync' version gen=
-eration failed, symbol will not be versioned.
-Is 'timer_delete_sync' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'timer_shutdown_sync' version gene=
-ration failed, symbol will not be versioned.
-Is 'timer_shutdown_sync' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__ktime_divns' version generation=
- failed, symbol will not be versioned.
-Is '__ktime_divns' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'ktime_add_safe' version generatio=
-n failed, symbol will not be versioned.
-Is 'ktime_add_safe' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_resolution' version gener=
-ation failed, symbol will not be versioned.
-Is 'hrtimer_resolution' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_update_function' version =
-generation failed, symbol will not be versioned.
-Is 'hrtimer_update_function' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_forward' version generati=
-on failed, symbol will not be versioned.
-Is 'hrtimer_forward' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_start_range_ns' version g=
-eneration failed, symbol will not be versioned.
-Is 'hrtimer_start_range_ns' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_start_range_ns_user' vers=
-ion generation failed, symbol will not be versioned.
-Is 'hrtimer_start_range_ns_user' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_try_to_cancel' version ge=
-neration failed, symbol will not be versioned.
-Is 'hrtimer_try_to_cancel' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_cancel' version generatio=
-n failed, symbol will not be versioned.
-Is 'hrtimer_cancel' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__hrtimer_get_remaining' version =
-generation failed, symbol will not be versioned.
-Is '__hrtimer_get_remaining' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_cb_get_time' version gene=
-ration failed, symbol will not be versioned.
-Is 'hrtimer_cb_get_time' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_setup' version generation=
- failed, symbol will not be versioned.
-Is 'hrtimer_setup' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_setup_on_stack' version g=
-eneration failed, symbol will not be versioned.
-Is 'hrtimer_setup_on_stack' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_active' version generatio=
-n failed, symbol will not be versioned.
-Is 'hrtimer_active' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_sleeper_start_expires' ve=
+Is '__cpuhp_setup_state' prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_state_remove_instance' ve=
 rsion generation failed, symbol will not be versioned.
-Is 'hrtimer_sleeper_start_expires' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'hrtimer_setup_sleeper_on_stack' v=
-ersion generation failed, symbol will not be versioned.
-Is 'hrtimer_setup_sleeper_on_stack' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_expires_remaining' version =
-generation failed, symbol will not be versioned.
-Is 'alarm_expires_remaining' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_init' version generation fa=
-iled, symbol will not be versioned.
-Is 'alarm_init' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_start_timer' version genera=
-tion failed, symbol will not be versioned.
-Is 'alarm_start_timer' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_try_to_cancel' version gene=
-ration failed, symbol will not be versioned.
-Is 'alarm_try_to_cancel' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_cancel' version generation =
-failed, symbol will not be versioned.
-Is 'alarm_cancel' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_forward' version generation=
- failed, symbol will not be versioned.
-Is 'alarm_forward' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alarm_forward_now' version genera=
-tion failed, symbol will not be versioned.
-Is 'alarm_forward_now' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_function_single' version=
- generation failed, symbol will not be versioned.
-Is 'smp_call_function_single' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_function_single_async' v=
-ersion generation failed, symbol will not be versioned.
-Is 'smp_call_function_single_async' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_function_any' version ge=
-neration failed, symbol will not be versioned.
-Is 'smp_call_function_any' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_function_many' version g=
-eneration failed, symbol will not be versioned.
-Is 'smp_call_function_many' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_function' version genera=
-tion failed, symbol will not be versioned.
-Is 'smp_call_function' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'setup_max_cpus' version generatio=
-n failed, symbol will not be versioned.
-Is 'setup_max_cpus' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nr_cpu_ids' version generation fa=
-iled, symbol will not be versioned.
-Is 'nr_cpu_ids' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'on_each_cpu_cond_mask' version ge=
-neration failed, symbol will not be versioned.
-Is 'on_each_cpu_cond_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kick_all_cpus_sync' version gener=
-ation failed, symbol will not be versioned.
-Is 'kick_all_cpus_sync' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'wake_up_all_idle_cpus' version ge=
-neration failed, symbol will not be versioned.
-Is 'wake_up_all_idle_cpus' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'smp_call_on_cpu' version generati=
-on failed, symbol will not be versioned.
-Is 'smp_call_on_cpu' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__put_user_ns' version generation=
- failed, symbol will not be versioned.
-Is '__put_user_ns' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'make_kuid' version generation fai=
-led, symbol will not be versioned.
-Is 'make_kuid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kuid' version generation fai=
-led, symbol will not be versioned.
-Is 'from_kuid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kuid_munged' version generat=
-ion failed, symbol will not be versioned.
-Is 'from_kuid_munged' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'make_kgid' version generation fai=
-led, symbol will not be versioned.
-Is 'make_kgid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kgid' version generation fai=
-led, symbol will not be versioned.
-Is 'from_kgid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kgid_munged' version generat=
-ion failed, symbol will not be versioned.
-Is 'from_kgid_munged' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'make_kprojid' version generation =
-failed, symbol will not be versioned.
-Is 'make_kprojid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kprojid' version generation =
-failed, symbol will not be versioned.
-Is 'from_kprojid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'from_kprojid_munged' version gene=
-ration failed, symbol will not be versioned.
-Is 'from_kprojid_munged' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'current_in_userns' version genera=
-tion failed, symbol will not be versioned.
-Is 'current_in_userns' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'audit_enabled' version generation=
- failed, symbol will not be versioned.
-Is 'audit_enabled' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'audit_log_subj_ctx' version gener=
-ation failed, symbol will not be versioned.
-Is 'audit_log_subj_ctx' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'audit_log_task_context' version g=
-eneration failed, symbol will not be versioned.
-Is 'audit_log_task_context' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'audit_log_task_info' version gene=
-ration failed, symbol will not be versioned.
 
 --
 0-DAY CI Kernel Test Service
