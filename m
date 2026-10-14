@@ -1,352 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649CC547077
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Oct 2026 04:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DEF2FBE
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Oct 2026 05:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791952225; cv=none; b=OfvNdK3SBoqDb81FH8YoSvhFG6UiSlhsI8m43xAyrsXgkdnFaHLphNI0v30Xv5+0+RRXRfBchR/ZBvPvfFELmX4kFPG/pvJnuliSc3Cf4u3H7bhQR2C8TApwDEOYJa4CxAReC8n1DCL2PvgQO/mGG9zwXUQjhSlcqV0s7XgvRyY=
+	t=1791957093; cv=none; b=CLhb1s0gKiIZFoQjjVL27B5pcm3uGlOFNfmzs+tPU59H7THbUAuUQgnfZ0xuqrpEut0DgAz/JQvw6q7Od9OAoOgKS+3ZTGW41RQifVBzI6gTlaRcwS98d5KEmAd8Bohlr/ZWne6JGByBh4JgYHXC8KrpAaTrLDsTe2o9L4z9kxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791952225; c=relaxed/simple;
-	bh=pikPeOibDV7DX7s8Q2P9bTPNZlbt1iREr++/3BD9Nq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AIQw8Cd3XfHGAQlCPk+5K8BjPQZil/Q6uaPQFKxRvn/fLT/9lbJfLEUbNylMukMQRr/3evo0jHCPsCAx7UaddwXvCxbv+T2hD4I2yo0c2OY/+INCz/pQBxFBOCdMr8+wok3sRyOL3Vqhyr3EDMn7138Lk4PFF1wkjDaRaaDULuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA3Nv/aM; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1791957093; c=relaxed/simple;
+	bh=UXJOCFSawesPnCt5e+MW+kAL5JTUTGEDvxoy4K66sdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tq3lF7EHnuFoUXOnX9NE9YWZ8ZqdxhmSNWGw0wWr7n3tEQLid55klOttgjgkCnirPMhzsTWbZTxFiUTo5EcJNqHjj/i1hlggnj9d/Jpz/Aurm2qLUmesMont4Nq5tJ+njXFLmuSP7J90SB3iNqU1tXJX1RSy0MpiXHhsF9gFfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mp4pR4nf; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA3Nv/aM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mp4pR4nf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791952223; x=1823488223;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pikPeOibDV7DX7s8Q2P9bTPNZlbt1iREr++/3BD9Nq0=;
-  b=VA3Nv/aMSMF95IkWw5ypdKhTtW4u+h8O4xnBvXDEym57Fw9mSveijYfI
-   b+xbXiXysuBVXUEPkwBHQiuw8BciqbvjR/30m7ODTG7AA6wpV9wf/BmhN
-   ezC2FAmaTQ7oFt6KqZ3mXED/1wbiZ3jcTnYAeTYg6tyZNjDpJRuAYQrx8
-   kDGME2O8/hBZtIy1wVYOMyNb64Q6a7OLmdLKgJoSTR/NQ+Ol9uckkQOE5
-   XOIhPUbAec3Pq/MB6sVHTUdQpKOanLMJTr6lbAnFwz9RLoTx71yxmEOmB
-   oRBpngj/0unT8l5rlInVWdZkflujjYvwI6tb7VNklYFhz7NUQBuSb+3R6
-   g==;
-X-CSE-ConnectionGUID: mhWnMyNVTRCh14ClwxKU8Q==
-X-CSE-MsgGUID: xkxL3rkzSXmGhvi1uB1dcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="573767"
+  t=1791957092; x=1823493092;
+  h=date:from:to:cc:subject:message-id;
+  bh=UXJOCFSawesPnCt5e+MW+kAL5JTUTGEDvxoy4K66sdQ=;
+  b=mp4pR4nffDefL2bDONLUSNqEDnDpZPRkJAFQx455+7xqNli0wSQXiHdi
+   iOl8xmCjfZGXX1MMP3sFiAhKnMbFok3/W/mDJbdYOjPYHMfxWLI0SsAVf
+   +xRtPG/skg5cg5jVjv2C6GZjAvDTEWURMIJqVtOQ1WkO56GNEBBME1aTs
+   3XfLHUyOACs6HAQXLIKvlTkaVRyXbtOTmGXLOQgym9Pmggo+IJxP//Asw
+   N7U1KbBl4AncRecS/ALRm5M8iPUAMzBvR+i2HX+dSnh2BQbuq3qjtz2s+
+   EpUjlGEjFdBoOsHcMcmcGomszhxUrjfcDw1vvC94bOJoEfZ2guKrxVzRb
+   A==;
+X-CSE-ConnectionGUID: ALlFWt8cRZmWSmDpPiEedQ==
+X-CSE-MsgGUID: hhZS/upzQS+k6Ej19mXBRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="700868"
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="573767"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 21:30:23 -0700
-X-CSE-ConnectionGUID: pLnPBLP0Q+q+3WOpdbIEdg==
-X-CSE-MsgGUID: XJyt14e2T3a4SzATIeXMWA==
+   d="scan'208";a="700868"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 22:51:32 -0700
+X-CSE-ConnectionGUID: RbRu9jM6TeSte9FltqwWMQ==
+X-CSE-MsgGUID: 2jfq9dBUS1akF8FMhtU/CA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1269322"
+   d="scan'208";a="1304964"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 13 Oct 2026 21:30:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 Oct 2026 22:51:31 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGqd9-00000000ArL-2v1L;
-	Wed, 14 Oct 2026 04:30:19 +0000
-Date: Wed, 14 Oct 2026 06:29:21 +0200
+	id 1xGrtg-00000000AsJ-2YOT;
+	Wed, 14 Oct 2026 05:51:28 +0000
+Date: Wed, 14 Oct 2026 07:50:55 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/kbuild-error-propagation 3/3] WARNING:
- modpost: vmlinux: EXPORT symbol 'get_ibs_caps' version generation failed,
- symbol will not be versioned.
-Message-ID: <202610140618.Jag93D4y-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-12 2/2]
+ mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around
+ initializer
+Message-ID: <202610140757.GnqFe2iI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "low confidence bisect report"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <thomas.weissschuh@linutronix.de>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/kbuild-error-propagation
-head:   e7f0b27fbbf1115d93bd108f00ebe7a0428e7e38
-commit: e7f0b27fbbf1115d93bd108f00ebe7a0428e7e38 [3/3] kbuild
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
-61014/202610140618.Jag93D4y-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261014/202610140618.Jag93D4y-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
+head:   838e65c6c0a82859fe27789f09351ad8be0461c9
+commit: 9bfbaa5e44c52422a046ce291469c8ebeb6c475d [2/2] mm/damon: move kunit tests to tests/ subdirectory with _kunit suffix
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 years, 1 month ago
+config: i386-randconfig-r2300-20261014 (https://download.01.org/0day-ci/archive/20261014/202610140757.GnqFe2iI-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610140757.GnqFe2iI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 9bfbaa5e44c5 ("mm/damon: move kunit tests to tests/ subdirectory with _kunit suffix")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610140618.Jag93D4y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610140757.GnqFe2iI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   mm/damon/vaddr.c: note: in included file:
+>> mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer
+   mm/damon/vaddr.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h, include/linux/highmem.h):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_mkold_pmd_entry' - unexpected unlock
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_young_pmd_entry' - unexpected unlock
 
-WARNING: modpost: vmlinux: EXPORT symbol 'asm_load_gs_index' version genera=
-tion failed, symbol will not be versioned.
-Is 'asm_load_gs_index' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'get_ibs_caps' version generati=
-on failed, symbol will not be versioned.
-Is 'get_ibs_caps' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__SCT__WARN_trap' version generat=
-ion failed, symbol will not be versioned.
-Is '__SCT__WARN_trap' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'irq_stat' version generation fail=
-ed, symbol will not be versioned.
-Is 'irq_stat' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol '__softirq_pending' version gen=
-eration failed, symbol will not be versioned.
-Is '__softirq_pending' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alternatives_patched' version gen=
-eration failed, symbol will not be versioned.
-Is 'alternatives_patched' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nop_func' version generation fail=
-ed, symbol will not be versioned.
-Is 'nop_func' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'BUG_func' version generation fail=
-ed, symbol will not be versioned.
-Is 'BUG_func' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_tss_rw' version generation fa=
-iled, symbol will not be versioned.
-Is 'cpu_tss_rw' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__tss_limit_invalid' version gene=
-ration failed, symbol will not be versioned.
-Is '__tss_limit_invalid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'boot_option_idle_override' versio=
-n generation failed, symbol will not be versioned.
-Is 'boot_option_idle_override' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_cpu_idle' version generation=
- failed, symbol will not be versioned.
-Is 'arch_cpu_idle' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'x86_spec_ctrl_current' version=
- generation failed, symbol will not be versioned.
-Is 'x86_spec_ctrl_current' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'x86_ibpb_exit_to_user' version=
- generation failed, symbol will not be versioned.
-Is 'x86_ibpb_exit_to_user' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'spec_ctrl_current' version gen=
-eration failed, symbol will not be versioned.
-Is 'spec_ctrl_current' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'cpu_buf_idle_clear' version ge=
-neration failed, symbol will not be versioned.
-Is 'cpu_buf_idle_clear' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'smp_ops' version generation fa=
-iled, symbol will not be versioned.
-Is 'smp_ops' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'arch_cpu_rescan_dead_smt_sibli=
-ngs' version generation failed, symbol will not be versioned.
-Is 'arch_cpu_rescan_dead_smt_siblings' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_sibling_map' version generati=
-on failed, symbol will not be versioned.
-Is 'cpu_sibling_map' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_core_map' version generation =
-failed, symbol will not be versioned.
-Is 'cpu_core_map' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_die_map' version generation f=
-ailed, symbol will not be versioned.
-Is 'cpu_die_map' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_clustergroup_mask' version ge=
-neration failed, symbol will not be versioned.
-Is 'cpu_clustergroup_mask' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'boot_cpu_physical_apicid' vers=
-ion generation failed, symbol will not be versioned.
-Is 'boot_cpu_physical_apicid' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'local_apic_timer_c2_ok' versio=
-n generation failed, symbol will not be versioned.
-Is 'local_apic_timer_c2_ok' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'setup_APIC_eilvt' version gene=
-ration failed, symbol will not be versioned.
-Is 'setup_APIC_eilvt' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'x2apic_mode' version generatio=
-n failed, symbol will not be versioned.
-Is 'x2apic_mode' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'IO_APIC_get_PCI_irq_vector' ve=
-rsion generation failed, symbol will not be versioned.
-Is 'IO_APIC_get_PCI_irq_vector' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'is_hpet_enabled' version generati=
-on failed, symbol will not be versioned.
-Is 'is_hpet_enabled' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'kvm_para_available' version ge=
-neration failed, symbol will not be versioned.
-Is 'kvm_para_available' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'kvm_arch_para_hints' version g=
-eneration failed, symbol will not be versioned.
-Is 'kvm_arch_para_hints' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_enable' version =
-generation failed, symbol will not be versioned.
-Is 'arch_haltpoll_enable' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'arch_haltpoll_disable' version=
- generation failed, symbol will not be versioned.
-Is 'arch_haltpoll_disable' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'unwind_get_return_address' ver=
-sion generation failed, symbol will not be versioned.
-Is 'unwind_get_return_address' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'unwind_next_frame' version gen=
-eration failed, symbol will not be versioned.
-Is 'unwind_next_frame' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol '__unwind_start' version genera=
-tion failed, symbol will not be versioned.
-Is '__unwind_start' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cachemode2protval' version genera=
-tion failed, symbol will not be versioned.
-Is 'cachemode2protval' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__supported_pte_mask' version gen=
-eration failed, symbol will not be versioned.
-Is '__supported_pte_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__default_kernel_pte_mask' versio=
-n generation failed, symbol will not be versioned.
-Is '__default_kernel_pte_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'leave_mm' version generation fail=
-ed, symbol will not be versioned.
-Is 'leave_mm' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_tlbstate_shared' version gene=
-ration failed, symbol will not be versioned.
-Is 'cpu_tlbstate_shared' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'clflush_cache_range' version gene=
-ration failed, symbol will not be versioned.
-Is 'clflush_cache_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_invalidate_pmem' version gen=
-eration failed, symbol will not be versioned.
-Is 'arch_invalidate_pmem' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_cache_has_invalidate_memregio=
-n' version generation failed, symbol will not be versioned.
-Is 'cpu_cache_has_invalidate_memregion' prototyped in <asm/asm-prototypes.h=
->?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_cache_invalidate_memregion' v=
-ersion generation failed, symbol will not be versioned.
-Is 'cpu_cache_invalidate_memregion' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'lookup_address' version generatio=
-n failed, symbol will not be versioned.
-Is 'lookup_address' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'slow_virt_to_phys' version genera=
-tion failed, symbol will not be versioned.
-Is 'slow_virt_to_phys' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_uc' version generation=
- failed, symbol will not be versioned.
-Is 'set_memory_uc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_wc' version generation=
- failed, symbol will not be versioned.
-Is 'set_memory_wc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_wb' version generation=
- failed, symbol will not be versioned.
-Is 'set_memory_wb' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_mce_nospec' version generatio=
-n failed, symbol will not be versioned.
-Is 'set_mce_nospec' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'clear_mce_nospec' version generat=
-ion failed, symbol will not be versioned.
-Is 'clear_mce_nospec' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_encrypted' version gen=
-eration failed, symbol will not be versioned.
-Is 'set_memory_encrypted' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_memory_decrypted' version gen=
-eration failed, symbol will not be versioned.
-Is 'set_memory_decrypted' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_uc' version generation =
-failed, symbol will not be versioned.
-Is 'set_pages_uc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_array_uc' version gener=
-ation failed, symbol will not be versioned.
-Is 'set_pages_array_uc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_array_wc' version gener=
-ation failed, symbol will not be versioned.
-Is 'set_pages_array_wc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_wb' version generation =
-failed, symbol will not be versioned.
-Is 'set_pages_wb' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_pages_array_wb' version gener=
-ation failed, symbol will not be versioned.
-Is 'set_pages_array_wb' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'pat_enabled' version generation f=
-ailed, symbol will not be versioned.
-Is 'pat_enabled' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_io_reserve_memtype_wc' versi=
-on generation failed, symbol will not be versioned.
-Is 'arch_io_reserve_memtype_wc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'arch_io_free_memtype_wc' version =
-generation failed, symbol will not be versioned.
-Is 'arch_io_free_memtype_wc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'pgprot_writecombine' version gene=
-ration failed, symbol will not be versioned.
-Is 'pgprot_writecombine' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'pgprot_writethrough' version gene=
-ration failed, symbol will not be versioned.
-Is 'pgprot_writethrough' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'lockdep_tasklist_lock_is_held' ve=
-rsion generation failed, symbol will not be versioned.
-Is 'lockdep_tasklist_lock_is_held' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'free_task' version generation fai=
-led, symbol will not be versioned.
-Is 'free_task' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__mmdrop' version generation fail=
-ed, symbol will not be versioned.
-Is '__mmdrop' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__put_task_struct' version genera=
-tion failed, symbol will not be versioned.
-Is '__put_task_struct' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__put_task_struct_rcu_cb' version=
- generation failed, symbol will not be versioned.
-Is '__put_task_struct_rcu_cb' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mmput' version generation failed,=
- symbol will not be versioned.
-Is 'mmput' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mmput_async' version generation f=
-ailed, symbol will not be versioned.
-Is 'mmput_async' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_task_mm' version generation f=
-ailed, symbol will not be versioned.
-Is 'get_task_mm' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpuhp_tasks_frozen' version gener=
-ation failed, symbol will not be versioned.
-Is 'cpuhp_tasks_frozen' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_lock' version generatio=
-n failed, symbol will not be versioned.
-Is 'cpus_read_lock' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_trylock' version genera=
-tion failed, symbol will not be versioned.
-Is 'cpus_read_trylock' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpus_read_unlock' version generat=
-ion failed, symbol will not be versioned.
-Is 'cpus_read_unlock' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'lockdep_assert_cpus_held' version=
- generation failed, symbol will not be versioned.
-Is 'lockdep_assert_cpus_held' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_hotplug_disable' version gene=
-ration failed, symbol will not be versioned.
-Is 'cpu_hotplug_disable' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_hotplug_enable' version gener=
-ation failed, symbol will not be versioned.
-Is 'cpu_hotplug_enable' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cpu_smt_possible' version generat=
-ion failed, symbol will not be versioned.
-Is 'cpu_smt_possible' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'remove_cpu' version generation fa=
-iled, symbol will not be versioned.
-Is 'remove_cpu' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'add_cpu' version generation faile=
-d, symbol will not be versioned.
-Is 'add_cpu' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_state_add_instance' versi=
-on generation failed, symbol will not be versioned.
-Is '__cpuhp_state_add_instance' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_setup_state_cpuslocked' v=
-ersion generation failed, symbol will not be versioned.
-Is '__cpuhp_setup_state_cpuslocked' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_setup_state' version gene=
-ration failed, symbol will not be versioned.
-Is '__cpuhp_setup_state' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__cpuhp_state_remove_instance' ve=
-rsion generation failed, symbol will not be versioned.
+vim +69 mm/damon/tests/vaddr-kunit.h
+
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  38  
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  39  /*
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  40   * Test __damon_va_three_regions() function
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  41   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  42   * In case of virtual memory address spaces monitoring, DAMON converts the
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  43   * complex and dynamic memory mappings of each target task to three
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  44   * discontiguous regions which cover every mapped areas.  However, the three
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  45   * regions should not include the two biggest unmapped areas in the original
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  46   * mapping, because the two biggest areas are normally the areas between 1)
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  47   * heap and the mmap()-ed regions, and 2) the mmap()-ed regions and stack.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  48   * Because these two unmapped areas are very huge but obviously never accessed,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  49   * covering the region is just a waste.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  50   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  51   * '__damon_va_three_regions() receives an address space of a process.  It
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  52   * first identifies the start of mappings, end of mappings, and the two biggest
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  53   * unmapped areas.  After that, based on the information, it constructs the
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  54   * three regions and returns.  For more detail, refer to the comment of
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  55   * 'damon_init_regions_of()' function definition in 'mm/damon.c' file.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  56   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  57   * For example, suppose virtual address ranges of 10-20, 20-25, 200-210,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  58   * 210-220, 300-305, and 307-330 (Other comments represent this mappings in
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  59   * more short form: 10-20-25, 200-210-220, 300-305, 307-330) of a process are
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  60   * mapped.  To cover every mappings, the three regions should start with 10,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  61   * and end with 305.  The process also has three unmapped areas, 25-200,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  62   * 220-300, and 305-307.  Among those, 25-200 and 220-300 are the biggest two
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  63   * unmapped areas, and thus it should be converted to three regions of 10-25,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  64   * 200-220, and 300-330.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  65   */
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  66  static void damon_test_three_regions_in_vmas(struct kunit *test)
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  67  {
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  68  	static struct mm_struct mm;
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07 @69  	struct damon_addr_range regions[3] = {0,};
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  70  	/* 10-20-25, 200-210-220, 300-305, 307-330 */
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  71  	struct vm_area_struct vmas[] = {
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  72  		(struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  73  		(struct vm_area_struct) {.vm_start = 20, .vm_end = 25},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  74  		(struct vm_area_struct) {.vm_start = 200, .vm_end = 210},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  75  		(struct vm_area_struct) {.vm_start = 210, .vm_end = 220},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  76  		(struct vm_area_struct) {.vm_start = 300, .vm_end = 305},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  77  		(struct vm_area_struct) {.vm_start = 307, .vm_end = 330},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  78  	};
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  79  
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  80  	mt_init_flags(&mm.mm_mt, MM_MT_FLAGS);
+34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  81  	if (__link_vmas(&mm.mm_mt, vmas, ARRAY_SIZE(vmas)))
+34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  82  		kunit_skip(test, "Failed to create VMA tree");
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  83  
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  84  	__damon_va_three_regions(&mm, regions);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  85  
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  86  	KUNIT_EXPECT_EQ(test, 10ul, regions[0].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  87  	KUNIT_EXPECT_EQ(test, 25ul, regions[0].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  88  	KUNIT_EXPECT_EQ(test, 200ul, regions[1].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  89  	KUNIT_EXPECT_EQ(test, 220ul, regions[1].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  90  	KUNIT_EXPECT_EQ(test, 300ul, regions[2].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  91  	KUNIT_EXPECT_EQ(test, 330ul, regions[2].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  92  }
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  93  
+
+:::::: The code at line 69 was first introduced by commit
+:::::: 17ccae8bb5c928946f6f3af14626ec458f74e6ad mm/damon: add kunit tests
+
+:::::: TO: SeongJae Park <sjpark@amazon.de>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
