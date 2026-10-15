@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2C445DF4F
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Oct 2026 18:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699CA46EC79
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Oct 2026 21:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792089726; cv=none; b=jNmxevaPTB49peJpmqSzrPZPomt5o8EPMZkqUi6h7LzyAYCccoubPvNj/3CE9V9uyEcH8h1ztdKqPO806vCOoDiZIRfjuk5ZdmGkzXFlL2oIsMQ4tdhGfbmeUWwcXPRB4teOrG3poVKRZV/+2QiLsiC7cZjRBCy48lwYMdd42XU=
+	t=1792098248; cv=none; b=b/eZfMOBU4+Q5szuSNPK+sJxj4a93DL5RcpjJ8hUxdI49OGVR9Deh8+mYstm4C3SxGInajN2m2IHOAg3nQnj+oJy38Fp3AbWsKgd5CABpA0KCl+9CM2VBNPqJIbcAP2KWGwtGZD3OBxXIgE4qKMhN4DVDOhx2E8r9uO7UiRZ2yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792089726; c=relaxed/simple;
-	bh=S0NMVfBWGwagx8mf9/C6eX7e0SjjxsGQAdvRw2Wua7U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KDq4HWfPui/yfpLb7ppJ7D5W2i6wxk3CKXL0s2AH8KXNE+QaiplvQLPqElVzxxgmBlUhL+eJ9eCk48BtPp1mozsx5sG+9KVHLBMMAOsvv/3DUZ8OWOj0etvEDxgDwiBCsf2VlsF83UcbIOjdx1cihQJu5UMIq/FuPfDqNtbovS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TD6oraG7; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1792098248; c=relaxed/simple;
+	bh=VNd+zytz37tXVYWaylg+aB+nzmTiw9O2AxAD82cvUAA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S5EZ5tWtZtBZkhhcwiKo+uhfMX9q8oGgvMj16kugM7E8ep3lWzYkYDUwASJOlD1dtqKPvxtAHy16SsOn/tdYUDd1s4r5eP+Ff2XC5faLNr7jExB5xf9N0PDWv9JY3XumSoT0BuYsxGlHMJr0wIsOaOfzI6T9Xr2lUfE/4PGf0dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckJ850Re; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TD6oraG7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckJ850Re"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792089719; x=1823625719;
+  t=1792098243; x=1823634243;
   h=date:from:to:cc:subject:message-id;
-  bh=S0NMVfBWGwagx8mf9/C6eX7e0SjjxsGQAdvRw2Wua7U=;
-  b=TD6oraG7Y/fMv6QTeRRi0Tm8YK2IgQ1cDyqbyiJVLu26MOOBtcTGtN1N
-   cygoD7uVYfUV3of+kahA1VqKDgYNpHbF0pFn/sfX9Az9oL9ttNSYdD9/U
-   WjIu2bpaLJtmPxTf9DNARZbcL2+gQlkrMBkoWiwE/hZNhi04EIpMazC2R
-   HQQENDXLqyO8xvgTik2mf7xZOIrBiZdXvkjgllZn++qslL4yoAgnTN/iS
-   bbCF0+6d6GUKiBGImHtufHimHw5TFGOlVX1l2cXtJJRxD6/mYpdDzArC7
-   tj1FQZxfOuM7rObE5YTK/TKVvj+Wm51jtb8eDD3/+5qhODLFHt6AM00Oj
-   Q==;
-X-CSE-ConnectionGUID: f+NJXkZ/QKOk631XYiYVnQ==
-X-CSE-MsgGUID: smxDxKFtS6e95av3fuLgbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="881331"
+  bh=VNd+zytz37tXVYWaylg+aB+nzmTiw9O2AxAD82cvUAA=;
+  b=ckJ850RehawWssxFegVCa39N1wIboS8ZnhzPkyAXQVWVUEDg/67VQQCf
+   5Kv7j2mDSDl4GnKlOBKmyP3fiYfzrR6fuzr7xXsCnMJrN7t1XHSp5DKHy
+   hfD6Lu1HvZFpTQ4k1Apu65eiPpZDzE0A8PKv6E8nVOZgOumqIIAypLdWW
+   MLN1COvchYe97aokLLG862ceKp7BF2U/RKb1o56uRJA00ZFxIij40X7gP
+   AFog7wt0OmizOXB6iToE/zuT+9WxHcp1KzcfJk7pi0y/swKbZ+zKA7HtF
+   knuu4r2TO+DP7AZuhjNis8QJsKxpt2XWBwiukMt3Omaz975TTs7TzvAFx
+   g==;
+X-CSE-ConnectionGUID: nW249UGeRCSKuDpqecpRug==
+X-CSE-MsgGUID: fMEjYYuqQ+aR33kSSW/h0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="899720"
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="881331"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:41:58 -0700
-X-CSE-ConnectionGUID: qVQvOoO9RlKvnIr288NDiw==
-X-CSE-MsgGUID: vlL3gubUTDKcLuWnQQRbTQ==
+   d="scan'208";a="899720"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 14:04:02 -0700
+X-CSE-ConnectionGUID: qwG9uxLhQFq9k6wiDRTyIQ==
+X-CSE-MsgGUID: WbOQxhKXSjWOkEU9LlAE4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="2081434"
+   d="scan'208";a="1677220"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Oct 2026 11:41:58 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Oct 2026 14:04:00 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHQOp-00000000Bot-384z;
-	Thu, 15 Oct 2026 18:41:55 +0000
-Date: Thu, 15 Oct 2026 20:41:54 +0200
+	id 1xHScI-00000000BqL-2IUw;
+	Thu, 15 Oct 2026 21:03:58 +0000
+Date: Thu, 15 Oct 2026 23:03:34 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 17266/17613] Makefile:66: exec selftests:
- skipping binfmt_misc_bpf, needs clang, bpftool, vmlinux BTF and libbpf
-Message-ID: <202610152043.ouH5myeG-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5778/17613]
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648 mt8189_mck_enable() warn:
+ missing unwind goto?
+Message-ID: <202610152233.eVrGPEyh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,128 +60,97 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sasha Levin <sashal@kernel.org>
-CC: Kees Cook <kees@kernel.org>
+TO: bui duc phuc <phucduc.bui@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   b810335a0699d1810683796b0e3ffe8827ddfe6c
-commit: b36b990c50b1f581b9a7f35ae256f5542415fa69 [17266/17613] selftests/exec: report the skipped binfmt_misc_bpf test on stderr
-:::::: branch date: 3 hours ago
-:::::: commit date: 14 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261015/202610152043.ouH5myeG-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152043.ouH5myeG-lkp@intel.com/reproduce)
+commit: bd9a8d9def207a8d7eeaa4dda1c53c5b4fca4008 [5778/17613] ASoC: mediatek: mt8189: Propagate MCK enable errors
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-r2200-20261013 (https://download.01.org/0day-ci/archive/20261015/202610152233.eVrGPEyh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610152043.ouH5myeG-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610152233.eVrGPEyh-lkp@intel.com/
 
-Note: the linux-next/master HEAD b810335a0699d1810683796b0e3ffe8827ddfe6c builds fine.
-      It may have been fixed somewhere.
+smatch warnings:
+sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648 mt8189_mck_enable() warn: missing unwind goto?
 
-All errors (new ones prefixed by >>):
+vim +648 sound/soc/mediatek/mt8189/mt8189-afe-clk.c
 
-   make[1]: *** [../../lib.mk:225: tools/testing/selftests/drivers/net/psp_responder] Error 1
-   make[1]: Target 'all' not remade because of errors.
->> Makefile:66: exec selftests: skipping binfmt_misc_bpf, needs clang, bpftool, vmlinux BTF and libbpf
-   make[1]: *** [Makefile:117: tools/testing/selftests/hid/host-tools/sbin/bpftool] Error 2
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets.  Stop.
-   make[1]: *** [../lib.mk:225: tools/testing/selftests/net/busy_poller] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/net/tun] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   Makefile:60: warning: overriding recipe for target 'emit_tests'
-   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
-   make[1]: *** No targets.  Stop.
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-loadavg-001] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-pid-vm] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/proc-tid0] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/setns-dcache] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/setns-sysvipc] Error 1
-   make[1]: *** [../lib.mk:224: tools/testing/selftests/proc/thread-self] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets specified and no makefile found.  Stop.
-   make[1]: Circular tools/testing/selftests/rseq/param_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/slice_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/legacy_check dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/slice_test dependency dropped.
-   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/check_optimized dependency dropped.
-   make[1]: *** [Makefile:67: tools/testing/selftests/rseq/param_test_mm_cid_compare_twice] Error 1
-   make[1]: Target 'all' not remade because of errors.
-   make[1]: *** No targets.  Stop.
-   make[1]: *** No targets.  Stop.
+dc637ffeed6c32 Cyril Chao   2025-10-31  614  
+dc637ffeed6c32 Cyril Chao   2025-10-31  615  int mt8189_mck_enable(struct mtk_base_afe *afe, int mck_id, int rate)
+dc637ffeed6c32 Cyril Chao   2025-10-31  616  {
+dc637ffeed6c32 Cyril Chao   2025-10-31  617  	struct mt8189_afe_private *afe_priv = afe->platform_priv;
+dc637ffeed6c32 Cyril Chao   2025-10-31  618  	int apll = mt8189_get_apll_by_rate(afe, rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  619  	int apll_clk_id = apll == MT8189_APLL1 ?
+dc637ffeed6c32 Cyril Chao   2025-10-31  620  			  MT8189_CLK_TOP_MUX_AUD_1 : MT8189_CLK_TOP_MUX_AUD_2;
+dc637ffeed6c32 Cyril Chao   2025-10-31  621  	int m_sel_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  622  	int div_clk_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  623  	int ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  624  
+dc637ffeed6c32 Cyril Chao   2025-10-31  625  	dev_dbg(afe->dev, "mck_id: %d, rate: %d\n", mck_id, rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  626  
+dc637ffeed6c32 Cyril Chao   2025-10-31  627  	if (mck_id >= MT8189_MCK_NUM || mck_id < 0)
+dc637ffeed6c32 Cyril Chao   2025-10-31  628  		return -EINVAL;
+dc637ffeed6c32 Cyril Chao   2025-10-31  629  
+dc637ffeed6c32 Cyril Chao   2025-10-31  630  	m_sel_id = mck_div[mck_id].m_sel_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  631  	div_clk_id = mck_div[mck_id].div_clk_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  632  
+dc637ffeed6c32 Cyril Chao   2025-10-31  633  	/* select apll */
+dc637ffeed6c32 Cyril Chao   2025-10-31  634  	if (m_sel_id >= 0) {
+dc637ffeed6c32 Cyril Chao   2025-10-31  635  		ret = mt8189_afe_enable_clk(afe, afe_priv->clk[m_sel_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  636  		if (ret)
+dc637ffeed6c32 Cyril Chao   2025-10-31  637  			return ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  638  
+dc637ffeed6c32 Cyril Chao   2025-10-31  639  		ret = mt8189_afe_set_clk_parent(afe, afe_priv->clk[m_sel_id],
+dc637ffeed6c32 Cyril Chao   2025-10-31  640  						afe_priv->clk[apll_clk_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  641  		if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  642  			goto err_disable_m_sel_clk;
+dc637ffeed6c32 Cyril Chao   2025-10-31  643  	}
+dc637ffeed6c32 Cyril Chao   2025-10-31  644  
+dc637ffeed6c32 Cyril Chao   2025-10-31  645  	/* enable div, set rate */
+dc637ffeed6c32 Cyril Chao   2025-10-31  646  	if (div_clk_id < 0) {
+dc637ffeed6c32 Cyril Chao   2025-10-31  647  		dev_err(afe->dev, "invalid div_clk_id %d\n", div_clk_id);
+dc637ffeed6c32 Cyril Chao   2025-10-31 @648  		return -EINVAL;
+dc637ffeed6c32 Cyril Chao   2025-10-31  649  	}
+dc637ffeed6c32 Cyril Chao   2025-10-31  650  
+dc637ffeed6c32 Cyril Chao   2025-10-31  651  	ret = mt8189_afe_enable_clk(afe, afe_priv->clk[div_clk_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  652  	if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  653  		goto err_disable_m_sel_clk;
+dc637ffeed6c32 Cyril Chao   2025-10-31  654  
+dc637ffeed6c32 Cyril Chao   2025-10-31  655  	ret = mt8189_afe_set_clk_rate(afe, afe_priv->clk[div_clk_id], rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  656  	if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  657  		goto err_disable_div_clk;
+dc637ffeed6c32 Cyril Chao   2025-10-31  658  
+dc637ffeed6c32 Cyril Chao   2025-10-31  659  	return 0;
+bd9a8d9def207a bui duc phuc 2026-09-16  660  
+bd9a8d9def207a bui duc phuc 2026-09-16  661  err_disable_div_clk:
+bd9a8d9def207a bui duc phuc 2026-09-16  662  	mt8189_afe_disable_clk(afe, afe_priv->clk[div_clk_id]);
+bd9a8d9def207a bui duc phuc 2026-09-16  663  err_disable_m_sel_clk:
+bd9a8d9def207a bui duc phuc 2026-09-16  664  	if (m_sel_id >= 0)
+bd9a8d9def207a bui duc phuc 2026-09-16  665  		mt8189_afe_disable_clk(afe, afe_priv->clk[m_sel_id]);
+bd9a8d9def207a bui duc phuc 2026-09-16  666  
+bd9a8d9def207a bui duc phuc 2026-09-16  667  	return ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  668  }
+dc637ffeed6c32 Cyril Chao   2025-10-31  669  
 
+:::::: The code at line 648 was first introduced by commit
+:::::: dc637ffeed6c32c951520774897601ebd9ffc3d5 ASoC: mediatek: mt8189: support audio clock control
 
-vim +66 Makefile
-
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  59  
-066b7ed9558087 Michal Marek    2014-07-04  60  # Beautify output
-066b7ed9558087 Michal Marek    2014-07-04  61  # ---------------------------------------------------------------------------
-066b7ed9558087 Michal Marek    2014-07-04  62  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  63  # Most of build commands in Kbuild start with "cmd_". You can optionally define
-8962b6b475bddc Masahiro Yamada 2022-12-23  64  # "quiet_cmd_*". If defined, the short log is printed. Otherwise, no log from
-8962b6b475bddc Masahiro Yamada 2022-12-23  65  # that command is printed by default.
-066b7ed9558087 Michal Marek    2014-07-04 @66  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  67  # e.g.)
-8962b6b475bddc Masahiro Yamada 2022-12-23  68  #    quiet_cmd_depmod = DEPMOD  $(MODLIB)
-8962b6b475bddc Masahiro Yamada 2022-12-23  69  #          cmd_depmod = $(srctree)/scripts/depmod.sh $(DEPMOD) $(KERNELRELEASE)
-066b7ed9558087 Michal Marek    2014-07-04  70  #
-066b7ed9558087 Michal Marek    2014-07-04  71  # A simple variant is to prefix commands with $(Q) - that's useful
-066b7ed9558087 Michal Marek    2014-07-04  72  # for commands that shall be hidden in non-verbose mode.
-066b7ed9558087 Michal Marek    2014-07-04  73  #
-8962b6b475bddc Masahiro Yamada 2022-12-23  74  #    $(Q)$(MAKE) $(build)=scripts/basic
-066b7ed9558087 Michal Marek    2014-07-04  75  #
-6ae4b9868a8f72 Masahiro Yamada 2022-12-23  76  # If KBUILD_VERBOSE contains 1, the whole command is echoed.
-6ae4b9868a8f72 Masahiro Yamada 2022-12-23  77  # If KBUILD_VERBOSE contains 2, the reason for rebuilding is printed.
-066b7ed9558087 Michal Marek    2014-07-04  78  #
-^1da177e4c3f41 Linus Torvalds  2005-04-16  79  # To put more focus on warnings, be less verbose as default
-^1da177e4c3f41 Linus Torvalds  2005-04-16  80  # Use 'make V=1' to see the full commands
-^1da177e4c3f41 Linus Torvalds  2005-04-16  81  
-
-:::::: The code at line 66 was first introduced by commit
-:::::: 066b7ed9558087a7957a1128f27d7a3462ff117f kbuild: Do not print the build directory with make -s
-
-:::::: TO: Michal Marek <mmarek@suse.cz>
-:::::: CC: Michal Marek <mmarek@suse.cz>
+:::::: TO: Cyril Chao <Cyril.Chao@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
