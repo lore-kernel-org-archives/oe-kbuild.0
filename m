@@ -1,126 +1,139 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7643E558F
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Oct 2026 09:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142117; cv=pass; b=UBZYIZQjXa0fBlgT/oCQ1SoBjk4LfE+Uf9h/aXGP4iaD+a1HimlilYZ1ST1BjkyF8jeagS81Jj8OdmkOCeK8x761hWdUp+Vu2shDPV24Pvhs+PTKCrbsWPkM1ubGsnIH5dSO1eL0mLuH5GJMestVn9M9OIjPYiTwYHsooPHgXUw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142117; c=relaxed/simple;
-	bh=4lxt+hA7HPd1zgHzvpqvgnyz9EG1BcZ7MHNBGFtWn3I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tugYI3c0zhnxdqMleEkunjo4LH0xRwzqXM2d68tO8kAcSknQ3/p53lPyXFcnS+2gIpEERjGFfbZlrtsq9wVYldO8txmPHep+cZ4VRO6O6AQofGRl4tSgva/PUsNszpGi6EzLrosyJU3f0e/pwv2GdagwUhZkltit7/RtVr7befU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+9p6Lar; arc=pass smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+9p6Lar"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cd632f7a4a1so942097a12.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 16 Oct 2026 02:15:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792142116; cv=none;
-        d=google.com; s=arc-20260327;
-        b=M9lQu+yuFRkctLq5EH1hhXM54Z7LcDSGBZaUx5ORSiXmarJoJNbmfjjcyhbOpOpf1A
-         yCTAEt/c6wObDTW9Ke/cm3SzkwkUg88jlUJRaaQxM2QRU202C1ZjZiZ6OaO49+Zc57P7
-         uNhZgW52ujsjsPFaFCRjz6kuz1fLabwZ8una4ziGgFg1xLePpXhS8+2dygldWOjlme3N
-         fQEr2tSfKSeC2uSp8+aLA5PXXnaKxVvvvKqpez8xqS+o2NZEFYgGJoz2DjQOQYopzIvG
-         yfojewA1CP7Pmx9Lf2gUygyymPotdxD8gCT/xYc0uaDLFcnB4Xo1/CM8LVnqVqfaAYxx
-         jhLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=phYTTl4PHcJvVRbLzfsV00gncMf9YHBKRHMHM3SJjVA=;
-        fh=94XS7zfrZLr4k+gOipnUcuH00rPD35p/4sf3npcMMHo=;
-        b=oA3qIOTx38jqaSaob2fTuHoS+HwrciMemWSatgGeLbBYlR0PaukubPmlx0usKRXGrz
-         MiqQ71IpwxAA5DDqYGjOJGyO5BIh+q8lVst13+LM6JkDmF5QHJKwSZ/rAO6I9w6IqQ5Z
-         Nleny6r9A6I3eHDdC3BsAcseN3yhy+MahvbNwMVkZ+6gyqd2m1fBDi5n5sT6gEkO6Yn+
-         S9Y3lt3a+0SmSLbuWYQ8FzF67KQfZoWOd3e1DNwJ/SS0QRGJTMXMb6zhSfucCcOzwkyz
-         qn31ASf6Nn+/WpBqN4dy/tgS1M2s9NTDdJKtG5cZ78ox7xrJqu+laKimQXRQa9Hev/8Y
-         q6GA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792142116; x=1792746916; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=phYTTl4PHcJvVRbLzfsV00gncMf9YHBKRHMHM3SJjVA=;
-        b=B+9p6LarJ63wBGW0SF3q58vfxu4149SApmVAmyRfosgrvRZwAnwffC0wjGx+8kE9FC
-         6hh1SKZ5bITrM9EhD0LJRleybItS+w4Nd201nTQ7rUoLcxj3CvtDHUC9s1hEFRvIgsdV
-         O4vFFcHlvqOsRQUFyvA8PV4N2Bi0ClKYSkzGdyFHhO3sPtp8kjNaAzI7qpQSXwNW96Pv
-         f3BU0TDnk3UXlup8Be9cTursyNeVx6h1HDfApE5akDdNPG278mn7AoKtc+P0zwiHkTe8
-         r0yugvdJnZzTk1LQxsLYwm0PmJQ81hPY9cRYFCXdgKRSHh+iUXQ52WQEoc7Y41XkLhzK
-         30Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792142116; x=1792746916;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=phYTTl4PHcJvVRbLzfsV00gncMf9YHBKRHMHM3SJjVA=;
-        b=afKZ/7uZLUDM0vCODuH4sNkkBUvktBaeJBb4jDB0y5NnbV7PNFeVqvbg5Mxk8QK9YX
-         bmF0lLLHLjQh1Dla1xBJFUhtNFOaCQ7j6qrR6SAVc94YhqOqWG3VAYqxd/XrmUVoXI4I
-         yr1RvgCUT0DvQ+2kDYTAjeMEwEEpzCPEcazJc5ZQSqqgZT+H2qTwvseeTqJdF/Bf/pBM
-         FNfqH1UCv4CSVEQkSgJCzAUzgLbGkNdJkOmRjqLjZ6jGzKBfwA3vxG5uwq2OvDAlACdm
-         qPP96bJKpXJs7B4CPmpeCtd0PmvXVqeeUCHvkx5/yECGYduYC0A+UZc5j7tyR9/DNceW
-         eWMw==
-X-Gm-Message-State: AFq9FYIUGnM8GzIUrpM3jh4xoxOXk2PdAH+TSD4bpO5aux3UbkHIrnwr
-	SFJ4V3TTndnB0M7oHHN/WmelpX+QAI5YvEo/t9jjdnEIdHrfx42inqxNroRJ43Ptz5HEFbjgxh/
-	p/q63vvQFyma7eJe7qhO5DIW2g6ePhQk=
-X-Gm-Gg: AYBFou2DXmGCun4CRsWKXZEW4ow2BEweRPDIY1hnf834Me6k9oI6HsLojb+pByaSGU0
-	vMCzgK+JllNnz+6aJnddec6eGuGAlw+THNV8SlJoE6mUDz5z7QfjXGaAY1fA4mt2vpMZD59LiEy
-	/qF9PmJzg97G7ESR48ADvEeU2pbRaty4XVC7Z/cbpRq4ey01JLORMF3RpVnYz97nuXTyS8zhnye
-	eB5a6wYSvrkla3aom5NOju4joxMnVJCeYe4dUfo/jjy7beSHc37MuVYRs5P51fUK1qM4Kj04QgF
-	0vn3DmPStxBi2C2BzJZdeuFRyfZLShVQouhNBVFXIt9X1yME21UzAexR4abkx58UCulypdTs3mF
-	m2XuhU1E1oLQStRyBcGfBjb8zmJnXqEDnxYsQcQ62BiaYDmzwufpEeYSG1R2y4zUTkNw=
-X-Received: by 2002:a17:90b:4ac7:b0:3a5:133:ca5f with SMTP id
- 98e67ed59e1d1-3ab3af71187mr19329077a91.46.1792142115820; Fri, 16 Oct 2026
- 02:15:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CDE453A29;
+	Fri, 16 Oct 2026 09:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792142431; cv=none; b=Tl7SoZ9MwQKauMKlm8f7DSeFK/dxlhS0R9aUUJ2oiRWv2PBuq2kd2v4ne1XUCw25lGqM2pilFwT+RZ++VH/1fh+/cU9kwNMccexxLVBLNxhN1oZkZrYHKqilNFfbw0rNvadzSMPOhQLnwN8hy/13MOKjuRy7P7QBwZkpU5speHg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792142431; c=relaxed/simple;
+	bh=Hn+HkZil0eVjvq1oQ8H5orTMwbOMJhgXlw2fGbTw7MQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XVccNEAbzWhj7LDGOgSzJNcYTbr4ankjt6+3WJyHjyiqcbnGGlm0pcRni5eVwv2Wm6NZeiZoMG7eOdbMdy4wATgrKUTsPN3Ti0sTkV0COup7y2gErN1v3WdnM4aD+VMTaLaF9V/94vdjZecMlHzrjXskXQvYmuo9z17jb0d9FTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j5fXH3gwczYQtrT;
+	Fri, 16 Oct 2026 17:19:27 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id B02FE40561;
+	Fri, 16 Oct 2026 17:20:23 +0800 (CST)
+Received: from [10.174.179.19] (unknown [10.174.179.19])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAXTu1T7NFqy6qVAg--.19047S3;
+	Fri, 16 Oct 2026 17:20:21 +0800 (CST)
+Message-ID: <8bacf39d-5a1d-404d-ad58-0bf76c8ae891@huaweicloud.com>
+Date: Fri, 16 Oct 2026 17:20:19 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202610152233.eVrGPEyh-lkp@intel.com>
-In-Reply-To: <202610152233.eVrGPEyh-lkp@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 16 Oct 2026 16:15:04 +0700
-X-Gm-Features: AclHuK9xOpPEoV5IICqolD0ZAyyJiNgo92FzWBvhd8CsN_s17TOQfTH046kzxVA
-Message-ID: <CAABR9nGRwfhqrHptqew7=otJch7=JLOghns7Mw0ahB8QcbKhRQ@mail.gmail.com>
-Subject: Re: [linux-next:master 5778/17613] sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648
- mt8189_mck_enable() warn: missing unwind goto?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tytso-ext4:dev 40/41] fs/ext4/inode.c:4518
+ ext4_iomap_writepages() warn: missing error code? 'ret'
 To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Mark Brown <broonie@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
+References: <atHZN9YIl8T2E0tK@stanley.mountain>
+ <1165ce1d-6485-4b70-9949-47ee071a0a22@huaweicloud.com>
+ <atHo7i5Uq9cdeVFt@stanley.mountain>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <atHo7i5Uq9cdeVFt@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgAXTu1T7NFqy6qVAg--.19047S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw15AF1rGr48Ww4rXr4DCFg_yoWrXw4rpF
+	yxua4kJF4Iqa9IkFyv934DJa18Ka4kCr4rJry8Cr4fZFyrZrZ7Gr129FZ2gF1Ygw1DGrW7
+	AF4YkrZ5J34UAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwxhLUUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Hi Dan,
+On 10/16/2026 5:05 PM, Dan Carpenter wrote:
+> On Fri, Oct 16, 2026 at 04:49:10PM +0800, Zhang Yi wrote:
+>> On 10/16/2026 3:58 PM, Dan Carpenter wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+>>> head:   8c4f6e3376348fc3162eed86a05b933921c8f9ed
+>>> commit: bdcbb0f19e921c7ea3241f55922032dff23d1d26 [40/41] ext4: partially enable iomap for the buffered I/O path of regular files
+>>> config: x86_64-randconfig-2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610160314.PLMEXaOJ-lkp@intel.com/config)
+>>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>>> smatch: v0.5.0-9187-g5189e3fb
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Reported-by: Dan Carpenter <error27@gmail.com>
+>>> | Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
+>>>
+>>> New smatch warnings:
+>>> fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
+>>>
+>>> vim +/ret +4518 fs/ext4/inode.c
+>>>
+>>> a304299a40d92c Zhang Yi 2026-10-09  4488  static int ext4_iomap_writepages(struct address_space *mapping,
+>>> a304299a40d92c Zhang Yi 2026-10-09  4489  				 struct writeback_control *wbc)
+>>> a304299a40d92c Zhang Yi 2026-10-09  4490  {
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4491  	struct inode *inode = mapping->host;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4492  	struct super_block *sb = inode->i_sb;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4493  	long nr = wbc->nr_to_write;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4494  	int alloc_ctx, ret;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4495  	struct iomap_writepage_ctx wpc = {
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4496  		.inode = inode,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4497  		.wbc = wbc,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4498  		.ops = &ext4_writeback_ops,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4499  	};
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4500  
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4501  	ret = ext4_emergency_state(sb);
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4502  	if (unlikely(ret))
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4503  		return ret;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4504  
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4505  	/*
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4506  	 * Submit the pending zeroed EOF block range if the entire
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4507  	 * writeback range lies beyond it.
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4508  	 */
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4509  	ext4_iomap_wb_submit_zeroed_eof(inode, wbc);
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4510  
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4511  	alloc_ctx = ext4_writepages_down_read(sb);
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4512  	/*
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4513  	 * Does ext4_change_inode_journal_flag() change the inode's
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4514  	 * buffered I/O path?
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4515  	 */
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4516  	if (!ext4_inode_buffered_iomap(inode)) {
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4517  		ext4_writepages_up_read(sb, alloc_ctx);
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09 @4518  		return ret;
+>>>
+>>> Either return 0 or an error code here, but not ret.
+>>
+>> Thanks for pointing that out, but this is a false positive. No error
+>> code needs to be set here. This path is only taken when the writeback
+>> races with a concurrent journal flag switch, and since the switch will
+>> write back all dirty data, there is nothing to be done for the leftover
+>> writeback here and we can just return directly. So the 'ret' will simply
+>> be 0 here.
+>>
+> 
+> Yes, please change it to "return 0;" so it's more readable.
+> 
+> regards,
+> dan carpenter
 
-Thanks for the report.
+Sure, I'll send a separate patch for this.
 
->
-> smatch warnings:
-> sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648 mt8189_mck_enable() warn: missing unwind goto?
->
-..................
-> dc637ffeed6c32 Cyril Chao   2025-10-31  645     /* enable div, set rate */
-> dc637ffeed6c32 Cyril Chao   2025-10-31  646     if (div_clk_id < 0) {
-> dc637ffeed6c32 Cyril Chao   2025-10-31  647             dev_err(afe->dev, "invalid div_clk_id %d\n", div_clk_id);
-> dc637ffeed6c32 Cyril Chao   2025-10-31 @648             return -EINVAL;
+Thanks,
+Yi.
 
-After re-checking the code, the "div_clk_id < 0" branch can't actually
-be reached:
-mck_id is bounds-checked earlier,  and every entry in mck_div[] has a
-valid div_clk_id.
 
-So this looks like dead code.
-
-I could move the check before the "if (m_sel_id >= 0)" block to avoid
-the missing
-unwind goto warning, but that doesn't seem really necessary.
-
-This dead check could also be removed in a follow-up cleanup.
-
-Best regards,
-Phuc
