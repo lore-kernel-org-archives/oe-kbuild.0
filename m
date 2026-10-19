@@ -1,137 +1,94 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B9A48FF77
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Oct 2026 08:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F152367B9F
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Oct 2026 09:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792397856; cv=none; b=E6roSWeHSdPFgAU+CpJI6dZ0SfQ8V56sSP2wmqLto4KLI0PAMpyvZP/Ox40DuFZeA39zQeq7+B/QGnL9yDfXCEFbCFYv/6LMErqQCrDtai5qeapBI9sDZl3wpyXgHug2mB1MqGje4ZDVAe+qgCez+Vn4b7tJRDy/j7J3c+RuXRw=
+	t=1792402262; cv=none; b=OemTGFj0GERtrFH5j1Qwldc2YyFMixMzFspTaP6aE+dWoN3EJ9jf1T8iO8nFrm1amJeAzvmvaI8hGqLnMOaLSarjrsRXtuhEjifWcFsZM9hTtXBzDAQaFzzkJSa3s7BMxchnAzDkvFLo36jljfj4D+X6DWnuXmFtcUxleGHJkjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792397856; c=relaxed/simple;
-	bh=Gt8N0UB2KPF1e7vkq2yrNHlZ7lN/lCheiZswsOhLaPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MQKZv71cmY9UkhsvNf6JMrWHphBvlho0Pa81QmL7oi/BX53XusVSYHOSJq/fnW6CbbxbHEOBokNMOsNddgc0WpeZMyfssjdAXRO+piMsMZpNqJZjcyaxGDTJPudziJEwJgO2r3LwlaxI/x1EPQ+n/57mcPq5pGRnvm4GjrxnL9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TtVmbry6; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792402262; c=relaxed/simple;
+	bh=GdTBC9tikw4Yc9Vvokr6CTs6ER9LGkz5T4Xm0jmfqQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F83GzCkpqnCmupPhbGLh8hfCvnAP9YcAqBiJkfUQEeoL7oxoxK7ou/tej/N/numv5Bkjl6O+I2g8vimxBIa4YIN9ORPIVHPry7QQz/isEeMzLrete0BVObnegzbrq3l8M10amzYi61w4Tp+mlPF59j7X5JnsZEjsPDTqsQe8ssE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTxRMBV0; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TtVmbry6"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so1054606f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 19 Oct 2026 01:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792397853; x=1793002653; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vo36ty9zCEoV7zWlmQRq5FLQEFjKxu8JDIOaintjvOo=;
-        b=TtVmbry61PuDnvdywYyT3e7u356uUvtOzdtyTMSy9+tZSgYAbB55WuFcTcu8jVrDtJ
-         Ago+RfQqXRLDWsJ66+tP5ayS1eXSJoAq0A6NKe8RHtd/CYgJ+i/EJjZLo4WkbqVTCxnO
-         7RwlDrrZk1nn1zXbk0iwkmi0HUcy9insB7WGKjUgnOauAjKSwf2z77Kj3ieu4ZAN9z6c
-         fmIniwg2ouWeUrK2ueG0o3HqrWNSliJpPU8MBZWbSft2B3zMjIc7DUKCI+UCxCjok60y
-         6z7hONQEpdKnz4NGrcoxmBcqzqCq0PBEXN44yDBfnY0Z1lknsixjkB9wrHz0z6fAiLnr
-         PDoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792397853; x=1793002653;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vo36ty9zCEoV7zWlmQRq5FLQEFjKxu8JDIOaintjvOo=;
-        b=asTQC4HZgG2+4wL2jxOhAyi/X/VbMABqXT555rL7l2YcC947WdZm0jplAPjaLuN+tW
-         or8QZ8fotB6Eh9jTfh/696Fn0ymJqUcJ/vY+sf4thGXF8W5QNVGj0bpml7XyauHw/xw8
-         g5g32uAJM5ilUfilLUzhCluB2gQg/fKc7BqBpgzPNLvAcABfSIDJ0wa985iygOAqWC61
-         eLO4Z6AbFhnUYuqF56i6YLviQQEh8sdRH7EG6uwTxia4CylLhSww1uGWLcSPLBb4F97u
-         Z63ticSjpt+Kb21Elmow9etXQ8p+uPadEmbFgwsevHTd3ULrVq3gxihr614VH61Akylm
-         IW8w==
-X-Gm-Message-State: AFq9FYIs3C7nUYTlJBKGIWSKsFNAVlg7b949licrdy7p5DZFnyEF/t5M
-	bkI43Crk3KxczKaWu33N3WITTRRT021HF2vs5OiN/iooydlCaUSLXgAZJhlRgOPt6tzsASw9
-X-Gm-Gg: AYBFou39vQyPKfklZvylamYS1yrLErz3EZhufZTVG05mgpWSB0fOpx0zp4GVDzrOIbg
-	QzFa+2P+MKMaq9lOdqm/uWBWn7Er2IsOBzg0LtoH2kN2eN1W5elWv5NSiI/ObkhiZlp2cEvo2mZ
-	xUbsbBde2hQ6vAdliRnvvfBhhPNpnUgNKddduA/H3CbrWbLfYLJEAPwCA/Ufx4+VCJeGTxK3l/E
-	Rru/2f8bUWyUwfivwiaQ9yzDizfqdOncOV3uyvgSPB+cvrwdpdj6cwEqWXOFCNFf70ftj6OIgNI
-	ILAfbrWJyN2FDaccR7p5HrXFPwE9UaNrRm9Vk4kMo7YlNaLNxJaERgpSmBsT60oP7xIdqHDaSxr
-	fyosMHV2aDGBvO0qKkgJ4G1Kn1AR9TyIMfeAgDVP6SrXjYrOnu07kP9/UR5LzG780w4QLFrWyE4
-	jJPwTbtuOFn2q7seoTfDxbWsbq64t7BwwbTG2inz8qZpLrLq5r+KRNCBbJe47VCUdWZMU=
-X-Received: by 2002:a05:6000:26ca:b0:48a:f318:ac03 with SMTP id ffacd0b85a97d-48e07f98fa0mr13856654f8f.25.1792397852653;
-        Mon, 19 Oct 2026 01:17:32 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a35sm18529901f8f.7.2026.10.19.01.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 01:17:32 -0700 (PDT)
-Date: Mon, 19 Oct 2026 11:17:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-7.4 37/72] sound/soc/soc-dapm.c:2893
- snd_soc_dapm_free_widget() warn: variable dereferenced before check
- 'w->dapm' (see line 2891)
-Message-ID: <atXSGFnmTZ77bCRS@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTxRMBV0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792402262; x=1823938262;
+  h=date:from:to:cc:subject:message-id;
+  bh=GdTBC9tikw4Yc9Vvokr6CTs6ER9LGkz5T4Xm0jmfqQQ=;
+  b=QTxRMBV036jLrKeUYMFXfze+DOaHqiOKq25z4dWmegcBt1xuEBD1/b8r
+   fFQLInbLa4YhgN53bPe4qCZ2UYP15m6cfzP+myeMGOYKZYTH5F+cvbMuq
+   1ga54yeeejcaMT85xOOLjYANu1Khta5wZyBIAOuIgrHt+VcTz2N4c2kl6
+   fE/zFZm0zc6vsaPbezMbwc5hKVjt9Hm1T+s5l/YIn68GDU90NqrPFPJ07
+   lN4umm/Og2a1fsNe6kR+i5OniVhXrchHqsQFxc8R7a3YkUfD0CPjxZNyY
+   AtI3MaserQbknZ8yBgDirfVXzwAiZul4xQjEBAyvDj74ZvaC3DKx8OxIQ
+   g==;
+X-CSE-ConnectionGUID: aLTriIBMS+uml2bWlijqaA==
+X-CSE-MsgGUID: q6Bw3cvWS6av1Bg3F/Y39w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1074891"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1074891"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:31:01 -0700
+X-CSE-ConnectionGUID: wz2x3tkoRwSF9QrxtYjByA==
+X-CSE-MsgGUID: RBCdRXTQSQS7pJt5UMswmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2964996"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 19 Oct 2026 02:31:00 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIjhq-000000005ZL-0SbV;
+	Mon, 19 Oct 2026 09:30:58 +0000
+Date: Mon, 19 Oct 2026 11:30:30 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [bcain:hexagon 33/82]
+ Documentation/devicetree/bindings/remoteproc/qcom,glink-shmem-edge.yaml:
+ properties:qcom,ipc-bits: '$ref' should not be valid under {'const': '$ref'}
+Message-ID: <202610191142.nVSYEsFO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Sorry for sending this without a subject...  :(
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-head:   ba982c33278c1fc739c8c220f410d6539de9d9b9
-commit: 568406bc832e7e9e333e2ab05aafd0b83ffb9610 [37/72] ASoC: soc-dapm: Remove widget from cache on removal
-config: nios2-randconfig-r2202-20261017 (https://download.01.org/0day-ci/archive/20261018/202610180339.A6POXeNa-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-smatch: v0.5.0-9187-g5189e3fb
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Brian Cain <brian.cain@oss.qualcomm.com>
+CC: linux-doc@vger.kernel.org
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
+head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
+commit: 01fc8786a581482e48835b8dc1778f2979928c6e [33/82] rpmsg: qcom: add a GLINK transport over shared memory
+:::::: branch date: 26 hours ago
+:::::: commit date: 3 weeks ago
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20261019/202610191142.nVSYEsFO-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev4+g568711590
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191142.nVSYEsFO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610180339.A6POXeNa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610191142.nVSYEsFO-lkp@intel.com/
 
-smatch warnings:
-sound/soc/soc-dapm.c:2893 snd_soc_dapm_free_widget() warn: variable dereferenced before check 'w->dapm' (see line 2891)
-
-vim +2893 sound/soc/soc-dapm.c
-
-b97e26980f6c13 Lars-Peter Clausen   2015-07-21  2870  void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w)
-2b97eabc09f42d Richard Purdie       2006-10-06  2871  {
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2872  	struct snd_soc_dapm_context *d;
-2b97eabc09f42d Richard Purdie       2006-10-06  2873  	struct snd_soc_dapm_path *p, *next_p;
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2874  	enum snd_soc_dapm_direction dir;
-2b97eabc09f42d Richard Purdie       2006-10-06  2875  
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2876  	if (!w)
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2877  		return;
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2878  
-2b97eabc09f42d Richard Purdie       2006-10-06  2879  	list_del(&w->list);
-5c6679b5cb120f Thomas Hebb          2020-12-12  2880  	list_del(&w->dirty);
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2881  	/*
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2882  	 * remove source and sink paths associated to this widget.
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2883  	 * While removing the path, remove reference to it from both
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2884  	 * source and sink widgets so that path is removed only once.
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2885  	 */
-af6d53db28e644 Kuninori Morimoto    2026-01-20  2886  	dapm_for_each_direction(dir) {
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2887  		snd_soc_dapm_widget_for_each_path_safe(w, dir, p, next_p)
-8872293fc38c49 Lars-Peter Clausen   2013-06-14  2888  			dapm_free_path(p);
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2889  	}
-8872293fc38c49 Lars-Peter Clausen   2013-06-14  2890  
-8ad13cdc92f663 Trevor Wu            2023-05-26 @2891  	dapm_debugfs_free_widget(w);
-                                                                                 ^
-This dereferences "w->dapm"
-
-8ad13cdc92f663 Trevor Wu            2023-05-26  2892  
-568406bc832e7e Amadeusz Sławiński   2026-10-14 @2893  	if (w->dapm) {
-                                                            ^^^^^^^
-So this check is too late.
-
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2894  		if (w->dapm->card) {
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2895  			for_each_card_dapms(w->dapm->card, d) {
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/remoteproc/qcom,glink-shmem-edge.yaml: properties:qcom,ipc-bits: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
