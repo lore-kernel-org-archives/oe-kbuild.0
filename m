@@ -1,87 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792480060;
-	b=bZCgYOr2kYyM0hZbJDco/EakVGd8aCJE9TmHnKjEOnMmSvayQexdCm1j+ncDPS0sdT58
-	 VYHsgdTLXtmsgEw2B9CLP2WmDR4NxUqCkmjNiChjnQ1SBQWImbmgvGviRNUsoDToX83Gl
-	 xdyfWPXYiq1Er42OYkrBCE0BSmxIDVqub/UCxzwZruqYpVy3In5BtppHkTUJNJSWVDTny
-	 CURqDNwF91/tFywv6JnMoAmSWytadCsr1rklS+9oLpx3170EPE1tKfxed8RMkTe5Z0MzE
-	 hfXa8yknGyqFNZbr3SkfHXdom8h0xME0i/ULrvGYKej6kSUtJDA9BL2ZLsCJPJivJsg==
+	t=1792483357;
+	b=IrNfUd4SM6bykrHIoAicwzBFG2eX5ErsJ1ZlTTtc42F7sNnr/8/1F0t44Y831BWYiHcZ
+	 xojFgD/qH0u4HdWAD7mnM+WgbWjy4rSzQV+Sa1dnAymaEDmSXukRwjns9JqZ0bxOgno3O
+	 clm41ExbypkOplbidpKGnLvYd3XAv2rOGD27O7rqKhs+KYQOAZE6Fnx7+W2GPqzbcdy5i
+	 3ozyZqF0A0X+oodZIFXnmTcgNLs5b/05rKbBkQme/0YTdZVC6Bak1jRjTtU3Zyh7S7uc+
+	 q3ayaW6HHRK7jti24AlkSWrw0a73aESWd8bQZBKx25wsqvF+B0onE6r4ga/7W/rlYuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792480060;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=qjxyYSF91bhYabHfV+gH5gJvnuKSiy9mVBJrt+2Ux6g=;
-	b=gzn1iSepH9h6f5H5jNkUkBDykHox6U7Ebv7kaBwPt71AWUAt3SgR/ad0r5DtytzKFotY
-	 fgujIzaXmWqq3jCR4GH4D7MU0auD5ftTbLFPt9BPVviBoWmM8YWLIKWJwzfkfQEjmw7om
-	 iH10yUH+5AOt439hgzr5vEPKi/RHpmOvWlklBUaD46y3HKW3E1Q8ok5xjhkJ2rILkHdZx
-	 oRv5Hr/Cmh1VfHCZ4ftOcuZVr01uDRI0F8CZGCbPy9dGb2Nh5bDVwRHPbppF2URuf+V/6
-	 5qh3LbE1VjIeG2QUZsxjxf+26qD60HJzVYBwobbp1zHggGAtnFvG5cKzq83wGwFWPig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792483357;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=aM2el89ioWQFvX3a+9eyJ9y9kN6dWjeRqFOhWlGwuwc=;
+	b=5nBuTOdo9jsx/fw62erEbEbdjPNPP/in8BP/DyEanJIfbuBhvQywdi30DLybQ+kGS9Hf
+	 f1HBsWWJ9zvV5bbVJr7AjBPitOSPHiGS6AIOiEPVArTIH2e/sz9hWrMCQLKxwQhmeZd5P
+	 6tlROgviU7wvqZOTEzh7RdRn++BZDttNB9KzfDzN1j1rTtM5RjnfTIyVU2R1k3HkI/tRT
+	 JDw7wYP0S/aXyNV7DX7LeNNdliEePfHtmJ65HoxesrvlWGb6qaikx9jzutFbQtCkrg5l8
+	 goNr/Cq9rgUwtAblrbLBZDBdj+F5S193h5CD3K4EWf0FVsgLqjhuXAuJuuTRh88usgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="j/LegYQ5";
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fH0I8V4M;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3B0606A31D
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 07:07:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F3B0606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D10606A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 08:02:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79D10606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=j/LegYQ5
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a1efc90e7cso1997515e9.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 00:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792480058; x=1793084858; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qjxyYSF91bhYabHfV+gH5gJvnuKSiy9mVBJrt+2Ux6g=;
-        b=j/LegYQ5QvXqbtS66oEuZNzd0bK59jxE8di2UPW8xepaD3zbVFSzYEYZQZDQ76EC6T
-         T+UX5s451scxzl3BeI8V5AbmGgMrE6DqlQBSClxnXiU1Xe1NXj1R1c0R4cIn4lRIPf8T
-         l1F6tek5sE78NoJMn6zCw7bcarqvHl+9lifBXoyr89Q9Q1MN5PII7r8iU6opcLjtu/IE
-         JShemOwY7wyCgSAJGKdJ+emp2JA058uGZsbmGGBKRMzoajzYfYqUml9oTegX5PMNbXLk
-         6AN/MYN6F23Tps6YzmN88VbRdgkIgKXxR9DUtUVtzOHhN+nq27RsRZPAjWQGRVZD3bE4
-         yy+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792480058; x=1793084858;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qjxyYSF91bhYabHfV+gH5gJvnuKSiy9mVBJrt+2Ux6g=;
-        b=BGs8sK7xMJTftpEoiCp1jozTrNbYH3Lf6qJiCX/z/C4PjjoaYX2HZLplexB74HPw4W
-         X8yGWsQVVsgy72BCnCsmiIVnaSi21jxhyRWi2b++7BE5t6BYP8DKUbzJAVFoLjjvTy8P
-         3tTBivFyRHQPsKrTxyk0h2OMYU5oS/POXv2sVX7uZ3+gJZstcIKU2iKkFgmsLrshTdxo
-         DoEi3Jeimh8vXNjBRtfCtsTVsGhPHtbQ9K6hfPxfh5+meMe6guxps9Pcd+0baAi+6By/
-         3F2u5WnLma6ZiCa8OKFsYLlqcPKycU8XEvhHxWjP4i8IlKBx3hl5cR1+PKiOHfQOKIJH
-         w9aQ==
-X-Gm-Message-State: AFq9FYKouf9+6BUKpV6dcUdHagMwFRzmLWlUSqXYw0vD2HBXp/qrRyv/
-	Ms3ZKqSUB8XLZ+ez2qwiEIki2ZRxoQEY6tsAMOmsojzwV57RlWFpgYHKHSEuLaEApsfpoQZV
-X-Gm-Gg: AYBFou3oiY8z4Xb/mekQq8+r8N8md5wmWVl84JCCMFCHVD1bdI4O4ENlvxjh6OtZnN6
-	YzIL5Y6N4OfscXc+ISubS8kfwztTOHpzHW5aN5EMRiFmzOQveB5Qf2cPS3bUtENBVKX/1/UKSpM
-	D4gv5k+nhgT1js1qPIWQOFKTKhg3P2FE1mSnDO20BUR45p81XUWMcfd89jsC+F85+TrxUY7KUK5
-	rIgoa+k7BrRpr6m0SW3/ZTNo6VKvgajxHLf1k8gks/vsiR8zFJ56YO17SB/vGnpU4HGlVYbPyof
-	kX/YFL7X0Cr00kh6m4toI8RGav/BiHpDTuJKu+Vh9JhzAWkwiXlgnNpBBWuC3inFaMSXQyQF3nv
-	3JudKTwzQw9hCJHKS0sP+l0U9j9pz+3hMD8gTCJ5x4IIzdBGRMlwGZ6RtyvxB/KSj4sJEWDSlow
-	+3isYsv9iuJn5ANmaFXwL2IAIiMG3eFjIiShHmaXy3rT80gtfv8OLflpFm6BHaT8/pK+0=
-X-Received: by 2002:a05:600c:6610:b0:4a1:7f96:9b42 with SMTP id 5b1f17b1804b1-4a1f4fa26a5mr27283035e9.15.1792480058415;
-        Tue, 20 Oct 2026 00:07:38 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2ca3666sm50510085e9.1.2026.10.20.00.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 00:07:37 -0700 (PDT)
-Date: Tue, 20 Oct 2026 10:07:33 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 291/291] sound/usb/pcm.c:1053
- snd_usb_pcm_prepare() warn: variable dereferenced before check
- 'subs->cur_audiofmt' (see line 1049)
-Message-ID: <atcTNZI9wkxpuNjM@stanley.mountain>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fH0I8V4M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792483355; x=1824019355;
+  h=date:from:to:cc:subject:message-id;
+  bh=BAuo7Ma55W3UgJKjfpLWZrP71h9RJEKztXjCbOcFWlo=;
+  b=fH0I8V4MCLRDSxuSmydqUA1A+hHrArJX5WJmxSP2D+Bd4y9rnG8y+cf0
+   IxPEPVde8oH/b3N/SsXzGlPiRw17/lc4NFUyNyFrczi/o32qTUHEByVGM
+   OnwT7mtYhXgTXimepCNnRHndq18zpn63vw1sTRiTAtPZ1iX2ErlpYkqOm
+   DBGM5R6dhXMiNkDyiIyMoCxJ/O3icwD8SSidqXwz62QDg7pClLZrUvp5d
+   PnHfczWbbhhG3P/kOwhTu4vg7y7wkrU+Z+UntcWe+MG2l65lqK7gqPiKW
+   babyOcFkeWuDJD+QYAaEIlpBwXNiK7S5IZ73AeOJ0eY2iCkXXH4G4bRgF
+   A==;
+X-CSE-ConnectionGUID: 5KgpUbc1TTeBRGU1P6sNwg==
+X-CSE-MsgGUID: p7OrcCyPRL2kESgUYdyEvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1195769"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1195769"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 01:02:34 -0700
+X-CSE-ConnectionGUID: axzeiiybQUKrC9SB5JePbQ==
+X-CSE-MsgGUID: 7GbWGzZIT7mlZVBXMqpUiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="2758732"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 20 Oct 2026 01:02:33 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJ4nm-000000006B7-3hbF;
+	Tue, 20 Oct 2026 08:02:30 +0000
+Date: Tue, 20 Oct 2026 10:01:47 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 16319/17742]
+ drivers/gpu/drm/xe/xe_hwmon.c:1344 xe_hwmon_temperature_decode() warn:
+ impossible condition '(value > ((~0 >> 1))) => (s64min-s64max > s64max)'
+Message-ID: <202610200910.SP0zWbkd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -90,55 +80,95 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   aaa0cf06ed53d6805dfa9099535f6fc052c49086
-commit: 1eb185541df90c3f790676b9ac362683de3519f2 [291/291] ANDROID: sound: usb: Add vendor's hooking interface
-config: i386-randconfig-2200-20261020 (https://download.01.org/0day-ci/archive/20261020/202610200641.Ba5XQ2g4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Karthik Poosa <karthik.poosa@intel.com>
+CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3d229ce89862b8e82d71a9e11d6f840ca272a6d6
+commit: 24ec15d646179a255f314e404343bf8e3200c9c0 [16319/17742] drm/xe/hwmon: Decode CRI temperature registers as IEEE-754
+:::::: branch date: 14 hours ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-r2202-20261019 (https://download.01.org/0day-ci/archive/20261020/202610200910.SP0zWbkd-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610200641.Ba5XQ2g4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610200910.SP0zWbkd-lkp@intel.com/
 
 smatch warnings:
-sound/usb/pcm.c:1053 snd_usb_pcm_prepare() warn: variable dereferenced before check 'subs->cur_audiofmt' (see line 1049)
+drivers/gpu/drm/xe/xe_hwmon.c:1344 xe_hwmon_temperature_decode() warn: impossible condition '(value > ((~0 >> 1))) => (s64min-s64max > s64max)'
 
-vim +1053 sound/usb/pcm.c
+vim +1344 drivers/gpu/drm/xe/xe_hwmon.c
 
-e5779998bf8b70e Daniel Mack          2010-03-04  1041  static int snd_usb_pcm_prepare(struct snd_pcm_substream *substream)
-e5779998bf8b70e Daniel Mack          2010-03-04  1042  {
-e5779998bf8b70e Daniel Mack          2010-03-04  1043  	struct snd_pcm_runtime *runtime = substream->runtime;
-e5779998bf8b70e Daniel Mack          2010-03-04  1044  	struct snd_usb_substream *subs = runtime->private_data;
-61a709504b07911 Dylan Reid           2012-09-18  1045  	struct usb_host_interface *alts;
-61a709504b07911 Dylan Reid           2012-09-18  1046  	struct usb_interface *iface;
-61a709504b07911 Dylan Reid           2012-09-18  1047  	int ret;
-e5779998bf8b70e Daniel Mack          2010-03-04  1048  
-1eb185541df90c3 JaeHun Jung          2020-05-26 @1049  	ret = snd_vendor_set_pcm_buf(subs->dev, subs->cur_audiofmt->iface);
-                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
-Android adds this vender hook
-
-1eb185541df90c3 JaeHun Jung          2020-05-26  1050  	if (ret)
-1eb185541df90c3 JaeHun Jung          2020-05-26  1051  		return ret;
-1eb185541df90c3 JaeHun Jung          2020-05-26  1052  
-e5779998bf8b70e Daniel Mack          2010-03-04 @1053  	if (! subs->cur_audiofmt) {
-                                                              ^^^^^^^^^^^^^^^^^^
-before the NULL check
-
-0ba41d917eeb87f Takashi Iwai         2014-02-26  1054  		dev_err(&subs->dev->dev, "no format is specified!\n");
-e5779998bf8b70e Daniel Mack          2010-03-04  1055  		return -ENXIO;
-e5779998bf8b70e Daniel Mack          2010-03-04  1056  	}
-e5779998bf8b70e Daniel Mack          2010-03-04  1057  
-47ab154593827b1 Takashi Iwai         2015-08-25  1058  	ret = snd_usb_lock_shutdown(subs->stream->chip);
-47ab154593827b1 Takashi Iwai         2015-08-25  1059  	if (ret < 0)
+24ec15d646179a Karthik Poosa 2026-10-15  1296  
+24ec15d646179a Karthik Poosa 2026-10-15  1297  /**
+24ec15d646179a Karthik Poosa 2026-10-15  1298   * xe_hwmon_temperature_decode - Decode an IEEE-754 temperature register value
+24ec15d646179a Karthik Poosa 2026-10-15  1299   * @reg_val: The raw register value to decode
+24ec15d646179a Karthik Poosa 2026-10-15  1300   * @temperature: Pointer to store the decoded temperature in millidegrees Celsius.
+24ec15d646179a Karthik Poosa 2026-10-15  1301   *
+24ec15d646179a Karthik Poosa 2026-10-15  1302   * IEEE-754 single-precision format:
+24ec15d646179a Karthik Poosa 2026-10-15  1303   *
+24ec15d646179a Karthik Poosa 2026-10-15  1304   *  31 30                         23 22                         0
+24ec15d646179a Karthik Poosa 2026-10-15  1305   * +--+-----------------------------+----------------------------+
+24ec15d646179a Karthik Poosa 2026-10-15  1306   * | S|          exponent           |          fraction          |
+24ec15d646179a Karthik Poosa 2026-10-15  1307   * +--+-----------------------------+----------------------------+
+24ec15d646179a Karthik Poosa 2026-10-15  1308   *
+24ec15d646179a Karthik Poosa 2026-10-15  1309   * value = (-1)^S * 1.fraction * 2^(exponent - 127)
+24ec15d646179a Karthik Poosa 2026-10-15  1310   *
+24ec15d646179a Karthik Poosa 2026-10-15  1311   * Return: 0 on success or an error if @reg_val is non-finite or cannot be
+24ec15d646179a Karthik Poosa 2026-10-15  1312   * represented in millidegrees Celsius.
+24ec15d646179a Karthik Poosa 2026-10-15  1313   */
+24ec15d646179a Karthik Poosa 2026-10-15  1314  static int xe_hwmon_temperature_decode(u32 reg_val, long *temperature)
+24ec15d646179a Karthik Poosa 2026-10-15  1315  {
+24ec15d646179a Karthik Poosa 2026-10-15  1316  	u32 exponent = REG_FIELD_GET(IEEE754_EXP_MASK, reg_val);
+24ec15d646179a Karthik Poosa 2026-10-15  1317  	u32 mantissa = REG_FIELD_GET(IEEE754_MANTISSA_MASK, reg_val);
+24ec15d646179a Karthik Poosa 2026-10-15  1318  	s64 value;
+24ec15d646179a Karthik Poosa 2026-10-15  1319  	int shift;
+24ec15d646179a Karthik Poosa 2026-10-15  1320  
+24ec15d646179a Karthik Poosa 2026-10-15  1321  	/* Exponent 0xff encodes infinity or NaN. */
+24ec15d646179a Karthik Poosa 2026-10-15  1322  	if (exponent == IEEE754_EXP_SPECIAL)
+24ec15d646179a Karthik Poosa 2026-10-15  1323  		return -EINVAL;
+24ec15d646179a Karthik Poosa 2026-10-15  1324  
+24ec15d646179a Karthik Poosa 2026-10-15  1325  	/* Subnormal values are smaller than one millidegree Celsius. */
+24ec15d646179a Karthik Poosa 2026-10-15  1326  	if (!exponent) {
+24ec15d646179a Karthik Poosa 2026-10-15  1327  		*temperature = 0;
+24ec15d646179a Karthik Poosa 2026-10-15  1328  		return 0;
+24ec15d646179a Karthik Poosa 2026-10-15  1329  	}
+24ec15d646179a Karthik Poosa 2026-10-15  1330  
+24ec15d646179a Karthik Poosa 2026-10-15  1331  	value = (s64)(mantissa | BIT(IEEE754_MANTISSA_BITS)) * MILLIDEGREE_PER_DEGREE;
+24ec15d646179a Karthik Poosa 2026-10-15  1332  	shift = exponent - (IEEE754_EXP_BIAS + IEEE754_MANTISSA_BITS);
+24ec15d646179a Karthik Poosa 2026-10-15  1333  	if (shift >= 0) {
+24ec15d646179a Karthik Poosa 2026-10-15  1334  		if (shift >= BITS_PER_LONG || value > (LONG_MAX >> shift))
+24ec15d646179a Karthik Poosa 2026-10-15  1335  			return -ERANGE;
+24ec15d646179a Karthik Poosa 2026-10-15  1336  		value <<= shift;
+24ec15d646179a Karthik Poosa 2026-10-15  1337  	} else if (shift > -64) {
+24ec15d646179a Karthik Poosa 2026-10-15  1338  		value >>= -shift;
+24ec15d646179a Karthik Poosa 2026-10-15  1339  	} else {
+24ec15d646179a Karthik Poosa 2026-10-15  1340  		value = 0;
+24ec15d646179a Karthik Poosa 2026-10-15  1341  	}
+24ec15d646179a Karthik Poosa 2026-10-15  1342  
+24ec15d646179a Karthik Poosa 2026-10-15  1343  	/* Ensure the magnitude fits in long, which is 32-bit on some arches. */
+24ec15d646179a Karthik Poosa 2026-10-15 @1344  	if (value > LONG_MAX)
+24ec15d646179a Karthik Poosa 2026-10-15  1345  		return -ERANGE;
+24ec15d646179a Karthik Poosa 2026-10-15  1346  
+24ec15d646179a Karthik Poosa 2026-10-15  1347  	if (reg_val & IEEE754_SIGN)
+24ec15d646179a Karthik Poosa 2026-10-15  1348  		value = -value;
+24ec15d646179a Karthik Poosa 2026-10-15  1349  
+24ec15d646179a Karthik Poosa 2026-10-15  1350  	*temperature = value;
+24ec15d646179a Karthik Poosa 2026-10-15  1351  	return 0;
+24ec15d646179a Karthik Poosa 2026-10-15  1352  }
+24ec15d646179a Karthik Poosa 2026-10-15  1353  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
