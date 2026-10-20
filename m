@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792512768;
-	b=44Hj3WCPl/+7GV71pCmoBgNNmFN6cBA8B2x9LLkkvFPpYV8vF2WUZPCHftUTGPWQpVLh
-	 f0WtFEuFUipTnaqmmrcgyaDSyjoFPC1hnCYv9ABUpaYVHsMzSwNBmpo4cgxWS+1xww+sq
-	 ujoyKNWG9p7PiP3UwsrEKhPBIOTD7e0fbx+U7tve+UhO4lwrCwOpH3qFCYTfpPXSSgwrU
-	 mpMBtjIaqsL9sTujJuHiST3QIoOVDj1VTlZXqeByk6XZu5vFSObO/ONhgQnhmUCMPzAAe
-	 1RQ/b/h+i41WV5d27rTfN7z3TUnu5tvT6x0WF+wNyGpzX8Go0iQktmyJc3eVPj7+UYA==
+	t=1792517064;
+	b=m83ZuFSnmbPGBEfkDsPzWbtwoHtryTnh4jekzu2iEXVEN4MutYtaCTmWT8ee/YBDOOm/
+	 MaFKaAZ1L2BARtSJ3hFc/q0DljYaxGTkhAiQ325Q6xN0HhNTPdnJgtUYt6FMimBS8qL3A
+	 bEQwKH4KLvY6fI0wnnMk8YkVj3oZJPBc6fB9Tcj7r8jUy6A3tSEf+p8R9zXjV5IMgVFwS
+	 pjMACkadY2ScIFj4Zl4Ma+KIDFNBjU+Ox4VXWDFDezeLwC1IDgPENh+xAaWZHNhFCKXZ2
+	 wvvCCqKqiWTNTk0C7BgBhBYp/69JS2BquoW5YftqqXUmCDCDzd+PV9niGR4dSjxr2HQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792512768;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792517064;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=/KROd5tQzN1CQ5f0ye7ndneC8hkWpWOvVtwupaWP8RU=;
-	b=nZcXTltez16JM3nPAMiCb53nQZShiAqIOTQciZpa71hFigLHEEWEqDLB6IeRw9hmd/1j
-	 BiMpoamYejzejWboXFJxiJSRt1jPvHfFRW2TljyTXYnx/jKvPtIc6n2bD74m4vq692O8M
-	 0I7HFlqgG8I+UsW9WwVo5mPLTfVeUR9JP8nSmwem5JdYTcTzN7m/zW7rRpYDT0oA7aK7a
-	 hSwmRCDonSG6Y0UR+BVNBuZFkkPcJTWlw6NULBqy8w2fHBN1Yghx2JNajcsUn1yeKQ7sC
-	 jBaGxdHwCfx2aZKtIRwo00uImzVpCGf6yEBBGn9G6SbeFpan6EGV+n/ihXLuuuBDaMg==
+	bh=YBC4KLJ+QeOjD+A6W8tqVrzuzhuJdEImHlOFtArVhHw=;
+	b=jnGoq4yfs1K2eiTL/YdsRz2uv8Uy1qIBATnF1Mwx68IT6RTzrTqkOatsqewdeXe2D8t2
+	 R45ri6fY0ZBVCSmsPYa9SKO0GeyA34y5p6/UNxB4Tm7P9fRKtRgVL3TC7GM8H6Zc3RqIF
+	 Si5gozj1s0PcOd2O/1x1uMzhFPmXZziIjwQ9OSi3PYU9M2BlG4GpFIBit6bCnQn3dvAYi
+	 SX811eRWg9TWrrrG3uZ7ImkKurt/51yX4V+v/3h/pa0MquFWITOlYci9kW814kD+uVRp+
+	 gSTDfOtrHItaIyODY6UiDfzxA4MttmaToMqoiNDxKqBJ7G2rIOJtNVniK2j4aSijL1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QnhNsakz;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gyarjnhw;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD0606A31E
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 16:12:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBDD0606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5AD606A323
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 17:24:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B5AD606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QnhNsakz
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gyarjnhw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792512768; x=1824048768;
+  t=1792517064; x=1824053064;
   h=date:from:to:cc:subject:message-id;
-  bh=afjJh8YYx5QmUuPkvUueANxDUPDj98uUMsKCHZWuJA8=;
-  b=QnhNsakzU5t/DEaKjpRlCTJYCLSEV+QgiZsH7bVZ8WK/5JXRVH9NDdlL
-   lmJNqhO2oz0CEQMuciaYVb88Rdh+h7Rd4QSBeIi9GTAw+/WmGV2Id2D0l
-   53WiwM/VFuCZqcuvLD8NgkcUcU8esczjJqXmGzzak2kSz1robk/HcYywi
-   zJtymNAtxkzLrOFe7CwhX9OCNnT9IQa19fpCDtAagpKec+2xuqL9yVrez
-   hLaT71jJPYSvDVWYeByfFPlowYBYBxoPAo6LXRBRtXHnNCU4XRp5pv3sJ
-   PxJixhI6C7TiZr28hRz8eWQzMnMhH4TM2BL70WoU6UQ+rduNrvwelSTd+
-   w==;
-X-CSE-ConnectionGUID: ppM7rJasTaK22THxk4KG0g==
-X-CSE-MsgGUID: gaHNj+PBQSSZQ+QtgFl8lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1248146"
+  bh=B7ULheSQkYINnO1nEAJBYHvFNh0XezMQrgY0OF2vYTs=;
+  b=gyarjnhwGfgE3SV4+xQ9sTq9hqixcqCuAeA3xGO+E1z1ffzl3ZdFGyb3
+   TI0KuGx9s5QitOJw8Zf1mx+9bfWZawYncvRUMNNkkptwPStTLmodCrfGd
+   8fiIFzgrIaU9xiZGiAd//OsKViF3Ql/ilTSskhJXxuiGRcdFHWyHJXU7+
+   Wxv3smXdHlzXKj4SNVb5YMy03XtneMfVp4JprCcG6N9sTfGcX52CjRyh9
+   dLMiSTx2CNry0ZfTUHjRR/polO1spZ96AZJGs5b0Kwhoifv0o891JIMd6
+   ygXwJzzDocUa4ENaW8bzlC7ge2mr1CrBppG6Ass0GDucpIfqgUYNUUbC9
+   g==;
+X-CSE-ConnectionGUID: t8/iXeuNRoqmpcrJf2xS7A==
+X-CSE-MsgGUID: vT6a7q0eSC+D2x+r6+SlGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1238120"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1248146"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 09:12:48 -0700
-X-CSE-ConnectionGUID: OMIraAjhQoGxTDLKcgybLg==
-X-CSE-MsgGUID: hHFIl8vlRhKnTjb/0ArNJQ==
+   d="scan'208";a="1238120"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 10:24:23 -0700
+X-CSE-ConnectionGUID: gUFFcfDPRl+wCTGfiGQqKw==
+X-CSE-MsgGUID: znU+047pTLmq/Pp3tX/djw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="3253346"
+   d="scan'208";a="2872114"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 20 Oct 2026 09:12:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Oct 2026 10:24:21 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJCSB-000000006Mb-2Wuc;
-	Tue, 20 Oct 2026 16:12:43 +0000
-Date: Tue, 20 Oct 2026 18:11:45 +0200
+	id 1xJDZT-000000006Ol-0K5r;
+	Tue, 20 Oct 2026 17:24:19 +0000
+Date: Tue, 20 Oct 2026 19:23:35 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/raid/raid6/arm/recov_neon_inner.c:32
- __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-Message-ID: <202610201810.9dlLCRlJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [lindholm-alpha:for-linus 57/57]
+ arch/alpha/kernel/err_tsunami.c:653:22-23: WARNING opportunity for min()
+Message-ID: <202610201902.6BG70hxk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,110 +80,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Magnus Lindholm <linmag7@gmail.com>
+CC: Matt Turner <mattst88@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f47d223627f80cb7a1eb14c585fe6cb35de5e984
-commit: 3626738bc7147d52cb49f3994a9846aa2d34810a raid6: move to lib/raid/
-date:   5 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-r2202-20261019 (https://download.01.org/0day-ci/archive/20261020/202610201810.9dlLCRlJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lindholm/alpha.git for-linus
+head:   71cf9644bcb35e686c3e12a703325335a0925946
+commit: 71cf9644bcb35e686c3e12a703325335a0925946 [57/57] alpha: add bounded Clipper console-log scanning
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: alpha-randconfig-r2105-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201902.6BG70hxk-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3626738bc714 ("raid6: move to lib/raid/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610201810.9dlLCRlJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610201902.6BG70hxk-lkp@intel.com/
 
-New smatch warnings:
-lib/raid/raid6/arm/recov_neon_inner.c:32 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:81 __raid6_datap_recov_neon() warn: statement has no effect 'uint8x16_t'
+cocci warnings: (new ones prefixed by >>)
+>> arch/alpha/kernel/err_tsunami.c:653:22-23: WARNING opportunity for min()
 
-Old smatch warnings:
-lib/raid/raid6/arm/recov_neon_inner.c:33 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:34 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:35 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:36 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:51 __raid6_2data_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:82 __raid6_datap_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:83 __raid6_datap_recov_neon() warn: statement has no effect 'uint8x16_t'
-lib/raid/raid6/arm/recov_neon_inner.c:93 __raid6_datap_recov_neon() warn: statement has no effect 'uint8x16_t'
+vim +653 arch/alpha/kernel/err_tsunami.c
 
-vim +/uint8x16_t +32 lib/raid/raid6/arm/recov_neon_inner.c
-
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  27  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  28  void __raid6_2data_recov_neon(int bytes, uint8_t *p, uint8_t *q, uint8_t *dp,
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  29  			      uint8_t *dq, const uint8_t *pbmul,
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  30  			      const uint8_t *qmul)
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  31  {
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13 @32  	uint8x16_t pm0 = vld1q_u8(pbmul);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  33  	uint8x16_t pm1 = vld1q_u8(pbmul + 16);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  34  	uint8x16_t qm0 = vld1q_u8(qmul);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  35  	uint8x16_t qm1 = vld1q_u8(qmul + 16);
-1ad3935b39da78 lib/raid6/recov_neon_inner.c Nick Desaulniers 2019-02-25  36  	uint8x16_t x0f = vdupq_n_u8(0x0f);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  37  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  38  	/*
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  39  	 * while ( bytes-- ) {
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  40  	 *	uint8_t px, qx, db;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  41  	 *
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  42  	 *	px    = *p ^ *dp;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  43  	 *	qx    = qmul[*q ^ *dq];
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  44  	 *	*dq++ = db = pbmul[px] ^ qx;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  45  	 *	*dp++ = db ^ px;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  46  	 *	p++; q++;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  47  	 * }
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  48  	 */
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  49  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  50  	while (bytes) {
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  51  		uint8x16_t vx, vy, px, qx, db;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  52  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  53  		px = veorq_u8(vld1q_u8(p), vld1q_u8(dp));
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  54  		vx = veorq_u8(vld1q_u8(q), vld1q_u8(dq));
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  55  
-335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  56  		vy = vshrq_n_u8(vx, 4);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  57  		vx = vqtbl1q_u8(qm0, vandq_u8(vx, x0f));
-335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  58  		vy = vqtbl1q_u8(qm1, vy);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  59  		qx = veorq_u8(vx, vy);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  60  
-335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  61  		vy = vshrq_n_u8(px, 4);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  62  		vx = vqtbl1q_u8(pm0, vandq_u8(px, x0f));
-335ebe3035b6fc lib/raid6/recov_neon_inner.c Ard Biesheuvel   2019-02-26  63  		vy = vqtbl1q_u8(pm1, vy);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  64  		vx = veorq_u8(vx, vy);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  65  		db = veorq_u8(vx, qx);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  66  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  67  		vst1q_u8(dq, db);
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  68  		vst1q_u8(dp, veorq_u8(db, px));
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  69  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  70  		bytes -= 16;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  71  		p += 16;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  72  		q += 16;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  73  		dp += 16;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  74  		dq += 16;
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  75  	}
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  76  }
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  77  
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  78  void __raid6_datap_recov_neon(int bytes, uint8_t *p, uint8_t *q, uint8_t *dq,
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  79  			      const uint8_t *qmul)
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13  80  {
-6ec4e2514decd6 lib/raid6/recov_neon_inner.c Ard Biesheuvel   2017-07-13 @81  	uint8x16_t qm0 = vld1q_u8(qmul);
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 6ec4e2514decd6fb4782a9364fa71d6244d05af4 md/raid6: implement recovery using ARM NEON intrinsics
-
-:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  647  
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  648  static void __init
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  649  tsunami_console_data_log(int cpu, struct percpu_struct *pcpu)
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  650  {
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  651  	unsigned char *data = (void *)(IDENT_ADDR | pcpu->console_data_log_pa);
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  652  	size_t length = pcpu->console_data_log_length;
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14 @653  	size_t dump = length < 1024 ? length : 1024;
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  654  
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  655  	printk("%sConsole data log for CPU %d (%zu bytes):\n",
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  656  	       err_print_prefix, cpu, length);
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  657  	if (!(pcpu->console_data_log_pa & 7) &&
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  658  	    length <= ~0UL - (unsigned long)data &&
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  659  	    tsunami_console_log(data, length)) {
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  660  		/* Acknowledge only after reaching a valid termination packet. */
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  661  		pcpu->console_data_log_pa = 0;
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  662  		return;
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  663  	}
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  664  	printk("%s  Incomplete console log; retaining firmware pointer\n",
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  665  	       err_print_prefix);
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  666  	/* Byte reads preserve partial headers without rounding beyond length. */
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  667  	if (dump > ~0UL - (unsigned long)data)
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  668  		return;
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  669  	print_hex_dump(err_print_prefix, "  ", DUMP_PREFIX_OFFSET, 16, 1,
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  670  		       data, dump, false);
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  671  	if (dump < length)
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  672  		printk("%s  Raw console log truncated to %zu bytes\n",
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  673  		       err_print_prefix, dump);
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  674  }
+71cf9644bcb35e6 Magnus Lindholm 2026-10-14  675  
 
 --
 0-DAY CI Kernel Test Service
