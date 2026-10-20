@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792517064;
-	b=m83ZuFSnmbPGBEfkDsPzWbtwoHtryTnh4jekzu2iEXVEN4MutYtaCTmWT8ee/YBDOOm/
-	 MaFKaAZ1L2BARtSJ3hFc/q0DljYaxGTkhAiQ325Q6xN0HhNTPdnJgtUYt6FMimBS8qL3A
-	 bEQwKH4KLvY6fI0wnnMk8YkVj3oZJPBc6fB9Tcj7r8jUy6A3tSEf+p8R9zXjV5IMgVFwS
-	 pjMACkadY2ScIFj4Zl4Ma+KIDFNBjU+Ox4VXWDFDezeLwC1IDgPENh+xAaWZHNhFCKXZ2
-	 wvvCCqKqiWTNTk0C7BgBhBYp/69JS2BquoW5YftqqXUmCDCDzd+PV9niGR4dSjxr2HQ==
+	t=1792527403;
+	b=Qg3FI/f5tvV2BUlfzODS69tiYJE8n2abjNYqAbZwlg6HAJXMmLfkjXTzXA5JIngiAQ7G
+	 978XRblAHnwK4HjFPX4bx6VyyacO942ctTcgHzVYyFa3OoNiWio4H2aIG79tVG5AitCv1
+	 2f73mu4WQ0QxTb0YO2YsMcULCfNV50nsfa7qgkLnNPDRqeiy7pESNAhNwYXtQcdKecRrB
+	 GFgFJRTNaoaWVrAA8dRX5cuADUrZJ3xbPq/X8XqSnKX6Hn28fy4GsbdHqt2JqBERVXo5a
+	 D2jgeJeXymf/7t1bMnSmx1YuvXTWfJZthXQQb7++zEsTqS2H5fUP+qWEv/1yW/ulqcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792517064;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792527403;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=YBC4KLJ+QeOjD+A6W8tqVrzuzhuJdEImHlOFtArVhHw=;
-	b=jnGoq4yfs1K2eiTL/YdsRz2uv8Uy1qIBATnF1Mwx68IT6RTzrTqkOatsqewdeXe2D8t2
-	 R45ri6fY0ZBVCSmsPYa9SKO0GeyA34y5p6/UNxB4Tm7P9fRKtRgVL3TC7GM8H6Zc3RqIF
-	 Si5gozj1s0PcOd2O/1x1uMzhFPmXZziIjwQ9OSi3PYU9M2BlG4GpFIBit6bCnQn3dvAYi
-	 SX811eRWg9TWrrrG3uZ7ImkKurt/51yX4V+v/3h/pa0MquFWITOlYci9kW814kD+uVRp+
-	 gSTDfOtrHItaIyODY6UiDfzxA4MttmaToMqoiNDxKqBJ7G2rIOJtNVniK2j4aSijL1g==
+	bh=GQX61GVZRjgaR79AC8F0uhMiZIqo3Ea6JBvgLkwjBtc=;
+	b=zstIeG/P/lVXqblbT6lNf8thNKJfumLHk/8LajaAoMBZGykmQ3of0JBQA5fc+bXc9KRu
+	 wyaiAX0VAV8UTIV+OS/Kuykgtuztra3yfo5vr/4Th9+kFDf4phHGlH0Eq7DyorW5cfgGz
+	 N4Bk8tnuqmP4twJv02VMz2w6XMrcqSSrV9IhBzH6F4iE23qfpi8ENnn4TH5shpVt/GYrP
+	 /Y/J6Y8aNq8EeSO9P7wXcRB+zSbKwCvJTqqhqrZbUefETj6iSeg8J6rbg2hkMGz6uN6GM
+	 AINKZtALnL6fqVgnBcmyj+hRENJFx+0Y++L+PTlDTPA2aSz8oo+0G76KP6ibc6oPbdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gyarjnhw;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CYNDIv9s;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5AD606A323
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 17:24:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B5AD606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BDF606A31F
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 20:16:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0BDF606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gyarjnhw
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CYNDIv9s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792517064; x=1824053064;
+  t=1792527402; x=1824063402;
   h=date:from:to:cc:subject:message-id;
-  bh=B7ULheSQkYINnO1nEAJBYHvFNh0XezMQrgY0OF2vYTs=;
-  b=gyarjnhwGfgE3SV4+xQ9sTq9hqixcqCuAeA3xGO+E1z1ffzl3ZdFGyb3
-   TI0KuGx9s5QitOJw8Zf1mx+9bfWZawYncvRUMNNkkptwPStTLmodCrfGd
-   8fiIFzgrIaU9xiZGiAd//OsKViF3Ql/ilTSskhJXxuiGRcdFHWyHJXU7+
-   Wxv3smXdHlzXKj4SNVb5YMy03XtneMfVp4JprCcG6N9sTfGcX52CjRyh9
-   dLMiSTx2CNry0ZfTUHjRR/polO1spZ96AZJGs5b0Kwhoifv0o891JIMd6
-   ygXwJzzDocUa4ENaW8bzlC7ge2mr1CrBppG6Ass0GDucpIfqgUYNUUbC9
-   g==;
-X-CSE-ConnectionGUID: t8/iXeuNRoqmpcrJf2xS7A==
-X-CSE-MsgGUID: vT6a7q0eSC+D2x+r6+SlGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1238120"
+  bh=YUmTDGnGRbt27qKQtGHN/SB2hx7p5JOP5iTRL/iVelA=;
+  b=CYNDIv9sf9BVuGXBACHI0Vufna2rbzrV1qD9s5vQxVAuwpaoZ1ojSq3a
+   RC3HbZLXjODJN5jKiTx0Oq6cPC+cTkmtAF1883m6b5yRDOnpOFwP9glqt
+   AbqmvjSEyfpZgDa/MehhumZbBqOVTfyT4gP7nnYeVe563lBbBalmWIUY0
+   i+so5tALjZSmFhXFRHfSei+tBsJc2G0Ry6L7ratFg0Sh+W0DKEXzxJmQq
+   Gjo2S5k/B4/Zesg+HOmVcKX8K7siCH8S9EzdFHMJOpIzFEfbkVsG3muPG
+   dRnfc1DCJAnHv6PBWzTchZ7KaFvmfLLRc57s0bLKkjk4gAH4NLFCX3Gvc
+   A==;
+X-CSE-ConnectionGUID: VyeAnp+QRm2cTBMG21wJYQ==
+X-CSE-MsgGUID: IlsYVqplSQeJPf8q/hhJfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1135058"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1238120"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 10:24:23 -0700
-X-CSE-ConnectionGUID: gUFFcfDPRl+wCTGfiGQqKw==
-X-CSE-MsgGUID: znU+047pTLmq/Pp3tX/djw==
+   d="scan'208";a="1135058"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 13:16:42 -0700
+X-CSE-ConnectionGUID: o/gxktHUSq2hRXP201xacw==
+X-CSE-MsgGUID: s6vkHJF4RKmx8ENbMWiXpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="2872114"
+   d="scan'208";a="3011030"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 20 Oct 2026 10:24:21 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 20 Oct 2026 13:16:42 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJDZT-000000006Ol-0K5r;
-	Tue, 20 Oct 2026 17:24:19 +0000
-Date: Tue, 20 Oct 2026 19:23:35 +0200
+	id 1xJGGF-000000006Qn-2GV6;
+	Tue, 20 Oct 2026 20:16:39 +0000
+Date: Tue, 20 Oct 2026 22:15:52 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [lindholm-alpha:for-linus 57/57]
- arch/alpha/kernel/err_tsunami.c:653:22-23: WARNING opportunity for min()
-Message-ID: <202610201902.6BG70hxk-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [kkdwivedi:fermata 18/146] kernel/bpf/ringbuf.c:857:17:
+ error: undefined named operand 'unwound'
+Message-ID: <202610202202.TrW5w6UE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,59 +80,113 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Magnus Lindholm <linmag7@gmail.com>
-CC: Matt Turner <mattst88@gmail.com>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lindholm/alpha.git for-linus
-head:   71cf9644bcb35e686c3e12a703325335a0925946
-commit: 71cf9644bcb35e686c3e12a703325335a0925946 [57/57] alpha: add bounded Clipper console-log scanning
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-r2105-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201902.6BG70hxk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.5.0
+tree:   https://github.com/kkdwivedi/linux fermata
+head:   7b45e27f0f0faaa13da429815b6143b99eaa232c
+commit: 539555d3c94ba07286fc1563a61d9016e586afca [18/146] bpf: Call the callbacks of bpf_find_vma and bpf_user_ringbuf_drain with a pad
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261020/202610202202.TrW5w6UE-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610202202.TrW5w6UE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610201902.6BG70hxk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610202202.TrW5w6UE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/alpha/kernel/err_tsunami.c:653:22-23: WARNING opportunity for min()
+Note: the kkdwivedi/fermata HEAD 7b45e27f0f0faaa13da429815b6143b99eaa232c builds fine.
+      It only hurts bisectability.
 
-vim +653 arch/alpha/kernel/err_tsunami.c
+All errors (new ones prefixed by >>):
 
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  647  
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  648  static void __init
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  649  tsunami_console_data_log(int cpu, struct percpu_struct *pcpu)
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  650  {
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  651  	unsigned char *data = (void *)(IDENT_ADDR | pcpu->console_data_log_pa);
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  652  	size_t length = pcpu->console_data_log_length;
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14 @653  	size_t dump = length < 1024 ? length : 1024;
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  654  
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  655  	printk("%sConsole data log for CPU %d (%zu bytes):\n",
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  656  	       err_print_prefix, cpu, length);
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  657  	if (!(pcpu->console_data_log_pa & 7) &&
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  658  	    length <= ~0UL - (unsigned long)data &&
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  659  	    tsunami_console_log(data, length)) {
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  660  		/* Acknowledge only after reaching a valid termination packet. */
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  661  		pcpu->console_data_log_pa = 0;
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  662  		return;
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  663  	}
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  664  	printk("%s  Incomplete console log; retaining firmware pointer\n",
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  665  	       err_print_prefix);
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  666  	/* Byte reads preserve partial headers without rounding beyond length. */
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  667  	if (dump > ~0UL - (unsigned long)data)
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  668  		return;
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  669  	print_hex_dump(err_print_prefix, "  ", DUMP_PREFIX_OFFSET, 16, 1,
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  670  		       data, dump, false);
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  671  	if (dump < length)
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  672  		printk("%s  Raw console log truncated to %zu bytes\n",
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  673  		       err_print_prefix, dump);
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  674  }
-71cf9644bcb35e6 Magnus Lindholm 2026-10-14  675  
+   kernel/bpf/ringbuf.c: In function '____bpf_user_ringbuf_drain':
+>> kernel/bpf/ringbuf.c:857:17: error: undefined named operand 'unwound'
+     857 |                 bpf_call_cb(callback, &dynptr, callback_ctx, 0, 0, 0, ret, unwound_at);
+         |                 ^~~~~~~~~~~
+
+
+vim +/unwound +857 kernel/bpf/ringbuf.c
+
+20571567384428 David Vernet            2022-09-19  817  
+20571567384428 David Vernet            2022-09-19  818  BPF_CALL_4(bpf_user_ringbuf_drain, struct bpf_map *, map,
+20571567384428 David Vernet            2022-09-19  819  	   void *, callback_fn, void *, callback_ctx, u64, flags)
+20571567384428 David Vernet            2022-09-19  820  {
+20571567384428 David Vernet            2022-09-19  821  	struct bpf_ringbuf *rb;
+20571567384428 David Vernet            2022-09-19  822  	long samples, discarded_samples = 0, ret = 0;
+20571567384428 David Vernet            2022-09-19  823  	bpf_callback_t callback = (bpf_callback_t)callback_fn;
+20571567384428 David Vernet            2022-09-19  824  	u64 wakeup_flags = BPF_RB_NO_WAKEUP | BPF_RB_FORCE_WAKEUP;
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  825  	bool unwound = false;
+20571567384428 David Vernet            2022-09-19  826  	int busy = 0;
+20571567384428 David Vernet            2022-09-19  827  
+20571567384428 David Vernet            2022-09-19  828  	if (unlikely(flags & ~wakeup_flags))
+20571567384428 David Vernet            2022-09-19  829  		return -EINVAL;
+20571567384428 David Vernet            2022-09-19  830  
+20571567384428 David Vernet            2022-09-19  831  	rb = container_of(map, struct bpf_ringbuf_map, map)->rb;
+20571567384428 David Vernet            2022-09-19  832  
+20571567384428 David Vernet            2022-09-19  833  	/* If another consumer is already consuming a sample, wait for them to finish. */
+20571567384428 David Vernet            2022-09-19  834  	if (!atomic_try_cmpxchg(&rb->busy, &busy, 1))
+20571567384428 David Vernet            2022-09-19  835  		return -EBUSY;
+20571567384428 David Vernet            2022-09-19  836  
+20571567384428 David Vernet            2022-09-19  837  	for (samples = 0; samples < BPF_MAX_USER_RINGBUF_SAMPLES && ret == 0; samples++) {
+20571567384428 David Vernet            2022-09-19  838  		int err;
+20571567384428 David Vernet            2022-09-19  839  		u32 size;
+20571567384428 David Vernet            2022-09-19  840  		void *sample;
+20571567384428 David Vernet            2022-09-19  841  		struct bpf_dynptr_kern dynptr;
+20571567384428 David Vernet            2022-09-19  842  
+20571567384428 David Vernet            2022-09-19  843  		err = __bpf_user_ringbuf_peek(rb, &sample, &size);
+20571567384428 David Vernet            2022-09-19  844  		if (err) {
+20571567384428 David Vernet            2022-09-19  845  			if (err == -ENODATA) {
+20571567384428 David Vernet            2022-09-19  846  				break;
+20571567384428 David Vernet            2022-09-19  847  			} else if (err == -EAGAIN) {
+20571567384428 David Vernet            2022-09-19  848  				discarded_samples++;
+20571567384428 David Vernet            2022-09-19  849  				continue;
+20571567384428 David Vernet            2022-09-19  850  			} else {
+20571567384428 David Vernet            2022-09-19  851  				ret = err;
+20571567384428 David Vernet            2022-09-19  852  				goto schedule_work_return;
+20571567384428 David Vernet            2022-09-19  853  			}
+20571567384428 David Vernet            2022-09-19  854  		}
+20571567384428 David Vernet            2022-09-19  855  
+20571567384428 David Vernet            2022-09-19  856  		bpf_dynptr_init(&dynptr, sample, BPF_DYNPTR_TYPE_LOCAL, 0, size);
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20 @857  		bpf_call_cb(callback, &dynptr, callback_ctx, 0, 0, 0, ret, unwound_at);
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  858  		if (0) {
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  859  unwound_at:
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  860  			/*
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  861  			 * The callback left with unwind_exit. The sample is
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  862  			 * consumed like after a return, and the helper leaves
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  863  			 * through the door below, as the error paths do.
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  864  			 */
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  865  			unwound = true;
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  866  			ret = 0;
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  867  		}
+20571567384428 David Vernet            2022-09-19  868  		__bpf_user_ringbuf_sample_release(rb, size, flags);
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  869  		if (unwound)
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  870  			goto schedule_work_return;
+20571567384428 David Vernet            2022-09-19  871  	}
+20571567384428 David Vernet            2022-09-19  872  	ret = samples - discarded_samples;
+20571567384428 David Vernet            2022-09-19  873  
+20571567384428 David Vernet            2022-09-19  874  schedule_work_return:
+20571567384428 David Vernet            2022-09-19  875  	/* Prevent the clearing of the busy-bit from being reordered before the
+20571567384428 David Vernet            2022-09-19  876  	 * storing of any rb consumer or producer positions.
+20571567384428 David Vernet            2022-09-19  877  	 */
+06646da0145868 Paul E. McKenney        2023-10-18  878  	atomic_set_release(&rb->busy, 0);
+20571567384428 David Vernet            2022-09-19  879  
+20571567384428 David Vernet            2022-09-19  880  	if (flags & BPF_RB_FORCE_WAKEUP)
+20571567384428 David Vernet            2022-09-19  881  		irq_work_queue(&rb->work);
+20571567384428 David Vernet            2022-09-19  882  	else if (!(flags & BPF_RB_NO_WAKEUP) && samples > 0)
+20571567384428 David Vernet            2022-09-19  883  		irq_work_queue(&rb->work);
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  884  	if (unwound)
+539555d3c94ba0 Kumar Kartikeya Dwivedi 2026-10-20  885  		bpf_unwind_leave();
+20571567384428 David Vernet            2022-09-19  886  	return ret;
+20571567384428 David Vernet            2022-09-19  887  }
+20571567384428 David Vernet            2022-09-19  888  
 
 --
 0-DAY CI Kernel Test Service
