@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792458233;
-	b=Lyrr+vQPQxWXo3b2GR3PbkNOZB7VMJ/dRTPlOLVtcDTtK7WcamwvXCegyLFjrfLj6/Rr
-	 OIxMN18yvFihVC9/zTLKsCMvZjNx1DVAkO45liW1Cs1EGn4waJ1x+u7lkbNv23XIXiPba
-	 8zhTzeClogRpZJjIw/Ei+dV36Fk+lIhA50cK9sEO+bzxLwQ1R9duMX5iDs3uSg6W7m5jC
-	 6wsU3kx0tA5Xl1kjSWjCxmYodXY1HYTrXwACE4YH8VUEsVrOzrCTAW93RFuDEzZVLXy0X
-	 oYPSnbjwW87+ecTjmCucf1o3ClETGr7WJPX0y23IcXpw/WvBwDfIZjU+wJv730ZE3zA==
+	t=1792463118;
+	b=Gt5YMA/KQ/AxO7QDjoMzhANkpuEOnFg7Rb5lKEbFTAUwQ1Sf7PiQ2I1iqmP9D+K75crl
+	 blp3P3p75FVw9ajRDR5Y5sF1UkheTQDjDs5A0y1nyjXZ+8Kv3VYQijV4VDmy7wsCaXvNE
+	 9IeWFica+9tx3rLpKrLYRvlvNr954nwN4r2HQ5FaqVz9P3rZlUOKfUSGWJFhgMJYK5ZQ2
+	 ORZytXe4R4IO/qEFKefVzN00vOD+XrBCMmdOCxhC7lmyeoEDEFh/AdiXZbESiQnCis10a
+	 gPs6dK2oDSOHDEf923ZkkKzMKp2/ADXYNG0p7jeEKh5ct3MIX9bIxRVzh7g80KvTdXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792458233;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792463118;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=N83IJHdcbF6+abMkQpUSiH11sdxnftTC0ZbioiiLJcE=;
-	b=fE35HVQntjQMzSI+MN4LrwZeiZ89iwaqjPIoIonmEQEfczwVffLRzfAdOit/cAJKWoqA
-	 g5aybVVTRG3VNKVmgRpv/ff9oxmssyVrZWKg7/0XPpxWZxcQ2Lc/XRezZgV3lMA4ereSq
-	 9L4/D5Ry2RmWQxuP0ajAPvTfkCDfH5A6fLDw0aTB7TT94x3bcuKgfft6pcyS1qrHfHWL6
-	 s7MAAvRm/eriAUCs5kZSbOnoY1SsjyYqhxzdu7r6FKfL58gQcocykRuW77T25eljU90U4
-	 48uUNOA94SmOhefGZfGzVCllQ87y658o0BiSHOQzh0vpxKP2+jvrDuTbewpv4x/yr6g==
+	bh=Eix4fG/I0B5UF5+w3236MvBWtZG894HQrtNGiiIMrPc=;
+	b=q1xYRg/w4GGHBmG15qlf7oDSroIG5sExZ5fvrQ1XV2tLza2lgzG52dHeRlpItYZ/WkIc
+	 n9YNloz77KLn0VxL8ci5AEu8OWo1dk4WYY3iipAoiRFnUwIoyhaVWUHyfTJX3ShJ/YnCt
+	 g8P+LJbR/gU+aZN0O0ep0MOvL3QKApTLGIndO+SHW0ti5cHOTHjGB66i4SnGRh/OEYcqv
+	 kxmn00ufJS4ELXbi4hDvIamxfHhP5Va4ufxgg++Jct/VLh14CAPHW9x+r4SjUte/mcGUP
+	 4X218vjAvWGySk/V+B1zcCSbTfHu3w6vbQZnY1dxVrIePMEz24K4CVQtN/gCaerl9Pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="O/5gs+Q5";
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TfZtmq9l;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F57606A31A
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 01:03:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4F57606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449EB606A31F
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Oct 2026 02:25:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 449EB606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O/5gs+Q5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TfZtmq9l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792458232; x=1823994232;
+  t=1792463118; x=1823999118;
   h=date:from:to:cc:subject:message-id;
-  bh=s924tC8l6laPyEinnAJ8gfFpP0UkSDuP7ZMRncZqeZA=;
-  b=O/5gs+Q5ivODh4XcAe49YElC0wqQTImbsyfQn3X0Kpou+bCddTMfhRuF
-   GXzeESxrIsQoeOtQ+/gvMZ2BelghB/yC5vE5tCIDeEeqDWQ6ht5wTYW8O
-   7Si9o2Tf/7QBtb9kZQVeG7T6mLbE4qFZu+aHGKPd7E33OiFSP2tHKG5xy
-   Z1+Y3CEAG8KR+fUhvVTA3OXyGqmwWEY7cqzN5XbxG8FIXJXtA4fyK+lS0
-   Ncdyd86Z371bapw6uZxl3mwZqpT/WJb9ZrqFv2KlAiTpkTaRXen0X3Da0
-   Nc6k/lOYZ5+GNRgqxPZUNxeZw39B9jkNHYCbgrVlqm+cwnzY+2ZIrLY9D
+  bh=E9raTl/8V0Mum+H5kxLs2TdugXz1QYvL7pbKJIINnHY=;
+  b=TfZtmq9liM1DBtPCWe+8NpXWj1yPKROhDlSur1wkETHJAiLYaJfPWzQW
+   fYlc7NBxAimZbv/hP1YChbWWbuQJGg7pY84/1pxoUTslykwlWO9tfuKjG
+   Vm2Rc5SABlu+Okr6cKLf+DwurlNCb7xh3Uv9VZwL18DC6wWRMoQZA8+3R
+   OAOK5rtTaYVSUe0eaulgXyyxUSu2stgZ9wgX8eN4wVY0aw+HF42U612cR
+   /ORpOpi1BmaOXH83zW3HkkpLrlSNkySSaV0qhX8VGK28r+FXhh0qZjnCG
+   smEcVHvritKBPc94haEQiVW9bVeENvvtONu60w7AZDQ8nsGqzAjJuWhp6
    g==;
-X-CSE-ConnectionGUID: WWpXkpOUQLuAPB8ZEAcRKQ==
-X-CSE-MsgGUID: +nlFCbBBTHGV+wp6X5vyoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1051012"
+X-CSE-ConnectionGUID: qkfarq+zRKGNsZr2DgnS+A==
+X-CSE-MsgGUID: 6yvoY509RJuoakqZ5Ptkqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1040082"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1051012"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 18:03:52 -0700
-X-CSE-ConnectionGUID: UgeABSRNS+OAja6/9Ed3ZA==
-X-CSE-MsgGUID: xPiDvFggQnyi2wtGun9BtQ==
+   d="scan'208";a="1040082"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 19:25:17 -0700
+X-CSE-ConnectionGUID: IimNIHgDQR2N6U5aMYh9ZA==
+X-CSE-MsgGUID: xze5keOMRj2veWAks3qqGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="2748735"
+   d="scan'208";a="2747334"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2026 18:03:50 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 19:25:16 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIyGZ-0000000061P-2m3A;
-	Tue, 20 Oct 2026 01:03:47 +0000
-Date: Tue, 20 Oct 2026 03:03:03 +0200
+	id 1xIzXN-0000000063L-2Oq3;
+	Tue, 20 Oct 2026 02:25:13 +0000
+Date: Tue, 20 Oct 2026 04:24:35 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android13-5.15 8/8] fs/kernfs/dir.c:1340
- __kernfs_remove() warn: variable dereferenced before check 'kn' (see line
- 1333)
-Message-ID: <202610200244.ab5KlXOz-lkp@intel.com>
+Subject: [android-common:android14-5.15 9/9] mm/page_alloc.c:7727
+ alloc_node_mem_map() warn: argument 5 to %08lx specifier is cast from pointer
+Message-ID: <202610200415.3cc6xT3Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -88,99 +87,83 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   0bb006856b8d8b803fde48d026d89a5fafcd5263
-commit: f2242c11be4d1f16e95a87896fd955876db37d1e [8/8] UPSTREAM: kernfs: switch global kernfs_rwsem lock to per-fs lock
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 years, 9 months ago
-config: arm-randconfig-r2200-20261019 (https://download.01.org/0day-ci/archive/20261020/202610200244.ab5KlXOz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   40edfa11d1c7da2d302618d181eb78ebdfe52839
+commit: 1b6d55eb480526f334f52cbc93379a0e301f1938 [9/9] ANDROID: mm: build alloc_contig_dump_pages in page_alloc.o
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 years, 10 months ago
+config: i386-randconfig-2200-20261020 (https://download.01.org/0day-ci/archive/20261020/202610200415.3cc6xT3Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610200244.ab5KlXOz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610200415.3cc6xT3Z-lkp@intel.com/
 
 smatch warnings:
-fs/kernfs/dir.c:1340 __kernfs_remove() warn: variable dereferenced before check 'kn' (see line 1333)
+mm/page_alloc.c:7727 alloc_node_mem_map() warn: argument 5 to %08lx specifier is cast from pointer
 
-vim +/kn +1340 fs/kernfs/dir.c
+vim +7727 mm/page_alloc.c
 
-d35258ef702cca0 Tejun Heo          2014-02-03  1328  
-988cd7afb3f3759 Tejun Heo          2014-02-03  1329  static void __kernfs_remove(struct kernfs_node *kn)
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1330  {
-35beab0635f3cdd Tejun Heo          2014-02-03  1331  	struct kernfs_node *pos;
-35beab0635f3cdd Tejun Heo          2014-02-03  1332  
-f2242c11be4d1f1 Minchan Kim        2021-11-18 @1333  	lockdep_assert_held_write(&kernfs_root(kn)->kernfs_rwsem);
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1334  
-6b0afc2a21726b2 Tejun Heo          2014-02-03  1335  	/*
-6b0afc2a21726b2 Tejun Heo          2014-02-03  1336  	 * Short-circuit if non-root @kn has already finished removal.
-6b0afc2a21726b2 Tejun Heo          2014-02-03  1337  	 * This is for kernfs_remove_self() which plays with active ref
-6b0afc2a21726b2 Tejun Heo          2014-02-03  1338  	 * after removal.
-6b0afc2a21726b2 Tejun Heo          2014-02-03  1339  	 */
-6b0afc2a21726b2 Tejun Heo          2014-02-03 @1340  	if (!kn || (kn->parent && RB_EMPTY_NODE(&kn->rb)))
-ce9b499c9f58d7f Greg Kroah-Hartman 2014-01-13  1341  		return;
-ce9b499c9f58d7f Greg Kroah-Hartman 2014-01-13  1342  
-c637b8acbe079ed Tejun Heo          2013-12-11  1343  	pr_debug("kernfs %s: removing\n", kn->name);
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1344  
-81c173cb5e87fbb Tejun Heo          2014-02-03  1345  	/* prevent any new usage under @kn by deactivating all nodes */
-35beab0635f3cdd Tejun Heo          2014-02-03  1346  	pos = NULL;
-35beab0635f3cdd Tejun Heo          2014-02-03  1347  	while ((pos = kernfs_next_descendant_post(pos, kn)))
-81c173cb5e87fbb Tejun Heo          2014-02-03  1348  		if (kernfs_active(pos))
-81c173cb5e87fbb Tejun Heo          2014-02-03  1349  			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
-35beab0635f3cdd Tejun Heo          2014-02-03  1350  
-35beab0635f3cdd Tejun Heo          2014-02-03  1351  	/* deactivate and unlink the subtree node-by-node */
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1352  	do {
-35beab0635f3cdd Tejun Heo          2014-02-03  1353  		pos = kernfs_leftmost_descendant(kn);
-35beab0635f3cdd Tejun Heo          2014-02-03  1354  
-35beab0635f3cdd Tejun Heo          2014-02-03  1355  		/*
-7ba0273b2f34a55 Ian Kent           2021-07-16  1356  		 * kernfs_drain() drops kernfs_rwsem temporarily and @pos's
-81c173cb5e87fbb Tejun Heo          2014-02-03  1357  		 * base ref could have been put by someone else by the time
-81c173cb5e87fbb Tejun Heo          2014-02-03  1358  		 * the function returns.  Make sure it doesn't go away
-81c173cb5e87fbb Tejun Heo          2014-02-03  1359  		 * underneath us.
-35beab0635f3cdd Tejun Heo          2014-02-03  1360  		 */
-35beab0635f3cdd Tejun Heo          2014-02-03  1361  		kernfs_get(pos);
-35beab0635f3cdd Tejun Heo          2014-02-03  1362  
-d35258ef702cca0 Tejun Heo          2014-02-03  1363  		/*
-d35258ef702cca0 Tejun Heo          2014-02-03  1364  		 * Drain iff @kn was activated.  This avoids draining and
-d35258ef702cca0 Tejun Heo          2014-02-03  1365  		 * its lockdep annotations for nodes which have never been
-d35258ef702cca0 Tejun Heo          2014-02-03  1366  		 * activated and allows embedding kernfs_remove() in create
-d35258ef702cca0 Tejun Heo          2014-02-03  1367  		 * error paths without worrying about draining.
-d35258ef702cca0 Tejun Heo          2014-02-03  1368  		 */
-d35258ef702cca0 Tejun Heo          2014-02-03  1369  		if (kn->flags & KERNFS_ACTIVATED)
-81c173cb5e87fbb Tejun Heo          2014-02-03  1370  			kernfs_drain(pos);
-d35258ef702cca0 Tejun Heo          2014-02-03  1371  		else
-d35258ef702cca0 Tejun Heo          2014-02-03  1372  			WARN_ON_ONCE(atomic_read(&kn->active) != KN_DEACTIVATED_BIAS);
-35beab0635f3cdd Tejun Heo          2014-02-03  1373  
-35beab0635f3cdd Tejun Heo          2014-02-03  1374  		/*
-35beab0635f3cdd Tejun Heo          2014-02-03  1375  		 * kernfs_unlink_sibling() succeeds once per node.  Use it
-35beab0635f3cdd Tejun Heo          2014-02-03  1376  		 * to decide who's responsible for cleanups.
-35beab0635f3cdd Tejun Heo          2014-02-03  1377  		 */
-35beab0635f3cdd Tejun Heo          2014-02-03  1378  		if (!pos->parent || kernfs_unlink_sibling(pos)) {
-35beab0635f3cdd Tejun Heo          2014-02-03  1379  			struct kernfs_iattrs *ps_iattr =
-35beab0635f3cdd Tejun Heo          2014-02-03  1380  				pos->parent ? pos->parent->iattr : NULL;
-35beab0635f3cdd Tejun Heo          2014-02-03  1381  
-35beab0635f3cdd Tejun Heo          2014-02-03  1382  			/* update timestamps on the parent */
-35beab0635f3cdd Tejun Heo          2014-02-03  1383  			if (ps_iattr) {
-05895219627c416 Ondrej Mosnacek    2019-02-22  1384  				ktime_get_real_ts64(&ps_iattr->ia_ctime);
-05895219627c416 Ondrej Mosnacek    2019-02-22  1385  				ps_iattr->ia_mtime = ps_iattr->ia_ctime;
-35beab0635f3cdd Tejun Heo          2014-02-03  1386  			}
-35beab0635f3cdd Tejun Heo          2014-02-03  1387  
-988cd7afb3f3759 Tejun Heo          2014-02-03  1388  			kernfs_put(pos);
-35beab0635f3cdd Tejun Heo          2014-02-03  1389  		}
-35beab0635f3cdd Tejun Heo          2014-02-03  1390  
-35beab0635f3cdd Tejun Heo          2014-02-03  1391  		kernfs_put(pos);
-35beab0635f3cdd Tejun Heo          2014-02-03  1392  	} while (pos != kn);
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1393  }
-fd7b9f7b9776b11 Tejun Heo          2013-11-28  1394  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7694  
+43b02ba93b25b1c Mike Rapoport  2021-06-28  7695  #ifdef CONFIG_FLATMEM
+3b446da6be7a722 Mike Rapoport  2021-09-02  7696  static void __init alloc_node_mem_map(struct pglist_data *pgdat)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7697  {
+b0aeba741b2d082 Tony Luck      2015-11-10  7698  	unsigned long __maybe_unused start = 0;
+a1c34a3bf00af2c Laura Abbott   2015-11-05  7699  	unsigned long __maybe_unused offset = 0;
+a1c34a3bf00af2c Laura Abbott   2015-11-05  7700  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7701  	/* Skip empty nodes */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7702  	if (!pgdat->node_spanned_pages)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7703  		return;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7704  
+b0aeba741b2d082 Tony Luck      2015-11-10  7705  	start = pgdat->node_start_pfn & ~(MAX_ORDER_NR_PAGES - 1);
+b0aeba741b2d082 Tony Luck      2015-11-10  7706  	offset = pgdat->node_start_pfn - start;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7707  	/* ia64 gets its own node_mem_map, before this, without bootmem */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7708  	if (!pgdat->node_mem_map) {
+b0aeba741b2d082 Tony Luck      2015-11-10  7709  		unsigned long size, end;
+d41dee369bff3b9 Andy Whitcroft 2005-06-23  7710  		struct page *map;
+d41dee369bff3b9 Andy Whitcroft 2005-06-23  7711  
+e984bb43f745031 Bob Picco      2006-05-20  7712  		/*
+e984bb43f745031 Bob Picco      2006-05-20  7713  		 * The zone's endpoints aren't required to be MAX_ORDER
+e984bb43f745031 Bob Picco      2006-05-20  7714  		 * aligned but the node_mem_map endpoints must be in order
+e984bb43f745031 Bob Picco      2006-05-20  7715  		 * for the buddy allocator to function correctly.
+e984bb43f745031 Bob Picco      2006-05-20  7716  		 */
+108bcc96ef7047c Cody P Schafer 2013-02-22  7717  		end = pgdat_end_pfn(pgdat);
+e984bb43f745031 Bob Picco      2006-05-20  7718  		end = ALIGN(end, MAX_ORDER_NR_PAGES);
+e984bb43f745031 Bob Picco      2006-05-20  7719  		size =  (end - start) * sizeof(struct page);
+c803b3c8b3b70f3 Mike Rapoport  2021-09-02  7720  		map = memmap_alloc(size, SMP_CACHE_BYTES, MEMBLOCK_LOW_LIMIT,
+c803b3c8b3b70f3 Mike Rapoport  2021-09-02  7721  				   pgdat->node_id, false);
+23a7052a5db478b Mike Rapoport  2019-03-05  7722  		if (!map)
+23a7052a5db478b Mike Rapoport  2019-03-05  7723  			panic("Failed to allocate %ld bytes for node %d memory map\n",
+23a7052a5db478b Mike Rapoport  2019-03-05  7724  			      size, pgdat->node_id);
+a1c34a3bf00af2c Laura Abbott   2015-11-05  7725  		pgdat->node_mem_map = map + offset;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7726  	}
+0cd842f97069c68 Oscar Salvador 2017-11-15 @7727  	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
+0cd842f97069c68 Oscar Salvador 2017-11-15  7728  				__func__, pgdat->node_id, (unsigned long)pgdat,
+0cd842f97069c68 Oscar Salvador 2017-11-15  7729  				(unsigned long)pgdat->node_mem_map);
+a9ee6cf5c60ed10 Mike Rapoport  2021-06-28  7730  #ifndef CONFIG_NUMA
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7731  	/*
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7732  	 * With no DISCONTIG, the global mem_map is just set as node 0's
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7733  	 */
+c713216deebd95d Mel Gorman     2006-09-27  7734  	if (pgdat == NODE_DATA(0)) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7735  		mem_map = NODE_DATA(0)->node_mem_map;
+c713216deebd95d Mel Gorman     2006-09-27  7736  		if (page_to_pfn(mem_map) != pgdat->node_start_pfn)
+a1c34a3bf00af2c Laura Abbott   2015-11-05  7737  			mem_map -= offset;
+c713216deebd95d Mel Gorman     2006-09-27  7738  	}
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7739  #endif
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7740  }
+0cd842f97069c68 Oscar Salvador 2017-11-15  7741  #else
+3b446da6be7a722 Mike Rapoport  2021-09-02  7742  static inline void alloc_node_mem_map(struct pglist_data *pgdat) { }
+43b02ba93b25b1c Mike Rapoport  2021-06-28  7743  #endif /* CONFIG_FLATMEM */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  7744  
 
-:::::: The code at line 1340 was first introduced by commit
-:::::: 6b0afc2a21726b2d6b6aa441af40cafaf5405cc8 kernfs, sysfs, driver-core: implement kernfs_remove_self() and its wrappers
+:::::: The code at line 7727 was first introduced by commit
+:::::: 0cd842f97069c68718bef21ad2dc96a0578567ec mm: make alloc_node_mem_map a void call if we don't have CONFIG_FLAT_NODE_MEM_MAP
 
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Oscar Salvador <osalvador@techadventures.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
