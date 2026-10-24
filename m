@@ -1,76 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792871289;
-	b=Dn38d5I9V23hZXpwSZguuJPPAK/jauIEQvUFmu7ng8wvhy9CW3eex0O1Jjc21FaZp0sh
-	 DwHGCOYBX6W3bq1ym1DuwOKlojA/eUul/s3Cdr/oFKqYPwxLNoP/W07PVLflBoyWq2u1W
-	 KgzYKrXIltumnBUGuYRZ2z4bBSGW9exXDYG4iqHQ+Tl34FKydwWH2VIDsoB3/i28KC7hH
-	 4+i2D5Cso++hrZtzfyVPMWdUVO0D0RD/DYT2TxRQIQuOrzcNsqul/TKEWCaCEu1QUoAvS
-	 zrKKi1POA5eXBcuRmO+4+JNqZ0W/5zRfwTl8ZbIKXVpoiP0u1tIy/U8B2l3oFlmYuiw==
+	t=1792874866;
+	b=C/y7pZ5w9P1DDQ4BLHqxDssKqYizIwcYBlHVXy3L9RSL8+Dmx+B5cHaV5w++IXqPituo
+	 ApXbFF4TK33aM3SYWQ2HTPeuww+76lUyMZK9hxNAQukzvoPZ0h0eGR56VGgZrAMgxktl7
+	 HFhFJpwTPKKHbZGSkNecE8qUNpk9HrXA+rzpKTiV7eJE9GVEx28jvyIY6IyQ9PZiHlL0a
+	 v23dOkHclRs2cuV+Yr6uW3kk6apCb5lVbRaH9F0BjWEedkGd7bXHlHreSx25YidAvqjR6
+	 516yMXJMgay+/NKnA/T2Y6kpXJQgj3obb3EBYPBi5YvdmMrJQEl3qvQSZH0+tPIYYZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792871289;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792874866;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=AEEL2VxkWgpAxkcd3dbeSknFAQh1zC8PUlkho8QTsUg=;
-	b=p5lgToa1gGisnb/tBFU1alkHKppqYcQXn30f4lZSlT6tyyKO17iTba3WvL2dhf1k3VUk
-	 Yl0ij6u/QDSkngG8Oie6gMj8aOJZdMiph8bj8o1x1ZIXhFqKJ/su0uW27CDlu8a5U70hH
-	 2Ajik3eoPuAn6DO1fcYx2z73A8NuNxJRoLHzyoxfMpIl/tKK2MDZrSYhohi4nyLqomo14
-	 P9Bwy4BwNAC1qR68cvcHNHdkAUJ01qb6alqTUWsd3uf/fqjG8tpCuOgpcylMZyt17Ocd2
-	 7fxNvKi6Jga7DOcKH0970fJ/+xYEa46VbMCPRmOCPc8GVrRCjb5tCFBJb2Wt8kG3ZVA==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=X3WcpNlTEhTetNlpEV65ConrIOzzrEb5oeg47kyf9u4=;
+	b=VgM9KQoTfxORcV+O8uSMMn35PzsWr0eRlv66EUBUVQgmRuU7d40iyF32eklN8I9jANp+
+	 07B/qCbS/FuxonAVCe+aUXzv0ldlwDt654HR8BTBoijlieNQ+AQm8nBX/oOZAcvu2ll34
+	 GG2EUlBjpflqixasU3n2icuxTxV4f/CnePmxcfWOivA1sA7pAipLdWkHAdQq9TLz/xOht
+	 vJo++yYBzOaY9JxGSLB4PbK8e3gPbMMc9n3X4ocB5s0Gr4HCUT6gDgBGnlGyG9W6gAHNK
+	 TgXaTcXDBiAOEevstOoT0P9+oQOoN/cTVgdzldqBoGPg6jFXih6j5JdRIr1LlCIWh+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="I/3pO7Jx";
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I9IoBCWe;
 	arc=none smtp.remote-ip=198.175.65.19
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34886606A31A
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Oct 2026 19:48:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34886606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010AF606A31A
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Oct 2026 20:47:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 010AF606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I/3pO7Jx
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I9IoBCWe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792871287; x=1824407287;
-  h=date:from:to:cc:subject:message-id;
-  bh=WqNUTJINsKQrSTg+PsRtpAbMVVcfc3bMmsa01719y6s=;
-  b=I/3pO7JxAKBTzcyv8SYeHPz2U49A+nvnwT9jA55W22SNSiPjTGzk87cZ
-   2fvB4nwllYv67Pv8akrKRGIKuXRk8jimMQ+hln0y+UvwzPPCehO3pBHXn
-   KGaA+wP+Iwi112pXjf9dVvTZDp9w08QUF9UaW3FHRvbLhwba6EsBKDJuj
-   C3wDquJQT3GFyIy0GXAA4b1sYxtSCh2ivYsPs2+Et9Jwwt/cnx7H4rwTN
-   h8jIMhcc0Q/TWk8J1LzA+MfNR6CR/oe6AnTai1nzuXDXnNZrH7+JI3rbn
-   NuVILcmUVoCJSJsHgF3OTHj0UWLAW1r/umFZEVVpQhvIg2Guux9QCuGxc
-   A==;
-X-CSE-ConnectionGUID: PyvXuv70Qvy5uAXR3CwJFw==
-X-CSE-MsgGUID: n7foA3NYTKGls7tP3rDInQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1619698"
+  t=1792874865; x=1824410865;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zjuh0+UWX3TQQ4TR1/9yWDZnxC/pNuxlKj5KBeIj/xY=;
+  b=I9IoBCWe+01wyMxncACcxnCwskUtjUoJv74Wh5UuDwzEPhT2NpS+2RFI
+   Gxom65zJPk5ASITz+7mMJlZpzgCXZFqSYSonM2M4TxxgV20aBaX+taXVT
+   RHJ4kzAQI5Opu+II04c1GIf5ZYpLhEaVF9zgHQefXQqwMVPoTHEVqqtpb
+   448g3C/lHDFj9I0xkyyYPkkvWGdwThqe0goJLDoc4c1WOCzbUSLhhXOmF
+   eLZzPZN7r9t7Qw97AnENyfbOaNOc1eQAZyfr4Yhijl7YXky+gu09XSRK2
+   aFwlEo+uNT0O2DRWHKSz1cZuysAWgrxf6X7S5+3mpkavZTiXI+F5PxAao
+   w==;
+X-CSE-ConnectionGUID: dkYqTYrtTWqHOrfo/6pIyg==
+X-CSE-MsgGUID: JJuQVJKwSR+ZYbxsOoqhuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1620929"
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1619698"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 12:48:06 -0700
-X-CSE-ConnectionGUID: tO4RsuRLSwSKECeemF8/NA==
-X-CSE-MsgGUID: Ow+WWZ6XTGKLQN7DUDkwPg==
+   d="scan'208";a="1620929"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 13:47:44 -0700
+X-CSE-ConnectionGUID: Ry6Qftn+RtK50XbhazgJvA==
+X-CSE-MsgGUID: ltEDPcxQSgywNEefUjnXwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="4036857"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2026 12:48:06 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="3802043"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 24 Oct 2026 13:47:43 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKhil-000000003RP-12Nn;
-	Sat, 24 Oct 2026 19:48:03 +0000
-Date: Sat, 24 Oct 2026 21:47:56 +0200
+	id 1xKieT-00000000UF4-0SKh;
+	Sat, 24 Oct 2026 20:47:41 +0000
+Date: Sun, 25 Oct 2026 04:47:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs-7.5.super 62/65] fs/super.c:177
- super_lock() warn: missing unwind goto?
-Message-ID: <202610242131.8KUVdKA5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/3] Move struct cpu_feature to <linux/cpufeature.h>
+Message-ID: <202610250424.sRkI58av-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -79,133 +79,100 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Christian Brauner <brauner@kernel.org>
-CC: Josef Bacik <josef@toxicpanda.com>
+In-Reply-To: <bc9fbf5784f6788e10c749a05d56c42bdb68f3d9.1792144769.git.u.kleine-koenig@baylibre.com>
+References: <bc9fbf5784f6788e10c749a05d56c42bdb68f3d9.1792144769.git.u.kleine-koenig@baylibre.com>
+TO: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: Tianrui Zhao <zhaotianrui@loongson.cn>
+CC: Bibo Mao <maobibo@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: WANG Xuerui <kernel@xen0n.name>
+CC: Nicolas Schier <nsc@kernel.org>
+CC: Armin Wolf <W_Armin@gmx.de>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+CC: Heiner Kallweit <hkallweit1@gmail.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Raag Jadav <raag.jadav@intel.com>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
+CC: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Hasan Basbunar <basbunarhasan@gmail.com>
+CC: kvm@vger.kernel.org
+CC: loongarch@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: linux-kbuild@vger.kernel.org
 
-Hi Christian,
+Hi Uwe,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.5.super
-head:   2c8a968b488c134d05ccefff890270ac8ab899a8
-commit: 3af63add349c1aeaee12fb571e5af95635aa83ab [62/65] super: let super_lock() wait for a superblock being shut down
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: nios2-randconfig-r2202-20261024 (https://download.01.org/0day-ci/archive/20261024/202610242131.8KUVdKA5-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+[auto build test ERROR on 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig-The-Capable-Hub/Move-struct-cpu_feature-to-linux-cpufeature-h/20261016-120912
+base:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+patch link:    https://lore.kernel.org/r/bc9fbf5784f6788e10c749a05d56c42bdb68f3d9.1792144769.git.u.kleine-koenig%40baylibre.com
+patch subject: [PATCH v2 1/3] Move struct cpu_feature to <linux/cpufeature.h>
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20261025/202610250424.sRkI58av-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250424.sRkI58av-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610242131.8KUVdKA5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610250424.sRkI58av-lkp@intel.com/
 
-smatch warnings:
-fs/super.c:177 super_lock() warn: missing unwind goto?
-fs/super.c:177 super_lock() warn: missing unwind goto?
+All errors (new ones prefixed by >>):
 
-vim +177 fs/super.c
+>> drivers/s390/crypto/pkey_cca.c:22:45: error: array has incomplete element type 'struct ap_device_id'
+      22 | static struct ap_device_id pkey_cca_card_ids[] = {
+         |                                             ^
+   drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
+     158 |         struct ap_device_id *ids;
+         |                ^
+   1 error generated.
+--
+>> drivers/s390/crypto/pkey_ep11.c:23:46: error: array has incomplete element type 'struct ap_device_id'
+      23 | static struct ap_device_id pkey_ep11_card_ids[] = {
+         |                                              ^
+   drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
+     158 |         struct ap_device_id *ids;
+         |                ^
+   1 error generated.
 
-7c4c683849ac80 Christian Brauner 2026-10-23  123  
-5d2b0f2107aa50 Christian Brauner 2026-10-23  124  /**
-5d2b0f2107aa50 Christian Brauner 2026-10-23  125   * super_lock - wait for superblock to become ready and lock it
-5d2b0f2107aa50 Christian Brauner 2026-10-23  126   * @sb: superblock to wait for
-5d2b0f2107aa50 Christian Brauner 2026-10-23  127   * @flags: SUPER_LOCK_* flags
-5d2b0f2107aa50 Christian Brauner 2026-10-23  128   *
-5d2b0f2107aa50 Christian Brauner 2026-10-23  129   * If the superblock has neither passed through vfs_get_tree() or
-5d2b0f2107aa50 Christian Brauner 2026-10-23  130   * generic_shutdown_super() yet wait for it to happen. Either superblock
-5d2b0f2107aa50 Christian Brauner 2026-10-23  131   * creation will succeed and SB_BORN is set by vfs_get_tree() or we're
-5d2b0f2107aa50 Christian Brauner 2026-10-23  132   * woken and we'll see SB_DYING.
-5d2b0f2107aa50 Christian Brauner 2026-10-23  133   *
-5d2b0f2107aa50 Christian Brauner 2026-10-23  134   * With SUPER_LOCK_EXCL s_umount is taken for writing, otherwise for reading.
-3af63add349c1a Christian Brauner 2026-10-23  135   *
-3af63add349c1a Christian Brauner 2026-10-23  136   * A superblock which is being shut down is not waited for unless
-3af63add349c1a Christian Brauner 2026-10-23  137   * SUPER_LOCK_WAIT_SHUTDOWN is passed.  That is for those who have nothing to
-3af63add349c1a Christian Brauner 2026-10-23  138   * do on a superblock which is going away, but who promise their caller that
-3af63add349c1a Christian Brauner 2026-10-23  139   * what it had to write has been written, or who must not carry on while the
-3af63add349c1a Christian Brauner 2026-10-23  140   * filesystem is still being written out.  The wait is over once
-3af63add349c1a Christian Brauner 2026-10-23  141   * generic_shutdown_super() is done with @sb, and -ENOENT is still returned.
-3af63add349c1a Christian Brauner 2026-10-23  142   *
-3af63add349c1a Christian Brauner 2026-10-23  143   * With SUPER_LOCK_KILLABLE all the waiting can be cut short by a fatal
-3af63add349c1a Christian Brauner 2026-10-23  144   * signal.  That is only for callers which give up altogether when they are
-3af63add349c1a Christian Brauner 2026-10-23  145   * killed.  If what comes after the wait happens either way, the wait must
-3af63add349c1a Christian Brauner 2026-10-23  146   * not be cut short.
-5d2b0f2107aa50 Christian Brauner 2026-10-23  147   *
-5d2b0f2107aa50 Christian Brauner 2026-10-23  148   * The caller must have acquired a temporary reference on @sb->s_passive.
-5d2b0f2107aa50 Christian Brauner 2026-10-23  149   *
-5d2b0f2107aa50 Christian Brauner 2026-10-23  150   * Return: 0 if SB_BORN was set and with s_umount held. Without s_umount held,
-5d2b0f2107aa50 Christian Brauner 2026-10-23  151   *         -ENOENT if the superblock is being shut down or SB_DYING was set,
-5d2b0f2107aa50 Christian Brauner 2026-10-23  152   *         -EINTR or -ERESTARTSYS if the task was killed.
-5e87491415217d Christian Brauner 2023-08-18  153   */
-5d2b0f2107aa50 Christian Brauner 2026-10-23  154  static __must_check int super_lock(struct super_block *sb,
-5d2b0f2107aa50 Christian Brauner 2026-10-23  155  				   enum super_lock_flags_t flags)
-5e87491415217d Christian Brauner 2023-08-18  156  {
-5d2b0f2107aa50 Christian Brauner 2026-10-23  157  	unsigned int state = TASK_UNINTERRUPTIBLE;
-5d2b0f2107aa50 Christian Brauner 2026-10-23  158  	int ret;
-5d2b0f2107aa50 Christian Brauner 2026-10-23  159  
-5d2b0f2107aa50 Christian Brauner 2026-10-23  160  	if (flags & SUPER_LOCK_KILLABLE)
-5d2b0f2107aa50 Christian Brauner 2026-10-23  161  		state = TASK_KILLABLE;
-be167baa28da9a Josef Bacik       2026-10-21  162  
-5e87491415217d Christian Brauner 2023-08-18  163  	lockdep_assert_not_held(&sb->s_umount);
-5e87491415217d Christian Brauner 2023-08-18  164  
-a99d496efb788a Josef Bacik       2026-10-21  165  	/*
-a99d496efb788a Josef Bacik       2026-10-21  166  	 * The last active reference is dropped with s_umount held, which
-a99d496efb788a Josef Bacik       2026-10-21  167  	 * stays held until SB_DYING is set, and there is no getting a new
-a99d496efb788a Josef Bacik       2026-10-21  168  	 * one.  All there is to find at the end of that wait is SB_DYING,
-a99d496efb788a Josef Bacik       2026-10-21  169  	 * and it can be a long one: the filesystem is written out first.
-a99d496efb788a Josef Bacik       2026-10-21  170  	 */
-a99d496efb788a Josef Bacik       2026-10-21  171  	if (!atomic_read(&sb->s_active))
-3af63add349c1a Christian Brauner 2026-10-23  172  		goto dying;
-a99d496efb788a Josef Bacik       2026-10-21  173  
-b30850c58b5b9b Christian Brauner 2023-11-27  174  	/* wait until the superblock is ready or dying */
-5d2b0f2107aa50 Christian Brauner 2026-10-23  175  	ret = super_wait(sb, SB_BORN | SB_DYING, state);
-be167baa28da9a Josef Bacik       2026-10-21  176  	if (ret)
-be167baa28da9a Josef Bacik       2026-10-21 @177  		return ret;
-b30850c58b5b9b Christian Brauner 2023-11-27  178  
-b30850c58b5b9b Christian Brauner 2023-11-27  179  	/* Don't pointlessly acquire s_umount. */
-b30850c58b5b9b Christian Brauner 2023-11-27  180  	if (super_flags(sb, SB_DYING))
-3af63add349c1a Christian Brauner 2026-10-23  181  		goto dying;
-b30850c58b5b9b Christian Brauner 2023-11-27  182  
-5d2b0f2107aa50 Christian Brauner 2026-10-23  183  	ret = __super_lock(sb, flags);
-be167baa28da9a Josef Bacik       2026-10-21  184  	if (ret)
-be167baa28da9a Josef Bacik       2026-10-21  185  		return ret;
-5e87491415217d Christian Brauner 2023-08-18  186  
-5e87491415217d Christian Brauner 2023-08-18  187  	/*
-5e87491415217d Christian Brauner 2023-08-18  188  	 * Has gone through generic_shutdown_super() in the meantime.
-5e87491415217d Christian Brauner 2023-08-18  189  	 * @sb->s_root is NULL and @sb->s_active is 0. No one needs to
-5e87491415217d Christian Brauner 2023-08-18  190  	 * grab a reference to this. Tell them so.
-5e87491415217d Christian Brauner 2023-08-18  191  	 */
-f0cd988016f679 Christian Brauner 2023-10-24  192  	if (sb->s_flags & SB_DYING) {
-5d2b0f2107aa50 Christian Brauner 2026-10-23  193  		super_unlock(sb, flags);
-3af63add349c1a Christian Brauner 2026-10-23  194  		goto dying;
-f0cd988016f679 Christian Brauner 2023-10-24  195  	}
-5e87491415217d Christian Brauner 2023-08-18  196  
-b30850c58b5b9b Christian Brauner 2023-11-27  197  	WARN_ON_ONCE(!(sb->s_flags & SB_BORN));
-be167baa28da9a Josef Bacik       2026-10-21  198  	return 0;
-be167baa28da9a Josef Bacik       2026-10-21  199  
-3af63add349c1a Christian Brauner 2026-10-23  200  dying:
-3af63add349c1a Christian Brauner 2026-10-23  201  	if (flags & SUPER_LOCK_WAIT_SHUTDOWN) {
-3af63add349c1a Christian Brauner 2026-10-23  202  		ret = super_wait(sb, SB_DYING, state);
-3af63add349c1a Christian Brauner 2026-10-23  203  		if (ret)
-3af63add349c1a Christian Brauner 2026-10-23  204  			return ret;
-c61f54949db7b5 Josef Bacik       2026-10-21  205  	}
-3af63add349c1a Christian Brauner 2026-10-23  206  	return -ENOENT;
-6174e0c41df7a7 Josef Bacik       2026-10-21  207  }
-6174e0c41df7a7 Josef Bacik       2026-10-21  208  
 
-:::::: The code at line 177 was first introduced by commit
-:::::: be167baa28da9a1df7fe384c4edeb9fb1c07772d fs: make a mount waiting on another mount killable
+vim +22 drivers/s390/crypto/pkey_cca.c
 
-:::::: TO: Josef Bacik <josef@toxicpanda.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  20  
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  21  #if IS_MODULE(CONFIG_PKEY_CCA)
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22 @22  static struct ap_device_id pkey_cca_card_ids[] = {
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  23  	{ .dev_type = AP_DEVICE_TYPE_CEX4 },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  24  	{ .dev_type = AP_DEVICE_TYPE_CEX5 },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  25  	{ .dev_type = AP_DEVICE_TYPE_CEX6 },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  26  	{ .dev_type = AP_DEVICE_TYPE_CEX7 },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  27  	{ .dev_type = AP_DEVICE_TYPE_CEX8 },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  28  	{ /* end of list */ },
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  29  };
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  30  MODULE_DEVICE_TABLE(ap, pkey_cca_card_ids);
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  31  #endif
+8fcc231ce3bea1 Harald Freudenberger 2024-08-22  32  
 
 --
 0-DAY CI Kernel Test Service
