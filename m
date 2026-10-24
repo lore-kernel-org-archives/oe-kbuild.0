@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792870784;
-	b=wNpVm3SsoGHq5ulG1LyEFrr+y7Ke+cgWq3Df3uIMV+g+rqA/9InIDKK7wA7+ShiuiElQ
-	 7HOjKrFmewM6fAPm8cf2aycGgfC1m5F2E+zxM9sJC4tuV9hq203Dq9l7dXn8KTUgztOiq
-	 1vvfyq6XirT64eY+fyZKvA6xrKYSySrhmw9OHQrAxY4WBxzVm0mqrFz4T0+HXtLScBM3C
-	 /Hx/u610dxhCHga87HCai59ulN2hJEGvOU80RavH7zVj8Jl84P0kUwZ+4g3hvoj35cU6+
-	 LEJEZ+iDHbN6O9MP9ZAJNm1o1I1Qw4549ezcWNHi80r7rU5k2eHxf01VzxmLh7LVRdQ==
+	t=1792871289;
+	b=Dn38d5I9V23hZXpwSZguuJPPAK/jauIEQvUFmu7ng8wvhy9CW3eex0O1Jjc21FaZp0sh
+	 DwHGCOYBX6W3bq1ym1DuwOKlojA/eUul/s3Cdr/oFKqYPwxLNoP/W07PVLflBoyWq2u1W
+	 KgzYKrXIltumnBUGuYRZ2z4bBSGW9exXDYG4iqHQ+Tl34FKydwWH2VIDsoB3/i28KC7hH
+	 4+i2D5Cso++hrZtzfyVPMWdUVO0D0RD/DYT2TxRQIQuOrzcNsqul/TKEWCaCEu1QUoAvS
+	 zrKKi1POA5eXBcuRmO+4+JNqZ0W/5zRfwTl8ZbIKXVpoiP0u1tIy/U8B2l3oFlmYuiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792870784;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792871289;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=OmxfC6NFyGcrQll/1GTFdRTPJJCRPRAwBm0tV5wI7TE=;
-	b=s4Woj81m/B2MJSBgriho05sjLkFpqQnokuvCGjRiI4KLRrQrlQMjlLDcVCOBO9Sx0iY6
-	 O0rneVZM1P1Jb/XY+OONdzH2Ylt5qKRpWtgPN7wVO/mddMukjWUfbK1HCWFF4kWErJxjo
-	 GfmQFqNU8xbYpASxtntx/CAr09u89N1pIVQXPzi5ow0VqOXDGEv1R5we4sSLLLDIS8MoT
-	 qeVme7WvL2GFPqwMSJnkpSM+4v2RL2QIi43bRSgFnS7AEZHyYv4F6n4vjijE7du7NIrm7
-	 ENfNyiMQEUIttgcA6FokpYsLGxZAAKtj9j6bHkUBiFpqrA3RCJVuX0BrzJQhh1qSG3g==
+	bh=AEEL2VxkWgpAxkcd3dbeSknFAQh1zC8PUlkho8QTsUg=;
+	b=p5lgToa1gGisnb/tBFU1alkHKppqYcQXn30f4lZSlT6tyyKO17iTba3WvL2dhf1k3VUk
+	 Yl0ij6u/QDSkngG8Oie6gMj8aOJZdMiph8bj8o1x1ZIXhFqKJ/su0uW27CDlu8a5U70hH
+	 2Ajik3eoPuAn6DO1fcYx2z73A8NuNxJRoLHzyoxfMpIl/tKK2MDZrSYhohi4nyLqomo14
+	 P9Bwy4BwNAC1qR68cvcHNHdkAUJ01qb6alqTUWsd3uf/fqjG8tpCuOgpcylMZyt17Ocd2
+	 7fxNvKi6Jga7DOcKH0970fJ/+xYEa46VbMCPRmOCPc8GVrRCjb5tCFBJb2Wt8kG3ZVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oKbxTLyi;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="I/3pO7Jx";
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCDE606A31A
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Oct 2026 19:39:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBCDE606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34886606A31A
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Oct 2026 19:48:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34886606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oKbxTLyi
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I/3pO7Jx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792870782; x=1824406782;
+  t=1792871287; x=1824407287;
   h=date:from:to:cc:subject:message-id;
-  bh=1ukVA1EIA1U4rdkohVwjDL6wcxBjnmfxbliM9wuk7tY=;
-  b=oKbxTLyiDDq8VnURRUjdebLny+eqhSJw7HyAZ5AHGLDH6OTD9FNF6QJm
-   GXK4mWIGESJnRrXwNJ/wDGA3k9Az9D9qwRuuNti7PdUEvv9vzarlOFdYa
-   sK8/Muq2qUR1TSct2qw8YZYlQ+llBino/OYP4kgtkCQ/wVO6RgCkQxlAN
-   NdvhePVDVz5/6erlpqWmWDWs4Z41tmV+Qallibj4XQBVOuiZqO1aiJH2+
-   twvNdlOY7Q1vao1C5sLnMxgeIDiA2dNaq9SiXJA9ZuhDWOQ6S3ICjyiEV
-   vV5Tytd7jaQnDDKE9z4zK9UEW53IzZ3xrylm3nwubKbLnHWfGGDSv+uFz
-   Q==;
-X-CSE-ConnectionGUID: gxS2MNDkTXCnQwBDLTem3Q==
-X-CSE-MsgGUID: c8zUsSoZSM+Nf0D3UvSxqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1477914"
+  bh=WqNUTJINsKQrSTg+PsRtpAbMVVcfc3bMmsa01719y6s=;
+  b=I/3pO7JxAKBTzcyv8SYeHPz2U49A+nvnwT9jA55W22SNSiPjTGzk87cZ
+   2fvB4nwllYv67Pv8akrKRGIKuXRk8jimMQ+hln0y+UvwzPPCehO3pBHXn
+   KGaA+wP+Iwi112pXjf9dVvTZDp9w08QUF9UaW3FHRvbLhwba6EsBKDJuj
+   C3wDquJQT3GFyIy0GXAA4b1sYxtSCh2ivYsPs2+Et9Jwwt/cnx7H4rwTN
+   h8jIMhcc0Q/TWk8J1LzA+MfNR6CR/oe6AnTai1nzuXDXnNZrH7+JI3rbn
+   NuVILcmUVoCJSJsHgF3OTHj0UWLAW1r/umFZEVVpQhvIg2Guux9QCuGxc
+   A==;
+X-CSE-ConnectionGUID: PyvXuv70Qvy5uAXR3CwJFw==
+X-CSE-MsgGUID: n7foA3NYTKGls7tP3rDInQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1619698"
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1477914"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 12:39:41 -0700
-X-CSE-ConnectionGUID: S8tOhjVpTwSW++yX5LJFqA==
-X-CSE-MsgGUID: NRCblK5qQRaFkO8auSt0eQ==
+   d="scan'208";a="1619698"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 12:48:06 -0700
+X-CSE-ConnectionGUID: tO4RsuRLSwSKECeemF8/NA==
+X-CSE-MsgGUID: Ow+WWZ6XTGKLQN7DUDkwPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="4260925"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2026 12:39:41 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="4036857"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2026 12:48:06 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKhab-00000000UBk-3AUk;
-	Sat, 24 Oct 2026 19:39:37 +0000
-Date: Sun, 25 Oct 2026 03:39:14 +0800
+	id 1xKhil-000000003RP-12Nn;
+	Sat, 24 Oct 2026 19:48:03 +0000
+Date: Sat, 24 Oct 2026 21:47:56 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: fs/nfs/dir.c:754:18: error: implicit declaration of function
- 'd_alloc_trylock'; did you mean 'folio_trylock'?
-Message-ID: <202610250334.kJaJSkIT-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [brauner-vfs:vfs-7.5.super 62/65] fs/super.c:177
+ super_lock() warn: missing unwind goto?
+Message-ID: <202610242131.8KUVdKA5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,124 +80,132 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/UPDATE-20261023-132215/NeilBrown/nfs-fix-open-blocking-with-d_fsdata/20261023-125011, commit: 35a484f473611abf930868ed5f6c1d55bc741880"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: NeilBrown <neil@brown.name>
-CC: 0day robot <lkp@intel.com>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Christian Brauner <brauner@kernel.org>
+CC: Josef Bacik <josef@toxicpanda.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/UPDATE-20261023-132215/NeilBrown/nfs-fix-open-blocking-with-d_fsdata/20261023-125011
-head:   e3a7aa9117daa6410fe3ee62c36e5397e61a664d
-commit: 35a484f473611abf930868ed5f6c1d55bc741880 nfs: Use d_alloc_trylock() in nfs_prime_dcache()
-date:   24 hours ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261025/202610250334.kJaJSkIT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250334.kJaJSkIT-lkp@intel.com/reproduce)
+Hi Christian,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.5.super
+head:   2c8a968b488c134d05ccefff890270ac8ab899a8
+commit: 3af63add349c1aeaee12fb571e5af95635aa83ab [62/65] super: let super_lock() wait for a superblock being shut down
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: nios2-randconfig-r2202-20261024 (https://download.01.org/0day-ci/archive/20261024/202610242131.8KUVdKA5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610250334.kJaJSkIT-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610242131.8KUVdKA5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/super.c:177 super_lock() warn: missing unwind goto?
+fs/super.c:177 super_lock() warn: missing unwind goto?
 
-   fs/nfs/dir.c: In function 'nfs_prime_dcache':
->> fs/nfs/dir.c:754:18: error: implicit declaration of function 'd_alloc_trylock'; did you mean 'folio_trylock'? [-Wimplicit-function-declaration]
-     754 |         dentry = d_alloc_trylock(parent, &filename);
-         |                  ^~~~~~~~~~~~~~~
-         |                  folio_trylock
->> fs/nfs/dir.c:754:16: error: assignment to 'struct dentry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     754 |         dentry = d_alloc_trylock(parent, &filename);
-         |                ^
+vim +177 fs/super.c
 
+7c4c683849ac80 Christian Brauner 2026-10-23  123  
+5d2b0f2107aa50 Christian Brauner 2026-10-23  124  /**
+5d2b0f2107aa50 Christian Brauner 2026-10-23  125   * super_lock - wait for superblock to become ready and lock it
+5d2b0f2107aa50 Christian Brauner 2026-10-23  126   * @sb: superblock to wait for
+5d2b0f2107aa50 Christian Brauner 2026-10-23  127   * @flags: SUPER_LOCK_* flags
+5d2b0f2107aa50 Christian Brauner 2026-10-23  128   *
+5d2b0f2107aa50 Christian Brauner 2026-10-23  129   * If the superblock has neither passed through vfs_get_tree() or
+5d2b0f2107aa50 Christian Brauner 2026-10-23  130   * generic_shutdown_super() yet wait for it to happen. Either superblock
+5d2b0f2107aa50 Christian Brauner 2026-10-23  131   * creation will succeed and SB_BORN is set by vfs_get_tree() or we're
+5d2b0f2107aa50 Christian Brauner 2026-10-23  132   * woken and we'll see SB_DYING.
+5d2b0f2107aa50 Christian Brauner 2026-10-23  133   *
+5d2b0f2107aa50 Christian Brauner 2026-10-23  134   * With SUPER_LOCK_EXCL s_umount is taken for writing, otherwise for reading.
+3af63add349c1a Christian Brauner 2026-10-23  135   *
+3af63add349c1a Christian Brauner 2026-10-23  136   * A superblock which is being shut down is not waited for unless
+3af63add349c1a Christian Brauner 2026-10-23  137   * SUPER_LOCK_WAIT_SHUTDOWN is passed.  That is for those who have nothing to
+3af63add349c1a Christian Brauner 2026-10-23  138   * do on a superblock which is going away, but who promise their caller that
+3af63add349c1a Christian Brauner 2026-10-23  139   * what it had to write has been written, or who must not carry on while the
+3af63add349c1a Christian Brauner 2026-10-23  140   * filesystem is still being written out.  The wait is over once
+3af63add349c1a Christian Brauner 2026-10-23  141   * generic_shutdown_super() is done with @sb, and -ENOENT is still returned.
+3af63add349c1a Christian Brauner 2026-10-23  142   *
+3af63add349c1a Christian Brauner 2026-10-23  143   * With SUPER_LOCK_KILLABLE all the waiting can be cut short by a fatal
+3af63add349c1a Christian Brauner 2026-10-23  144   * signal.  That is only for callers which give up altogether when they are
+3af63add349c1a Christian Brauner 2026-10-23  145   * killed.  If what comes after the wait happens either way, the wait must
+3af63add349c1a Christian Brauner 2026-10-23  146   * not be cut short.
+5d2b0f2107aa50 Christian Brauner 2026-10-23  147   *
+5d2b0f2107aa50 Christian Brauner 2026-10-23  148   * The caller must have acquired a temporary reference on @sb->s_passive.
+5d2b0f2107aa50 Christian Brauner 2026-10-23  149   *
+5d2b0f2107aa50 Christian Brauner 2026-10-23  150   * Return: 0 if SB_BORN was set and with s_umount held. Without s_umount held,
+5d2b0f2107aa50 Christian Brauner 2026-10-23  151   *         -ENOENT if the superblock is being shut down or SB_DYING was set,
+5d2b0f2107aa50 Christian Brauner 2026-10-23  152   *         -EINTR or -ERESTARTSYS if the task was killed.
+5e87491415217d Christian Brauner 2023-08-18  153   */
+5d2b0f2107aa50 Christian Brauner 2026-10-23  154  static __must_check int super_lock(struct super_block *sb,
+5d2b0f2107aa50 Christian Brauner 2026-10-23  155  				   enum super_lock_flags_t flags)
+5e87491415217d Christian Brauner 2023-08-18  156  {
+5d2b0f2107aa50 Christian Brauner 2026-10-23  157  	unsigned int state = TASK_UNINTERRUPTIBLE;
+5d2b0f2107aa50 Christian Brauner 2026-10-23  158  	int ret;
+5d2b0f2107aa50 Christian Brauner 2026-10-23  159  
+5d2b0f2107aa50 Christian Brauner 2026-10-23  160  	if (flags & SUPER_LOCK_KILLABLE)
+5d2b0f2107aa50 Christian Brauner 2026-10-23  161  		state = TASK_KILLABLE;
+be167baa28da9a Josef Bacik       2026-10-21  162  
+5e87491415217d Christian Brauner 2023-08-18  163  	lockdep_assert_not_held(&sb->s_umount);
+5e87491415217d Christian Brauner 2023-08-18  164  
+a99d496efb788a Josef Bacik       2026-10-21  165  	/*
+a99d496efb788a Josef Bacik       2026-10-21  166  	 * The last active reference is dropped with s_umount held, which
+a99d496efb788a Josef Bacik       2026-10-21  167  	 * stays held until SB_DYING is set, and there is no getting a new
+a99d496efb788a Josef Bacik       2026-10-21  168  	 * one.  All there is to find at the end of that wait is SB_DYING,
+a99d496efb788a Josef Bacik       2026-10-21  169  	 * and it can be a long one: the filesystem is written out first.
+a99d496efb788a Josef Bacik       2026-10-21  170  	 */
+a99d496efb788a Josef Bacik       2026-10-21  171  	if (!atomic_read(&sb->s_active))
+3af63add349c1a Christian Brauner 2026-10-23  172  		goto dying;
+a99d496efb788a Josef Bacik       2026-10-21  173  
+b30850c58b5b9b Christian Brauner 2023-11-27  174  	/* wait until the superblock is ready or dying */
+5d2b0f2107aa50 Christian Brauner 2026-10-23  175  	ret = super_wait(sb, SB_BORN | SB_DYING, state);
+be167baa28da9a Josef Bacik       2026-10-21  176  	if (ret)
+be167baa28da9a Josef Bacik       2026-10-21 @177  		return ret;
+b30850c58b5b9b Christian Brauner 2023-11-27  178  
+b30850c58b5b9b Christian Brauner 2023-11-27  179  	/* Don't pointlessly acquire s_umount. */
+b30850c58b5b9b Christian Brauner 2023-11-27  180  	if (super_flags(sb, SB_DYING))
+3af63add349c1a Christian Brauner 2026-10-23  181  		goto dying;
+b30850c58b5b9b Christian Brauner 2023-11-27  182  
+5d2b0f2107aa50 Christian Brauner 2026-10-23  183  	ret = __super_lock(sb, flags);
+be167baa28da9a Josef Bacik       2026-10-21  184  	if (ret)
+be167baa28da9a Josef Bacik       2026-10-21  185  		return ret;
+5e87491415217d Christian Brauner 2023-08-18  186  
+5e87491415217d Christian Brauner 2023-08-18  187  	/*
+5e87491415217d Christian Brauner 2023-08-18  188  	 * Has gone through generic_shutdown_super() in the meantime.
+5e87491415217d Christian Brauner 2023-08-18  189  	 * @sb->s_root is NULL and @sb->s_active is 0. No one needs to
+5e87491415217d Christian Brauner 2023-08-18  190  	 * grab a reference to this. Tell them so.
+5e87491415217d Christian Brauner 2023-08-18  191  	 */
+f0cd988016f679 Christian Brauner 2023-10-24  192  	if (sb->s_flags & SB_DYING) {
+5d2b0f2107aa50 Christian Brauner 2026-10-23  193  		super_unlock(sb, flags);
+3af63add349c1a Christian Brauner 2026-10-23  194  		goto dying;
+f0cd988016f679 Christian Brauner 2023-10-24  195  	}
+5e87491415217d Christian Brauner 2023-08-18  196  
+b30850c58b5b9b Christian Brauner 2023-11-27  197  	WARN_ON_ONCE(!(sb->s_flags & SB_BORN));
+be167baa28da9a Josef Bacik       2026-10-21  198  	return 0;
+be167baa28da9a Josef Bacik       2026-10-21  199  
+3af63add349c1a Christian Brauner 2026-10-23  200  dying:
+3af63add349c1a Christian Brauner 2026-10-23  201  	if (flags & SUPER_LOCK_WAIT_SHUTDOWN) {
+3af63add349c1a Christian Brauner 2026-10-23  202  		ret = super_wait(sb, SB_DYING, state);
+3af63add349c1a Christian Brauner 2026-10-23  203  		if (ret)
+3af63add349c1a Christian Brauner 2026-10-23  204  			return ret;
+c61f54949db7b5 Josef Bacik       2026-10-21  205  	}
+3af63add349c1a Christian Brauner 2026-10-23  206  	return -ENOENT;
+6174e0c41df7a7 Josef Bacik       2026-10-21  207  }
+6174e0c41df7a7 Josef Bacik       2026-10-21  208  
 
-vim +754 fs/nfs/dir.c
+:::::: The code at line 177 was first introduced by commit
+:::::: be167baa28da9a1df7fe384c4edeb9fb1c07772d fs: make a mount waiting on another mount killable
 
-230bc98f7a2a49e Trond Myklebust   2022-02-17  723  
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  724  static
-a1147b8281bda99 Trond Myklebust   2020-02-05  725  void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
-a1147b8281bda99 Trond Myklebust   2020-02-05  726  		unsigned long dir_verifier)
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  727  {
-26fe57502870394 Linus Torvalds    2012-05-10  728  	struct qstr filename = QSTR_INIT(entry->name, entry->len);
-4a201d6e3f4253f Trond Myklebust   2010-10-23  729  	struct dentry *dentry;
-4a201d6e3f4253f Trond Myklebust   2010-10-23  730  	struct dentry *alias;
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  731  	struct inode *inode;
-aa9c2669626ca7e David Quigley     2013-05-22  732  	int status;
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  733  
-fa9233699cc1dc2 Trond Myklebust   2015-02-23  734  	if (!(entry->fattr->valid & NFS_ATTR_FATTR_FILEID))
-fa9233699cc1dc2 Trond Myklebust   2015-02-23  735  		return;
-6c441c254eea235 Trond Myklebust   2015-02-22  736  	if (!(entry->fattr->valid & NFS_ATTR_FATTR_FSID))
-6c441c254eea235 Trond Myklebust   2015-02-22  737  		return;
-78d04af4995a135 Trond Myklebust   2016-09-20  738  	if (filename.len == 0)
-78d04af4995a135 Trond Myklebust   2016-09-20  739  		return;
-78d04af4995a135 Trond Myklebust   2016-09-20  740  	/* Validate that the name doesn't contain any illegal '\0' */
-78d04af4995a135 Trond Myklebust   2016-09-20  741  	if (strnlen(filename.name, filename.len) != filename.len)
-78d04af4995a135 Trond Myklebust   2016-09-20  742  		return;
-78d04af4995a135 Trond Myklebust   2016-09-20  743  	/* ...or '/' */
-78d04af4995a135 Trond Myklebust   2016-09-20  744  	if (strnchr(filename.name, filename.len, '/'))
-78d04af4995a135 Trond Myklebust   2016-09-20  745  		return;
-4a201d6e3f4253f Trond Myklebust   2010-10-23  746  	if (filename.name[0] == '.') {
-4a201d6e3f4253f Trond Myklebust   2010-10-23  747  		if (filename.len == 1)
-4a201d6e3f4253f Trond Myklebust   2010-10-23  748  			return;
-4a201d6e3f4253f Trond Myklebust   2010-10-23  749  		if (filename.len == 2 && filename.name[1] == '.')
-4a201d6e3f4253f Trond Myklebust   2010-10-23  750  			return;
-4a201d6e3f4253f Trond Myklebust   2010-10-23  751  	}
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  752  
-9ac3d3e8460e3fa Al Viro           2016-04-28  753  again:
-35a484f473611ab NeilBrown         2026-10-23 @754  	dentry = d_alloc_trylock(parent, &filename);
-9ac3d3e8460e3fa Al Viro           2016-04-28  755  	if (IS_ERR(dentry))
-9ac3d3e8460e3fa Al Viro           2016-04-28  756  		return;
-35a484f473611ab NeilBrown         2026-10-23  757  
-9ac3d3e8460e3fa Al Viro           2016-04-28  758  	if (!d_in_lookup(dentry)) {
-6c441c254eea235 Trond Myklebust   2015-02-22  759  		/* Is there a mountpoint here? If so, just exit */
-6c441c254eea235 Trond Myklebust   2015-02-22  760  		if (!nfs_fsid_equal(&NFS_SB(dentry->d_sb)->fsid,
-6c441c254eea235 Trond Myklebust   2015-02-22  761  					&entry->fattr->fsid))
-6c441c254eea235 Trond Myklebust   2015-02-22  762  			goto out;
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  763  		if (nfs_same_file(dentry, entry)) {
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  764  			if (!entry->fh->size)
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  765  				goto out;
-a1147b8281bda99 Trond Myklebust   2020-02-05  766  			nfs_set_verifier(dentry, dir_verifier);
-2b0143b5c986be1 David Howells     2015-03-17  767  			status = nfs_refresh_inode(d_inode(dentry), entry->fattr);
-aa9c2669626ca7e David Quigley     2013-05-22  768  			if (!status)
-dd225cb3b02b827 Anna Schumaker    2021-10-22  769  				nfs_setsecurity(d_inode(dentry), entry->fattr);
-eace45a18ccb34a Trond Myklebust   2022-02-19  770  			trace_nfs_readdir_lookup_revalidate(d_inode(parent),
-eace45a18ccb34a Trond Myklebust   2022-02-19  771  							    dentry, 0, status);
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  772  			goto out;
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  773  		} else {
-eace45a18ccb34a Trond Myklebust   2022-02-19  774  			trace_nfs_readdir_lookup_revalidate_failed(
-eace45a18ccb34a Trond Myklebust   2022-02-19  775  				d_inode(parent), dentry, 0);
-5542aa2fa7f6cdd Eric W. Biederman 2014-02-13  776  			d_invalidate(dentry);
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  777  			dput(dentry);
-9ac3d3e8460e3fa Al Viro           2016-04-28  778  			dentry = NULL;
-9ac3d3e8460e3fa Al Viro           2016-04-28  779  			goto again;
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  780  		}
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  781  	}
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  782  	if (!entry->fh->size) {
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  783  		d_lookup_done(dentry);
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  784  		goto out;
-7dc72d5f7a0ec97 Trond Myklebust   2016-09-22  785  	}
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  786  
-9bd545539b23372 Trond Myklebust   2025-11-19  787  	nfs_set_verifier(dentry, dir_verifier);
-cf7ab00aabbf9c8 Anna Schumaker    2021-10-22  788  	inode = nfs_fhget(dentry->d_sb, entry->fh, entry->fattr);
-41d28bca2da4bd7 Al Viro           2014-10-12  789  	alias = d_splice_alias(inode, dentry);
-9ac3d3e8460e3fa Al Viro           2016-04-28  790  	d_lookup_done(dentry);
-9ac3d3e8460e3fa Al Viro           2016-04-28  791  	if (alias) {
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  792  		if (IS_ERR(alias))
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  793  			goto out;
-9bd545539b23372 Trond Myklebust   2025-11-19  794  		nfs_set_verifier(alias, dir_verifier);
-9ac3d3e8460e3fa Al Viro           2016-04-28  795  		dput(dentry);
-9ac3d3e8460e3fa Al Viro           2016-04-28  796  		dentry = alias;
-9ac3d3e8460e3fa Al Viro           2016-04-28  797  	}
-eace45a18ccb34a Trond Myklebust   2022-02-19  798  	trace_nfs_readdir_lookup(d_inode(parent), dentry, 0);
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  799  out:
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  800  	dput(dentry);
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  801  }
-d39ab9de3b80da5 Bryan Schumaker   2010-09-24  802  
+:::::: TO: Josef Bacik <josef@toxicpanda.com>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
