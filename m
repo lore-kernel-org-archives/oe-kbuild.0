@@ -1,77 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792883427;
-	b=RUcLFOdI1BD5m7Jh9hyIo4nOEW7CzTgF74+QuC07e88dNwj9ClF8HHFrI42gshmVJlee
-	 rwdhPhh5BS8kv/uwWLbQ8QQyPf5dDvCIwQIZ5EgCYCB+8a8BLhOGwVOu2/4QJXh+5veVy
-	 jYCeCuYmy2mdeg/e6oYSG5YjMAdDBCX9un7IxH03x2T20SIAo5N2ZYvrja+a+C5iPkL/F
-	 lUHXWh5sa4Bl/yNMvF86H4+clbWkjQnigTE2djBs7fnsO0gNYHtFC3TwlPvm7hp2r1y3E
-	 XdjUFwhAqXpnJTNPm52jKBSPa9NdKeF0ISQ2hr9mzv3upEfku2DIibpsXZe4haOK7mQ==
+	t=1792924142;
+	b=cjWtisLl+hFfCIFG7kRveXOvGZ/v4L8AKLCSJIhjSvuO4qImPRbFVdDythkLZ5qKqGcQ
+	 7/tNb4POQdh8J7doMXqNCHU7UH4tqIoRr7s6PisQArsaQ1QQ3FgYALi30e338DrUXRL/f
+	 Sa06HY7ggICk+fTy+k7eq/McoNgQNSWjqAu/3Hg0TfS2/XktM7S8Dl/n0tgpnuGL3xZVb
+	 1x36HLreKMzw9eGgMBvi6xTX99ZvZmVAbbt+O0ZkdmODw4mycIMWTTHzkt0ZMJCqKi8zP
+	 l6dp8uuL/bq3kmyzO1dtKuQx1LYUHdyyA+tkgWvTH6GeM85Zzyf2zMFoEb9UHo5cLOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792883427;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792924142;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=xkKYqxzxD5V1Nw+bSvJI6EC8w20K2pstMqPLMUY/YJs=;
-	b=Ep2kweV83C7DfSd8WfMvzzZkvh0pvYVkwmWXTTax+r2xYrSRQP1oIGwEsLHwZ0gj2geV
-	 DIjrT4sc41vtAKpXSXjOM0aNgqn1wemw76eM4NnkAnWkXWwdL1h5JHDQuA/hXxbOy0WMy
-	 4cwgbamW/uK9qg3GwVmgr7Gj811kTQnUJ60AHWzJb1Io9b70PPqZGddWFwLEsGENcm7Mm
-	 NQbMa77u1MXqNr4419dUDizZgMlysRY4MfAEawSVSirntLGlJTvxVsPWwryt6ZdRfzOVz
-	 /puNK4USGZGc1FkokEsYh5CNTd+yCdVzS7kl1+//0lRIWpCrf1Uaw0T/4BC8YRVfszw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=KzWNEJM9e9fDiQ79bzaxR3SwcmyKkmOQRoaD6zn3/ww=;
+	b=DWw8y2do/d56AzCj+gwOg6O7p/+hpg36liMeT+5xAK39zcbPA5e/ls1MdYHdHn/yNjcm
+	 QXRWwzYhfCcLdfYwtpBdsNCpbsmdomLeirFsqnzoG4PI6QTdCiaeYXBxpRZgOGiEKxSqg
+	 h0RJTKb92pYdYD+INCVXlZVdMQH8bzhZHKY46kV6Un2dwTCBSpset/92Sc5bPemHDltHh
+	 WE6FZ9HP9EoFDMkR5OMP8pR1o1SGY+QxZhte1qNNZKR7obEyZQTRWoMnUeB+c55jN6FxM
+	 yNq1rYrhlt/7BOWxSVgpk5h7ZGQJQKwgCL/jfIa32mVfHODGzgWfD7012UePK2th3og==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="m3avkO/0";
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="KFZ/qxlE";
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6348C606A31A
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Oct 2026 23:10:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6348C606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AAE606A31A
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Oct 2026 10:28:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3AAE606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m3avkO/0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KFZ/qxlE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792883424; x=1824419424;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9/uw7gIuiLLXZGd0rod/mill5rz88wO3E+N8hukfTi4=;
-  b=m3avkO/0QxJMcR/JWZFNyCVj5D/M8EdGpIst1DVMvqimu7kPCMNNhIAA
-   8PKxCub08DWq4Ugqq6i+wCjc+N4giPsPi6TwfYaUcP0o09/RxlhZnK3Vm
-   0w9JJLd0V8STT42h87mM+F2ZzG2FCEcrAQG9hAgo78RRPR+CbH/owo1HR
-   gUa57isoR06WRaVUHnWXV/l/8obIFZSB8+UPS5vnqbzePerufcvliFf6W
-   1lLOJ4CFQhSNTZD4o2I+glYi0mZvQq/ju9GEtNEQzgWVN46tQSDBkpQNV
-   u9VulSmy+mubrBfK1hCeKX2Jqa0NNjTamOafhBZB0c/DMCWuN9pZYOrHR
-   A==;
-X-CSE-ConnectionGUID: nUov2ZxqSiGfthSc/wXHlA==
-X-CSE-MsgGUID: n4MSJhciTwmuJQhUjoKWQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1609036"
+  t=1792924140; x=1824460140;
+  h=date:from:to:cc:subject:message-id;
+  bh=CKML4kHgnJ8dGrf+x7wnmONkcVWHx8yIjVJPxcvgaWA=;
+  b=KFZ/qxlEM3kzZf8OEK7IT79kvFqhtXyhht88x+nz1epd2sU01Z5aHo0m
+   fG4BxQE1ORtuAO/MQHSAsgiyoPRZZvJ8gDVNixOlWG5k+SBuKV1GAbVof
+   NUu7yv7qN71Z7HP3qpE5t7cZzaLSOkJbOmas/skCx0tzD3kiZSfAuhGBV
+   rmaM8oQ9ekg02XMhnqQVy7g1xgJR/nPScrFvKqh6P/Yg4SDqIac2AsmA8
+   CDkpD4r9xEvzi+30WU3BKPuexbDmzJjgjjEKXBTF+qZxEFMQAr7jrUHoQ
+   thwnwO2o7wOC3ESpUsgRABZCRgYwMkSFffsetyb4+EHdvBsXZA2u9oDp/
+   g==;
+X-CSE-ConnectionGUID: /g2ukX0RTlGJI8Uu1d+CnA==
+X-CSE-MsgGUID: MARn+l0jSnCZuvKiWygnog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1621159"
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="1609036"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 16:10:23 -0700
-X-CSE-ConnectionGUID: Ik3SZ2dzS1uRnY0BqK9biw==
-X-CSE-MsgGUID: Hrbf7mM2RROd5ReVZEEXWA==
+   d="scan'208";a="1621159"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 03:28:59 -0700
+X-CSE-ConnectionGUID: 8WGjUlW+TJu6q6PgX0pv1A==
+X-CSE-MsgGUID: 4E44kfbvQc6AITnhoTrM2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="4286489"
+   d="scan'208";a="4109609"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2026 16:10:21 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 25 Oct 2026 03:28:58 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKksV-000000003W3-2Zqg;
-	Sat, 24 Oct 2026 23:10:19 +0000
-Date: Sun, 25 Oct 2026 01:10:09 +0200
+	id 1xKvTE-000000003gV-0fFm;
+	Sun, 25 Oct 2026 10:28:56 +0000
+Date: Sun, 25 Oct 2026 11:28:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android14-6.1 0/1]
- fs/smb/client/smb2ops.c:1411:13-22: WARNING use flexible-array member instead
- =?us-ascii?Q?(https://www.kernel.org/doc/html/latest/process/deprecated.?=
- =?us-ascii?Q?html#zero-length-and-one-element-arrays)?=
-Message-ID: <202610250131.R2XQJd1S-lkp@intel.com>
+Subject: fs/erofs/fileio.c:35:10-11: WARNING opportunity for min()
+Message-ID: <202610251100.2zQkI12n-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,49 +78,58 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Gao Xiang <xiang@kernel.org>
+CC: Chao Yu <chao@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   2f0d864181b9acf801e9b51c345e11b6156b767a
-commit: 29429a1f5871dbe54ee0da81bb12db8567f15379 [0/1] smb: move client and server files to common directory fs/smb
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 years, 4 months ago
-config: i386-randconfig-2101-20261024 (https://download.01.org/0day-ci/archive/20261025/202610250131.R2XQJd1S-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   21a7f44fd0765fcc5194130b28767786eba1d1e7
+commit: 1137aa577a35e2684e8046c3e53f920e79c7cc60 erofs: enable iomap for file-backed mounts on unencoded inodes
+date:   8 days ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-2103-20261025 (https://download.01.org/0day-ci/archive/20261025/202610251100.2zQkI12n-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1137aa577a35 ("erofs: enable iomap for file-backed mounts on unencoded inodes")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610250131.R2XQJd1S-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610251100.2zQkI12n-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/smb/client/smb2ops.c:1411:13-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+>> fs/erofs/fileio.c:35:10-11: WARNING opportunity for min()
 
-vim +1411 fs/smb/client/smb2ops.c
+vim +35 fs/erofs/fileio.c
 
-41c1358e9181ab fs/cifs/smb2ops.c Steve French    2013-11-14  1403  
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1404  struct iqi_vars {
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1405  	struct smb_rqst rqst[3];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1406  	struct kvec rsp_iov[3];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1407  	struct kvec open_iov[SMB2_CREATE_IOV_SIZE];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1408  	struct kvec qi_iov[1];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1409  	struct kvec io_iov[SMB2_IOCTL_IOV_SIZE];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1410  	struct kvec si_iov[SMB2_SET_INFO_IOV_SIZE];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21 @1411  	struct kvec close_iov[1];
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1412  };
-b2ca6c2c9eddc4 fs/cifs/smb2ops.c Ronnie Sahlberg 2020-05-21  1413  
-
-:::::: The code at line 1411 was first introduced by commit
-:::::: b2ca6c2c9eddc41c09e49e8e83f8208bd80fdb8e cifs: move some variables off the stack in smb2_ioctl_query_info
-
-:::::: TO: Ronnie Sahlberg <lsahlber@redhat.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+ce63cb62d794c9 Gao Xiang  2024-09-05  22  
+ce63cb62d794c9 Gao Xiang  2024-09-05  23  static void erofs_fileio_ki_complete(struct kiocb *iocb, long ret)
+ce63cb62d794c9 Gao Xiang  2024-09-05  24  {
+ce63cb62d794c9 Gao Xiang  2024-09-05  25  	struct erofs_fileio_rq *rq =
+ce63cb62d794c9 Gao Xiang  2024-09-05  26  			container_of(iocb, struct erofs_fileio_rq, iocb);
+ce63cb62d794c9 Gao Xiang  2024-09-05  27  	struct folio_iter fi;
+ce63cb62d794c9 Gao Xiang  2024-09-05  28  
+eade54040384f5 Sheng Yong 2026-02-27  29  	if (ret >= 0 && ret != rq->bio.bi_iter.bi_size)
+eade54040384f5 Sheng Yong 2026-02-27  30  		ret = -EIO;
+bc804a8d7e865e Gao Xiang  2026-01-30  31  	if (!rq->bio.bi_end_io) {
+ce63cb62d794c9 Gao Xiang  2024-09-05  32  		bio_for_each_folio_all(fi, &rq->bio) {
+ce63cb62d794c9 Gao Xiang  2024-09-05  33  			DBG_BUGON(folio_test_uptodate(fi.folio));
+1137aa577a35e2 Gao Xiang  2026-10-17  34  			iomap_finish_folio_read(fi.folio, fi.offset, fi.length,
+1137aa577a35e2 Gao Xiang  2026-10-17 @35  						ret < 0 ? ret : 0);
+ce63cb62d794c9 Gao Xiang  2024-09-05  36  		}
+bc804a8d7e865e Gao Xiang  2026-01-30  37  	} else if (ret < 0 && !rq->bio.bi_status) {
+bc804a8d7e865e Gao Xiang  2026-01-30  38  		rq->bio.bi_status = errno_to_blk_status(ret);
+283213718f5d61 Gao Xiang  2024-08-30  39  	}
+80d0c27a0a4af8 Gao Xiang  2025-11-27  40  	bio_endio(&rq->bio);
+ce63cb62d794c9 Gao Xiang  2024-09-05  41  	bio_uninit(&rq->bio);
+1caf50ce4af096 Chao Yu    2026-02-06  42  	if (refcount_dec_and_test(&rq->ref))
+ce63cb62d794c9 Gao Xiang  2024-09-05  43  		kfree(rq);
+ce63cb62d794c9 Gao Xiang  2024-09-05  44  }
+ce63cb62d794c9 Gao Xiang  2024-09-05  45  
 
 --
 0-DAY CI Kernel Test Service
