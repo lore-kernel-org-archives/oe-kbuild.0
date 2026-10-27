@@ -1,76 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793071572;
-	b=kBl6gz6i/NTw+2yqcdU7iYeItSFsFtkXPEVhsDr2pueajtg//h7lLeOu1z8glMf49fTh
-	 Y/AcE8IDjsk6GJiTgyUYzYcW6wYTGlr+ZuDS7ae+DwIQ71C5e4H0Na8vTS80XsFOO+9Gf
-	 vz+hugXtCPNq4eBamPCu43i1bUgE8NH/P6URUFj0s6t+h/9AwL7CpsDefFkV1HBjeknKD
-	 ZosBB24CXozc/zuxCY5nt/qAzQx+mw3eQmY6uxBANlZ4YeFtlGodN8/RmVHdDI+RFQ+Uj
-	 XIbxqILB3UPcXQO/lF/awtE/cbIIP9USRSr/kipTEJLA5uZb+CyCLJU3T8bATotnB5g==
+	t=1793098146;
+	b=ga7kJbAJtQfw1+HrEBa6jQgLY0bM4m7jkJ1QhyjHWAThyWN6NXx084IuzrQlyg3wSYsz
+	 pSLoei24yh+kPO5Nqk8EBoFlDP4iwqllD4M6P7gyDLs0gZ7lHm0ZKB+P+cFLl1okra/U7
+	 i/a2GcxLSVMUMYfwOOgvEGGq9GFZjn0XsAeXmB2DZ/vCaC7Wo0mG9XBNvdzMZb6hx4dIN
+	 mt486u04Y6yzVtolzM676h9e4TIgIrgxK4BLZL/wlf7abjkk02ApC/KwSRTxvg7rmJ6tN
+	 EXb6SyYtRRmF1iT46atWJG9qY1w5YbylRs5ux5kJX3eHDEWbiUY4H1dbtW6WGq7bOww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793071572;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793098146;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Qv8keUD1iiNgDKz8X/G7I2op0Gkd6KHtQUuHY95kQ3c=;
-	b=MmjZMStKSFZ5MHT7ixJHBxnbAvatHDO3RljR9dtppEGkUxtTAAi1uFLDPu1W0AQkkge0
-	 1Lrmgthj+rxP/Siw45gr/9/qVQNTw5hIKc6THMq0L8t3byjpu+/Tiqqm3SgDZOMbwplgn
-	 OqN5dmI1UmnGBU6f57L8zHj6vkTh/btC8JTb9hjsBX7MXk5mvJXerDnI3s30KqJ7OvdCC
-	 ZTSSEYV2Br9sqtQqkj18ZqOIQ/BSy+E7nExsg9vuGb9lqC7rhU1jGkhyptQMSb7uVvepV
-	 YrGbpsuNhfPTe9N09YfvrmHm8laJUYmbjWbdu9KpooKI6C5t4Z3yJPTl5ikU5Cl6P4A==
+	bh=QOW1cMZMxV7DkzoyR6/qatKpgGwy7exPJprTX9cHDSw=;
+	b=4FTWOoGF7iM6b6tgeA0rylS5ARZptA/8HuBlrE9GdIJeCUzMWH3oKH18s+zLhsmGt7Ey
+	 bWADAs/2ojsPmfCSbcWCS8jHzZlXSi+ZTIgQqGQRD8qIN006OJQzxGLyYqujOT9tByxnF
+	 I2tkABRtNasnpr1U3iUK1YtNwrv84JywdY/r/mFoEG1FGtMuKkbmLONQbaKLt2cARk/OK
+	 D+kBve9xa8qbmeWQL/zXm7k7LWFAlVuZ/WwanA6hh3egzBsWP27PkZeaEzvAXrk30zS6+
+	 kJAaIJG80h2gy66BzxtvJqfC1E+Yw55NtakzviIleO+r2JwX9TnJPYud9gjfoR37XEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y7OXRuQt;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eMwB5gTQ;
 	arc=none smtp.remote-ip=192.198.163.10
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81339606A31A
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Oct 2026 03:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81339606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04CD606A33D
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Oct 2026 10:49:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C04CD606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y7OXRuQt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eMwB5gTQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793071571; x=1824607571;
+  t=1793098145; x=1824634145;
   h=date:from:to:cc:subject:message-id;
-  bh=RtCodKQIwIrFzfYZPxpw0J6h2nxy3laW1QbdqjGYh0s=;
-  b=Y7OXRuQtQLVqgAe+Ad8Hw7vIGpdztnPXn0ZOJKxjpVR/ZHeQ+W6Bj8Pu
-   F0uwtLP5v4YATL6C3LUHAGSB6qvWOIsAuoGlitLXh3W5UR4cN1TckBphf
-   BQdn66Q0O13WMoKWXrPptZIJDG0b6wfy9Tguewmxwsx9am/35PxwPT35Y
-   07AY4xR0+/6dQbKv3XL9ENO+Tg+5TwEvp8reHcKTGy0Nn0/HVhHgtO2yn
-   sCjaULiX5WTGm4tqrqurqRS+bzm8oWYSc3Ri/15+v84B5i7QlWRhWWvHW
-   mtBJkgLy41ceBMnYANIGArosLqtBRAsz1MnyLXPyDmD5uXg2+xDTm6F0n
-   Q==;
-X-CSE-ConnectionGUID: Aw/28qHXTi2Ifp+9nSeAvA==
-X-CSE-MsgGUID: RdPPfBFZRFGXwdYV9hf2XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1663567"
-X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1663567"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 20:26:11 -0700
-X-CSE-ConnectionGUID: A1KUwDhlR3u/RX8Yi5qj2A==
-X-CSE-MsgGUID: jX3G82D0TvmoQ+sD2QF9Lg==
+  bh=68qhNNUH+CdiLadwpPhRLTp77QXOLPfwzXZCeSdM4fM=;
+  b=eMwB5gTQG1psBZe1Fxij3Z8QS1+j55/Nm5Xn1ZGNKjB2y5P1LxI5d61y
+   i/FqieoK+fJ4Gak8YC+wYON9Ygm2ercuw+5QdSEcwwrCCpVrSTgJ32NQP
+   8kHIJmbT4RrFFykiGL/wOHBCgpxnqaNl37oQ9zAu4IW6gOH5VNnHv50pc
+   20gpYkOYHLTOHxRkph4Nu7ejNftDadZ2byRBIPNwZb3zq6lCtrBWDVACT
+   QSuWq50sA7SzjSs6BZB7maQx9OGutAIUF6FV6plrwS8HN09X1FxBbkB5L
+   MFcuyRCmFveGZ0nbHZufx8Udd02n/rJRRwC8q4fWL+hcKbWdHdZb5IoT5
+   w==;
+X-CSE-ConnectionGUID: rV6H7IxYSCOQOP1bLuZEEQ==
+X-CSE-MsgGUID: ToZh897FTEGow1Qpwqiigw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1697531"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1697531"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 03:49:05 -0700
+X-CSE-ConnectionGUID: 2W7ICQHxR7GXx3Ez6IMTzA==
+X-CSE-MsgGUID: LQvUjra9Swqfzq3nIexL6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4541754"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="6389255"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2026 20:26:10 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 27 Oct 2026 03:49:01 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLXpA-000000004N5-1DqY;
-	Tue, 27 Oct 2026 03:26:08 +0000
-Date: Tue, 27 Oct 2026 04:25:17 +0100
+	id 1xLejh-000000004U3-2x64;
+	Tue, 27 Oct 2026 10:48:57 +0000
+Date: Tue, 27 Oct 2026 11:48:44 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-integrator:b4/genexis-xg6846b-ethernet 5/23]
- arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: cpus: cpu@1:
- 'enable-method' is a dependency of 'cpu-release-addr'
-Message-ID: <202610270441.vqm5jvyo-lkp@intel.com>
+Subject: [lubaolu-intel-iommu:cr/iommu-liveupdate/phase1-v6 55/56]
+ iommufd_utils.h:22:9: warning: "BITS_PER_LONG" redefined
+Message-ID: <202610271144.nZEsjIDP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,35 +81,44 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linusw@kernel.org>
+TO: Baolu Lu <baolu.lu@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/genexis-xg6846b-ethernet
-head:   cf136d48dabcbf056cf26e3c3377ac8cdf4b5b80
-commit: b4d7379cc8f031b6b41b74cb1cb27f5681303cf2 [5/23] ARM: dts: broadcom: Use CFE CPU bring-up on the XG6846B
-:::::: branch date: 6 days ago
-:::::: commit date: 9 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610270441.vqm5jvyo-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270441.vqm5jvyo-lkp@intel.com/reproduce)
+tree:   https://github.com/LuBaolu/intel-iommu.git cr/iommu-liveupdate/phase1-v6
+head:   0c951d2dd0e55d5d98c67799bc384ae8d335ef4e
+commit: d61010509689cbc2bd39d9b8c6eec696668c0d8e [55/56] iommufd/selftest: Add test to verify iommufd preservation
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261027/202610271144.nZEsjIDP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271144.nZEsjIDP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610270441.vqm5jvyo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610271144.nZEsjIDP-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: cpus: cpu@1: 'enable-method' is a dependency of 'cpu-release-addr'
-   	from schema $id: http://devicetree.org/schemas/cpus.yaml
->> arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: cpu@1 (arm,cortex-a7): 'enable-method' is a dependency of 'cpu-release-addr'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
->> arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: cpu@1 (arm,cortex-a7): Unevaluated properties are not allowed ('device_type', 'next-level-cache' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+All warnings (new ones prefixed by >>):
+
+   In file included from iommufd.c:12:
+>> iommufd_utils.h:22:9: warning: "BITS_PER_LONG" redefined
+      22 | #define BITS_PER_LONG __BITS_PER_LONG
+         |         ^~~~~~~~~~~~~
+   In file included from usr/include/asm/bitsperlong.h:11,
+                    from usr/include/asm-generic/int-ll64.h:12,
+                    from usr/include/asm-generic/types.h:7,
+                    from usr/include/asm/types.h:1,
+                    from tools/testing/selftests/../../../tools/include/linux/types.h:13,
+                    from usr/include/linux/capability.h:18,
+                    from /usr/include/sys/capability.h:34,
+                    from iommufd.c:5:
+   tools/testing/selftests/../../../tools/include/asm-generic/bitsperlong.h:8:9: note: this is the location of the previous definition
+       8 | #define BITS_PER_LONG (__CHAR_BIT__ * __SIZEOF_LONG__)
+         |         ^~~~~~~~~~~~~
 
 --
 0-DAY CI Kernel Test Service
