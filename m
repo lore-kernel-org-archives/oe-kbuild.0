@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793262005;
-	b=hCBV5gp969RA4VwBhnHP1/zlAyCh0i15k6AXMdzqyq9h3+kY9Iegt9YOQp2cKUjnsQP2
-	 CcLYK5V/5hQSIibVAr7v6uRzQ7ZXGS32fXk3/uQ9dgO5p3QbqhWL2shB0Z8Ak0Nyvlk2U
-	 uH8B1xq3a9DEocGpsYp6GzzKHbppP5TjrgMt+pd0Nz58oSUU0C3wVLP8sx3UN3M8ote/+
-	 s4GRIeW7XQVndXIwpETfh3ZBrTkI2qlnYecYzaS4ScrUDhrj4sCL+uKbcQE/bc9CFt1bL
-	 QU/ZvYuSR4Kp2M2PDMg3crEDMwMICU9NLSqlqhtYKhaH/yvGp+//pBvb4KrMEQizt2A==
+	t=1793265495;
+	b=pfU1NaqI1BiBaxTkOISRTqMp3W8jUnZz8CWI94tFJ+Nrg06A7u8/feiFaP1Ow5sB6kJY
+	 JJOY7FR36fMYupFJCKVE1Xc+1UTP3VeIbY6vAp5k4GGWi0E6ta3H3xgZYStpATFruXIr3
+	 P6Qgd4RoHb8zbiVpDsps0bftKZM8XGldrLWjJnj280LRf+f6T+LNIPh80bpIfvC1WJZ64
+	 Ff1B1G3EWgSuTJJ/ve2zknqPqn13k8tTz1h1rKdYPTob2aUzGeY5vFJyOqcIjvFyPPH/r
+	 j25aqAQVetbSiivzP3itdqD/jcwOZRLYKco9FtoiK0LvPw39iwYMYNGNBCH/A8FnUoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793262005;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=YD6yeEZzcF/IkGgi5XaflAkW3DzRMMEsfh8rp3u6CHE=;
-	b=F8ndDJLQ81pu9abS5My4gxHAmn8Wj5Gqgfm4FnYCun2nf/1KeczWaEfA+PNG5GGoXiuT
-	 5iNjkpPThEVgaYKbKdlY/TlAOaBBjoTI8gNoVditrtZVdsBUaWIPnmAc0DbClekOO3s3l
-	 9p6GW93dyLIOG7fT9I4I3Q2WjqJZvUfXf3UQ23cxiW+kNdvYjhUo4fqcq+uy6N2v/p7hw
-	 7QgPbvbcg6D691r6KeiQfvRI4jGQsyMWDWqBd+Ft71+ohj3kaqvnZ+fQbELVYeZ2xpPBY
-	 NYhDEOEp7ufEJSF8mwdGj41mb0XxmoMGyyvuPMK5b7tw/mM5Px0ooYqGDt/m9324ZcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793265495;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=k/J/g9UBkr4bgTjspcsF5aXYQeh6DBCp1v9jrg53jWw=;
+	b=kZjJU+JfjGLXLtK4oepkyKOUkG87swCL7kWPioV55lVOnjllwy17+D3STjeBPRFRd/zw
+	 1DSyhqKS0IJb6o/GgPQYHWaOUtYsC4hG8kvtH2L7o51b3XfPf0FRqDXgkuzd00IjFl21X
+	 IhNUUrNYzJOkLUG+mNGepbtsbHxd5qDqUFe92jWQfvfG8mKqa3ht/rNUsQJMk9k4Y5GQV
+	 ZZmCIP/SFFDXy3C+zAK7y7ctxKJmyE7cgZv8J2g1YHGEkrCGx/0e9jZOA5Pf92crZaKJt
+	 Xu3eTJjk4MQWFYAxZvCdpS3CSyVhPHUsEYTJ+AA2YuY2t7uQKuav/QBYY6ufRDIuppg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PCnJ1pcc;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CAeJ+U1+;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA13F606A321
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Oct 2026 08:20:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA13F606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A78606A31A
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Oct 2026 09:18:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23A78606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PCnJ1pcc
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so17835765e9.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 29 Oct 2026 01:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793262003; x=1793866803; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YD6yeEZzcF/IkGgi5XaflAkW3DzRMMEsfh8rp3u6CHE=;
-        b=PCnJ1pccJPrNZHAEk9s+qGaQ4ncifZgd8N/H72uPLizsTOfszhsJgpKIMv5W6DTZdu
-         txcRPJgvhx7ohQinKJWyLJmB7zC55VJ21Hg+KWsxLuXs0UwdOOcTY+rp9ah/TGiUUFKb
-         rIY9HE1SmBY65qitSvOeDUtlUwpc6eIqtXjfeLmXowCYr8SBZvLh4zGMixYzVEhnXkAn
-         IRNGAw1V339K4EfV2dSoI+GfUoNfUvoxgfRlUEzpIYS5CqyKLb7TSuDOsLvzB4F2uws6
-         snCDxUyEXltOJzsozh5urLI6V2wmI+gBPhqqHyDyAg007fpBLIJFjSPEgvvDG2prn2df
-         QUPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793262003; x=1793866803;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YD6yeEZzcF/IkGgi5XaflAkW3DzRMMEsfh8rp3u6CHE=;
-        b=Lb9vprhH/zFTS/ziXYPn+PUjLsKcMNpT0GItMtX8Lf/Ucqw3ne4ndhhDSIZ1eehLA9
-         A7GZ6zf7SqO/mnggK+4yxQl/d2ByrA7gOdPWclQe0Ebwf3pxwakMRRVV3L89r/DDgIhS
-         jf6UjgeP43aFdtn16YPsgHHiOqnuwjmZRatXcxufNHPCWHEyiOOiCYKL2g5b++eSwaWl
-         5ZR+Thwac8G3V067nw+578x1O0+YV5Ok8nCRx1KfNa522jJrUCnMIYXF5BHxX69/NvGc
-         58kuL7bwzRgZ+sn6uN0x2QUpaeMP4ssv9jbRWOx3YVShMkk8RWD8dfX0KwTttJJHMGgj
-         FEpg==
-X-Gm-Message-State: AFq9FYJdDS1/bPdlbshMlWcZ1E3UbT5/0/9NX7QOOlJigkVUw2xhlyiL
-	8fNJkLho5y7e3KXNLFFwtnNnM5KeFcr/EO732+ykbfrloBO9HdR+sJo3t++b+iHpfOtkrwQW
-X-Gm-Gg: AYBFou3bt6UDcJt+osmFbj9IplWlKnEBaqYf9CHYDDwjTztqrYXUtm2C++lRjFj3k49
-	6Qs7sz9f2IXW2YvB/Biu72vX277cfcVIl8mdYFFJ+yEIdqqtg5mJARd+OCi2Lh/pUO5AHoqmIa+
-	uAzL/pE0dh6O6beKIrky3AnurkBjGfIr320ZjAR6X4OKt62VZABy+oH33AtKkZSWyhF7z/58Coz
-	a3u+1xcSnRI78yL9cU0RqybvD5Dv5+BN8vsAbGUCx+1SnmmtY7pDvcvR1422+QTwBIgLfzTqqdk
-	qPvyApbdBVNFZrd4psVA6wMZsnmXvjQ3Cnb5+pAtPZb3REATub0Uclx2Xqxu8HNE7l4CQ9mcNhd
-	Gis1NTgYjVjU/Dk0Sf3PeRgSp5B5x6agfQYdHkzd/kUhNgnFAynl76DJ74v+gulDH2MrLBvQYXD
-	1lttuv9sUVWjYPHdNmrIyyiaOzRsXRJNNdaDkYCSdonZzv/ZAH3ltSIHKgZqCD7AsySUp0LoJxJ
-	VFN8azsc/9n3FRJ0HreOizOc/DW/ubAHDBCpO5cCtPuLGCYuxJCA8dInR2eEqYEybSLuxmd3thC
-	ymu/Qeqvl/ivqWnISV7yIFKS2ABeK+OAN2tE8SptiqHP2kDenOCEnatVG7OzgzCpA0mmKd9mT3Z
-	QQrQUxeAmyjQhMcq8wRrvElWgwBvbu/4yG8yfPWeUE4rfa4MrunUWVQjbdtz0BJY4suQ=
-X-Received: by 2002:a05:600c:620f:b0:4a1:c5eb:b445 with SMTP id 5b1f17b1804b1-4a967e8d69cmr98876805e9.35.1793262003012;
-        Thu, 29 Oct 2026 01:20:03 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e412cc164sm31161541f8f.7.2026.10.29.01.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 01:20:02 -0700 (PDT)
-Date: Thu, 29 Oct 2026 11:19:58 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>,
-	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-Subject: [avpatel:sse_test_v10 4/9] arch/riscv/kernel/sbi_sse.c:66 do_sse()
- error: memcmp() '&regs->a6' too small (8 vs 16)
-Message-ID: <202610290605.80V5NQDW-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CAeJ+U1+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793265493; x=1824801493;
+  h=date:from:to:cc:subject:message-id;
+  bh=nj940X8t4Xa2om+ooA5JrPnvBO6N4d36ulfgyFrD2P0=;
+  b=CAeJ+U1+UqrxsKlAnOk7n4lUn76YZJKJxx8/CNvkzoojpHuXZtZ4Yi/8
+   GJHdy0zHqChHCUSsh+q7OnU3FI/HJTVvxuUxvHyweI/rM1zqfz7faE5tj
+   WkzBjZ4OiTzMVP3zZvYTLlZIlzXBZWNeGAFOTVDcXXoyf2emBUtXm2db6
+   oEICRpnSLot0nH94EsybGkmp3FzXlq6mIuuvIavLg5fdxHMGWFmTZMiDM
+   a5dYtx5syCLeu2+yrrC9cgsDgkMUHQC9hGOmlNfHWvGTT1A9ZAzxAYxo9
+   iOArF/pZz0ECNvyD0eggHqpZvh6h3BvFk8hEhw6qoAl/694eTrXignNM7
+   Q==;
+X-CSE-ConnectionGUID: 4zLe0h6+QBiZzydwTwK0ow==
+X-CSE-MsgGUID: wgvmI0e1Sv66MR4udzsrnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1887315"
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="1887315"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 02:18:13 -0700
+X-CSE-ConnectionGUID: gzQ6DUSyTjGMW/i7OZ1BWQ==
+X-CSE-MsgGUID: FcB6rK1PShaeQLK6uZGy8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="5180854"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2026 02:18:12 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xMMGt-000000005Cd-1ap2;
+	Thu, 29 Oct 2026 09:18:07 +0000
+Date: Thu, 29 Oct 2026 10:17:19 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [ulfh-mmc:devel 6/11]
+ drivers/memstick/host/bcm577x5_ms.c:671 bcm577x5_ms_req_process() error: we
+ previously assumed 'dev->req' could be null (see line 653)
+Message-ID: <202610291015.s3D2Njcw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -98,96 +80,85 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20261029081958.FpBSBdNrlzw_M7UX3zQjmK9JsqxPQpb5W16gotVustg@z>
 
-tree:   https://github.com/avpatel/linux.git sse_test_v10
-head:   b153606b426cd9cdcd8786f48fc3774eb1f61abe
-commit: cbb75c80fb5ab84a43c76c8796f793402216b21f [4/9] drivers: firmware: add riscv SSE support
-config: riscv-randconfig-r2200-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290605.80V5NQDW-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Ho Jie Feng <hjf3108@gmail.com>
+CC: Ulf Hansson <ulfh@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git devel
+head:   2ff8dfc1822a90414af82c144bc788ce06127885
+commit: 67f654add5a2b328a6bd741d3275af23e20a688a [6/11] memstick: Add Broadcom BCM57765/BCM57785 host driver
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: powerpc-randconfig-r2200-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291015.s3D2Njcw-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.5.0
 smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291015.s3D2Njcw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610290605.80V5NQDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610291015.s3D2Njcw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   powerpc-linux-ld: arch/powerpc/boot/wrapper.a(decompress.o): in function `partial_decompress':
+>> arch/powerpc/boot/decompress.c:132:(.text+0x1b4): undefined reference to `__decompress'
 
 smatch warnings:
-arch/riscv/kernel/sbi_sse.c:66 do_sse() error: memcmp() '&regs->a6' too small (8 vs 16)
+drivers/memstick/host/bcm577x5_ms.c:671 bcm577x5_ms_req_process() error: we previously assumed 'dev->req' could be null (see line 653)
 
-vim +66 arch/riscv/kernel/sbi_sse.c
+vim +671 drivers/memstick/host/bcm577x5_ms.c
 
-a15f710cb89bf2 Clément Léger 2026-09-11  33  void noinstr do_sse(struct sse_event_arch_data *arch_evt,
-a15f710cb89bf2 Clément Léger 2026-09-11  34  		    struct pt_regs *regs, unsigned long hstatus)
-a15f710cb89bf2 Clément Léger 2026-09-11  35  {
-a15f710cb89bf2 Clément Léger 2026-09-11  36  	struct riscv_sse_interrupted_context context = { regs, hstatus };
-a15f710cb89bf2 Clément Léger 2026-09-11  37  	struct riscv_sse_interrupted_context *previous;
-a15f710cb89bf2 Clément Léger 2026-09-11  38  	struct sbiret sret;
-a15f710cb89bf2 Clément Léger 2026-09-11  39  
-a15f710cb89bf2 Clément Léger 2026-09-11  40  	nmi_enter();
-a15f710cb89bf2 Clément Léger 2026-09-11  41  	instrumentation_begin();
-a15f710cb89bf2 Clément Léger 2026-09-11  42  
-a15f710cb89bf2 Clément Léger 2026-09-11  43  	/* Retrieve missing GPRs from SBI */
-a15f710cb89bf2 Clément Léger 2026-09-11  44  	sret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_EVENT_ATTR_READ, arch_evt->evt_id,
-a15f710cb89bf2 Clément Léger 2026-09-11  45  			 SBI_SSE_ATTR_INTERRUPTED_A6,
-a15f710cb89bf2 Clément Léger 2026-09-11  46  			 (SBI_SSE_ATTR_INTERRUPTED_A7 -
-a15f710cb89bf2 Clément Léger 2026-09-11  47  			  SBI_SSE_ATTR_INTERRUPTED_A6) + 1,
-a15f710cb89bf2 Clément Léger 2026-09-11  48  			 (unsigned long)arch_evt->interrupted_phys, 0, 0);
-a15f710cb89bf2 Clément Léger 2026-09-11  49  	if (sret.error) {
-a15f710cb89bf2 Clément Léger 2026-09-11  50  		pr_warn("Failed to read interrupted registers for event %x: %ld\n",
-a15f710cb89bf2 Clément Léger 2026-09-11  51  			arch_evt->evt_id, sret.error);
-a15f710cb89bf2 Clément Léger 2026-09-11  52  		/* Let the client quiesce its source without using incomplete regs. */
-a15f710cb89bf2 Clément Léger 2026-09-11  53  		sse_handle_event(arch_evt, NULL);
-a15f710cb89bf2 Clément Léger 2026-09-11  54  		goto out;
-a15f710cb89bf2 Clément Léger 2026-09-11  55  	}
-a15f710cb89bf2 Clément Léger 2026-09-11  56  
-a15f710cb89bf2 Clément Léger 2026-09-11  57  	memcpy(&regs->a6, arch_evt->interrupted,
-a15f710cb89bf2 Clément Léger 2026-09-11  58  	       sizeof(*arch_evt->interrupted));
-a15f710cb89bf2 Clément Léger 2026-09-11  59  
-a15f710cb89bf2 Clément Léger 2026-09-11  60  	/* Make the interrupted frame visible while clients handle this event. */
-a15f710cb89bf2 Clément Léger 2026-09-11  61  	previous = this_cpu_read(riscv_sse_interrupted_context);
-a15f710cb89bf2 Clément Léger 2026-09-11  62  	this_cpu_write(riscv_sse_interrupted_context, &context);
-a15f710cb89bf2 Clément Léger 2026-09-11  63  	sse_handle_event(arch_evt, regs);
-a15f710cb89bf2 Clément Léger 2026-09-11  64  	this_cpu_write(riscv_sse_interrupted_context, previous);
-a15f710cb89bf2 Clément Léger 2026-09-11  65  
-a15f710cb89bf2 Clément Léger 2026-09-11 @66  	if (memcmp(&regs->a6, arch_evt->interrupted,
-a15f710cb89bf2 Clément Léger 2026-09-11  67  		   sizeof(*arch_evt->interrupted))) {
-
-This is a false positive.  This type of warning is typically
-silenced using a struct_group().  Otherwise with the right
-FORTIFY configs set up it triggers a WARN_ONCE() at runtime.
-
-a15f710cb89bf2 Clément Léger 2026-09-11  68  		memcpy(arch_evt->interrupted, &regs->a6,
-a15f710cb89bf2 Clément Léger 2026-09-11  69  		       sizeof(*arch_evt->interrupted));
-
-Same.
-
-a15f710cb89bf2 Clément Léger 2026-09-11  70  		sret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_EVENT_ATTR_WRITE,
-a15f710cb89bf2 Clément Léger 2026-09-11  71  				 arch_evt->evt_id, SBI_SSE_ATTR_INTERRUPTED_A6,
-a15f710cb89bf2 Clément Léger 2026-09-11  72  				 (SBI_SSE_ATTR_INTERRUPTED_A7 -
-a15f710cb89bf2 Clément Léger 2026-09-11  73  				  SBI_SSE_ATTR_INTERRUPTED_A6) + 1,
-a15f710cb89bf2 Clément Léger 2026-09-11  74  				 (unsigned long)arch_evt->interrupted_phys, 0, 0);
-a15f710cb89bf2 Clément Léger 2026-09-11  75  		/*
-a15f710cb89bf2 Clément Léger 2026-09-11  76  		 * If writeback fails, COMPLETE resumes with firmware's original
-a15f710cb89bf2 Clément Léger 2026-09-11  77  		 * a6/a7 rather than treating the shared buffer as committed.
-a15f710cb89bf2 Clément Léger 2026-09-11  78  		 */
-a15f710cb89bf2 Clément Léger 2026-09-11  79  		if (sret.error)
-a15f710cb89bf2 Clément Léger 2026-09-11  80  			pr_warn("Failed to write interrupted registers for event %x: %ld\n",
-a15f710cb89bf2 Clément Léger 2026-09-11  81  				arch_evt->evt_id, sret.error);
-a15f710cb89bf2 Clément Léger 2026-09-11  82  	}
-a15f710cb89bf2 Clément Léger 2026-09-11  83  
-a15f710cb89bf2 Clément Léger 2026-09-11  84  out:
-a15f710cb89bf2 Clément Léger 2026-09-11  85  	instrumentation_end();
-a15f710cb89bf2 Clément Léger 2026-09-11  86  	nmi_exit();
-a15f710cb89bf2 Clément Léger 2026-09-11  87  }
-a15f710cb89bf2 Clément Léger 2026-09-11  88  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  645  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  646  static void bcm577x5_ms_req_process(struct work_struct *data)
+67f654add5a2b3 Ho Jie Feng 2026-10-02  647  {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  648  	struct bcm577x5_device *dev =
+67f654add5a2b3 Ho Jie Feng 2026-10-02  649  		container_of(data, struct bcm577x5_device, req_work);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  650  	int err, cmderr = 0;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  651  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  652  	/* Already processing requests */
+67f654add5a2b3 Ho Jie Feng 2026-10-02 @653  	if (dev->req)
+67f654add5a2b3 Ho Jie Feng 2026-10-02  654  		return;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  655  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  656  	mutex_lock(&dev->req_lock);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  657  	do {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  658  		err = memstick_next_req(dev->host, &dev->req);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  659  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  660  		if (!err && completion_done(&dev->host->card->mrq_complete)) {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  661  			dev->req = NULL;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  662  			break;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  663  		}
+67f654add5a2b3 Ho Jie Feng 2026-10-02  664  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  665  		if (!err) {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  666  			atomic_set(&dev->int_seen, 0);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  667  			cmderr = bcm577x5_ms_execute_cmd(dev);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  668  			if (atomic_read(&dev->int_seen) &
+67f654add5a2b3 Ho Jie Feng 2026-10-02  669  			    BCM577x5_MS_INT_CARD_REMOVE)
+67f654add5a2b3 Ho Jie Feng 2026-10-02  670  				cmderr = -ENODEV;
+67f654add5a2b3 Ho Jie Feng 2026-10-02 @671  			dev->req->error = cmderr;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  672  		}
+67f654add5a2b3 Ho Jie Feng 2026-10-02  673  	} while (!err && !cmderr);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  674  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  675  	if (cmderr) {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  676  		/* Reset the controller so it accepts new commands */
+67f654add5a2b3 Ho Jie Feng 2026-10-02  677  		bcm577x5_ms_init(dev);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  678  
+67f654add5a2b3 Ho Jie Feng 2026-10-02  679  		/* Controller will not respond to any more commands anyway */
+67f654add5a2b3 Ho Jie Feng 2026-10-02  680  		while (!err && dev->req) {
+67f654add5a2b3 Ho Jie Feng 2026-10-02  681  			dev->req->error = cmderr;
+67f654add5a2b3 Ho Jie Feng 2026-10-02  682  			err = memstick_next_req(dev->host, &dev->req);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  683  		}
+67f654add5a2b3 Ho Jie Feng 2026-10-02  684  	}
+67f654add5a2b3 Ho Jie Feng 2026-10-02  685  	mutex_unlock(&dev->req_lock);
+67f654add5a2b3 Ho Jie Feng 2026-10-02  686  }
+67f654add5a2b3 Ho Jie Feng 2026-10-02  687  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
