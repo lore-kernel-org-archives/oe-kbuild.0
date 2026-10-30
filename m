@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793339788;
-	b=ahQ3WWXIjzNakz8e0OA6iqzNJ6xj5NofO6N6XjKM6ol7gJiIAzYeFx1DNcOYKqMp8a4W
-	 XYrJQe/3/ug5iFHx9Jrv/h+jr9Me3CiaQ0SgH8rLS/x0G4nT3vRM9R+PB79oTcyeh7j/L
-	 T/1OrSR6IcHexAyEHyKftGiivGUb1vIIY3YxcIh5E0uMPhX0vea/+k+9YmKxuzXCVYkLc
-	 uJFus2LlQ0uNx2U/OWV9H+Uh8Tzk503f56U0SsetUjL1ZsCekCx0mM8K+r0mAn6+/lzKU
-	 Y3jFod9Sb+vn6VOa53o7U6yr6GaLqi61dCDr04y5m5svqs+3jipqicJ85GhcKKylN6A==
+	t=1793349516;
+	b=T/fs4NHm5ykTJexRi6dGykXP3AzevySn/ymgFvm/bR/jDanFMVncmqCnMz4LzPzoun8L
+	 CfeHFYVorOVdlpvhkRWdVnGrDN6puHln2xSe9AReToy98WDnW77pnhbGNPA9gsEcA6Iu4
+	 RRgTifkdUrsilOdkF8cXcg0WqWJXf3qO8YvfjYe7RHfl5pnZlxBWDrVTTKFJwwa5SWUIC
+	 9MIL7+/LYBtYTQkCoYO4P68ldEmdPs6P71HnB/PqGLhIvrJrpBnQtkF9jmIIKZqU1r9Vj
+	 crFbJ8qba4GrscqrIn1AhHNukGcNZnQ/U8Q7JA21tiJp1ppD4366DNMORCCFOz1ig5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793339788;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793349516;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ofX0qJ4MMfKgeeZp5XhAxgoPAzsXq1Uv1mqExxoo3AM=;
-	b=QUAruUon3bX5uNtLLXW0l8dLP6qohEJARPMeZDq+PEHumvjUhd/nI190SjUXd07Qy5kA
-	 BywlYEk57clyCCir0NW7sInZDUWbUXLkDGDV27VBZdKdhXSqn4ngI2tu0f4BbOWWG6Fv8
-	 VxbDInD9vPb3SaouJlJ/kpsCa/VwuwWdr85j4NdFPu85Cl/U5fTmu9/uJZfFsDzFSW9ut
-	 hJuvSote9DzQz5pz+9So67XcboKGxKkp6VdOSXeqqbG/vqlnr/VB8VOLQXG1WJcvEzp4I
-	 ceiYIu2piM4kVzr5jfO2xJDWXEjaZH4CC8Su+Sgt/7WaZA8mNxoW9sV4FwbMJqnMcOQ==
+	bh=xPQstFzJg0XEQkQrdM05sYEz7NjQRtsxZnHbTXwBcbQ=;
+	b=hwO4is1Bbd1CAlT65zwoBEW7aFthiNKf4g1dXIQrJ0xSHXSgpxUPDV2c0DQORhhju37i
+	 MfyAghwEqK/Y11xIilxvSwtl8G3qgSQPNu5GteewEzcemLgNo9T4Tis25nmc1UGQkLk5r
+	 mI2hCc/nmgodn8TQAif9cd8eEdkrfUvi5bhxGbPYkmShtHHGPWtsZD2PxFGIHfga9AV+A
+	 DM9FlR9VL2mAWlQ2ctIYKC7vFI24Y7OFilvfsk3InAFb5jRUtFntg7Xt8o6vs7DU2dBld
+	 /CsCT7eQnfVODd89YBLWy1OKbYIaYky6Vw2F6Sq/rBRUTMfoMm2cXi/GWMcIPeZ6u/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CivYhFoT;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I7Y2a6dl;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53F2606A323
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 Oct 2026 05:56:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E53F2606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC6D606A33C
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 Oct 2026 08:38:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FC6D606A33C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CivYhFoT
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I7Y2a6dl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793339787; x=1824875787;
+  t=1793349514; x=1824885514;
   h=date:from:to:cc:subject:message-id;
-  bh=Fp1dMcz7q6clM3SFkUz9U0gZzuhneV2qULigmIMoidc=;
-  b=CivYhFoT0eat/s2+FEb92pxTyvsoT9nCMZFjplO4yZV/MFTBXNb2Wq7j
-   BA5jFULwUV1lvgmtyBxGJLA0nBvBcfRP5ml43+OVqyLZNg8q8dRlfyZMR
-   ue3E5sgVGDgA75prjhna4hLa8J6GQFiq7Uafh+Z9qgXJNbT9NVztUqpwC
-   Tl5CCH+vofJvcMNOQC0mTZZbKeVC3OiZ7LqnZpuFu4L+2Uov5g5fg3vf/
-   JChmzu5fYNwq7+WFgVezKHxaT/rZToN6hK45tc8ZJPRb+NNZi71Up5c2I
-   2/6VmxsSKMqRY4NOq0Vzk0/9ZTCoVoriIz6jKb81uUTPcKkN0AP9iDsri
-   A==;
-X-CSE-ConnectionGUID: WezD0brAQpiERl8LyWWCSQ==
-X-CSE-MsgGUID: FZeqesf8RWmLY3rGVbthKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1990856"
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="1990856"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 22:56:26 -0700
-X-CSE-ConnectionGUID: bSDkjeQ3SbSGRpA1DHv1fQ==
-X-CSE-MsgGUID: J5EQlNM6SVKPW5tMFdhebw==
+  bh=iWjmozEGsJTGdAhr0OlctfQIxzeG6OaFwPKZhi23J40=;
+  b=I7Y2a6dlgUdrFllZYdAxCxTwv8bv5rdH1L5G703BD1YUltMf8tFkgWmP
+   DN/lubZp3mnuCUM58DcuoIAlmlEteIJ5tPnNFjMi6j8yp2cwq6OrD+vJ1
+   YRQm0qetI7YcxItwIyQZrPu40cfo2aCjISpzmRoXTh8cjMlsIItZuLEJO
+   xlnSOB9h3AXoHTgfFbzEDH+VlEaeVZ83PwP7AGT6pHGnhNAJKB3q5RA+Z
+   zVWIaO7oZPpcPaZO8TNMxK9bXD2hcCg4MSWE1Auu9xVPWahYJhwxdjm0k
+   9FklEiPErMaKFzYQXhD/ZEW5fz+LaNP6ogCloJwdIAQfRRFCYQLcybCGw
+   w==;
+X-CSE-ConnectionGUID: l/GZjdEfQaC6X8+IJd/n4Q==
+X-CSE-MsgGUID: JaPn7mgOTf2OcoG2nnvRig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1994621"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="1994621"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 01:38:33 -0700
+X-CSE-ConnectionGUID: wwRcjRPiQD+4qlglwCzCeQ==
+X-CSE-MsgGUID: 7fVQF17VSNqV1Yl1hkOTbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5242923"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5263119"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 29 Oct 2026 22:56:25 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2026 01:38:33 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMfbC-000000005VP-2AnT;
-	Fri, 30 Oct 2026 05:56:22 +0000
-Date: Fri, 30 Oct 2026 06:55:38 +0100
+	id 1xMi86-000000005X1-0jfl;
+	Fri, 30 Oct 2026 08:38:30 +0000
+Date: Fri, 30 Oct 2026 09:38:28 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/power/supply/pf1550-charger.c:594:8-33: WARNING:
- Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
- it is nested IRQ)
-Message-ID: <202610300628.lWksnTUJ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 20727/21094]
+ include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type
+Message-ID: <202610300927.kz9UOuZb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,110 +80,777 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: Hungyu Lin <dennylin0707@gmail.com>
+CC: Yury Norov <ynorov@nvidia.com>
+CC: Tobias Klauser <tklauser@distanz.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d89e1d186ec9271bf78e62771779e9fc03bf0fc3
-commit: 4b6b6433a97d5863b5340fc87f866d784fdf0783 power: supply: pf1550: add battery charger support
-date:   1 year ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year ago
-config: loongarch-randconfig-r2103-20261029 (https://download.01.org/0day-ci/archive/20261030/202610300628.lWksnTUJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a39c950806213f6861d00f90729acaaa21f2d95a
+commit: 4c9c30534d06fea3070e57b868f8b7755950824c [20727/21094] cpumask: Preserve short reads in cpumap printing helpers
+:::::: branch date: 19 hours ago
+:::::: commit date: 2 days ago
+config: powerpc64-randconfig-r2304-20261030 (https://download.01.org/0day-ci/archive/20261030/202610300927.kz9UOuZb-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610300927.kz9UOuZb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4b6b6433a97d ("power: supply: pf1550: add battery charger support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610300628.lWksnTUJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610300927.kz9UOuZb-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/power/supply/pf1550-charger.c:594:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+sparse warnings: (new ones prefixed by >>)
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:188:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:188:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:540:13: sparse: sparse: undefined identifier 'bitmap_weight'
+   include/linux/bitmap.h:252:17: sparse: sparse: undefined identifier 'fortify_memset_chk'
+   include/linux/bitmap.h:654:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:654:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:656:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:652:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:652:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:711:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:711:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:713:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:773:57: sparse: sparse: symbol 'pos' has multiple initializers (originally initialized at include/linux/list.h:1264)
+   include/linux/bitmap.h:852:21: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:852:25: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:852:9: sparse: sparse: symbol 'value_low' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:852:9: sparse:    int [addressable] [toplevel] value_low
+   include/linux/bitmap.h:844:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:23: sparse:    unsigned long [addressable] [toplevel] value_low
+   include/linux/bitmap.h:853:22: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:853:26: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:853:39: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:853:9: sparse: sparse: symbol 'value_high' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:853:9: sparse:    int [addressable] [toplevel] value_high
+   include/linux/bitmap.h:844:34: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:34: sparse:    unsigned long [addressable] [toplevel] value_high
+   include/linux/bitmap.h:880:9: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:880:9: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:885:16: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:885:9: sparse: sparse: symbol 'mask' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:885:9: sparse:    int [addressable] [toplevel] mask
+   include/linux/bitmap.h:879:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:879:23: sparse:    unsigned long [addressable] [toplevel] mask
+   include/linux/bitmap.h:887:9: sparse: sparse: symbol 'offset' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:887:9: sparse:    int [addressable] [toplevel] offset
+   include/linux/bitmap.h:877:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:877:23: sparse:    unsigned long [addressable] [toplevel] offset
+   include/linux/bitmap.h:888:9: sparse: sparse: symbol 'space' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:888:9: sparse:    int [addressable] [toplevel] space
+   include/linux/bitmap.h:878:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:878:23: sparse:    unsigned long [addressable] [toplevel] space
+   include/linux/bitmap.h:889:24: sparse: sparse: undefined identifier 'nbits'
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/nodemask.h, include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/random.h:120:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/random.h:120:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, ...):
+   include/linux/nodemask.h:261:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:261:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:267:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:267:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:287:9: sparse: sparse: symbol '__node_set' redeclared with different type (different argument counts):
+   include/linux/nodemask.h:287:9: sparse:    int static [signed] [toplevel] __node_set( ... )
+   include/linux/nodemask.h:133:29: sparse: note: previously declared as:
+   include/linux/nodemask.h:133:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] __node_set( ... )
+   include/linux/nodemask.h:304:16: sparse: sparse: undefined identifier 'maskp'
+   include/linux/nodemask.h:304:16: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+>> include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:43: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:9: sparse: sparse: symbol 'n' has multiple initializers (originally initialized at include/linux/cpumask.h:1381)
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/rseq_types.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/workqueue_types.h:18:26: sparse: sparse: symbol 'entry' redeclared with different type (different base types):
+   include/linux/workqueue_types.h:18:26: sparse:    struct list_head [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+   include/linux/list.h:567:9: sparse: note: previously declared as:
+   include/linux/list.h:567:9: sparse:    int [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse: sparse: symbol 'p' redeclared with different type (different type sizes):
+   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
+   arch/powerpc/include/asm/bitops.h:181:23: sparse: note: previously declared as:
+   arch/powerpc/include/asm/bitops.h:181:23: sparse:    unsigned long *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec2.c:77:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid/raid6/powerpc/altivec2.c:78:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec2.c:78:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:78:9: sparse:    int [addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec2.c:79:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec2.c:79:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:79:9: sparse:    int [addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec2.c:70:16: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec2.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec2.c:83:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid/raid6/powerpc/altivec2.c:83:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec2.c:83:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec2.c:86:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec2.c:86:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec2.c:87:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:88:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:89:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec2.c:90:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec2.c:91:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec2.c:92:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec2.c:93:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec2.c:93:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:89)
+   lib/raid/raid6/powerpc/altivec2.c:94:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec2.c:94:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:90)
+   lib/raid/raid6/powerpc/altivec2.c:95:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:95:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:91)
+   lib/raid/raid6/powerpc/altivec2.c:96:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:96:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:92)
+   lib/raid/raid6/powerpc/altivec2.c:97:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:98:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec2.c:98:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:83)
+   lib/raid/raid6/powerpc/altivec2.c:101:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:101:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:102:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:102:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:103:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:103:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec2.c:114:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec2.c:114:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file:
+   arch/powerpc/include/asm/switch_to.h:62:20: sparse: note: previously declared as:
+   arch/powerpc/include/asm/switch_to.h:62:20: sparse:    void static inline [gnu_inline] [toplevel] [unused] disable_kernel_altivec( ... )
+--
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:188:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:188:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:540:13: sparse: sparse: undefined identifier 'bitmap_weight'
+   include/linux/bitmap.h:252:17: sparse: sparse: undefined identifier 'fortify_memset_chk'
+   include/linux/bitmap.h:654:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:654:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:656:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:652:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:652:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:711:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:711:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:713:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:773:57: sparse: sparse: symbol 'pos' has multiple initializers (originally initialized at include/linux/list.h:1264)
+   include/linux/bitmap.h:852:21: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:852:25: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:852:9: sparse: sparse: symbol 'value_low' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:852:9: sparse:    int [addressable] [toplevel] value_low
+   include/linux/bitmap.h:844:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:23: sparse:    unsigned long [addressable] [toplevel] value_low
+   include/linux/bitmap.h:853:22: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:853:26: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:853:39: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:853:9: sparse: sparse: symbol 'value_high' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:853:9: sparse:    int [addressable] [toplevel] value_high
+   include/linux/bitmap.h:844:34: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:34: sparse:    unsigned long [addressable] [toplevel] value_high
+   include/linux/bitmap.h:880:9: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:880:9: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:885:16: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:885:9: sparse: sparse: symbol 'mask' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:885:9: sparse:    int [addressable] [toplevel] mask
+   include/linux/bitmap.h:879:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:879:23: sparse:    unsigned long [addressable] [toplevel] mask
+   include/linux/bitmap.h:887:9: sparse: sparse: symbol 'offset' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:887:9: sparse:    int [addressable] [toplevel] offset
+   include/linux/bitmap.h:877:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:877:23: sparse:    unsigned long [addressable] [toplevel] offset
+   include/linux/bitmap.h:888:9: sparse: sparse: symbol 'space' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:888:9: sparse:    int [addressable] [toplevel] space
+   include/linux/bitmap.h:878:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:878:23: sparse:    unsigned long [addressable] [toplevel] space
+   include/linux/bitmap.h:889:24: sparse: sparse: undefined identifier 'nbits'
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/nodemask.h, include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/random.h:120:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/random.h:120:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, ...):
+   include/linux/nodemask.h:261:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:261:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:267:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:267:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:287:9: sparse: sparse: symbol '__node_set' redeclared with different type (different argument counts):
+   include/linux/nodemask.h:287:9: sparse:    int static [signed] [toplevel] __node_set( ... )
+   include/linux/nodemask.h:133:29: sparse: note: previously declared as:
+   include/linux/nodemask.h:133:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] __node_set( ... )
+   include/linux/nodemask.h:304:16: sparse: sparse: undefined identifier 'maskp'
+   include/linux/nodemask.h:304:16: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+>> include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:43: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:9: sparse: sparse: symbol 'n' has multiple initializers (originally initialized at include/linux/cpumask.h:1381)
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/rseq_types.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/workqueue_types.h:18:26: sparse: sparse: symbol 'entry' redeclared with different type (different base types):
+   include/linux/workqueue_types.h:18:26: sparse:    struct list_head [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+   include/linux/list.h:567:9: sparse: note: previously declared as:
+   include/linux/list.h:567:9: sparse:    int [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse: sparse: symbol 'p' redeclared with different type (different type sizes):
+   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
+   arch/powerpc/include/asm/bitops.h:181:23: sparse: note: previously declared as:
+   arch/powerpc/include/asm/bitops.h:181:23: sparse:    unsigned long *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec4.c:79:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid/raid6/powerpc/altivec4.c:80:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:80:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:80:9: sparse:    int [addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec4.c:81:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:81:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:81:9: sparse:    int [addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec4.c:70:16: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec4.c:85:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid/raid6/powerpc/altivec4.c:85:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:85:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:86:23: sparse: sparse: undefined identifier 'wp2'
+   lib/raid/raid6/powerpc/altivec4.c:86:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:86:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:87:23: sparse: sparse: undefined identifier 'wp3'
+   lib/raid/raid6/powerpc/altivec4.c:87:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:87:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:90:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:90:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:91:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:91:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:92:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec4.c:92:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec4.c:93:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:94:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:95:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:96:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:97:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec4.c:98:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec4.c:99:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec4.c:100:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec4.c:101:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec4.c:102:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec4.c:103:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec4.c:104:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec4.c:105:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec4.c:105:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:97)
+   lib/raid/raid6/powerpc/altivec4.c:106:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec4.c:106:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:98)
+   lib/raid/raid6/powerpc/altivec4.c:107:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec4.c:107:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:99)
+   lib/raid/raid6/powerpc/altivec4.c:108:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec4.c:108:25: sparse: sparse: symbol 'w23' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:100)
+   lib/raid/raid6/powerpc/altivec4.c:109:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:109:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:101)
+   lib/raid/raid6/powerpc/altivec4.c:110:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:110:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:102)
+   lib/raid/raid6/powerpc/altivec4.c:111:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:111:25: sparse: sparse: symbol 'w12' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:103)
+   lib/raid/raid6/powerpc/altivec4.c:112:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:112:25: sparse: sparse: symbol 'w13' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:104)
+   lib/raid/raid6/powerpc/altivec4.c:113:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:114:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:114:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:85)
+   lib/raid/raid6/powerpc/altivec4.c:115:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:115:25: sparse: sparse: symbol 'wq2' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:86)
+   lib/raid/raid6/powerpc/altivec4.c:116:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec4.c:116:25: sparse: sparse: symbol 'wq3' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:87)
+   lib/raid/raid6/powerpc/altivec4.c:119:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:119:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:120:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:120:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:121:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:121:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:122:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:122:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:123:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:123:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:124:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:124:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec4.c:125:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec4.c:125:17: sparse:    incomplete type *static [toplevel] unative_t
+--
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:188:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:188:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:540:13: sparse: sparse: undefined identifier 'bitmap_weight'
+   include/linux/bitmap.h:252:17: sparse: sparse: undefined identifier 'fortify_memset_chk'
+   include/linux/bitmap.h:654:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:654:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:656:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:652:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:652:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:711:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:711:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:713:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:773:57: sparse: sparse: symbol 'pos' has multiple initializers (originally initialized at include/linux/list.h:1264)
+   include/linux/bitmap.h:852:21: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:852:25: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:852:9: sparse: sparse: symbol 'value_low' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:852:9: sparse:    int [addressable] [toplevel] value_low
+   include/linux/bitmap.h:844:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:23: sparse:    unsigned long [addressable] [toplevel] value_low
+   include/linux/bitmap.h:853:22: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:853:26: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:853:39: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:853:9: sparse: sparse: symbol 'value_high' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:853:9: sparse:    int [addressable] [toplevel] value_high
+   include/linux/bitmap.h:844:34: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:34: sparse:    unsigned long [addressable] [toplevel] value_high
+   include/linux/bitmap.h:880:9: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:880:9: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:885:16: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:885:9: sparse: sparse: symbol 'mask' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:885:9: sparse:    int [addressable] [toplevel] mask
+   include/linux/bitmap.h:879:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:879:23: sparse:    unsigned long [addressable] [toplevel] mask
+   include/linux/bitmap.h:887:9: sparse: sparse: symbol 'offset' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:887:9: sparse:    int [addressable] [toplevel] offset
+   include/linux/bitmap.h:877:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:877:23: sparse:    unsigned long [addressable] [toplevel] offset
+   include/linux/bitmap.h:888:9: sparse: sparse: symbol 'space' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:888:9: sparse:    int [addressable] [toplevel] space
+   include/linux/bitmap.h:878:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:878:23: sparse:    unsigned long [addressable] [toplevel] space
+   include/linux/bitmap.h:889:24: sparse: sparse: undefined identifier 'nbits'
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/nodemask.h, include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/random.h:120:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/random.h:120:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, ...):
+   include/linux/nodemask.h:261:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:261:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:267:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:267:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:287:9: sparse: sparse: symbol '__node_set' redeclared with different type (different argument counts):
+   include/linux/nodemask.h:287:9: sparse:    int static [signed] [toplevel] __node_set( ... )
+   include/linux/nodemask.h:133:29: sparse: note: previously declared as:
+   include/linux/nodemask.h:133:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] __node_set( ... )
+   include/linux/nodemask.h:304:16: sparse: sparse: undefined identifier 'maskp'
+   include/linux/nodemask.h:304:16: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+>> include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:43: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:9: sparse: sparse: symbol 'n' has multiple initializers (originally initialized at include/linux/cpumask.h:1381)
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/rseq_types.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/workqueue_types.h:18:26: sparse: sparse: symbol 'entry' redeclared with different type (different base types):
+   include/linux/workqueue_types.h:18:26: sparse:    struct list_head [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+   include/linux/list.h:567:9: sparse: note: previously declared as:
+   include/linux/list.h:567:9: sparse:    int [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse: sparse: symbol 'p' redeclared with different type (different type sizes):
+   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
+   arch/powerpc/include/asm/bitops.h:181:23: sparse: note: previously declared as:
+   arch/powerpc/include/asm/bitops.h:181:23: sparse:    unsigned long *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec1.c:76:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid/raid6/powerpc/altivec1.c:77:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec1.c:77:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec1.c:77:9: sparse:    int [addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec1.c:78:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec1.c:78:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec1.c:78:9: sparse:    int [addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec1.c:70:16: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec1.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec1.c:84:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec1.c:85:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec1.c:86:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec1.c:87:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec1.c:87:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec1.c:85)
+   lib/raid/raid6/powerpc/altivec1.c:88:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec1.c:88:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec1.c:86)
+   lib/raid/raid6/powerpc/altivec1.c:89:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec1.c:92:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec1.c:92:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec1.c:74:9: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec1.c:74:9: sparse:    int static [toplevel] unative_t
+   lib/raid/raid6/powerpc/altivec1.c:103:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec1.c:103:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file:
+   arch/powerpc/include/asm/switch_to.h:62:20: sparse: note: previously declared as:
+   arch/powerpc/include/asm/switch_to.h:62:20: sparse:    void static inline [gnu_inline] [toplevel] [unused] disable_kernel_altivec( ... )
+--
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:188:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:188:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:540:13: sparse: sparse: undefined identifier 'bitmap_weight'
+   include/linux/bitmap.h:252:17: sparse: sparse: undefined identifier 'fortify_memset_chk'
+   include/linux/bitmap.h:654:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:654:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:656:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:652:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:652:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:656:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:656:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:711:9: sparse: sparse: symbol 'bitmap_zero' redeclared with different type (incompatible argument 1 (different base types)):
+   include/linux/bitmap.h:711:9: sparse:    int static [signed] [toplevel] bitmap_zero( ... )
+   include/linux/bitmap.h:245:29: sparse: note: previously declared as:
+   include/linux/bitmap.h:245:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] bitmap_zero( ... )
+   include/linux/bitmap.h:713:9: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different signedness):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:709:22: sparse: note: previously declared as:
+   include/linux/bitmap.h:709:22: sparse:    unsigned int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: sparse: symbol 'bit' redeclared with different type (different base types):
+   include/linux/bitmap.h:713:9: sparse:    int [addressable] [toplevel] bit
+   include/linux/bitmap.h:713:9: sparse: note: previously declared as:
+   include/linux/bitmap.h:713:9: sparse:    incomplete type [addressable] [toplevel] bit
+   include/linux/bitmap.h:773:57: sparse: sparse: symbol 'pos' has multiple initializers (originally initialized at include/linux/list.h:1264)
+   include/linux/bitmap.h:852:21: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:852:25: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:852:9: sparse: sparse: symbol 'value_low' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:852:9: sparse:    int [addressable] [toplevel] value_low
+   include/linux/bitmap.h:844:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:23: sparse:    unsigned long [addressable] [toplevel] value_low
+   include/linux/bitmap.h:853:22: sparse: sparse: undefined identifier 'map'
+   include/linux/bitmap.h:853:26: sparse: sparse: undefined identifier 'index'
+   include/linux/bitmap.h:853:39: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:853:9: sparse: sparse: symbol 'value_high' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:853:9: sparse:    int [addressable] [toplevel] value_high
+   include/linux/bitmap.h:844:34: sparse: note: previously declared as:
+   include/linux/bitmap.h:844:34: sparse:    unsigned long [addressable] [toplevel] value_high
+   include/linux/bitmap.h:880:9: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/bitmap.h:880:9: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, ...):
+   include/linux/bitmap.h:885:16: sparse: sparse: undefined identifier 'nbits'
+   include/linux/bitmap.h:885:9: sparse: sparse: symbol 'mask' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:885:9: sparse:    int [addressable] [toplevel] mask
+   include/linux/bitmap.h:879:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:879:23: sparse:    unsigned long [addressable] [toplevel] mask
+   include/linux/bitmap.h:887:9: sparse: sparse: symbol 'offset' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:887:9: sparse:    int [addressable] [toplevel] offset
+   include/linux/bitmap.h:877:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:877:23: sparse:    unsigned long [addressable] [toplevel] offset
+   include/linux/bitmap.h:888:9: sparse: sparse: symbol 'space' redeclared with different type (different type sizes):
+   include/linux/bitmap.h:888:9: sparse:    int [addressable] [toplevel] space
+   include/linux/bitmap.h:878:23: sparse: note: previously declared as:
+   include/linux/bitmap.h:878:23: sparse:    unsigned long [addressable] [toplevel] space
+   include/linux/bitmap.h:889:24: sparse: sparse: undefined identifier 'nbits'
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/nodemask.h, include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/random.h:120:1: sparse: sparse: symbol '__bool' redeclared with different type (different modifiers):
+   include/linux/random.h:120:1: sparse:    int static [toplevel] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/spinlock.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/irqflags.h:266:1: sparse: note: previously declared as:
+   include/linux/irqflags.h:266:1: sparse:    int static const [toplevel] [unused] __bool
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/numa.h, include/linux/cpumask.h, include/linux/smp.h, include/linux/interrupt_rc.h, ...):
+   include/linux/nodemask.h:261:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:261:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:267:16: sparse: sparse: undefined identifier 'srcp'
+   include/linux/nodemask.h:267:16: sparse: sparse: cannot dereference this type
+   include/linux/nodemask.h:287:9: sparse: sparse: symbol '__node_set' redeclared with different type (different argument counts):
+   include/linux/nodemask.h:287:9: sparse:    int static [signed] [toplevel] __node_set( ... )
+   include/linux/nodemask.h:133:29: sparse: note: previously declared as:
+   include/linux/nodemask.h:133:29: sparse:    void static inline [gnu_inline] [toplevel] [unused] __node_set( ... )
+   include/linux/nodemask.h:304:16: sparse: sparse: undefined identifier 'maskp'
+   include/linux/nodemask.h:304:16: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+>> include/linux/cpumask.h:1381:46: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:43: sparse: sparse: cannot dereference this type
+   include/linux/cpumask.h:1409:9: sparse: sparse: symbol 'n' has multiple initializers (originally initialized at include/linux/cpumask.h:1381)
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/rseq_types.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/workqueue_types.h:18:26: sparse: sparse: symbol 'entry' redeclared with different type (different base types):
+   include/linux/workqueue_types.h:18:26: sparse:    struct list_head [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/smp.h, include/linux/interrupt_rc.h, include/linux/spinlock.h, include/linux/sched.h, ...):
+   include/linux/list.h:567:9: sparse: note: previously declared as:
+   include/linux/list.h:567:9: sparse:    int [addressable] [toplevel] entry
+   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse: sparse: symbol 'p' redeclared with different type (different type sizes):
+   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
+   arch/powerpc/include/asm/bitops.h:181:23: sparse: note: previously declared as:
+   arch/powerpc/include/asm/bitops.h:181:23: sparse:    unsigned long *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec8.c:83:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid/raid6/powerpc/altivec8.c:84:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:84:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec8.c:84:9: sparse:    int [addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid/raid6/powerpc/altivec8.c:85:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:85:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid/raid6/powerpc/altivec8.c:85:9: sparse:    int [addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec8.c:70:16: sparse: note: previously declared as:
+   lib/raid/raid6/powerpc/altivec8.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid/raid6/powerpc/altivec8.c:89:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid/raid6/powerpc/altivec8.c:89:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:89:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:90:23: sparse: sparse: undefined identifier 'wp2'
+   lib/raid/raid6/powerpc/altivec8.c:90:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:90:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:91:23: sparse: sparse: undefined identifier 'wp3'
+   lib/raid/raid6/powerpc/altivec8.c:91:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:91:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:92:23: sparse: sparse: undefined identifier 'wp4'
+   lib/raid/raid6/powerpc/altivec8.c:92:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:92:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:93:23: sparse: sparse: undefined identifier 'wp5'
+   lib/raid/raid6/powerpc/altivec8.c:93:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:93:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:94:23: sparse: sparse: undefined identifier 'wp6'
+   lib/raid/raid6/powerpc/altivec8.c:94:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:94:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:95:23: sparse: sparse: undefined identifier 'wp7'
+   lib/raid/raid6/powerpc/altivec8.c:95:29: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:95:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:98:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:98:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:99:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:99:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:100:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:100:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:101:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:101:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:102:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:102:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:103:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:103:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:104:31: sparse: sparse: cannot dereference this type
+   lib/raid/raid6/powerpc/altivec8.c:104:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid/raid6/powerpc/altivec8.c:105:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:106:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:107:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:108:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:109:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:110:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:111:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:112:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
+   lib/raid/raid6/powerpc/altivec8.c:113:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:114:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:115:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:116:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:117:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:118:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:119:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:120:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid/raid6/powerpc/altivec8.c:121:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:122:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:123:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:124:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:125:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:126:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:127:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:128:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid/raid6/powerpc/altivec8.c:129:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:129:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:113)
+   lib/raid/raid6/powerpc/altivec8.c:130:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:130:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:114)
+   lib/raid/raid6/powerpc/altivec8.c:131:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:131:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:115)
+   lib/raid/raid6/powerpc/altivec8.c:132:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:132:25: sparse: sparse: symbol 'w23' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:116)
+   lib/raid/raid6/powerpc/altivec8.c:133:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:133:25: sparse: sparse: symbol 'w24' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:117)
+   lib/raid/raid6/powerpc/altivec8.c:134:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:134:25: sparse: sparse: symbol 'w25' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:118)
+   lib/raid/raid6/powerpc/altivec8.c:135:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:135:25: sparse: sparse: symbol 'w26' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:119)
+   lib/raid/raid6/powerpc/altivec8.c:136:31: sparse: sparse: undefined identifier '__builtin_vec_and'
+   lib/raid/raid6/powerpc/altivec8.c:136:25: sparse: sparse: symbol 'w27' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:120)
+   lib/raid/raid6/powerpc/altivec8.c:137:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
 
-vim +594 drivers/power/supply/pf1550-charger.c
+vim +1381 include/linux/cpumask.h
 
-4b6b6433a97d58 Samuel Kayode 2025-10-01  548  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  549  static int pf1550_charger_probe(struct platform_device *pdev)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  550  {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  551  	const struct pf1550_ddata *pf1550 = dev_get_drvdata(pdev->dev.parent);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  552  	struct power_supply_config psy_cfg = {};
-4b6b6433a97d58 Samuel Kayode 2025-10-01  553  	struct pf1550_charger *chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  554  	int i, irq, ret;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  555  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  556  	chg = devm_kzalloc(&pdev->dev, sizeof(*chg), GFP_KERNEL);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  557  	if (!chg)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  558  		return -ENOMEM;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  559  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  560  	chg->dev = &pdev->dev;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  561  	chg->pf1550 = pf1550;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  562  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  563  	if (!chg->pf1550->regmap)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  564  		return dev_err_probe(&pdev->dev, -ENODEV,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  565  				     "failed to get regmap\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  566  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  567  	platform_set_drvdata(pdev, chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  568  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  569  	ret = devm_delayed_work_autocancel(chg->dev, &chg->vbus_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  570  					   pf1550_chg_vbus_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  571  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  572  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  573  				     "failed to add vbus sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  574  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  575  	ret = devm_delayed_work_autocancel(chg->dev, &chg->chg_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  576  					   pf1550_chg_chg_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  577  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  578  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  579  				     "failed to add charger sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  580  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  581  	ret = devm_delayed_work_autocancel(chg->dev, &chg->bat_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  582  					   pf1550_chg_bat_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  583  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  584  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  585  				     "failed to add battery sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  586  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  587  	for (i = 0; i < PF1550_CHARGER_IRQ_NR; i++) {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  588  		irq = platform_get_irq(pdev, i);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  589  		if (irq < 0)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  590  			return irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  591  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  592  		chg->virqs[i] = irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  593  
-4b6b6433a97d58 Samuel Kayode 2025-10-01 @594  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  595  						pf1550_charger_irq_handler,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  596  						IRQF_NO_SUSPEND,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  597  						"pf1550-charger", chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  598  		if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  599  			return dev_err_probe(&pdev->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  600  					     "failed irq request\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  601  	}
-4b6b6433a97d58 Samuel Kayode 2025-10-01  602  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  603  	psy_cfg.drv_data = chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  604  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  605  	chg->charger = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  606  						  &pf1550_charger_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  607  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  608  	if (IS_ERR(chg->charger))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  609  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->charger),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  610  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  611  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  612  	chg->battery = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  613  						  &pf1550_battery_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  614  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  615  	if (IS_ERR(chg->battery))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  616  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->battery),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  617  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  618  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  619  	pf1550_dt_parse_dev_info(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  620  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  621  	return pf1550_reg_init(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  622  }
-4b6b6433a97d58 Samuel Kayode 2025-10-01  623  
+6ba2ef7baac23a Rusty Russell  2009-09-24  1358  
+1fae562983ca5c Tian Tao       2021-08-06  1359  /**
+1fae562983ca5c Tian Tao       2021-08-06  1360   * cpumap_print_bitmask_to_buf  - copies the cpumask into the buffer as
+1fae562983ca5c Tian Tao       2021-08-06  1361   *	hex values of cpumask
+1fae562983ca5c Tian Tao       2021-08-06  1362   *
+1fae562983ca5c Tian Tao       2021-08-06  1363   * @buf: the buffer to copy into
+1fae562983ca5c Tian Tao       2021-08-06  1364   * @mask: the cpumask to copy
+1fae562983ca5c Tian Tao       2021-08-06  1365   * @off: in the string from which we are copying, we copy to @buf
+1fae562983ca5c Tian Tao       2021-08-06  1366   * @count: the maximum number of bytes to print
+1fae562983ca5c Tian Tao       2021-08-06  1367   *
+1fae562983ca5c Tian Tao       2021-08-06  1368   * The function prints the cpumask into the buffer as hex values of
+1fae562983ca5c Tian Tao       2021-08-06  1369   * cpumask; Typically used by bin_attribute to export cpumask bitmask
+1fae562983ca5c Tian Tao       2021-08-06  1370   * ABI.
+1fae562983ca5c Tian Tao       2021-08-06  1371   *
+57f728d59f005d Randy Dunlap   2023-07-31  1372   * Return: the length of how many bytes have been copied, excluding
+c86a2d9058c5a4 Tobias Klauser 2021-09-17  1373   * terminating '\0'.
+1fae562983ca5c Tian Tao       2021-08-06  1374   */
+ab6b1010dab68f Brian Norris   2024-07-18  1375  static __always_inline
+ab6b1010dab68f Brian Norris   2024-07-18  1376  ssize_t cpumap_print_bitmask_to_buf(char *buf, const struct cpumask *mask,
+1fae562983ca5c Tian Tao       2021-08-06  1377  				    loff_t off, size_t count)
+1fae562983ca5c Tian Tao       2021-08-06  1378  {
+4c9c30534d06fe Hungyu Lin     2026-10-20  1379  	ssize_t n;
+4c9c30534d06fe Hungyu Lin     2026-10-20  1380  
+4c9c30534d06fe Hungyu Lin     2026-10-20 @1381  	n = bitmap_print_bitmask_to_buf(buf, cpumask_bits(mask),
+4c9c30534d06fe Hungyu Lin     2026-10-20  1382  					nr_cpu_ids, off, count);
+4c9c30534d06fe Hungyu Lin     2026-10-20  1383  	if (n > 0 && buf[n - 1] == '\0')
+4c9c30534d06fe Hungyu Lin     2026-10-20  1384  		n--;
+4c9c30534d06fe Hungyu Lin     2026-10-20  1385  
+4c9c30534d06fe Hungyu Lin     2026-10-20  1386  	return n;
+1fae562983ca5c Tian Tao       2021-08-06  1387  }
+1fae562983ca5c Tian Tao       2021-08-06  1388  
 
 --
 0-DAY CI Kernel Test Service
