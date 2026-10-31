@@ -1,92 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793454539;
-	b=uy+mNmwimz5t9B4wGAe18aYmeWaJyNKPfhZjAeZAw/VftCndEzL/XzjM6GTUYm4eloMa
-	 GNE3QtMtoExI+Ab9kYKcmSaK/j1fcViK9ArG9gZe2RSuOJuWz5JSavnUxhCmZa9X+lEk3
-	 rfRkuzJNYhmWEZKcBEqlXIVEK+6z2eI+/oSCbIAiXaOOIkfCOyaiec9x6QExakPRtfbyl
-	 wDX7I6dOMzfgXDA7lTHlWhKvtGPxWBecaADy2+SKN7JJ428c2f/tvg0mMMqq1FOgamCIg
-	 5pyCJ2mEVyw4ZIEJMSb7MJHLOwR9azqgGhlgXfLPjSQQ6/+NrqMx8/tY6+rzjtkxPRg==
+	t=1793455463;
+	b=TRu6mwSxYcZvWVxGF9PsXCMmvOsNejmmoTArygoCT6fG3WvW+4JnM4unDB3TuKCIkbtg
+	 ybA+niNeNyECmx0DAPUuZ6lztfooJqu7G4hjEbzGPzO0Ttq96aLnH7mjHNE0ivGPSIUoT
+	 ACWZBhmvJtGbpzXVFJNepkpRXd8MvRac7GJQ5385/DCWAlGTVS5bJ4dBJ3oKg71RzatfI
+	 7cgjmd8iDBlDCjL2DJDdU3L5eE8y3maS1h2jSSHT087peGLQc+zGArk7mnN9BxKobKnd2
+	 JbV9qriZ6PawHHjDq7yCJLoGTmCweNIr0x092AbRO8Bs2+iLsdJ1TPxHUHXVmLiZjnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793454539;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
-	b=SzaFHabwEyTIbZl+X8zn8t2zFlzZauH5dls4nC+qkJcaWjB+PUg2dTWndtiLqAVHPthd
-	 y3aggDsxqFID+vrcI+wJTVSghE4B+g6gS22Rz3YRu4kKRct1//VqfmgtmZB8O1Jo1/i7b
-	 cvwDVzzdXkO97B7ai16RqkWYyDQQcph0bIw9LyMiwKmSb2MVxc7kuxNrS8VLmVPuYKqve
-	 6/d6NGuD/DNwKpS0MpUWyImI0bRleVU3BFkaVBbpOl33BOlqCt72D8PKHekH4cBKJZ/k6
-	 mZhScRkgioUYUful7w4OFrBUPCUs5l4tCud2ipaGjxn92NyRuTTAnwk1tgHNFM1wFoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793455463;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=icWOJuUOiBzEtfBLbmc9DGEY85tWEL64FpGIivQTSgE=;
+	b=nEjZ/q4u8zOqTX3IeqihkdkLGh2A/3JKjABiyCInEyQsof/pEvDr9txvNv2Z6mC0ojU+
+	 UGLdzfJRkKyhfUP8g0wLriLM2ocTZaBJIfEYHJ+JsdL8U01Ndpb9cRDXKXHizcMWLr7b1
+	 FRH9MmBbrck0eUn4rz2LX+F+z8xxsRbtfSy/T7Jq2kqM9WELKilGb4DD7bSgyHoeLgtDg
+	 migLuVQwI3F/TQ51ktX6tLd7SYQDviLl+WTkhfPeWhrU/09C/YKZjSHT87XW/2V4nS/X1
+	 M7o91qQ6d91ctx48oUS+5hUX7yIEFFooIyGMvEHuVyRpWEabQOf4WIcbEsO9TUFRIew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jVTFYAmj;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aD27jrWW;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8574D606A31C
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Oct 2026 13:48:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8574D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E0F606A31A
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Oct 2026 14:04:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63E0F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jVTFYAmj
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so14092805e9.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 31 Oct 2026 06:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793454538; x=1794059338; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
-        b=jVTFYAmjwFVkRZk+LX+sJxkGCgKiU4pFrXfEO31yWxIXXigQ1CFxSs6bje1ddSxZIY
-         Z2nC1WnPrZ79K/MI1w5N+fDTINAGCrAlra5Aj3G48b/5+a7SpmGSGZAGOPN9XroYoDcz
-         fyl2KhAMm8gyykTR7k226lMDY9md66WScoankr8O7EpA1MDuF+piDj+9HInFsxT1t/vC
-         wUtF2gYomLSIteJJU0GXnrXCcXsx4lIgT3kCwtyR/8m1pYFjCBDH9SpclUh+wvITEL49
-         SWsTv9KXIhsmhjF/Y9pHkUFNEKQyr10S+Krrl4CKDOZ3wZ+1yhX8gOts10L7SvI9q018
-         JAIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793454538; x=1794059338;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
-        b=GiqOHPjNQXka4N8CR4DcVLNrL1VCkuB7Czrf9Kub+rv5LHRSdNYshDOD54swrVaQhj
-         fPOuzK3KVIR4RtiMjc/171lAs8dqEcLhT3HEMV8OvyPbKbeSR9qEURCmr22VLe1vVCvn
-         hnzLnVBhy+oRKbDMlVVBRVXgfHtP0yj7BsACr8JiokqBsHx2suH5jn/1kqxZVBiy1gd7
-         wgDr5ueMV6BP1lqrbLIODoacdvkiwwTjo0v7HHSeeIbltiXxf0IdO58tfffw3SF1sUNN
-         IQal0RbI2dfEgTA7EU72KJ1xFPZL19v1s34Feo1koJDETeYXNdDVjTlm6F5HqN8wFUUV
-         UrmA==
-X-Gm-Message-State: AFq9FYL2oQAebuoZYUVgRt0RI241KiYXW49UGAlBY527lU5raTrhhakD
-	ohuAfB4l+U1a/l71U4Hv/l+SJjy4+PwR9kSYO4RIQc7MCWqTdaA/MRteGD5xLxW2jA11VYu5
-X-Gm-Gg: AYBFou2gXK6X3Hn+o6czS50RN7skhwMvdqwBioAsgzvq/uzD8d5q+PU4UzFDZjaP5N5
-	xKA3MdJglO/TmhFPEJcUIzwrGAkIHvUaS5LTZK9qcTximHlHYC9g07TZOhk+vwzabYQJw8qlbTv
-	r8Sy32I5fqemFCNDm4O4pmTI2yo1aTHRX3TXdGk+5vJUPFr/KN7LeVl3xFCxgwGBKYLfs6b+v9/
-	cbUExkQaseHXA67L7WLmsyX1aNDlrunFl+1xOHKm9yup3kImVdoHtzuY/X1zSYz3VBn1f595yG8
-	0HoaO0w15Pc2RPttI+Jhj1wogVahzU2MSYesCuVwBYNuMvkj9a5NrfFFmm5XxcMcmWh9RWEske3
-	DBD0jAn9JD+lZDbbE7a2iU0SsTe5E0EXpcWrjDZdjNNGTP3tZBxKYI1XlnlENI3Aif9VTpAX2rV
-	Dq5khX/hcxncSfpg3qf8fof4pB3sCaTMd/FDoQTttdOIShC1Zo7/ZOn6K6C6KuEC4I17m5xpqpQ
-	euUk+o/wVTiCNDesrzznTxpwRqSek9+oPPSDFh/lzZ8RCump7OkPkabq74Xbn7fkr1w/gS4kcvd
-	8T6rDMJ2d72aHvIbM7+dZg7go9yNJYiCHnXKCUV47z/CjwiLG09ia7XuJEg+MBZpyCK8kLxmXHB
-	bMy3gt8eI7M8LQjCyHAY9gC8mXNZoB1uzscPlhaZD7PSNQCF/eaD6Yts0dvmnZeOcb19FwvkQ5C
-	2C/0/DoqoVRifp
-X-Received: by 2002:a05:600c:4e08:b0:4a1:9c71:9f17 with SMTP id 5b1f17b1804b1-4ac17287d04mr128220335e9.9.1793454537710;
-        Sat, 31 Oct 2026 06:48:57 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa8213ead6sm207013265e9.14.2026.10.31.06.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:48:56 -0700 (PDT)
-Date: Sat, 31 Oct 2026 16:48:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-10-30 221/343]
- sound/soc/codecs/sn624x-sdca-sdw.c:884 sn624x_jack_rpm_put() warn: variable
- dereferenced before check 'sn624x' (see line 882)
-Message-ID: <202610311423.8OfajSb6-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aD27jrWW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793455462; x=1824991462;
+  h=date:from:to:cc:subject:message-id;
+  bh=SGLqrALlzfWUtwKqqbPIXpl3o2KrmcfAb194PhNdfEA=;
+  b=aD27jrWW3XgdRiuAIPL5x+4X+G2T/bQAYqimPqvOnDf43NSCynC9Qht/
+   D+QdPVfMVlzrzuzfjc7a8hwRMFbtq+EmjMlqcw4/8wcRHysVjkpPLcy2w
+   81N1Xle9lMPlb1HkO5TLKYeOYCBHDv3WFujjTjrygR/GbTmjjJnF64opj
+   gos3OEgPckN3mkQLvEcn2oj9nf9P9FYdFsOrOMqi3C8eP+WEGFNmRZQ6n
+   +NgacPH5BHrFAEpID5kVDaEUuMRrrt6szQ8udUzIyD8QmBvMjrGk8+V/P
+   iUGP4BUh37p+8dsyTZn6lCRFi5N6ZVTZSHoySPGQ048r2njsNpg91IJC3
+   Q==;
+X-CSE-ConnectionGUID: O8biWfdvSFazPF23H+K3MA==
+X-CSE-MsgGUID: 41Ui+irYQB6wFZQqyEn97g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2094298"
+X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
+   d="scan'208";a="2094298"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 07:04:21 -0700
+X-CSE-ConnectionGUID: dIRbOoJsQqC2avz3orNfJQ==
+X-CSE-MsgGUID: SRk/xqEsTsinOaPDwWSUhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
+   d="scan'208";a="5812284"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 31 Oct 2026 07:04:19 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xN9gu-0000000061z-3Omh;
+	Sat, 31 Oct 2026 14:04:16 +0000
+Date: Sat, 31 Oct 2026 15:04:04 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android16-6.12-p3s 2/2]
+ fs/bcachefs/ec.c:1233 ec_stripe_key_update() error: we previously assumed
+ 'old' could be null (see line 1213)
+Message-ID: <202610311542.w909U0EA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -95,48 +80,107 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20261031134852.eZgEHfkSHkhcYQrmHpGo7uMhWct1G5738SOAQWJaAEg@z>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-10-30
-head:   09f1a103b1f1ef745ade1826d62438261db56245
-commit: 29e4cb0a2a9fbfe750da9e9f826e5273b2795f96 [221/343] dai
-config: csky-randconfig-r2201-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311423.8OfajSb6-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.5.0
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-p3s
+head:   cf32e70ca1c409f3b7da2e8d3640dbbb3104be5d
+commit: cb6055e66faa0d4c15587ef67be18bc199aef085 [2/2] bcachefs: Handle race between stripe reuse, invalidate_stripe_to_dev
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 years, 1 month ago
+config: i386-randconfig-r2200-20261030 (https://download.01.org/0day-ci/archive/20261031/202610311542.w909U0EA-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: cb6055e66faa ("bcachefs: Handle race between stripe reuse, invalidate_stripe_to_dev")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610311423.8OfajSb6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610311542.w909U0EA-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/sn624x-sdca-sdw.c:884 sn624x_jack_rpm_put() warn: variable dereferenced before check 'sn624x' (see line 882)
+New smatch warnings:
+fs/bcachefs/ec.c:1233 ec_stripe_key_update() error: we previously assumed 'old' could be null (see line 1213)
 
-vim +/sn624x +884 sound/soc/codecs/sn624x-sdca-sdw.c
+Old smatch warnings:
+fs/bcachefs/ec.c:430 bch2_trigger_stripe() error: we previously assumed 'new_s' could be null (see line 408)
+fs/bcachefs/ec.c:2171 bch2_ec_stripe_head_get() error: we previously assumed 'h->s' could be null (see line 2163)
 
-12d9c9f8679c56 Qianghua Wang     2026-09-01  880  static void sn624x_jack_rpm_put(struct sn624x_sdca_priv *sn624x)
-12d9c9f8679c56 Qianghua Wang     2026-09-01  881  {
-29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27 @882  	struct device *dev = snd_soc_component_to_dev(sn624x->component);
-                                                                                                      ^^^^^^^^^^^^^^^^^
-New dereference
+vim +/old +1233 fs/bcachefs/ec.c
 
-29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  883  
-12d9c9f8679c56 Qianghua Wang     2026-09-01 @884  	if (!sn624x || !sn624x->jack_rpm || !sn624x->component)
-                                                             ^^^^^^
-Old code had a check for NULL.
-
-12d9c9f8679c56 Qianghua Wang     2026-09-01  885  		return;
-12d9c9f8679c56 Qianghua Wang     2026-09-01  886  
-29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  887  	pm_runtime_mark_last_busy(dev);
-29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  888  	pm_runtime_put_autosuspend(dev);
-12d9c9f8679c56 Qianghua Wang     2026-09-01  889  	sn624x->jack_rpm = false;
-12d9c9f8679c56 Qianghua Wang     2026-09-01  890  }
+dfe9bfb32e380d Kent Overstreet 2018-11-24  1207  
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1208  static int ec_stripe_key_update(struct btree_trans *trans,
+cb6055e66faa0d Kent Overstreet 2024-10-13  1209  				struct bkey_i_stripe *old,
+cb6055e66faa0d Kent Overstreet 2024-10-13  1210  				struct bkey_i_stripe *new)
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1211  {
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1212  	struct bch_fs *c = trans->c;
+cb6055e66faa0d Kent Overstreet 2024-10-13 @1213  	bool create = !old;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1214  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1215  	struct btree_iter iter;
+cb6055e66faa0d Kent Overstreet 2024-10-13  1216  	struct bkey_s_c k = bch2_bkey_get_iter(trans, &iter, BTREE_ID_stripes,
+5dd8c60e1e0448 Kent Overstreet 2024-04-07  1217  					       new->k.p, BTREE_ITER_intent);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1218  	int ret = bkey_err(k);
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1219  	if (ret)
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1220  		goto err;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1221  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1222  	if (bch2_fs_inconsistent_on(k.k->type != (create ? KEY_TYPE_deleted : KEY_TYPE_stripe),
+cb6055e66faa0d Kent Overstreet 2024-10-13  1223  				    c, "error %s stripe: got existing key type %s",
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1224  				    create ? "creating" : "updating",
+cb6055e66faa0d Kent Overstreet 2024-10-13  1225  				    bch2_bkey_types[k.k->type])) {
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1226  		ret = -EINVAL;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1227  		goto err;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1228  	}
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1229  
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1230  	if (k.k->type == KEY_TYPE_stripe) {
+cb6055e66faa0d Kent Overstreet 2024-10-13  1231  		const struct bch_stripe *v = bkey_s_c_to_stripe(k).v;
+cb6055e66faa0d Kent Overstreet 2024-10-13  1232  
+cb6055e66faa0d Kent Overstreet 2024-10-13 @1233  		BUG_ON(old->v.nr_blocks != new->v.nr_blocks);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1234  		BUG_ON(old->v.nr_blocks != v->nr_blocks);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1235  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1236  		for (unsigned i = 0; i < new->v.nr_blocks; i++) {
+cb6055e66faa0d Kent Overstreet 2024-10-13  1237  			unsigned sectors = stripe_blockcount_get(v, i);
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1238  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1239  			if (!bch2_extent_ptr_eq(old->v.ptrs[i], new->v.ptrs[i]) && sectors) {
+cb6055e66faa0d Kent Overstreet 2024-10-13  1240  				struct printbuf buf = PRINTBUF;
+cb6055e66faa0d Kent Overstreet 2024-10-13  1241  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1242  				prt_printf(&buf, "stripe changed nonempty block %u", i);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1243  				prt_str(&buf, "\nold: ");
+cb6055e66faa0d Kent Overstreet 2024-10-13  1244  				bch2_bkey_val_to_text(&buf, c, k);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1245  				prt_str(&buf, "\nnew: ");
+cb6055e66faa0d Kent Overstreet 2024-10-13  1246  				bch2_bkey_val_to_text(&buf, c, bkey_i_to_s_c(&new->k_i));
+cb6055e66faa0d Kent Overstreet 2024-10-13  1247  				bch2_fs_inconsistent(c, "%s", buf.buf);
+cb6055e66faa0d Kent Overstreet 2024-10-13  1248  				printbuf_exit(&buf);
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1249  				ret = -EINVAL;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1250  				goto err;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1251  			}
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1252  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1253  			/*
+cb6055e66faa0d Kent Overstreet 2024-10-13  1254  			 * If the stripe ptr changed underneath us, it must have
+cb6055e66faa0d Kent Overstreet 2024-10-13  1255  			 * been dev_remove_stripes() -> * invalidate_stripe_to_dev()
+cb6055e66faa0d Kent Overstreet 2024-10-13  1256  			 */
+cb6055e66faa0d Kent Overstreet 2024-10-13  1257  			if (!bch2_extent_ptr_eq(old->v.ptrs[i], v->ptrs[i])) {
+cb6055e66faa0d Kent Overstreet 2024-10-13  1258  				BUG_ON(v->ptrs[i].dev != BCH_SB_MEMBER_INVALID);
+9d32097f3b6617 Kent Overstreet 2023-03-03  1259  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1260  				if (bch2_extent_ptr_eq(old->v.ptrs[i], new->v.ptrs[i]))
+cb6055e66faa0d Kent Overstreet 2024-10-13  1261  					new->v.ptrs[i].dev = BCH_SB_MEMBER_INVALID;
+cb6055e66faa0d Kent Overstreet 2024-10-13  1262  			}
+9d32097f3b6617 Kent Overstreet 2023-03-03  1263  
+cb6055e66faa0d Kent Overstreet 2024-10-13  1264  			stripe_blockcount_set(&new->v, i, sectors);
+9d32097f3b6617 Kent Overstreet 2023-03-03  1265  		}
+4b1e669995a6c1 Kent Overstreet 2023-02-18  1266  	}
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1267  
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1268  	ret = bch2_trans_update(trans, &iter, &new->k_i, 0);
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1269  err:
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1270  	bch2_trans_iter_exit(trans, &iter);
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1271  	return ret;
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1272  }
+c6e658ee9f7f7d Kent Overstreet 2021-01-17  1273  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
