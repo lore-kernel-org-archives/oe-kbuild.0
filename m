@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793475168;
-	b=uX5U+yUqMODOVAWup8vdjsJBBLyLsaB0LAmgU8X611g6vkx5GneQ4K3GXF9YaLgzvSDK
-	 ETagyAIsx5qhma/+7xJam6QyVbgxLPhQv4KD84Xt0wkd5qJP/0UDKFtx8f42XCGsa4rYc
-	 uedmCExk3durWhH4A0zQKt2y63EiLOWZhV5QekzKe27TgFgQSSny1l43RnWPXgoi4QQXe
-	 EjdrYKD6McZAoa3TS1zR8sS0QncETxpTpx4AC5gd3yqX7ANSuTUNUU6HrhukqTJNdUXct
-	 2VvCkHPGDQavqFsqGPxeH+WwzXd6+dlNqYgLelMCXfeSvPJ5xNFIwiRGXXxTCjdeMIQ==
+	t=1793498985;
+	b=jHslcnNHobZ1EK/EjQD1qnTlz9Q47cg/5myYmCZvypkqmbvk36JgrreRnTGgDUU2vZeL
+	 MltBW8osmAfeVzl9dpeOUcbNPm1N9qq52kVjIlL8KJd6IBTl8xsOGblV0rTIEgzz84H1d
+	 MyyI0WY3R2rIwnN+/ikVzH2TF64f/GaKCShjCxu8f16Wb6EKWPGDvxxt04I0H7N18N2yE
+	 icw1Y+aga+m2y7xbyXr698XbQn7iI9vT7sGr6BdCC1/AGZ7GAPfiAwNIbTf3CZjNatYib
+	 jjXg5K9ml0fhwHOFbwS1ztpYBjnAb+rfGwd9I446mk7pA54QtiWTmXSVdmtRvUcE5Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793475168;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793498985;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=LdXOKX4RgXOsjfJi0y4d6RFtZcPU6FjLORStH9efkUM=;
-	b=TY2Gx06j+VTg72XS4ebKmTG6xqL688F5XGuZzvfoI0+EX3FVfK8WhcHtESLRxYA/5hHw
-	 VB4cvZQQNOqtdM2wcekgmdffVluycm+kPi9UUUDR1jE6ZLhjIaMMjmSWzMY0pRr7EZ9Ob
-	 UvqvVCamejVLz0PHJEfJtkbeVxoLupZYqMuPYg6nNUTcve7yXytOTrwZIrse5tXZ1eASP
-	 rP7L85iLBFfdAEfBmqKshMRVLrN5cVssLNZcUCNjBxgvIw/PG+7kas90KpDHeRkcI0TK5
-	 XbSqaBUcMpcufRHPNsJLutiF7YVdVtWaE5mGSJEVfwheN0+0R5BIUOtQXGTc4bVorAA==
+	bh=Vd5ZWOxRCBltvJ2ZnW+c4TM6I5aW3+EkcrbjkzvLJ38=;
+	b=41Wgd+wMprZwT23Ou1wXZbc4PTlLy8vnBddXEaSTWQATqH6zydUlLkN3NF3wEktJ4kvX
+	 /+lgavGv2nhUbTptN33rUncvZ26EkoScSwB/zptIb3W5TNhRbFcgTQ7Ag7IPRNj98o0zQ
+	 ayY6cnRR2nzO7rgrKkEUNFpaS8qGTkCsLMMzmrMx9Nk7xM6KpJQgV5CcrOk8SJapGyQj8
+	 TduMc8sKbbwy4i6+dRxqysdM5li9FZDD5JL6ZzoWVNyPTih1CAiShhBi2wes5ZNmB+44m
+	 ty3aYd8fENVp/ig/bIiozZ7oXO6o5H1Nk8f1UXm/R52jIXiXuAcgXh7hOImThWiy9IA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GlL11OoL;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XRfyFsBB;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E6B606A31A
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Oct 2026 19:32:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00E6B606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8874606A324
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 02:09:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8874606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GlL11OoL
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XRfyFsBB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793475168; x=1825011168;
+  t=1793498982; x=1825034982;
   h=date:from:to:cc:subject:message-id;
-  bh=jHbBDbV00VzrHA0RFav2u+dO7N6Z4NMMMZjyAlqjeoI=;
-  b=GlL11OoL1LXubR7SIlUdTg+GR0smANsWujILwUJp6/ICpMdviaonjcXW
-   7+Utu0MjE7btX3OzzvvDHYSocgJ9iBpJQPsLRCNNG8RUc/ewZ8R8XkT1O
-   SoDDBVEyj/P6wS8WVeOKEf6TddBloo+WCfKQrWrknMbfLQa+giJeLfnOX
-   LkbpPUKrUsB9cs+OsNnR/T2r9CmXuezYLnxLQ2+JpR+A/Y0fdYpBGshVr
-   dIa0lsRuoU63FuhYH8LCzYsBktB6bOxtQcvK7+F99rZrli/zXrCSqHh3p
-   ZIO1Sg+Vy6OYwe3pxGR3eAzr+ObLRdDHS2mxqObUzjM2PkOcRJV6z4u5U
-   Q==;
-X-CSE-ConnectionGUID: kev5dFqhSuucRmkXhjKr3A==
-X-CSE-MsgGUID: fu/psU9hQQiX9iLlUquwWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2225263"
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2225263"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 12:32:47 -0700
-X-CSE-ConnectionGUID: 6Mq9O511RKO2W+A88pGzRA==
-X-CSE-MsgGUID: WV6EaFUETKiBL8ljH5ob7g==
+  bh=d4PAlrmmRcQoJSUylQICaeHIs1L4bBe/54GiAsACiT8=;
+  b=XRfyFsBBGDKghW/tKajU1QF1sZilH//eXlr89oygPlfX2G1KB3qWCkvY
+   NkOEjRKsCsH2bmGY7whYkhUXu5MmacXeTcqM2rHa6gnvPdW+YszZAmrkp
+   gZu9Ss4cpblLZBxB2vtebLBcW9a6at6t1d1quj3g4+Tu3d34b3PGON0jy
+   yX4v5BZLmNRsbWFoYFL0wx7nvN1JPdtaunV4sUdjFBfYNVJaaJcKKgdMz
+   PqpJ3K7XQu43iitmXlws1Caidf0NY4MN4N9oCx7ze8pWzwnTZI95MXHO0
+   BA6pp4Ns4Qh7p5bcnmLUpyCR92f3ftVFrbzddoBH5onF1MPQG+MayLuNv
+   w==;
+X-CSE-ConnectionGUID: cwY7o28BTxygWGaJQbx3QQ==
+X-CSE-MsgGUID: Z/7CdhtUSS6O4hNDGNV+8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2253789"
+X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
+   d="scan'208";a="2253789"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 19:09:42 -0700
+X-CSE-ConnectionGUID: oyRHfnWDQjSwABmXtx1IAQ==
+X-CSE-MsgGUID: AsTzZ7kAR66mwt5K/OKQlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="5606862"
+X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
+   d="scan'208";a="7590168"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 31 Oct 2026 12:32:46 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 31 Oct 2026 19:09:39 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNEok-00000000663-3E6p;
-	Sat, 31 Oct 2026 19:32:42 +0000
-Date: Sat, 31 Oct 2026 20:32:18 +0100
+	id 1xNL0r-000000006Ix-2wIw;
+	Sun, 01 Nov 2026 02:09:37 +0000
+Date: Sun, 01 Nov 2026 03:09:04 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12-p3s 2/2]
- drivers/md/dm-verity-fec.c:136 fec_decode_bufs() error: buffer overflow
- 'par_buf' 24 <= u32max
-Message-ID: <202610312038.Un7RLzdP-lkp@intel.com>
+Subject: [linux-next:master 20377/21381]
+ arch/arm64/kvm/vgic/vgic-init.c:524 vgic_init() warn: missing unwind goto?
+Message-ID: <202611010359.UIGFCHgh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -86,107 +85,112 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Fuad Tabba <fuad.tabba@linux.dev>
+CC: Marc Zyngier <maz@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-p3s
-head:   cf32e70ca1c409f3b7da2e8d3640dbbb3104be5d
-commit: 5e49cda1a1763a2fcf85bff26b21b3ed85b38fd5 [2/2] UPSTREAM: dm-verity FEC: Avoid copying RS parity bytes twice.
-:::::: branch date: 21 hours ago
-:::::: commit date: 7 weeks ago
-config: i386-randconfig-r2200-20261030 (https://download.01.org/0day-ci/archive/20261031/202610312038.Un7RLzdP-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
+commit: 25993ec8c5bb30baa746936d7a76f03c58150927 [20377/21381] KVM: arm64: vgic: Tear down what vgic_init() created when it fails
+:::::: branch date: 2 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-r2200-20261031 (https://download.01.org/0day-ci/archive/20261101/202611010359.UIGFCHgh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610312038.Un7RLzdP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611010359.UIGFCHgh-lkp@intel.com/
 
 smatch warnings:
-drivers/md/dm-verity-fec.c:136 fec_decode_bufs() error: buffer overflow 'par_buf' 24 <= u32max
+arch/arm64/kvm/vgic/vgic-init.c:524 vgic_init() warn: missing unwind goto?
 
-vim +/par_buf +136 drivers/md/dm-verity-fec.c
+vim +524 arch/arm64/kvm/vgic/vgic-init.c
 
-a739ff3f543afbb Sami Tolvanen 2015-12-03  108  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  109  /*
-a739ff3f543afbb Sami Tolvanen 2015-12-03  110   * Decode all RS blocks from buffers and copy corrected bytes into fio->output
-a739ff3f543afbb Sami Tolvanen 2015-12-03  111   * starting from block_offset.
-a739ff3f543afbb Sami Tolvanen 2015-12-03  112   */
-d95e2c34a3ca768 Hongyu Jin    2024-01-24  113  static int fec_decode_bufs(struct dm_verity *v, struct dm_verity_io *io,
-d95e2c34a3ca768 Hongyu Jin    2024-01-24  114  			   struct dm_verity_fec_io *fio, u64 rsb, int byte_index,
-d95e2c34a3ca768 Hongyu Jin    2024-01-24  115  			   unsigned int block_offset, int neras)
-a739ff3f543afbb Sami Tolvanen 2015-12-03  116  {
-a739ff3f543afbb Sami Tolvanen 2015-12-03  117  	int r, corrected = 0, res;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  118  	struct dm_buffer *buf;
-5e49cda1a1763a2 Milan Broz    2024-12-18  119  	unsigned int n, i, j, offset, par_buf_offset = 0;
-5e49cda1a1763a2 Milan Broz    2024-12-18  120  	uint16_t par_buf[DM_VERITY_FEC_RSM - DM_VERITY_FEC_MIN_RSN];
-5e49cda1a1763a2 Milan Broz    2024-12-18  121  	u8 *par, *block;
-d95e2c34a3ca768 Hongyu Jin    2024-01-24  122  	struct bio *bio = dm_bio_from_per_bio_data(io, v->ti->per_io_data_size);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  123  
-fc8943886629e26 Milan Broz    2024-12-18  124  	par = fec_read_parity(v, rsb, block_offset, &offset,
-fc8943886629e26 Milan Broz    2024-12-18  125  			      par_buf_offset, &buf, bio_prio(bio));
-a739ff3f543afbb Sami Tolvanen 2015-12-03  126  	if (IS_ERR(par))
-a739ff3f543afbb Sami Tolvanen 2015-12-03  127  		return PTR_ERR(par);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  128  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  129  	/*
-a739ff3f543afbb Sami Tolvanen 2015-12-03  130  	 * Decode the RS blocks we have in bufs. Each RS block results in
-a739ff3f543afbb Sami Tolvanen 2015-12-03  131  	 * one corrected target byte and consumes fec->roots parity bytes.
-a739ff3f543afbb Sami Tolvanen 2015-12-03  132  	 */
-a739ff3f543afbb Sami Tolvanen 2015-12-03  133  	fec_for_each_buffer_rs_block(fio, n, i) {
-a739ff3f543afbb Sami Tolvanen 2015-12-03  134  		block = fec_buffer_rs_block(v, fio, n, i);
-5e49cda1a1763a2 Milan Broz    2024-12-18  135  		for (j = 0; j < v->fec->roots - par_buf_offset; j++)
-5e49cda1a1763a2 Milan Broz    2024-12-18 @136  			par_buf[par_buf_offset + j] = par[offset + j];
-5e49cda1a1763a2 Milan Broz    2024-12-18  137  		/* Decode an RS block using Reed-Solomon */
-5e49cda1a1763a2 Milan Broz    2024-12-18  138  		res = decode_rs8(fio->rs, block, par_buf, v->fec->rsn,
-5e49cda1a1763a2 Milan Broz    2024-12-18  139  				 NULL, neras, fio->erasures, 0, NULL);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  140  		if (res < 0) {
-a739ff3f543afbb Sami Tolvanen 2015-12-03  141  			r = res;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  142  			goto error;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  143  		}
-a739ff3f543afbb Sami Tolvanen 2015-12-03  144  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  145  		corrected += res;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  146  		fio->output[block_offset] = block[byte_index];
-a739ff3f543afbb Sami Tolvanen 2015-12-03  147  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  148  		block_offset++;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  149  		if (block_offset >= 1 << v->data_dev_block_bits)
-a739ff3f543afbb Sami Tolvanen 2015-12-03  150  			goto done;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  151  
-fc8943886629e26 Milan Broz    2024-12-18  152  		/* Read the next block when we run out of parity bytes */
-fc8943886629e26 Milan Broz    2024-12-18  153  		offset += (v->fec->roots - par_buf_offset);
-fc8943886629e26 Milan Broz    2024-12-18  154  		/* Check if parity bytes are split between blocks */
-fc8943886629e26 Milan Broz    2024-12-18  155  		if (offset < v->fec->io_size && (offset + v->fec->roots) > v->fec->io_size) {
-fc8943886629e26 Milan Broz    2024-12-18  156  			par_buf_offset = v->fec->io_size - offset;
-5e49cda1a1763a2 Milan Broz    2024-12-18  157  			for (j = 0; j < par_buf_offset; j++)
-5e49cda1a1763a2 Milan Broz    2024-12-18  158  				par_buf[j] = par[offset + j];
-fc8943886629e26 Milan Broz    2024-12-18  159  			offset += par_buf_offset;
-fc8943886629e26 Milan Broz    2024-12-18  160  		} else
-fc8943886629e26 Milan Broz    2024-12-18  161  			par_buf_offset = 0;
-fc8943886629e26 Milan Broz    2024-12-18  162  
-8ca7cab82bda4eb Jaegeuk Kim   2021-04-14  163  		if (offset >= v->fec->io_size) {
-a739ff3f543afbb Sami Tolvanen 2015-12-03  164  			dm_bufio_release(buf);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  165  
-fc8943886629e26 Milan Broz    2024-12-18  166  			par = fec_read_parity(v, rsb, block_offset, &offset,
-fc8943886629e26 Milan Broz    2024-12-18  167  					      par_buf_offset, &buf, bio_prio(bio));
-821b40da4d91839 Chengguang Xu 2019-02-13  168  			if (IS_ERR(par))
-a739ff3f543afbb Sami Tolvanen 2015-12-03  169  				return PTR_ERR(par);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  170  		}
-a739ff3f543afbb Sami Tolvanen 2015-12-03  171  	}
-a739ff3f543afbb Sami Tolvanen 2015-12-03  172  done:
-a739ff3f543afbb Sami Tolvanen 2015-12-03  173  	r = corrected;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  174  error:
-86e3e83b443669d Sami Tolvanen 2017-03-31  175  	dm_bufio_release(buf);
-86e3e83b443669d Sami Tolvanen 2017-03-31  176  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  177  	if (r < 0 && neras)
-a739ff3f543afbb Sami Tolvanen 2015-12-03  178  		DMERR_LIMIT("%s: FEC %llu: failed to correct: %d",
-a739ff3f543afbb Sami Tolvanen 2015-12-03  179  			    v->data_dev->name, (unsigned long long)rsb, r);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  180  	else if (r > 0)
-a739ff3f543afbb Sami Tolvanen 2015-12-03  181  		DMWARN_LIMIT("%s: FEC %llu: corrected %d errors",
-a739ff3f543afbb Sami Tolvanen 2015-12-03  182  			     v->data_dev->name, (unsigned long long)rsb, r);
-a739ff3f543afbb Sami Tolvanen 2015-12-03  183  
-a739ff3f543afbb Sami Tolvanen 2015-12-03  184  	return r;
-a739ff3f543afbb Sami Tolvanen 2015-12-03  185  }
-a739ff3f543afbb Sami Tolvanen 2015-12-03  186  
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  474  
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  475  /*
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  476   * vgic_init: allocates and initializes dist and vcpu data structures
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  477   * depending on two dimensioning parameters:
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  478   * - the number of spis
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  479   * - the number of vcpus
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  480   * The function is generally called when nr_spis has been explicitly set
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  481   * by the guest through the KVM DEVICE API. If not nr_spis is set to 256.
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  482   * vgic_initialized() returns true when this function has succeeded.
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  483   */
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  484  int vgic_init(struct kvm *kvm)
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  485  {
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  486  	struct vgic_dist *dist = &kvm->arch.vgic;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  487  	struct kvm_vcpu *vcpu;
+b3aa9283c0c505b arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2025-02-12  488  	int ret = 0;
+46808a4cb89708c arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2021-11-16  489  	unsigned long idx;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  490  
+f00327731131d1b arch/arm64/kvm/vgic/vgic-init.c Oliver Upton     2023-03-27  491  	lockdep_assert_held(&kvm->arch.config_lock);
+f00327731131d1b arch/arm64/kvm/vgic/vgic-init.c Oliver Upton     2023-03-27  492  
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  493  	if (vgic_initialized(kvm))
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  494  		return 0;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  495  
+1d47191de7e1590 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2018-07-03  496  	/* Are we also in the middle of creating a VCPU? */
+1d47191de7e1590 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2018-07-03  497  	if (kvm->created_vcpus != atomic_read(&kvm->online_vcpus))
+1d47191de7e1590 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2018-07-03  498  		return -EBUSY;
+1d47191de7e1590 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2018-07-03  499  
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  500  	if (!vgic_is_v5(kvm)) {
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  501  		/* freeze the number of spis */
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  502  		if (!dist->nr_spis)
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  503  			dist->nr_spis = VGIC_NR_IRQS_LEGACY - VGIC_NR_PRIVATE_IRQS;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  504  
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  505  		ret = kvm_vgic_dist_init(kvm, dist->nr_spis);
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  506  		if (ret)
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  507  			return ret;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  508  
+958e8e14fd24c0a virt/kvm/arm/vgic/vgic-init.c   Marc Zyngier     2020-04-24  509  		/*
+82221a4e66f044a arch/arm64/kvm/vgic/vgic-init.c Oliver Upton     2025-07-23  510  		 * Ensure vPEs are allocated if direct IRQ injection (e.g. vSGIs,
+82221a4e66f044a arch/arm64/kvm/vgic/vgic-init.c Oliver Upton     2025-07-23  511  		 * vLPIs) is supported.
+958e8e14fd24c0a virt/kvm/arm/vgic/vgic-init.c   Marc Zyngier     2020-04-24  512  		 */
+82221a4e66f044a arch/arm64/kvm/vgic/vgic-init.c Oliver Upton     2025-07-23  513  		if (vgic_supports_direct_irqs(kvm)) {
+74fe55dc9ab7714 virt/kvm/arm/vgic/vgic-init.c   Marc Zyngier     2017-10-27  514  			ret = vgic_v4_init(kvm);
+74fe55dc9ab7714 virt/kvm/arm/vgic/vgic-init.c   Marc Zyngier     2017-10-27  515  			if (ret)
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  516  				goto out_free_spis;
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  517  		}
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  518  	} else {
+c7f62066f2cf452 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-09-04  519  		if (!dist->nr_spis)
+c7f62066f2cf452 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-09-04  520  			dist->nr_spis = VGIC_V5_DEFAULT_NR_SPIS;
+c7f62066f2cf452 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-09-04  521  
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  522  		ret = vgic_v5_init(kvm);
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  523  		if (ret)
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19 @524  			return ret;
+f8f85dc00b7427d virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2018-01-12  525  	}
+74fe55dc9ab7714 virt/kvm/arm/vgic/vgic-init.c   Marc Zyngier     2017-10-27  526  
+46808a4cb89708c arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2021-11-16  527  	kvm_for_each_vcpu(idx, vcpu, kvm)
+f04b8a5a83dbaff arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2025-11-20  528  		kvm_vgic_vcpu_reset(vcpu);
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  529  
+180ae7b1182344c virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2016-07-22  530  	ret = kvm_vgic_setup_default_irq_routing(kvm);
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  531  	if (ret)
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  532  		goto out_teardown;
+180ae7b1182344c virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2016-07-22  533  
+10f92c4c537794f virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2017-01-17  534  	vgic_debug_init(kvm);
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  535  	dist->initialized = true;
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  536  
+f4d37c7c3576957 arch/arm64/kvm/vgic/vgic-init.c Sascha Bischoff  2026-03-19  537  	return 0;
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  538  
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  539  out_teardown:
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  540  	if (vgic_is_v5(kvm))
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  541  		vgic_v5_teardown(kvm);
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  542  	else
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  543  		vgic_v4_teardown(kvm);
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  544  out_free_spis:
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  545  	kfree(dist->spis);
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  546  	dist->spis = NULL;
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  547  
+25993ec8c5bb30b arch/arm64/kvm/vgic/vgic-init.c Fuad Tabba       2026-09-21  548  	return ret;
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  549  }
+ad275b8bb1e659b virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2015-12-21  550  
+
+:::::: The code at line 524 was first introduced by commit
+:::::: f4d37c7c35769579c51aa5fe00161c690b89811d KVM: arm64: gic-v5: Create and initialise vgic_v5
+
+:::::: TO: Sascha Bischoff <Sascha.Bischoff@arm.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
