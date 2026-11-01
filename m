@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793574459;
-	b=HwhNNC6Xj2cB+phmv9HWUoLdd6nZX0W+bSR+W0uoR3kHqRyI/DygXJeTgPMnZuq8LPrv
-	 uLfJow3pa1ppiVStbHsJE/TjPbTIYj1G4LMMnDy/hdxi0vJQnwiiwjfZuUlkxX8Ag7UrJ
-	 5ZO/vcnI/2B4/SALaa7bF3lIHACmJ84RYurBY5TvyPvNn+H6t2C2+ZZdFpoX5qFMwLAts
-	 IEDWFKDP2r8mTp/LzmAcpbDJa1MydkaTsHykMD0PeXSEcl32dhJpZ/GPDJZ8z2LHctB16
-	 QzUZ2sh5AYyzdi7PmO/HlqJe0GWvXsjdha4KweyG5vFbvWK5FRCCSbPaFSZBUEz+zMQ==
+	t=1793576971;
+	b=43FlhAxy/uxuNNkqfLlyn5eynb14ZJxrJ1V18plFZFE1x6H0ZjqZPYtoks6wxARN2kA8
+	 s9SX032piKcaVRU+Yu7oLk31tfKfAfmWqpiKl7rFJ4OdPIka/x/294Vj/r1zaly5nMcSF
+	 iakwOnZma2F02wnQ0eP74BmM9Xab6nh4x90yvN5U5kWeN6hgRLjdnNPtQUBCFrzD/lFH0
+	 8085kVbyWisjZkPT6upd2nYAgsPvE9H7uRgcsrOHxQzAcb7FDg45x9jQJlrEda1Df+NjB
+	 1/TXyzs/qZNSvyOhMI9QVX3RvlnBjFdgVTPN6NkWkA5sSxLTOEPoZFJvHClGBbrgX1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793574459;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793576971;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=k2GtQuolCMQrJq2QyYkSBR0OW1Kmx8Jnry8C2RfwBYs=;
-	b=bPOqIpypafqs3SWjqiwxBUvlOObIHfM7GGYIPmeb/l4hlTvZQNWUsZM7gFSkMMhzyaQD
-	 hzwqEbUEbST8rj5WbmWO+QTKvsEk9b/o0XjSbxctCujYFeFcN7wl3BqCWTaD7Sg8j8v7c
-	 qvSBRHiE4Q6Iv/XtKzUmjrL1nzAPFfPoTSvWwVj9am9KmMs0oL0/UQpkK0CbsUuS5CV9S
-	 mEXVCnX7q64FyVvasdM2NFVxeldbKjZUOVY0DYv+cERSK/Toui3zY/8KEhyUxaJHmh4gs
-	 TE0ONZ+z0nh+2mBLBubgMczA4pKVMVbu2vtuUNBgnPdI8p7Y/kDiTuK/S+Xhfteg/cQ==
+	bh=OjyyUwJ5jRUWleWemQTm3R8rZdXR9gytH+goAhoicWM=;
+	b=5VXK3LyaM1KkjqjWP29vF3T60YGpcMvOaFZrF2IPF87aqoUd57zXkw/edOMFKsjeNGOT
+	 Pjj9UbYJjxqX51Z6sCBu91qo5C6Eo2X1pz1mucZDkjsIPX7pBZYgyi202Vt+lHQOk9Ppw
+	 8QDe91/n7TC8QWd9ZkF7aA9TRqH4CneC70fq03TeMtYdkIQZ8uBmi/S7AZNGBreamZAoX
+	 HrrQ4pyok60rH7VSc/LsmCZkA0CxDYwAwqRCHnzTrftCc9pzEuKApCwneu92iGXhYVGSo
+	 Kz4STlCULLz2LWbeNfbf5AByoREV33pZrAX2+P3umxiAWVW5oe0xwVVqzR0UTMR74cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdZzgkMD;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=khrWLjHf;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDE2606A324
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 23:07:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EDE2606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C51D606A324
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 23:49:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C51D606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdZzgkMD
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=khrWLjHf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793574457; x=1825110457;
+  t=1793576968; x=1825112968;
   h=date:from:to:cc:subject:message-id;
-  bh=APl/TZVNtDjjBzO4TSWbAgY5vQspuxFeTCqc2x5TSnw=;
-  b=EdZzgkMDQrPo6UZCSfoexstTWZ9w6RS5CnTTmkCozCUNY4NbrUCZIhIz
-   rBQ1RKd5kwccKbx098cK1znLIc2ItLBGjU4mh1VNoh8I7j/bOY2Q8Xn4p
-   yYSAhOqp0IfuOxwmnu1d+t6jxWd2aty8UTVMuMudhxUXXrzru5P9Q5wto
-   /EKjGbz+xF9rKbWwS9DcGo73mT5fen1vmq+izSw1pI52oSRh887Z6T97O
-   DJULg1nNSCYfifoKafrTgVJNUs3MIYaiLFl0+pi7ZA22ImXjM6UJqMTs+
-   1gJSf95sdf63S6Mk3b+eyfnt1Wa5I8UkjfSzcTe2HH5uuvDRJvyxzdBNi
-   A==;
-X-CSE-ConnectionGUID: eEkA0al2QAStdwhfLS86tQ==
-X-CSE-MsgGUID: j2NKG+WrRBK8aCAWb810hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2272880"
+  bh=W6tGnAHVDJ0zlMpcbJQ8KkIyjorRGWNVE9iE5lh6v+s=;
+  b=khrWLjHf5rnUbuigQzWC0Wy8g0yvuDaEspmepVqVUfS0GC0xQu00lYSF
+   fAEHp2Uu2bpGnUvlR+pmi7dXAcg3TNG39F8KU6yex8lds6mOaQvqAIkq9
+   lx4iDceVNpOfl/KEjxvP/OwuwIPf641DUrf/cgyLg7RBJWsG4yGzmcKsZ
+   94PSkGLcYiQw74qOkAH7X137yCSnXTkyXvnd1f55YDhrqY1Qp9GEthU/d
+   YSOi61Gju0jATy1716/sBJswKH0QZcZQEEFGs8C+daiIvuy6Fr0QW91uP
+   r2BzwMLYOpRV6K3fOXB7y+K18juJ6RRtbRGv9iUHA5O/MQ7EggNSTOHEL
+   g==;
+X-CSE-ConnectionGUID: HibSA1B+SkWcKbuboudsGw==
+X-CSE-MsgGUID: Co9tfsl/RHmCVDbcwT5aTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2143605"
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="2272880"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 15:07:37 -0800
-X-CSE-ConnectionGUID: Z6XRnPakQqaeYkbmt8A3cA==
-X-CSE-MsgGUID: Iyg701lyS1aNXYjBopAOEw==
+   d="scan'208";a="2143605"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 15:49:28 -0800
+X-CSE-ConnectionGUID: uapHeGC5R+mINNWDTR4ZmA==
+X-CSE-MsgGUID: 5mQJWKpbTGuXuY/LHr53gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="6012122"
+   d="scan'208";a="5974628"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2026 15:07:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Nov 2026 15:49:27 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNeeC-0000000086x-2FJv;
-	Sun, 01 Nov 2026 23:07:32 +0000
-Date: Mon, 02 Nov 2026 00:06:55 +0100
+	id 1xNfIi-0000000088V-1yeK;
+	Sun, 01 Nov 2026 23:49:24 +0000
+Date: Mon, 02 Nov 2026 00:48:49 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/liveupdate/luo_file.c:558:5-13: ERROR: invalid
- reference to the index variable of the iterator on line 553
-Message-ID: <202611012349.RESCKElP-lkp@intel.com>
+Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops:
+ .write() has stream semantic; safe to change nonseekable_open -> stream_open.
+Message-ID: <202611020009.xkUfJUpm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -83,103 +83,74 @@ Precedence: list
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+TO: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-CC: Pratyush Yadav <pratyush@kernel.org>
+CC: Suren Baghdasaryan <surenb@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-commit: 7c722a7f44e0c1f9714084152226bc7bd644b7e3 liveupdate: luo_file: implement file systems callbacks
-date:   11 months ago
+commit: b0085cb94d2477787f4197a3000e33aabf3d48fc stm: replace deprecated mmap hook with mmap_prepare
+date:   7 months ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-2103-20261101 (https://download.01.org/0day-ci/archive/20261101/202611012349.RESCKElP-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+:::::: commit date: 7 months ago
+config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020009.xkUfJUpm-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7c722a7f44e0 ("liveupdate: luo_file: implement file systems callbacks")
+| Fixes: b0085cb94d24 ("stm: replace deprecated mmap hook with mmap_prepare")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611012349.RESCKElP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611020009.xkUfJUpm-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/liveupdate/luo_file.c:558:5-13: ERROR: invalid reference to the index variable of the iterator on line 553
+>> drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
 
-vim +558 kernel/liveupdate/luo_file.c
+vim +509 drivers/hwtracing/stm/core.c
 
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  517  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  518  /**
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  519   * luo_retrieve_file - Restores a preserved file from a file_set by its token.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  520   * @file_set: The file_set from which to retrieve the file.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  521   * @token:    The unique token identifying the file to be restored.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  522   * @filep:    Output parameter; on success, this is populated with a pointer
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  523   *            to the newly retrieved 'struct file'.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  524   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  525   * This function is the primary mechanism for recreating a file in the new
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  526   * kernel after a live update. It searches the file_set's list of deserialized
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  527   * files for an entry matching the provided @token.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  528   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  529   * The operation is idempotent: if a file has already been successfully
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  530   * retrieved, this function will simply return a pointer to the existing
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  531   * 'struct file' and report success without re-executing the retrieve
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  532   * operation. This is handled by checking the 'retrieved' flag under a lock.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  533   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  534   * File retrieval can happen in any order; it is not bound by the order of
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  535   * preservation.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  536   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  537   * Context: Can be called from an ioctl or other in-kernel code in the new
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  538   *          kernel.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  539   * Return: 0 on success. Returns a negative errno on failure:
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  540   *         -ENOENT if no file with the matching token is found.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  541   *         Any error code returned by the handler's .retrieve() op.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  542   */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  543  int luo_retrieve_file(struct luo_file_set *file_set, u64 token,
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  544  		      struct file **filep)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  545  {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  546  	struct liveupdate_file_op_args args = {0};
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  547  	struct luo_file *luo_file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  548  	int err;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  549  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  550  	if (list_empty(&file_set->files_list))
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  551  		return -ENOENT;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  552  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25 @553  	list_for_each_entry(luo_file, &file_set->files_list, list) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  554  		if (luo_file->token == token)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  555  			break;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  556  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  557  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25 @558  	if (luo_file->token != token)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  559  		return -ENOENT;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  560  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  561  	guard(mutex)(&luo_file->mutex);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  562  	if (luo_file->retrieved) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  563  		/*
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  564  		 * Someone is asking for this file again, so get a reference
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  565  		 * for them.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  566  		 */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  567  		get_file(luo_file->file);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  568  		*filep = luo_file->file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  569  		return 0;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  570  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  571  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  572  	args.handler = luo_file->fh;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  573  	args.serialized_data = luo_file->serialized_data;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  574  	err = luo_file->fh->ops->retrieve(&args);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  575  	if (!err) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  576  		luo_file->file = args.file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  577  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  578  		/* Get reference so we can keep this file in LUO until finish */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  579  		get_file(luo_file->file);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  580  		*filep = luo_file->file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  581  		luo_file->retrieved = true;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  582  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  583  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  584  	return err;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  585  }
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  586  
+c7fd62bc69d022 Alexander Shishkin 2018-10-05  484  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  485  static int stm_char_open(struct inode *inode, struct file *file)
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  486  {
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  487  	struct stm_file *stmf;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  488  	struct device *dev;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  489  	unsigned int major = imajor(inode);
+a0ebf519b8a266 Johan Hovold       2016-11-18  490  	int err = -ENOMEM;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  491  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  492  	dev = class_find_device(&stm_class, NULL, &major, major_match);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  493  	if (!dev)
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  494  		return -ENODEV;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  495  
+bf4afc53b77aea Linus Torvalds     2026-02-21  496  	stmf = kzalloc_obj(*stmf);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  497  	if (!stmf)
+a0ebf519b8a266 Johan Hovold       2016-11-18  498  		goto err_put_device;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  499  
+a0ebf519b8a266 Johan Hovold       2016-11-18  500  	err = -ENODEV;
+cde4ad8368840e Alexander Shishkin 2016-02-15  501  	stm_output_init(&stmf->output);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  502  	stmf->stm = to_stm_device(dev);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  503  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  504  	if (!try_module_get(stmf->stm->owner))
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  505  		goto err_free;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  506  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  507  	file->private_data = stmf;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  508  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22 @509  	return nonseekable_open(inode, file);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  510  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  511  err_free:
+a0ebf519b8a266 Johan Hovold       2016-11-18  512  	kfree(stmf);
+a0ebf519b8a266 Johan Hovold       2016-11-18  513  err_put_device:
+f7c81c7176c72c Alexander Shishkin 2016-02-15  514  	/* matches class_find_device() above */
+f7c81c7176c72c Alexander Shishkin 2016-02-15  515  	put_device(dev);
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  516  
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  517  	return err;
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  518  }
+7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  519  
+
+:::::: The code at line 509 was first introduced by commit
+:::::: 7bd1d4093c2fa37d1ecab05da3c9d48ea2af2264 stm class: Introduce an abstraction for System Trace Module devices
+
+:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
