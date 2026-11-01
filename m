@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793518337;
-	b=w+11lUwLTu8qOqSdhVoEiv5s31oIzjYtyY/dr2l04hJvDtt+WgVdKIS2hFl4Bo6UexsI
-	 oEryn1IJhhLgvhjTw38BkMOPUmaARJ+TuItMjTcxq7IoIaHZRfFxp9KOazdI8da4hdrY5
-	 2QbRFo/Pbeeu1MkaTMPqoJD2fDh9dw/2cN1cL2Ey0JuJ0mNeyYLrGK/QFgs6biGN1IoVg
-	 /j2U7gS7SLfi5BM5hY/cGdm+ayISjBaZTbjTL9OMy1Tl5tEr42yIHsH5oJxHyA4mQ8LO8
-	 164nHLDGFm8BE8ybvDDZh/UGu2bNYwP/iuNb26OBQybbc3l4KfFG5hMhnMs3M3GQ8LQ==
+	t=1793542780;
+	b=C8bhULAU9dQhZjJTWoM0pXPMbywG7EHZAqOg8bHCMHteYmcrG3wNr36TQvRMYvmGqbGW
+	 AE8sCjqRcEYIN4gGxHIlIZj7Uu5R1V+0MD+JRRqfIYYAuqBcFR7YqcjDJsykEMECF/0+u
+	 T+ua7U87PpM5Xn+Q6JUATn2BYFTKPzO0ecjgkyyKpPXDE0EaVh27M1dX2Fi7f/FN/Doun
+	 cj/v9Fp7SMr410Vglom+aSz4Wsern9yBfi7xbNqyn39He4kMiGMYOGG67jFdA4AN0iALm
+	 pHeT5dQdGFk4kILiKRxuuN7pTjjgPGtf5+L5Tt6UYMvq4c5E5xDsDqSro65TZQsojUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793518337;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793542780;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=saX3wwfyIklEmj0KOrkdFUlcGGW44GIpiXbY7CJ1bGM=;
-	b=xSb1xDFmtJyLRF/jzinMfUDrdVKDjrl8rCbIvgCcUTchuRCt65gJ+/4d4ZCfhHGhSwCX
-	 1uFcWc/tfXILaAdT1dHJ2cMfFPc0z9oHG2llrpVZmbYQEBClmpW+atcvrDy6H6ebECPlU
-	 ETiOTeXfn0s+EqZ2gtg2t89KWfl5EkbXaeNMGE+3khvxD+NkpQXO3dtlRfNtD3ziIf8NW
-	 rc98MhT2PeIwjPPonFyb2Ulb50qEHgAtL3Nk+xWHMbqf4GXemAPN7MKZxk6xVKtCIqjCg
-	 kgokYQKInPmpOMYa9M9ZMN68U6eCjGVIOqdh94I5K8eScPcOcK+NuT3II+Trh+DZpDg==
+	bh=29aarW9+J3Kdu86d2Fd98EzZRj4UDVxNxye9qBz0RHs=;
+	b=mh8snwgcGjh3oGQPvS2wvBSPIthRR4bxz1HKrAMbvh9MT4kbVbR70ANLnuhbXlf2GDra
+	 XCX2Fo9Zzw+0BkKOfM1BmLvQS3OPRmz4uAMvyAF+Sc1jyE8PofSVf8ZtLheO3uDN89czv
+	 /sZz2563dZCi6dP/0YTlg66OJHqBYzRseaQPRsR0obNx1a/GnpSatXSwTQs4yuxFB8vqI
+	 jTO5XjT8z89OHrji/rrliGK/Y3DOd3sHCgJnchlplFw1B2ROcBVf2nJnrdEiE0Ye8Hphf
+	 izMrS9ywgiyvS+YiaWyyN8WrGzLQ6GTbCVY04aOEI6TN58abMAuopunQZ/zR8nnjwgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qsk4qJVj;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F7VWErez;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE7F606A324
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 07:32:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EE7F606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B1D606A324
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 14:19:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72B1D606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qsk4qJVj
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F7VWErez
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793518335; x=1825054335;
+  t=1793542778; x=1825078778;
   h=date:from:to:cc:subject:message-id;
-  bh=7Fi8SNyQiHvfJtdY5TH3c75fMBx06WlccVKoO6hOx2w=;
-  b=Qsk4qJVj21T8CeL9XEpi6CoVrFHW5nho45dnR0HbrYnzhajhCQdkYdm0
-   vRqhzfN2PfCRFYnMJ63uWb0fX/5aiEHVK/gdHx5P+5kf+S7nhz4HMLv6p
-   Q1vCIYgoOLx9ukV+ZKwdgEFGkDPs3pxCjn/XxtreYjhrnNOFL4qFrGNra
-   OBFLnCbeQdxW7B6A5vrxqDWDhOHY6aLSeQdaKsnwjBDE09mVKLIYMc1Tv
-   PIPJcTWbyxPKx3A4VZXKszKfBDm+6yRlDBtmfAvB2LlgVdJAk4vEOOrlY
-   Dp1GEwHp0Y1QQHEnJvTeEAtDgNbsPMxlImZ8hqjDDOKgn3dChV49MiMjj
-   w==;
-X-CSE-ConnectionGUID: 69r5G4IrSM+Tf8KpwMD0eA==
-X-CSE-MsgGUID: 2TXkIUNHQWisgJF2K4CfnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2242312"
-X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="2242312"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 00:32:14 -0700
-X-CSE-ConnectionGUID: epETLFAhTMy9RVexANY45Q==
-X-CSE-MsgGUID: vMQ3nVtuQH2joPMTnAVaMw==
+  bh=01Ce5V4uO8TiNF/BV70A/8SUb0U8v8CuzgtmbzYH3Nw=;
+  b=F7VWErezmA58BFIQ3CbZA634ciVoAMKeaSjVNqTXD9I3rbWlH+XF4DMU
+   l+CCOaGSod68/vgVjfkhvdlrduQebSoQ6yjiZHZsDJySC1x88x2avAWQB
+   m9RCvz3tFS+992TslL6VZXaFNVgnRuKolkRq+6zwdYXCLMkArAjLyI8a1
+   DDWKjYyYPE/d9gDWB+XVoeLh5Tvyw2aNebqFY7oalhqfgD4X4kibfEntk
+   LI0PjtrP0HSLzp4tv8r4+ildJEqrBEPN6rfLXp5goNdrFVH9WaXFtKvgw
+   vWTNZef9H+IGj0aZh6+8+vrz9Uysrul39SSbdYZdikbkAD0lOkjph+dUc
+   Q==;
+X-CSE-ConnectionGUID: Fi0iM39PTYKRy5yUGw5IBQ==
+X-CSE-MsgGUID: Sgo3jJbYTwyreaNa+4O+0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2129427"
+X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
+   d="scan'208";a="2129427"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 06:19:37 -0800
+X-CSE-ConnectionGUID: 53374hUtTECpRIhKWB9x8g==
+X-CSE-MsgGUID: d/2tRS7cT4qM9avsgzEU5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="6139559"
+X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
+   d="scan'208";a="5982605"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Nov 2026 00:32:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2026 06:19:35 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNQ30-000000006Oh-1tWy;
-	Sun, 01 Nov 2026 07:32:10 +0000
-Date: Sun, 01 Nov 2026 08:31:38 +0100
+	id 1xNWPF-000000007tt-3dT4;
+	Sun, 01 Nov 2026 14:19:33 +0000
+Date: Sun, 01 Nov 2026 15:19:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: 
- ../shared/linux/../../../../include/linux/rbtree_augmented.h:19:10: fatal
- error: linux/minmax.h: No such file or directory
-Message-ID: <202611010840.IMgfWsml-lkp@intel.com>
+Subject: [wens:sunxi-wip 14/36]
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones:
+ gpu-thermal: 'gpu-trips' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202611011518.M9iTcaq0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,44 +83,45 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Yiwei Lin <s921975628@gmail.com>
+TO: Mikhail Kalashnikov <iuncuim@gmail.com>
+CC: "Chen-Yu Tsai" <wens@kernel.org>
 
-Hi Peter,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   36aad21d50d1af3f6954bb0c988257a908202477
-commit: c2c620f4345c50006af90c37fd104fed8e9dea14 rbtree: Declare augmented callbacks per field with RB_AUG()
-date:   3 weeks ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261101/202611010840.IMgfWsml-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010840.IMgfWsml-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: 836aa9a16eef4207c85cc11171fb74b28bdccaeb [14/36] Allwinner: A523: add support for A523 THS0/1 controllers
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261101/202611011518.M9iTcaq0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611011518.M9iTcaq0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c2c620f4345c ("rbtree: Declare augmented callbacks per field with RB_AUG()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611010840.IMgfWsml-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611011518.M9iTcaq0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from ../shared/linux/rbtree_augmented.h:5,
-                    from ../../../lib/rbtree_test.c:4,
-                    from rbtree_test.c:11:
->> ../shared/linux/../../../../include/linux/rbtree_augmented.h:19:10: fatal error: linux/minmax.h: No such file or directory
-      19 | #include <linux/minmax.h>
-         |          ^~~~~~~~~~~~~~~~
-   compilation terminated.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1212.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1212.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1212.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1212.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 
 --
 0-DAY CI Kernel Test Service
