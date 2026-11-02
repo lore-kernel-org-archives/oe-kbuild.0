@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793623134;
-	b=L0CoIJTAFqdaPZ7TqO8Z+PVRF3Qa+8PqBdQckpIUsZVmENvTLHrMF9sBLtNAdSADXMdo
-	 nSqorCQY+xdwR3bOIQAsgA5tTa7qfmH4lX+aSOLP/5tL3oFQdKukdgBNaBMdEhRGR0+Dw
-	 XBxpl+/zNs+FUnFJXz/YQtyL0IMfSS0uvkzJcm8yE4yNRrf1H2D7XYX3ulVtEUz+8BhXy
-	 9/pjkjmXmnBRl0vo4uPPb2bRwWjBrzqOIXUH2LxosyDNDuSRHnD+PBs/b5FhkYgEIbTLO
-	 uKmDoaoX6ueZEprESzj7jgDvdfxxzvOlmZsIQ+AEcf0cMFJQpJADfGXBpuNWMjFkDLw==
+	t=1793631485;
+	b=TxEZ77EVj42kXQpDF9ixQGEqqwVglDat8WkXbMkkwVGEZ6j4YhbiYQbl3XRBWFzohxfh
+	 5zOvDOsvCdJF6/kIndIfdxHTuswFtNK/tI+OdC3LC+rDB0/VBGrqt5zd1Yn8+KuAlo3Om
+	 551vqhVypP/qvRV61XacTwVonf+AvcG2x+Eoq9zZu4AoEqMu2931AzkwbuQUlD8GTuj5Z
+	 mQEee8Jqi6Q3sVCuMZAiSKWQeGv7nfo0Q59CMph+fTsiie+iymJU4YSi9qKbQHqGLz7eZ
+	 FxyOgIs9RSsWxxMXq36Vy31YTNdXYFdECddrwThp2G4BrXfh3ATMr4V4Awz9HnZigLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623134;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631485;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=quhFUhTXo6lNbhiHsUEpirAP95BsbX1MkBIGkikWYpc=;
-	b=ClePqvMd7r1rI42Me2NGiP/4U4evjCh4iyvurG/eEzPkXtCo6dydQ6HOXV+UOfD4QXvv
-	 4/QABt2kwknupf28+aCciqot++IoJc84MSr1OydtPriCgegy67oS2Zh8nQNqf9wL7bFIU
-	 OFOYVUD5XzpR0t43nbpPWaKWRhKtxMwd8/lSayzIa3aQZObF2ot5Pplo0+CoUUST205H4
-	 v9dxDoQSWKm8MR3mGwZWs4g3aIw57cRQkjMxJpMLpr1cAKuHBdHmcBqtRIYxpUYLnGYvj
-	 ATutGTA1tEJEvs+K5csT3UVRLumGkLjMOx/k8SWZ4mJlboRNjbn/ErNp3EfNgqSOyzQ==
+	bh=kwqUIB3wcINpvnW5M5d/8BFT5p2hZTVOZaCD5tzATyU=;
+	b=HAEOORpXmXUtgCX7ErOVy0UQt6FDLsQd9ZDRJecMLuS35U6Oa1ywI0aYLCSoMD/5gEXj
+	 bPq1qK1Iq7vpTd4CTF2kEwK8niAa0W4pRpfQLxlTXqajO2xm8WpPRlgDwLp0cgwthmbxp
+	 2sM66jU5D3zo7ixN2krUSxfZqUars5qXaof4OmL3kfShPrVYv6Zb6wS8aGAoMSyOEvov9
+	 y3bO2gggdqPOVJfY+3Rl3dFGNMxSWp9HeBr5b9BV+OrUiYcjO7YutYYVbpLgXXboqo8XO
+	 aWnPp971Gj30oQJi29pHR/IKU+nP2URHhXN1abhEnWw9Zzl+9O5MqOeOTPCIbNQspmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jNgAboL1;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sdhx9Ru+;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF043606A326
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Nov 2026 12:38:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF043606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE600606A5B4
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Nov 2026 14:58:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE600606A5B4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jNgAboL1
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sdhx9Ru+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793623133; x=1825159133;
+  t=1793631483; x=1825167483;
   h=date:from:to:cc:subject:message-id;
-  bh=vNDPpBs03igMKAWc5WeulUCKmxyUtSDjTJKDVgcAdB4=;
-  b=jNgAboL1oG1FXSQ8sIy3SoisyUoMzvS7K3u9WRIx9rrQt4dQCajTBOSc
-   dbmyZ43y43rQcX+JVV1xPsjL7dwtomRIdhYT9dSM4eOzKCyrEkxB3z4ev
-   ISWBoC4uDRpbxoxMEAS41k2NnHePYD4DsYSZSLIOiqRczD66C6g68P9wq
-   eJ0qmL9dw454oC1FEtmtKMj6BKOr8cd/NjHZ53+NtF5MuB/fWqQYEz3FF
-   Madn6e1N7X4QG26mnAdeffIwb7/PrTTcaxwmo+MR5nduHeQi6cmxEA06O
-   88fH+baQyizxuV6nV3UKIpsPuVd2GRVFgWC4WKhVaaTjhT9yvp6r3s2BO
-   w==;
-X-CSE-ConnectionGUID: LiWzP+8QRDmpdgy+QcSTiw==
-X-CSE-MsgGUID: GKRX7507QriNao+8h8aXlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2199581"
+  bh=Nz1FCqZbp+izcM/9haP+XpcNeX0CtfRYt+lvy8dIoMA=;
+  b=Sdhx9Ru+JMY0JVuXOLRuIsmNyxbpKmSLkXtiTsQoD+GauCqv/ty+I94L
+   OMPmwdAYIGqoKhYsF6muEAj6M3u97elkskozncmkm7sPBrwkBjrOQIwvu
+   k8QG/v93UHrNi6O20lY65umRa7K3hT04NtG+6grY3joH648IKBUDtDJAH
+   dKnKKWdPDaDLpcrDBai1vdhd6Y3DxDhXgdrLdvVdVjgGdA5QxKkNoRrCh
+   Q/bIB/CwF34CUHbTs+Iz5TOymZda883sDxYwnymXLIogorBiiR+x4ECrb
+   KV1uN5ZZSL99xTYwf1lqurWGpdnlRqoX4qpRlGVQ1QX6fL+BEMYMlwrUr
+   g==;
+X-CSE-ConnectionGUID: vPIS4Vr9TY6IlsMki7LhSg==
+X-CSE-MsgGUID: detdgSs6RO6laa/qawMwrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2322463"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2199581"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 04:38:52 -0800
-X-CSE-ConnectionGUID: JVlrL2a4SeOLKcsWWGHixg==
-X-CSE-MsgGUID: 1QraDbenSliKpr85QULy7Q==
+   d="scan'208";a="2322463"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 06:58:03 -0800
+X-CSE-ConnectionGUID: PwiX1EkuSpKJwWjTSI0Q7g==
+X-CSE-MsgGUID: YK8X2zVHQY+V1QkNS70XbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="7926137"
+   d="scan'208";a="6154444"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 02 Nov 2026 04:38:52 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2026 06:58:01 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNrJJ-000000008XP-1A3Y;
-	Mon, 02 Nov 2026 12:38:49 +0000
-Date: Mon, 02 Nov 2026 13:38:10 +0100
+	id 1xNtTz-000000008dT-3FXG;
+	Mon, 02 Nov 2026 14:57:59 +0000
+Date: Mon, 02 Nov 2026 15:57:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm/kernel/signal.c:59 preserve_iwmmxt_context() warn:
- maybe return -EFAULT instead of the bytes remaining?
-Message-ID: <202611021331.rgL6vy6h-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [rockchip:v7.5-armsoc/dts64 18/37]
+ arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: fan1 (pwm-fan):
+ 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202611021503.VoQaVuXM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,74 +81,39 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Igor Velkov <iav@iav.lv>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-commit: 4486f02005ea01b59174ecb1dc7115883eb7b994 ARM: mark IWMMXT as deprecated
-date:   4 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-r2201-20261102 (https://download.01.org/0day-ci/archive/20261102/202611021331.rgL6vy6h-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v7.5-armsoc/dts64
+head:   bc2e69f575631cb7b6528ad25990406a6339e8a9
+commit: f80a26e10a39dd51061513db96fb525244e5e890 [18/37] arm64: dts: rockchip: Label the fans on Kobol Helios64
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261102/202611021503.VoQaVuXM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611021503.VoQaVuXM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4486f02005ea ("ARM: mark IWMMXT as deprecated")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611021331.rgL6vy6h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611021503.VoQaVuXM-lkp@intel.com/
 
-smatch warnings:
-arch/arm/kernel/signal.c:59 preserve_iwmmxt_context() warn: maybe return -EFAULT instead of the bytes remaining?
-
-vim +59 arch/arm/kernel/signal.c
-
-^1da177e4c3f415 Linus Torvalds    2005-04-16  30  
-269583559cdd8ab Dave Martin       2017-06-30  31  static int preserve_iwmmxt_context(struct iwmmxt_sigframe __user *frame)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  32  {
-69b0475456ff7ef Hugh Dickins      2005-10-29  33  	char kbuf[sizeof(*frame) + 8];
-69b0475456ff7ef Hugh Dickins      2005-10-29  34  	struct iwmmxt_sigframe *kframe;
-ce184a0dee92a0a Dave Martin       2017-06-30  35  	int err = 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  36  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  37  	/* the iWMMXt context must be 64 bit aligned */
-69b0475456ff7ef Hugh Dickins      2005-10-29  38  	kframe = (struct iwmmxt_sigframe *)((unsigned long)(kbuf + 8) & ~7);
-ce184a0dee92a0a Dave Martin       2017-06-30  39  
-ce184a0dee92a0a Dave Martin       2017-06-30  40  	if (test_thread_flag(TIF_USING_IWMMXT)) {
-85fe068123aa11d Daniel Jacobowitz 2006-06-24  41  		kframe->magic = IWMMXT_MAGIC;
-85fe068123aa11d Daniel Jacobowitz 2006-06-24  42  		kframe->size = IWMMXT_STORAGE_SIZE;
-69b0475456ff7ef Hugh Dickins      2005-10-29  43  		iwmmxt_task_copy(current_thread_info(), &kframe->storage);
-ce184a0dee92a0a Dave Martin       2017-06-30  44  	} else {
-ce184a0dee92a0a Dave Martin       2017-06-30  45  		/*
-ce184a0dee92a0a Dave Martin       2017-06-30  46  		 * For bug-compatibility with older kernels, some space
-ce184a0dee92a0a Dave Martin       2017-06-30  47  		 * has to be reserved for iWMMXt even if it's not used.
-ce184a0dee92a0a Dave Martin       2017-06-30  48  		 * Set the magic and size appropriately so that properly
-ce184a0dee92a0a Dave Martin       2017-06-30  49  		 * written userspace can skip it reliably:
-ce184a0dee92a0a Dave Martin       2017-06-30  50  		 */
-73839798af7ebc6 Julien Thierry    2018-09-11  51  		*kframe = (struct iwmmxt_sigframe) {
-73839798af7ebc6 Julien Thierry    2018-09-11  52  			.magic = DUMMY_MAGIC,
-73839798af7ebc6 Julien Thierry    2018-09-11  53  			.size  = IWMMXT_STORAGE_SIZE,
-73839798af7ebc6 Julien Thierry    2018-09-11  54  		};
-^1da177e4c3f415 Linus Torvalds    2005-04-16  55  	}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  56  
-73839798af7ebc6 Julien Thierry    2018-09-11  57  	err = __copy_to_user(frame, kframe, sizeof(*kframe));
-73839798af7ebc6 Julien Thierry    2018-09-11  58  
-ce184a0dee92a0a Dave Martin       2017-06-30 @59  	return err;
-ce184a0dee92a0a Dave Martin       2017-06-30  60  }
-ce184a0dee92a0a Dave Martin       2017-06-30  61  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: ce184a0dee92a0a333236a26478e304dca29a3df ARM: 8687/1: signal: Fix unparseable iwmmxt_sigframe in uc_regspace[]
-
-:::::: TO: Dave Martin <Dave.Martin@arm.com>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: fan1 (pwm-fan): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
+>> arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: fan2 (pwm-fan): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
 
 --
 0-DAY CI Kernel Test Service
