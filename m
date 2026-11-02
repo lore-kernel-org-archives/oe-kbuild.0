@@ -1,76 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793583985;
-	b=CBKZarIp9UX5pe4BAqK8gPiKl+qDlunvpmL0ABWEPXTF4DfjyW6F96epy8lPA8h8xZWq
-	 D/4hQer0iWANLQNsEmmr4cYQdarjNbJgAQvEcnB2+IeNz93Ys7Si++B7bwFndPNzxeUgP
-	 cPLFWTP/rrf9SfMnIqOXt7p4xmlzmeFNqSYY7sGh+lOSRTavJgkugUyR464K0elAGlwyK
-	 KGeB03Zko7a/CihnxJHIDolDgxzRNWMXsHcpWF0PoGxRWUcuZZpT1Buop0ILnZgnHCuub
-	 6QbqbT2VFis4QxZ4T26N2OYxNRgOzL6CiPlog1383zk24uUH1Z6N8FzRI82phdoXGWA==
+	t=1793583987;
+	b=U0//Puf6kwY/S9iQhBoYBmB/1XuGGLE+y4jmX0zWaKkjAsyPz2X8wv2JOliiPAN1vI9/
+	 EXHxoQwtqu0+zRP6ytYpjdSJHT3lREcG4bJEk5xeoMNR1I0pC9Cq0aOguxuNbRJUvxmiS
+	 +VyI/PhTPNR1Wnt72Axz7pX8wDVC1k0RQeIgIQbKT63+GuUsdDfG4hLLScWDTDWPgbUKx
+	 /it1jok586ghW8fG8HqyNyvxgHZC5XgQqiLgxbVlGnjvQWn9TmL3UGpvR62CRcmPKwQA8
+	 /pXwtvvitI4HjD53ZuNerUPxgBG/atmlc9RHRCXaBvLs9BiTD0LoFqA/wh8sTL+oRDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793583985;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793583987;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=xT+Bgkeejo3iroN19Dzm+dOem1TR3fsrZL9L0MYTtGY=;
-	b=NlWL/oxXIQKJp0LLOnzYdYf70M0bjp2QjxcI7ouuuf4R/jj38lguxQq9x5mk488yaO0Z
-	 +GqyraeTK6AS/Kq4JLWqKuGrQk6tQ3XpEebI9Fmwdv6xTYyqoSU3X2t3A3RyGN838YoCP
-	 CEprlD+aTCf+rrf+0gwK9Q5J4B3dUObY2E5GwYSemsWBnLbW/hqNY6oPYZYgGKmm083Rc
-	 49lgeU7mBsA/5tTtD7gPhZIKvqwd9VwE9b63QpXMONqKRPmKO35PMvVUDN+hwL+s4uopb
-	 3ZmCBDoFZa+jiepB0QUuExv/gTuESRAEGGLPqa0pchYX6QDW0VQJo2Yzj8U5z7iNKdQ==
+	bh=+KJYCLYixkeepNNgGX5u+7YArOLjVcQhi+Os08YdX80=;
+	b=nWt0WeksD0HqgFOW4JZ2hexHqPz0KelFcoJvINzwFy1Lie74phAqgyO/pLodWbPI/kmw
+	 wlpQTZC4zcprIlMGfqZCv7LWCDCXqKY5hQbIFc+q6LS/q3J7pGiGaxoxDErp4TPX7LCAi
+	 ATWq/C2x4FAb3X+iOayRZYn+7Y3YYRcCB4s5qsTKP0lEPX9Tjnmu4uP5dqLjVqzg3jTAa
+	 VzNiP/4bMrjEhjD9eaYCJ4yghY+1CrRstmUfUCbiI5qHvm3jbcQBedZ2W/0dXoQfrFOjp
+	 34kReg7QKaSww1yTgBouYuI3wLh1H6y/gYfvZvPNZYe6ubNUvWHkYKYG0+LIOX1XDTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BDfy9rl9;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=es4Dng+6;
 	arc=none smtp.remote-ip=192.198.163.11
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1CD606A32F
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Nov 2026 01:46:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D1CD606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE75B606A334
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Nov 2026 01:46:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE75B606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BDfy9rl9
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=es4Dng+6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793583984; x=1825119984;
+  t=1793583986; x=1825119986;
   h=date:from:to:cc:subject:message-id;
-  bh=oqTgsMX60MSRWzwTO7YddSTm1wGXO10gXilYhX9ryTw=;
-  b=BDfy9rl97jyPjmAKl6lmcALGwasQn7Vy9D2T4RzmKaTUVwlP5x6vBbAa
-   QDQCQRE+o2BzJciCWU/nfO4GjxXefa29qYjQ4UvHifoVnPv86dZvvXabS
-   kTHrbbIHs+N/ImlAOahLuRsYodHSEMXpks7TSdVUcZpxS8finDBwOfOwH
-   POqa3f1x28e5u9JIBQQIlsPLVdUgVCOw/MJluos8h6Scb6JUxRvK8OGIw
-   J//S+e0OU5pZSMbW4lZAJzAHOE+/6N1V9FqrY69h41B0XMvAsGG/SyI+3
-   KACCyDb6zsGYRvMzxwcd0U1ejoQ2F0YTd1072NVa0NlZxG2WssY8huh9K
+  bh=5UUre/PzlZ+Sbz0ylbh7TG3sm2ium8H0NlIZinbi2IM=;
+  b=es4Dng+6X/E0kPSno3WxKwzlBHMTXCGZYfUy/o8aMK6mlDfgrGc+t6Zz
+   oRA9fMORuZFJytg6A+0edMjrAwIkhJf7GW/6Lwd3rG4nVMim5wgIrI8oj
+   SiHrPWmjiGFNoW/Pg/h7POl37FgRkmI47fmlCMCCMkuL2y/o9nXA5PFhr
+   sai3Vvyycg/bOv2bbGEK4qZmFmhIGVgzxRjw+SAo+bxKonV3pTbZ+UBpY
+   Nuri4ZZxPMewqTa9vbst0hg40+Kn0p6iZ0QvR9a6DA9cfV7KVi4NxYZPZ
+   0YJ15eYvyVFog1PHcVFt2dsH9ioY6nEMUBp9wYhEfJO/MgdY2ahQfSIth
    A==;
-X-CSE-ConnectionGUID: dpaJLQ35QLGQyADbA0bY9g==
-X-CSE-MsgGUID: k196qTBUTDmZV8bAqx44Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2179397"
+X-CSE-ConnectionGUID: KJ1EHKBnQCmdk8ogJ1rQuw==
+X-CSE-MsgGUID: q4V8RzuxTWymwKfTME+DoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2179398"
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="2179397"
+   d="scan'208";a="2179398"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 17:46:24 -0800
-X-CSE-ConnectionGUID: jjt1V3YXROm2+mcCprowsA==
-X-CSE-MsgGUID: w2fg2UZySOKH4uyWMsf53w==
+X-CSE-ConnectionGUID: 4Ql06MdjSuOyJVE2qFRz/g==
+X-CSE-MsgGUID: +r6DICEuQNmR8HyDK1U4Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="5918511"
+   d="scan'208";a="5918513"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
   by orviesa004.jf.intel.com with ESMTP; 01 Nov 2026 17:46:22 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNh7s-000000008Db-20uR;
+	id 1xNh7s-000000008Dd-2D2T;
 	Mon, 02 Nov 2026 01:46:20 +0000
-Date: Mon, 02 Nov 2026 02:45:27 +0100
+Date: Mon, 02 Nov 2026 02:45:26 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:sunxi-wip 23/36]
- arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000
- (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-Message-ID: <202611020216.FnSnUt94-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: net/xfrm/xfrm_input.c:839:2-10: WARNING: NULL check before
+ (net)dev_{put, hold} functions is not needed.
+Message-ID: <202611020238.dcei9ng8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,53 +80,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wens@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+CC: Steffen Klassert <steffen.klassert@secunet.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
-head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
-commit: 6755898ee7c90fe59112bfdfaa83760abb765b0c [23/36] arm64: dts: allwinner: a523: Add audio codec
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261102/202611020216.FnSnUt94-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611020216.FnSnUt94-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+commit: d2f5082f9e84653fa1a9e8aebaaff23e688f5e19 xfrm: add missing rcu_read_lock(), skb_dst_force() and dev_hold() for xfrm_trans_reinject()
+date:   3 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020238.dcei9ng8-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d2f5082f9e84 ("xfrm: add missing rcu_read_lock(), skb_dst_force() and dev_hold() for xfrm_trans_reinject()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611020216.FnSnUt94-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202611020238.dcei9ng8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+cocci warnings: (new ones prefixed by >>)
+>> net/xfrm/xfrm_input.c:839:2-10: WARNING: NULL check before (net)dev_{put, hold} functions is not needed.
+   net/xfrm/xfrm_input.c:810:3-10: WARNING: NULL check before (net)dev_{put, hold} functions is not needed.
+
+vim +839 net/xfrm/xfrm_input.c
+
+acf568ee859f098 Herbert Xu       2017-12-15  816  
+7b3801927e52f86 Sabrina Dubroca  2019-11-25  817  int xfrm_trans_queue_net(struct net *net, struct sk_buff *skb,
+acf568ee859f098 Herbert Xu       2017-12-15  818  			 int (*finish)(struct net *, struct sock *,
+acf568ee859f098 Herbert Xu       2017-12-15  819  				       struct sk_buff *))
+acf568ee859f098 Herbert Xu       2017-12-15  820  {
+acf568ee859f098 Herbert Xu       2017-12-15  821  	struct xfrm_trans_tasklet *trans;
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  822  	struct net *hold_net;
+acf568ee859f098 Herbert Xu       2017-12-15  823  
+acf568ee859f098 Herbert Xu       2017-12-15  824  	trans = this_cpu_ptr(&xfrm_trans_tasklet);
+acf568ee859f098 Herbert Xu       2017-12-15  825  
+edbc666cdcbf4a8 Eric Dumazet     2024-03-06  826  	if (skb_queue_len(&trans->queue) >= READ_ONCE(net_hotdata.max_backlog))
+acf568ee859f098 Herbert Xu       2017-12-15  827  		return -ENOBUFS;
+acf568ee859f098 Herbert Xu       2017-12-15  828  
+d2f5082f9e84653 Eric Dumazet     2026-08-07  829  	if (skb_dst(skb) && !skb_dst_force(skb))
+d2f5082f9e84653 Eric Dumazet     2026-08-07  830  		return -EHOSTUNREACH;
+d2f5082f9e84653 Eric Dumazet     2026-08-07  831  
+7b3801927e52f86 Sabrina Dubroca  2019-11-25  832  	BUILD_BUG_ON(sizeof(struct xfrm_trans_cb) > sizeof(skb->cb));
+7b3801927e52f86 Sabrina Dubroca  2019-11-25  833  
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  834  	hold_net = maybe_get_net(net);
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  835  	if (!hold_net)
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  836  		return -ENODEV;
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  837  
+d2f5082f9e84653 Eric Dumazet     2026-08-07  838  	if (skb->dev)
+d2f5082f9e84653 Eric Dumazet     2026-08-07 @839  		dev_hold(skb->dev);
+d2f5082f9e84653 Eric Dumazet     2026-08-07  840  
+acf568ee859f098 Herbert Xu       2017-12-15  841  	XFRM_TRANS_SKB_CB(skb)->finish = finish;
+c16f74dc1d75d0e Zhengchuan Liang 2026-05-22  842  	XFRM_TRANS_SKB_CB(skb)->net = hold_net;
+4f4920669d21e10 Liu Jian         2022-09-24  843  	spin_lock_bh(&trans->queue_lock);
+d16b46e4fd8bc60 Herbert Xu       2018-01-04  844  	__skb_queue_tail(&trans->queue, skb);
+4f4920669d21e10 Liu Jian         2022-09-24  845  	spin_unlock_bh(&trans->queue_lock);
+4f4920669d21e10 Liu Jian         2022-09-24  846  	schedule_work(&trans->work);
+acf568ee859f098 Herbert Xu       2017-12-15  847  	return 0;
+acf568ee859f098 Herbert Xu       2017-12-15  848  }
+7b3801927e52f86 Sabrina Dubroca  2019-11-25  849  EXPORT_SYMBOL(xfrm_trans_queue_net);
+7b3801927e52f86 Sabrina Dubroca  2019-11-25  850  
 
 --
 0-DAY CI Kernel Test Service
