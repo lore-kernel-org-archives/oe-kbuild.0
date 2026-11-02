@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793576971;
-	b=43FlhAxy/uxuNNkqfLlyn5eynb14ZJxrJ1V18plFZFE1x6H0ZjqZPYtoks6wxARN2kA8
-	 s9SX032piKcaVRU+Yu7oLk31tfKfAfmWqpiKl7rFJ4OdPIka/x/294Vj/r1zaly5nMcSF
-	 iakwOnZma2F02wnQ0eP74BmM9Xab6nh4x90yvN5U5kWeN6hgRLjdnNPtQUBCFrzD/lFH0
-	 8085kVbyWisjZkPT6upd2nYAgsPvE9H7uRgcsrOHxQzAcb7FDg45x9jQJlrEda1Df+NjB
-	 1/TXyzs/qZNSvyOhMI9QVX3RvlnBjFdgVTPN6NkWkA5sSxLTOEPoZFJvHClGBbrgX1w==
+	t=1793583985;
+	b=CBKZarIp9UX5pe4BAqK8gPiKl+qDlunvpmL0ABWEPXTF4DfjyW6F96epy8lPA8h8xZWq
+	 D/4hQer0iWANLQNsEmmr4cYQdarjNbJgAQvEcnB2+IeNz93Ys7Si++B7bwFndPNzxeUgP
+	 cPLFWTP/rrf9SfMnIqOXt7p4xmlzmeFNqSYY7sGh+lOSRTavJgkugUyR464K0elAGlwyK
+	 KGeB03Zko7a/CihnxJHIDolDgxzRNWMXsHcpWF0PoGxRWUcuZZpT1Buop0ILnZgnHCuub
+	 6QbqbT2VFis4QxZ4T26N2OYxNRgOzL6CiPlog1383zk24uUH1Z6N8FzRI82phdoXGWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793576971;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793583985;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=OjyyUwJ5jRUWleWemQTm3R8rZdXR9gytH+goAhoicWM=;
-	b=5VXK3LyaM1KkjqjWP29vF3T60YGpcMvOaFZrF2IPF87aqoUd57zXkw/edOMFKsjeNGOT
-	 Pjj9UbYJjxqX51Z6sCBu91qo5C6Eo2X1pz1mucZDkjsIPX7pBZYgyi202Vt+lHQOk9Ppw
-	 8QDe91/n7TC8QWd9ZkF7aA9TRqH4CneC70fq03TeMtYdkIQZ8uBmi/S7AZNGBreamZAoX
-	 HrrQ4pyok60rH7VSc/LsmCZkA0CxDYwAwqRCHnzTrftCc9pzEuKApCwneu92iGXhYVGSo
-	 Kz4STlCULLz2LWbeNfbf5AByoREV33pZrAX2+P3umxiAWVW5oe0xwVVqzR0UTMR74cQ==
+	bh=xT+Bgkeejo3iroN19Dzm+dOem1TR3fsrZL9L0MYTtGY=;
+	b=NlWL/oxXIQKJp0LLOnzYdYf70M0bjp2QjxcI7ouuuf4R/jj38lguxQq9x5mk488yaO0Z
+	 +GqyraeTK6AS/Kq4JLWqKuGrQk6tQ3XpEebI9Fmwdv6xTYyqoSU3X2t3A3RyGN838YoCP
+	 CEprlD+aTCf+rrf+0gwK9Q5J4B3dUObY2E5GwYSemsWBnLbW/hqNY6oPYZYgGKmm083Rc
+	 49lgeU7mBsA/5tTtD7gPhZIKvqwd9VwE9b63QpXMONqKRPmKO35PMvVUDN+hwL+s4uopb
+	 3ZmCBDoFZa+jiepB0QUuExv/gTuESRAEGGLPqa0pchYX6QDW0VQJo2Yzj8U5z7iNKdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=khrWLjHf;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BDfy9rl9;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C51D606A324
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Nov 2026 23:49:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C51D606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1CD606A32F
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Nov 2026 01:46:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D1CD606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=khrWLjHf
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BDfy9rl9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793576968; x=1825112968;
+  t=1793583984; x=1825119984;
   h=date:from:to:cc:subject:message-id;
-  bh=W6tGnAHVDJ0zlMpcbJQ8KkIyjorRGWNVE9iE5lh6v+s=;
-  b=khrWLjHf5rnUbuigQzWC0Wy8g0yvuDaEspmepVqVUfS0GC0xQu00lYSF
-   fAEHp2Uu2bpGnUvlR+pmi7dXAcg3TNG39F8KU6yex8lds6mOaQvqAIkq9
-   lx4iDceVNpOfl/KEjxvP/OwuwIPf641DUrf/cgyLg7RBJWsG4yGzmcKsZ
-   94PSkGLcYiQw74qOkAH7X137yCSnXTkyXvnd1f55YDhrqY1Qp9GEthU/d
-   YSOi61Gju0jATy1716/sBJswKH0QZcZQEEFGs8C+daiIvuy6Fr0QW91uP
-   r2BzwMLYOpRV6K3fOXB7y+K18juJ6RRtbRGv9iUHA5O/MQ7EggNSTOHEL
-   g==;
-X-CSE-ConnectionGUID: HibSA1B+SkWcKbuboudsGw==
-X-CSE-MsgGUID: Co9tfsl/RHmCVDbcwT5aTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2143605"
+  bh=oqTgsMX60MSRWzwTO7YddSTm1wGXO10gXilYhX9ryTw=;
+  b=BDfy9rl97jyPjmAKl6lmcALGwasQn7Vy9D2T4RzmKaTUVwlP5x6vBbAa
+   QDQCQRE+o2BzJciCWU/nfO4GjxXefa29qYjQ4UvHifoVnPv86dZvvXabS
+   kTHrbbIHs+N/ImlAOahLuRsYodHSEMXpks7TSdVUcZpxS8finDBwOfOwH
+   POqa3f1x28e5u9JIBQQIlsPLVdUgVCOw/MJluos8h6Scb6JUxRvK8OGIw
+   J//S+e0OU5pZSMbW4lZAJzAHOE+/6N1V9FqrY69h41B0XMvAsGG/SyI+3
+   KACCyDb6zsGYRvMzxwcd0U1ejoQ2F0YTd1072NVa0NlZxG2WssY8huh9K
+   A==;
+X-CSE-ConnectionGUID: dpaJLQ35QLGQyADbA0bY9g==
+X-CSE-MsgGUID: k196qTBUTDmZV8bAqx44Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2179397"
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="2143605"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 15:49:28 -0800
-X-CSE-ConnectionGUID: uapHeGC5R+mINNWDTR4ZmA==
-X-CSE-MsgGUID: 5mQJWKpbTGuXuY/LHr53gw==
+   d="scan'208";a="2179397"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 17:46:24 -0800
+X-CSE-ConnectionGUID: jjt1V3YXROm2+mcCprowsA==
+X-CSE-MsgGUID: w2fg2UZySOKH4uyWMsf53w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="5974628"
+   d="scan'208";a="5918511"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Nov 2026 15:49:27 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Nov 2026 17:46:22 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNfIi-0000000088V-1yeK;
-	Sun, 01 Nov 2026 23:49:24 +0000
-Date: Mon, 02 Nov 2026 00:48:49 +0100
+	id 1xNh7s-000000008Db-20uR;
+	Mon, 02 Nov 2026 01:46:20 +0000
+Date: Mon, 02 Nov 2026 02:45:27 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops:
- .write() has stream semantic; safe to change nonseekable_open -> stream_open.
-Message-ID: <202611020009.xkUfJUpm-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [wens:sunxi-wip 23/36]
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000
+ (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+Message-ID: <202611020216.FnSnUt94-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,77 +81,53 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Suren Baghdasaryan <surenb@google.com>
+TO: "Chen-Yu Tsai" <wens@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-commit: b0085cb94d2477787f4197a3000e33aabf3d48fc stm: replace deprecated mmap hook with mmap_prepare
-date:   7 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 months ago
-config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020009.xkUfJUpm-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: 6755898ee7c90fe59112bfdfaa83760abb765b0c [23/36] arm64: dts: allwinner: a523: Add audio codec
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261102/202611020216.FnSnUt94-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611020216.FnSnUt94-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: b0085cb94d24 ("stm: replace deprecated mmap hook with mmap_prepare")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611020009.xkUfJUpm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611020216.FnSnUt94-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
-
-vim +509 drivers/hwtracing/stm/core.c
-
-c7fd62bc69d022 Alexander Shishkin 2018-10-05  484  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  485  static int stm_char_open(struct inode *inode, struct file *file)
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  486  {
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  487  	struct stm_file *stmf;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  488  	struct device *dev;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  489  	unsigned int major = imajor(inode);
-a0ebf519b8a266 Johan Hovold       2016-11-18  490  	int err = -ENOMEM;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  491  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  492  	dev = class_find_device(&stm_class, NULL, &major, major_match);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  493  	if (!dev)
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  494  		return -ENODEV;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  495  
-bf4afc53b77aea Linus Torvalds     2026-02-21  496  	stmf = kzalloc_obj(*stmf);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  497  	if (!stmf)
-a0ebf519b8a266 Johan Hovold       2016-11-18  498  		goto err_put_device;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  499  
-a0ebf519b8a266 Johan Hovold       2016-11-18  500  	err = -ENODEV;
-cde4ad8368840e Alexander Shishkin 2016-02-15  501  	stm_output_init(&stmf->output);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  502  	stmf->stm = to_stm_device(dev);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  503  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  504  	if (!try_module_get(stmf->stm->owner))
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  505  		goto err_free;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  506  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  507  	file->private_data = stmf;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  508  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22 @509  	return nonseekable_open(inode, file);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  510  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  511  err_free:
-a0ebf519b8a266 Johan Hovold       2016-11-18  512  	kfree(stmf);
-a0ebf519b8a266 Johan Hovold       2016-11-18  513  err_put_device:
-f7c81c7176c72c Alexander Shishkin 2016-02-15  514  	/* matches class_find_device() above */
-f7c81c7176c72c Alexander Shishkin 2016-02-15  515  	put_device(dev);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  516  
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  517  	return err;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  518  }
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  519  
-
-:::::: The code at line 509 was first introduced by commit
-:::::: 7bd1d4093c2fa37d1ecab05da3c9d48ea2af2264 stm class: Introduce an abstraction for System Trace Module devices
-
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 
 --
 0-DAY CI Kernel Test Service
