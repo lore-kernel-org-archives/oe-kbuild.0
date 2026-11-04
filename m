@@ -1,78 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793791842;
-	b=kohyn1Ll0k5QeFLD3hurQyi+VZz1MFXSSKxMT20lJLaoWWBT/9QZpcKmaX8eB/jzTnM5
-	 SePqP18JRDIhbIM+SVK40TyAQ1UY7PdWzkmc04EAhocfbOLNvCcnlj+ET3fW6HLbrPnfm
-	 esaDbPPTp+NGCQA9Qajx7nVLrWyCm7Q1UEOQG8apfY82g/uvmE9ALv1ggd4vpsiaEZQSg
-	 f9sIlDT2ut1X4ANxa3LHpltN+BlNMWkvDBOkbxN/jwj3Jy4HPcVTfn+CjWG04NY6K+/D6
-	 RhguOP15nARG8Q/Z5gHhDiJlP9iBFGGm2z4AWseTMPrIaGkUQln8Vd5nttj5r49QQvQ==
+	t=1793811367;
+	b=qx45J3aZSmGryAE1jJaU/91uwWtoq5IYITEaCnaC+QWZzAxUg0qFrzQzxJqx7v+x5vwl
+	 1zjRKIy3hpQKSLQDjbDNKpiNXDlqfZWMbFIKWym+BkGwrsU4vxw68PlJYSuMYmj+6l3BX
+	 jh6xwQevjLJexOsGa3vRpjtx2vGnmBQK/kmun56isORYJB87KHIGPVhVUg18feVzLqjkw
+	 pf3JTwIhWJiygCiL7Od8JggaSENROiK+ziggQm8Ze4zYoMBekTexv+Z/dvVbqHHTSJPge
+	 hoIzAtC9KiF3PJpWZyuz6aeJTTEMMAJQMHI18LQ6z3o9g15ygRksyBpxfDHwQW35fWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793791842;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811367;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=YPH+tU8OwURsSlQaQgflhF++tkyICAgCh7CX+AuSP/U=;
-	b=SLYKX4Fk/3N2USD2CxuVVmdquWNYQCH4eCeyjCIGvPX28Od6PDHF+/QvhE2NDVyWrc5d
-	 46Q9twt67UMDApTohlf1HQWtKjASVMveOHJ2opNHcIyt+8EeMHJiRWzovxzSNXUbwwleD
-	 jdOXcutG3e1sOLz2vufWj9qt4LkauriI63BJ4kBkkHJ0djF7ouXT0MKQv5QYH+LoMx4Ha
-	 3x8pTCyNw4JVCbzINapP6X+d09Xhv1mueuXtxjbrPurMJi5hPYbERdwu4PBG+FeF2KvqJ
-	 t6U0n4U+uHxai+q/cGA0LvEsuXLgSm9cVlcVPhnGD8jOdB9EAxJATUHGRfalbGnN1VA==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=3vohvEzGwtLidgZHsBYiwYjGeNYKL+lMJpyxk7keZbw=;
+	b=uFyIiGIlXRcVo+LfSO8lk49QG4cr5gIlabkrV2kDD/IWX7oeH3ffjvovtW4TW5Bj955m
+	 q3xIbkXgU0KEbnkfQ9F3J7eGDb5XDxn+0wQND2HjYaMlEBm3YOxqPgl9wNYrR4qGXJmzG
+	 kJTi0d+CrGQw9cYzRGKJ1Y9ob2o9lTs+p9KQ2K6P2cA7+NCzhQvw5wRkAtSgE19K+8Q2H
+	 zi2OnHjyb2u5xHrbIjM9HJ4BlM46xMkg9Ma6+x7cdApE9j0GVv2DLnMi46Gnr6jUjaJx1
+	 7ozYi/Y3Kh0U8Z52PMtoXfEzO1QL0WR85ZIyWCRoaL68tASOigTWKX/0yOAK9qJaWdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XMC4Zfyz;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fTT4eXIw;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B082606A326
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Nov 2026 11:30:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B082606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD96606A31B
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Nov 2026 16:56:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CD96606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XMC4Zfyz
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fTT4eXIw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793791840; x=1825327840;
-  h=date:from:to:cc:subject:message-id;
-  bh=ddkhjYcD2UQdeOB92Cxz0bQDJxD1/jwzkyhXkdRjGXE=;
-  b=XMC4ZfyzAEYpA911RzBJxLjnVSuuksWBmExntdfTeYw/E0g+ho7B2aYU
-   ZFQBQF8oV3HiEX8d53o1hXSNaqrRezY5pj5ERf7aY3q00SRbfIjvIsTOc
-   LJ89GxE50ZoRAcitzzP+p4ONu+/w8dNzqvRDwj2i8rNIWo1Fh/vqFH+o6
-   NjnYyO5tyejAB2iOl8cWgtpUHv+eufRcOGaAZlDPjYTnl4xOFKZ9pDHHz
-   k4dpAE9n8UtVDKcW6yq7UGwS9fA03jiNpLl102yipnjKVlMaAqUBdvVas
-   Deey0LKn5/6txl6H2ibr2fkZ6AxLAicI+KfJHwZb/+tdNCodIYhGN+m/x
-   g==;
-X-CSE-ConnectionGUID: OLrMzTDrQReffkczdYoVTw==
-X-CSE-MsgGUID: nbHAn/PQR/2EaVIBTvwmlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2570137"
+  t=1793811367; x=1825347367;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2Rrm7PBRbogeUdNE0/gGhIJZnNnZ1Ch0JKzeZaQZhok=;
+  b=fTT4eXIwQChxc5gk0esQSmjAhNbbsGD+oDIgO+oL0Nss2EPDOzZNIHV2
+   x7dOi255vquqXEpZ0geSSMhKM8Ny8L9TALtWLE2yKwG8Mq2xp2EL6vnYS
+   XYaPR6B8y6C6/BQA3ABtXwdbhZBnam9erb20908mvvvkdrOEUhfpN1ImK
+   /aooyDFPTjSiBmfht3e9LLf5VAei5wPKIvLn/oA+1VuQ8QiPSXgw6dpeX
+   xf+XkZqHDNtBjPOh6EnW9ZNJutnOEZDMEjXHi6uR9szARGboi0IpFWzV4
+   G5BfnqgFOl/4BTZeIadApLm1w9nkrKvwpX0JOccQ682PleoDDfaMvCiYp
+   Q==;
+X-CSE-ConnectionGUID: qjELrhqxTheQdmHYrM4Wug==
+X-CSE-MsgGUID: KL90+4JnSK6t07OoU59Awg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2589116"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2570137"
+   d="scan'208";a="2589116"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 03:30:39 -0800
-X-CSE-ConnectionGUID: kZ6ODtYFTNaW8EqPiHApcg==
-X-CSE-MsgGUID: icBwOSFgQV6uCLcPkrzLfA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 08:56:04 -0800
+X-CSE-ConnectionGUID: EDuwml9fRgiJ8JSXyfcQRg==
+X-CSE-MsgGUID: s2QsPB9KTeCHGl9VMGLx/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6516857"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2026 03:30:39 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6594872"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2026 08:56:03 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOZCO-0000000099D-0MXM;
-	Wed, 04 Nov 2026 11:30:36 +0000
-Date: Wed, 04 Nov 2026 12:29:59 +0100
+	id 1xOeHJ-00000000kiN-1zG0;
+	Wed, 04 Nov 2026 16:56:01 +0000
+Date: Thu, 5 Nov 2026 00:55:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [wens:sunxi-wip 24/36]
- arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000
- (allwinner,sun55i-a523-codec): Unevaluated properties are not allowed
- ('audio-routing', 'widgets' were unexpected)
-Message-ID: <202611041238.5krzI9nF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3 12/16] accel/thames: Install memory mappings populated
+ and dirty
+Message-ID: <202611050038.6yfWgymQ-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -81,38 +80,76 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wens@kernel.org>
+In-Reply-To: <20261023-thames-v3-12-3ab40aa17157@tomeuvizoso.net>
+References: <20261023-thames-v3-12-3ab40aa17157@tomeuvizoso.net>
+TO: Tomeu Vizoso <tomeu.vizoso@gmail.com>
+TO: Nishanth Menon <nm@ti.com>
+TO: "Andrew F. Davis" <afd@ti.com>
+TO: Randolph Sapp <rs@ti.com>
+TO: Jonathan Humphreys <j-humphreys@ti.com>
+TO: Andrei Aldea <a-aldea@ti.com>
+TO: Chirag Shilwant <c-shilwant@ti.com>
+TO: Vignesh Raghavendra <vigneshr@ti.com>
+TO: Beleswar Padhi <b-padhi@ti.com>
+TO: Tero Kristo <kristo@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Oded Gabbay <ogabbay@kernel.org>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: "Christian König" <christian.koenig@amd.com>
+TO: Robert Nelson <robertcnelson@gmail.com>
+TO: David Airlie <airlied@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: Jani Nikula <jani.nikula@linux.intel.com>
+TO: Tvrtko Ursulin <tursulin@ursulin.net>
+TO: Markus Elfring <Markus.Elfring@web.de>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Mathieu Poirier <mathieu.poirier@linaro.org>
+TO: Suman Anna <s-anna@ti.com>
+TO: Kees Cook <kees@kernel.org>
+TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
-head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
-commit: c790c92683a4515ea55fcbdab4ba6e59551b6f21 [24/36] arm64: dts: allwinner: t527: orangepi-4a: Enable audio codec
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261104/202611041238.5krzI9nF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041238.5krzI9nF-lkp@intel.com/reproduce)
+Hi Tomeu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1ecab8b0bad393750c60cc3819ce9c256595463c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/dt-bindings-remoteproc-k3-dsp-Add-the-L2-auxiliary-and-DRU-regions/20261023-083926
+base:   1ecab8b0bad393750c60cc3819ce9c256595463c
+patch link:    https://lore.kernel.org/r/20261023-thames-v3-12-3ab40aa17157%40tomeuvizoso.net
+patch subject: [PATCH v3 12/16] accel/thames: Install memory mappings populated and dirty
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611050038.6yfWgymQ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050038.6yfWgymQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611041238.5krzI9nF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611050038.6yfWgymQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): Unevaluated properties are not allowed ('audio-routing', 'widgets' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: drivers/accel/thames/thames.ko: symbol 'mio_wb_bit_mask' undefined!
 
 --
 0-DAY CI Kernel Test Service
