@@ -1,130 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=192.198.163.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793902335;
-	b=TvxHUf5Er6vte6RXNhVNYQyUqs2Vi4vaGNo7nDHbdDajuwpX7TYeO0leOBu1M/7V0ICs
-	 HZwxneMoEjDqcVMJUC153uCMvdzopPAKXh1p6g/QcuQPfIvd0TwTl4T5bO+x8QIEqlVYd
-	 SSE1boxYtSHl1vrjhuxtF3RH/F0QW1/ioRJULVbFrUv8t6Bs1Cp7VGRHUwbRvhQuh1TqD
-	 gdvai+flTzdZmOfJaY8m/afTvvZRA6wi7dgcWhtxXbzDI4OsoIZWpvxLELAhLzvgA94kd
-	 J6tgIkH5KYAi4pP13FrauYD8akANAHzvygt9RxxQDr/FqUOEFYoF9OeR9H2cCxQOqWQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793902335;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793907207;
+	b=NlALk2AGb0DaYBAVUPF0HXHS1p0t8HVgVFMZk4b1xIXt5kyLEyU/C8cEBbg8ljbu+Fgs
+	 4nX1o/RufBX6ZN0dmEYFwZsxOWPdN3fLWGjfvHE7D4lF3anZlscn21+U50NsRC9KtAgTz
+	 WIrKNPj3RhPc2p/oWJE5fT2jdHz6p2XiNwj9lOtFDQdTULuJTvYSdQGBjdRqnQHq8yRoO
+	 DXGAIu1mZzuNx75C/A39mvCpIKUpJ018quUJNYvQSrdJNOum4UWRaDKvM1B/yhWEAHHCk
+	 LqE2/QKe9c1A/KlE5NbYbj6VgIyO95X5ZVBVCba0+dRGBsl0FpMTxYhbAVH993nmhHA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907207;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=lf5EvLIyFi2g1THk1/BE6CN9UZk9V4TueNumQxr5aqo=;
-	b=B2+zP9lVM3JZW9kmDuM4u/iEu+zda/8l2eoc1E1Dm2x6dPUXzZABztnStq17YqaEFy+n
-	 GPeoWKw9cRkh8chyqTWw/MdQha/8lBcPs9wS2eXXXR5LHBjeb79PP4eZpBQMyjT2zRiMG
-	 1LO5Y9B2s5a3j2PsNpydGvIkjktdgZwO+YjHRVlt16D9f121VKvLUfM1TqLWrpQFcCCwI
-	 d0v4AyMLgNFT3RTGc+gxxpYDP8RJjdlxc5cXNnUYJBZAIahWbIKpQdtXjy8kxVyPBnJqX
-	 jePNslNKrNKJtOvdyDxXPnOp2w1CR2AmkFkxtbr/ddL1UdBqVhk3vB7acZprBAb40Sg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=+BP4WZBelXb6dXdQ/8a0IyiRcc6mnKgDxV57Ohh+1N0=;
+	b=PSE0V3gVtfdpeXbW31gy22wLVdLZLeP1ONUOYklX2jlsxIBGZyORDX4TZ6aelVSM22vY
+	 y2BAKZGSNUb7o2vMSGaxoNjXvo/0O2dQPplQn07sphMAMWtFaCdYkv6jVbRjseMcUYAQa
+	 Wxe++k9E5GIDJ/PcsBWjilT9Gm5mYjLWqbmHxSxOGHAOMxo/8y4Jqnm3L5Hwuwd7msmqC
+	 CCLLK4rbdWzBtvldtlUOqfVSw9vOBQnFmSkHQtZMQ9rkiFOrMGNq8sLiHTYQkvQ8MS252
+	 gKQynhavJyuR13BQZyQVeExeHidLA/XNSsB2OBTkOA4qgbnLt0UoDavXuw/eybWfc0w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bbc1heRY;
-	arc=fail smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l7djixs5;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE61606A31B
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Nov 2026 18:12:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADE61606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659FC606A6CC
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Nov 2026 19:33:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 659FC606A6CC
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bbc1heRY
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l7djixs5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793902335; x=1825438335;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=2UPAfkstYwuE+rDjhu51vIzXYmvyvTVYlYBqcKV9yMM=;
-  b=bbc1heRYvJvGyr6dDj70gK8tK+o6/JluL2TqjqvDSc9v4wtrCyChxFC/
-   /46xKqWpD1C+vkPOUPHX7PhOsOedSdgf98vifbHBzHG9qhngaz5TuQDKK
-   NT/sVVT+N6ccutK5a5WM4/Q+V03si/8IJo196HyUrnH7vgrwKwwWekN7v
-   Tdht4BHxXlbX8/357SS3b4EkE5GlwQgoF9SejMGG+bKzz1Kk6C5Rszc4I
-   p+z1zaxwT+uwgWSBerWWbmgByQqq4I/y7+no92Tfy2CkoTlbHZDyAJdOm
-   kQ3pmzhASNTeF9tw/C++SdsgqZYbDfp6RGYkrggdaT10Czb+5qdZirsuI
+  t=1793907207; x=1825443207;
+  h=date:from:to:cc:subject:message-id;
+  bh=bsK1ZppQ8CV1dJilLoOznSfS7ebQVsVKERYj3QOQ2tM=;
+  b=l7djixs5c7hlSfeofLCB2AKrAZHeiPk2qf+UO8yqKhfr0oHg7bkihVbT
+   i6BveqJs6iv5xsMNEE7Cy/ETPFBaJY77E3SwinZbKV/Vh14tglLEijIQ3
+   5Ed18NoxYD9QF6U/K/EVQtnsBLweZSz6MYt92eNoSsMXJ9+Ws9TYi01jN
+   vQkcV4sn2Qhn8oUPTKtnpUo1uBB/uwhmkbXWTi6bn3HuYWOT0Di/S08pX
+   5+pAjPQbS8CLKY+uFPmT4zyqR8oAYpIEw2/aHhxyKXl5cqhWEewZ/Hac4
+   GAuiEdAogl6E3xAG2zbxSU1HV03wrfgQSnzVkPECWEPIgF66/kqHeuxsr
    Q==;
-X-CSE-ConnectionGUID: KJ8KaMFbT12DQyIm3GnytA==
-X-CSE-MsgGUID: t4qOxC1wRhiLfpMgdnde9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2742021"
+X-CSE-ConnectionGUID: eDra5o1LQfOU7XQR3QAWiQ==
+X-CSE-MsgGUID: acWf4/aBT3Kz5peuOBCI9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2813037"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2742021"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:12:14 -0800
-X-CSE-ConnectionGUID: pal/sU2UTyyxGGy4DAxfNg==
-X-CSE-MsgGUID: uhcSQaNYSfG9/3mG9l+RDA==
+   d="scan'208";a="2813037"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 11:33:26 -0800
+X-CSE-ConnectionGUID: Avc5VJrQTNOG2KT30LJzxA==
+X-CSE-MsgGUID: rWBfZ4dERy2JPksl1jaNtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7402366"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:12:14 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 5 Nov 2026 10:12:13 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Thu, 5 Nov 2026 10:12:13 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.52) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 5 Nov 2026 10:12:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bamWqygEuD8nF7d5JcwRPJa7dCLi70NYhuCWDF9IQ39tRaOjzUR0ucmDrn+tYIxpGBsd+85Tpgjcr+9LfSY0Yp5fEls9yzc1GGQVDj6up6hZyL2KQCEMXdt5LmOBBzETKKIc2vPjnCFVzkZGbwt2x8EhSMMEEfAxL4db5U61BcpcTBFVRwHc4JNGurFtuW/7kzMryMT25g+S6Gl+eDzqmqAwvB6xaYImYNClS+VomRdQiYElASPZQWKal9F+y/0bx7/gxhY/IkYAfhKQzNs/jJ9bFMoSnFvDU2QjTUXhGHhm/GZu8JIignc3D1wzy7bnYM5fFNz2QdJJf6ApqTnUvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lf5EvLIyFi2g1THk1/BE6CN9UZk9V4TueNumQxr5aqo=;
- b=m3n+qabqNLRbbQJe2zSbn/bDMeCs9ixexpJy0V2kSDo7hLboZzPjDizRFhp2Dp3tdlpoA0kBh5Dn+DT4j8Obzd+0vlz+Zk50LAXvRGLgMPBwfVxJg4OSwBxxkIVhXEZUtfUoRojDfoza3jPz9OMqnRkw2XbUkj1mZOQLD7nJPylQn+XEHvMxqZgQ3YHvRzTYGdGy/ESL0Otkclva1xEp3K9HpJ8zf62CovYjMyUvR0NVRl/gVtI846G36wWaVTmbNHoU5LGne+uAkmmyY0nn0x3u2Ah7fquSzIpc4qlauV7fFrPFTTmTRdLbPPJo05+oNr53ExfxqZikECrYBg9buw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
- by CH9PR11MB9927.namprd11.prod.outlook.com (2603:10b6:610:344::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 18:12:11 +0000
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c%4]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
- 18:12:11 +0000
-Message-ID: <4faa2237-2b08-4c4a-a700-900c244ebd70@intel.com>
-Date: Thu, 5 Nov 2026 19:12:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [alobakin:libeth 2/10]
- drivers/net/ethernet/intel/ice/ice_xsk.c:905 ice_xmit_zc() error: we
- previously assumed 'xctx.ts_ring' could be null (see line 898)
-To: <oe-kbuild@lists.linux.dev>
-CC: Dan Carpenter <error27@gmail.com>, kernel test robot <lkp@intel.com>
-References: <202610281121.DETM1zSp-lkp@intel.com>
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-Content-Language: en-US
-In-Reply-To: <202610281121.DETM1zSp-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DUZPR01CA0210.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b6::24) To DS0PR11MB8718.namprd11.prod.outlook.com
- (2603:10b6:8:1b9::20)
+   d="scan'208";a="6967800"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 05 Nov 2026 11:33:25 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xP3D8-000000009lf-0w5o;
+	Thu, 05 Nov 2026 19:33:22 +0000
+Date: Thu, 05 Nov 2026 20:32:36 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cel:nfsd-testing 104/186] fs/nfsd/nfs4proc.c:2397
+ nfsd4_copy() error: we previously assumed 'copy->nf_src' could be null (see
+ line 2331)
+Message-ID: <202611052024.0UXioK81-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -133,176 +80,177 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|CH9PR11MB9927:EE_
-X-MS-Office365-Filtering-Correlation-Id: 031324e7-6118-4cbe-d1bf-08df3b684fe7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|261026140227099003|56012099006|11063799006|261026121527099003|261028144727099003|261022105027099003|261009223027099003|261022075727099003|10067099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 7d4HU9utQVBF8OfFlnasimOgMvo1EOKV1YqoR5IRprdiHfUOVkNbD4JKpFS2t0GrxQcWxPqsY+oHPhyF0auIxASJmUapMaQBYCHVPuQ0LJ4z9qOjoWggLz73Ok18gfwY0oKf/tH89IoZ64YKxVBfpla2Z34SKtboi4ga8KWtzVIv/I04NoWF0Z45SjPWRUf8h1ugFickiuKbS8orYJJsAFVCLEKBaTOc95UvZ/G3tJ2hC9+BZqnxxmQ3IlduMROmlxIwAR527Lzw3Z2UbGGyLXTOHJn+odZG+21QFK6rg1VWuqNMypI8hiltz9cLHU+RVLkQji1IpwnT8ZoHYUYS82TX/5oUDWG867dTcWFbicYY7RDtMXRBQLSqY/cbaZ73W4n52WntYhex78vwFhlP7iTxgrPaQbkYg9C37yhvTlpoAk8Xlfa9knFGByRVDcblvZ3s5eDV1zwJSuSjVEgmLbEfDv6GH7/bYuD6pxOFp0ebLC5IqYsJ9K8IgazmZAk/WGaWEBJ45GFFw8aeWL4bcE+jGkfvB//9RcKvW9oglMEh7oWblononYTecKHZ6FBGOlUg/FG2uJRoxGDIIJvh4kiti9oWjXW2hj6IlWk7qEp9OLZQppmm8hUIQjKAhiIF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(261026140227099003)(56012099006)(11063799006)(261026121527099003)(261028144727099003)(261022105027099003)(261009223027099003)(261022075727099003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGU5di9JR0ZMTGZQVGp5NTdmK0NKK3ZjMjJTR3hnOWVidGM4RmJVNGR0SXpp?=
- =?utf-8?B?NHE4VzRRYkJZUEx5TkxFZ1NnN0tZdmY2bzV6aTlYNnJsdm85b1lTYTR5YWNN?=
- =?utf-8?B?ZzJvQUNhejIyeHN4LzRKSXBPKzhPUWg3ZGpicG55eHVZVWRlWFBSTlZ0NVhB?=
- =?utf-8?B?a3BLTzhYQ3g1YTFnR0poS1JmTjJHR2I4OERIVHcxYWVGOU9ScERvcTFOK3Nm?=
- =?utf-8?B?TndyUWxPS3AvWW9oTzJkRGdHNXJSR3VSWmNmaGkxYUk1eWU1c0pUVUZ4bWZs?=
- =?utf-8?B?ekh1L0JZVktwbVNPd1ZFdjZvdUovd0ZOQ1lqMDM1d2dJTERJYktVemNTZDZW?=
- =?utf-8?B?U1drTEovRGxpNHU3OWIyc1psUThzU1RxZGhoRG1OSDNtNER6Y1hONlhKZHVo?=
- =?utf-8?B?Umw4UC9PRm40cmdpZjFFVW5iQjFwcVBLOW45aFhrZ1pkZytrN1ZBZkJ2Z1Qy?=
- =?utf-8?B?UlVTNEhXcW1DekZBelFPeGllQTRSNkZnd3lhU1d4ZUE0dituaWFKcDREcnc0?=
- =?utf-8?B?dHJXQ1g3bktWTmpKdmRHQlhnREFvMXNNMjZFU0pLZEJjVytIdmgveUNwT3RO?=
- =?utf-8?B?Ujk4THZrTEdZbHgxTnJYSEJ5cUhKUmx5ZXNyaE9WYzM2cFBMNmhPdHAxVnRu?=
- =?utf-8?B?aEJHODhvNVlLQWx2L0NuaUcvTy9PZWdKdjUzS2piemlJZXltZmgwMmdYTFNi?=
- =?utf-8?B?SEdZNmk1cmxrTVAweGJwNGZNUS9TUW1FUjNHZ055S2xGY0F2NFpnNlZjL3JX?=
- =?utf-8?B?YjVpaHBkQTRGMzQvQ3FMNFExNlZIYWNwR2tGVmZVRXlMRWdyQnZQeTBDY3Fx?=
- =?utf-8?B?a0tUajRmSDJnancxcHBLWG14NmpiUWN1VzNwNHZrRit1OEltbUtBbm5ONDZl?=
- =?utf-8?B?bHI0ZkVLVzcvMk5qOXQwbzNaSmpaaDRzLzc3RmF6Y2RpQS8wUXdqQ3lkZjBG?=
- =?utf-8?B?OHVNdDJNZjVXWDMyQUpsZU5YOFh3TS9mOXJ2OFpndTVqOTh4SU9SeUtmdG9k?=
- =?utf-8?B?TnV1dmNqcEEvbC82RFNRSnhVajcwWWkvOUdXNk1GeHdkSnltcisxblVsMlBF?=
- =?utf-8?B?b3dVZ1Y0SVN5c3V6eVNyRnNkTTMvRitqdER6ZUkwUEVUSGIxbzc3Rk5VNW44?=
- =?utf-8?B?ZlB4K3ZEWHBJOVJCUVVna01JSC8zV29oaytOZkNFSStUWmFyWmlGdUs3TWJK?=
- =?utf-8?B?RW96YnJiQXB5S3V3Nml2L1RxNVhLblByWnIrSDFGb1Z5Vm5QdW1vUk9VY2lZ?=
- =?utf-8?B?eWl6REwwZS8vWGttcTk4aHdYYWZQSDNkR1M0cDFWMURBUjlBWkJ0VFo4cEhx?=
- =?utf-8?B?dkszbnhVOWNZVWJIMUYyQk9hSUpJTnYxVUxsR3JsMFV1QWY4Qytwcm9udnYw?=
- =?utf-8?B?QnZwY2wzWVlTZk1xY3RCeEpMM2FSalhJOGNGdjdabjJpM0lhcmdkemxDSCtI?=
- =?utf-8?B?WWlmRkwvWnNQMHd0OXZITC9sMnJoQmpZWXM4ZU1zM1poVVNaRjZRWEZwM21l?=
- =?utf-8?B?VTF5SVVBU3RIR1QzZlFmZEExUVdoWWpjYXJhcWZBbTY5RU5JSzB3Ukdibm1P?=
- =?utf-8?B?d1dQWmN2UjZhUzFmeFE2SVEzL01nZ1ZBYUpRbEUyRE9WOExwNTZVZU9hcUw5?=
- =?utf-8?B?YWJIYm05OW9YTEpVQ1VhMnZHSldKVnFhQTdCVEFqWkJORlR5TitMUXJKV1Ir?=
- =?utf-8?B?eUNFY2RQVFlkNUw4THozVFRtb3RRM3ZHV0s2ZzNlSExUZWFaalhmRlErd2lG?=
- =?utf-8?B?SWY2cHRBTldQR1B6ckFCdW1rNFhKa0FycndmdHoxZTJtYzZzdTc2UzFjQmth?=
- =?utf-8?B?dlpDbXRnQzE4THVub2pKUVdWRW02Z1ZXY0ZtVTFGdm5URnlnTmR5Yno1dTk1?=
- =?utf-8?B?UWUyOG02RzVERVcvU1lkUUpMWVc2ZG5JSWNiYkxOMjNWYXhTN3dldUlmKzli?=
- =?utf-8?B?bFVGaDQ2eHdrSTI5ejVhUEVBWUZ5NGdxbnpYS1FzQnhmM0llSkxQVW9aSTNJ?=
- =?utf-8?B?T3hlSGV2NmJmTU5uUmNFQmUrbENiTEtOUTMwdXQ1Q2hUcmV3SmNNeFU2YkVz?=
- =?utf-8?B?SUZ6UWZCMTkrNGlhdzMxNTIxek5wV0t0UlV6ZTFNbDcwYTJvVTVxcjArUVB2?=
- =?utf-8?B?bWZLYlpTdVZwOGR0Vzdhd3pJMUpLbmNIc0VickZBNnNTUWF3cWxRRTFuUXRJ?=
- =?utf-8?B?SHdTeEZKVUpNaDJEcTJlWVFyWXdOZjUwcDMxRWt6ZkY3T0ZwMjVyTzU3a0JX?=
- =?utf-8?B?eERGMS9pQmREMG5xVDlvWXFNUTJoRWhrZ0VGVkE5R0JvSjdlZnVaWnN6U1B1?=
- =?utf-8?B?TTlOeGkzOU9jM0pTWEhHSmMxN2NUUkIwYUhBdGU1YXF0UDZUamVtcFJGMThW?=
- =?utf-8?Q?VQIZWs1bTcICiMoo=3D?=
-X-Exchange-RoutingPolicyChecked: d9+eUHFnigfqTcFhkIgz6uDO/IsHlsX9ZJClcpIIqWSzQhznVr/Z5rPsc+fQ3hD+POroUwuZIcwWM8M1uCtHHzbpl3Zlu6Yu4BDTP5u0pNZy2iduxWbhv3nlZ4VR5v24D/jqKUpLvd0bUDtypza+843I6J75gT1BVs4IqPJfrBlg7C7fDhmvcHXK2GmZrtCWzScAP6EcqIB4uPHWjaC0/m0Y93e/t/Je419Gy4jojKA2g4BH/YMOGOo0/uPrtmuin/EoTPPy86xXY17woPNcutdm7ktelnZ9Z0xpvDKroOGAYcZT++YBZyMryhPQu6ua+5643NQFk7ntJPaY76kLhg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 031324e7-6118-4cbe-d1bf-08df3b684fe7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 18:12:11.6195
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7di3KuvrztEdIjmHo41OXU7N089v2cowNG1C2nLPkdd1ItSn8m5yTGmhl+7C985vPBOnDydL7GlsBykK8OCqh1MybRScprmpYJc2EjHN9Ww=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH9PR11MB9927
-X-OriginatorOrg: intel.com
 
-From: Kernel Test Robot <lkp@intel.com>
-Date: Wed, 28 Oct 2026 11:25:59 +0100
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
-> Unfiltered warning: this smatch report is sent as-is and has not been
-> reviewed for false positives, so please treat it with due skepticism.
-> 
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: Alexander Lobakin <aleksander.lobakin@intel.com>
-> 
-> tree:   https://github.com/alobakin/linux libeth
-> head:   3ec9e9b6c3814a1b55faddacd55112935868722c
-> commit: cc74882e6f96d8c3ce10cef17b0fb559886f980d [2/10] ice: add Tx launch time XSk Tx metadata
-> :::::: branch date: 17 hours ago
-> :::::: commit date: 17 hours ago
-> config: loongarch-randconfig-r2202-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281121.DETM1zSp-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 16.2.0
-> smatch: v0.5.0-9187-g5189e3fb
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202610281121.DETM1zSp-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/net/ethernet/intel/ice/ice_xsk.c:905 ice_xmit_zc() error: we previously assumed 'xctx.ts_ring' could be null (see line 898)
-> 
-> vim +905 drivers/net/ethernet/intel/ice/ice_xsk.c
-> 
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  844  
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  845  /**
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  846   * ice_xmit_zc - take entries from XSK Tx ring and place them onto HW Tx ring
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  847   * @xdp_ring: XDP ring to produce the HW Tx descriptors on
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  848   * @xsk_pool: AF_XDP buffer pool pointer
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  849   *
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  850   * Returns true if there is no more work that needs to be done, false otherwise
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  851   */
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  852  bool ice_xmit_zc(struct ice_tx_ring *xdp_ring, struct xsk_buff_pool *xsk_pool)
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  853  {
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  854  	u32 nb_pkts, nb_processed = 0;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  855  	struct ice_xsk_xmit_ctx xctx;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  856  	struct xdp_desc *descs;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  857  	u64 total_bytes;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  858  	u32 budget;
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  859  
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  860  	ice_clean_xdp_irq_zc(xdp_ring, xsk_pool);
-> 29322791bc8b4f Maciej Fijalkowski     2022-09-01  861  
-> ec145a18687fec Michal Kubiak          2024-07-26  862  	if (!netif_carrier_ok(xdp_ring->vsi->netdev) ||
-> ec145a18687fec Michal Kubiak          2024-07-26  863  	    !netif_running(xdp_ring->vsi->netdev))
-> ec145a18687fec Michal Kubiak          2024-07-26  864  		return true;
-> ec145a18687fec Michal Kubiak          2024-07-26  865  
-> 29322791bc8b4f Maciej Fijalkowski     2022-09-01  866  	budget = ICE_DESC_UNUSED(xdp_ring);
-> 29322791bc8b4f Maciej Fijalkowski     2022-09-01  867  	budget = min_t(u16, budget, ICE_RING_QUARTER(xdp_ring));
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  868  
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  869  	nb_pkts = xsk_tx_peek_release_desc_batch(xsk_pool, budget);
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  870  	if (!nb_pkts)
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  871  		return true;
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  872  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  873  	descs = xsk_pool->tx_descs;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  874  	total_bytes = 0;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  875  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  876  	xctx = (struct ice_xsk_xmit_ctx){
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  877  		.xdp_ring		= xdp_ring,
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  878  		.xdp_ntu		= xdp_ring->next_to_use,
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  879  	};
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  880  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  881  	if (ice_is_txtime_cfg(xdp_ring)) {
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  882  		xctx.ts_ring = xdp_ring->tstamp_ring;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  883  		xctx.ts_ntu = xctx.ts_ring->next_to_use;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  884  	}
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  885  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  886  	if (xctx.xdp_ntu + nb_pkts >= xdp_ring->count) {
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  887  		nb_processed = xdp_ring->count - xctx.xdp_ntu;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  888  		total_bytes += ice_fill_tx_hw_ring(&xctx, xsk_pool, descs,
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  889  						   nb_processed);
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  890  		xctx.xdp_ntu = 0;
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  891  	}
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  892  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  893  	total_bytes += ice_fill_tx_hw_ring(&xctx, xsk_pool,
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  894  					   &descs[nb_processed],
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  895  					   nb_pkts - nb_processed);
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  896  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  897  	xdp_ring->next_to_use = xctx.xdp_ntu;
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12 @898  	if (xctx.ts_ring)
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  899  		xctx.ts_ring->next_to_use = xctx.ts_ntu;
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  900  
-> 29322791bc8b4f Maciej Fijalkowski     2022-09-01  901  	ice_set_rs_bit(xdp_ring);
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  902  	dma_wmb();
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  903  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  904  	if (xctx.ts_cnt)
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12 @905  		writel_relaxed(xctx.ts_ntu, xctx.ts_ring->tail);
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Daejun Park <daejun7.park@samsung.com>
+CC: Chuck Lever <cel@kernel.org>
+CC: Benjamin Coddington <bcodding@hammerspace.com>
 
-False-positive actually, @ts_cnt can be != 0 only if @ts_ring != NULL.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   d692f252c52b8d1b4bc7481554f314df31ed8249
+commit: 662ee656ddfd1cd5d49e51c99dedd0960be693f0 [104/186] nfsd: answer NFS4ERR_DELAY instead of waiting for a layout recall
+:::::: branch date: 22 hours ago
+:::::: commit date: 4 days ago
+config: hexagon-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052024.0UXioK81-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch: v0.5.0-9187-g5189e3fb
 
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  906  
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  907  	if (xctx.xdp_cnt != xctx.ts_cnt)
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  908  		writel_relaxed(xctx.xdp_ntu, xdp_ring->tail);
-> cc74882e6f96d8 Alexander Lobakin      2026-10-12  909  
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  910  	ice_update_tx_ring_stats(xdp_ring, nb_pkts, total_bytes);
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  911  
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  912  	if (xsk_uses_need_wakeup(xsk_pool))
-> ebc33a3f8d0aed Maciej Fijalkowski     2024-07-26  913  		xsk_set_tx_need_wakeup(xsk_pool);
-> 5fa23e0b23fb14 Krzysztof Kazimierczak 2020-02-13  914  
-> 126cdfe1007acb Maciej Fijalkowski     2022-01-25  915  	return nb_pkts < budget;
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  916  }
-> 2d4238f5569722 Krzysztof Kazimierczak 2019-11-04  917  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202611052024.0UXioK81-lkp@intel.com/
 
-Thanks,
-Olek
+smatch warnings:
+fs/nfsd/nfs4proc.c:2397 nfsd4_copy() error: we previously assumed 'copy->nf_src' could be null (see line 2331)
+
+vim +2397 fs/nfsd/nfs4proc.c
+
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2292  
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2293  static __be32
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2294  nfsd4_copy(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
+eb69853da94592 Christoph Hellwig 2017-05-08  2295  		union nfsd4_op_u *u)
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2296  {
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2297  	struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
+f307b4f7ed174a Jeff Layton       2026-07-10  2298  	struct nfsd4_async_copy *async_copy = NULL;
+eb69853da94592 Christoph Hellwig 2017-05-08  2299  	struct nfsd4_copy *copy = &u->copy;
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2300  	struct nfsd42_write_res *result;
+662ee656ddfd1c Daejun Park       2026-10-15  2301  	struct inode *src, *dst;
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2302  	__be32 status;
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2303  
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2304  	result = &copy->cp_res;
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2305  	nfsd_copy_write_verifier((__be32 *)&result->wr_verifier.data, nn);
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2306  
+15d1975b727969 Dai Ngo           2023-08-30  2307  	copy->cp_clp = cstate->clp;
+1913cdf56cb5bf Chuck Lever       2022-07-27  2308  	if (nfsd4_ssc_is_inter(copy)) {
+5896a870546105 Dai Ngo           2023-08-31  2309  		trace_nfsd_copy_inter(copy);
+1913cdf56cb5bf Chuck Lever       2022-07-27  2310  		if (!inter_copy_offload_enable || nfsd4_copy_is_sync(copy)) {
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2311  			status = nfserr_notsupp;
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2312  			goto out;
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2313  		}
+df24ac7a2e3a9d Dai Ngo           2022-12-18  2314  		status = nfsd4_setup_inter_ssc(rqstp, cstate, copy);
+5896a870546105 Dai Ngo           2023-08-31  2315  		if (status) {
+88a76145451d70 Jeff Layton       2026-05-31  2316  			status = nfserr_offload_denied;
+88a76145451d70 Jeff Layton       2026-05-31  2317  			goto out;
+5896a870546105 Dai Ngo           2023-08-31  2318  		}
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2319  	} else {
+5896a870546105 Dai Ngo           2023-08-31  2320  		trace_nfsd_copy_intra(copy);
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2321  		status = nfsd4_setup_intra_ssc(rqstp, cstate, copy);
+88a76145451d70 Jeff Layton       2026-05-31  2322  		if (status)
+88a76145451d70 Jeff Layton       2026-05-31  2323  			goto out;
+5896a870546105 Dai Ngo           2023-08-31  2324  	}
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2325  
+662ee656ddfd1c Daejun Park       2026-10-15  2326  	/*
+662ee656ddfd1c Daejun Park       2026-10-15  2327  	 * A copy can be done as a clone, which breaks both files. The source
+662ee656ddfd1c Daejun Park       2026-10-15  2328  	 * of an inter-server copy is not local.
+662ee656ddfd1c Daejun Park       2026-10-15  2329  	 */
+662ee656ddfd1c Daejun Park       2026-10-15  2330  	dst = file_inode(copy->nf_dst->nf_file);
+662ee656ddfd1c Daejun Park       2026-10-15 @2331  	src = copy->nf_src ? file_inode(copy->nf_src->nf_file) : dst;
+662ee656ddfd1c Daejun Park       2026-10-15  2332  	if (nfsd_break_layouts(dst, src != dst ? src : NULL))
+662ee656ddfd1c Daejun Park       2026-10-15  2333  		goto out_err;
+662ee656ddfd1c Daejun Park       2026-10-15  2334  
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2335  	memcpy(&copy->fh, &cstate->current_fh.fh_handle,
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2336  		sizeof(struct knfsd_fh));
+1913cdf56cb5bf Chuck Lever       2022-07-27  2337  	if (nfsd4_copy_is_async(copy)) {
+62c0f6eaf050bb Jeff Layton       2026-07-10  2338  		struct task_struct *task;
+62c0f6eaf050bb Jeff Layton       2026-07-10  2339  
+80c37618341130 Jeff Layton       2026-07-10  2340  		/*
+80c37618341130 Jeff Layton       2026-07-10  2341  		 * Allocate the durable async copy. Its offload stateid is a
+80c37618341130 Jeff Layton       2026-07-10  2342  		 * first-class nfs4_stid in clp->cl_stateids, returned to the
+80c37618341130 Jeff Layton       2026-07-10  2343  		 * client and freed only when the background copy is torn down.
+80c37618341130 Jeff Layton       2026-07-10  2344  		 */
+80c37618341130 Jeff Layton       2026-07-10  2345  		async_copy = nfs4_alloc_copy_stid(cstate->clp);
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2346  		if (!async_copy)
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2347  			goto out_err;
+f307b4f7ed174a Jeff Layton       2026-07-10  2348  		async_copy->cp_copy.cp_nn = nn;
+63fab04cbd0f96 Chuck Lever       2024-10-26  2349  		INIT_LIST_HEAD(&async_copy->copies);
+63fab04cbd0f96 Chuck Lever       2024-10-26  2350  		refcount_set(&async_copy->refcount, 1);
+aa0ebd21df9c90 Chuck Lever       2024-10-31  2351  		async_copy->cp_ttl = NFSD_COPY_INITIAL_TTL;
+aadc3bbea163b6 Chuck Lever       2024-08-28  2352  		/* Arbitrary cap on number of pending async copy operations */
+aadc3bbea163b6 Chuck Lever       2024-08-28  2353  		if (atomic_inc_return(&nn->pending_async_copies) >
+8286f8b6229901 Chuck Lever       2024-10-29  2354  				(int)rqstp->rq_pool->sp_nrthreads)
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2355  			goto out_dec_async_copy_err;
+f307b4f7ed174a Jeff Layton       2026-07-10  2356  		async_copy->cp_copy.cp_src = kmalloc_obj(*async_copy->cp_copy.cp_src);
+f307b4f7ed174a Jeff Layton       2026-07-10  2357  		if (!async_copy->cp_copy.cp_src)
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2358  			goto out_dec_async_copy_err;
+80c37618341130 Jeff Layton       2026-07-10  2359  		memcpy(&result->cb_stateid, &async_copy->cp_stid.sc_stateid,
+9ed666eba4e0a2 Chuck Lever       2024-08-28  2360  			sizeof(result->cb_stateid));
+f307b4f7ed174a Jeff Layton       2026-07-10  2361  		/*
+f307b4f7ed174a Jeff Layton       2026-07-10  2362  		 * dup after writing cb_stateid; duplicating first would leave
+f307b4f7ed174a Jeff Layton       2026-07-10  2363  		 * the callback stateid zeroed.
+f307b4f7ed174a Jeff Layton       2026-07-10  2364  		 */
+f307b4f7ed174a Jeff Layton       2026-07-10  2365  		dup_copy_fields(copy, &async_copy->cp_copy);
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2366  		if ((READ_ONCE(copy->nf_dst->nf_file->f_mode) &
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2367  			       FMODE_NOCMTIME) != 0)
+f307b4f7ed174a Jeff Layton       2026-07-10  2368  			async_copy->cp_copy.attr_update = true;
+b53a42970fa484 Chuck Lever       2025-03-01  2369  		memcpy(async_copy->cp_cb_offload.co_referring_sessionid.data,
+b53a42970fa484 Chuck Lever       2025-03-01  2370  		       cstate->session->se_sessionid.data,
+b53a42970fa484 Chuck Lever       2025-03-01  2371  		       NFS4_MAX_SESSIONID_LEN);
+b53a42970fa484 Chuck Lever       2025-03-01  2372  		async_copy->cp_cb_offload.co_referring_slotid = cstate->slot->sl_index;
+b53a42970fa484 Chuck Lever       2025-03-01  2373  		async_copy->cp_cb_offload.co_referring_seqno = cstate->slot->sl_seqid;
+62c0f6eaf050bb Jeff Layton       2026-07-10  2374  		task = kthread_create(nfsd4_do_async_copy, async_copy,
+62c0f6eaf050bb Jeff Layton       2026-07-10  2375  				      "%s", "copy thread");
+62c0f6eaf050bb Jeff Layton       2026-07-10  2376  		if (IS_ERR(task))
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2377  			goto out_dec_async_copy_err;
+62c0f6eaf050bb Jeff Layton       2026-07-10  2378  		/*
+62c0f6eaf050bb Jeff Layton       2026-07-10  2379  		 * Pin the task_struct so kthread_stop() is safe after this
+62c0f6eaf050bb Jeff Layton       2026-07-10  2380  		 * one-shot kthread exits. Released by nfs4_put_copy().
+62c0f6eaf050bb Jeff Layton       2026-07-10  2381  		 */
+62c0f6eaf050bb Jeff Layton       2026-07-10  2382  		get_task_struct(task);
+62c0f6eaf050bb Jeff Layton       2026-07-10  2383  		async_copy->copy_task = task;
+62c0f6eaf050bb Jeff Layton       2026-07-10  2384  		/*
+62c0f6eaf050bb Jeff Layton       2026-07-10  2385  		 * Take the kthread's ref and wake it before publishing, so the
+62c0f6eaf050bb Jeff Layton       2026-07-10  2386  		 * publisher touches async_copy no further and teardown can
+62c0f6eaf050bb Jeff Layton       2026-07-10  2387  		 * drain it.
+62c0f6eaf050bb Jeff Layton       2026-07-10  2388  		 */
+62c0f6eaf050bb Jeff Layton       2026-07-10  2389  		refcount_inc(&async_copy->refcount);
+62c0f6eaf050bb Jeff Layton       2026-07-10  2390  		wake_up_process(async_copy->copy_task);
+f307b4f7ed174a Jeff Layton       2026-07-10  2391  		spin_lock(&async_copy->cp_copy.cp_clp->async_lock);
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2392  		list_add(&async_copy->copies,
+f307b4f7ed174a Jeff Layton       2026-07-10  2393  				&async_copy->cp_copy.cp_clp->async_copies);
+f307b4f7ed174a Jeff Layton       2026-07-10  2394  		spin_unlock(&async_copy->cp_copy.cp_clp->async_lock);
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2395  		status = nfs_ok;
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2396  	} else {
+3b7bf5933cada7 Chuck Lever       2022-07-27 @2397  		status = nfsd4_do_copy(copy, copy->nf_src->nf_file,
+3b7bf5933cada7 Chuck Lever       2022-07-27  2398  				       copy->nf_dst->nf_file, true);
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2399  		if ((READ_ONCE(copy->nf_dst->nf_file->f_mode) &
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2400  			       FMODE_NOCMTIME) != 0 &&
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2401  				copy->cp_res.wr_bytes_written > 0)
+4183cf383b6fae Olga Kornievskaia 2026-04-10  2402  			nfsd_update_cmtime_attr(copy->nf_dst->nf_file, 0);
+ce0887ac96d35c Olga Kornievskaia 2019-10-09  2403  	}
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2404  out:
+5896a870546105 Dai Ngo           2023-08-31  2405  	trace_nfsd_copy_done(copy, status);
+6ba434cb1a8d40 Jeff Layton       2023-01-17  2406  	release_copy_files(copy);
+29ae7f9dc21a7d Anna Schumaker    2016-09-07  2407  	return status;
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2408  out_dec_async_copy_err:
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2409  	if (async_copy)
+9048cf05a17a7b Olga Kornievskaia 2024-12-17  2410  		atomic_dec(&nn->pending_async_copies);
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2411  out_err:
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2412  	if (nfsd4_ssc_is_inter(copy)) {
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2413  		/*
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2414  		 * Source's vfsmount of inter-copy will be unmounted
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2415  		 * by the laundromat. Use copy instead of async_copy
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2416  		 * since async_copy->ss_nsui might not be set yet.
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2417  		 */
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2418  		refcount_dec(&copy->ss_nsui->nsui_refcnt);
+34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2419  	}
+18f428d4e2f7ef Olga Kornievskaia 2019-12-04  2420  	if (async_copy)
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2421  		cleanup_async_copy(async_copy);
+aadc3bbea163b6 Chuck Lever       2024-08-28  2422  	status = nfserr_jukebox;
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2423  	goto out;
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2424  }
+e0639dc5805a9d Olga Kornievskaia 2018-07-20  2425  
+
+:::::: The code at line 2397 was first introduced by commit
+:::::: 3b7bf5933cada732783554edf0dc61283551c6cf NFSD: Refactor nfsd4_do_copy()
+
+:::::: TO: Chuck Lever <chuck.lever@oracle.com>
+:::::: CC: Chuck Lever <chuck.lever@oracle.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
