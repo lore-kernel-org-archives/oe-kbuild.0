@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907207;
-	b=NlALk2AGb0DaYBAVUPF0HXHS1p0t8HVgVFMZk4b1xIXt5kyLEyU/C8cEBbg8ljbu+Fgs
-	 4nX1o/RufBX6ZN0dmEYFwZsxOWPdN3fLWGjfvHE7D4lF3anZlscn21+U50NsRC9KtAgTz
-	 WIrKNPj3RhPc2p/oWJE5fT2jdHz6p2XiNwj9lOtFDQdTULuJTvYSdQGBjdRqnQHq8yRoO
-	 DXGAIu1mZzuNx75C/A39mvCpIKUpJ018quUJNYvQSrdJNOum4UWRaDKvM1B/yhWEAHHCk
-	 LqE2/QKe9c1A/KlE5NbYbj6VgIyO95X5ZVBVCba0+dRGBsl0FpMTxYhbAVH993nmhHA==
+	t=1793912750;
+	b=Ud4yOiqckb63l9geoe/JhII3obyvcjSCc7tbRU3bpdvN+b4g4tcIUcxOvIakZL/3Lgi1
+	 VPSqV3SnQWv8DexkUApIsIQDZEixJuvO6zZO5OGsjtwmSZdxJ3y3MpQ5GmhrFHVn3w7/F
+	 2bUfTF+hT80rU70/V6MdQ1KvOZxwoZhRZtYJOOnA/M37u0dvKR97zcd1vWNurEsw1sgOQ
+	 0O9x8vW1VDq7N2+dYE8ZYHycwm7vECiGvRogPfH1ZeokA/99dhn5zocwBiaewlppv1fVs
+	 CDbAeqblAWt2ieY/hflYyUmrbW3z53RVd73dhzGk40u5Zu+23i9lXirCuO5JmgxImCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907207;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793912750;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=+BP4WZBelXb6dXdQ/8a0IyiRcc6mnKgDxV57Ohh+1N0=;
-	b=PSE0V3gVtfdpeXbW31gy22wLVdLZLeP1ONUOYklX2jlsxIBGZyORDX4TZ6aelVSM22vY
-	 y2BAKZGSNUb7o2vMSGaxoNjXvo/0O2dQPplQn07sphMAMWtFaCdYkv6jVbRjseMcUYAQa
-	 Wxe++k9E5GIDJ/PcsBWjilT9Gm5mYjLWqbmHxSxOGHAOMxo/8y4Jqnm3L5Hwuwd7msmqC
-	 CCLLK4rbdWzBtvldtlUOqfVSw9vOBQnFmSkHQtZMQ9rkiFOrMGNq8sLiHTYQkvQ8MS252
-	 gKQynhavJyuR13BQZyQVeExeHidLA/XNSsB2OBTkOA4qgbnLt0UoDavXuw/eybWfc0w==
+	bh=oLmYpp08OwOgmuwMtCYdv8c6eDIDYjaSURGf7IhTHKg=;
+	b=PNNSspMHZt24KDV8CBDCg1051FFJTdgvhe0z7nyl1geBGYV6UM28g5PCL4M+pJ+er1MQ
+	 Jx1+DYs2xkMIGv8q3MOB1v+HsPG6rOqE6Qhhrk069Mxj28ztZsD4tmMxr43G74OlTAGIH
+	 ogMDK3RxQfDx+ygICLU9HDdjwpVJwXCAGx+ddgTqufcxrmtYpJALpSi5YnrHiqE3fq+r+
+	 NoY1EStapAyGn6k1sLNWplgsrvaKkq9yXimKAeqTWNdtdajOj2aYn6uhajw8MjjYeWhV9
+	 sHbClV6ZpcDIQvax/YWM0fHb0CdC39Cns0YZz/kux9+nY/fIdEi+OHJfYFbBU0PFCxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l7djixs5;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WklObvi2;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659FC606A6CC
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Nov 2026 19:33:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 659FC606A6CC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FAA606A31B
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Nov 2026 21:05:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62FAA606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l7djixs5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WklObvi2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793907207; x=1825443207;
+  t=1793912749; x=1825448749;
   h=date:from:to:cc:subject:message-id;
-  bh=bsK1ZppQ8CV1dJilLoOznSfS7ebQVsVKERYj3QOQ2tM=;
-  b=l7djixs5c7hlSfeofLCB2AKrAZHeiPk2qf+UO8yqKhfr0oHg7bkihVbT
-   i6BveqJs6iv5xsMNEE7Cy/ETPFBaJY77E3SwinZbKV/Vh14tglLEijIQ3
-   5Ed18NoxYD9QF6U/K/EVQtnsBLweZSz6MYt92eNoSsMXJ9+Ws9TYi01jN
-   vQkcV4sn2Qhn8oUPTKtnpUo1uBB/uwhmkbXWTi6bn3HuYWOT0Di/S08pX
-   5+pAjPQbS8CLKY+uFPmT4zyqR8oAYpIEw2/aHhxyKXl5cqhWEewZ/Hac4
-   GAuiEdAogl6E3xAG2zbxSU1HV03wrfgQSnzVkPECWEPIgF66/kqHeuxsr
-   Q==;
-X-CSE-ConnectionGUID: eDra5o1LQfOU7XQR3QAWiQ==
-X-CSE-MsgGUID: acWf4/aBT3Kz5peuOBCI9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2813037"
+  bh=UmpHKHimnbAc6bAVBoFgaNpKuJHvSZntgUtoFbexpyo=;
+  b=WklObvi2K1T3A6kLqwJqjsvcGawrowAAxB7Lj1rfsEkLhyTlxf1fFyG2
+   7gBhJ0ujQtIsPaCQ6w5k8+itUatbr6KEo7dtufuU+a6YrcbgjfYuErE9U
+   Ce5FxLnNdQg6gxwYPVAA6rInhCTPMwopZiE21oxYTtPHu3mqX3y5kYzY/
+   EWo1KpESqxVHQjEk7/tu9IehcTOJxymQ2SPGbImFEXgfdd48rwQE6WphV
+   DWxFDNicnGn1hU/hVFu3IdmsZTU4mtooVWKPtYAa/pfZ4gGsesM0jdlBR
+   hDD/JxmB0tovprwQ37htQWFQAj2s009JH5djOR0e9unq5CmYxOs1qpvEa
+   w==;
+X-CSE-ConnectionGUID: 3A6asn8yTaSD3WDtMQswBw==
+X-CSE-MsgGUID: NGqcguRQSCiiPYipVuWOTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2721145"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2813037"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 11:33:26 -0800
-X-CSE-ConnectionGUID: Avc5VJrQTNOG2KT30LJzxA==
-X-CSE-MsgGUID: rWBfZ4dERy2JPksl1jaNtQ==
+   d="scan'208";a="2721145"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 13:05:48 -0800
+X-CSE-ConnectionGUID: w1ZXR+CnSAaSNJZGUacDcg==
+X-CSE-MsgGUID: nudM7cBKS1SRt8EPornsSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="6967800"
+   d="scan'208";a="7279396"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 05 Nov 2026 11:33:25 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 05 Nov 2026 13:05:46 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP3D8-000000009lf-0w5o;
-	Thu, 05 Nov 2026 19:33:22 +0000
-Date: Thu, 05 Nov 2026 20:32:36 +0100
+	id 1xP4eV-000000009nn-04TI;
+	Thu, 05 Nov 2026 21:05:43 +0000
+Date: Thu, 05 Nov 2026 22:04:58 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:nfsd-testing 104/186] fs/nfsd/nfs4proc.c:2397
- nfsd4_copy() error: we previously assumed 'copy->nf_src' could be null (see
- line 2331)
-Message-ID: <202611052024.0UXioK81-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [snitzer:kernel-7.3/jflynn-io500-canary 1339/1462]
+ powerpc64-linux-gnu-ld: fs/nfs/super.o:(__param+0x138): undefined reference
+ to `nfs_idmap_cache_timeout'
+Message-ID: <202611052124.EcUajHP1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,175 +81,34 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Daejun Park <daejun7.park@samsung.com>
-CC: Chuck Lever <cel@kernel.org>
-CC: Benjamin Coddington <bcodding@hammerspace.com>
+TO: David Flynn <david.flynn@hammerspace.com>
+CC: Mike Snitzer <snitzer@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   d692f252c52b8d1b4bc7481554f314df31ed8249
-commit: 662ee656ddfd1cd5d49e51c99dedd0960be693f0 [104/186] nfsd: answer NFS4ERR_DELAY instead of waiting for a layout recall
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/jflynn-io500-canary
+head:   a0f5f04a3920835767e24c944e54a676d5aa32b8
+commit: 1bb07fd5eb81675b74c94d750b57d01f34768f8c [1339/1462] hammerspace: private extensions (O_NOMODE, mkdirat2, NFS client/server)
 :::::: branch date: 22 hours ago
-:::::: commit date: 4 days ago
-config: hexagon-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052024.0UXioK81-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9187-g5189e3fb
+:::::: commit date: 25 hours ago
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261105/202611052124.EcUajHP1-lkp@intel.com/config)
+compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052124.EcUajHP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611052024.0UXioK81-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611052124.EcUajHP1-lkp@intel.com/
 
-smatch warnings:
-fs/nfsd/nfs4proc.c:2397 nfsd4_copy() error: we previously assumed 'copy->nf_src' could be null (see line 2331)
+All error/warnings (new ones prefixed by >>):
 
-vim +2397 fs/nfsd/nfs4proc.c
-
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2292  
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2293  static __be32
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2294  nfsd4_copy(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
-eb69853da94592 Christoph Hellwig 2017-05-08  2295  		union nfsd4_op_u *u)
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2296  {
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2297  	struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
-f307b4f7ed174a Jeff Layton       2026-07-10  2298  	struct nfsd4_async_copy *async_copy = NULL;
-eb69853da94592 Christoph Hellwig 2017-05-08  2299  	struct nfsd4_copy *copy = &u->copy;
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2300  	struct nfsd42_write_res *result;
-662ee656ddfd1c Daejun Park       2026-10-15  2301  	struct inode *src, *dst;
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2302  	__be32 status;
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2303  
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2304  	result = &copy->cp_res;
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2305  	nfsd_copy_write_verifier((__be32 *)&result->wr_verifier.data, nn);
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2306  
-15d1975b727969 Dai Ngo           2023-08-30  2307  	copy->cp_clp = cstate->clp;
-1913cdf56cb5bf Chuck Lever       2022-07-27  2308  	if (nfsd4_ssc_is_inter(copy)) {
-5896a870546105 Dai Ngo           2023-08-31  2309  		trace_nfsd_copy_inter(copy);
-1913cdf56cb5bf Chuck Lever       2022-07-27  2310  		if (!inter_copy_offload_enable || nfsd4_copy_is_sync(copy)) {
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2311  			status = nfserr_notsupp;
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2312  			goto out;
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2313  		}
-df24ac7a2e3a9d Dai Ngo           2022-12-18  2314  		status = nfsd4_setup_inter_ssc(rqstp, cstate, copy);
-5896a870546105 Dai Ngo           2023-08-31  2315  		if (status) {
-88a76145451d70 Jeff Layton       2026-05-31  2316  			status = nfserr_offload_denied;
-88a76145451d70 Jeff Layton       2026-05-31  2317  			goto out;
-5896a870546105 Dai Ngo           2023-08-31  2318  		}
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2319  	} else {
-5896a870546105 Dai Ngo           2023-08-31  2320  		trace_nfsd_copy_intra(copy);
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2321  		status = nfsd4_setup_intra_ssc(rqstp, cstate, copy);
-88a76145451d70 Jeff Layton       2026-05-31  2322  		if (status)
-88a76145451d70 Jeff Layton       2026-05-31  2323  			goto out;
-5896a870546105 Dai Ngo           2023-08-31  2324  	}
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2325  
-662ee656ddfd1c Daejun Park       2026-10-15  2326  	/*
-662ee656ddfd1c Daejun Park       2026-10-15  2327  	 * A copy can be done as a clone, which breaks both files. The source
-662ee656ddfd1c Daejun Park       2026-10-15  2328  	 * of an inter-server copy is not local.
-662ee656ddfd1c Daejun Park       2026-10-15  2329  	 */
-662ee656ddfd1c Daejun Park       2026-10-15  2330  	dst = file_inode(copy->nf_dst->nf_file);
-662ee656ddfd1c Daejun Park       2026-10-15 @2331  	src = copy->nf_src ? file_inode(copy->nf_src->nf_file) : dst;
-662ee656ddfd1c Daejun Park       2026-10-15  2332  	if (nfsd_break_layouts(dst, src != dst ? src : NULL))
-662ee656ddfd1c Daejun Park       2026-10-15  2333  		goto out_err;
-662ee656ddfd1c Daejun Park       2026-10-15  2334  
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2335  	memcpy(&copy->fh, &cstate->current_fh.fh_handle,
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2336  		sizeof(struct knfsd_fh));
-1913cdf56cb5bf Chuck Lever       2022-07-27  2337  	if (nfsd4_copy_is_async(copy)) {
-62c0f6eaf050bb Jeff Layton       2026-07-10  2338  		struct task_struct *task;
-62c0f6eaf050bb Jeff Layton       2026-07-10  2339  
-80c37618341130 Jeff Layton       2026-07-10  2340  		/*
-80c37618341130 Jeff Layton       2026-07-10  2341  		 * Allocate the durable async copy. Its offload stateid is a
-80c37618341130 Jeff Layton       2026-07-10  2342  		 * first-class nfs4_stid in clp->cl_stateids, returned to the
-80c37618341130 Jeff Layton       2026-07-10  2343  		 * client and freed only when the background copy is torn down.
-80c37618341130 Jeff Layton       2026-07-10  2344  		 */
-80c37618341130 Jeff Layton       2026-07-10  2345  		async_copy = nfs4_alloc_copy_stid(cstate->clp);
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2346  		if (!async_copy)
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2347  			goto out_err;
-f307b4f7ed174a Jeff Layton       2026-07-10  2348  		async_copy->cp_copy.cp_nn = nn;
-63fab04cbd0f96 Chuck Lever       2024-10-26  2349  		INIT_LIST_HEAD(&async_copy->copies);
-63fab04cbd0f96 Chuck Lever       2024-10-26  2350  		refcount_set(&async_copy->refcount, 1);
-aa0ebd21df9c90 Chuck Lever       2024-10-31  2351  		async_copy->cp_ttl = NFSD_COPY_INITIAL_TTL;
-aadc3bbea163b6 Chuck Lever       2024-08-28  2352  		/* Arbitrary cap on number of pending async copy operations */
-aadc3bbea163b6 Chuck Lever       2024-08-28  2353  		if (atomic_inc_return(&nn->pending_async_copies) >
-8286f8b6229901 Chuck Lever       2024-10-29  2354  				(int)rqstp->rq_pool->sp_nrthreads)
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2355  			goto out_dec_async_copy_err;
-f307b4f7ed174a Jeff Layton       2026-07-10  2356  		async_copy->cp_copy.cp_src = kmalloc_obj(*async_copy->cp_copy.cp_src);
-f307b4f7ed174a Jeff Layton       2026-07-10  2357  		if (!async_copy->cp_copy.cp_src)
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2358  			goto out_dec_async_copy_err;
-80c37618341130 Jeff Layton       2026-07-10  2359  		memcpy(&result->cb_stateid, &async_copy->cp_stid.sc_stateid,
-9ed666eba4e0a2 Chuck Lever       2024-08-28  2360  			sizeof(result->cb_stateid));
-f307b4f7ed174a Jeff Layton       2026-07-10  2361  		/*
-f307b4f7ed174a Jeff Layton       2026-07-10  2362  		 * dup after writing cb_stateid; duplicating first would leave
-f307b4f7ed174a Jeff Layton       2026-07-10  2363  		 * the callback stateid zeroed.
-f307b4f7ed174a Jeff Layton       2026-07-10  2364  		 */
-f307b4f7ed174a Jeff Layton       2026-07-10  2365  		dup_copy_fields(copy, &async_copy->cp_copy);
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2366  		if ((READ_ONCE(copy->nf_dst->nf_file->f_mode) &
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2367  			       FMODE_NOCMTIME) != 0)
-f307b4f7ed174a Jeff Layton       2026-07-10  2368  			async_copy->cp_copy.attr_update = true;
-b53a42970fa484 Chuck Lever       2025-03-01  2369  		memcpy(async_copy->cp_cb_offload.co_referring_sessionid.data,
-b53a42970fa484 Chuck Lever       2025-03-01  2370  		       cstate->session->se_sessionid.data,
-b53a42970fa484 Chuck Lever       2025-03-01  2371  		       NFS4_MAX_SESSIONID_LEN);
-b53a42970fa484 Chuck Lever       2025-03-01  2372  		async_copy->cp_cb_offload.co_referring_slotid = cstate->slot->sl_index;
-b53a42970fa484 Chuck Lever       2025-03-01  2373  		async_copy->cp_cb_offload.co_referring_seqno = cstate->slot->sl_seqid;
-62c0f6eaf050bb Jeff Layton       2026-07-10  2374  		task = kthread_create(nfsd4_do_async_copy, async_copy,
-62c0f6eaf050bb Jeff Layton       2026-07-10  2375  				      "%s", "copy thread");
-62c0f6eaf050bb Jeff Layton       2026-07-10  2376  		if (IS_ERR(task))
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2377  			goto out_dec_async_copy_err;
-62c0f6eaf050bb Jeff Layton       2026-07-10  2378  		/*
-62c0f6eaf050bb Jeff Layton       2026-07-10  2379  		 * Pin the task_struct so kthread_stop() is safe after this
-62c0f6eaf050bb Jeff Layton       2026-07-10  2380  		 * one-shot kthread exits. Released by nfs4_put_copy().
-62c0f6eaf050bb Jeff Layton       2026-07-10  2381  		 */
-62c0f6eaf050bb Jeff Layton       2026-07-10  2382  		get_task_struct(task);
-62c0f6eaf050bb Jeff Layton       2026-07-10  2383  		async_copy->copy_task = task;
-62c0f6eaf050bb Jeff Layton       2026-07-10  2384  		/*
-62c0f6eaf050bb Jeff Layton       2026-07-10  2385  		 * Take the kthread's ref and wake it before publishing, so the
-62c0f6eaf050bb Jeff Layton       2026-07-10  2386  		 * publisher touches async_copy no further and teardown can
-62c0f6eaf050bb Jeff Layton       2026-07-10  2387  		 * drain it.
-62c0f6eaf050bb Jeff Layton       2026-07-10  2388  		 */
-62c0f6eaf050bb Jeff Layton       2026-07-10  2389  		refcount_inc(&async_copy->refcount);
-62c0f6eaf050bb Jeff Layton       2026-07-10  2390  		wake_up_process(async_copy->copy_task);
-f307b4f7ed174a Jeff Layton       2026-07-10  2391  		spin_lock(&async_copy->cp_copy.cp_clp->async_lock);
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2392  		list_add(&async_copy->copies,
-f307b4f7ed174a Jeff Layton       2026-07-10  2393  				&async_copy->cp_copy.cp_clp->async_copies);
-f307b4f7ed174a Jeff Layton       2026-07-10  2394  		spin_unlock(&async_copy->cp_copy.cp_clp->async_lock);
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2395  		status = nfs_ok;
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2396  	} else {
-3b7bf5933cada7 Chuck Lever       2022-07-27 @2397  		status = nfsd4_do_copy(copy, copy->nf_src->nf_file,
-3b7bf5933cada7 Chuck Lever       2022-07-27  2398  				       copy->nf_dst->nf_file, true);
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2399  		if ((READ_ONCE(copy->nf_dst->nf_file->f_mode) &
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2400  			       FMODE_NOCMTIME) != 0 &&
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2401  				copy->cp_res.wr_bytes_written > 0)
-4183cf383b6fae Olga Kornievskaia 2026-04-10  2402  			nfsd_update_cmtime_attr(copy->nf_dst->nf_file, 0);
-ce0887ac96d35c Olga Kornievskaia 2019-10-09  2403  	}
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2404  out:
-5896a870546105 Dai Ngo           2023-08-31  2405  	trace_nfsd_copy_done(copy, status);
-6ba434cb1a8d40 Jeff Layton       2023-01-17  2406  	release_copy_files(copy);
-29ae7f9dc21a7d Anna Schumaker    2016-09-07  2407  	return status;
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2408  out_dec_async_copy_err:
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2409  	if (async_copy)
-9048cf05a17a7b Olga Kornievskaia 2024-12-17  2410  		atomic_dec(&nn->pending_async_copies);
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2411  out_err:
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2412  	if (nfsd4_ssc_is_inter(copy)) {
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2413  		/*
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2414  		 * Source's vfsmount of inter-copy will be unmounted
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2415  		 * by the laundromat. Use copy instead of async_copy
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2416  		 * since async_copy->ss_nsui might not be set yet.
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2417  		 */
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2418  		refcount_dec(&copy->ss_nsui->nsui_refcnt);
-34e8f9ec4c9ac2 Dai Ngo           2023-01-23  2419  	}
-18f428d4e2f7ef Olga Kornievskaia 2019-12-04  2420  	if (async_copy)
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2421  		cleanup_async_copy(async_copy);
-aadc3bbea163b6 Chuck Lever       2024-08-28  2422  	status = nfserr_jukebox;
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2423  	goto out;
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2424  }
-e0639dc5805a9d Olga Kornievskaia 2018-07-20  2425  
-
-:::::: The code at line 2397 was first introduced by commit
-:::::: 3b7bf5933cada732783554edf0dc61283551c6cf NFSD: Refactor nfsd4_do_copy()
-
-:::::: TO: Chuck Lever <chuck.lever@oracle.com>
-:::::: CC: Chuck Lever <chuck.lever@oracle.com>
+>> <stdin>:1633:2: warning: #warning syscall mkdirat2 not implemented [-Wcpp]
+--
+>> powerpc64-linux-gnu-ld: fs/nfs/super.o:(__param+0x138): undefined reference to `nfs_idmap_cache_timeout'
 
 --
 0-DAY CI Kernel Test Service
