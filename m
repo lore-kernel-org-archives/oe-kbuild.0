@@ -1,76 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793942717;
-	b=ypTZVIUK2sE6uYqp6MBK/kD0Ldp8lJVjQPojBENRk2glnZ4ig7Y4fS4F3lxgSOM4kMiL
-	 2NPrJdyphjQsKCpGwCKFSknd32WPCy5NB3OTHI4EnUdIi2cWeefsIdNLg4D62GC164o+o
-	 DWf+iEjGCiz7WkhKntE1jZkVQnQI4YiBJCz2kIjW1KKyTdP2DVcTA723l58e8o8TLObwy
-	 ILFbBHRbRHaziQbn7U+zkkAuJ6q7C1qeW2Ce5tmMQr7DzOil4AjE7PGH2LF47Rlrq4h+S
-	 8JVrsWWUn86x2P98to8Mfn7eg1obksOZDzGpJaKw+nS+Ac5mv/XbBytrjkgbw+VUzLQ==
+	t=1793944601;
+	b=nF5MegjrHPrV64Yfw9ry0F4u7suke1i2rcdD79OcXqTxgVl3h51WWfGj8Su98Y33A/BL
+	 y48WKPzyPbL8rtMHtkLiH0qw3rLh+77Nlwa5tSFupvqwzooWFrilKYqx8zmPAm70ExZC6
+	 +Tou3ZJwBhK+xkOJ/H1p1kDCY7iHs41R3EoqtQis7JR23F0ctvyaIk+n0TdrfkqEe3uap
+	 RC88YJXfzyfYaJyEcSWqiUAIu/r4MQaouaXqQgUyCuV7rw3/0WQdkLtfXwopH71dN3bRc
+	 a8viKyC2Vdpf//kBamfils7ZkDMsMeHtWpA3Z4afwEbs4J4Tumtl31L5gFUnB4B+o0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793942717;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=7F6y/OPqqkOuA7eDEdeRRwDMmenlvI3oikSjSmiQoZA=;
-	b=IU/4hFpL8Oldwd8MoWtWkGM2UKT5YLv+mqubXbIecs4dqG0VRCdgppOgJnQaXVyXhjt1
-	 TL01FeqfeeNDaA4O54Kl+SYV1G8psKLLkLdBNvH+fi66GbXosOc1EAa8lxehQ+X/bWyzx
-	 PSq9fY6CEireUYwJyrPlZRjjsZLWQp2KqV2BYEe+uL7L/LNGCgXC/eA3MCGl2tJ9y6It+
-	 NXxdPpfj58mvR3b1h7XLODd6FeSWt1mhh3uwtjmp1nQtVFi2ZcDKirqqIynyOG3yj7Twu
-	 +3YjE6cnXK2iq2yvkq3OMGlwcaUPIwjAZusXiJNn6nApU4d+c3vwW5+4bGe6iRkeCeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793944601;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+	b=1Gnlk9v6YPvmQ9jwXxuof4rxydJHhYOiSZBEBejuUEvQCrPUYo5wNIlsfQOBB4gtnkRv
+	 kMZSDjygn7bEYXdKp2WVZzv4GqhaUrFKjhCrvBLwhsrp6KJHmv9M3awcF1+KheY8Ri55j
+	 EYdQwx5J4eMjSPGV2hYvIwnEwc3QSYOxWMc4kxR2PD8mw/aV+RFwi0rhOJyizm+lGwXR5
+	 FwHIuARwTFLQoSWIurtpBzxvMq76NleMBtBb8jexYJS2FFhzagFT8Rp9J481OMNmP+B26
+	 QGSxuOaeOw7csShMf9zLEePZhLHthNcNx6QDtgAFvtkCTytQMiWE/KlNcWfd5vHtJMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jmynTXG9;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CA3606A328
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 05:25:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41CA3606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFFF606A329
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 05:56:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBFFF606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jmynTXG9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793942714; x=1825478714;
-  h=date:from:to:cc:subject:message-id;
-  bh=mhax5/5SJmhhDjOHgKkdR8NTZZcgPyc2pSWjfkFmdoc=;
-  b=jmynTXG9FSYNHr8H2N71jo4ZbLLbAlvJ08NDY1cOAS07WAXsOyHyu74O
-   1mrmlB27+BLPA8Nd1G85uJkA6fHZWvC0Ug0nqijYHasMq/11H5JaoMvu4
-   aCnUnRDAP9aw9eSTtIj0FTi8TH3qEF+AxHJD9eB9uDHF6SvIQ6qeQ7CI4
-   i8SeNckSSw+MjSZ9+3sFAr+zeucojZk9GY5SswQY7BBKZhXXXBudRgDFV
-   kXS4mTrVcDL8TJ3ZuMNCRTSyZcci1hz9qEoezB5pB68cAy1APyyQoQX9J
-   9zKeQajMpUy6S5m5HA7K6VvhVgzqsgQ8nI//uRFMY+4jNu8yKG/nPU8ov
-   Q==;
-X-CSE-ConnectionGUID: 9UdHrdSMRcS49Rbag4wybg==
-X-CSE-MsgGUID: z9XkoJEDRsewg4QWI0Q+RA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2788820"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2788820"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 21:25:14 -0800
-X-CSE-ConnectionGUID: rMNhOOGjTXm0jhs3jPJUIQ==
-X-CSE-MsgGUID: lMqH9fEJS6mTUnOBhT2Cpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7534161"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Nov 2026 21:25:12 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPCRq-00000000A2x-1JFI;
-	Fri, 06 Nov 2026 05:25:10 +0000
-Date: Fri, 06 Nov 2026 06:24:28 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so1546575e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 05 Nov 2026 21:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793944599; x=1794549399; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+        b=DjSN9+HtvK64QcXfzr3UBBgfpA1kJDs8ZDO3ZiJ/f4b62x2lPukGA4O0BI+DS1b5ZE
+         vdj5q3CD6WeoAjS+bgqAQM8wko5Qsf3Td2Wz8RhZXAG+ELrzchOoM/jGfmlDvRbG2srN
+         JAFTG1+xRcwri+zgnSGgzHsVSguVymLvcBeCg0L6vn61PjxKAwILYcNR+Zx1eggN75a2
+         +CO3fwrc+tlj4SeJQaD2349eY9KdqjJXkQhIToNYcnIBRBrssbCubDLm45iFOwRmMcS9
+         VW9igv7vda49wPHnlvQsuAN2kRNfBXSh9rsVA/bVvyqLmrJMC6oeZak51UEtdgV6hM87
+         Crag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793944599; x=1794549399;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+        b=xKpKYRwo163HRSXMwkF1xQEcuu8kHfY+1yOQkFIKP4GzPgPUzq/0pdD4yv+lRnAdKN
+         WClUsxiGiWaL0kux51Ld3W6HvZo4S+P6CjHeBEfPEUtUk1qYolsjwTSBvwsccwP1Ga1q
+         mE1pL35+k+25GdCV/bgytZeN64CJp6jWzPO4GsahgOlMkCsj3+d6jkODMOA8tAPKz1Q9
+         gxNlvmRzFtgHpIrmLTIQMDSDZTj63znAVjOOW1slzazfOonE2CK0TJrRBIkXWAnCvWsY
+         x6fH/lWplyMqwbTq/1wNZHt/gNA7A4jRfSAbdPEBxNyidyEuXqIyDB8xFJzEFdKOj2CA
+         rHQw==
+X-Gm-Message-State: APuU4Z/9KNMC7JKSfgg0DFzI21zV1bxTKfa++qTG9kfMyWMxUCupHkxM
+	FGo5ojAP1Jn8DNxT8JX79Cg8EKpwKG+RSY5kfIm7STVhxu7TBitF3KGlYNmQrVRMLYRTvCPh
+X-Gm-Gg: AYBFou33oHSb+HFg9d9AFuN1sGI823GGobUCzKDmR+ggfcw48CgRv+JIFHnXyrAo0GX
+	loOsVtcC0F0eLlKeD8Xn1rZNj9gTFs9NxRkj38s/2ZSbJRBIstINKZnMi/8HNw/hQNuoDEfg06E
+	NmlCOztu6VoMCbX0Zhr8jw6P6e0o7Gjf7cJ5bjThkkOTE2vqERED5dbpJq5n3GXnh+eFCsTb/oh
+	U2gA4eyQrdgt32iVKqXZFE6E1cbP32Q2HoEdtTtEjHdAMCrvGILxCAZtinRxVBxV8TH8NV/nbNg
+	xV4k2CkksIXzHA5cUAste5+WQvawA7GVsg33ecAsMNfZhGMeK4O7GAxYgH9I4AF60yzdCC0WD50
+	JJ0ZA2kVO+6H6sXONIq0sr22fzvPoqkpGQe4pMnasvoGHsNYKUSLxHuardtnuPL9TPsrCdlhY3r
+	e7YjqvkdR8naUfvtwQSex4rDA5sxrYDVi3g2APEoEHEW29Z+LyTFsXwJOqwTdBJSUr5HmfVR2Mf
+	oLC5fgo2NrtEyZxP1f4UT+00S3M1ldiVfZME4JPTmYhVTB361IXv0mB7edNTZO6LV77pCfOrr96
+	TysNVEtNxiEsRs/Yf46QeMQZA7Ol07UZX/XuZkrulukWTY3XEwBSrZhZ1JUgxhw3FYgaYxSRzve
+	rjkhgnlVJNVcwxtiM7Ygine1g2YlFalkBWuRnaJbz3rNiopC5NLnjOWZzsz74+82wWQ==
+X-Received: by 2002:a05:600c:8b28:b0:4a1:a2c0:7b73 with SMTP id 5b1f17b1804b1-4b6dfba8628mr16268215e9.30.1793944598951;
+        Thu, 05 Nov 2026 21:56:38 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6ed5b8159sm27279965e9.2.2026.11.05.21.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 21:56:37 -0800 (PST)
+Date: Fri, 6 Nov 2026 08:56:33 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android14-kiwi-6.1 390/390]
  drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
 Message-ID: <202611060606.xbU3zu11-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -79,19 +92,14 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20261106055633.1zRBNNiC1GL9QLxoTpK37YS6H9kVeJZTfeFdG9PgDTk@z>
 
 tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
 head:   900d46d1c904d34d7c3eeb0ef2119cffc5a8ab3d
 commit: 534fd7770b6ddedc6c6ef6fa724987d3397f9b3b [390/390] mtd: core: Report error if first mtd_otp_size() call fails in mtd_otp_nvmem_add()
-:::::: branch date: 31 hours ago
-:::::: commit date: 2 years, 5 months ago
 config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060606.xbU3zu11-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
 smatch: v0.5.0-9187-g5189e3fb
@@ -107,7 +115,6 @@ drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
 
 vim +955 drivers/mtd/mtdcore.c
 
-4b361cfa862479 Michael Walle 2021-04-24  935  
 4b361cfa862479 Michael Walle 2021-04-24  936  static int mtd_otp_nvmem_add(struct mtd_info *mtd)
 4b361cfa862479 Michael Walle 2021-04-24  937  {
 26358f330405af Michael Walle 2023-03-08  938  	struct device *dev = mtd->dev.parent;
@@ -120,6 +127,10 @@ vim +955 drivers/mtd/mtdcore.c
 534fd7770b6dde Aapo Vienamo  2024-03-13  945  		if (size < 0) {
 534fd7770b6dde Aapo Vienamo  2024-03-13  946  			err = size;
 534fd7770b6dde Aapo Vienamo  2024-03-13  947  			goto err;
+
+This goto err is wrong.  We haven't done the register so it should
+return directly.
+
 534fd7770b6dde Aapo Vienamo  2024-03-13  948  		}
 4b361cfa862479 Michael Walle 2021-04-24  949  
 4b361cfa862479 Michael Walle 2021-04-24  950  		if (size > 0) {
@@ -158,14 +169,8 @@ vim +955 drivers/mtd/mtdcore.c
 4b361cfa862479 Michael Walle 2021-04-24  983  	nvmem_unregister(mtd->otp_user_nvmem);
 4b361cfa862479 Michael Walle 2021-04-24  984  	return err;
 4b361cfa862479 Michael Walle 2021-04-24  985  }
-4b361cfa862479 Michael Walle 2021-04-24  986  
-
-:::::: The code at line 955 was first introduced by commit
-:::::: 4b361cfa862479fbb1d14ddf01de4dbc7146dcc5 mtd: core: add OTP nvmem provider support
-
-:::::: TO: Michael Walle <michael@walle.cc>
-:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
