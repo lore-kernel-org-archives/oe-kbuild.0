@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793948414;
-	b=P6nRPdneY+cVh/rHYrG+IwycrygNx7W3Bn72wgiRXb73leeBJ+RkY1yG9qK3pnXfSb9h
-	 TI6cX8Qki08zy1HZ0VEdR/9yZokhr5VP38NDxmO8satnjUR+CZYvegy25rzBrTJencpk1
-	 NO4MQ4tp1PXiLcV1uVyf7hWIRjmnFIJrleQPM+DJqz4oU2tELnuco1l+2VlsF2Wbjj3q0
-	 1HNYH1t2LrfuRFQIntp4PwHiCyh4SvLL38hli6/iP0fIrQmyx3EqsVePJlPVpdUxHx3Ym
-	 qodggJ1JRXvQBj2IlSX6phdMOwvCo/wGQSgCRCqp73daNN4Wdyh+qmv6ZG1aYTu4c2w==
+	t=1793949603;
+	b=Rsp32PspDqxZv/mnH65T1SQphoOnviJWU5h12xLVHu7XMOJwQTvlPSllSyY3qIArDjR3
+	 E3I+bNSaZ/TPhoSN71uiLfS3bhdRtUx1yeoxZjjcFf4AFDq/91gz8h2CM8CujYC+W9LOE
+	 9FFTHqzVNsuDFSUxfO62j0kbrA5EjeJOEjaNTiWmqKvQxqGWTFuucc+KyA6wkw9e2O54X
+	 O52qZsqC8tvfRvvgyLch3jzQqZWFQH4ieIbBmKjRPpKMMoY8nQ2yA/9B6TxaxqxsCWujM
+	 XcSoJvAFtgNI1RuRgAh2u/a39IUj2fMt1BPtkalPDC36vthDk1OE6zAg26JVWMwTcIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793948414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793949603;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=eAGt0QWAtCM5o98trzDswYdqV613/nRhmT+3+4qWan8=;
-	b=fqto4uUPNNzNogHYYysZhS8q5hNhRRoJ1YGFWNQxz11pCSQeaIYNLS4udk2TUcfR0WJc
-	 dVg0qzrF7VsvYWYM7NpGOSOn0oaSFcqrZV2xE867UjnbrcXErykVdzRr3WwBmiyHbw0S5
-	 9Bi57S5ZNq/hc7GMzV9UKTsVPVdQr8F7YVE6zuY4n0DUn7i1AnqlVh7+GFSlkBCQUyDOR
-	 R8Bgw2YC0oA08xLu5PnshBlu2aJtZy7mEQ6Ae+kHau0jLSJGLLTH2UFU2CSO6ni2NIawF
-	 6zBrexqZ15yB/2fIlrIVDBOFnTS9CX+PN1rOgbJwPl6Y2B+j8Cxw8qescGqwu+Ctdig==
+	bh=ETmHZJsiArU7Z007YAwLBsP1vXDgaEWExIPjm66qzzw=;
+	b=s4bwvm6F6csZ1uO5FOPbbNoCBM/wviubYSZo+CJdbEghMp6+z2aOyh7cxAVF4tNJLv3l
+	 KpM/29wC+oAzwPAN/6vcA2ARkakjkjsIx9Y0SSHqUG6OZx1pKTjC74lXz6c8Vx3BjuEMD
+	 BU/VDX5rHMMH71OAsOiRBgkg94PrMrdg8oq1biNK+K8tnIQcriQWmb3Ll5G3rp/goxm8v
+	 1IfJpfDdoRY2sqSYDR9pSsr1rgtS65c9j59DlpeNTnjrUFd87JumZeIv+I5/FVHaiHItG
+	 R4RzJ+FX6O7+J5Rykdf4tiNE8kqTewFygIQcXz/UrCO44FlXjvOfgDe1xQmpIJgpN4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ge85cJsG;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B2enKmLI;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7A4606A326
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 07:00:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E7A4606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE4B606A326
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 07:20:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFE4B606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ge85cJsG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B2enKmLI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793948405; x=1825484405;
+  t=1793949602; x=1825485602;
   h=date:from:to:cc:subject:message-id;
-  bh=naNjihL3g28f1IT8aTcz6o/eNsGJDcmTmuTtKVpz6JI=;
-  b=ge85cJsGLL0y3OBQ2mtAMY4afq6nWGQbCj59EsP+I/+yL4DBMTbNvR++
-   MdvF+YKz2OLFAMzuJWZkP3t4F1y+734IQ/UXiTszuHkvCxNH0avVq0KNi
-   ufBf86BdUJz0lNaGM46N8sCAVKXm1xSYeA+mrftaVA2gTNly6qKTuFiJk
-   lzoroRiKeaKk58sLnw32JcFiqOnaGf406nmTSPYRknLmYLTUwFQIohtDM
-   02BtNy540BHTIVn1hi/iydGQ3XuiSz1PWg8Ip2PI69jO/ghxzuqiNbnFN
-   xWKMcdMZ3ADOpjSMCqWNQ2sHtEp6lxSP5FTrsr3Y6BMiRl5T90zD3gB6w
+  bh=mXaTsjMtm+0vtHLbZAlg3Ttc/jt8LrRpZDpDMR6AkRY=;
+  b=B2enKmLIgUuGEceQjWUQ7fGSRKtBbyyu/gX/MKc3bE80t7LXicZWuq2j
+   Re8RXpt4m+w1iEEnlF5HP5A3hO0Hb4/Mmlerbyi4OLLxM3eIcYYBx9kTs
+   /u4c6dj2UZfS5EPb6FY9sEUJakiXNxaw3Vj8+V7Y2oz+KOu4UN4qLKGrH
+   7llH8K8IbAcdyU4k1t4RLMzokP3cWBB8tq/DKMe5vLHbGm6r/G1BPBQbL
+   H+mpuIErIk893u7PGI7MBSxZ8mSlnpxJSKNnx/KwM1vLb6pJD7jMFhibJ
+   wqd4c9TErs6QZSbcLxoFoMj/kLDCtlL7rdJXwOlkUrFuRTIF1aQoSxllz
    A==;
-X-CSE-ConnectionGUID: fZziFhetSzKSpTBSCcIQYA==
-X-CSE-MsgGUID: q2Im3JRKQ7O9kBAwMwNaJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2654521"
+X-CSE-ConnectionGUID: rEfCvw7sRHyJzPEfxBTwcw==
+X-CSE-MsgGUID: 8smwJtndScKsNEBEV5aVwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2660242"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2654521"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 23:00:05 -0800
-X-CSE-ConnectionGUID: 1FU1cQZoTh6cKpokk6MNoQ==
-X-CSE-MsgGUID: J6sx6VQiSK61+e2uitECog==
+   d="scan'208";a="2660242"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 23:20:02 -0800
+X-CSE-ConnectionGUID: rswrKwo1SZW9zBhtEQiY6w==
+X-CSE-MsgGUID: TD7MeIy8ScaEY50H90SQgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7529125"
+   d="scan'208";a="7638973"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2026 23:00:02 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 05 Nov 2026 23:20:01 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPDva-00000000A7L-0fOb;
-	Fri, 06 Nov 2026 06:59:58 +0000
-Date: Fri, 06 Nov 2026 07:59:12 +0100
+	id 1xPEEx-00000000A7j-01yr;
+	Fri, 06 Nov 2026 07:19:59 +0000
+Date: Fri, 06 Nov 2026 08:19:48 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/ntfs/iomap.c:481:14-15: WARNING kmalloc is used to
- allocate this memory at line 460
-Message-ID: <202611060717.0Na5FqQR-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android12-kiwi-5.10 303/303]
+ drivers/iio/adc/at91-sama5d2_adc.c:1968 at91_adc_resume() warn: 'st->per_clk'
+ from clk_prepare_enable() not released on lines: 1968.
+Message-ID: <202611060840.yLhM3kMd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,219 +81,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Namjae Jeon <linkinjeon@kernel.org>
-CC: Amir Goldstein <amir73il@gmail.com>
-CC: Christoph Hellwig <hch@lst.de>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f66469d9905b39d2c260a15d7d6db450f4db67c1
-commit: 47503f989736d6c4c9f8bfca1c28d267473ccd4b ntfs: add Kconfig and Makefile
-date:   9 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 months ago
-config: loongarch-randconfig-r2105-20261104 (https://download.01.org/0day-ci/archive/20261106/202611060717.0Na5FqQR-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e2e3d6c39cfebec9eace23629a5a103df2c79ba6)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   f012a641c30644ec5bf95cf64d8835854b997f86
+commit: 44ec4b04fc9950678e266f1ad07a4868120fcb7b [303/303] iio: adc: at91-sama5d2_adc: disable/prepare buffer on suspend/resume
+:::::: branch date: 34 hours ago
+:::::: commit date: 4 years ago
+config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060840.yLhM3kMd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 47503f989736 ("ntfs: add Kconfig and Makefile")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611060717.0Na5FqQR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202611060840.yLhM3kMd-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/ntfs/iomap.c:481:14-15: WARNING kmalloc is used to allocate this memory at line 460
+New smatch warnings:
+drivers/iio/adc/at91-sama5d2_adc.c:1968 at91_adc_resume() warn: 'st->per_clk' from clk_prepare_enable() not released on lines: 1968.
 
-vim +481 fs/ntfs/iomap.c
+Old smatch warnings:
+drivers/iio/adc/at91-sama5d2_adc.c:1794 at91_adc_probe() warn: platform_get_irq() does not return zero
 
-b041ca562526b3c Namjae Jeon 2026-02-13  378  
-b041ca562526b3c Namjae Jeon 2026-02-13  379  static int ntfs_write_simple_iomap_begin_non_resident(struct inode *inode, loff_t offset,
-b041ca562526b3c Namjae Jeon 2026-02-13  380  						      loff_t length, struct iomap *iomap)
-b041ca562526b3c Namjae Jeon 2026-02-13  381  {
-b041ca562526b3c Namjae Jeon 2026-02-13  382  	struct ntfs_inode *ni = NTFS_I(inode);
-b041ca562526b3c Namjae Jeon 2026-02-13  383  	struct ntfs_volume *vol = ni->vol;
-b041ca562526b3c Namjae Jeon 2026-02-13  384  	loff_t vcn_ofs, rl_length;
-b041ca562526b3c Namjae Jeon 2026-02-13  385  	struct runlist_element *rl, *rlc;
-b041ca562526b3c Namjae Jeon 2026-02-13  386  	bool is_retry = false;
-b041ca562526b3c Namjae Jeon 2026-02-13  387  	int err;
-b041ca562526b3c Namjae Jeon 2026-02-13  388  	s64 vcn, lcn;
-b041ca562526b3c Namjae Jeon 2026-02-13  389  	s64 max_clu_count =
-b041ca562526b3c Namjae Jeon 2026-02-13  390  		ntfs_bytes_to_cluster(vol, round_up(length, vol->cluster_size));
-b041ca562526b3c Namjae Jeon 2026-02-13  391  
-b041ca562526b3c Namjae Jeon 2026-02-13  392  	vcn = ntfs_bytes_to_cluster(vol, offset);
-b041ca562526b3c Namjae Jeon 2026-02-13  393  	vcn_ofs = ntfs_bytes_to_cluster_off(vol, offset);
-b041ca562526b3c Namjae Jeon 2026-02-13  394  
-b041ca562526b3c Namjae Jeon 2026-02-13  395  	down_read(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  396  	rl = ni->runlist.rl;
-b041ca562526b3c Namjae Jeon 2026-02-13  397  	if (!rl) {
-b041ca562526b3c Namjae Jeon 2026-02-13  398  		up_read(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  399  		err = ntfs_map_runlist(ni, vcn);
-b041ca562526b3c Namjae Jeon 2026-02-13  400  		if (err) {
-b041ca562526b3c Namjae Jeon 2026-02-13  401  			mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  402  			return -ENOENT;
-b041ca562526b3c Namjae Jeon 2026-02-13  403  		}
-b041ca562526b3c Namjae Jeon 2026-02-13  404  		down_read(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  405  		rl = ni->runlist.rl;
-b041ca562526b3c Namjae Jeon 2026-02-13  406  	}
-b041ca562526b3c Namjae Jeon 2026-02-13  407  	up_read(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  408  
-b041ca562526b3c Namjae Jeon 2026-02-13  409  	down_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  410  remap_rl:
-b041ca562526b3c Namjae Jeon 2026-02-13  411  	/* Seek to element containing target vcn. */
-b041ca562526b3c Namjae Jeon 2026-02-13  412  	rl = __ntfs_attr_find_vcn_nolock(&ni->runlist, vcn);
-b041ca562526b3c Namjae Jeon 2026-02-13  413  	if (IS_ERR(rl)) {
-b041ca562526b3c Namjae Jeon 2026-02-13  414  		up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  415  		mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  416  		return -EIO;
-b041ca562526b3c Namjae Jeon 2026-02-13  417  	}
-b041ca562526b3c Namjae Jeon 2026-02-13  418  	lcn = ntfs_rl_vcn_to_lcn(rl, vcn);
-b041ca562526b3c Namjae Jeon 2026-02-13  419  
-b041ca562526b3c Namjae Jeon 2026-02-13  420  	if (lcn <= LCN_RL_NOT_MAPPED && is_retry == false) {
-b041ca562526b3c Namjae Jeon 2026-02-13  421  		is_retry = true;
-b041ca562526b3c Namjae Jeon 2026-02-13  422  		if (!ntfs_map_runlist_nolock(ni, vcn, NULL)) {
-b041ca562526b3c Namjae Jeon 2026-02-13  423  			rl = ni->runlist.rl;
-b041ca562526b3c Namjae Jeon 2026-02-13  424  			goto remap_rl;
-b041ca562526b3c Namjae Jeon 2026-02-13  425  		}
-b041ca562526b3c Namjae Jeon 2026-02-13  426  	}
-b041ca562526b3c Namjae Jeon 2026-02-13  427  
-b041ca562526b3c Namjae Jeon 2026-02-13  428  	max_clu_count = min(max_clu_count, rl->length - (vcn - rl->vcn));
-b041ca562526b3c Namjae Jeon 2026-02-13  429  	if (max_clu_count == 0) {
-b041ca562526b3c Namjae Jeon 2026-02-13  430  		ntfs_error(inode->i_sb,
-b041ca562526b3c Namjae Jeon 2026-02-13  431  				"runlist(vcn : %lld, length : %lld) is corrupted\n",
-b041ca562526b3c Namjae Jeon 2026-02-13  432  				rl->vcn, rl->length);
-b041ca562526b3c Namjae Jeon 2026-02-13  433  		up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  434  		mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  435  		return -EIO;
-b041ca562526b3c Namjae Jeon 2026-02-13  436  	}
-b041ca562526b3c Namjae Jeon 2026-02-13  437  
-b041ca562526b3c Namjae Jeon 2026-02-13  438  	iomap->bdev = inode->i_sb->s_bdev;
-b041ca562526b3c Namjae Jeon 2026-02-13  439  	iomap->offset = offset;
-b041ca562526b3c Namjae Jeon 2026-02-13  440  
-b041ca562526b3c Namjae Jeon 2026-02-13  441  	if (lcn <= LCN_DELALLOC) {
-b041ca562526b3c Namjae Jeon 2026-02-13  442  		if (lcn < LCN_DELALLOC) {
-b041ca562526b3c Namjae Jeon 2026-02-13  443  			max_clu_count =
-b041ca562526b3c Namjae Jeon 2026-02-13  444  				ntfs_available_clusters_count(vol, max_clu_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  445  			if (max_clu_count < 0) {
-b041ca562526b3c Namjae Jeon 2026-02-13  446  				err = max_clu_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  447  				up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  448  				mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  449  				return err;
-b041ca562526b3c Namjae Jeon 2026-02-13  450  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  451  		}
-b041ca562526b3c Namjae Jeon 2026-02-13  452  
-b041ca562526b3c Namjae Jeon 2026-02-13  453  		iomap->type = IOMAP_DELALLOC;
-b041ca562526b3c Namjae Jeon 2026-02-13  454  		iomap->addr = IOMAP_NULL_ADDR;
-b041ca562526b3c Namjae Jeon 2026-02-13  455  
-b041ca562526b3c Namjae Jeon 2026-02-13  456  		if (lcn <= LCN_HOLE) {
-b041ca562526b3c Namjae Jeon 2026-02-13  457  			size_t new_rl_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  458  
-b041ca562526b3c Namjae Jeon 2026-02-13  459  			rlc = kmalloc(sizeof(struct runlist_element) * 2,
-b041ca562526b3c Namjae Jeon 2026-02-13 @460  					GFP_NOFS);
-b041ca562526b3c Namjae Jeon 2026-02-13  461  			if (!rlc) {
-b041ca562526b3c Namjae Jeon 2026-02-13  462  				up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  463  				mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  464  				return -ENOMEM;
-b041ca562526b3c Namjae Jeon 2026-02-13  465  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  466  
-b041ca562526b3c Namjae Jeon 2026-02-13  467  			rlc->vcn = vcn;
-b041ca562526b3c Namjae Jeon 2026-02-13  468  			rlc->lcn = LCN_DELALLOC;
-b041ca562526b3c Namjae Jeon 2026-02-13  469  			rlc->length = max_clu_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  470  
-b041ca562526b3c Namjae Jeon 2026-02-13  471  			rlc[1].vcn = vcn + max_clu_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  472  			rlc[1].lcn = LCN_RL_NOT_MAPPED;
-b041ca562526b3c Namjae Jeon 2026-02-13  473  			rlc[1].length = 0;
-b041ca562526b3c Namjae Jeon 2026-02-13  474  
-b041ca562526b3c Namjae Jeon 2026-02-13  475  			rl = ntfs_runlists_merge(&ni->runlist, rlc, 0,
-b041ca562526b3c Namjae Jeon 2026-02-13  476  					&new_rl_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  477  			if (IS_ERR(rl)) {
-b041ca562526b3c Namjae Jeon 2026-02-13  478  				ntfs_error(vol->sb, "Failed to merge runlists");
-b041ca562526b3c Namjae Jeon 2026-02-13  479  				up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  480  				mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13 @481  				kvfree(rlc);
-b041ca562526b3c Namjae Jeon 2026-02-13  482  				return PTR_ERR(rl);
-b041ca562526b3c Namjae Jeon 2026-02-13  483  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  484  
-b041ca562526b3c Namjae Jeon 2026-02-13  485  			ni->runlist.rl = rl;
-b041ca562526b3c Namjae Jeon 2026-02-13  486  			ni->runlist.count = new_rl_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  487  			ni->i_dealloc_clusters += max_clu_count;
-b041ca562526b3c Namjae Jeon 2026-02-13  488  		}
-b041ca562526b3c Namjae Jeon 2026-02-13  489  		up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  490  		mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  491  
-b041ca562526b3c Namjae Jeon 2026-02-13  492  		if (lcn < LCN_DELALLOC)
-b041ca562526b3c Namjae Jeon 2026-02-13  493  			ntfs_hold_dirty_clusters(vol, max_clu_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  494  
-b041ca562526b3c Namjae Jeon 2026-02-13  495  		rl_length = ntfs_cluster_to_bytes(vol, max_clu_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  496  		if (length > rl_length - vcn_ofs)
-b041ca562526b3c Namjae Jeon 2026-02-13  497  			iomap->length = rl_length - vcn_ofs;
-b041ca562526b3c Namjae Jeon 2026-02-13  498  		else
-b041ca562526b3c Namjae Jeon 2026-02-13  499  			iomap->length = length;
-b041ca562526b3c Namjae Jeon 2026-02-13  500  
-b041ca562526b3c Namjae Jeon 2026-02-13  501  		iomap->flags = IOMAP_F_NEW;
-b041ca562526b3c Namjae Jeon 2026-02-13  502  		if (lcn <= LCN_HOLE) {
-b041ca562526b3c Namjae Jeon 2026-02-13  503  			loff_t end = offset + length;
-b041ca562526b3c Namjae Jeon 2026-02-13  504  
-b041ca562526b3c Namjae Jeon 2026-02-13  505  			if (vcn_ofs || ((vol->cluster_size > iomap->length) &&
-b041ca562526b3c Namjae Jeon 2026-02-13  506  					end < ni->initialized_size)) {
-b041ca562526b3c Namjae Jeon 2026-02-13  507  				loff_t z_start, z_end;
-b041ca562526b3c Namjae Jeon 2026-02-13  508  
-b041ca562526b3c Namjae Jeon 2026-02-13  509  				z_start = vcn << vol->cluster_size_bits;
-b041ca562526b3c Namjae Jeon 2026-02-13  510  				z_end = min_t(loff_t, z_start + vol->cluster_size,
-b041ca562526b3c Namjae Jeon 2026-02-13  511  					      i_size_read(inode));
-b041ca562526b3c Namjae Jeon 2026-02-13  512  				if (z_end > z_start)
-b041ca562526b3c Namjae Jeon 2026-02-13  513  					err = ntfs_zero_range(inode,
-b041ca562526b3c Namjae Jeon 2026-02-13  514  							      z_start,
-b041ca562526b3c Namjae Jeon 2026-02-13  515  							      z_end - z_start);
-b041ca562526b3c Namjae Jeon 2026-02-13  516  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  517  			if ((!err || err == -EPERM) &&
-b041ca562526b3c Namjae Jeon 2026-02-13  518  			    max_clu_count > 1 &&
-b041ca562526b3c Namjae Jeon 2026-02-13  519  			    (iomap->length & vol->cluster_size_mask &&
-b041ca562526b3c Namjae Jeon 2026-02-13  520  			     end < ni->initialized_size)) {
-b041ca562526b3c Namjae Jeon 2026-02-13  521  				loff_t z_start, z_end;
-b041ca562526b3c Namjae Jeon 2026-02-13  522  
-b041ca562526b3c Namjae Jeon 2026-02-13  523  				z_start = (vcn + max_clu_count - 1) <<
-b041ca562526b3c Namjae Jeon 2026-02-13  524  					vol->cluster_size_bits;
-b041ca562526b3c Namjae Jeon 2026-02-13  525  				z_end = min_t(loff_t, z_start + vol->cluster_size,
-b041ca562526b3c Namjae Jeon 2026-02-13  526  					      i_size_read(inode));
-b041ca562526b3c Namjae Jeon 2026-02-13  527  				if (z_end > z_start)
-b041ca562526b3c Namjae Jeon 2026-02-13  528  					err = ntfs_zero_range(inode,
-b041ca562526b3c Namjae Jeon 2026-02-13  529  							      z_start,
-b041ca562526b3c Namjae Jeon 2026-02-13  530  							      z_end - z_start);
-b041ca562526b3c Namjae Jeon 2026-02-13  531  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  532  
-b041ca562526b3c Namjae Jeon 2026-02-13  533  			if (err == -EPERM)
-b041ca562526b3c Namjae Jeon 2026-02-13  534  				err = 0;
-b041ca562526b3c Namjae Jeon 2026-02-13  535  			if (err) {
-b041ca562526b3c Namjae Jeon 2026-02-13  536  				ntfs_release_dirty_clusters(vol, max_clu_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  537  				return err;
-b041ca562526b3c Namjae Jeon 2026-02-13  538  			}
-b041ca562526b3c Namjae Jeon 2026-02-13  539  		}
-b041ca562526b3c Namjae Jeon 2026-02-13  540  	} else {
-b041ca562526b3c Namjae Jeon 2026-02-13  541  		up_write(&ni->runlist.lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  542  		mutex_unlock(&ni->mrec_lock);
-b041ca562526b3c Namjae Jeon 2026-02-13  543  
-b041ca562526b3c Namjae Jeon 2026-02-13  544  		iomap->type = IOMAP_MAPPED;
-b041ca562526b3c Namjae Jeon 2026-02-13  545  		iomap->addr = ntfs_cluster_to_bytes(vol, lcn) + vcn_ofs;
-b041ca562526b3c Namjae Jeon 2026-02-13  546  
-b041ca562526b3c Namjae Jeon 2026-02-13  547  		rl_length = ntfs_cluster_to_bytes(vol, max_clu_count);
-b041ca562526b3c Namjae Jeon 2026-02-13  548  		if (length > rl_length - vcn_ofs)
-b041ca562526b3c Namjae Jeon 2026-02-13  549  			iomap->length = rl_length - vcn_ofs;
-b041ca562526b3c Namjae Jeon 2026-02-13  550  		else
-b041ca562526b3c Namjae Jeon 2026-02-13  551  			iomap->length = length;
-b041ca562526b3c Namjae Jeon 2026-02-13  552  	}
-b041ca562526b3c Namjae Jeon 2026-02-13  553  
-b041ca562526b3c Namjae Jeon 2026-02-13  554  	return 0;
-b041ca562526b3c Namjae Jeon 2026-02-13  555  }
-b041ca562526b3c Namjae Jeon 2026-02-13  556  
+vim +1968 drivers/iio/adc/at91-sama5d2_adc.c
 
-:::::: The code at line 481 was first introduced by commit
-:::::: b041ca562526b3c4a71b41b80ba5e520eac636ad ntfs: update iomap and address space operations
+500a2eefd6b16b Eugen Hristev      2017-06-23  1927  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1928  static __maybe_unused int at91_adc_resume(struct device *dev)
+500a2eefd6b16b Eugen Hristev      2017-06-23  1929  {
+e3faedf71d8817 Kefeng Wang        2019-04-23  1930  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1931  	struct at91_adc_state *st = iio_priv(indio_dev);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1932  	int ret;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1933  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1934  	ret = pinctrl_pm_select_default_state(dev);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1935  	if (ret)
+500a2eefd6b16b Eugen Hristev      2017-06-23  1936  		goto resume_failed;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1937  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1938  	ret = regulator_enable(st->reg);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1939  	if (ret)
+500a2eefd6b16b Eugen Hristev      2017-06-23  1940  		goto resume_failed;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1941  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1942  	ret = regulator_enable(st->vref);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1943  	if (ret)
+500a2eefd6b16b Eugen Hristev      2017-06-23  1944  		goto reg_disable_resume;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1945  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1946  	ret = clk_prepare_enable(st->per_clk);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1947  	if (ret)
+500a2eefd6b16b Eugen Hristev      2017-06-23  1948  		goto vref_disable_resume;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1949  
+ebf35aad0baa05 Alexandru Ardelean 2020-05-25  1950  	at91_adc_hw_init(indio_dev);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1951  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1952  	/* reconfiguring trigger hardware state */
+23ec2774f1cc16 Eugen Hristev      2018-05-22  1953  	if (!iio_buffer_enabled(indio_dev))
+23ec2774f1cc16 Eugen Hristev      2018-05-22  1954  		return 0;
+23ec2774f1cc16 Eugen Hristev      2018-05-22  1955  
+44ec4b04fc9950 Claudiu Beznea     2022-08-03  1956  	ret = at91_adc_buffer_prepare(indio_dev);
+44ec4b04fc9950 Claudiu Beznea     2022-08-03  1957  	if (ret)
+44ec4b04fc9950 Claudiu Beznea     2022-08-03  1958  		goto vref_disable_resume;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1959  
+44ec4b04fc9950 Claudiu Beznea     2022-08-03  1960  	return at91_adc_configure_trigger(st->trig, true);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1961  
+500a2eefd6b16b Eugen Hristev      2017-06-23  1962  vref_disable_resume:
+500a2eefd6b16b Eugen Hristev      2017-06-23  1963  	regulator_disable(st->vref);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1964  reg_disable_resume:
+500a2eefd6b16b Eugen Hristev      2017-06-23  1965  	regulator_disable(st->reg);
+500a2eefd6b16b Eugen Hristev      2017-06-23  1966  resume_failed:
+500a2eefd6b16b Eugen Hristev      2017-06-23  1967  	dev_err(&indio_dev->dev, "failed to resume\n");
+500a2eefd6b16b Eugen Hristev      2017-06-23 @1968  	return ret;
+500a2eefd6b16b Eugen Hristev      2017-06-23  1969  }
+500a2eefd6b16b Eugen Hristev      2017-06-23  1970  
 
-:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
-:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
+:::::: The code at line 1968 was first introduced by commit
+:::::: 500a2eefd6b16ba141a8fb777ea6962d2eb65e3b iio: adc: at91-sama5d2_adc: add support for suspend/resume functionality
+
+:::::: TO: Eugen Hristev <eugen.hristev@microchip.com>
+:::::: CC: Jonathan Cameron <jic23@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
