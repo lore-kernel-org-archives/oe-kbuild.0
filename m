@@ -1,89 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793944601;
-	b=nF5MegjrHPrV64Yfw9ry0F4u7suke1i2rcdD79OcXqTxgVl3h51WWfGj8Su98Y33A/BL
-	 y48WKPzyPbL8rtMHtkLiH0qw3rLh+77Nlwa5tSFupvqwzooWFrilKYqx8zmPAm70ExZC6
-	 +Tou3ZJwBhK+xkOJ/H1p1kDCY7iHs41R3EoqtQis7JR23F0ctvyaIk+n0TdrfkqEe3uap
-	 RC88YJXfzyfYaJyEcSWqiUAIu/r4MQaouaXqQgUyCuV7rw3/0WQdkLtfXwopH71dN3bRc
-	 a8viKyC2Vdpf//kBamfils7ZkDMsMeHtWpA3Z4afwEbs4J4Tumtl31L5gFUnB4B+o0Q==
+	t=1793947736;
+	b=qqqgtRyI6gftNacgslz3Sv0EYHrPXJaNXc/Ed6IH9n8abyz7eqaO9Hanrx5rVCfdmAbk
+	 Hb1+rATL+CsdaYJY3S//iNKUOyIYvIY+lGCgzxfeTrTPssdcqmWfu+2kKiQkGAeOBWpiT
+	 MzLjyVv3qs1fuBUUg8h5TKel2ZBGKvoMy2Vf4s3HFvcvqhgkBXyDpFd8SEkLHiS7pyJHp
+	 VYfbuJR7DN31NCGpe6wrd39IyjaraPtSJuh1VWtSO/Wb5xXcmPD6BtkoZA8ThVUy/pZSx
+	 y2Q5guiaxhl+89UyBsu5rp/GCn7+P8wtmg0IK/8TE/WxID7XwrgdfqgxknRakZFinDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793944601;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-	b=1Gnlk9v6YPvmQ9jwXxuof4rxydJHhYOiSZBEBejuUEvQCrPUYo5wNIlsfQOBB4gtnkRv
-	 kMZSDjygn7bEYXdKp2WVZzv4GqhaUrFKjhCrvBLwhsrp6KJHmv9M3awcF1+KheY8Ri55j
-	 EYdQwx5J4eMjSPGV2hYvIwnEwc3QSYOxWMc4kxR2PD8mw/aV+RFwi0rhOJyizm+lGwXR5
-	 FwHIuARwTFLQoSWIurtpBzxvMq76NleMBtBb8jexYJS2FFhzagFT8Rp9J481OMNmP+B26
-	 QGSxuOaeOw7csShMf9zLEePZhLHthNcNx6QDtgAFvtkCTytQMiWE/KlNcWfd5vHtJMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793947736;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=Lq+DPC443VmfIkhls9K9Dl9s8WOcJjJqClTtPxZPhLA=;
+	b=THpMz7RhtD3eDibyaktJyaJA4wwmjYvhyK02kcrno2mski6lSu+gsVRGfjqFriXT3LgL
+	 H01ADKEo06kqyB8vEMvEwauEfRKgIwZ11LacG7QWpmpLSDG0E1W9bs5/TzCw8xycsT9mi
+	 SxBxfGXRmntQypnl+/WzlxEB+1gyrT1IsO68s5gNLnna7gdgt6udNPg3ZOnElFJHvlyzh
+	 1W5JRIqlgT3RQfawsMvaFsTCUMRc0OYv0sr+8Gosz89fzp+KvGG0r4N3ccsUUceaGsR81
+	 Su+QnX/Uf8oWcP1UFm3Q2mrdoTwKXkryrIkmU0OfBxXdwU9e0WA2azhKRBRQIhV5Pqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gp25SMaD;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFFF606A329
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 05:56:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBFFF606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851FA606A326
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 06:48:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 851FA606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so1546575e9.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 05 Nov 2026 21:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793944599; x=1794549399; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-        b=DjSN9+HtvK64QcXfzr3UBBgfpA1kJDs8ZDO3ZiJ/f4b62x2lPukGA4O0BI+DS1b5ZE
-         vdj5q3CD6WeoAjS+bgqAQM8wko5Qsf3Td2Wz8RhZXAG+ELrzchOoM/jGfmlDvRbG2srN
-         JAFTG1+xRcwri+zgnSGgzHsVSguVymLvcBeCg0L6vn61PjxKAwILYcNR+Zx1eggN75a2
-         +CO3fwrc+tlj4SeJQaD2349eY9KdqjJXkQhIToNYcnIBRBrssbCubDLm45iFOwRmMcS9
-         VW9igv7vda49wPHnlvQsuAN2kRNfBXSh9rsVA/bVvyqLmrJMC6oeZak51UEtdgV6hM87
-         Crag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793944599; x=1794549399;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-        b=xKpKYRwo163HRSXMwkF1xQEcuu8kHfY+1yOQkFIKP4GzPgPUzq/0pdD4yv+lRnAdKN
-         WClUsxiGiWaL0kux51Ld3W6HvZo4S+P6CjHeBEfPEUtUk1qYolsjwTSBvwsccwP1Ga1q
-         mE1pL35+k+25GdCV/bgytZeN64CJp6jWzPO4GsahgOlMkCsj3+d6jkODMOA8tAPKz1Q9
-         gxNlvmRzFtgHpIrmLTIQMDSDZTj63znAVjOOW1slzazfOonE2CK0TJrRBIkXWAnCvWsY
-         x6fH/lWplyMqwbTq/1wNZHt/gNA7A4jRfSAbdPEBxNyidyEuXqIyDB8xFJzEFdKOj2CA
-         rHQw==
-X-Gm-Message-State: APuU4Z/9KNMC7JKSfgg0DFzI21zV1bxTKfa++qTG9kfMyWMxUCupHkxM
-	FGo5ojAP1Jn8DNxT8JX79Cg8EKpwKG+RSY5kfIm7STVhxu7TBitF3KGlYNmQrVRMLYRTvCPh
-X-Gm-Gg: AYBFou33oHSb+HFg9d9AFuN1sGI823GGobUCzKDmR+ggfcw48CgRv+JIFHnXyrAo0GX
-	loOsVtcC0F0eLlKeD8Xn1rZNj9gTFs9NxRkj38s/2ZSbJRBIstINKZnMi/8HNw/hQNuoDEfg06E
-	NmlCOztu6VoMCbX0Zhr8jw6P6e0o7Gjf7cJ5bjThkkOTE2vqERED5dbpJq5n3GXnh+eFCsTb/oh
-	U2gA4eyQrdgt32iVKqXZFE6E1cbP32Q2HoEdtTtEjHdAMCrvGILxCAZtinRxVBxV8TH8NV/nbNg
-	xV4k2CkksIXzHA5cUAste5+WQvawA7GVsg33ecAsMNfZhGMeK4O7GAxYgH9I4AF60yzdCC0WD50
-	JJ0ZA2kVO+6H6sXONIq0sr22fzvPoqkpGQe4pMnasvoGHsNYKUSLxHuardtnuPL9TPsrCdlhY3r
-	e7YjqvkdR8naUfvtwQSex4rDA5sxrYDVi3g2APEoEHEW29Z+LyTFsXwJOqwTdBJSUr5HmfVR2Mf
-	oLC5fgo2NrtEyZxP1f4UT+00S3M1ldiVfZME4JPTmYhVTB361IXv0mB7edNTZO6LV77pCfOrr96
-	TysNVEtNxiEsRs/Yf46QeMQZA7Ol07UZX/XuZkrulukWTY3XEwBSrZhZ1JUgxhw3FYgaYxSRzve
-	rjkhgnlVJNVcwxtiM7Ygine1g2YlFalkBWuRnaJbz3rNiopC5NLnjOWZzsz74+82wWQ==
-X-Received: by 2002:a05:600c:8b28:b0:4a1:a2c0:7b73 with SMTP id 5b1f17b1804b1-4b6dfba8628mr16268215e9.30.1793944598951;
-        Thu, 05 Nov 2026 21:56:38 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6ed5b8159sm27279965e9.2.2026.11.05.21.56.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 21:56:37 -0800 (PST)
-Date: Fri, 6 Nov 2026 08:56:33 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 390/390]
- drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
-Message-ID: <202611060606.xbU3zu11-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gp25SMaD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793947735; x=1825483735;
+  h=date:from:to:cc:subject:message-id;
+  bh=N/2hR3tR2e+B164Qyk6GFt7nBCudt24/FFBgTmNF/04=;
+  b=Gp25SMaDih6XuQnb6ZTGtxpNtdCGFsremIbMVA8Yq6jewDidK1yk+4M3
+   KSbnWzxJAbVBzB0tb95afcdq1sPKfOMJGcGHNKHdWyKrR+tM9k5qIFgXC
+   4784RZaeuKI92VXgNCHIf6po48MkZWV/S79Kv7wuTVIx50BrYvzqlqhir
+   AyhAjcFewLhbqErTu87OKgKxhXaU5Uku7FrZJjQwVpR6cy7yPgwG+aOfz
+   UA/08sTE6BMlPz0Mjxqr9/wv6ytiXi3RM/YUrPztBHolL5H5U14mF2+Xk
+   EmeKy2O+TTr4Bnyafv0tML3TnAuytEaxkm0SJ0y0/0d3qksqilrHumPDs
+   Q==;
+X-CSE-ConnectionGUID: xrMxx4/OSq+H8pkA6DxU5g==
+X-CSE-MsgGUID: 5rgKwES4QAmKKjp/6Grjdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2771142"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2771142"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 22:48:55 -0800
+X-CSE-ConnectionGUID: c+yzt461S+OQahqpQUA0ug==
+X-CSE-MsgGUID: DGfFhvy/R/W1f+DYMOjJIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7245321"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2026 22:48:53 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPDkp-00000000A6p-16KP;
+	Fri, 06 Nov 2026 06:48:51 +0000
+Date: Fri, 06 Nov 2026 07:47:59 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [superna9999:topic/sm8x50/iio-max34417-adc-perr-verr 1/11]
+ arch/arm64/boot/dts/qcom/sm8650-valve-deckard.dtb:
+ /soc@0/geniqup@ac0000/i2c@a94000/sensor@10: failed to match any schema with
+ compatible: ['maxim,max34417']
+Message-ID: <202611060754.p83bLHaH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -92,85 +81,37 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20261106055633.1zRBNNiC1GL9QLxoTpK37YS6H9kVeJZTfeFdG9PgDTk@z>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   900d46d1c904d34d7c3eeb0ef2119cffc5a8ab3d
-commit: 534fd7770b6ddedc6c6ef6fa724987d3397f9b3b [390/390] mtd: core: Report error if first mtd_otp_size() call fails in mtd_otp_nvmem_add()
-config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060606.xbU3zu11-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+
+tree:   https://github.com/superna9999/linux topic/sm8x50/iio-max34417-adc-perr-verr
+head:   560309472395672529dd22034adcd3eabc0559ea
+commit: 54729cd85a044e8e2ee3f73ddda2d7c2fb39e199 [1/11] DONOTMERGE: deckard add max34417 nodes & config
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261106/202611060754.p83bLHaH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060754.p83bLHaH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611060606.xbU3zu11-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611060754.p83bLHaH-lkp@intel.com/
 
-smatch warnings:
-drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
-
-vim +955 drivers/mtd/mtdcore.c
-
-4b361cfa862479 Michael Walle 2021-04-24  936  static int mtd_otp_nvmem_add(struct mtd_info *mtd)
-4b361cfa862479 Michael Walle 2021-04-24  937  {
-26358f330405af Michael Walle 2023-03-08  938  	struct device *dev = mtd->dev.parent;
-4b361cfa862479 Michael Walle 2021-04-24  939  	struct nvmem_device *nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  940  	ssize_t size;
-4b361cfa862479 Michael Walle 2021-04-24  941  	int err;
-4b361cfa862479 Michael Walle 2021-04-24  942  
-4b361cfa862479 Michael Walle 2021-04-24  943  	if (mtd->_get_user_prot_info && mtd->_read_user_prot_reg) {
-4b361cfa862479 Michael Walle 2021-04-24  944  		size = mtd_otp_size(mtd, true);
-534fd7770b6dde Aapo Vienamo  2024-03-13  945  		if (size < 0) {
-534fd7770b6dde Aapo Vienamo  2024-03-13  946  			err = size;
-534fd7770b6dde Aapo Vienamo  2024-03-13  947  			goto err;
-
-This goto err is wrong.  We haven't done the register so it should
-return directly.
-
-534fd7770b6dde Aapo Vienamo  2024-03-13  948  		}
-4b361cfa862479 Michael Walle 2021-04-24  949  
-4b361cfa862479 Michael Walle 2021-04-24  950  		if (size > 0) {
-4b361cfa862479 Michael Walle 2021-04-24  951  			nvmem = mtd_otp_nvmem_register(mtd, "user-otp", size,
-4b361cfa862479 Michael Walle 2021-04-24  952  						       mtd_nvmem_user_otp_reg_read);
-4b361cfa862479 Michael Walle 2021-04-24  953  			if (IS_ERR(nvmem)) {
-26358f330405af Michael Walle 2023-03-08  954  				dev_err(dev, "Failed to register OTP NVMEM device\n");
-4b361cfa862479 Michael Walle 2021-04-24 @955  				return PTR_ERR(nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  956  			}
-4b361cfa862479 Michael Walle 2021-04-24  957  			mtd->otp_user_nvmem = nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  958  		}
-4b361cfa862479 Michael Walle 2021-04-24  959  	}
-4b361cfa862479 Michael Walle 2021-04-24  960  
-4b361cfa862479 Michael Walle 2021-04-24  961  	if (mtd->_get_fact_prot_info && mtd->_read_fact_prot_reg) {
-4b361cfa862479 Michael Walle 2021-04-24  962  		size = mtd_otp_size(mtd, false);
-4b361cfa862479 Michael Walle 2021-04-24  963  		if (size < 0) {
-4b361cfa862479 Michael Walle 2021-04-24  964  			err = size;
-4b361cfa862479 Michael Walle 2021-04-24  965  			goto err;
-4b361cfa862479 Michael Walle 2021-04-24  966  		}
-4b361cfa862479 Michael Walle 2021-04-24  967  
-4b361cfa862479 Michael Walle 2021-04-24  968  		if (size > 0) {
-4b361cfa862479 Michael Walle 2021-04-24  969  			nvmem = mtd_otp_nvmem_register(mtd, "factory-otp", size,
-4b361cfa862479 Michael Walle 2021-04-24  970  						       mtd_nvmem_fact_otp_reg_read);
-4b361cfa862479 Michael Walle 2021-04-24  971  			if (IS_ERR(nvmem)) {
-26358f330405af Michael Walle 2023-03-08  972  				dev_err(dev, "Failed to register OTP NVMEM device\n");
-4b361cfa862479 Michael Walle 2021-04-24  973  				err = PTR_ERR(nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  974  				goto err;
-4b361cfa862479 Michael Walle 2021-04-24  975  			}
-4b361cfa862479 Michael Walle 2021-04-24  976  			mtd->otp_factory_nvmem = nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  977  		}
-4b361cfa862479 Michael Walle 2021-04-24  978  	}
-4b361cfa862479 Michael Walle 2021-04-24  979  
-4b361cfa862479 Michael Walle 2021-04-24  980  	return 0;
-4b361cfa862479 Michael Walle 2021-04-24  981  
-4b361cfa862479 Michael Walle 2021-04-24  982  err:
-4b361cfa862479 Michael Walle 2021-04-24  983  	nvmem_unregister(mtd->otp_user_nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  984  	return err;
-4b361cfa862479 Michael Walle 2021-04-24  985  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5762.27-5837.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5859.27-5915.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8650-valve-deckard.dtb: /soc@0/geniqup@ac0000/i2c@a94000/sensor@10: failed to match any schema with compatible: ['maxim,max34417']
+   arch/arm64/boot/dts/qcom/sm8650-valve-deckard.dtb: /soc@0/geniqup@ac0000/i2c@a94000/sensor@12: failed to match any schema with compatible: ['maxim,max34417']
+>> arch/arm64/boot/dts/qcom/sm8650-valve-deckard.dtb: /soc@0/geniqup@ac0000/i2c@a94000/sensor@1a: failed to match any schema with compatible: ['maxim,max34417']
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
