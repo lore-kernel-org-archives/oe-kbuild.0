@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793933269;
-	b=gB6cTfPFhUgDoJ8idTe1hfQwziod9KhxILP+jFX+7dr0YgOPesitD+5wI04IBJtw1O7i
-	 wMDqBXhI5zL/WzyP6w+vx2M9dWtZ776naSGG63+L8bMsZOVvBhnPztf5ejbTbyRiL8l+i
-	 8AtQTLn5cC6OpkQnCLSR4Qq/385N9/M3PChknWd6X7QOnQLrnHtS9HOQQyN8pMqyuwPKN
-	 LVvnq+Av4kWAKaNsWZ22/Y8c/4MEbw4N481F25qPEHLZ05kQD51dygrmsdvD7r3nZEqFT
-	 nYecX7QqA12k0PEj0h3qFEma+mQVZ/amOFGRoyMWlvACeHIVtp7+vEd/2xRKiIDPYrQ==
+	t=1793940133;
+	b=B/qqHZPpM1oQFipL3cLg55WepLd4hzxYWrikOMxjzPavmzVzajqVIxNFzEvbht7qQwcp
+	 QSxn/8Obxifg3Vbwr0F9+RakzJgJwom8qhGzx1jZSSueJbwMCPLWb3s6IHkzKdJ+OD+mV
+	 zQ1bhpc7waw3oekIYMTg1LGtFIqVcN/tLdZhVxfw7NxIpOQ9Qn4QAS2sVaeL28gE1A+St
+	 /ejmI6BjVt/WMg8FYK8u/wSyc0m2CtnT0TRSyJRuP2HO/tGGf9SDmAd9GEXfrcNpC99MA
+	 wcriNnUnOQlt1waM3BPSZ9Rp2setTdDaw37iVibc+vparvA4uVYYAu0jahruuxTrN9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793933269;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793940133;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Rb4CoOmRUhuf+FiCf4I91mfx6ufVMd8BU/0HJcK9Tdw=;
-	b=ski21qT6TzIGKBuVfqO3LgJONE6mCggwQs8X+fr/p/5up2uslmjKQQKjN7xohJA2oa5v
-	 OmnXc9Myfkd9bf7AWvMH6NJjLQPnbFOp7lNCA/cv05SgYzcraASlPhTD/9F8H6jowQjKF
-	 Bhs8u2l0oOYaldfSE+IbgsXQQp5ZIWp0TIcWsIndvNyuzSvhexLt3rzW5+W488u9sAW3O
-	 /tkoQajM10zVQtWM3DYXIaOezQ0V093ijlcSVw7qVVA5+xEAuEFo3dKuDrHFcIu1wlGJv
-	 t/2Ts/ci+i3BI9yQ6i72sHpQSGVV4v5/Kk4cB1z5G+ild3yiDcBQUYU2GkENEhHzFBA==
+	bh=z2x7X0fBTuSVUg1F/rHwuhHWyWhfEnYZZOKEaXiJgKM=;
+	b=pel7tXSL/Kq2mXN3JNANkZlxL+57/LXe4BZzv/L6okXfMU6bYgL8W0Q+P6gQJqS9sNBC
+	 rHQ0xjn97sidgUw28B4fL+yMkk305u30TyxmAegdrT+0LVERF3VF3QWZWDlAArXF1iZ+A
+	 krQ4+TVsqVautfjXT1W2PxwkryDrGpLWA4zhO6p2zyYDd7HzM2CY7Nx2A7O8dgujMCbCn
+	 7oza1zf5i3EPLLps+p30iKvbjWeSeiPcJ1SWZbwxsryUzqw1zIqPB0I2ucD5yRNVpwuJV
+	 Qz7ziLs7JiNoZCCfm+PC+cou7EOZq0ilJD1PpjoZpV4ISis9std9kmnBuidpFCqkZQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WIW30RIA;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qt9H3Wpv;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E89606A31B
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 02:47:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2E89606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF19606A326
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 04:42:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDF19606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WIW30RIA
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qt9H3Wpv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793933268; x=1825469268;
+  t=1793940131; x=1825476131;
   h=date:from:to:cc:subject:message-id;
-  bh=ky3tKS8mQI6TPVlinntT8oYxuYjOF+tdscAUvakphzA=;
-  b=WIW30RIAkxDIsh7aR1AWVQvQLAaNF1CXGVrACffNcUno5OymmzJSH03e
-   A6T1vjTpFMbmO7FIFVHn0FMQM2PBy2iqFsAdTXIcMKgp559Or5dO2+EbF
-   AxkyLHi36roWswgXTpKbMqOz0sA+IVRl6nYcTxxcoMwCCOd6hO+l4ky/6
-   ve07FC9u19dB5m57tfGocg7ogfZaDy9MnuY2x5BMwJwuwB26l8STxtJTX
-   HV9I2IDUwsfCqoD4mrYOBB/mi5bIdo5+e2WFyhFmNghRF//cZ2qdk4+vN
-   GYoDNDOB9d+5ELwhHRWWYvPenNk1YdydFrKNQTdg/+ivGDNI5YpjldMHc
+  bh=O3eZ665jt/IveF6NjpqZvGFuFMlJtsQSF3hwup6yc88=;
+  b=Qt9H3WpvUUIp8rjZvj6AOzzJC27rapV457ev5RwsXSMnD1ilC8XLzksl
+   vBkvrkXxKAb9QG6ExnromQ/WEEfF3r+8L+L+GBZi/Sotzy3YND2XumH9L
+   DBED3+7WFrjmo/0MxxYA7Qr985ZBbFtti0n9VTWe9cDam3JWxIhzIukZa
+   5o/8QZXbf2h3JPK6icXIC8WQPsbj42T93eAi09w6j8WthQDrUT03+ixA1
+   SK7lNu41btqeyJnEiWpR32iXLJLQ1vpSse6iQL09HQjs3+U9TyOI6zPmX
+   LMnEqTguRQBhT+d9b+Q9TeO302IaMJJj4lOS7w1YggvVFCoBNiga8CBW6
    Q==;
-X-CSE-ConnectionGUID: b+ue0q1VSMu8HgHaXwKKVg==
-X-CSE-MsgGUID: mtqw8J41RyOZqyP4X6a0rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2764355"
+X-CSE-ConnectionGUID: 1Kuw4giaSc6y2Fh9wyvm/w==
+X-CSE-MsgGUID: ssqsH+SEQ/6+x9aJWPv9Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2787848"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2764355"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 18:47:47 -0800
-X-CSE-ConnectionGUID: ii9Ixt5QTwC5cDXVki+gDQ==
-X-CSE-MsgGUID: mGZsLfxWQWeutIeIBrJi4w==
+   d="scan'208";a="2787848"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 20:42:10 -0800
+X-CSE-ConnectionGUID: WB4GXSu+RYqPWVNrwZQ/5w==
+X-CSE-MsgGUID: m/Eh9JWiQ32DcRfHKYn/xA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7493346"
+   d="scan'208";a="7335014"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2026 18:47:46 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2026 20:42:08 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP9zS-000000009z9-2CaZ;
-	Fri, 06 Nov 2026 02:47:42 +0000
-Date: Fri, 06 Nov 2026 03:46:42 +0100
+	id 1xPBmA-00000000A1f-2c28;
+	Fri, 06 Nov 2026 04:42:06 +0000
+Date: Fri, 06 Nov 2026 05:41:41 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android17-6.18-p3s 58/58] mm/madvise.c:2012
- do_madvise() warn: missing error code? 'error'
-Message-ID: <202611060315.68wjrcYb-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 390/390]
+ kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
+ dereferenced before check 'buffer' (see line 2172)
+Message-ID: <202611060531.WvoaU0TG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -87,12 +88,12 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
-head:   5bcdf096fa9a02f8ee295f36a2daf645e18327a5
-commit: 648be4d49264c6eea182eb958b6c7c1637a716ba [58/58] ANDROID: vendor_hook: Added hook to tune reclaimed huge page
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060315.68wjrcYb-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   900d46d1c904d34d7c3eeb0ef2119cffc5a8ab3d
+commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [390/390] ANDROID: ring-buffer: Introducing external writer support
+:::::: branch date: 30 hours ago
+:::::: commit date: 3 years, 9 months ago
+config: i386-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060531.WvoaU0TG-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 smatch: v0.5.0-9187-g5189e3fb
 
@@ -100,116 +101,222 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611060315.68wjrcYb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611060531.WvoaU0TG-lkp@intel.com/
 
 smatch warnings:
-mm/madvise.c:2012 do_madvise() warn: missing error code? 'error'
+kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
 
-vim +/error +2012 mm/madvise.c
+vim +/buffer +2177 kernel/trace/ring_buffer.c
 
-457753da646202 SeongJae Park     2025-02-05  1919  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1920  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1921   * The madvise(2) system call.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1922   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1923   * Applications can use madvise() to advise the kernel how it should
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1924   * handle paging I/O in this VM area.  The idea is to help the kernel
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1925   * use appropriate read-ahead and caching techniques.  The information
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1926   * provided is advisory only, and can be safely disregarded by the
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1927   * kernel without affecting the correct operation of the application.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1928   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1929   * behavior values:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1930   *  MADV_NORMAL - the default behavior is to read clusters.  This
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1931   *		results in some read-ahead and read-behind.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1932   *  MADV_RANDOM - the system should read the minimum amount of data
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1933   *		on any access, since it is unlikely that the appli-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1934   *		cation will need more than what it asks for.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1935   *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1936   *		once, so they can be aggressively read ahead, and
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1937   *		can be freed soon after they are accessed.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1938   *  MADV_WILLNEED - the application is notifying the system to read
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1939   *		some pages ahead.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1940   *  MADV_DONTNEED - the application is finished with the given range,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1941   *		so the kernel can free resources associated with it.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1942   *  MADV_FREE - the application marks pages in the given range as lazy free,
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1943   *		where actual purges are postponed until memory pressure happens.
-f6b3ec238d12c8 Badari Pulavarty  2006-01-06  1944   *  MADV_REMOVE - the application wants to free up the given range of
-f6b3ec238d12c8 Badari Pulavarty  2006-01-06  1945   *		pages and associated backing store.
-3866ea90d3635d Hugh Dickins      2009-09-21  1946   *  MADV_DONTFORK - omit this area from child's address space when forking:
-3866ea90d3635d Hugh Dickins      2009-09-21  1947   *		typically, to avoid COWing pages pinned by get_user_pages().
-3866ea90d3635d Hugh Dickins      2009-09-21  1948   *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
-c02c3009325418 Yang Shi          2017-10-13  1949   *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
-c02c3009325418 Yang Shi          2017-10-13  1950   *              range after a fork.
-c02c3009325418 Yang Shi          2017-10-13  1951   *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1952   *  MADV_HWPOISON - trigger memory error handler as if the given memory range
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1953   *		were corrupted by unrecoverable hardware memory failure.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1954   *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
-f8af4da3b4c14e Hugh Dickins      2009-09-21  1955   *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
-f8af4da3b4c14e Hugh Dickins      2009-09-21  1956   *		this area with pages of identical content from other such areas.
-f8af4da3b4c14e Hugh Dickins      2009-09-21  1957   *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1958   *  MADV_HUGEPAGE - the application wants to back the given range by transparent
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1959   *		huge pages in the future. Existing pages might be coalesced and
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1960   *		new pages might be allocated as THP.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1961   *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1962   *		transparent huge pages so the existing pages will not be
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1963   *		coalesced into THP and new pages will not be allocated as THP.
-7d8faaf155454f Zach O'Keefe      2022-07-06  1964   *  MADV_COLLAPSE - synchronously coalesce pages into new THP.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1965   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1966   *		from being included in its core dump.
-d7206a70af5c09 Naoya Horiguchi   2016-03-15  1967   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
-ecb8ac8b1f1469 Minchan Kim       2020-10-17  1968   *  MADV_COLD - the application is not expected to use this memory soon,
-ecb8ac8b1f1469 Minchan Kim       2020-10-17  1969   *		deactivate pages in this range so that they can be reclaimed
-f0953a1bbaca71 Ingo Molnar       2021-05-06  1970   *		easily if memory pressure happens.
-ecb8ac8b1f1469 Minchan Kim       2020-10-17  1971   *  MADV_PAGEOUT - the application is not expected to use this memory soon,
-ecb8ac8b1f1469 Minchan Kim       2020-10-17  1972   *		page out the pages in this range immediately.
-4ca9b3859dac14 David Hildenbrand 2021-06-30  1973   *  MADV_POPULATE_READ - populate (prefault) page tables readable by
-4ca9b3859dac14 David Hildenbrand 2021-06-30  1974   *		triggering read faults if required
-4ca9b3859dac14 David Hildenbrand 2021-06-30  1975   *  MADV_POPULATE_WRITE - populate (prefault) page tables writable by
-4ca9b3859dac14 David Hildenbrand 2021-06-30  1976   *		triggering write faults if required
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1977   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1978   * return values:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1979   *  zero    - success
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1980   *  -EINVAL - start + len < 0, start is not page-aligned,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1981   *		"behavior" is not a valid value, or application
-c02c3009325418 Yang Shi          2017-10-13  1982   *		is attempting to release locked or shared pages,
-c02c3009325418 Yang Shi          2017-10-13  1983   *		or the specified address range includes file, Huge TLB,
-c02c3009325418 Yang Shi          2017-10-13  1984   *		MAP_SHARED or VMPFNMAP range.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1985   *  -ENOMEM - addresses in the specified range are not currently
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1986   *		mapped, or are outside the AS of the process.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1987   *  -EIO    - an I/O error occurred while paging in data.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1988   *  -EBADF  - map exists, but area maps something that isn't a file.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1989   *  -EAGAIN - a kernel resource was temporarily unavailable.
-8be7258aad44b5 Jeff Xu           2024-04-15  1990   *  -EPERM  - memory is sealed.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1991   */
-0726b01e70455f Minchan Kim       2020-10-17  1992  int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int behavior)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1993  {
-ac1e9acc5acf0b Colin Cross       2022-01-14  1994  	int error;
-01bef02bf9301e SeongJae Park     2025-04-09  1995  	struct mmu_gather tlb;
-01bef02bf9301e SeongJae Park     2025-04-09  1996  	struct madvise_behavior madv_behavior = {
-20d3aea927808b Lorenzo Stoakes   2025-06-20  1997  		.mm = mm,
-01bef02bf9301e SeongJae Park     2025-04-09  1998  		.behavior = behavior,
-01bef02bf9301e SeongJae Park     2025-04-09  1999  		.tlb = &tlb,
-01bef02bf9301e SeongJae Park     2025-04-09  2000  	};
-648be4d49264c6 Pengfei Li        2025-07-17  2001  	bool bypass = false;
-84d96d897671cf Rasmus Villemoes  2013-04-29  2002  
-0a6ffacb3b4223 SeongJae Park     2025-03-12  2003  	if (madvise_should_skip(start, len_in, behavior, &error))
-0a6ffacb3b4223 SeongJae Park     2025-03-12  2004  		return error;
-20d3aea927808b Lorenzo Stoakes   2025-06-20  2005  	error = madvise_lock(&madv_behavior);
-4cc39f91ef6c6f SeongJae Park     2025-02-05  2006  	if (error)
-4cc39f91ef6c6f SeongJae Park     2025-02-05  2007  		return error;
-648be4d49264c6 Pengfei Li        2025-07-17  2008  
-648be4d49264c6 Pengfei Li        2025-07-17  2009  	trace_android_vh_mm_do_madvise_bypass(mm, start, len_in, behavior,
-648be4d49264c6 Pengfei Li        2025-07-17  2010  					      &error, &bypass);
-648be4d49264c6 Pengfei Li        2025-07-17  2011  	if (bypass)
-648be4d49264c6 Pengfei Li        2025-07-17 @2012  		return error;
-648be4d49264c6 Pengfei Li        2025-07-17  2013  
-20d3aea927808b Lorenzo Stoakes   2025-06-20  2014  	madvise_init_tlb(&madv_behavior);
-20d3aea927808b Lorenzo Stoakes   2025-06-20  2015  	error = madvise_do_behavior(start, len_in, &madv_behavior);
-01bef02bf9301e SeongJae Park     2025-04-09  2016  	madvise_finish_tlb(&madv_behavior);
-20d3aea927808b Lorenzo Stoakes   2025-06-20  2017  	madvise_unlock(&madv_behavior);
-0a27a14a62921b Nicholas Piggin   2007-05-06  2018  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2019  	return error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2020  }
-db08ca25253d56 Jens Axboe        2019-12-25  2021  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2154  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2155  /**
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2156   * ring_buffer_resize - resize the ring buffer
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2157   * @buffer: the buffer to resize.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2158   * @size: the new size.
+d611851b421731 zhangwei(Jovi             2013-07-15  2159)  * @cpu_id: the cpu buffer to resize
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2160   *
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2161   * Minimum size is 2 * BUF_PAGE_SIZE.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2162   *
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2163   * Returns 0 on success and < 0 on failure.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2164   */
+13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
+9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
+0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
+ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
+0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2182  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
+0a1754b2a97efa Qiujun Huang              2020-10-19  2183  		return 0;
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2184  
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2185) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2186  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2187  	/* we need a minimum of two pages */
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2188) 	if (nr_pages < 2)
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2189) 		nr_pages = 2;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2190  
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2191) 	/* prevent another thread from changing buffer sizes */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2192) 	mutex_lock(&buffer->mutex);
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2193) 
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2194) 
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2195) 	if (cpu_id == RING_BUFFER_ALL_CPUS) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2196  		/*
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2197  		 * Don't succeed if resizing is disabled, as a reader might be
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2198  		 * manipulating the ring buffer and is expecting a sane state while
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2199  		 * this is true.
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2200  		 */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2201) 		for_each_buffer_cpu(buffer, cpu) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2202) 			cpu_buffer = buffer->buffers[cpu];
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2203) 			if (atomic_read(&cpu_buffer->resize_disabled)) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2204) 				err = -EBUSY;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2205) 				goto out_err_unlock;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2206) 			}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2207) 		}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2208  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2209  		/* calculate the pages to update */
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2210  		for_each_buffer_cpu(buffer, cpu) {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2211  			cpu_buffer = buffer->buffers[cpu];
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2212  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2213  			cpu_buffer->nr_pages_to_update = nr_pages -
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2214  							cpu_buffer->nr_pages;
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2215  			/*
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2216  			 * nothing more to do for removing pages or no update
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2217  			 */
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2218  			if (cpu_buffer->nr_pages_to_update <= 0)
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2219  				continue;
+d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2220  			/*
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2221  			 * to add pages, make sure all new pages can be
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2222  			 * allocated without receiving ENOMEM
+d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2223  			 */
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2224  			INIT_LIST_HEAD(&cpu_buffer->new_pages);
+74e2afc6df5782 Qiujun Huang              2020-10-15  2225  			if (__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
+74e2afc6df5782 Qiujun Huang              2020-10-15  2226  						&cpu_buffer->new_pages)) {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2227  				/* not enough memory for new pages */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2228  				err = -ENOMEM;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2229  				goto out_err;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2230  			}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2231  		}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2232  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2233  		cpus_read_lock();
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2234  		/*
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2235  		 * Fire off all the required work handlers
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2236  		 * We can't schedule on offline CPUs, but it's not necessary
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2237  		 * since we can change their buffer sizes without any race.
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2238  		 */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2239  		for_each_buffer_cpu(buffer, cpu) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2240  			cpu_buffer = buffer->buffers[cpu];
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2241  			if (!cpu_buffer->nr_pages_to_update)
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2242  				continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2243  
+021c5b34452d52 Corey Minyard             2014-07-16  2244  			/* Can't run something on an offline CPU. */
+021c5b34452d52 Corey Minyard             2014-07-16  2245  			if (!cpu_online(cpu)) {
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2246) 				rb_update_pages(cpu_buffer);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2247) 				cpu_buffer->nr_pages_to_update = 0;
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2248) 			} else {
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2249  				schedule_work_on(cpu,
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2250  						&cpu_buffer->update_pages_work);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2251) 			}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2252  		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2253  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2254  		/* wait for all the updates to complete */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2255  		for_each_buffer_cpu(buffer, cpu) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2256  			cpu_buffer = buffer->buffers[cpu];
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2257  			if (!cpu_buffer->nr_pages_to_update)
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2258  				continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2259  
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2260  			if (cpu_online(cpu))
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2261  				wait_for_completion(&cpu_buffer->update_done);
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2262  			cpu_buffer->nr_pages_to_update = 0;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2263  		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2264  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2265  		cpus_read_unlock();
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2266  	} else {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2267  		cpu_buffer = buffer->buffers[cpu_id];
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2268  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2269  		if (nr_pages == cpu_buffer->nr_pages)
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2270  			goto out;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2271  
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2272) 		/*
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2273) 		 * Don't succeed if resizing is disabled, as a reader might be
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2274) 		 * manipulating the ring buffer and is expecting a sane state while
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2275) 		 * this is true.
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2276) 		 */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2277) 		if (atomic_read(&cpu_buffer->resize_disabled)) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2278) 			err = -EBUSY;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2279) 			goto out_err_unlock;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2280) 		}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2281) 
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2282  		cpu_buffer->nr_pages_to_update = nr_pages -
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2283  						cpu_buffer->nr_pages;
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2284  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2285  		INIT_LIST_HEAD(&cpu_buffer->new_pages);
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2286  		if (cpu_buffer->nr_pages_to_update > 0 &&
+74e2afc6df5782 Qiujun Huang              2020-10-15  2287  			__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
+74e2afc6df5782 Qiujun Huang              2020-10-15  2288  					    &cpu_buffer->new_pages)) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2289  			err = -ENOMEM;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2290  			goto out_err;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2291  		}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2292  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2293  		cpus_read_lock();
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2294  
+021c5b34452d52 Corey Minyard             2014-07-16  2295  		/* Can't run something on an offline CPU. */
+021c5b34452d52 Corey Minyard             2014-07-16  2296  		if (!cpu_online(cpu_id))
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2297) 			rb_update_pages(cpu_buffer);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2298) 		else {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2299  			schedule_work_on(cpu_id,
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2300  					 &cpu_buffer->update_pages_work);
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2301  			wait_for_completion(&cpu_buffer->update_done);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2302) 		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2303  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2304  		cpu_buffer->nr_pages_to_update = 0;
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2305  		cpus_read_unlock();
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2306  	}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2307  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2308   out:
+659f451ff21315 Steven Rostedt            2012-05-14  2309  	/*
+659f451ff21315 Steven Rostedt            2012-05-14  2310  	 * The ring buffer resize can happen with the ring buffer
+659f451ff21315 Steven Rostedt            2012-05-14  2311  	 * enabled, so that the update disturbs the tracing as little
+659f451ff21315 Steven Rostedt            2012-05-14  2312  	 * as possible. But if the buffer is disabled, we do not need
+659f451ff21315 Steven Rostedt            2012-05-14  2313  	 * to worry about that, and we can take the time to verify
+659f451ff21315 Steven Rostedt            2012-05-14  2314  	 * that the buffer is not corrupt.
+659f451ff21315 Steven Rostedt            2012-05-14  2315  	 */
+659f451ff21315 Steven Rostedt            2012-05-14  2316  	if (atomic_read(&buffer->record_disabled)) {
+659f451ff21315 Steven Rostedt            2012-05-14  2317  		atomic_inc(&buffer->record_disabled);
+659f451ff21315 Steven Rostedt            2012-05-14  2318  		/*
+659f451ff21315 Steven Rostedt            2012-05-14  2319  		 * Even though the buffer was disabled, we must make sure
+659f451ff21315 Steven Rostedt            2012-05-14  2320  		 * that it is truly disabled before calling rb_check_pages.
+659f451ff21315 Steven Rostedt            2012-05-14  2321  		 * There could have been a race between checking
+659f451ff21315 Steven Rostedt            2012-05-14  2322  		 * record_disable and incrementing it.
+659f451ff21315 Steven Rostedt            2012-05-14  2323  		 */
+7440172974e85b Paul E. McKenney          2018-11-06  2324  		synchronize_rcu();
+659f451ff21315 Steven Rostedt            2012-05-14  2325  		for_each_buffer_cpu(buffer, cpu) {
+659f451ff21315 Steven Rostedt            2012-05-14  2326  			cpu_buffer = buffer->buffers[cpu];
+659f451ff21315 Steven Rostedt            2012-05-14  2327  			rb_check_pages(cpu_buffer);
+659f451ff21315 Steven Rostedt            2012-05-14  2328  		}
+659f451ff21315 Steven Rostedt            2012-05-14  2329  		atomic_dec(&buffer->record_disabled);
+659f451ff21315 Steven Rostedt            2012-05-14  2330  	}
+659f451ff21315 Steven Rostedt            2012-05-14  2331  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2332  	mutex_unlock(&buffer->mutex);
+0a1754b2a97efa Qiujun Huang              2020-10-19  2333  	return 0;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2334  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2335   out_err:
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2336  	for_each_buffer_cpu(buffer, cpu) {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2337  		struct buffer_page *bpage, *tmp;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2338  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2339  		cpu_buffer = buffer->buffers[cpu];
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2340  		cpu_buffer->nr_pages_to_update = 0;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2341  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2342  		if (list_empty(&cpu_buffer->new_pages))
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2343  			continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2344  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2345  		list_for_each_entry_safe(bpage, tmp, &cpu_buffer->new_pages,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2346  					list) {
+044fa782ebb947 Steven Rostedt            2008-12-02  2347  			list_del_init(&bpage->list);
+044fa782ebb947 Steven Rostedt            2008-12-02  2348  			free_buffer_page(bpage);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2349  		}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2350  	}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2351)  out_err_unlock:
+641d2f63cfe245 Vegard Nossum             2008-11-18  2352  	mutex_unlock(&buffer->mutex);
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2353  	return err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2354  }
+c4f50183f90fb1 Robert Richter            2008-12-11  2355  EXPORT_SYMBOL_GPL(ring_buffer_resize);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2356  
+
+:::::: The code at line 2177 was first introduced by commit
+:::::: ee51a1de7e3837577412be269e0100038068e691 tracing: fix mmiotrace resizing crash
+
+:::::: TO: Ingo Molnar <mingo@elte.hu>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 --
 0-DAY CI Kernel Test Service
