@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793957121;
-	b=marVKbzaW7cr3umet256MKfPwb2P/6aYIDwqgJH1rOCLEYV2xnncktmmyTX1SAMDmoGt
-	 tJQuzvoRWTllOafejLDJydod5N7nUmVTkikP+EIKy8tm8gNITr1bR1pC1F/IIy74loQ6S
-	 wgokkAtj/B+BAz8VLG2krShU4L4nHRQED1G6F7WV5VY5pagsicRPvXIin5ws8kmuh7Cov
-	 ikuuaqrt2KKX2V9647NL0RI4eqASj2CvvmxtqYl7Qpc7gE8F2lM4P1LXkiLwdzzFaHL2Q
-	 gRSn1+iRB5IyViFR5L1HsJReXVcyyK8RRNDaSsxaUr3l4/uGnCofK6TZlqYPFEuOZug==
+	t=1793960796;
+	b=Of6zyGZOziWtRmv61kTYKKFNONUs5JU/iRHhY+wrzvw+spkmgQIZolRaP+Pa1oBFdjK+
+	 xGtFXmuDVZrii0AKfq2tjd7YWOQIywp2yVv21ABcV49mFXghL8QsRnNBeOB+fVThOliod
+	 RKbG6wfGJ+5kMa56hgtQbCMBhMYsuMhn4F7SqX/xmja4Mdd+fsMucpY8kH7AmLpyxEQZP
+	 WyapKD5GbJmvO+FGcjrfpOVSTmvjmJOvKhz/LwGjUBq3cIIS9cYq/Q3Ttgc0dHoupV1nf
+	 U4D64vjDIUuaG1WBZRk4mWrIA67PbPdvWrGspUNehrCDY5Jjdrn9QN4A7h/j5qAmctg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793957121;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793960796;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=46KRM/CIuHyGs4YrpXpIYkx+MGQ2HBXQr0JEhW0lK2A=;
-	b=iOhEuNORhuipW44Jgcqgrr0tiuaQODMpK3Et1uK0CAoszx8rBYcJC5LGI/1OZ8U8Wtid
-	 6Sz1Igb64B/+j4eFWpzISsY3wuPK/mKiDPm2IS27NKhQtlqD570Z3xQ7tVBi0x3ENuub8
-	 QW+5MOD06OXLxjPvso2NP0fSsQUm7ype2sY6BpY7t6kk7Y8I3t4fLWYn0m8nx0tUOk7/t
-	 gNWc09gQHpbxPh/YAmS2FjqfBYdJsUwvTwMGKOQgRpqryMOAzQiUGX/hZyS++kkyeHz/M
-	 DkhgzpohOdLT4LRL84rJdeWNHaLrikTlD2PQXWM4dgbP5wTGfvkwSZBooemZmqf5omQ==
+	bh=Vf9GgqOj7wPVyYKxQKMGA8McwoNMs8lYb4PPECrFCPQ=;
+	b=p8YAOAYqPD6mxsTrVb23e+zRn49ZQKClwlizTotCpxRaIkphV0gfD0jervpNd800LxC2
+	 2+kh4eM7l3gZsTbng7Mr/CQKolQeFGOef774Wx9Dhcdi/IbS1+PlaauWLtF9auZP2e3e3
+	 FqglnCb6M7hOzGFJxh14776AZGxTYI3zPn8De/fHFAqSp5bZK9AU6OYPM+bKOqYDZWpOQ
+	 UMAWM7jnLY6vc3lUj5YJc+MRWw61IoUe0fq6otqtB/cPQrr1hL3sSS4uQiYlIkr0hrM4p
+	 jCaBR4vPfas9IJhHn0q7eT8H4uB/VKQFLSTYWVgU4jXg9zM1uvfFUj5jxsvs3n36kyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c+ny4aBL;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ED+8rlqz;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10F1606A326
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 09:25:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D10F1606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA61606A33D
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Nov 2026 10:26:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DA61606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c+ny4aBL
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ED+8rlqz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793957120; x=1825493120;
+  t=1793960794; x=1825496794;
   h=date:from:to:cc:subject:message-id;
-  bh=Wqtu2gV0ndm8xcsn98S0V8d+v9+4EuLCJK8v5HdYS4s=;
-  b=c+ny4aBLTvWk6RIeey0nXbEjE1PB23gNoUj2rqKNM0MdPU/1NpUvjl0a
-   tE3bodkTqGlmQ532EX3Hg6bk2nMRAxFnRyO8sSJv7tB9ZQ8FRF1Du7Ebi
-   TtKvLMD0p3s7c4Cv6bBfMZGX8YO/ENZNkhu3oZAS24wQDam0uH7rIPHo5
-   obvOu8L2Mswjvmmre9mIUFFev88obTmQRWkzfWNPz/7WstlZ0ZUkqBZgg
-   NXYNL02l0QkpSB5ogNqyLw1rAWbquLJRf+Ou8pdl/laT8NLm6f/0pPUFh
-   kxhIeC/KU3c2V00FC36R9jCSaNjyxdsLe/OpjIYNik4LWyoNJFVGLWWCl
-   Q==;
-X-CSE-ConnectionGUID: DZMMmj7sT4OCEjVVAsKZBg==
-X-CSE-MsgGUID: ltYDVb3+S/qshyZRz7UivQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2794527"
+  bh=QdDIP+2Kohn4mw0HYElpOa3YZXC4ixIMhZ78yqi6sAs=;
+  b=ED+8rlqz3xpBURwIZcEoMiP4lAzayzauwnvh2tFc5d+OsLcM7jXfpu5K
+   aUCUYrXxwm4m252wOMRPDwYE+ZINy/hcp05ZP2KnFiqdjChpZ9+f+Pobm
+   7dki5AqWZN/ffNvIJmU4EsL57BFbxSpTHMCv8VdJ54ZQKK0S28n9iOOax
+   pdJ2y+Isv0MetOWfbT4r6v63H1ZfRnCezEXP/F2wdD4jpj7GIDjTWNeDT
+   S8//nBbHSv8i7pBownZbiPaJR+lFPBsesIZjtyLoYOoc+cFucyK/ed35Q
+   4mjz5snCYhRV6my2+B+JcbYrGQNnrJqnGyiOd7x6TQlf/WhnXyq0Rom6R
+   g==;
+X-CSE-ConnectionGUID: V7Dr2rmYSy+sbZ/RO8xtqQ==
+X-CSE-MsgGUID: XSp35gKTSZmsRlk3pFKteg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2810433"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2794527"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 01:25:20 -0800
-X-CSE-ConnectionGUID: BOxXNvYjRfqGjFcpovZE9A==
-X-CSE-MsgGUID: XbfihWmsR1S0xEAEB5rq9Q==
+   d="scan'208";a="2810433"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 02:26:33 -0800
+X-CSE-ConnectionGUID: ba6Q0InTSxybaX8rhUrKuA==
+X-CSE-MsgGUID: CRB14o9ETLajn3ti7fnHQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7133380"
+   d="scan'208";a="7235449"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2026 01:25:18 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2026 02:26:32 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPGC9-00000000AB5-3PY6;
-	Fri, 06 Nov 2026 09:25:13 +0000
-Date: Fri, 06 Nov 2026 10:24:18 +0100
+	id 1xPH9R-00000000ACp-2y2f;
+	Fri, 06 Nov 2026 10:26:29 +0000
+Date: Fri, 06 Nov 2026 11:25:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-kiwi-5.10 303/303]
- io_uring/io_uring.c:8215 io_sqe_files_register() error: we previously assumed
- 'ctx->file_data' could be null (see line 8146)
-Message-ID: <202611061053.YfJUqRfL-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:1155:3-9:
+ opportunity for str_enable_disable(enable)
+Message-ID: <202611061144.zzDnRwsy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,119 +80,53 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Changhuang Liang <changhuang.liang@starfivetech.com>
+CC: Linus Walleij <linusw@kernel.org>
+CC: Lianfeng Ouyang <lianfeng.ouyang@starfivetech.com>
+CC: Alex Soo <yuklin.soo@starfivetech.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   f012a641c30644ec5bf95cf64d8835854b997f86
-commit: 5e6347b58643f36c00336c0a477ff3aa08d1f27a [303/303] UPSTREAM: io_uring: import 5.15-stable io_uring
-:::::: branch date: 2 days ago
-:::::: commit date: 3 years, 9 months ago
-config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611061053.YfJUqRfL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f66469d9905b39d2c260a15d7d6db450f4db67c1
+commit: 9c4d0c8fc4c10eaecc651ecd3d2aa706f06a6637 pinctrl: starfive: Add StarFive JHB100 sys0 controller driver
+date:   5 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 weeks ago
+config: loongarch-randconfig-r2105-20261104 (https://download.01.org/0day-ci/archive/20261106/202611061144.zzDnRwsy-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e2e3d6c39cfebec9eace23629a5a103df2c79ba6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 9c4d0c8fc4c1 ("pinctrl: starfive: Add StarFive JHB100 sys0 controller driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611061053.YfJUqRfL-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202611061144.zzDnRwsy-lkp@intel.com/
 
-New smatch warnings:
-io_uring/io_uring.c:8215 io_sqe_files_register() error: we previously assumed 'ctx->file_data' could be null (see line 8146)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:1155:3-9: opportunity for str_enable_disable(enable)
 
-Old smatch warnings:
-io_uring/io_uring.c:2707 io_fixup_rw_res() warn: unsigned 'res' is never less than zero.
+vim +1155 drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c
 
-vim +8215 io_uring/io_uring.c
-
-4a38aed2a0a729 fs/io_uring.c       Jens Axboe     2020-05-14  8137  
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8138  static int io_sqe_files_register(struct io_ring_ctx *ctx, void __user *arg,
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8139  				 unsigned nr_args, u64 __user *tags)
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8140  {
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8141  	__s32 __user *fds = (__s32 __user *) arg;
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09  8142  	struct file *file;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8143  	int fd, ret;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8144  	unsigned i;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8145  
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09 @8146  	if (ctx->file_data)
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8147  		return -EBUSY;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8148  	if (!nr_args)
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8149  		return -EINVAL;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8150  	if (nr_args > IORING_MAX_FIXED_FILES)
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8151  		return -EMFILE;
-5103b733348e2d fs/io_uring.c       Pavel Begunkov 2021-09-13  8152  	if (nr_args > rlimit(RLIMIT_NOFILE))
-5103b733348e2d fs/io_uring.c       Pavel Begunkov 2021-09-13  8153  		return -EMFILE;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8154  	ret = io_rsrc_node_switch_start(ctx);
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8155  	if (ret)
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8156  		return ret;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8157  	ret = io_rsrc_data_alloc(ctx, io_rsrc_file_put, tags, nr_args,
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8158  				 &ctx->file_data);
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8159  	if (ret)
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8160  		return ret;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8161  
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8162  	ret = -ENOMEM;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8163  	if (!io_alloc_file_tables(&ctx->file_table, nr_args))
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8164  		goto out_free;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8165  
-08a451739a9b57 fs/io_uring.c       Jens Axboe     2019-10-03  8166  	for (i = 0; i < nr_args; i++, ctx->nr_user_files++) {
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8167  		if (copy_from_user(&fd, &fds[i], sizeof(fd))) {
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8168  			ret = -EFAULT;
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8169  			goto out_fput;
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8170  		}
-08a451739a9b57 fs/io_uring.c       Jens Axboe     2019-10-03  8171  		/* allow sparse sets */
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8172  		if (fd == -1) {
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8173  			ret = -EINVAL;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8174  			if (unlikely(*io_get_tag_slot(ctx->file_data, i)))
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8175  				goto out_fput;
-08a451739a9b57 fs/io_uring.c       Jens Axboe     2019-10-03  8176  			continue;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8177  		}
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8178  
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09  8179  		file = fget(fd);
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8180  		ret = -EBADF;
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8181  		if (unlikely(!file))
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8182  			goto out_fput;
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09  8183  
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8184  		/*
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8185  		 * Don't allow io_uring instances to be registered. If UNIX
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8186  		 * isn't enabled, then this causes a reference cycle and this
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8187  		 * instance can never get freed. If UNIX is enabled we'll
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8188  		 * handle it just fine, but there's still no point in allowing
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8189  		 * a ring fd as it doesn't support regular read/write anyway.
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8190  		 */
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09  8191  		if (file->f_op == &io_uring_fops) {
-05f3fb3c539752 fs/io_uring.c       Jens Axboe     2019-12-09  8192  			fput(file);
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8193  			goto out_fput;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8194  		}
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8195  		io_fixed_file_set(io_fixed_file_slot(&ctx->file_table, i), file);
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8196  	}
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8197  
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8198  	ret = io_sqe_files_scm(ctx);
-0558955373023b fs/io_uring.c       Xiaoguang Wang 2020-03-31  8199  	if (ret) {
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8200  		__io_sqe_files_unregister(ctx);
-0558955373023b fs/io_uring.c       Xiaoguang Wang 2020-03-31  8201  		return ret;
-0558955373023b fs/io_uring.c       Xiaoguang Wang 2020-03-31  8202  	}
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8203  
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8204  	io_rsrc_node_switch(ctx, NULL);
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8205  	return ret;
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8206  out_fput:
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8207  	for (i = 0; i < ctx->nr_user_files; i++) {
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8208  		file = io_file_from_index(ctx, i);
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8209  		if (file)
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8210  			fput(file);
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8211  	}
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22  8212  	io_free_file_tables(&ctx->file_table);
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8213  	ctx->nr_user_files = 0;
-600cf3f8b3f68a fs/io_uring.c       Pavel Begunkov 2020-10-10  8214  out_free:
-5e6347b58643f3 io_uring/io_uring.c Jens Axboe     2022-12-22 @8215  	io_rsrc_data_free(ctx->file_data);
-55cbc2564ab2fd fs/io_uring.c       Jens Axboe     2020-10-14  8216  	ctx->file_data = NULL;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8217  	return ret;
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8218  }
-6b06314c47e141 fs/io_uring.c       Jens Axboe     2019-01-10  8219  
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1142  
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1143  static int jhb100_irq_set_wake(struct irq_data *d, unsigned int enable)
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1144  {
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1145  	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1146  	struct jhb100_pinctrl *sfp = gpiochip_get_data(gc);
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1147  	int ret;
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1148  
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1149  	if (enable)
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1150  		ret = enable_irq_wake(sfp->irq);
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1151  	else
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1152  		ret = disable_irq_wake(sfp->irq);
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1153  	if (ret)
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1154  		dev_err(sfp->dev, "failed to %s wake-up interrupt\n",
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10 @1155  			enable ? "enable" : "disable");
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1156  
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1157  	return ret;
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1158  }
+9c4d0c8fc4c10ea Changhuang Liang 2026-09-10  1159  
 
 --
 0-DAY CI Kernel Test Service
