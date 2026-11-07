@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794033071;
-	b=CA93mkvicNBthOnq5gZbyE5OwPTgeq6tCX1jUZsLq95mFTlAjIVt+yDjDbySsA0JmkNj
-	 2Grwph1tHZ79GgjskD7hxrLDUGRPz27LhhZNPi02a4tgV/kEeXLQ8JNb1DXuBIt4PAvBI
-	 wtse9sdj3r0bfHa2126rfj4yJjpJN+IVYV1D0k73uELzjvgBtdefpfqirA6tD0iaCVRBT
-	 vKdiL31KmLhwF319TPXIo6U+HGdgjzUPUCURs6mU03xG3bfhWwvUFMb8tJ75sIiOKa0Sj
-	 yXxo2N6fsFpAWX0BNxCm0i8fCXQxsuFnG3Q1MV5xEfqwiGTEHIn2Rt24+NiA0WPvw4Q==
+	t=1794035475;
+	b=XKdszNp1ZKyeSOVknN82GuxxvzQxI20JXKH1HofQTe7k1HxOJA573s8FBZrbirIOM6ki
+	 MYeG8qm/PHL0Tieu5XZ+lVmXMMcvXfIl8iAtbWscYA/PYiYZC0S6cmlEkrDDQhaNfcih1
+	 pg849DjKPY5yFAliSarbAIh4yT4BhMlRRKennjcp+8c/zXUzqeEuXKY9i3iBZ5P5ABgKY
+	 EeKtnJlcsfC3KDZSi/+ai0ybLIxaNuryWd68eeCaUSmqz6xwPCFIfJJ7mhd7UGgBElNBc
+	 XNlhw3h0FaXk9zupW3pYEm0Y000aI2xKR/LZ1KRbXwBpLRrqn+pfmqaezqCnLZX4O8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794033071;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794035475;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=gZtKlzqstaZxC05C24dz9nLehEcTr6lf1MGVxB26Cwc=;
-	b=bpVCgQIUFrOjg4pfEkhEA+BTvmq8CbesRvmSVU7HuSSqMryyhXJSLHkcuxgfrmC4KR5G
-	 bFi7vNIN1PfsV2N+mqISNAzJtNhqR5N0zfVXIxai/2eizikAvB4WyZtJnH5RAKH3iwYAD
-	 U7BNFF8ndPyS5daJ9L5bfewvm6lFdPJKZn9FnsVzOogZXJdk2SKat/tpGHIXM6pLyCWKa
-	 tRO79HgX0dqzeMI47rSrBAl539bK2JB84XtYO9dH7X9JMElawpxITebA8Tq9UFYTsymkZ
-	 l7Y2iJwE8nVRIr1c947UNUh49xDq5JKQ+dGhYX7gAzhtmNhL5Wz57OoU7GxFkE/2iaw==
+	bh=9//TzqL6F7SsO9x4vm/fz5zjDk51ZmX9pNBspKBaagg=;
+	b=3mx6oS/3YIgp0XgFqj+Jcb5H8xtgl09uIG+TmZNERkrn0sxur14Oy2zbm1ywh6FdmpHa
+	 J1hKlfVH1hquK56ylcZVC+fapuQJwP5LfTuBAUB6QEJ9NATxD7MWP5sjsO03v1oFl+nQd
+	 1DvPONVteCh9fUBNVb7aQ+ojFZo4umr6Hjf08jIK9bM+HAm40rGQf8yXJIhCrpEucrvQ8
+	 lzyGTUWWwEdQpiB+s8JL/vWIpjh8YLKkKZKHtqnNhk7fjhe3DdQEGZS0+T2A1zGuFrEzK
+	 ltVrk+YN9euGWlL7kJInxZk7hn8H0uh641I0cVmvnaygtf3CAE7Er2qgH0SZmHHNZfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NxIUW7fQ;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SeN7Sm+l;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2756606A326
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Nov 2026 06:31:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2756606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC7606A326
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Nov 2026 07:11:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDDC7606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NxIUW7fQ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SeN7Sm+l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794033069; x=1825569069;
+  t=1794035473; x=1825571473;
   h=date:from:to:cc:subject:message-id;
-  bh=ApNskx4DLm+gO0o6TuHBT1hMB4bi30d4TCHUGSLOwZY=;
-  b=NxIUW7fQSezbznkR63HRyUbsG1iowz1hD0roy22X6iITPwYEVFwJJ2Fa
-   1VFo4BP2uiNpTiDMr0QIZmKnMoQ4TlJoWLHtGrQGjT4Wv1PzsyNvthhaW
-   SwWZjhnt9bMo57XSEXGrPNuSPDSJsQkw1Akzkx4T7eRy9ENuUT6J04e2z
-   IampqXp5u+q7X0uNPbwiGw0oXxNMeai1Ivio3PmvGU0OJ7ERI5BIyc8JE
-   3qfYlWu/WNf2IPN7yBd6eDl1ZrZqfB1sI+NAVMKnmJ/dfQ2IJw32Cidxp
-   7DvrjNQze5k11K5KYDmSvUk8e/5PaTz7T8X6Shlv5jaoTcriWhYEa/nkb
-   g==;
-X-CSE-ConnectionGUID: Eaaa3r8RRvCnYUXUTGFKcg==
-X-CSE-MsgGUID: 6EiBt6paTaCPeOZ26fKGFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2867305"
+  bh=9FRndKL+XgyiiwUJlA4GLWoOQ4Ez/Aq9D0mbyURdt3A=;
+  b=SeN7Sm+lakxgn3CubahEml4clwnLn5d5pejdoF9b2G1XMaIhukzpttUv
+   mgTw9yQBQMjqss/SKH39aReSkcarfnn9Xl06zSMGgG8Jvs3+ft3K39p5z
+   QMPJQ9Q8zrI8Ubf8/+5kTOYDqL37Z/9tfBxOBBYRHlE+mM9gf9HGUgmXh
+   d3E1Asose5typGeBCU/jmMcgfXW3peeXHEYXkxRyP68/XLIchQs2hRLwR
+   mKARwyekrf6er98orb3kT/Rw4bny/nEopMSTEexuJ91/kXh7moRBoXkoa
+   KRKkZL7V6JV9LhN1SeHZZz0CjbFe3im/Vv6uxcMc4ZS2l80xmH+bDpjyf
+   w==;
+X-CSE-ConnectionGUID: VIKKZsy/RW+e36LtDOZdKA==
+X-CSE-MsgGUID: ybhMVK8nQKeCbWAbVu7YoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2836817"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2867305"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 22:31:08 -0800
-X-CSE-ConnectionGUID: Ll6Pjud+Q/KYHxoFzmkTVA==
-X-CSE-MsgGUID: RGMaMJIVS92IZd5BcSRINQ==
+   d="scan'208";a="2836817"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 23:11:13 -0800
+X-CSE-ConnectionGUID: KoKOPZ/wRVOKgYmiGzj95w==
+X-CSE-MsgGUID: SpsUOijfRR6194bDcXYSDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7498628"
+   d="scan'208";a="7779632"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 06 Nov 2026 22:31:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2026 23:11:11 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPZxA-00000000AaR-3yG6;
-	Sat, 07 Nov 2026 06:31:04 +0000
-Date: Sat, 07 Nov 2026 07:30:07 +0100
+	id 1xPaZw-00000000Aal-1WUo;
+	Sat, 07 Nov 2026 07:11:08 +0000
+Date: Sat, 07 Nov 2026 08:10:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android15-6.6 53/53]
- drivers/android/wrapfd.c:788:32-49: opportunity for str_yes_no(ctx ->
- allow_guests)
-Message-ID: <202611070754.AdFqlCZk-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 15/19]
+ drivers/accel/amdxdna/amdxdna_gem.c:380:6-10: ERROR: invalid reference to the
+ index variable of the iterator on line 349
+Message-ID: <202611070859.5wKjeDOy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -83,66 +83,112 @@ Precedence: list
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: dri-devel@lists.freedesktop.org
+TO: David Zhang <yidong.zhang@amd.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>
 
-Hi Suren,
+Hi David,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   bc10f2ae3a89cd46c1069ed99b65df424ba3d3db
-commit: 0513c5d5a13918d0326f9586ef6edad1872a6c98 [53/53] ANDROID: drivers/wrapfd: fix dmabuf_content_load and use kvec for loading
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: i386-randconfig-r2111-20261107 (https://download.01.org/0day-ci/archive/20261107/202611070754.AdFqlCZk-lkp@intel.com/config)
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   2d5a8313d9cf989b8f53a5689a96e891bf99fb2c
+commit: 2cd0fa4c0f4ed9cba065f64fc11a27e47994806f [15/19] accel/amdxdna: Make populate_range common for AIE2 and AIE4
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-2105-20261107 (https://download.01.org/0day-ci/archive/20261107/202611070859.5wKjeDOy-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611070754.AdFqlCZk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611070859.5wKjeDOy-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/android/wrapfd.c:788:32-49: opportunity for str_yes_no(ctx -> allow_guests)
+>> drivers/accel/amdxdna/amdxdna_gem.c:380:6-10: ERROR: invalid reference to the index variable of the iterator on line 349
 
-vim +788 drivers/android/wrapfd.c
+vim +380 drivers/accel/amdxdna/amdxdna_gem.c
 
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  773  
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  774  #ifdef CONFIG_PROC_FS
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  775  static void wrap_show_fdinfo(struct seq_file *m, struct file *file)
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  776  {
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  777  	struct wrap_ctx *ctx = file->private_data;
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  778  
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  779  	spin_lock(&ctx->lock);
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  780  	if (ctx->owner.task) {
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  781  		seq_printf(m, "owner:\t%d\n", ctx->owner.task->pid);
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  782  	} else {
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  783  		if (ctx->owner.dev)
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  784  			seq_printf(m, "owner:\t<device>\n");
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  785  		else
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  786  			seq_printf(m, "owner:\t<none>\n");
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  787  	}
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21 @788  	seq_printf(m, "guests:\t%s\n", ctx->allow_guests ? "yes" : "no");
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  789  	seq_printf(m, "maps:\t%d\n", ctx->map_count);
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  790  	seq_printf(m, "empty:\t%s\n", ctx->content ? "no" : "yes");
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  791  	if (ctx->content) {
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  792  		struct wrap_content *content = ctx->content;
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  793  
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  794  		seq_printf(m, "rdonly:\t%s\n",
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  795  			   content->ops->is_writable(content) ? "no" : "yes");
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  796  		content->ops->show_fdinfo(content, m);
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  797  	}
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  798  	spin_unlock(&ctx->lock);
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  799  }
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  800  #endif
-dcd6a28f187e49 Suren Baghdasaryan 2025-11-21  801  
-
-:::::: The code at line 788 was first introduced by commit
-:::::: dcd6a28f187e4931aff3c8f3889d9776961ced02 ANDROID: drivers/wrapfd: add wrapfd driver base code
-
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: android-test-infra-autosubmit@system.gserviceaccount.com <android-test-infra-autosubmit@system.gserviceaccount.com>
+e486147c912f65 Lizhi Hou   2025-03-25  335  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  336  int amdxdna_populate_range(struct amdxdna_gem_obj *abo)
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  337  {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  338  	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  339  	struct amdxdna_umap *mapp;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  340  	unsigned long timeout;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  341  	struct mm_struct *mm;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  342  	bool found;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  343  	int ret;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  344  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  345  	timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  346  again:
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  347  	found = false;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  348  	down_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19 @349  	list_for_each_entry(mapp, &abo->mem.umap_list, node) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  350  		/*
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  351  		 * Skip entries that have already been unmapped.
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  352  		 *
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  353  		 * If userspace unmaps the address and later submits I/O using
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  354  		 * it, the IOMMU will reject the access and report a fault.
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  355  		 * Ignore such entries here.
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  356  		 */
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  357  		if (mapp->unmapped)
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  358  			continue;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  359  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  360  		if (mapp->invalid && kref_get_unless_zero(&mapp->refcnt)) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  361  			found = true;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  362  			break;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  363  		}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  364  	}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  365  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  366  	if (!found) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  367  		/*
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  368  		 * This also covers the case where all mappings have been
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  369  		 * removed. There are no invalid mappings left to process.
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  370  		 * Any subsequent I/O using the unmapped address will be
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  371  		 * rejected by the IOMMU.
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  372  		 */
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  373  		abo->mem.map_invalid = false;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  374  		up_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  375  		return 0;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  376  	}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  377  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  378  	up_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  379  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19 @380  	mm = mapp->notifier.mm;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  381  	if (!mmget_not_zero(mm)) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  382  		amdxdna_umap_put(mapp);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  383  		return -EFAULT;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  384  	}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  385  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  386  	mutex_lock(&mapp->lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  387  	ret = hmm_range_fault_unlocked_timeout(&mapp->range, timeout);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  388  	if (ret) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  389  		mutex_unlock(&mapp->lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  390  		goto put_mm;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  391  	}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  392  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  393  	down_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  394  	if (mmu_interval_read_retry(&mapp->notifier, mapp->range.notifier_seq)) {
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  395  		up_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  396  		mutex_unlock(&mapp->lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  397  		amdxdna_umap_put(mapp);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  398  		mmput(mm);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  399  		goto again;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  400  	}
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  401  	mapp->invalid = false;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  402  	up_write(&xdna->notifier_lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  403  	mutex_unlock(&mapp->lock);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  404  	amdxdna_umap_put(mapp);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  405  	mmput(mm);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  406  	goto again;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  407  
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  408  put_mm:
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  409  	amdxdna_umap_put(mapp);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  410  	mmput(mm);
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  411  	return ret == -EBUSY ? -ETIME : ret;
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  412  }
+2cd0fa4c0f4ed9 David Zhang 2026-10-19  413  
 
 --
 0-DAY CI Kernel Test Service
