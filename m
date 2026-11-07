@@ -1,76 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794086468;
-	b=1YPj5dg1c7HzvDgE2Vkhy22CqwEgEE5MDPht8YmBjMFdFzm63yG9tfxdB8QpGveyhlFW
-	 IhNrzFgHtm32Jfvs9s6ZGdVAOsMNS6uDdXdghC3zGlTd7bu9d/sxpXB5jTpgT4iS5FU2N
-	 PI1SLI6vjqr41vSoSFevdm6iN39VxpOA/l4Hm9lnjgvg+AmkMEgnwVV4GguFhM1eHdEbg
-	 8K5zXKnGA3ma0dtvYoOE60B3unqiBS0ZzEs8yAOOHMlZ6HtshWxwEuu6emqS+y4RJ7vvm
-	 KnzgnkNsV/LoQALlte5KLqljv6CYgXPCa3Yz+WuYuJGHMuHyhZUXszWttjkt5eFw0sQ==
+	t=1794092605;
+	b=aOlCHD7qWXpwvYHMZqcZQQB0PtN0WaWb3Nydx7qbu8UP+lcLOCc95tMWB7WuX9vNEdt/
+	 9qNSmYuSjLDQmU90CApyCsY23FxAXr8LBeBHQLI4Bsee8LfRDUVBTtKv57MlK8H8Lm607
+	 3XpxYvSdpNAVc0spiQAioZ8B5tyEClFlEE+NRA8pfyA4fnVri8KhZlz5VEjRWs1jS+6/U
+	 uOYYcvugM5c62FMraYFIwVxTQW3ew0H5Xlxdos1B1oU7fxABPqhlRXJn+wNVah4Bil2vH
+	 ITpXLZ3e0FrmDVP35cUZ01wgXEryVLgnOJTxsLTR3up9OePvpigt8Gzbu5c519+Ytcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794086468;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794092605;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=67YDwfaW74b1O/+h3tY6MVeJ3KUZFcmSpwGvJ+g0/oM=;
-	b=G+mu4FA07FlZ2CeTBBFOKypzeU55Re22jRVyDRv7C1TJGN2sYkhyq6d/hGp+gtGdTYc4
-	 FSF+SmuiXUa+A16ZZTzQNzcPdVh+alDubL1tw6UqEjxjh6Xo6vrQTE9aDfLSLQpTRBfy5
-	 4355xfZMH6kVMjBjQLfMPIJMGzEy0hEbNx3VQX67wNmhEdiX3CZK1jrWMFXSksPJNvSOE
-	 lwcQwsqBY6kliUq6+cwDdjKAVXxPHJUF/x9lPqcDlq0HHfPchzDiltjlk9DwB0SabLPWe
-	 q2A79rnlPonzh1vfaCx2Eh6BN1ftPKkA97eURupbxOniRxLgR5DgNoyhojUXOBUvB1A==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=TugcSeFCc7aqq4eqzco2zlTnrKX1uO2twwrtZ/grsy0=;
+	b=UrnSZd+KHBK4d8nveu6fX3pC99WZrs3RSxGSeT1C64eBWOQ7ysEupBXrhJtpx2ntCaHX
+	 OX05z3aAfc2qR4Yj7w08cMT/+i+od/ari97Y8APHcTuaosPhbvCCjiJIbhPI8j7oxeMho
+	 G7THJdtac7tSnCyPmgUwqyihiU39XbYNxaCse9t7RwZ4n+DpmZHEOduvetEldARRLGaZV
+	 g/X++3CHqN2WOeMw4Ij059khncKXAwZ7Bh2nQYPk+y9UDCFdgA/8YOUdangVsM7W7o9ww
+	 OJmcWVOuFRbTLrhARRgOCLu0Jhudlt9ukSlnS4NbjZGcKFux+bmc1f0t0LwkV3cJaFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KLTfQelU;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	spf=(null) smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SfzVZC7F;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDB0606A326
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Nov 2026 21:21:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FDB0606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F9A606A326
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Nov 2026 23:03:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95F9A606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KLTfQelU
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SfzVZC7F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794086465; x=1825622465;
-  h=date:from:to:cc:subject:message-id;
-  bh=XeupXyu2mrU5+Ml9gMH0mPMyb8jQ4WgGgLHyDHr1hO8=;
-  b=KLTfQelUUqk3GUIe0hU6sscqliXiKw1aTxHHaBNDI/U3afipZwToBjbE
-   0c6JLS2NfHF6oCeeHaYvuTPWpfDIVBOFtI3EyTGyw3MZp4wX3+KwdeAXk
-   x1cofe6ubXXmPiQzRwxqb3xvBzD2/c55Nn57RI4UfoGsY2QPikd2AbL4L
-   QU1wNqO/lDtkaKY+iB0P9Zts8cHMDe8MyAYrUqbhnoHtpCoEjS0zBsHlq
-   eDUrLO1FCtQqfRxkS9cwMD4dN+FiVUgKWtoyLQhpYE1RRdt4ljITQuAOM
-   YplxPdMZOkFo47iAlbzjDk7YqeVOa32e8CdKM+iRlkwvxvOo9LpoJcubx
-   A==;
-X-CSE-ConnectionGUID: N67MKwOBR6WbZI50sA52DQ==
-X-CSE-MsgGUID: s0G3cHTUQwKuSZJjjcfViQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2858949"
+  t=1794092595; x=1825628595;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7biHlwIRzfK6R8JRWk95oIBAH0cV01g6g1YpZ/c4/qg=;
+  b=SfzVZC7FL9HsFWhmNtlqs3MUviPeqjS0+KeIhxjDWn4mLtN/NjooAzVG
+   aVuaIeD9M3Y80g0FZGuk0h5AJNUH8sNuiVaM6pywDmp4LsdadHUaSeC/X
+   NZD0FlPjPQtHzXempadYhz1PQeaVOc088+H2+rTbkjg6TxnPBDZi5+EiT
+   T2ruorhe5g8gnSSv3CBnbYYdkQj41IIvoKw4xEKOGTN2eaeo0m6Erw3Q+
+   UmumXgCh+ObCPFmfK+2YPm6J8V+jFrL1NL8l84ZyFEgbMN/4vR71q5HHT
+   MBYfxr/78vdI0qZB7/bigkVTV8Mw6ckT9oYeINAkvzFPl+tqFhE4pYeTx
+   w==;
+X-CSE-ConnectionGUID: zUkjpqP6StCLNp16Bw7J+A==
+X-CSE-MsgGUID: CobXDv5KSNy4A7YZ8doPWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2895181"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2858949"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 13:21:04 -0800
-X-CSE-ConnectionGUID: o+hb4YsfT/OywtnVGc1rGg==
-X-CSE-MsgGUID: YI6ssMRST2+FlaB84goxvg==
+   d="scan'208";a="2895181"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 15:03:15 -0800
+X-CSE-ConnectionGUID: WUh4EPY6T8i9FubCTI++Ew==
+X-CSE-MsgGUID: GV2Ht50rRNSa905sC8Rm6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7888430"
+   d="scan'208";a="9310013"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Nov 2026 13:21:03 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 07 Nov 2026 15:03:12 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPnqN-00000000AnH-48x6;
-	Sat, 07 Nov 2026 21:20:59 +0000
-Date: Sat, 07 Nov 2026 22:20:40 +0100
+	id 1xPpRF-00000000Aod-1Sve;
+	Sat, 07 Nov 2026 23:03:09 +0000
+Date: Sun, 08 Nov 2026 00:02:42 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 120/154]
- drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn:
- 'apb_base' from ioremap() not released on lines: 177.
-Message-ID: <202611072240.CeYrxv6G-lkp@intel.com>
+Subject: [android-common:android13-5.15 54/54] block/blk-mq.c:2196
+ blk_mq_submit_bio() warn: variable dereferenced before check 'bio' (see line
+ 2180)
+Message-ID: <202611072329.uQaU4P0d-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,292 +82,267 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 Unfiltered warning: this smatch report is sent as-is and has not been
 reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Frank,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: b749f2f10701adacb70f0231da1e7a031435856c [120/154] net: phy: mtk-2p5ge: extend priv for firmware loading
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 hours ago
-config: xtensa-randconfig-2200-20261107 (https://download.01.org/0day-ci/archive/20261107/202611072240.CeYrxv6G-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.5.0
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   a5a9930e03c61e245e77f94ef4d0fef4d57c5092
+commit: 7ec9a45fc4ee7fc1054c2cabf8b09a6bc708472e [54/54] block: handle bio_=
+split_to_limits() NULL return
+:::::: branch date: 22 hours ago
+:::::: commit date: 3 years, 10 months ago
+config: arm-randconfig-2200-20261107 (https://download.01.org/0day-ci/archi=
+ve/20261107/202611072329.uQaU4P0d-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 0fa=
+861dbbf46e5a75f621406fd91cb015d8754bf)
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611072240.CeYrxv6G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611072329.uQaU4P0d-lkp@intel.com/
 
 smatch warnings:
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'apb_base' from ioremap() not released on lines: 177.
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'chip_scu_base' from ioremap() not released on lines: 177.
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'mcu_csr_base' from ioremap() not released on lines: 177.
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'pmd_reg_base' from ioremap() not released on lines: 177.
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'xbz_pcs_reg_base' from ioremap() not released on lines: 177.
-drivers/net/phy/mediatek/mtk-2p5ge.c:356 mt7987_2p5ge_phy_load_fw() warn: 'xbz_pma_rx_base' from ioremap() not released on lines: 177.
+block/blk-mq.c:2196 blk_mq_submit_bio() warn: variable dereferenced before =
+check 'bio' (see line 2180)
 
-vim +/apb_base +356 drivers/net/phy/mediatek/mtk-2p5ge.c
+vim +/bio +2196 block/blk-mq.c
 
-26948c2430412b Sky Huang        2025-05-16  116  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  117  static int mt7987_2p5ge_phy_load_fw(struct phy_device *phydev)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  118  {
-b749f2f10701ad Frank Wunderlich 2025-10-09  119  	struct mtk_socphy_priv *priv = phydev->priv;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  120  	struct device *dev = &phydev->mdio.dev;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  121  	void __iomem *xbz_pcs_reg_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  122  	void __iomem *xbz_pma_rx_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  123  	void __iomem *chip_scu_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  124  	void __iomem *pmd_reg_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  125  	void __iomem *mcu_csr_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  126  	const struct firmware *fw;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  127  	void __iomem *apb_base;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  128  	void __iomem *pmb_addr;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  129  	int ret, i;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  130  	u32 reg;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  131  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  132  	if (priv->fw_loaded)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  133  		return 0;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  134  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  135  	apb_base = ioremap(MTK_2P5GPHY_APB_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  136  			   MTK_2P5GPHY_APB_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  137  	if (!apb_base)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  138  		return -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  139  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  140  	pmd_reg_base = ioremap(MTK_2P5GPHY_PMD_REG_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  141  			       MTK_2P5GPHY_PMD_REG_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  142  	if (!pmd_reg_base) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  143  		ret = -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  144  		goto free_apb;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  145  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  146  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  147  	xbz_pcs_reg_base = ioremap(MTK_2P5GPHY_XBZ_PCS_REG_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  148  				   MTK_2P5GPHY_XBZ_PCS_REG_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  149  	if (!xbz_pcs_reg_base) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  150  		ret = -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  151  		goto free_pmd;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  152  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  153  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  154  	xbz_pma_rx_base = ioremap(MTK_2P5GPHY_XBZ_PMA_RX_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  155  				  MTK_2P5GPHY_XBZ_PMA_RX_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  156  	if (!xbz_pma_rx_base) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  157  		ret = -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  158  		goto free_pcs;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  159  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  160  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  161  	chip_scu_base = ioremap(MTK_2P5GPHY_CHIP_SCU_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  162  				MTK_2P5GPHY_CHIP_SCU_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  163  	if (!chip_scu_base) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  164  		ret = -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  165  		goto free_pma;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  166  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  167  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  168  	mcu_csr_base = ioremap(MTK_2P5GPHY_MCU_CSR_BASE,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  169  			       MTK_2P5GPHY_MCU_CSR_LEN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  170  	if (!mcu_csr_base) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  171  		ret = -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  172  		goto free_chip_scu;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  173  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  174  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  175  	pmb_addr = ioremap(MTK_2P5GPHY_PMB_FW_BASE, MT7987_2P5GE_PMB_FW_SIZE);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  176  	if (!pmb_addr) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  177  		return -ENOMEM;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  178  		goto free_mcu_csr;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  179  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  180  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  181  	ret = request_firmware(&fw, MT7987_2P5GE_PMB_FW, dev);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  182  	if (ret) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  183  		dev_err(dev, "failed to load firmware: %s, ret: %d\n",
-b1b0e07f073671 Frank Wunderlich 2025-10-09  184  			MT7987_2P5GE_PMB_FW, ret);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  185  		goto free_pmb_addr;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  186  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  187  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  188  	if (fw->size != MT7987_2P5GE_PMB_FW_SIZE) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  189  		dev_err(dev, "PMb firmware size 0x%zx != 0x%x\n",
-b1b0e07f073671 Frank Wunderlich 2025-10-09  190  			fw->size, MT7987_2P5GE_PMB_FW_SIZE);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  191  		ret = -EINVAL;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  192  		goto release_fw;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  193  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  194  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  195  	/* Force 2.5Gphy back to AN state */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  196  	phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  197  	usleep_range(5000, 6000);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  198  	phy_set_bits(phydev, MII_BMCR, BMCR_PDOWN);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  199  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  200  	reg = readw(apb_base + SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  201  	writew(reg & ~MD32_RESTART_EN_CLEAR, apb_base + SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  202  	writew(reg | MD32_RESTART_EN_CLEAR, apb_base + SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  203  	writew(reg & ~MD32_RESTART_EN_CLEAR, apb_base + SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  204  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  205  	reg = readw(mcu_csr_base + MD32_EN_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  206  	writew(reg & ~MD32_EN, mcu_csr_base + MD32_EN_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  207  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  208  	for (i = 0; i < MT7987_2P5GE_PMB_FW_SIZE - 1; i += 4)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  209  		writel(*((uint32_t *)(fw->data + i)), pmb_addr + i);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  210  	dev_info(dev, "Firmware date code: %x/%x/%x, version: %x.%x\n",
-b1b0e07f073671 Frank Wunderlich 2025-10-09  211  		 be16_to_cpu(*((__be16 *)(fw->data +
-b1b0e07f073671 Frank Wunderlich 2025-10-09  212  					  MT7987_2P5GE_PMB_FW_SIZE - 8))),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  213  		 *(fw->data + MT7987_2P5GE_PMB_FW_SIZE - 6),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  214  		 *(fw->data + MT7987_2P5GE_PMB_FW_SIZE - 5),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  215  		 *(fw->data + MT7987_2P5GE_PMB_FW_SIZE - 2),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  216  		 *(fw->data + MT7987_2P5GE_PMB_FW_SIZE - 1));
-b1b0e07f073671 Frank Wunderlich 2025-10-09  217  	release_firmware(fw);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  218  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  219  	/* Enable 100Mbps module clock. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  220  	writel(FIELD_PREP(RG_SPEED_MASK, RG_SPEED_100),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  221  	       pmd_reg_base + FNPLL_PWR_CTRL1);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  222  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  223  	/* Check if 100Mbps module clock is ready. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  224  	ret = readl_poll_timeout(pmd_reg_base + FNPLL_PWR_CTRL_STATUS, reg,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  225  				 reg & RG_SPEED_100_STABLE, 1, 10000);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  226  	if (ret)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  227  		dev_err(dev, "Fail to enable 100Mbps module clock: %d\n", ret);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  228  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  229  	/* Enable 2.5Gbps module clock. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  230  	writel(FIELD_PREP(RG_SPEED_MASK, RG_SPEED_2500),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  231  	       pmd_reg_base + FNPLL_PWR_CTRL1);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  232  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  233  	/* Check if 2.5Gbps module clock is ready. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  234  	ret = readl_poll_timeout(pmd_reg_base + FNPLL_PWR_CTRL_STATUS, reg,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  235  				 reg & RG_SPEED_2500_STABLE, 1, 10000);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  236  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  237  	if (ret)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  238  		dev_err(dev, "Fail to enable 2.5Gbps module clock: %d\n", ret);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  239  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  240  	/* Disable AN */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  241  	phy_clear_bits(phydev, MII_BMCR, BMCR_ANENABLE);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  242  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  243  	/* Force to run at 2.5G speed */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  244  	phy_modify_mmd(phydev, MDIO_MMD_VEND1, MTK_PHY_AN_FORCE_SPEED_REG,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  245  		       MTK_PHY_MASTER_FORCE_SPEED_SEL_MASK,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  246  		       MTK_PHY_MASTER_FORCE_SPEED_SEL_EN |
-b1b0e07f073671 Frank Wunderlich 2025-10-09  247  		       FIELD_PREP(MTK_PHY_MASTER_FORCE_SPEED_SEL_MASK, 0x1b));
-b1b0e07f073671 Frank Wunderlich 2025-10-09  248  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  249  	phy_set_bits_mmd(phydev, MDIO_MMD_VEND1, MTK_PHY_LINK_STATUS_RELATED,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  250  			 MTK_PHY_BYPASS_LINK_STATUS_OK |
-b1b0e07f073671 Frank Wunderlich 2025-10-09  251  			 MTK_PHY_FORCE_LINK_STATUS_HCD);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  252  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  253  	/* Set xbz, pma and rx as "do not reset" in order to input DSP code. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  254  	reg = readl(pmd_reg_base + DO_NOT_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  255  	reg |= DO_NOT_RESET_XBZ | DO_NOT_RESET_PMA | DO_NOT_RESET_RX;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  256  	writel(reg, pmd_reg_base + DO_NOT_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  257  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  258  	reg = readl(chip_scu_base + SYS_SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  259  	writel(reg & ~RESET_RST_CNT, chip_scu_base + SYS_SW_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  260  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  261  	writel(WRITE_PROTECT_KEY, xbz_pcs_reg_base + PMU_WP);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  262  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  263  	reg = readl(xbz_pcs_reg_base + PMU_PMA_AUTO_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  264  	reg |= PMU_AUTO_MODE_EN | POWER_ON_AUTO_MODE;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  265  	writel(reg, xbz_pcs_reg_base + PMU_PMA_AUTO_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  266  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  267  	/* Check if clock in auto mode is disabled. */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  268  	ret = readl_poll_timeout(xbz_pcs_reg_base + PMU_PMA_STATUS, reg,
-b1b0e07f073671 Frank Wunderlich 2025-10-09  269  				 (reg & CLK_IS_DISABLED) == 0x0, 1, 100000);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  270  	if (ret)
-b1b0e07f073671 Frank Wunderlich 2025-10-09  271  		dev_err(dev, "Clock isn't disabled in auto mode: %d\n", ret);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  272  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  273  	reg = readl(xbz_pma_rx_base + SMEM_CTRL);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  274  	writel(reg | SMEM_HW_RDATA_ZERO, xbz_pma_rx_base + SMEM_CTRL);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  275  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  276  	reg = readl(xbz_pcs_reg_base + PHY_CTRL_CONFIG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  277  	writel(reg | BIT(16), xbz_pcs_reg_base + PHY_CTRL_CONFIG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  278  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  279  	/* Initialize data memory */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  280  	reg = readl(xbz_pma_rx_base + DM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  281  	writel(reg | BIT(28), xbz_pma_rx_base + DM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  282  	reg = readl(xbz_pma_rx_base + DM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  283  	writel(reg | BIT(28), xbz_pma_rx_base + DM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  284  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  285  	/* Initialize coefficient memory */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  286  	reg = readl(xbz_pma_rx_base + CM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  287  	writel(reg | BIT(28), xbz_pma_rx_base + CM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  288  	reg = readl(xbz_pma_rx_base + CM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  289  	writel(reg | BIT(28), xbz_pma_rx_base + CM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  290  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  291  	/* Initilize PM offset */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  292  	writel(0, xbz_pma_rx_base + SMEM_ADDR_REF_ADDR);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  293  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  294  	ret = request_firmware(&fw, MT7987_2P5GE_DSPBITTB, dev);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  295  	if (ret) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  296  		dev_err(dev, "failed to load firmware: %s, ret: %d\n",
-b1b0e07f073671 Frank Wunderlich 2025-10-09  297  			MT7987_2P5GE_DSPBITTB, ret);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  298  		goto free_pmb_addr;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  299  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  300  	if (fw->size != MT7987_2P5GE_DSPBITTB_SIZE) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  301  		dev_err(dev, "DSPBITTB size 0x%zx != 0x%x\n",
-b1b0e07f073671 Frank Wunderlich 2025-10-09  302  			fw->size, MT7987_2P5GE_DSPBITTB_SIZE);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  303  		ret = -EINVAL;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  304  		goto release_fw;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  305  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  306  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  307  	for (i = 0; i < fw->size - 1; i += 16) {
-b1b0e07f073671 Frank Wunderlich 2025-10-09  308  		writel(*((uint32_t *)(fw->data + i)),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  309  		       xbz_pma_rx_base + SMEM_WDAT0);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  310  		writel(*((uint32_t *)(fw->data + i + 0x4)),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  311  		       xbz_pma_rx_base + SMEM_WDAT1);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  312  		writel(*((uint32_t *)(fw->data + i + 0x8)),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  313  		       xbz_pma_rx_base + SMEM_WDAT2);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  314  		writel(*((uint32_t *)(fw->data + i + 0xc)),
-b1b0e07f073671 Frank Wunderlich 2025-10-09  315  		       xbz_pma_rx_base + SMEM_WDAT3);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  316  	}
-b1b0e07f073671 Frank Wunderlich 2025-10-09  317  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  318  	reg = readl(xbz_pma_rx_base + DM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  319  	writel(reg & ~BIT(28), xbz_pma_rx_base + DM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  320  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  321  	reg = readl(xbz_pma_rx_base + DM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  322  	writel(reg & ~BIT(28), xbz_pma_rx_base + DM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  323  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  324  	reg = readl(xbz_pma_rx_base + CM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  325  	writel(reg & ~BIT(28), xbz_pma_rx_base + CM_CTRL_P01);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  326  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  327  	reg = readl(xbz_pma_rx_base + CM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  328  	writel(reg & ~BIT(28), xbz_pma_rx_base + CM_CTRL_P23);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  329  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  330  	reg = readw(mcu_csr_base + MD32_EN_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  331  	writew(reg | MD32_EN, mcu_csr_base + MD32_EN_CFG);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  332  	phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  333  	/* We need a delay here to stabilize initialization of MCU */
-b1b0e07f073671 Frank Wunderlich 2025-10-09  334  	usleep_range(7000, 8000);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  335  	dev_info(dev, "Firmware loading/trigger ok.\n");
-b1b0e07f073671 Frank Wunderlich 2025-10-09  336  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  337  	priv->fw_loaded = true;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  338  
-b1b0e07f073671 Frank Wunderlich 2025-10-09  339  release_fw:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  340  	release_firmware(fw);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  341  free_pmb_addr:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  342  	iounmap(pmb_addr);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  343  free_mcu_csr:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  344  	iounmap(mcu_csr_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  345  free_chip_scu:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  346  	iounmap(chip_scu_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  347  free_pma:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  348  	iounmap(xbz_pma_rx_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  349  free_pcs:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  350  	iounmap(xbz_pcs_reg_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  351  free_pmd:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  352  	iounmap(pmd_reg_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  353  free_apb:
-b1b0e07f073671 Frank Wunderlich 2025-10-09  354  	iounmap(apb_base);
-b1b0e07f073671 Frank Wunderlich 2025-10-09  355  
-b1b0e07f073671 Frank Wunderlich 2025-10-09 @356  	return ret;
-b1b0e07f073671 Frank Wunderlich 2025-10-09  357  }
-b1b0e07f073671 Frank Wunderlich 2025-10-09  358  
-
-:::::: The code at line 356 was first introduced by commit
-:::::: b1b0e07f0736711d2ebf77d657ecd55bef0dedc2 net: phy: mtk-2p5ge: add support for mt7987
-
-:::::: TO: Frank Wunderlich <frank-w@public-files.de>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+7f2a6a69f7ced6 Song Liu          2021-09-07  2162 =20
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2163  /**
+c62b37d96b6eb3 Christoph Hellwig 2020-07-01  2164   * blk_mq_submit_bio - C=
+reate and send a request to block device.
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2165   * @bio: Bio pointe=
+r.
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2166   *
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2167   * Builds up a requ=
+est structure from @q and @bio and send to the device. The
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2168   * request may not =
+be queued directly to hardware if:
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2169   * * This request c=
+an be merged with another one
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2170   * * We want to pla=
+ce request at plug queue for possible future merging
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2171   * * There is an IO=
+ scheduler active at this queue
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2172   *
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2173   * It will not queu=
+e the request if there is an error with the bio, or at the
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2174   * request creation.
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2175   *
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2176   * Returns: Request=
+ queue cookie.
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2177   */
+c62b37d96b6eb3 Christoph Hellwig 2020-07-01  2178  blk_qc_t blk_mq_submit_b=
+io(struct bio *bio)
+07068d5b8ed8fa Jens Axboe        2014-05-22  2179  {
+309dca309fc39a Christoph Hellwig 2021-01-24 @2180  	struct request_queue *q=
+ =3D bio->bi_bdev->bd_disk->queue;
+ef295ecf090d3e Christoph Hellwig 2016-10-28  2181  	const int is_sync =3D o=
+p_is_sync(bio->bi_opf);
+f73f44eb00cb13 Christoph Hellwig 2017-01-27  2182  	const int is_flush_fua =
+=3D op_is_flush(bio->bi_opf);
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  2183  	struct blk_mq_alloc_dat=
+a data =3D {
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  2184  		.q		=3D q,
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  2185  	};
+07068d5b8ed8fa Jens Axboe        2014-05-22  2186  	struct request *rq;
+f984df1f0f71ef Shaohua Li        2015-05-08  2187  	struct blk_plug *plug;
+5b3f341f098d60 Shaohua Li        2015-05-08  2188  	struct request *same_qu=
+eue_rq =3D NULL;
+14ccb66b3f585b Christoph Hellwig 2019-06-06  2189  	unsigned int nr_segs;
+7b371636fb6d18 Jens Axboe        2015-11-05  2190  	blk_qc_t cookie;
+a892c8d52c0228 Satya Tangirala   2020-05-14  2191  	blk_status_t ret;
+cc29e1bf0d63f7 Jeffle Xu         2020-11-26  2192  	bool hipri;
+07068d5b8ed8fa Jens Axboe        2014-05-22  2193 =20
+07068d5b8ed8fa Jens Axboe        2014-05-22  2194  	blk_queue_bounce(q, &bi=
+o);
+f695ca3886ce72 Christoph Hellwig 2020-07-01  2195  	__blk_queue_split(&bio,=
+ &nr_segs);
+7ec9a45fc4ee7f Jens Axboe        2023-01-04 @2196  	if (!bio)
+7ec9a45fc4ee7f Jens Axboe        2023-01-04  2197  		goto queue_exit;
+f36ea50ca0043e Wen Xiong         2017-05-10  2198 =20
+e23947bd76f007 Dmitry Monakhov   2017-06-29  2199  	if (!bio_integrity_prep=
+(bio))
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2200  		goto queue_exit;
+07068d5b8ed8fa Jens Axboe        2014-05-22  2201 =20
+87c279e613f848 Omar Sandoval     2016-06-01  2202  	if (!is_flush_fua && !b=
+lk_queue_nomerges(q) &&
+14ccb66b3f585b Christoph Hellwig 2019-06-06  2203  	    blk_attempt_plug_me=
+rge(q, bio, nr_segs, &same_queue_rq))
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2204  		goto queue_exit;
+07068d5b8ed8fa Jens Axboe        2014-05-22  2205 =20
+14ccb66b3f585b Christoph Hellwig 2019-06-06  2206  	if (blk_mq_sched_bio_me=
+rge(q, bio, nr_segs))
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2207  		goto queue_exit;
+bd166ef183c263 Jens Axboe        2017-01-17  2208 =20
+d53375608ebf13 Christoph Hellwig 2018-11-14  2209  	rq_qos_throttle(q, bio);
+87760e5eef3597 Jens Axboe        2016-11-09  2210 =20
+cc29e1bf0d63f7 Jeffle Xu         2020-11-26  2211  	hipri =3D bio->bi_opf &=
+ REQ_HIPRI;
+cc29e1bf0d63f7 Jeffle Xu         2020-11-26  2212 =20
+7809167da5c86f Ming Lei          2019-01-16  2213  	data.cmd_flags =3D bio-=
+>bi_opf;
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  2214  	rq =3D __blk_mq_alloc_r=
+equest(&data);
+87760e5eef3597 Jens Axboe        2016-11-09  2215  	if (unlikely(!rq)) {
+c1c80384c8f470 Josef Bacik       2018-07-03  2216  		rq_qos_cleanup(q, bio);
+7b6620d7db566a Jens Axboe        2019-08-15  2217  		if (bio->bi_opf & REQ_=
+NOWAIT)
+03a07c92a9ed99 Goldwyn Rodrigues 2017-06-20  2218  			bio_wouldblock_error(=
+bio);
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2219  		goto queue_exit;
+87760e5eef3597 Jens Axboe        2016-11-09  2220  	}
+87760e5eef3597 Jens Axboe        2016-11-09  2221 =20
+e8a676d61c07ec Christoph Hellwig 2020-12-03  2222  	trace_block_getrq(bio);
+d6f1dda2725190 Xiaoguang Wang    2018-10-23  2223 =20
+c1c80384c8f470 Josef Bacik       2018-07-03  2224  	rq_qos_track(q, rq, bio=
+);
+320ae51feed5c2 Jens Axboe        2013-10-24  2225 =20
+fd2d332677c687 Jens Axboe        2017-01-12  2226  	cookie =3D request_to_q=
+c_t(data.hctx, rq);
+320ae51feed5c2 Jens Axboe        2013-10-24  2227 =20
+14ccb66b3f585b Christoph Hellwig 2019-06-06  2228  	blk_mq_bio_to_request(r=
+q, bio, nr_segs);
+923218f6166a84 Ming Lei          2017-11-02  2229 =20
+a892c8d52c0228 Satya Tangirala   2020-05-14  2230  	ret =3D blk_crypto_init=
+_request(rq);
+a892c8d52c0228 Satya Tangirala   2020-05-14  2231  	if (ret !=3D BLK_STS_OK=
+) {
+a892c8d52c0228 Satya Tangirala   2020-05-14  2232  		bio->bi_status =3D ret;
+a892c8d52c0228 Satya Tangirala   2020-05-14  2233  		bio_endio(bio);
+a892c8d52c0228 Satya Tangirala   2020-05-14  2234  		blk_mq_free_request(rq=
+);
+a892c8d52c0228 Satya Tangirala   2020-05-14  2235  		return BLK_QC_T_NONE;
+a892c8d52c0228 Satya Tangirala   2020-05-14  2236  	}
+a892c8d52c0228 Satya Tangirala   2020-05-14  2237 =20
+b49773e7bcf316 Damien Le Moal    2019-07-11  2238  	plug =3D blk_mq_plug(q,=
+ bio);
+970d168de636dd Bart Van Assche   2019-07-01  2239  	if (unlikely(is_flush_f=
+ua)) {
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2240  		/* Bypass schedul=
+er for flush requests */
+320ae51feed5c2 Jens Axboe        2013-10-24  2241  		blk_insert_flush(rq);
+a4d907b6a33ba2 Christoph Hellwig 2017-03-22  2242  		blk_mq_run_hw_queue(da=
+ta.hctx, true);
+03f26d8f114032 Ming Lei          2021-05-14  2243  	} else if (plug && (q->=
+nr_hw_queues =3D=3D 1 ||
+03f26d8f114032 Ming Lei          2021-05-14  2244  		   blk_mq_is_sbitmap_s=
+hared(rq->mq_hctx->flags) ||
+03f26d8f114032 Ming Lei          2021-05-14  2245  		   q->mq_ops->commit_r=
+qs || !blk_queue_nonrot(q))) {
+b2c5d16b72df11 Jens Axboe        2018-11-29  2246  		/*
+b2c5d16b72df11 Jens Axboe        2018-11-29  2247  		 * Use plugging if we =
+have a ->commit_rqs() hook as well, as
+b2c5d16b72df11 Jens Axboe        2018-11-29  2248  		 * we know the driver =
+uses bd->last in a smart fashion.
+3154df262db52f Ming Lei          2019-09-27  2249  		 *
+3154df262db52f Ming Lei          2019-09-27  2250  		 * Use normal plugging=
+ if this disk is slow HDD, as sequential
+3154df262db52f Ming Lei          2019-09-27  2251  		 * IO may benefit a lo=
+t from plug merging.
+b2c5d16b72df11 Jens Axboe        2018-11-29  2252  		 */
+5f0ed774ed2914 Jens Axboe        2018-11-23  2253  		unsigned int request_c=
+ount =3D plug->rq_count;
+600271d9000027 Shaohua Li        2016-11-03  2254  		struct request *last =
+=3D NULL;
+600271d9000027 Shaohua Li        2016-11-03  2255 =20
+676d06077f964f Ming Lei          2015-10-20  2256  		if (!request_count)
+320ae51feed5c2 Jens Axboe        2013-10-24  2257  			trace_block_plug(q);
+600271d9000027 Shaohua Li        2016-11-03  2258  		else
+600271d9000027 Shaohua Li        2016-11-03  2259  			last =3D list_entry_r=
+q(plug->mq_list.prev);
+b094f89ca42fbb Jens Axboe        2015-11-20  2260 =20
+7f2a6a69f7ced6 Song Liu          2021-09-07  2261  		if (request_count >=3D =
+blk_plug_max_rq_count(plug) || (last &&
+600271d9000027 Shaohua Li        2016-11-03  2262  		    blk_rq_bytes(last)=
+ >=3D BLK_PLUG_FLUSH_SIZE)) {
+320ae51feed5c2 Jens Axboe        2013-10-24  2263  			blk_flush_plug_list(p=
+lug, false);
+320ae51feed5c2 Jens Axboe        2013-10-24  2264  			trace_block_plug(q);
+320ae51feed5c2 Jens Axboe        2013-10-24  2265  		}
+b094f89ca42fbb Jens Axboe        2015-11-20  2266 =20
+ce5b009cff1961 Jens Axboe        2018-11-27  2267  		blk_add_rq_to_plug(plu=
+g, rq);
+a12de1d42d74ef Ming Lei          2019-09-27  2268  	} else if (q->elevator)=
+ {
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2269  		/* Insert the req=
+uest at the IO scheduler queue */
+a12de1d42d74ef Ming Lei          2019-09-27  2270  		blk_mq_sched_insert_re=
+quest(rq, false, true, true);
+2299722c4b117a Christoph Hellwig 2017-03-22  2271  	} else if (plug && !blk=
+_queue_nomerges(q)) {
+320ae51feed5c2 Jens Axboe        2013-10-24  2272  		/*
+6a83e74d214a47 Bart Van Assche   2016-11-02  2273  		 * We do limited plugg=
+ing. If the bio can be merged, do that.
+f984df1f0f71ef Shaohua Li        2015-05-08  2274  		 * Otherwise the exist=
+ing request in the plug list will be
+f984df1f0f71ef Shaohua Li        2015-05-08  2275  		 * issued. So the plug=
+ list will have one request at most
+2299722c4b117a Christoph Hellwig 2017-03-22  2276  		 * The plug list might=
+ get flushed before this. If that happens,
+2299722c4b117a Christoph Hellwig 2017-03-22  2277  		 * the plug list is em=
+pty, and same_queue_rq is invalid.
+320ae51feed5c2 Jens Axboe        2013-10-24  2278  		 */
+2299722c4b117a Christoph Hellwig 2017-03-22  2279  		if (list_empty(&plug->=
+mq_list))
+2299722c4b117a Christoph Hellwig 2017-03-22  2280  			same_queue_rq =3D NUL=
+L;
+4711b57317f0ff Jens Axboe        2018-11-27  2281  		if (same_queue_rq) {
+2299722c4b117a Christoph Hellwig 2017-03-22  2282  			list_del_init(&same_q=
+ueue_rq->queuelist);
+4711b57317f0ff Jens Axboe        2018-11-27  2283  			plug->rq_count--;
+4711b57317f0ff Jens Axboe        2018-11-27  2284  		}
+ce5b009cff1961 Jens Axboe        2018-11-27  2285  		blk_add_rq_to_plug(plu=
+g, rq);
+ff3b74b8e1675c Yufen Yu          2019-03-26  2286  		trace_block_plug(q);
+07068d5b8ed8fa Jens Axboe        2014-05-22  2287 =20
+dad7a3be4960e5 Ming Lei          2017-06-06  2288  		if (same_queue_rq) {
+ea4f995ee8b8f0 Jens Axboe        2018-10-29  2289  			data.hctx =3D same_qu=
+eue_rq->mq_hctx;
+ff3b74b8e1675c Yufen Yu          2019-03-26  2290  			trace_block_unplug(q,=
+ 1, true);
+2299722c4b117a Christoph Hellwig 2017-03-22  2291  			blk_mq_try_issue_dire=
+ctly(data.hctx, same_queue_rq,
+fd9c40f64c514b Bart Van Assche   2019-04-04  2292  					&cookie);
+dad7a3be4960e5 Ming Lei          2017-06-06  2293  		}
+a12de1d42d74ef Ming Lei          2019-09-27  2294  	} else if ((q->nr_hw_qu=
+eues > 1 && is_sync) ||
+a12de1d42d74ef Ming Lei          2019-09-27  2295  			!data.hctx->dispatch_=
+busy) {
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2296  		/*
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2297  		 * There is no sc=
+heduler and we can try to send directly
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2298  		 * to the hardwar=
+e.
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2299  		 */
+fd9c40f64c514b Bart Van Assche   2019-04-04  2300  		blk_mq_try_issue_direc=
+tly(data.hctx, rq, &cookie);
+ab42f35d9cb5ac Ming Lei          2017-05-26  2301  	} else {
+105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2302  		/* Default case. =
+*/
+8fa9f556451a67 huhai             2018-05-16  2303  		blk_mq_sched_insert_re=
+quest(rq, false, true, true);
+ab42f35d9cb5ac Ming Lei          2017-05-26  2304  	}
+a4d907b6a33ba2 Christoph Hellwig 2017-03-22  2305 =20
+cc29e1bf0d63f7 Jeffle Xu         2020-11-26  2306  	if (!hipri)
+cc29e1bf0d63f7 Jeffle Xu         2020-11-26  2307  		return BLK_QC_T_NONE;
+7b371636fb6d18 Jens Axboe        2015-11-05  2308  	return cookie;
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2309  queue_exit:
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2310  	blk_queue_exit(q);
+ac7c5675fa45a3 Christoph Hellwig 2020-05-16  2311  	return BLK_QC_T_NONE;
+320ae51feed5c2 Jens Axboe        2013-10-24  2312  }
+320ae51feed5c2 Jens Axboe        2013-10-24  2313 =20
 
 --
 0-DAY CI Kernel Test Service
