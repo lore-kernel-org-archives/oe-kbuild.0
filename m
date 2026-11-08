@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794167584;
-	b=WU3cs0YsJ2bAlxexi3XscGtjX0PJQc14iwCWK2Ail2M+iDfN4d343r4jgb2baoKaChHk
-	 Cjcc/KBfIBSedSEDrIjM003iacHn/B2YdM1EabXTnQoLv4pUJJkPX1T/uTTh4a+6tIDXJ
-	 roOSGtWe3B8BxZ7h4MPp7Lnbggy4VdXLxVVRJUDoiJ9P4ZnG38ggihaPufxbnHu4xqzd3
-	 rrKgNcSsZ/ZKrNge7xRHsDVDgAa4HsP696h9ojPHIG1GGboJH7wezlM2Ft90EU+EIU/vz
-	 Gj5GoWKGDhHPuKqB4sb2yzWq06Veg4Bh4ztDZyLjzEWABJ60Owgh6zankLEM64d6ygA==
+	t=1794168181;
+	b=Y8qehtjrdYjQAyESmnRGRBquor2bsVnILbvxZj8hAWhp3XyErdYAKY7hMTg6YYjqHKvw
+	 THXnD5uDZGNTkg+heoJuLOhCCBx2UBUvkgGVkeQCsWhWvO9CXYTALMvhtnIGSCrAVfOC5
+	 ddiP+8RAemDDURy+Mw71Te6wIHmWfc/Sx2NSb8rSyt9Don8INMpfCqpSuv+8j8PPPs1JJ
+	 mYcTkDBQisyvC/c63MJ+VmEqAWOzMAm4r8JQ1hiPNPoEucJVEKHJ/4GGO1/RcjKQwypaD
+	 /X08DKdx4XQDD27GtqRCzzWhkrzWJ/j73sGZVIUVk6H91xNexSRJ+dT+uOi58LdPZNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794167584;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794168181;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=dQw0YFZI6LoBDkUpGXfRQPSLEEW2HQcOf2J324UYMjU=;
-	b=QriTYrtCxpjIaejhBO51Hv+FczH8gBKYOIOy65bAVFaANKkGyTmC9MzDHQlKY1xuRtHt
-	 W9yj7cBvb0GcKKkeo0oYOCe7Cm2mB3+GylFMxYLIm9J1g9bXuFPhCXIiAWYWcsU7sar3+
-	 QwDEH81IZpCfTTNHaBWzwa0wVwmLZ9w4PSR6RZ2T/LZzM+JXeVQg9zw8RfZH3Ue2gnLvr
-	 iH+rdDB2ga2sVox7rZWlK8EJD/OAVRlqOG4yGKkj3kn96/SoVQxuQFT8MfQoS6hXbYYmN
-	 lv0KwwhqXflM2Ew339FwnpsWmBocRKrrh/j1r8NeQbdtRCANsGywYpzVv9y63o740Eg==
+	bh=xVMh8qjJF9k87znfA+5zr0/uYTUZVGS14RNcAcYsL/c=;
+	b=HUku1OdrjrrvWDjOdVbK+au6uo2aIZgBmSRWl6RLXykAj4+AGqd0T5M5A3WTCqLiJidV
+	 1eCsA7/xVxsBrx5VUgnOdNYYrIOlr/kX47Sc+wwgfiORz1bkpRac0GezHUsNwjlL1qbp4
+	 mybHa98GQ4QMBkcaAHTQitdVkZ0fx1VYpLe7M0crjr442CL5AHfwY7iCFe6BgtMVIraL/
+	 X7gmkOhrPeRVa2MjIu0Yv4I6kWcD+xJrMwm7traSwjLiwC8XUZ2v8kp206I9f3d1a/CWj
+	 TdbJ1nsZu9hRAxsVlUUOn/hxQWyNHh2sUk4J7+k0MIeTvQG5LHjKsNjgkQIIbY921Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YIoz8Eho;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LT4jQJks;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72513606A31C
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Nov 2026 19:53:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72513606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B06D606A31C
+	for <oe-kbuild@lists.linux.dev>; Sun,  8 Nov 2026 20:03:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B06D606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YIoz8Eho
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LT4jQJks
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794167581; x=1825703581;
+  t=1794168181; x=1825704181;
   h=date:from:to:cc:subject:message-id;
-  bh=ujsRfV9IbLufpLQF3HwT2oaa088qcH20XHHqnJGuQV4=;
-  b=YIoz8EhobtXVqvXAl+CAkPZTq1S6pRZ/NTf9/mgxsPRouLfl5Y2YfHJf
-   qISLiAnUiXBvy7FHReNylIatViNb6Q6Z7by1qX+5tMlmJxWEh+sjS6eqG
-   t3uShqBSTCSNeYTHTNWS3TWhZdI5miet5Wq93Xnhjgkz3Fgk6oC5syG7V
-   O2KxfrKEKk4GB0XPZ6MMB+Qbnjm5spxMR2T878Oe6E8dscnFaCpOP9syL
-   mRkGaG/TX0Jtoo/WEekxACWTXVhlo/8b4xRkHCWbJcFFVV4E6qzzyuaPS
-   Gw6jTapSi3Lhx03cUDk91q/CbqG/TiGARq7/OWal2i/1Qo1ew1TK+FjRd
+  bh=Hg+BPttf3wqKdqna4+BlHABlQigDEk/lHPcgbdqjZr4=;
+  b=LT4jQJksrkrRsQuprtV2V/f+LH2fSucZV232bXqoWbBmFvLaRhGbTtA7
+   tQDLi9SQM5Dyp+4m17Wqg2IRUNj11ywak6gAuN8mDdL9DPFLM85gmbZ7V
+   B3hiwzEiR9qJeYztkWSnpfxNRTZLS1d3Gmnw7mAEljNzIw+P5vVPIB+rl
+   h0fSo2bg6qo0LXS+kLPhnveB98TrI+S2T1QVAHfGJXMVuTmpiEXVy3nyo
+   Nzfeph68kC1/E1QgFaFSSBpvjk9vEl1sJrcd4dfVe8X7mmwePWZGc1LTF
+   1/luZaxVntXbMoXzvS6gMCSP5YcG3UPd6eDN05ycAScGFEeYVHKOtZmAh
    g==;
-X-CSE-ConnectionGUID: mRvIv9BnQ0eqYyZP71xIXw==
-X-CSE-MsgGUID: uPS+W5WQRnWWY/uv8dAtUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2780661"
+X-CSE-ConnectionGUID: zjg8fzicThaCatjhhh5mRQ==
+X-CSE-MsgGUID: IB89RTJmS3y0wQGtfC1kgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2905355"
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="2780661"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 11:53:01 -0800
-X-CSE-ConnectionGUID: Swgihy27Q8WUq/1d5U+dFA==
-X-CSE-MsgGUID: UC3PaNmDRuuyTr77X5IA1A==
+   d="scan'208";a="2905355"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 12:03:00 -0800
+X-CSE-ConnectionGUID: Krrhq6FGQjaOpP1OgGq9Lg==
+X-CSE-MsgGUID: gr5wkDMZS/e2eMV6cVysqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="7744478"
+   d="scan'208";a="7840654"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 08 Nov 2026 11:52:59 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Nov 2026 12:02:59 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQ8wi-00000000BgQ-1KOd;
-	Sun, 08 Nov 2026 19:52:56 +0000
-Date: Sun, 08 Nov 2026 20:52:07 +0100
+	id 1xQ96P-00000000Bhf-0jMt;
+	Sun, 08 Nov 2026 20:02:57 +0000
+Date: Sun, 08 Nov 2026 21:02:44 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:for-next 8/10]
- arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb:
- timer@4c00a000 (st,stm32-timers): 'timer@14' does not match any of the
- regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-Message-ID: <202611082031.B7Gyl1Lc-lkp@intel.com>
+Subject: [wens:sunxi-wip 23/36]
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000
+ (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+Message-ID: <202611082015.gmERvmJn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -88,174 +87,47 @@ Precedence: list
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Linus Walleij <linusw@kernel.org>
-CC: Ivan Vecera <ivecera@redhat.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: "Chen-Yu Tsai" <wens@kernel.org>
 
-Hi Rob,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   c025fbcb8c919392aa3537a5cf6131c1d2733017
-commit: 17c58242988d2b4363fe9d506d387d7d13d50842 [8/10] dt-bindings: Use hex unit address patterns
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261108/202611082031.B7Gyl1Lc-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: 6755898ee7c90fe59112bfdfaa83760abb765b0c [23/36] arm64: dts: allwinner: a523: Add audio codec
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261108/202611082015.gmERvmJn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
 dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611082031.B7Gyl1Lc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611082015.gmERvmJn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611082031.B7Gyl1Lc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611082015.gmERvmJn-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb: adc@48004000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml
->> arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb: timer@4c00a000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb: timer@4c00b000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb: timer@4c00c000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp13xx-dhcor-dhsbc-overlay-rb-tft32-v2.dtb: adc@48003000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 --
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-drc02-overlay-wifi-rsi.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-drc02-overlay-wifi-rsi.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-drc02-overlay-wifi-rsi.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 --
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-otm8009a.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-otm8009a.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-otm8009a.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 --
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-rpi7inch.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-rpi7inch.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-644-100-x6-rpi7inch.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan1-x6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan1-x6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan1-x6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan2-x6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan2-x6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-fdcan2-x6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c1-eeprom-x6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c1-eeprom-x6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c1-eeprom-x6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c2-eeprom-x6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c2-eeprom-x6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-i2c2-eeprom-x6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-ov5640-x7.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-ov5640-x7.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-ov5640-x7.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-spi2-eeprom-x6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-spi2-eeprom-x6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-avenger96-overlay-spi2-eeprom-x6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-460-200-x11.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-460-200-x11.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-460-200-x11.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-497-200-x12.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-497-200-x12.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-497-200-x12.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x21.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x21.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x21.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x22.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x22.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-531-100-x22.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-505-200-x12-ch101olhlwh.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-505-200-x12-ch101olhlwh.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-505-200-x12-ch101olhlwh.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-638-100-x12-rpi7inch.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-638-100-x12-rpi7inch.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-638-100-x12-rpi7inch.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-672-100-x18.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-672-100-x18.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-pdk2-overlay-672-100-x18.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-548-200-x2-mi0700s4t-6.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-548-200-x2-mi0700s4t-6.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-548-200-x2-mi0700s4t-6.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-553-100-x2-tst043015cmhx.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-553-100-x2-tst043015cmhx.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-553-100-x2-tst043015cmhx.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-626-100-x2-ch101olhlwh.dtb: timer@44006000 (st,stm32-timers): 'timer@14' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-626-100-x2-ch101olhlwh.dtb: timer@44007000 (st,stm32-timers): 'timer@15' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
-   arch/arm/boot/dts/st/stm32mp15xx-dhcom-picoitx-overlay-626-100-x2-ch101olhlwh.dtb: timer@44008000 (st,stm32-timers): 'timer@16' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@([0-9a-f]|1[0-3])$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
+   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 
 --
 0-DAY CI Kernel Test Service
