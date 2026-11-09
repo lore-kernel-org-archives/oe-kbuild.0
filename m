@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794251820;
-	b=5q299e4QHGk633U/Yr6qpxVRhLk2rHrPWdcrz1x8UQgSdC+CxjTfkRTQ9dRl/x6mMcHc
-	 t1lxPEXq6BSh/u2r9nuH6PLuOEIYuhSOsIZ6o51BYPCOD6zX+qJI/kdWpgVpsrtYFTuxc
-	 3pPUJ2ymIeUSfpQ/FiRSn9qIXjCx/dC120Zgf8+ISPOy2rWJIYFfUqbr26GhbgpGf7YsX
-	 NsAIdz9/n3JAzac+1CDGQe21E2Ki6H+0N9gMYPn8/IXtnbB8bTRfQHQPRpwnxZa+UkTXr
-	 6mI2iIFVMgn2wG40r/2OZFMts2VHz5tZYVkhhgiTo12dSimNyokZcx627gUDWHMytrA==
+	t=1794252479;
+	b=cBeBpGznN6FK97dLPZhUU34Zm1gR8SONN9Ie+WERv85lOiUZmaFdTPjb8enLvgtgcy01
+	 aIPUFrEStyssgCoVc/GK9sTGnYpLl7x4xjBKN7Ws5y/+Jvej8GleIPs0fB7m/Sibk2XXE
+	 fIh5AdDvLfOr6+ivsT4bzj/8ath9NUAK7yh3GCUuVe3pxuQDHOxOBXj436/bKHP0N3hGh
+	 HU8UJDyih4LoPd7pFd7QDgNPyfYOZHdmfKM/qU0okj5accfBGM0T8P+wKzvNsUMlt2eAl
+	 sElKlZat7o3/pRxwF/sq4c6hNgI3Lprk6o8V8StAX9f5qA3uh4Os+ZR5LPM4v0d7pDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794251820;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794252479;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=GkYuN5juj+v82YZToN6CBV1zAePN1vk3AnfUGR8sGX8=;
-	b=LXf2lwKqfKfX1dXFBFkPXfNyG5ts6JJx6NAbhYMX+afngbGYNrjb+SR+lMy/3k4OF0Ss
-	 QiD/Pb7sCzim3u5zRd7pG0QmQzDlAskRxowF9Goi99Mg/y0V5f65sf7KVDRFNWZWHmfly
-	 pBrDtyCZAv4C1J0bP2+8m5KGWVfjPQv0kELiWa2Mx0LscctmU3ijcLu4U+9jB/KhlFfcr
-	 4CTPvk+f8Inq7pfUOS3rpY09IP4TkSJ1DdbBfPm5lxztfBdJOtR5EfGSREC+/2eQGovI4
-	 3WPprriXNQGlJg7LKVPk1HqmGPckK5fUWQKhYM8ucRSMskq4JIgvjyTZqgaXOZoqCUg==
+	bh=tYINhBxwOg73Z38xysP/k9axUbOQSuWqztiRnd3ZkoE=;
+	b=FB1X6xBj+xaYrxEeKskvKK/PxAw3tW+ImPCUoQc3n95recVbZVcJ36LonaJHAqUHMQk1
+	 eYvjbci/6TVJd9O7abJC8ToaZG889jnYdqLmjVWIEcA3g1+vlmduZepkpGdxBmRqqAsTW
+	 svK1rm9ogVqUJXwwLYF0yx7GW2NQvI3/87LYgY7iGs6n5QbfWFhOMcglg3qVHw1HtdJfT
+	 HZgHjMnGnABt4h8ncu/gznmISqgRzM0lk8WPAB2YuO6TN+b2JUbZ3BNd0AINOEssM2pjW
+	 Yf2kOFjyvxZJGx9vJrzgjttcQb8S2/utr7wz3fRem8zd2SZIkW3MlAbFd9MvoXT4zuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S32Fmug6;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O7BDUgoB;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A1C606A325
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Nov 2026 19:16:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3A1C606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFAC606A31C
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Nov 2026 19:27:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CFAC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S32Fmug6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O7BDUgoB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794251819; x=1825787819;
+  t=1794252479; x=1825788479;
   h=date:from:to:cc:subject:message-id;
-  bh=O0ia/BDSozKcYgO/UcJ3s7FT29memKAKaMxQhBNHbhE=;
-  b=S32Fmug6CXedHDIfcn1J6PnhDhJkMLSTa1qfhdlOOEWLk/xKnKccpDAm
-   vOKYdLHrKWWnxO3Slec6BWljkQIROKrzmvMmIEs9NAoSLp/njQFLdnCyr
-   0Z/vNkilPP/c0kIA0IwDhta2Dc7dyE8tF8NjzHN+ZjCXXK22dJBgCbqNm
-   junivZLnf+82h+qRntVmsVq+jwZ1GNVaFkefQQMXTQJygX9qWmOm+ww1D
-   30Ceh97PpNGyZJBbCMDEgO/YhfTUuDOLYvOJV6/cI56ADiwiUJt0RQOF5
-   ZKP1YzojKaaPMSOAHf4YJcjFM4Ed0R/qgiH03Il31x+uV1tSNfpHpOnkX
-   w==;
-X-CSE-ConnectionGUID: 0G3g5AwGSCu0lZLU/yMtJA==
-X-CSE-MsgGUID: VHP9x04PS1q0RwrjWg8RJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2873050"
+  bh=IQ1bQ73T6P7/BfDeURoAU44V0drdpHLiUdqXNjzZQVQ=;
+  b=O7BDUgoBhShR1mL9T5oiwQErVi1gJN22QFSuWPNgKj2PhzoYxN3z02Pr
+   IHlh4ZAJYV/NK/jHOe+R69dHSzEH/0iErV/4IPiJecxhQ6LabDr+AsjtT
+   cs+4PenJX8dQE/Rke4TU5h6E/WqKRsyJU7aaibOuLqKSkZbG0GpLgLAoy
+   YEVM1CY3YrQ/wjDzXa5WdjMHZxcSjwLq84K5ADwUePelikKJoFAX9aHZO
+   /QHA3QBfoOpnwo7mmomwxclit02BslTio8dbDzzBbvrgdfcvvKI3glud9
+   pixRUV56CHNqLASOtFatVVw66/rdpK9QkRAnknGhTZ8YBWlgT8WurYwuV
+   A==;
+X-CSE-ConnectionGUID: k5Usced6T3yP0jscIe5Itw==
+X-CSE-MsgGUID: TavEOpKCSNitCuzjuUB0Og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3026240"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2873050"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 11:16:59 -0800
-X-CSE-ConnectionGUID: Ve36mBvSTXeYPD8hrxA7ag==
-X-CSE-MsgGUID: 09y3OCg5T6G47si8xeFTkA==
+   d="scan'208";a="3026240"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 11:27:59 -0800
+X-CSE-ConnectionGUID: 5+D6MEmBTpyscL/LN2w/pg==
+X-CSE-MsgGUID: AcHZ1BTFSdOFdP0EdXNaHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="8001826"
+   d="scan'208";a="8264613"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 09 Nov 2026 11:16:57 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 09 Nov 2026 11:27:58 -0800
 Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQUrP-000000000SF-0goF;
-	Mon, 09 Nov 2026 19:16:55 +0000
-Date: Mon, 09 Nov 2026 20:16:39 +0100
+	id 1xQV23-000000000SR-3QlA;
+	Mon, 09 Nov 2026 19:27:55 +0000
+Date: Mon, 09 Nov 2026 20:27:11 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-7.5 155/161]
- arch/arm64/boot/dts/qcom/eliza-cqs-evk.dtb: / (qcom,eliza-cqs-evk):
+Subject: [asahilinux:bits/000-devicetree 87/242]
+ arch/arm64/boot/dts/apple/t6030-j514s.dtb: spmi@364714000 (apple,t6030-spmi):
  compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202611092005.hOEJNdF1-lkp@intel.com>
+Message-ID: <202611092045.o8orGUs1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -87,39 +87,65 @@ Precedence: list
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@oss.qualcomm.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-7.5
-head:   9ad33b312eb123e9a2e4e86f8849fa59db290226
-commit: 14120bce2899a8736934018f9817c23b95b8a073 [155/161] dt-bindings: arm: qcom: Describe Eliza CQS eMMC and UFS variants
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261109/202611092005.hOEJNdF1-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   c46abf5713fa41e1574fb50c462f53392d6f5cd7
+commit: da04d8c50639d4def50d7e2effd6cdbefa3c9226 [87/242] arm64: dts: apple: t6030: Add more hardware
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261109/202611092045.o8orGUs1-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 16.2.0
 dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611092005.hOEJNdF1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611092045.o8orGUs1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611092005.hOEJNdF1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611092045.o8orGUs1-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/eliza.dtsi:3025.27-3111.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/eliza.dtsi:3133.27-3195.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/eliza-cqs-evk.dtb: / (qcom,eliza-cqs-evk): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,eliza-cqs-evk', 'qcom,eliza-cqs-som', 'qcom,eliza'] is too long
-   	['qcom,eliza-cqs-evk', 'qcom,eliza-cqs-som', 'qcom,eliza'] is too short
-   	'qcom,eliza-cqs-evk' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
-   	'qcom,eliza-cqs-evk' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
-   	'qcom,eliza-cqs-evk' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
-   	'qcom,eliza-cqs-evk' is not one of ['qcom,apq8074-dragonboard']
-   	'qcom,eliza-cqs-evk' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
-   	'qcom,eliza-cqs-evk-emmc' was expected
-   	'qcom,eliza-cqs-evk-ufs' was expected
-   	'qcom,eliza-cqs-evk' is not one of ['sony,karin_windy']
+   arch/arm64/boot/dts/apple/t6030.dtsi:582.28-586.6: Warning (unit_address_vs_reg): /soc/smc@36c400000/gpio@67500000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t6030.dtsi:588.32-592.6: Warning (unit_address_vs_reg): /soc/smc@36c400000/gpio@67700000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: spmi@364714000 (apple,t6030-spmi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6030-spmi' is not one of ['apple,t6020-spmi', 'apple,t8012-spmi', 'apple,t8015-spmi', 'apple,t8122-spmi']
+   	'apple,t6030-spmi' is not one of ['apple,t8103-spmi', 'apple,t6000-spmi', 'apple,t8112-spmi']
+   	'apple,spmi' was expected
+   	from schema $id: http://devicetree.org/schemas/spmi/apple,spmi.yaml
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/spmi@364714000: failed to match any schema with compatible: ['apple,t6030-spmi', 'apple,t8103-spmi']
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: pmic@b (apple,chapel-pmic): compatible:0: 'apple,chapel-pmic' is not one of ['apple,maverick-pmic', 'apple,sera-pmic', 'apple,stowe-pmic']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/spmi@364714000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: smc@36c400000 (apple,t6030-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: smc@36c400000 (apple,t6030-smc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6030-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
+   	'apple,t6030-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
+   	'apple,smc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/smc@36c400000: failed to match any schema with compatible: ['apple,t6030-smc', 'apple,t8103-smc']
+>> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/smc@36c400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
+--
+   arch/arm64/boot/dts/apple/t6030.dtsi:582.28-586.6: Warning (unit_address_vs_reg): /soc/smc@36c400000/gpio@67500000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t6030.dtsi:588.32-592.6: Warning (unit_address_vs_reg): /soc/smc@36c400000/gpio@67700000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: spmi@364714000 (apple,t6030-spmi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6030-spmi' is not one of ['apple,t6020-spmi', 'apple,t8012-spmi', 'apple,t8015-spmi', 'apple,t8122-spmi']
+   	'apple,t6030-spmi' is not one of ['apple,t8103-spmi', 'apple,t6000-spmi', 'apple,t8112-spmi']
+   	'apple,spmi' was expected
+   	from schema $id: http://devicetree.org/schemas/spmi/apple,spmi.yaml
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/spmi@364714000: failed to match any schema with compatible: ['apple,t6030-spmi', 'apple,t8103-spmi']
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: pmic@b (apple,chapel-pmic): compatible:0: 'apple,chapel-pmic' is not one of ['apple,maverick-pmic', 'apple,sera-pmic', 'apple,stowe-pmic']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/spmi@364714000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: smc@36c400000 (apple,t6030-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: smc@36c400000 (apple,t6030-smc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6030-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
+   	'apple,t6030-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
+   	'apple,smc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/smc@36c400000: failed to match any schema with compatible: ['apple,t6030-smc', 'apple,t8103-smc']
+>> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/smc@36c400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
 
 --
 0-DAY CI Kernel Test Service
