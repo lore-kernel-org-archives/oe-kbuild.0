@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794225664;
-	b=2tpvE5ogEasHrH4h8AUgdf/zhJ+SshMx8MiQtsnCAdtNtnAzLyxv+6c7CM23y6j4yFGX
-	 JWS4a+MNqDPR/07XkxCWVj5jEobgpkv8JuFKKuouTbaRXR7LBmgVnhCc6ChQFpQvdTit/
-	 m5CzUCb8kaqFCQve17d0m1LOAYWb+cJTU/7TRpaiaqoRA79zriK46W/VUg5t+I4pv56by
-	 q3rLsfBlGIqSmZNF20PxeAXTZiw0h9kD/z7H2jNaY8KOhUxnGcIsRz9KNbC9bozfnTOIF
-	 m8sh1HIdLU+qgORYmxbRH4bFq92Nwsg1yYrOYBA1vWv4z4MQkesshimN6viBO1fZdbA==
+	t=1794229962;
+	b=3ekz+GnGWNWdeRM5SfhFqCceJzcy1FNWaglwOycDAWgWxt+LHcV8yChDB5+4rSM7tfbS
+	 AmNF88Ub6BkXaVfwJTBdh2BlxjuG8f52YzUyHGh41vvC4OSFI12kiKAXwDrNW11QPb5I9
+	 D4NJQcgNTwzKzkC1Wbo3IVveW9yN8Wp4jsRaCs1aNusBLXrYBPJp6XErYB5WCJ5gqxl0V
+	 lklEMJW8ZC6FRhfktaddD1vKrGueaIB30Mzuwid2dykiCnlcp27k2wAZpcqCfwah702jU
+	 EoEYmXucNvX7n1vJOwcA4xgCOJqT+ELmH+WzYD9P9JOs8giMVJP0c13rXNvwCJsOtEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794225664;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794229962;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=zOnIiglwcBq/mdV3T4oVDZzDpYjDGtmPw+cj84zTtWU=;
-	b=opbierghOMAkRaU+M8RRcFuX5fJYPcvC9xeqFMTo9ErXkgawT3/0TX28sy9rXqfTqMh1
-	 MBwqt1FoUg9EDJeRbK6VdhB54UhmBgSGscDhe+RLPOl1Njhb9fzbij8D1PGIfhkGGk39Q
-	 U7QBT+acICrWCPZJxXD+Lf+zyuocAHqf3g/A6EYVF112dutYUKebXtRt1Yz85oRmBxrfS
-	 v9Xs20b2v7dgUYuF0gWuzOHi2eAcfe/FWEE0sGZoYEAF2nlVNkQ6eWhSX9cp6X/60+VAK
-	 B5IHY64JZlRaYRwbbOXHrvJPjQjYPVAs98TnkPGyAb9hhhCy1Q2PtG726ZXfqx+SANA==
+	bh=4moTb0lAxyc41iTyTxij/SBewkrPFphrzKGtOYEQtRg=;
+	b=t0eZbFbGPm3QnbEHMJ6IDd31JbY4Z4BpTBbXAy/v8jnK0JlLmnsrqGY8e1aI8C09QTmb
+	 6+cJtDg07ys0YdoUbe3fFytXldtPWdgKztmo6a2d1wwfWSRm7adDeTKTtTx+cvtmq+SkN
+	 bd2A1+MDg8Be+dHLfdgtGsgECEcx1ad/5q6VAQPjjLqLz+0NRE620SN+LC/DsdjjPSROw
+	 K7vcH8czTd2RkaVGV07UreYoPbl26iiOIa/o+fEaUMYkqDWMep1uA7jCVc5RTXhFxUPQW
+	 LdnCJWygMFnCLf44w28Vke2sMJteinw+NPscCxH3CKkHy0wtbTkoSjdOFxxuiOO7aGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oHSNYRbG;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bJasvDpz;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D199606A32A
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Nov 2026 12:01:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D199606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80679606D808
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Nov 2026 13:12:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80679606D808
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oHSNYRbG
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bJasvDpz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794225662; x=1825761662;
+  t=1794229961; x=1825765961;
   h=date:from:to:cc:subject:message-id;
-  bh=S0JM9iVLVAsq0jypyUACzdK/Ai1O4mhBvmbnBLAEF4w=;
-  b=oHSNYRbGzGZ6OucNVRkAFJs1T0JObWjQOnxFqoeTziVmnjOLnWaIRlBh
-   kHh8hfxFat7YeRUOnN7VGHmSqxfyU50pW4n3o4JxKg80JXnlIwkVvi8DI
-   TVZknP+kND2J8vx/JBLYfVIaiDjk1TZrm9aaiYpM/RsD5nfYANKZ6zYy8
-   PpxMPhPxG1o3CvdAE8EmeY+tfjbXIska5WoLxYdPlventae331TdqnP9O
-   2C9GyxNhWRe7X4IP1QitMPASoNI5aKW5mvOsNGRvy/5pFpuiJikeFQ7Ro
-   RH0GspX63dlI+wqJX5tk+pV025YRaPA10Uos8ssflWnMrLvRLT4i6PSVE
-   Q==;
-X-CSE-ConnectionGUID: 8DQPkhR6R/yS+ksCAwOJSw==
-X-CSE-MsgGUID: gyRSY9aoSkGqPn965UH4bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2934499"
+  bh=2n4ujHEUUgQmtLYXBq8UVmgbdD7snNZP3Q3vJZQ+I1E=;
+  b=bJasvDpzIVU6JnVonimaSmyQSE1Gj3CEeduFCFuYPrLuH2L/JBiiITv1
+   Ws/YVZ6c0FC/nldiuBcRdo0U1n1v1OjpdyFlWDaGaP/8khnsB3YvF4eZa
+   v+zjFWaaT+gQw6Urraj2KZR994in++u0mRuXgCEY3Hj6u+7/5BwR0ciUX
+   b79/fTyFZi60/SLmasE1UxOfERc03rZKFsVfhL1hbZ9rHydVCsRXKRN6h
+   oJsk+eCwWf1SgzFo4akBdJqErk8M4xSBvhgXX60BA/KHRFBdyvlagHuMr
+   IvQmH9OLTQq1IuQiMbaBiFxR/k4LbtgYmm8UN98TuFeO4q7/AQS1nLuQd
+   g==;
+X-CSE-ConnectionGUID: 6Rdg78FrR0i5OO90sMVyow==
+X-CSE-MsgGUID: 1W6m//HUSYyOPdqexnCodw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2952745"
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2934499"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 04:01:02 -0800
-X-CSE-ConnectionGUID: cUtLYjq0QZGKo3ZoEuXLDw==
-X-CSE-MsgGUID: reMqvy5+TNy8ZlNPP2uMbA==
+   d="scan'208";a="2952745"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 05:12:40 -0800
+X-CSE-ConnectionGUID: PPAIlyoHQ6uYBZqLnQFRNA==
+X-CSE-MsgGUID: ap9LxfmCSmably56s+zLJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="9624288"
+   d="scan'208";a="8435212"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 09 Nov 2026 04:01:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2026 05:12:39 -0800
 Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQO3V-000000000JP-0d0l;
-	Mon, 09 Nov 2026 12:00:57 +0000
-Date: Mon, 09 Nov 2026 13:00:46 +0100
+	id 1xQPAq-000000000KJ-2AcC;
+	Mon, 09 Nov 2026 13:12:36 +0000
+Date: Mon, 09 Nov 2026 14:12:26 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kkdwivedi:cancellations 31/48] kernel/bpf/frame_desc.c:207
- insn_subprog() error: buffer overflow 'env->subprog_info' 1026 <= 1073741823
-Message-ID: <202611091250.noF1mTAA-lkp@intel.com>
+Subject: [jic23-iio:testing 196/247]
+ drivers/iio/adc/ingenic-x1600-adc.c:119 x1600_adc_read_raw_channel() warn:
+ subtract is higher precedence than shift
+Message-ID: <202611091401.bBwOPdXb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -85,46 +86,67 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+TO: Olivier Louvignes <olivier@mgcrea.io>
+CC: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+CC: Joshua Crofts <joshua.crofts1@gmail.com>
+CC: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-tree:   https://github.com/kkdwivedi/linux cancellations
-head:   c5378a88f114558f34a5251ecc2e401d1c111548
-commit: ec83c9d519f8d4358632039cc2c6f8146f925e70 [31/48] bpf: Keep the descriptors of a site apart by chain of calls
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 hours ago
-config: hexagon-randconfig-2200-20261109 (https://download.01.org/0day-ci/archive/20261109/202611091250.noF1mTAA-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   b70566610b48ba49dec636019da4d696db64b085
+commit: 6abd2c32aed66a36992c2c0bdb45cf82bf5e42df [196/247] iio: adc: Add a driver for the Ingenic X1600 ADC
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 days ago
+config: xtensa-randconfig-2200-20261109 (https://download.01.org/0day-ci/archive/20261109/202611091401.bBwOPdXb-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611091250.noF1mTAA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611091401.bBwOPdXb-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/frame_desc.c:207 insn_subprog() error: buffer overflow 'env->subprog_info' 1026 <= 1073741823
+drivers/iio/adc/ingenic-x1600-adc.c:119 x1600_adc_read_raw_channel() warn: subtract is higher precedence than shift
+drivers/iio/adc/ingenic-x1600-adc.c:119 x1600_adc_read_raw_channel() warn: subtract is higher precedence than shift
+drivers/iio/adc/ingenic-x1600-adc.c:119 x1600_adc_read_raw_channel() warn: subtract is higher precedence than shift
+drivers/iio/adc/ingenic-x1600-adc.c:119 x1600_adc_read_raw_channel() warn: subtract is higher precedence than shift
 
-vim +207 kernel/bpf/frame_desc.c
+vim +119 drivers/iio/adc/ingenic-x1600-adc.c
 
-240b6bc21978f8 Kumar Kartikeya Dwivedi 2026-11-08  197  
-ec1e74abdd85c3 Kumar Kartikeya Dwivedi 2026-11-08  198  /* The subprog insn @idx belongs to. */
-ec1e74abdd85c3 Kumar Kartikeya Dwivedi 2026-11-08  199  static int insn_subprog(struct bpf_verifier_env *env, u32 idx)
-ec1e74abdd85c3 Kumar Kartikeya Dwivedi 2026-11-08  200  {
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  201  	int l = 0, r = env->subprog_cnt, m;
-ec1e74abdd85c3 Kumar Kartikeya Dwivedi 2026-11-08  202  
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  203  	if (idx >= env->subprog_info[r].start)
-ec1e74abdd85c3 Kumar Kartikeya Dwivedi 2026-11-08  204  		return -1;
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  205  	while (r - l > 1) {
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  206  		m = l + (r - l) / 2;
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08 @207  		if (env->subprog_info[m].start <= idx)
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  208  			l = m;
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  209  		else
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  210  			r = m;
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  211  	}
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  212  	return l;
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  213  }
-ec83c9d519f8d4 Kumar Kartikeya Dwivedi 2026-11-08  214  
+6abd2c32aed66a Olivier Louvignes 2026-11-06   91  
+6abd2c32aed66a Olivier Louvignes 2026-11-06   92  static int x1600_adc_read_raw_channel(struct x1600_adc *adc, unsigned int ch, int *val)
+6abd2c32aed66a Olivier Louvignes 2026-11-06   93  {
+6abd2c32aed66a Olivier Louvignes 2026-11-06   94  	unsigned int bank, shift;
+6abd2c32aed66a Olivier Louvignes 2026-11-06   95  	u32 enable, data;
+6abd2c32aed66a Olivier Louvignes 2026-11-06   96  	int ret;
+6abd2c32aed66a Olivier Louvignes 2026-11-06   97  
+6abd2c32aed66a Olivier Louvignes 2026-11-06   98  	guard(mutex)(&adc->lock);
+6abd2c32aed66a Olivier Louvignes 2026-11-06   99  
+6abd2c32aed66a Olivier Louvignes 2026-11-06  100  	reinit_completion(&adc->done);
+6abd2c32aed66a Olivier Louvignes 2026-11-06  101  	x1600_adc_write(adc, X1600_ADC_REG_STATUS, BIT(ch));
+6abd2c32aed66a Olivier Louvignes 2026-11-06  102  	enable = x1600_adc_read(adc, X1600_ADC_REG_ENABLE);
+6abd2c32aed66a Olivier Louvignes 2026-11-06  103  	x1600_adc_write(adc, X1600_ADC_REG_ENABLE, enable | BIT(ch));
+6abd2c32aed66a Olivier Louvignes 2026-11-06  104  
+6abd2c32aed66a Olivier Louvignes 2026-11-06  105  	if (wait_for_completion_timeout(&adc->done, X1600_ADC_TIMEOUT))
+6abd2c32aed66a Olivier Louvignes 2026-11-06  106  		ret = 0;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  107  	else
+6abd2c32aed66a Olivier Louvignes 2026-11-06  108  		ret = -ETIMEDOUT;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  109  
+6abd2c32aed66a Olivier Louvignes 2026-11-06  110  	enable = x1600_adc_read(adc, X1600_ADC_REG_ENABLE);
+6abd2c32aed66a Olivier Louvignes 2026-11-06  111  	x1600_adc_write(adc, X1600_ADC_REG_ENABLE, enable & ~BIT(ch));
+6abd2c32aed66a Olivier Louvignes 2026-11-06  112  	if (ret)
+6abd2c32aed66a Olivier Louvignes 2026-11-06  113  		return ret;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  114  
+6abd2c32aed66a Olivier Louvignes 2026-11-06  115  	/* Two results to a data register, the even channel's in the low half. */
+6abd2c32aed66a Olivier Louvignes 2026-11-06  116  	bank = ch / 2;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  117  	shift = ch % 2;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  118  	data = x1600_adc_read(adc, X1600_ADC_REG_DATA(bank));
+6abd2c32aed66a Olivier Louvignes 2026-11-06 @119  	*val = field_get(X1600_ADC_DATA_MASK(shift), data);
+6abd2c32aed66a Olivier Louvignes 2026-11-06  120  
+6abd2c32aed66a Olivier Louvignes 2026-11-06  121  	return 0;
+6abd2c32aed66a Olivier Louvignes 2026-11-06  122  }
+6abd2c32aed66a Olivier Louvignes 2026-11-06  123  
 
 --
 0-DAY CI Kernel Test Service
