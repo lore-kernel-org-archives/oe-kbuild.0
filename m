@@ -1,75 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794341152;
-	b=S8DS/O+1e1AxUXQvF0CupSyKuRO68N4iZUeikjA8J0+3bbDmd+SwgE4bT6WQ+L/KlCO3
-	 itq0XwmsQ75+65BNkJPmMqwHFA0XDzC4a3tLoTnk6gY9872UrUfsMPOMQrCR+hb/DR4ot
-	 s1gP7ZcJg6QbxJNU+Qqdnn1hBMa5q64FZj3icq8wFAKxTKUlcEyvV3hyGHH2zQZ83OxFj
-	 J4CMqRotWU9GkA9Ds1xqu6cA38xoVZu5DIglQh+44JZ2rkz/dZ3lgmfxP7YBhnNrF3WZk
-	 vUnIAIn75/xHx9YDhhOglBlzI+BHLjl3OxZwbFKQBltOU67i2wEOabrsQD+uRUkTSIw==
+	t=1794342098;
+	b=V0cjFPJu+97V0UB1TDhxl0a5oQQsCmBzkiV1PtPQnjoC/EN3QkhPk7HNEGR02pI+xkQD
+	 gwBUMOIMsSCZYCBVFbKR4nyf6Gu4CzT2k1Vr8mgER3hKIfzV6bbYWWxT1Q6qculYeHF18
+	 NETlPRWG3Eb6QKcPakRz57Hmx70BSkT4lgMXStIhDAfjnpTe9AE1KWEivTdVgUck82e/w
+	 UydQ3ogI9/0Lf2zrsGDzRC93Rm+ejTTIWeaxI6lmlrcCjZiCCQaH42/TIntQdSWmKDQMF
+	 drCcj1zXLs1mimyLm9HMQeMCy4Nt3Ctq71v5/Xu6uTGaqy0pep8GCdMJrb9/pPjR0sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794341152;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794342098;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=tqudIgoOhasCIB9Z8fR5+GmfVXmsg0C35hnU1Eh9HjE=;
-	b=yl2MV4cXEfVhIiGYCZk3yLWLxb1CBGTMfRfRe8sWDd5CqeiSU7Y4i/PB6C0XNltdpyu4
-	 G7ODkA6TdMBnLP2+QV8dfditkUqMacQk3LP1EaWxCZ7D0TuETRAhFQ4QUOQxHotePX1x0
-	 JRwKwOnK7cWLm7I9uoAj4RlnibVbpM4w6fD/2/NTXbER3/FlIRcDtZPMNA4FkoXukBype
-	 E1Y7k42/BPRgbCc+Fm42jHpsv6E91Tu13SqFG2Ncyljw68EQAKIY0qa3sih7WP9aWA/Zf
-	 mSmybjqlajIHGpMMT59/VV7J87iXd5t97AJmAeYYgLbq9SCFt3opWHS1JLaVFqQmflA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=cPHIAEf5fTuHl9lJW54kdPON/dX7b/iwzEZEjwVm7dA=;
+	b=NOc35UZRn5gYlKxrFvIy3ZH8BrgFUobA7u2Xm8YQIqCMyO3xGZSqa8owi71bohKhisHX
+	 HbH+hjj8JBXS3gdutQ72NSlnT6WTMJGYmnLfm2yV88nRMiUm+GFM71t+Ap6IrjMJDWcis
+	 DpSphAQjJwSlcqy3cN+CzfgBBGoDmjpMu4kHEfA/brZa7xAmKPUsoW/BM98Prz/kTpoqz
+	 oyQrOGfC09rYTiQj4Via5KwHbP7OrbAKE+N8kDVuuYI2dXyEufVfe1ysnYDqaVyiQ0CJF
+	 oyQjiOky9P9z8FcfHtfvVzZQFGZ41C4tfkHtrM4YPuRKzIG6dRZNom29qCIHKR9Pkbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MPUPip7a;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fa2eznNx;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFBD606A31C
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 20:05:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FFBD606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2783F60A2612
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 20:21:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2783F60A2612
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MPUPip7a
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fa2eznNx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794341152; x=1825877152;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+vk/mHy4EdXrTOIOBZJt2KNS7ytLWCW90KsQjGH3GFU=;
-  b=MPUPip7a79X5k73DXiZQRbZ/wVLS5JThONQaGLG5FSIBcvlZX1S3o87y
-   J/6GbeuGaBl2VgR6iZCznDOWZVTyprykikfJToqNLHT/OV0WKnFCqNV52
-   4JCXkK62Cu296Tee9Y7fWY3/ztR1QjBT96A5rSnXIXOmX/JdjX1N3kwYS
-   fZRsotRu6O0d/r7ziAUx/B1zyWKjbqJdUxZCP/NvcNX1YezuRyLtPABIl
-   61qtrAxNIkhmRS1MLskF7XqQzjL/0mkY3rHLLYOh7SIVgZQGOb/X/2S4F
-   /mfUZgUCMwy81GqvZKy7LAVu5D/aDXzmEisvwu2Ac6TSVDVGS1MWjFgG0
-   g==;
-X-CSE-ConnectionGUID: s92zq6icQK+FBmh7ygK4Lw==
-X-CSE-MsgGUID: sn3tPD2hRXGnwSKxuoSxFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3005827"
+  t=1794342097; x=1825878097;
+  h=date:from:to:cc:subject:message-id;
+  bh=iDGLaAZCGSsIw+PU+cRuWegyf10DF4af7pg8PbRxZis=;
+  b=fa2eznNxOi7ineVjFYXQ6jgf8tzNsqU9k9EgPmf7PF7P3V00UOoH2SE1
+   6n27Q3NcCByjmboTmMhnsfSUyPQwer3FOTOTZouJ2jCn5PksBcLr3CV60
+   zzuXBKsc+IX0xoidWzSqEvR9nqksQS8kzISP0byXo4AvOsSGOe+lf3gl9
+   LPnSXZ+s7raGdnjBZ3lWZx+XabdK84Swlg0jvtEtO9iN71JyUv3rcwOKX
+   MxKg6Xhs6febJDgF4KrzzyhzCcTDlwyugKQMtnrdkQj02+WeiBGAuoS+r
+   f172xzWWv+hy3SPYE7Q7eQAMNzJ1hVjkLWTrzOEEUcLfD4IlNA3hs+aub
+   Q==;
+X-CSE-ConnectionGUID: PV3y73NuR8qi6+GlslXEVQ==
+X-CSE-MsgGUID: Ic5+AfeSQ22qpDxyQAg6tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3130494"
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3005827"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:05:52 -0800
-X-CSE-ConnectionGUID: 9V/TvJEQTkWaSykTrUhneg==
-X-CSE-MsgGUID: zXl24j0fQN2u+Cu88flb4g==
+   d="scan'208";a="3130494"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:21:36 -0800
+X-CSE-ConnectionGUID: NbvosxJaQXS4FsTeO5CcJA==
+X-CSE-MsgGUID: 8SSUWZb6S9+iBWEiTQdiUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="8109664"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2026 12:05:50 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8678105"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Nov 2026 12:21:35 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQs6G-00000000xQp-0BkI;
-	Tue, 10 Nov 2026 20:05:48 +0000
-Date: Wed, 11 Nov 2026 04:05:34 +0800
+	id 1xQsLV-000000000Lh-1oL5;
+	Tue, 10 Nov 2026 20:21:33 +0000
+Date: Tue, 10 Nov 2026 21:21:19 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] PCI/VGA: Fix boot device detection after framebuffer
- relocation
-Message-ID: <202611110347.EpCc8ug6-lkp@intel.com>
+Subject: [wens:sunxi-wip 31/36]
+ arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb: iommu@30f0000
+ (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202611102117.CZOcpJz8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -78,57 +81,117 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261028094634.766723-1-wuqianhai@loongson.cn>
-References: <20261028094634.766723-1-wuqianhai@loongson.cn>
-TO: wuqianhai@loongson.cn
-TO: bhelgaas@google.com
-CC: wuqianhai <wuqianhai@loongson.cn>
-CC: linux-pci@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: tzimmermann@suse.de
-CC: javierm@redhat.com
-CC: dri-devel@lists.freedesktop.org
+TO: "Chen-Yu Tsai" <wens@kernel.org>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.4-rc2 next-20261109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wuqianhai-loongson-cn/PCI-VGA-Fix-boot-device-detection-after-framebuffer-relocation/20261028-174634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20261028094634.766723-1-wuqianhai%40loongson.cn
-patch subject: [PATCH] PCI/VGA: Fix boot device detection after framebuffer relocation
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20261111/202611110347.EpCc8ug6-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110347.EpCc8ug6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: 1f9b750151a621b9404d65c8cad20a4b8000c811 [31/36] dt-bindings: iommu: sun50i-h6: Remove bogus resets
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261110/202611102117.CZOcpJz8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611102117.CZOcpJz8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611110347.EpCc8ug6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611102117.CZOcpJz8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   alpha-linux-ld: drivers/pci/vgaarb.o: in function `vga_arb_device_init':
-   drivers/pci/vgaarb.c:1536:(.init.text+0x8): undefined reference to `screen_info_apply_fixups'
->> alpha-linux-ld: drivers/pci/vgaarb.c:1536:(.init.text+0x24): undefined reference to `screen_info_apply_fixups'
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+>> arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6-mini.dtb: iommu@30f0000 (allwinner,sun50i-h6-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-1082.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: iommu@30f0000 (allwinner,sun50i-h616-iommu): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iommu/allwinner,sun50i-h6-iommu.yaml
 
 --
 0-DAY CI Kernel Test Service
