@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794274532;
-	b=BThdEKUS+8mUl3uFBS6OiqddJTW6rLScxgxs0KcHUslmcreNlr/udPPfROD/pBAs/dzs
-	 4CxB+Xd4CmyevUJY4bIA0ksgrHw/b73lj+0fR/XbtkcCqogDeqi/DxemT2Xyq+uhH5R86
-	 Ataw53gSnRwUGTerDzDBC8DDtpc046wXy8jeUVQOQ1413OfK/CYHiZHXpIdU96AezYaJ2
-	 A0NB+v7hepFxTM7k1YJWs8KaEtXIKvYC9dX5NrqqBPIE28y0p/TafCoeW/Wv4/OUQufXi
-	 5LPwNj3KceeFkpH75uDXihcn/E4amTwCmi2+hzGrxLFAwhpxZx+sNyTbm2Kge28qQfw==
+	t=1794276997;
+	b=Tl6kQEol2KwHuIPgCtYCoXbPK+NJhUDrycZz3F2uG5msvf8yt9HhPFLgtcPbQO6Ux9kS
+	 vorg9lZ6GF96BbM5hIrmGFEHYarT4TtIj8RrspzsbaatP2OkXwkhfPEIfbW7CHsbrvGm5
+	 c7Lejb9wdvT0HbK1iXx5ECxuiYWit6QSE/jCLANRyqTjtMdVxNVHXPNPSAv+0XhRIIDk7
+	 6gOo2ztbhscoBD+ri6t5+Af3q6KUrQQqS9YFrhp0nIdleYe9vUTebXYRC05NsIf8x0k8B
+	 BwtMxaywZ2xLKI7BFpcxDaZ4riVbJEijr/vIxOatAmw95S8nA8WTmuLtNNFF1vPIn1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794274532;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794276997;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=RPXC3Ep1WsuH/priYpS1BfcBF1li+JkRQEfgfjZqAuw=;
-	b=aJDIMDPZhqxgccKzM6GPgLEfMOHyLHhE+piEYwGcoZkWB2IYADIVrxpEgeT43qwLwXIu
-	 G0n1e3BFjQQkZMHMDx4BteRehlpitqGZ1alkHCCfiZN0vM2ybzxN5jZlUrftrXeF+XR/8
-	 MhYDSFgfyiuN1LRixWvhiDtOu7Im5p4lTADKiQa4ugADVfmpxfnIUdbi3uprkGr2v05j/
-	 1KSM5l2vEcwRvVOo4KmX+c54KC+/VAp70GV/u3nLcn3xet2SpL1LWB4pXYA9pvpXPYNik
-	 90V9JngWhyLqxjBqMcBa3V9vtZ2jvL5mYAVNoqQQgZDJROo4ugNx8e21AzOMXkl0kDQ==
+	bh=LXSfnaA2Hx8A57RG8vcjJbvb0axb/zhXfkTtjdp44xI=;
+	b=tPhjsb/F1nL5yq8S085/OKWOca2rpE7/eIl0751FKvp6xeEG9FXXldPvxNTHiUBXhfva
+	 k46DDdrNcvnOHG8V8451F4t4ljwJNhOuYU1jj6VeMDH32vjoZYuYcsARzWxn4XCoflrTI
+	 ejL9vxj1doLGbkT8b4qeqf+AH4azQ4JF0JlBPoCBfS9eSy0odqMi6M9KIdvzJEmvAv94Z
+	 3an8ly2hcwQdfdE2YTez2E7/PwJpcGkyKjrrcKNJhu3xaoyHENXZ7gwsgYFcbgXQK6/dz
+	 LwB8pVa4QSQof2BjAf43jaYJxcEDV3O/6xx+IGqa7Iz0LR+B4428rLETbY6Hq1+/5/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="kY7tw/pC";
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="k/A9Evm/";
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6361606A31C
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 01:35:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6361606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BB6606A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 02:16:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26BB6606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kY7tw/pC
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k/A9Evm/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794274532; x=1825810532;
+  t=1794276996; x=1825812996;
   h=date:from:to:cc:subject:message-id;
-  bh=2sSWetnXqLnqgaiTwAoMnUV+LIF4Ko8Vc1myztCFmGo=;
-  b=kY7tw/pClOajxP0qEjDwERjvFpwlSWri2EnS3bnedopp2I8r3GV1quab
-   xbnn2Zro+maNzqtos/oxEha6H9STQn635B7hWbH/XGWqpom1oeZ6ui0LS
-   1y4GK1LGsFBy5PunxbajhoEdIjgD7QbwwTI8CDSn0nn8S5p9Y34n0tPbI
-   ezpE6Ogxci1wHC1avrtzuTgj7JLEItUrEyyKY5YHeWHo6ofbciW8xYGVK
-   vfbyEU3XgGPAJojo3wMRUwO9SQnpHiI6XAiHjq03DRsle7t9z2quftfGO
-   Z4IeDJiREjpEk1XZVUy7/hFNqgpvbMmDX6WbYn4z1QVCmppCbY5HFMnp/
-   Q==;
-X-CSE-ConnectionGUID: TIGJgqa/S7WBJ6e8FXBs8w==
-X-CSE-MsgGUID: jJgPOoVnQneKUynYYrNSQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3046843"
+  bh=VQwvlxAPuE8lvm0sS3ZlRvMCSp5dOl3bWZbXYcLM8/s=;
+  b=k/A9Evm/qQt5eafOZS/HOlRH4XneIro/muFuYPHTsO2hbyULSoYfKLds
+   kq8xhCB5maYlZkoQiGT/rZnzQpmEd1COcLqFjA0NyzZ7OZIn/urfdfKDI
+   I+53PirOVptBXbttlbUujbC5TnGnqZA/1XGFAD340gv4mhjRbZClkzc5B
+   BsO34u4u401WyFBgeo3mNRrtZaNKMsCUB1z+6ilXIvN5xkYMMcviZ/Uqe
+   DeTRfcnS4K0mDebXwTMUkk9121uj0XJ92eEVMu2FYn4oDDjHGhExGOjIf
+   7FfOtGe/O72VYngEV74gJRFEsSJ5I9CXo59N8T51/gkvzcdHMvF4fNMcp
+   g==;
+X-CSE-ConnectionGUID: tAqxVi+tSgaCj+ZeHQgE0Q==
+X-CSE-MsgGUID: 1XYKCzlZTgumKPmVRDAyRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3048084"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3046843"
+   d="scan'208";a="3048084"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 17:35:31 -0800
-X-CSE-ConnectionGUID: 9zVFly8uTpy4TroRJ+wXow==
-X-CSE-MsgGUID: GN9W1K9rQnCcW2VZSTzKyg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 18:16:35 -0800
+X-CSE-ConnectionGUID: e8dA5Dv3RYunqiWd4dinPg==
+X-CSE-MsgGUID: ZGF2vYqyTlaHg6RSW4oIFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7876791"
+   d="scan'208";a="7882947"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2026 17:35:30 -0800
+  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2026 18:16:35 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQalj-00000000099-07iO;
-	Tue, 10 Nov 2026 01:35:27 +0000
-Date: Tue, 10 Nov 2026 02:34:41 +0100
+	id 1xQbPU-0000000009L-1EAx;
+	Tue, 10 Nov 2026 02:16:32 +0000
+Date: Tue, 10 Nov 2026 03:15:42 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:sunxi-wip 24/36]
- arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000
- (allwinner,sun55i-a523-codec): Unevaluated properties are not allowed
- ('audio-routing', 'widgets' were unexpected)
-Message-ID: <202611100226.ACLnBi3N-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [groeck-staging:hwmon-next 185/185]
+ drivers/hwmon/nct6683.c:1477 nct6687dr_curve_mode_reg() warn: signedness bug
+ returning '(-2147481080)'
+Message-ID: <202611100315.DoxU8Gyq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,37 +81,46 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wens@kernel.org>
+CC: Guenter Roeck <linux@roeck-us.net>
+TO: Tomasz Bojanowski <tomasz@bojanowski.me>
+CC: Guenter Roeck <linux@roeck-us.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
-head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
-commit: c790c92683a4515ea55fcbdab4ba6e59551b6f21 [24/36] arm64: dts: allwinner: t527: orangepi-4a: Enable audio codec
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261110/202611100226.ACLnBi3N-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100226.ACLnBi3N-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   e0fdadf444800610828d01b299743f79ae3bd27f
+commit: e0fdadf444800610828d01b299743f79ae3bd27f [185/185] hwmon: (nct6683) Report the fan curves of MSI boards with NCT6687D-R
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: parisc-randconfig-2200-20261109 (https://download.01.org/0day-ci/archive/20261110/202611100315.DoxU8Gyq-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.3.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611100226.ACLnBi3N-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202611100315.DoxU8Gyq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:117.6-1227.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: codec@7110000 (allwinner,sun55i-a523-codec): Unevaluated properties are not allowed ('audio-routing', 'widgets' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/allwinner,sun4i-a10-codec.yaml
-   arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+New smatch warnings:
+drivers/hwmon/nct6683.c:1477 nct6687dr_curve_mode_reg() warn: signedness bug returning '(-2147481080)'
+
+Old smatch warnings:
+drivers/hwmon/nct6683.c:615 nct6683_pwm_reg() warn: signedness bug returning '(-2147483296)'
+drivers/hwmon/nct6683.c:954 nct6683_cmd_reg() warn: signedness bug returning '(-2147481048)'
+
+vim +1477 drivers/hwmon/nct6683.c
+
+41082d66bfd6faf Guenter Roeck     2014-04-06  1474  
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09  1475  static u16 nct6687dr_curve_mode_reg(int ch)
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09  1476  {
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09 @1477  	return ch < 8 ? NCT6687DR_REG_CURVE_MODE(ch) :
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09  1478  			NCT6687DR_REG_CURVE_MODE_SYS(ch);
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09  1479  }
+e0fdadf44480061 Tomasz Bojanowski 2026-11-09  1480  
 
 --
 0-DAY CI Kernel Test Service
