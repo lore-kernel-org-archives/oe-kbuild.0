@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794333364;
-	b=y+aF8QWL0P8i54znBu24sa/R+xzU5V2myqd4vH2S5FhFF6JZlEQS10Vw7tjO4rlsJpvj
-	 AMFqRp5zZNzkBynC5pgolzoC4mOvpRJY2pb9LeUp5QHqmR4MilfpEh2+UTcMdvXkU6BhJ
-	 oT8986YH0nlvyYBo8Pf1AIGHOwqXVCoGT4cY/Y7MV/CetglolPkoDfXtd1P8X8UblZdW3
-	 1JxCdK8Jhs7n3cDIz6+gYFMqJ5hZkYyOT+K+jxFUR39SRtMm4TXr71us8kKXLwnJle5bv
-	 gnA8rArvL0Ihk3l6ZGoSeD8nSQuhVkaZM4vyJRhYMzwfIYkM/h8adH9Hq2oE5atbN1A==
+	t=1794341152;
+	b=S8DS/O+1e1AxUXQvF0CupSyKuRO68N4iZUeikjA8J0+3bbDmd+SwgE4bT6WQ+L/KlCO3
+	 itq0XwmsQ75+65BNkJPmMqwHFA0XDzC4a3tLoTnk6gY9872UrUfsMPOMQrCR+hb/DR4ot
+	 s1gP7ZcJg6QbxJNU+Qqdnn1hBMa5q64FZj3icq8wFAKxTKUlcEyvV3hyGHH2zQZ83OxFj
+	 J4CMqRotWU9GkA9Ds1xqu6cA38xoVZu5DIglQh+44JZ2rkz/dZ3lgmfxP7YBhnNrF3WZk
+	 vUnIAIn75/xHx9YDhhOglBlzI+BHLjl3OxZwbFKQBltOU67i2wEOabrsQD+uRUkTSIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794333364;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794341152;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=BxB+RkmTK0a5mO0rY1onFEONlaN3YfaR5qWz1zFuxKs=;
-	b=swguhzGw0y+jybZ7/BHWA7WQ5/NbYWM6UuNwK7kUkldYmGShFmT+ZeTMQ00retDfGorR
-	 eiC7d4TLdQFXrtpqzaLWHVmZs8FaIPWJmcqivuQ7bENKkU6sGoMd+f8rGkINyU1Oy2sHY
-	 J1dH2bvkM83z+N7OgK/uPWH4hs2PxpGB1mmUMToQlQNa8O5fEBYHGrDbF5s7bDj+WdniZ
-	 Q5BM6zHSeUQdlLF5UUG2yqfSOPoxy2eVsNr7UyOMLxfIQWN61gdiAe7hT2JZWOvmR7xUy
-	 RWkt5Vn/IrmR+83wVaeDMCfJptpDOonJRmdkPrAEX/QI+U1TvxkXegJxyicgLA6ATVg==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=tqudIgoOhasCIB9Z8fR5+GmfVXmsg0C35hnU1Eh9HjE=;
+	b=yl2MV4cXEfVhIiGYCZk3yLWLxb1CBGTMfRfRe8sWDd5CqeiSU7Y4i/PB6C0XNltdpyu4
+	 G7ODkA6TdMBnLP2+QV8dfditkUqMacQk3LP1EaWxCZ7D0TuETRAhFQ4QUOQxHotePX1x0
+	 JRwKwOnK7cWLm7I9uoAj4RlnibVbpM4w6fD/2/NTXbER3/FlIRcDtZPMNA4FkoXukBype
+	 E1Y7k42/BPRgbCc+Fm42jHpsv6E91Tu13SqFG2Ncyljw68EQAKIY0qa3sih7WP9aWA/Zf
+	 mSmybjqlajIHGpMMT59/VV7J87iXd5t97AJmAeYYgLbq9SCFt3opWHS1JLaVFqQmflA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R1Tefwjq;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MPUPip7a;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6248606A206
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 17:56:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6248606A206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFBD606A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Nov 2026 20:05:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FFBD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R1Tefwjq
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MPUPip7a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794333364; x=1825869364;
-  h=date:from:to:cc:subject:message-id;
-  bh=62n4Y0a/fCCf9ZXpO0E6TDV94RSebLH1HIzEGzzBKFU=;
-  b=R1TefwjqeC2Nq+sUC41ZSFNq4lXcXF1z4o6BCII2upEAy6nwOYGLBgg5
-   Q40p0qPfCrCxt92TW7ZR1iuwIEuDww51xlBCfHmVdJkBJN4usjIm5jF2C
-   wH6yg3S31GylftK6e3PS6FPcvHlhTAc9mWmo8KhH7WspCI0DudvdQeMTO
-   GLrmiGJZkLJL5syK5dxnG/cCLFeovnonVGLxJ6v5W9fzDLaudBUblRuLu
-   gsvozXrZIpcWli5hNSqgVoD5eCwObdoZjAvF+GjgC0VIQg3qesjw0iVz8
-   oAkb86H2zdBcvCce6OQLFiCHXCWYY8VNSaw8JTeodQgzAsSkHgrxWnr1u
+  t=1794341152; x=1825877152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+vk/mHy4EdXrTOIOBZJt2KNS7ytLWCW90KsQjGH3GFU=;
+  b=MPUPip7a79X5k73DXiZQRbZ/wVLS5JThONQaGLG5FSIBcvlZX1S3o87y
+   J/6GbeuGaBl2VgR6iZCznDOWZVTyprykikfJToqNLHT/OV0WKnFCqNV52
+   4JCXkK62Cu296Tee9Y7fWY3/ztR1QjBT96A5rSnXIXOmX/JdjX1N3kwYS
+   fZRsotRu6O0d/r7ziAUx/B1zyWKjbqJdUxZCP/NvcNX1YezuRyLtPABIl
+   61qtrAxNIkhmRS1MLskF7XqQzjL/0mkY3rHLLYOh7SIVgZQGOb/X/2S4F
+   /mfUZgUCMwy81GqvZKy7LAVu5D/aDXzmEisvwu2Ac6TSVDVGS1MWjFgG0
    g==;
-X-CSE-ConnectionGUID: RW4l0BwVR1WKXsgmRUoz1w==
-X-CSE-MsgGUID: Kc3LTTVDS0WVriOdGrayhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3115526"
+X-CSE-ConnectionGUID: s92zq6icQK+FBmh7ygK4Lw==
+X-CSE-MsgGUID: sn3tPD2hRXGnwSKxuoSxFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3005827"
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3115526"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 09:56:04 -0800
-X-CSE-ConnectionGUID: 4D6oIqhsQDyTfQliRLB+TQ==
-X-CSE-MsgGUID: HbqF2yrxTOO2mdP4GbWb1w==
+   d="scan'208";a="3005827"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:05:52 -0800
+X-CSE-ConnectionGUID: 9V/TvJEQTkWaSykTrUhneg==
+X-CSE-MsgGUID: zXl24j0fQN2u+Cu88flb4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="10084610"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 10 Nov 2026 09:56:03 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8109664"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2026 12:05:50 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQq4e-000000000Jz-1JvO;
-	Tue, 10 Nov 2026 17:56:00 +0000
-Date: Tue, 10 Nov 2026 18:55:27 +0100
+	id 1xQs6G-00000000xQp-0BkI;
+	Tue, 10 Nov 2026 20:05:48 +0000
+Date: Wed, 11 Nov 2026 04:05:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm32-for-7.5 1/33]
- arch/arm/boot/dts/qcom/qcom-kuno-idp.dtb: / (qcom,kuno-idp): False schema
- does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
-Message-ID: <202611101833.G7LTXoJv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] PCI/VGA: Fix boot device detection after framebuffer
+ relocation
+Message-ID: <202611110347.EpCc8ug6-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -80,42 +78,57 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hardeep Sharma <hardeep.sharma@oss.qualcomm.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Dmitry Baryshkov <lumag@kernel.org>
-CC: Linus Walleij <linusw@kernel.org>
-CC: Abel Vesa <abel.vesa@oss.qualcomm.com>
+In-Reply-To: <20261028094634.766723-1-wuqianhai@loongson.cn>
+References: <20261028094634.766723-1-wuqianhai@loongson.cn>
+TO: wuqianhai@loongson.cn
+TO: bhelgaas@google.com
+CC: wuqianhai <wuqianhai@loongson.cn>
+CC: linux-pci@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: tzimmermann@suse.de
+CC: javierm@redhat.com
+CC: dri-devel@lists.freedesktop.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm32-for-7.5
-head:   ae2005cea2e4f84692268e54199bb03f5c6f4558
-commit: 7f6a63bc5fc9bed3fac66ac57000882926d25f84 [1/33] ARM: dts: qcom: Add initial device tree for Kuno SoC
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261110/202611101833.G7LTXoJv-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101833.G7LTXoJv-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v7.4-rc2 next-20261109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wuqianhai-loongson-cn/PCI-VGA-Fix-boot-device-detection-after-framebuffer-relocation/20261028-174634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20261028094634.766723-1-wuqianhai%40loongson.cn
+patch subject: [PATCH] PCI/VGA: Fix boot device detection after framebuffer relocation
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20261111/202611110347.EpCc8ug6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110347.EpCc8ug6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611101833.G7LTXoJv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611110347.EpCc8ug6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/qcom/qcom-kuno.dtsi:89.9-93.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm/boot/dts/qcom/qcom-kuno-idp.dtb: / (qcom,kuno-idp): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/qcom/qcom-kuno-idp.dtb: geniqup@9c0000 (qcom,geni-se-qup): #address-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
-   arch/arm/boot/dts/qcom/qcom-kuno-idp.dtb: geniqup@9c0000 (qcom,geni-se-qup): #size-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+All errors (new ones prefixed by >>):
+
+   alpha-linux-ld: drivers/pci/vgaarb.o: in function `vga_arb_device_init':
+   drivers/pci/vgaarb.c:1536:(.init.text+0x8): undefined reference to `screen_info_apply_fixups'
+>> alpha-linux-ld: drivers/pci/vgaarb.c:1536:(.init.text+0x24): undefined reference to `screen_info_apply_fixups'
 
 --
 0-DAY CI Kernel Test Service
