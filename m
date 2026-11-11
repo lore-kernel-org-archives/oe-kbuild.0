@@ -1,77 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794415378;
-	b=FPueLzFXh7F0918u8KqfyG3tLMU2XYM5+Btb8ncT4Bd1MXfk5jk0ZbR6ErptkJNuQSf/
-	 ZTDWsI4Nx3CSNTwJdO87TGiZyiy+QlHPJ5+9/D0mqgGuZIEm8EIf1L3GIC/16CfUEw/w+
-	 GJXKlWcLDuR8ca1VWcQp91HkdK4rZQRJOcSW5rMnhegakrO/DCvQAw3mS/b1TuBp98NG+
-	 1TVJ6VheS827VpSFlc+rxlU6FEUmdEODOz9SW1M1PyjnxR+Y4lAuGHvouJhmISfvFztv9
-	 x3+NIGJnb27cLWxED1nLuDa9xdN5sXzNlNkFA5TNGZ2cPhFdHtSkmg2Wdv2thA+SnAw==
+	t=1794420299;
+	b=ZRy4cuzap/nHCJzs9SjRbcfQaArDxNP0SnfC+MynjYKoxYnEWv4mMAWC693ErXdaARUq
+	 vnRo3HqW4i0fMFDJetMClzEFBEf1V82ybv/vrL0DSz3DlSLJCUeIYWqdvgyj/XEUDXNj0
+	 +FhrdsBIfqHEfAjfz9xIYmU06ECoc8i7NWE0XYeM/hK/1Tpt7r/KJrNvweInnDUWWaAp3
+	 bRXTV3tP5Rsf/gWJVf+y/i0+BJHd0GP7l71DAYtqNQw8B4/4KEc/MOGfUw+y4ozdE4w49
+	 l79ceqBXKX1Rjp3ACM4nyzvfMzgGs2q4XgxLXTLBtD6pYB9PwJ1+J7PzFjRFwCG8O1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794415378;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794420299;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=f6sRUK1giD2Je8C0Vj/gNPESRgg4DmTAaRSeyS456yQ=;
-	b=EpqS/53fTqa1PJAhKdrc4dtfskR+OCQQ2jx7k95E6nHRpfQt9XohvMWqJymIKz6NwJwc
-	 9huQQXhFKL57u7lyJFsDEOYFZhku+WLAssSeeKMxGJuWPHUotdDAtOSUH0QC7fs4Mal/+
-	 j4CHmv5fv5t+Yma1VqlETTCfRsoIMI8PMIRD3Zu1yCN1Z4NsRJFM3Q054AWPebX/VnZta
-	 7NHiEbQJhBota8BauaKoXBdPb0irZ+RgXSexBzxy6HMaQzddpDpl8je5m8uOGaO2u4Oyu
-	 FI/0yyatjRkXB8u0QjCZ+KDoO9pTna4Q44Zp/uHGCMbKjaCPA2Pt4VzHOF6BIYyhLBg==
+	bh=FYbPL3uTbwk9rjs7BZAiC8icfINoiQOA5xk4I5Gmyq8=;
+	b=FxRvBAmHBpNDJ35ax8075H7ltoBXMCx+FRHI5us7NYEfs9W7OeI6FvRQ+8eZ1M9/04ae
+	 8y54wIWfdlDIIvwi9FvJGaK8XH4m347MfPhcWkpw7/n/FPrXLmm+tWigKWVXkWDN5Zk4Q
+	 Z/b0oXNQXTr4E4ibukn2u5G/ZD19O7ZeJUkckAeUB3G6PZF/DKLkDDLJrxntsVVx7VYcX
+	 NHX3UW6nnO8w9BcwRP7a5LZCVz2j2SpUNnHrCfA6TAngnmYTPJH81+X8QXtdr8/UoGnfc
+	 XyhQYNqWdBs4uJ6BvK1OOR7fHKzMErODImeymXimKHGAvvPK+ieK3Hc/jCBBe/jC4rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1txIE6X;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q2ILDaoF;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1221D606A334
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Nov 2026 16:42:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1221D606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF2E606A31C
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Nov 2026 18:04:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAF2E606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1txIE6X
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q2ILDaoF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794415376; x=1825951376;
+  t=1794420298; x=1825956298;
   h=date:from:to:cc:subject:message-id;
-  bh=S63QM+YXLliIld0cykTfDtY9NXDBnf2q1pF8AUwVr6M=;
-  b=f1txIE6XeIJTftGC6TkDoGQKtLPcaIn77JoZ7VhY3mBjaQrJCBeWEtrJ
-   oggRcGcGro3o8LsH574ggxP/jk4jGcB8+ARzeYNVtRMEuKRSrO0WhoPuI
-   BXBdjfqmLeb86RALTM+PezbUBq06RLozZ+wmQfnhJHxsDutDAd0OcMUNu
-   ACp/2hbfgdffCs5E0MBRU4QOb9CQsDzUDn6cq+mQRsyHCa7R5dJCVFNOx
-   U9vT3PNGYLuMNGVCwWT4r6aSAfdH5KMjwchOOVuoCcUU0cbd6qTnVoaPn
-   WhFY17Tu7+/tySILhXwhrYDxA8f6PtRLth5Lv1FsIyDuu463PdysyWctW
-   Q==;
-X-CSE-ConnectionGUID: 2EEcebC4RlO6JGfgIY1A5Q==
-X-CSE-MsgGUID: dHRzONvpQUaEcQ0i0B77OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3100220"
+  bh=32wIswEyRP/+t+oYRc+DkZMCVou+Jo+oWpWjfvP6UM0=;
+  b=Q2ILDaoFZGwRPjFwSEv9uZz5w62/q0xvukqWJ5wYyAxUjAOnVflf6XlM
+   hQD2xEu1OBQA71eWdnvFdr+377cjZBR1jMcVcR7PtlKJVlj8fQUKTyinH
+   f1yZCILWhHX3hxLko9vPL+Ji9ZXINWqfnLsCYixjgRqCB8Os75o9Dgwmv
+   0FhLG3dxkBlckKTpU9dvoER/m2QXQOE+UCK9XvqX9aGG6baRL7OY5qJ6H
+   cEqRqPSgkj3EOae9kFugjqiDvdAlZmh1lQJHNP6BWUPCgQHfky1lOLzwp
+   okSkFTCIEI8OpjpxSVwJqoGmPONNNcwZ/aUEpzBRKdwtPwiZUdIi+nBVa
+   w==;
+X-CSE-ConnectionGUID: 0A70j+aCSiCrUCPMuyp5Hw==
+X-CSE-MsgGUID: K4dRhiUnRYCF+4ONgHRyKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3228432"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3100220"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 08:42:55 -0800
-X-CSE-ConnectionGUID: QuwXg9GQSWOmOEho/P8m5Q==
-X-CSE-MsgGUID: LZUmSCnPTFmHnXbMDT8TBA==
+   d="scan'208";a="3228432"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 10:04:57 -0800
+X-CSE-ConnectionGUID: O7KWQQi4TqyyPrcYfq3tMA==
+X-CSE-MsgGUID: ZUSK7QcBQtm0MdEF/E+UqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8610835"
+   d="scan'208";a="8564107"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2026 08:42:53 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2026 10:04:56 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRBPO-000000000cF-2YFa;
-	Wed, 11 Nov 2026 16:42:50 +0000
-Date: Wed, 11 Nov 2026 17:42:25 +0100
+	id 1xRCgn-000000000d3-3Oz0;
+	Wed, 11 Nov 2026 18:04:53 +0000
+Date: Wed, 11 Nov 2026 19:03:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 89/242]
- arch/arm64/boot/dts/apple/t6031-j514c.dtb: cpufreq@210e20000
- (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one
- must be fixed:
-Message-ID: <202611111750.ja9nOliS-lkp@intel.com>
+Subject: [linusw-nomadik:b4/ux500-pinctrl-bindings 3/3]
+ arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: pinctrl
+ (stericsson,db8500-pinctrl): stmpe:stmpe_stuib:stuib_cfg: 'ste,pins' does not
+ match any of the regexes:
+ '^(?!phandle$|pins$|groups$|function$)[a-zA-Z0-9_-]+$', '^pinctrl-[0-9]+$'
+Message-ID: <202611111814.sCoDmtwQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -88,294 +89,114 @@ Precedence: list
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yureka <yuka@yuka.dev>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-arm-kernel@lists.infradead.org
+TO: Linus Walleij <linusw@kernel.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   c46abf5713fa41e1574fb50c462f53392d6f5cd7
-commit: fb6798cc703df76ee65ef5a49b31e455bc8921db [89/242] arm64: dts: apple: Initial t603[124] cpufreq support
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261111/202611111750.ja9nOliS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git b4/ux500-pinctrl-bindings
+head:   345e3710e27f07b8bf32763de6d29466418e3ac9
+commit: 345e3710e27f07b8bf32763de6d29466418e3ac9 [3/3] dt-bindings: pinctrl: nomadik: Convert to DT schema
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261111/202611111814.sCoDmtwQ-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111750.ja9nOliS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111814.sCoDmtwQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611111750.ja9nOliS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611111814.sCoDmtwQ-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/spmi@2a1014000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
-   arch/arm64/boot/dts/apple/t6031-j514c.dtb: smc@2a4400000 (apple,t6031-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6031-j514c.dtb: smc@2a4400000 (apple,t6031-smc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6031-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
-   	'apple,t6031-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
-   	'apple,smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/smc@2a4400000: failed to match any schema with compatible: ['apple,t6031-smc', 'apple,t8103-smc']
-   arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/smc@2a4400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j514c.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@8011e080 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@8011e080 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/gpio@8011e080: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/gpio@a03fe000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+>> arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: pinctrl (stericsson,db8500-pinctrl): stmpe:stmpe_stuib:stuib_cfg: 'ste,pins' does not match any of the regexes: '^(?!phandle$|pins$|groups$|function$)[a-zA-Z0-9_-]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/stericsson,nomadik.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: stuib_cfg: ste,pins: b'GPIO218_AH11\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80004000/tc35892@42: failed to match any schema with compatible: ['toshiba,tc35892']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80004000/tc35892@42/tc3589x_gpio: failed to match any schema with compatible: ['tc3589x-gpio']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: ak8974@f (asahi-kasei,ak8974): 'vdd-supply', 'vddio-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/magnetometer/asahi-kasei,ak8974.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: spi@80002000 (arm,pl022): Unevaluated properties are not allowed ('power-domains' was unexpected)
 --
-   arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/spmi@2a1014000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
-   arch/arm64/boot/dts/apple/t6031-j516c.dtb: smc@2a4400000 (apple,t6031-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6031-j516c.dtb: smc@2a4400000 (apple,t6031-smc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6031-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
-   	'apple,t6031-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
-   	'apple,smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/smc@2a4400000: failed to match any schema with compatible: ['apple,t6031-smc', 'apple,t8103-smc']
-   arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/smc@2a4400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6031-j516c.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: gpio@8011e080 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: gpio@8011e080 (stericsson,db8500-gpio): Unevaluated properties are not allowed ('gpio-line-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/gpio@8011e080: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/gpio@a03fe000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+>> arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: pinctrl (stericsson,db8500-pinctrl): stmpe:stmpe_stuib:stuib_cfg: 'ste,pins' does not match any of the regexes: '^(?!phandle$|pins$|groups$|function$)[a-zA-Z0-9_-]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/stericsson,nomadik.yaml
+>> arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: pinctrl (stericsson,db8500-pinctrl): gpios: {'gpios_hrefv60': {'phandle': 44, 'default_cfg1': {'pins': ['GPIO4_AH6'], 'ste,config': [[45]]}}} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: stuib_cfg: ste,pins: b'GPIO218_AH11\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: ak8974@f (asahi-kasei,ak8974): 'vdd-supply', 'vddio-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/magnetometer/asahi-kasei,ak8974.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
 --
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/spmi@2a1014000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: smc@2a4400000 (apple,t6031-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: smc@2a4400000 (apple,t6031-smc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6031-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
-   	'apple,t6031-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
-   	'apple,smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/smc@2a4400000: failed to match any schema with compatible: ['apple,t6031-smc', 'apple,t8103-smc']
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/smc@2a4400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@200000000/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@2200000000/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
-   arch/arm64/boot/dts/apple/t6032-j575d.dtb: /soc@2200000000/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6032-j575d.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: gpio@8011e080 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: gpio@8011e080 (stericsson,db8500-gpio): Unevaluated properties are not allowed ('gpio-line-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/gpio@8011e080: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/gpio@a03fe000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+>> arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: pinctrl (stericsson,db8500-pinctrl): gpios: {'gpios_hrefv60': {'phandle': 44, 'default_cfg1': {'pins': ['GPIO4_AH6'], 'ste,config': [[45]]}}} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44: failed to match any schema with compatible: ['toshiba,tc35893']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_gpio: failed to match any schema with compatible: ['toshiba,tc3589x-gpio']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_keypad: failed to match any schema with compatible: ['toshiba,tc3589x-keypad']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
 --
-   arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/spmi@2a1014000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
-   arch/arm64/boot/dts/apple/t6034-j514m.dtb: smc@2a4400000 (apple,t6031-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6034-j514m.dtb: smc@2a4400000 (apple,t6031-smc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6031-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
-   	'apple,t6031-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
-   	'apple,smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/smc@2a4400000: failed to match any schema with compatible: ['apple,t6031-smc', 'apple,t8103-smc']
-   arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/smc@2a4400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j514m.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
---
-   arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/spmi@2a1014000/pmic@b: failed to match any schema with compatible: ['apple,chapel-pmic', 'apple,spmi-nvmem']
-   arch/arm64/boot/dts/apple/t6034-j516m.dtb: smc@2a4400000 (apple,t6031-smc): 'gpio@67500000', 'gpio@67700000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6034-j516m.dtb: smc@2a4400000 (apple,t6031-smc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6031-smc' is not one of ['apple,t6020-smc', 'apple,t8122-smc']
-   	'apple,t6031-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', 'apple,t8112-smc']
-   	'apple,smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/smc@2a4400000: failed to match any schema with compatible: ['apple,t6031-smc', 'apple,t8103-smc']
-   arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/smc@2a4400000/gpio@67700000: failed to match any schema with compatible: ['apple,smc-low-gpio']
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: cpufreq@210e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/cpufreq@210e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: cpufreq@211e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/cpufreq@211e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: cpufreq@212e20000 (apple,t6031-cluster-cpufreq): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too short
-   	['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] is too long
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
-   	'apple,t6031-cluster-cpufreq' is not one of ['apple,s8000-cluster-cpufreq', 'apple,t8010-cluster-cpufreq', 'apple,t8015-cluster-cpufreq', 'apple,t6000-cluster-cpufreq']
-   	'apple,t7000-cluster-cpufreq' was expected
-   	'apple,s5l8960x-cluster-cpufreq' was expected
-   	'apple,t6020-cluster-cpufreq' was expected
-   	'apple,cluster-cpufreq' was expected
-   	'apple,t8103-cluster-cpufreq' was expected
-   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml
->> arch/arm64/boot/dts/apple/t6034-j516m.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6031-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: gpio@8011e080 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: gpio@8011e080 (stericsson,db8500-gpio): Unevaluated properties are not allowed ('gpio-line-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/gpio@8011e080: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: gpio@a03fe000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/gpio@a03fe000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+>> arch/arm/boot/dts/st/ste-href520-tvk.dtb: pinctrl (stericsson,db8500-pinctrl): gpios: {'gpios_hrefv60': {'phandle': 44, 'default_cfg1': {'pins': ['GPIO4_AH6'], 'ste,config': [[45]]}}} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44: failed to match any schema with compatible: ['toshiba,tc35893']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_gpio: failed to match any schema with compatible: ['toshiba,tc3589x-gpio']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_keypad: failed to match any schema with compatible: ['toshiba,tc3589x-keypad']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: spi@80111000 (arm,pl022): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
 
 --
 0-DAY CI Kernel Test Service
