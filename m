@@ -1,75 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794495431;
-	b=RNLD6vucPp8z3wXZHIlH/sr++vqn1XtPEBF8/ACYfaYwq7qQdmPIuvk5w8CAK1VzSYTS
-	 WZPoaU86FEimfyXTRCTV+Zebp5xS0S3FUajx16AD14yHBV4Vv0Qu8G0iUwKQrbNEkWh5K
-	 J3346e/hDDg1vT2NlLonVc8YxdVfZe6mbgx4h91w681wsTpgHzpwbgAOVUYsPPb8MOtfr
-	 gVuhLEDqWzqT6fOC7CsiL+fgiC0WW5G9sVxoL5eW3ma9+jCi9pngGbwIhDbjQtwmWWdoe
-	 k5KJS2UB36ExNjqkfwpduYIae87bUTbLfH5ZExlrZC2SNvyORns+Lw0bQlaJ5cJZ2/g==
+	t=1794499395;
+	b=Za0ZepOcfCnjOT2dNiHv+ORAfQt7rjY6pIrjkKZBd72UiRmRTAaJ5WsD0dZhPC1kF56T
+	 0o9CtXECQG/xW30TI5VRAjiGiJUdXuiW9PpFRvcK3+/juiL6qFHTRXhl6L0D2typKYAEc
+	 jR/lexUHs1qtS0wO/J8N5r7J+s3Cp/ruJmQn5k/+2nF9x+zDj1+FCm6EPb2dUX6hJnmXV
+	 DL7fOprV4F6UtL0kYWXXUAsgtftnRADfzGfMzABASCNDS7kIOSuQwouYQnDescHTsIlDC
+	 jedcp9bpHgSpvifh2GDuIBkPoP83/dp5/P3lXVa7HpbO/PIHxBwJg29GWQr/H+iiyBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495431;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794499395;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=rZI3cMKQj8Ts3L0s+Zbjr/VLLYITEfjB1L2bY+RmfDs=;
-	b=lUiLn/qj9E2rCFcCylYSNTdbB1+Y6YWtSR125zYDDNUuq8DltKeykEiVFyKMZvsY+B4v
-	 o1oRhpvO3e1XR37SaDWG2XI7VMBH0/OxlIvKFkq0KxYEffLUYZoMLJpA5HqfElt5EKoEW
-	 5OTlC6wyNJfVh8MiGOWZSCP7ZuugcWzxXs3z6MQHn+iMI0Z6S0yEpgsfuvD5lMgT7hmP6
-	 zChZPDfrFd52QDvz1R0qzXcF+BIYBT1FulWBwncp2JePF9+s7KbKKLBBceIjJLknCs3Rj
-	 /4eK9z9szFh0Cci7XWktAa3MLO2armXGDmuq3DodIlTyqKzbQtEuDNT59SmDUvWQEhQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=HHzRWHRyzoS6uIg+w8jQVOwLwYQHbwE5b2OSruD+vlU=;
+	b=1K8UZxjZ7aFeL4PPWEtL2CbaJ2mFRz0iXYbgJ6zEm9CPzAxbYeBMfQ633GLiU3NcPeXw
+	 WlGgVTle8IUTeFPXasr8stoG+s1NEojzKKgU5wHR+MlsGHjJF9fpwRo2EZBGAtIy7zha4
+	 Mp9eQEZpnxlyTJ7P70F39Zl61EPqwhz0UTdhQ3ohnT9MahTrMi3sl34kbDe5H7ru9Nlcz
+	 x/dBhuo2gqvlZApYolSpMmYu+xh72jMVvi2SE1BLWbteE62Hz0SmLA9UPV9ft2JIZPGPa
+	 BvaWBbVr5mQN0i59zx+ChB2NLG8ueqisW7FitkFEPJLDVoGJS+X14EPwYagHwU1l0lQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Tl+8hfxk;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vrk5lvkw;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4A2606A31C
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 14:57:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F4A2606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121DB606A323
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 16:03:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 121DB606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Tl+8hfxk
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vrk5lvkw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794495431; x=1826031431;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6XYA88barDzW4hNgyGLVzSq1FMRa2CzRr5hOnS0Vshw=;
-  b=Tl+8hfxkTaWkCc7LwsqCZJbrijQqPxoklmQ5dDFJEAQRp2+9Nis9ufdG
-   N9ouauwcL9rwL2zHaDhb6XYoSsKQZamlj9NaJC7nM3PJA2auZux+OFv/z
-   qN0JPMHxqjt84dZI+5IYQMdpz9aRBmtCbHcPS5S/sjg/nNFsMbf3vXPHR
-   PnhABBd5AFepKo3oNDl8n7MEsFX3itbDewGy+3izr8tc8pNKxvGG7q7eO
-   3dfS8vivCD3seaYYYGW3aBrOktSxYzKNJvliYX4BfstFQY7NelXl8swgn
-   YWk41CjZMokaEMGFB7m7S9lfif26J9RqpeQBmXsq1OOfilem82Uwmz6rR
-   A==;
-X-CSE-ConnectionGUID: N3NnpdpARliK/OgrXRzK4w==
-X-CSE-MsgGUID: buErQSzXQ2CtKHxGgpBvBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3192925"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3192925"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:57:10 -0800
-X-CSE-ConnectionGUID: DatgTXteT66HfXciv7eZBw==
-X-CSE-MsgGUID: w+lE1sKMTquE6IzxqjSQeQ==
+  t=1794499395; x=1826035395;
+  h=date:from:to:cc:subject:message-id;
+  bh=aLZAo5GOBi1vhK1ANw0ZaOyxsKIK/6SWQxco+PR+iGM=;
+  b=Vrk5lvkwvR3uzV8+2sL/m/5DUufEm0vBqUCGiaFQxHiV/DjTQhBRicde
+   f+xg/MW3EtS4gdaIXJ1W2wC6rCwtQGm9JcppRU4kenCSS6CwSeJBR3xbn
+   f9HaLlaK8cmw3i51oJhvmHt6y8+ZP+32vxg7MS1ITtEyClqhLGYLaJGxs
+   k2hBKX2vdWLqxq0VTZCMH84Jw2xwWFwiMJotlav6oGUtFVsctaKvnUisc
+   LPIgdQ5nqignvzQsuDt4jjPN5zMF9LTFJE88EK+W5Yx83JaY+sQSMTs4Y
+   cu0Akc9/7nen3ylE5B6MfH+QrWO8BycC1ZmSdDH2uK++2T6HlpHJMOOhN
+   w==;
+X-CSE-ConnectionGUID: FMxKXFlTQnq9vfAABAy7Vw==
+X-CSE-MsgGUID: dP+9FCynSKi2MeTjjc9hUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3183743"
+X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
+   d="scan'208";a="3183743"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 08:03:15 -0800
+X-CSE-ConnectionGUID: G8XfQDfQSTK8OcU9sSsROA==
+X-CSE-MsgGUID: hwMnQ5g7Sfm3vW2k9ca3OA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="10570308"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 12 Nov 2026 06:57:10 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
+   d="scan'208";a="8866836"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 12 Nov 2026 08:02:54 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRWEc-000000011aN-49pJ;
-	Thu, 12 Nov 2026 14:57:06 +0000
-Date: Thu, 12 Nov 2026 22:57:04 +0800
+	id 1xRXGF-000000000uZ-2chA;
+	Thu, 12 Nov 2026 16:02:51 +0000
+Date: Thu, 12 Nov 2026 17:02:29 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [RFC PATCH 2/2] iio: accel: msa311: use regmap_reg_field_*
- functions
-Message-ID: <202611122238.bvkxU01r-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 82/242]
+ arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e20c000
+ (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the
+ regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202611121642.O96boQKx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -78,51 +81,69 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <SN1PR12MB25282EC93A27F3577BB9B454A5772@SN1PR12MB2528.namprd12.prod.outlook.com>
-References: <SN1PR12MB25282EC93A27F3577BB9B454A5772@SN1PR12MB2528.namprd12.prod.outlook.com>
-TO: Victor Chernyakin <chernyakin.victor.j@outlook.com>
+TO: Janne Grunau <j@jannau.net>
 
-Hi Victor,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-regmap/for-next]
-[also build test WARNING on jic23-iio/togreg linus/master v7.4-rc2]
-[cannot apply to next-20261111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Victor-Chernyakin/regmap-add-regmap_reg_field_-APIs/20261104-180949
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
-patch link:    https://lore.kernel.org/r/SN1PR12MB25282EC93A27F3577BB9B454A5772%40SN1PR12MB2528.namprd12.prod.outlook.com
-patch subject: [RFC PATCH 2/2] iio: accel: msa311: use regmap_reg_field_* functions
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   c46abf5713fa41e1574fb50c462f53392d6f5cd7
+commit: 3e2114629f945662e8f83d3d3db1eba2f8a9db2b [82/242] DROP_v7.4: arm64: dts: apple: t600x: Add legacy "apple,dcs-min-ps" property
 :::::: branch date: 7 days ago
 :::::: commit date: 7 days ago
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611122238.bvkxU01r-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611122238.bvkxU01r-lkp@intel.com/reproduce)
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261112/202611121642.O96boQKx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611121642.O96boQKx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611122238.bvkxU01r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611121642.O96boQKx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/iio/accel/msa311.c:306 Excess struct member 'fields' description in 'msa311_priv'
->> Warning: drivers/iio/accel/msa311.c:306 Excess struct member 'fields' description in 'msa311_priv'
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+--
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+--
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+--
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+--
+>> arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+--
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
 
 --
 0-DAY CI Kernel Test Service
