@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794523995;
-	b=gip6Y/HFfKqiCGQ3gcRArBkU7TQB5UvjmJ5hXOqxPEJKlGx4zNr19UecK3l2iMzV/tG6
-	 wsHdM935XC55Y+KmJcxCpDh8cMJ8l2KoH5ayYcpE61HNgc+Iy582DEFJYCdZwAT0dpI+1
-	 zaGv+MvjAo5MqchbABEgP2YoBwpxiNNIZPtjN9eQYd4MpDG6rd3iD2fkR7GXjBXwoqkhO
-	 6dITp6aXPsPuPwqDcqwAz1iSgZqjXv0P4c51CnGiuaPi41wPOnhOXqymMhSirXNOr3/zU
-	 GtAMj25KUwsgQvqIXVaN7f/q6TtVBHSP1aPx46uGdgFMhZyKdUjrWb5Rk7VP0blAgZA==
+	t=1794527660;
+	b=K6YSJuTPYWTJCuCNHU40BFDqxu4u3PIkRMoBkIAnHjVznWIfLEq8dUPtw2gX0eqk+3ii
+	 QSKkUKYcURVghQ4EFVRgUmUQkngTgG4EQrgPwteuhIwtHYgX30kajvJKfWwefrxtAvDHP
+	 0RMbt6sSB+cL9mopk4sQAS4UO1XDTePUYWQLcGcKd0VNFmcCipKkURAIiNoxN/XUHrHdE
+	 MOgSs7c4MJq9sd3EvqbjdPRYT2XFzQcyQR2v+TjEOw1kr+0A219wcxGeDBWptM9PnrbzJ
+	 ZqHrjbRsoO9uryC3OuHf39NxnRVQXwmhC+C4OaST+FMHiLbrCuUfmFcykbF1390+6Jw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794523995;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794527660;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AcJXBO7fYi5fF/6tDtlFvhV5IVTAocyti3yJ5VTAq+I=;
-	b=2pQRMC4zVwpWXhnPoQ7WW/8d/kPH6KQQIrAy6xSZKG27KQVlm/1y4WeLudWV92gHeDPv
-	 lw+FQsFLhW2Gxt2FV1aci7kVtkG1/eOd+M9R5g1EhqsAXR4qbhgKGLwuYPh9+LuiH2/wM
-	 W4y5Dpz4oTQ7mKmZcvwiP6FinRf5Ey1jmHUCyXVmLrYjSmVN7UUn9b8lClmKbTFo/+d+R
-	 6pIOa50E6gLHXkeEljf9qzALeDcC9MuJ37HRFFlwa5o8Gq79o9lOduc2aBr5f9cpFXUag
-	 sXtLk23mMiTVGKNqrq1HxUX0bAnOc7CodpBT7WAXojGIaGSe3MK6hFvUVOEknVwbx0Q==
+	bh=+YuKjB8I73mFw4vMzYjvGJVV/jlZl+DY4+hSEDAT3rw=;
+	b=ADF3e66DkH2xJ0y7E314vDcQRBGvwfs4eV08KCqq+aWA7zSp7x4vnqelXTA82PuESvLI
+	 iVq9y2BodHCKju0tJ7eKOadJfyDWHx3XnqSfGZpMa+EjOOOUmGEnlG7Ft6rQw9llkjZBf
+	 5G/bZtQ88fphEveUcB5YrsFx3PyeG45+LdiYMDbpOShUUxtyjr/6GsPCih0/vsxxq/Ek+
+	 ttt9CNrMDCFu0GqR8Ehpt4ZNKy8SWNdUp933U7j/mypzibhbwuz8EbU/ygappXIAhkxcK
+	 Kv454qyh4i6rt8L8KixMUiitCuj44u2bdR1SFPbpHNtcQ9Av2p4y4Gjx1gA9m7zpUoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hWrmMUgy;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="e8dny/tD";
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF24606A31C
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 22:53:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAF24606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE85606A321
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 23:54:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFE85606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hWrmMUgy
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e8dny/tD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794523994; x=1826059994;
+  t=1794527658; x=1826063658;
   h=date:from:to:cc:subject:message-id;
-  bh=jxbH5gdr7K0I8vICib7j2wueRaKrX68fJCQR533WsEM=;
-  b=hWrmMUgyJU/aL98hPEITCNiXX64cbahTgtrlvlff3dkokkb1jIlnQ3Dz
-   +f6SNz+XKadSjV//sZH/Izqgi2O5o324XF3jxSnM09mqbRC+VbWAvlkC3
-   zE6dHJhwIaOwyy5ENQ3AVBCm63I+mf/3LU5ErPS58k1d9FdcbWHueaLA0
-   YKsIvYvaEAsj3YJPzancdg4wVOFNf8J0PlP+h1rL7PuMQY1T+D089Mqb1
-   x17TBGuhpxo7w9gUrbLQUIH3zi7u4QeUtKcGrnLdISyuFD2HASnWAm2K/
-   B2vRVPgcDN7Aoj+TDg0nisU7qq0JyG99MsO66iQegu+AAHy6UzOf8tGJk
-   Q==;
-X-CSE-ConnectionGUID: T1cCjto/S++YZPbf0Ofn/w==
-X-CSE-MsgGUID: QJlPCF89TQi9/jjOdW7NXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3218967"
+  bh=MpdUjHaWX0XLbMvnROcjmdNcdPPrKn+JB3lwenQ7vcc=;
+  b=e8dny/tDXUEd1eVoP6PF7QVAO1D9oRBPPzTj8f4HKcU+KQmJHZAt0FpA
+   TDBMPfT01zBIk5iuTmF6pq+4NDdaXuT5D0e4mxnXDK1MXblFrw1csrDY4
+   dwEklyfmWXZVsFhziKaFPrNHGDkcB3Bf87Xp4eoOz7+/YYV4dETnbvOJ7
+   r71nB3kxm2KyX95/MiJuCl/FepX7j17WLrYAlLxyGNCI/62GgLNn/nDhc
+   Z/LgT5OdiTvSobTThAXuHaz9UhpVuQ91ib8BsWLeubG0H/1fttXR8C+Ov
+   v9pKjp4gpLNa0PwSnZmJEyVp3PLzeaMT4UELaFAGGDw/nmsTi2cWCJFqA
+   A==;
+X-CSE-ConnectionGUID: QHwFZI8GSa6Whh6/aZoszg==
+X-CSE-MsgGUID: WbfGe8i+RVSP4YUIdt3Edw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3191408"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3218967"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:53:14 -0800
-X-CSE-ConnectionGUID: ZfqQTY5FSBq6hq4sixjNVA==
-X-CSE-MsgGUID: NcskPlscQO6e+eGXDDBv3g==
+   d="scan'208";a="3191408"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 15:54:18 -0800
+X-CSE-ConnectionGUID: 2U3AzOC8QsmJgjJ9Nn8g9g==
+X-CSE-MsgGUID: cOiw15WxTKaGQcFCDldKbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="9330808"
+   d="scan'208";a="9065348"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2026 14:53:12 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 12 Nov 2026 15:54:17 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRdfJ-000000000z5-3U22;
-	Thu, 12 Nov 2026 22:53:09 +0000
-Date: Thu, 12 Nov 2026 23:52:38 +0100
+	id 1xRecP-00000000129-3TLZ;
+	Thu, 12 Nov 2026 23:54:13 +0000
+Date: Fri, 13 Nov 2026 00:53:47 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ceph-client:testing 3/4] fs/ceph/addr.c:1304
- writepages_finish() error: 'folio' dereferencing possible ERR_PTR()
-Message-ID: <202611122322.gfcaK7tl-lkp@intel.com>
+Subject: [tytso-ext4:pu 18/50] fs/ext4/sysfs-test.c:200
+ sysfs_test_init() error: 'sb' dereferencing possible ERR_PTR()
+Message-ID: <202611130041.1uHWqikL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -85,16 +85,15 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: ceph-devel@vger.kernel.org
-TO: Xiubo Li <xiubo.li@clyso.com>
-CC: Alex Markuze <amarkuze@redhat.com>
+CC: linux-ext4@vger.kernel.org
+TO: "Theodore Ts'o" <tytso@mit.edu>
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   6a9830a8f414d3830c584782568d0233be969d09
-commit: 7530f81a50bb9749539257fbeccdf037e0ca5fca [3/4] ceph: don't read a folio in for a partial lazy I/O write
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: powerpc-randconfig-2200-20261112 (https://download.01.org/0day-ci/archive/20261112/202611122322.gfcaK7tl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
+head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
+commit: 82a5f38249f6cf9134c104490ee5a497ea502104 [18/50] ext4: add KUnit tests for fs/ext4/sysfs.c
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: powerpc-randconfig-2200-20261112 (https://download.01.org/0day-ci/archive/20261113/202611130041.1uHWqikL-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
 smatch: v0.5.0-9187-g5189e3fb
 
@@ -102,138 +101,139 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611122322.gfcaK7tl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611130041.1uHWqikL-lkp@intel.com/
 
-New smatch warnings:
-fs/ceph/addr.c:1304 writepages_finish() error: 'folio' dereferencing possible ERR_PTR()
+smatch warnings:
+fs/ext4/sysfs-test.c:200 sysfs_test_init() error: 'sb' dereferencing possible ERR_PTR()
 
-Old smatch warnings:
-arch/powerpc/include/asm/cpu_has_feature.h:38 cpu_has_feature() warn: bitwise AND condition is false here
-arch/powerpc/include/asm/cpu_has_feature.h:12 early_cpu_has_feature() warn: bitwise AND condition is false here
+vim +/sb +200 fs/ext4/sysfs-test.c
 
-vim +/folio +1304 fs/ceph/addr.c
-
-1d3576fd10f0d7 Sage Weil               2009-10-06  1234  
-1d3576fd10f0d7 Sage Weil               2009-10-06  1235  /*
-1d3576fd10f0d7 Sage Weil               2009-10-06  1236   * async writeback completion handler.
-1d3576fd10f0d7 Sage Weil               2009-10-06  1237   *
-1d3576fd10f0d7 Sage Weil               2009-10-06  1238   * If we get an error, set the mapping error bit, but not the individual
-1d3576fd10f0d7 Sage Weil               2009-10-06  1239   * page error bits.
-1d3576fd10f0d7 Sage Weil               2009-10-06  1240   */
-85e084feb47349 Ilya Dryomov            2016-04-28  1241  static void writepages_finish(struct ceph_osd_request *req)
-1d3576fd10f0d7 Sage Weil               2009-10-06  1242  {
-1d3576fd10f0d7 Sage Weil               2009-10-06  1243  	struct inode *inode = req->r_inode;
-1d3576fd10f0d7 Sage Weil               2009-10-06  1244  	struct ceph_inode_info *ci = ceph_inode(inode);
-38d46409c4639a Xiubo Li                2023-06-12  1245  	struct ceph_client *cl = ceph_inode_to_client(inode);
-87060c1089a94f Alex Elder              2013-04-03  1246  	struct ceph_osd_data *osd_data;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1247  	int num_pages, total_pages = 0;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1248  	int i, j;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1249  	int rc = req->r_result;
-1d3576fd10f0d7 Sage Weil               2009-10-06  1250  	struct ceph_snap_context *snapc = req->r_snapc;
-1d3576fd10f0d7 Sage Weil               2009-10-06  1251  	struct address_space *mapping = inode->i_mapping;
-5995d90d2d19f3 Xiubo Li                2023-06-12  1252  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1253  	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(inode->i_sb);
-903f4fec78dd05 Xiubo Li                2021-05-13  1254  	unsigned int len = 0;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1255  	bool remove_page;
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1256  	struct ceph_journal_info __ji;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1257  
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1258  	/* OSD callback: reuse existing ctx only. */
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1259  	ceph_blog_enter_gfp(fsc, &__ji, GFP_ATOMIC);
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1260  
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1261  	boutc(cl, "%llx.%llx rc %d\n", ceph_vinop(inode), rc);
-26544c623e741a Jeff Layton             2017-04-04  1262  	if (rc < 0) {
-5b64640cf65be4 Yan, Zheng              2016-01-07  1263  		mapping_set_error(mapping, rc);
-26544c623e741a Jeff Layton             2017-04-04  1264  		ceph_set_error_write(ci);
-0b98acd6188309 Ilya Dryomov            2020-09-14  1265  		if (rc == -EBLOCKLISTED)
-0b98acd6188309 Ilya Dryomov            2020-09-14  1266  			fsc->blocklisted = true;
-26544c623e741a Jeff Layton             2017-04-04  1267  	} else {
-26544c623e741a Jeff Layton             2017-04-04  1268  		ceph_clear_error_write(ci);
-26544c623e741a Jeff Layton             2017-04-04  1269  	}
-1d3576fd10f0d7 Sage Weil               2009-10-06  1270  
-79788c698b2904 Sage Weil               2010-02-02  1271  	/*
-5b64640cf65be4 Yan, Zheng              2016-01-07  1272  	 * We lost the cache cap, need to truncate the page before
-5b64640cf65be4 Yan, Zheng              2016-01-07  1273  	 * it is unlocked, otherwise we'd truncate it later in the
-5b64640cf65be4 Yan, Zheng              2016-01-07  1274  	 * page truncation thread, possibly losing some data that
-5b64640cf65be4 Yan, Zheng              2016-01-07  1275  	 * raced its way in
-79788c698b2904 Sage Weil               2010-02-02  1276  	 */
-5b64640cf65be4 Yan, Zheng              2016-01-07  1277  	remove_page = !(ceph_caps_issued(ci) &
-5b64640cf65be4 Yan, Zheng              2016-01-07  1278  			(CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO));
-1d3576fd10f0d7 Sage Weil               2009-10-06  1279  
-1d3576fd10f0d7 Sage Weil               2009-10-06  1280  	/* clean all pages */
-5b64640cf65be4 Yan, Zheng              2016-01-07  1281  	for (i = 0; i < req->r_num_ops; i++) {
-642d51fb0775a4 Xiubo Li                2022-05-05  1282  		if (req->r_ops[i].op != CEPH_OSD_OP_WRITE) {
-38d46409c4639a Xiubo Li                2023-06-12  1283  			pr_warn_client(cl,
-38d46409c4639a Xiubo Li                2023-06-12  1284  				"%llx.%llx incorrect op %d req %p index %d tid %llu\n",
-38d46409c4639a Xiubo Li                2023-06-12  1285  				ceph_vinop(inode), req->r_ops[i].op, req, i,
-38d46409c4639a Xiubo Li                2023-06-12  1286  				req->r_tid);
-5b64640cf65be4 Yan, Zheng              2016-01-07  1287  			break;
-642d51fb0775a4 Xiubo Li                2022-05-05  1288  		}
-5b64640cf65be4 Yan, Zheng              2016-01-07  1289  
-5b64640cf65be4 Yan, Zheng              2016-01-07  1290  		osd_data = osd_req_op_extent_osd_data(req, i);
-5b64640cf65be4 Yan, Zheng              2016-01-07  1291  		BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
-903f4fec78dd05 Xiubo Li                2021-05-13  1292  		len += osd_data->length;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1293  		num_pages = calc_pages_for((u64)osd_data->alignment,
-5b64640cf65be4 Yan, Zheng              2016-01-07  1294  					   (u64)osd_data->length);
-5b64640cf65be4 Yan, Zheng              2016-01-07  1295  		total_pages += num_pages;
-5b64640cf65be4 Yan, Zheng              2016-01-07  1296  		for (j = 0; j < num_pages; j++) {
-0917a0848325cb Tal Zussman             2026-09-02  1297  			struct folio *folio = page_folio(osd_data->pages[j]);
-0917a0848325cb Tal Zussman             2026-09-02  1298  
-0917a0848325cb Tal Zussman             2026-09-02  1299  			if (fscrypt_is_bounce_folio(folio)) {
-0917a0848325cb Tal Zussman             2026-09-02  1300  				folio = fscrypt_pagecache_folio(folio);
-d55207717ded95 Jeff Layton             2022-08-25  1301  				fscrypt_free_bounce_page(osd_data->pages[j]);
-0917a0848325cb Tal Zussman             2026-09-02  1302  				osd_data->pages[j] = &folio->page;
-d55207717ded95 Jeff Layton             2022-08-25  1303  			}
-7530f81a50bb97 Xiubo Li                2026-11-10 @1304  			WARN_ON(!folio_test_uptodate(folio) &&
-7530f81a50bb97 Xiubo Li                2026-11-10  1305  				!__ceph_dirty_range(folio->private));
-1d3576fd10f0d7 Sage Weil               2009-10-06  1306  
-5b64640cf65be4 Yan, Zheng              2016-01-07  1307  			if (atomic_long_dec_return(&fsc->writeback_count) <
-5b64640cf65be4 Yan, Zheng              2016-01-07  1308  			     CONGESTION_OFF_THRESH(
-5b64640cf65be4 Yan, Zheng              2016-01-07  1309  					fsc->mount_options->congestion_kb))
-503d4fa6ee28e8 NeilBrown               2022-03-22  1310  				fsc->write_congested = false;
-2baba25019ec56 Yehuda Sadeh            2009-12-18  1311  
-471aec0b2849a0 Xiubo Li                2026-10-30  1312  			ceph_put_snap_context(ceph_folio_detach_snapc(folio));
-0917a0848325cb Tal Zussman             2026-09-02  1313  			folio_end_writeback(folio);
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1314  
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1315  			if (atomic64_dec_return(&mdsc->dirty_folios) <= 0) {
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1316  				wake_up_all(&mdsc->flush_end_wq);
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1317  				WARN_ON(atomic64_read(&mdsc->dirty_folios) < 0);
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1318  			}
-fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1319  
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1320  			boutc(cl, "unlocking %p\n", folio);
-e63dc5c780ba32 Yehuda Sadeh            2010-02-19  1321  
-5b64640cf65be4 Yan, Zheng              2016-01-07  1322  			if (remove_page)
-af7628d6ec1969 Matthew Wilcox (Oracle  2023-11-17  1323) 				generic_error_remove_folio(inode->i_mapping,
-0917a0848325cb Tal Zussman             2026-09-02  1324  							  folio);
-e63dc5c780ba32 Yehuda Sadeh            2010-02-19  1325  
-0917a0848325cb Tal Zussman             2026-09-02  1326  			folio_unlock(folio);
-1d3576fd10f0d7 Sage Weil               2009-10-06  1327  		}
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1328  		boutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
-38d46409c4639a Xiubo Li                2023-06-12  1329  		      ceph_vinop(inode), osd_data->length,
-38d46409c4639a Xiubo Li                2023-06-12  1330  		      rc >= 0 ? num_pages : 0);
-1d3576fd10f0d7 Sage Weil               2009-10-06  1331  
-96ac9158a230e4 John Hubbard            2019-08-08  1332  		release_pages(osd_data->pages, num_pages);
-5b64640cf65be4 Yan, Zheng              2016-01-07  1333  	}
-5b64640cf65be4 Yan, Zheng              2016-01-07  1334  
-903f4fec78dd05 Xiubo Li                2021-05-13  1335  	ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
-903f4fec78dd05 Xiubo Li                2021-05-13  1336  				  req->r_end_latency, len, rc);
-903f4fec78dd05 Xiubo Li                2021-05-13  1337  
-b1137e0b3d4bad Alex Markuze            2026-02-10  1338  	if (rc >= 0 && len > 0)
-b1137e0b3d4bad Alex Markuze            2026-02-10  1339  		ceph_subvolume_metrics_record_io(mdsc, ci, true, len,
-b1137e0b3d4bad Alex Markuze            2026-02-10  1340  						 req->r_start_latency,
-b1137e0b3d4bad Alex Markuze            2026-02-10  1341  						 req->r_end_latency);
-b1137e0b3d4bad Alex Markuze            2026-02-10  1342  
-5b64640cf65be4 Yan, Zheng              2016-01-07  1343  	ceph_put_wrbuffer_cap_refs(ci, total_pages, snapc);
-5b64640cf65be4 Yan, Zheng              2016-01-07  1344  
-5b64640cf65be4 Yan, Zheng              2016-01-07  1345  	osd_data = osd_req_op_extent_osd_data(req, 0);
-87060c1089a94f Alex Elder              2013-04-03  1346  	if (osd_data->pages_from_pool)
-a0102bda5bc099 Jeff Layton             2020-07-30  1347  		mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
-1d3576fd10f0d7 Sage Weil               2009-10-06  1348  	else
-87060c1089a94f Alex Elder              2013-04-03  1349  		kfree(osd_data->pages);
-1d3576fd10f0d7 Sage Weil               2009-10-06  1350  	ceph_osdc_put_request(req);
-1464de9f813e35 Xiubo Li                2023-05-09  1351  	ceph_dec_osd_stopping_blocker(fsc->mdsc);
-4ab4c720c9bad1 Alex Markuze            2026-08-20  1352  	ceph_blog_exit(&__ji);
-1d3576fd10f0d7 Sage Weil               2009-10-06  1353  }
-1d3576fd10f0d7 Sage Weil               2009-10-06  1354  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  148  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  149  KUNIT_DEFINE_ACTION_WRAPPER(sysfs_test_cleanup_action, sysfs_test_cleanup,
+82a5f38249f6cf Theodore Ts'o 2026-11-11  150  			    struct sysfs_test_ctx *);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  151  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  152  static int sysfs_test_init(struct kunit *test)
+82a5f38249f6cf Theodore Ts'o 2026-11-11  153  {
+82a5f38249f6cf Theodore Ts'o 2026-11-11  154  	struct sysfs_test_ctx *ctx;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  155  	struct fs_context *fc;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  156  	struct super_block *sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  157  	struct ext4_sb_info *sbi;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  158  	int err;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  159  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  160  	ctx = kzalloc_obj(*ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  161  	KUNIT_ASSERT_NOT_NULL(test, ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  162  	test->priv = ctx;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  163  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  164  	ctx->bdev.bd_stats = alloc_percpu(struct disk_stats);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  165  	if (!ctx->bdev.bd_stats) {
+82a5f38249f6cf Theodore Ts'o 2026-11-11  166  		kfree(ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  167  		KUNIT_FAIL_AND_ABORT(test, "failed to alloc bd_stats");
+82a5f38249f6cf Theodore Ts'o 2026-11-11  168  	}
+82a5f38249f6cf Theodore Ts'o 2026-11-11  169  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  170  	fc = fs_context_for_mount(&sysfs_test_fs_type, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  171  	if (IS_ERR(fc)) {
+82a5f38249f6cf Theodore Ts'o 2026-11-11  172  		err = PTR_ERR(fc);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  173  		free_percpu(ctx->bdev.bd_stats);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  174  		kfree(ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  175  		KUNIT_ASSERT_EQ(test, err, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  176  	}
+82a5f38249f6cf Theodore Ts'o 2026-11-11  177  	sb = sget_fc(fc, NULL, set_anon_super_fc);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  178  	put_fs_context(fc);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  179  	if (IS_ERR(sb)) {
+82a5f38249f6cf Theodore Ts'o 2026-11-11  180  		err = PTR_ERR(sb);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  181  		free_percpu(ctx->bdev.bd_stats);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  182  		kfree(ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  183  		KUNIT_ASSERT_EQ(test, err, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  184  	}
+82a5f38249f6cf Theodore Ts'o 2026-11-11  185  	ctx->sb = sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  186  	sbi = &ctx->sbi;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  187  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  188  	err = percpu_counter_init(&sbi->s_dirtyclusters_counter, 0, GFP_KERNEL);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  189  	if (err)
+82a5f38249f6cf Theodore Ts'o 2026-11-11  190  		goto err_sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  191  	err = percpu_counter_init(&sbi->s_sra_exceeded_retry_limit, 0,
+82a5f38249f6cf Theodore Ts'o 2026-11-11  192  				  GFP_KERNEL);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  193  	if (err) {
+82a5f38249f6cf Theodore Ts'o 2026-11-11  194  		percpu_counter_destroy(&sbi->s_dirtyclusters_counter);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  195  		goto err_sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  196  	}
+82a5f38249f6cf Theodore Ts'o 2026-11-11  197  	ctx->counters_inited = true;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  198  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  199  	sbi->s_sb = sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11 @200  	sb->s_fs_info = sbi;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  201  	sb->s_op = &sysfs_test_sops;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  202  #ifdef CONFIG_FS_ENCRYPTION
+82a5f38249f6cf Theodore Ts'o 2026-11-11  203  	sb->s_cop = &ext4_cryptops;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  204  #endif
+82a5f38249f6cf Theodore Ts'o 2026-11-11  205  	sb->s_flags |= SB_ACTIVE;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  206  	sb->s_blocksize = SYSFS_TEST_BLK_SIZE;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  207  	sb->s_blocksize_bits = SYSFS_TEST_BLK_BITS;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  208  	strscpy(sb->s_id, "ext4_sysfs_kunit", sizeof(sb->s_id));
+82a5f38249f6cf Theodore Ts'o 2026-11-11  209  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  210  	inode_init_once(&ctx->bd_inode);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  211  	ctx->bd_inode.i_sb = sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  212  	ctx->bd_inode.i_blkbits = SYSFS_TEST_BLK_BITS;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  213  	ctx->bd_inode.i_mapping = &ctx->bd_inode.i_data;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  214  	ctx->bd_inode.i_data.host = &ctx->bd_inode;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  215  	ctx->bdev_disk.part0 = &ctx->bdev;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  216  	ctx->bdev_disk.queue = &ctx->bdev_queue;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  217  	ctx->bdev.bd_disk = &ctx->bdev_disk;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  218  	ctx->bdev.bd_queue = &ctx->bdev_queue;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  219  	ctx->bdev.bd_mapping = &ctx->bd_inode.i_data;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  220  	bdev_clear_flag(&ctx->bdev, BD_READ_ONLY);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  221  	sb->s_bdev = &ctx->bdev;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  222  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  223  	inode_init_once(&ctx->buddy_inode);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  224  	ctx->buddy_inode.i_sb = sb;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  225  	sbi->s_buddy_cache = &ctx->buddy_inode;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  226  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  227  	bgl_lock_init(&ctx->bgl);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  228  	sbi->s_blockgroup_lock = &ctx->bgl;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  229  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  230  	sbi->s_es = &ctx->es;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  231  	ctx->es.s_magic = cpu_to_le16(EXT4_SUPER_MAGIC);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  232  	ext4_blocks_count_set(&ctx->es, SYSFS_TEST_TOTAL_BLKS);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  233  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  234  	ctx->sb_bh.b_data = (char *)&ctx->es;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  235  	ctx->sb_bh.b_size = sizeof(ctx->es);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  236  	ctx->sb_bh.b_bdev = &ctx->bdev;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  237  	atomic_set(&ctx->sb_bh.b_count, 1);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  238  	set_buffer_uptodate(&ctx->sb_bh);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  239  	sbi->s_sbh = &ctx->sb_bh;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  240  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  241  	sbi->s_cluster_bits = 2;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  242  	sbi->s_cluster_ratio = 4;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  243  	sbi->s_clusters_per_group = SYSFS_TEST_CLUSTERS_PER_GRP;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  244  	set_opt(sb, ERRORS_CONT);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  245  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  246  	mutex_init(&sbi->s_error_notify_mutex);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  247  	spin_lock_init(&sbi->s_error_lock);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  248  	spin_lock_init(&sbi->s_md_lock);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  249  	INIT_WORK(&sbi->s_sb_upd_work, sysfs_test_sb_upd_work);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  250  	timer_setup(&sbi->s_err_report, sysfs_test_err_timer, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  251  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  252  	ratelimit_state_init(&sbi->s_err_ratelimit_state,
+82a5f38249f6cf Theodore Ts'o 2026-11-11  253  			     DEFAULT_RATELIMIT_INTERVAL, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  254  	ratelimit_state_init(&sbi->s_warning_ratelimit_state,
+82a5f38249f6cf Theodore Ts'o 2026-11-11  255  			     DEFAULT_RATELIMIT_INTERVAL, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  256  	ratelimit_state_init(&sbi->s_msg_ratelimit_state,
+82a5f38249f6cf Theodore Ts'o 2026-11-11  257  			     DEFAULT_RATELIMIT_INTERVAL, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  258  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  259  	up_write(&sb->s_umount);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  260  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  261  	err = kunit_add_action_or_reset(test, sysfs_test_cleanup_action, ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  262  	KUNIT_ASSERT_EQ(test, err, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  263  	return 0;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  264  
+82a5f38249f6cf Theodore Ts'o 2026-11-11  265  err_sb:
+82a5f38249f6cf Theodore Ts'o 2026-11-11  266  	deactivate_locked_super(sb);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  267  	rcu_barrier();
+82a5f38249f6cf Theodore Ts'o 2026-11-11  268  	free_percpu(ctx->bdev.bd_stats);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  269  	kfree(ctx);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  270  	KUNIT_ASSERT_EQ(test, err, 0);
+82a5f38249f6cf Theodore Ts'o 2026-11-11  271  	return err;
+82a5f38249f6cf Theodore Ts'o 2026-11-11  272  }
+82a5f38249f6cf Theodore Ts'o 2026-11-11  273  
 
 --
 0-DAY CI Kernel Test Service
