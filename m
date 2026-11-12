@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794521535;
-	b=f0cY15xyyasqXtkN4gmjQAFRtUYCawWheIF9acR8sxwbXEKpRG8F1G3QUARwRN/IDSn6
-	 kjbtvGu/5MFV/2kv0I+bNfyyO4SBhavGVm/jM9N2INxuwHCXqbH1bExusWQfNSTZWAg0O
-	 YOFS3xt2QpZP1hlLgURG18XqlWOuk6uNvdNzFgs3QxH/3/pPK6Q8YffI7UmQ9YG+FsQHB
-	 dflIgCG6Qb037P945TnHBC+xWQ0629qdCG6fNhwHS53yFg0hOb5HVM1vDXlauz2SwXAxr
-	 ARISK2KoznG3a7qqJSAqXAVPljEhtaoMR9pU/yS2IjSK6nykGlythOOfEpsqvVafFkg==
+	t=1794523995;
+	b=gip6Y/HFfKqiCGQ3gcRArBkU7TQB5UvjmJ5hXOqxPEJKlGx4zNr19UecK3l2iMzV/tG6
+	 wsHdM935XC55Y+KmJcxCpDh8cMJ8l2KoH5ayYcpE61HNgc+Iy582DEFJYCdZwAT0dpI+1
+	 zaGv+MvjAo5MqchbABEgP2YoBwpxiNNIZPtjN9eQYd4MpDG6rd3iD2fkR7GXjBXwoqkhO
+	 6dITp6aXPsPuPwqDcqwAz1iSgZqjXv0P4c51CnGiuaPi41wPOnhOXqymMhSirXNOr3/zU
+	 GtAMj25KUwsgQvqIXVaN7f/q6TtVBHSP1aPx46uGdgFMhZyKdUjrWb5Rk7VP0blAgZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794521535;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794523995;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=izIpWtxhCcbxXlkbyt7zb9I9w29uNEEhBlC5Dk6WZKw=;
-	b=Q4DjoN5afVdsPlYeW6C0KvI7c7deIPAOZp6GfuguXuMvSfLkqSf932gJrL5dAep915WR
-	 Da+AQLg1lgkw8UEaLawf0HAl0a7dGoMWdbogbLgk99SJHYpGM4lkRylxETyNiBuwoza0V
-	 qMhxipZ9/hLdRCAOowkkncqmDOTuW+nZSLDoDkOvFAb9mQ3jtamHR+ceiNGkf14Smma9W
-	 ljlaNA+WZ1YqXOwzEZXDWErTYlel5+sYrsJKyBTIaBuiFnvuReBwBMTxjWhUebDHgAtOO
-	 bmPhBStdkxL6eLgEv/+98lVjJ7BPi4jSRbxZatV+cy6PxU7lzu0dRpNf++C00chdxsQ==
+	bh=AcJXBO7fYi5fF/6tDtlFvhV5IVTAocyti3yJ5VTAq+I=;
+	b=2pQRMC4zVwpWXhnPoQ7WW/8d/kPH6KQQIrAy6xSZKG27KQVlm/1y4WeLudWV92gHeDPv
+	 lw+FQsFLhW2Gxt2FV1aci7kVtkG1/eOd+M9R5g1EhqsAXR4qbhgKGLwuYPh9+LuiH2/wM
+	 W4y5Dpz4oTQ7mKmZcvwiP6FinRf5Ey1jmHUCyXVmLrYjSmVN7UUn9b8lClmKbTFo/+d+R
+	 6pIOa50E6gLHXkeEljf9qzALeDcC9MuJ37HRFFlwa5o8Gq79o9lOduc2aBr5f9cpFXUag
+	 sXtLk23mMiTVGKNqrq1HxUX0bAnOc7CodpBT7WAXojGIaGSe3MK6hFvUVOEknVwbx0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C5ITZr5B;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hWrmMUgy;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA602606A321
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 22:12:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA602606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF24606A31C
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 22:53:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAF24606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C5ITZr5B
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hWrmMUgy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794521534; x=1826057534;
+  t=1794523994; x=1826059994;
   h=date:from:to:cc:subject:message-id;
-  bh=GQqK/Texnqtkprg/dliyHB1AiBLoV5wQ3UQnBy7xojo=;
-  b=C5ITZr5BWOoSYPDpVKe7w7ijmOzM/6oLmLyr8339upJ0zxtGRqYQ/YN8
-   nRFB5E4oo4Vtf+fr8OlIYgDr0lyuHl2IizjYbH+i5nmAltFDYMNnKnNsj
-   J/xtEW8+ZZ4sklHiPE0dSGXvhTxg6fsC9vHHvyEixosvAXSNFehkQmEzL
-   TiX0BtguZyxaQehAb11hEVd0DzuFhhKkzsysxIczPZzp5zN6/zGOJSs74
-   Q5+RgDfPWOfeXPRHQnYLCqlJ0oQLf9aR+54PJrXwf9taSiN6KbJ6FkuEl
-   TGzf6A2NGk6ren37YjWAXZ91QQyC57O7oTO/xohPrhF7vW7RApOTrXQyz
+  bh=jxbH5gdr7K0I8vICib7j2wueRaKrX68fJCQR533WsEM=;
+  b=hWrmMUgyJU/aL98hPEITCNiXX64cbahTgtrlvlff3dkokkb1jIlnQ3Dz
+   +f6SNz+XKadSjV//sZH/Izqgi2O5o324XF3jxSnM09mqbRC+VbWAvlkC3
+   zE6dHJhwIaOwyy5ENQ3AVBCm63I+mf/3LU5ErPS58k1d9FdcbWHueaLA0
+   YKsIvYvaEAsj3YJPzancdg4wVOFNf8J0PlP+h1rL7PuMQY1T+D089Mqb1
+   x17TBGuhpxo7w9gUrbLQUIH3zi7u4QeUtKcGrnLdISyuFD2HASnWAm2K/
+   B2vRVPgcDN7Aoj+TDg0nisU7qq0JyG99MsO66iQegu+AAHy6UzOf8tGJk
    Q==;
-X-CSE-ConnectionGUID: CDKwoqfNQFO7hdwSAVO/qQ==
-X-CSE-MsgGUID: taxgGQkdTHO906ATi2OgMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3216459"
+X-CSE-ConnectionGUID: T1cCjto/S++YZPbf0Ofn/w==
+X-CSE-MsgGUID: QJlPCF89TQi9/jjOdW7NXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3218967"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3216459"
+   d="scan'208";a="3218967"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:12:13 -0800
-X-CSE-ConnectionGUID: 0uI+HTstQmGfCddz3/LSEg==
-X-CSE-MsgGUID: /QLJyo4SR7WdzeaAaPM5ZA==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:53:14 -0800
+X-CSE-ConnectionGUID: ZfqQTY5FSBq6hq4sixjNVA==
+X-CSE-MsgGUID: NcskPlscQO6e+eGXDDBv3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="9325235"
+   d="scan'208";a="9330808"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2026 14:12:12 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2026 14:53:12 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRd1d-000000000yZ-0JBv;
-	Thu, 12 Nov 2026 22:12:09 +0000
-Date: Thu, 12 Nov 2026 23:11:19 +0100
+	id 1xRdfJ-000000000z5-3U22;
+	Thu, 12 Nov 2026 22:53:09 +0000
+Date: Thu, 12 Nov 2026 23:52:38 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tytso-ext4:pu 17/50] fs/ext4/super-test.c:312
- super_test_init() error: 'sb' dereferencing possible ERR_PTR()
-Message-ID: <202611122336.ExhSFMb8-lkp@intel.com>
+Subject: [ceph-client:testing 3/4] fs/ceph/addr.c:1304
+ writepages_finish() error: 'folio' dereferencing possible ERR_PTR()
+Message-ID: <202611122322.gfcaK7tl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -85,15 +85,16 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-ext4@vger.kernel.org
-TO: "Theodore Ts'o" <tytso@mit.edu>
+CC: ceph-devel@vger.kernel.org
+TO: Xiubo Li <xiubo.li@clyso.com>
+CC: Alex Markuze <amarkuze@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
-head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
-commit: 1cec1055be7fc2b602f1cde94d772ec822ad6d74 [17/50] ext4: add KUnit tests for fs/ext4/super.c
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: powerpc-randconfig-2200-20261112 (https://download.01.org/0day-ci/archive/20261112/202611122336.ExhSFMb8-lkp@intel.com/config)
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   6a9830a8f414d3830c584782568d0233be969d09
+commit: 7530f81a50bb9749539257fbeccdf037e0ca5fca [3/4] ceph: don't read a folio in for a partial lazy I/O write
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: powerpc-randconfig-2200-20261112 (https://download.01.org/0day-ci/archive/20261112/202611122322.gfcaK7tl-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
 smatch: v0.5.0-9187-g5189e3fb
 
@@ -101,219 +102,138 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611122336.ExhSFMb8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611122322.gfcaK7tl-lkp@intel.com/
 
-smatch warnings:
-fs/ext4/super-test.c:312 super_test_init() error: 'sb' dereferencing possible ERR_PTR()
+New smatch warnings:
+fs/ceph/addr.c:1304 writepages_finish() error: 'folio' dereferencing possible ERR_PTR()
 
-vim +/sb +312 fs/ext4/super-test.c
+Old smatch warnings:
+arch/powerpc/include/asm/cpu_has_feature.h:38 cpu_has_feature() warn: bitwise AND condition is false here
+arch/powerpc/include/asm/cpu_has_feature.h:12 early_cpu_has_feature() warn: bitwise AND condition is false here
 
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  253  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  254  KUNIT_DEFINE_ACTION_WRAPPER(super_test_cleanup_action, super_test_cleanup,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  255  			    struct super_test_ctx *);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  256  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  257  static int super_test_init(struct kunit *test)
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  258  {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  259  	struct super_test_ctx *ctx;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  260  	struct fs_context *fc;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  261  	struct super_block *sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  262  	struct ext4_sb_info *sbi;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  263  	struct inode *root_inode;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  264  	int err;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  265  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  266  	ctx = kzalloc_obj(*ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  267  	KUNIT_ASSERT_NOT_NULL(test, ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  268  	test->priv = ctx;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  269  	active_super_test = test;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  270  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  271  	ctx->bdev.bd_stats = alloc_percpu(struct disk_stats);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  272  	if (!ctx->bdev.bd_stats) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  273  		kfree(ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  274  		KUNIT_FAIL_AND_ABORT(test, "failed to alloc bd_stats");
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  275  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  276  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  277  	fc = fs_context_for_mount(&super_test_fs_type, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  278  	if (IS_ERR(fc)) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  279  		err = PTR_ERR(fc);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  280  		free_percpu(ctx->bdev.bd_stats);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  281  		kfree(ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  282  		KUNIT_ASSERT_EQ(test, err, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  283  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  284  	sb = sget_fc(fc, NULL, set_anon_super_fc);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  285  	put_fs_context(fc);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  286  	if (IS_ERR(sb)) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  287  		err = PTR_ERR(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  288  		free_percpu(ctx->bdev.bd_stats);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  289  		kfree(ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  290  		KUNIT_ASSERT_EQ(test, err, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  291  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  292  	ctx->sb = sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  293  	sbi = &ctx->sbi;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  294  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  295  	err = percpu_counter_init(&sbi->s_freeclusters_counter, 0, GFP_KERNEL);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  296  	if (err)
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  297  		goto err_sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  298  	err = percpu_counter_init(&sbi->s_dirtyclusters_counter, 0, GFP_KERNEL);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  299  	if (err) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  300  		percpu_counter_destroy(&sbi->s_freeclusters_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  301  		goto err_sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  302  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  303  	err = percpu_counter_init(&sbi->s_freeinodes_counter, 0, GFP_KERNEL);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  304  	if (err) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  305  		percpu_counter_destroy(&sbi->s_dirtyclusters_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  306  		percpu_counter_destroy(&sbi->s_freeclusters_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  307  		goto err_sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  308  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  309  	ctx->counters_inited = true;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  310  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  311  	sbi->s_sb = sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11 @312  	sb->s_fs_info = sbi;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  313  	sb->s_op = &super_test_sops;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  314  #ifdef CONFIG_FS_ENCRYPTION
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  315  	sb->s_cop = &ext4_cryptops;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  316  #endif
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  317  	sb->s_flags |= SB_ACTIVE;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  318  	sb->s_blocksize = SUPER_TEST_BLK_SIZE;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  319  	sb->s_blocksize_bits = SUPER_TEST_BLK_BITS;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  320  	sb->s_maxbytes = MAX_LFS_FILESIZE;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  321  	sb->s_time_gran = 1;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  322  	sb->s_xattr = ext4_xattr_handlers;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  323  	strscpy(sb->s_id, "ext4_super_kunit", sizeof(sb->s_id));
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  324  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  325  	inode_init_once(&ctx->bd_inode);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  326  	ctx->bd_inode.i_sb = sb;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  327  	ctx->bd_inode.i_blkbits = SUPER_TEST_BLK_BITS;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  328  	ctx->bd_inode.i_mapping = &ctx->bd_inode.i_data;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  329  	ctx->bd_inode.i_data.host = &ctx->bd_inode;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  330  	ctx->bdev_queue.limits.logical_block_size = 512;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  331  	ctx->bdev_queue.limits.dma_alignment = 511;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  332  	ctx->bdev_disk.part0 = &ctx->bdev;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  333  	ctx->bdev_disk.queue = &ctx->bdev_queue;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  334  	ctx->bdev.bd_disk = &ctx->bdev_disk;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  335  	ctx->bdev.bd_queue = &ctx->bdev_queue;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  336  	ctx->bdev.bd_mapping = &ctx->bd_inode.i_data;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  337  	bdev_clear_flag(&ctx->bdev, BD_READ_ONLY);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  338  	sb->s_bdev = &ctx->bdev;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  339  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  340  	bgl_lock_init(&ctx->bgl);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  341  	sbi->s_blockgroup_lock = &ctx->bgl;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  342  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  343  	sbi->s_es = &ctx->es;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  344  	ctx->es.s_magic = cpu_to_le16(EXT4_SUPER_MAGIC);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  345  	ctx->es.s_first_data_block = cpu_to_le32(SUPER_TEST_FIRST_DATA_BLK);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  346  	ctx->es.s_rev_level = cpu_to_le32(EXT4_DYNAMIC_REV);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  347  	ctx->es.s_creator_os = cpu_to_le32(EXT4_OS_LINUX);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  348  	ctx->es.s_inodes_count = cpu_to_le32(SUPER_TEST_TOTAL_INODES);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  349  	ctx->es.s_inodes_per_group = cpu_to_le32(SUPER_TEST_INODES_PER_GRP);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  350  	ctx->es.s_blocks_per_group = cpu_to_le32(SUPER_TEST_BLOCKS_PER_GRP);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  351  	ctx->es.s_clusters_per_group = cpu_to_le32(SUPER_TEST_BLOCKS_PER_GRP);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  352  	ctx->es.s_first_ino = cpu_to_le32(SUPER_TEST_FIRST_INO);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  353  	ctx->es.s_inode_size = cpu_to_le16(SUPER_TEST_INODE_SIZE);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  354  	ctx->es.s_min_extra_isize = cpu_to_le16(SUPER_TEST_EXTRA_ISIZE);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  355  	ctx->es.s_want_extra_isize = cpu_to_le16(SUPER_TEST_EXTRA_ISIZE);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  356  	ctx->es.s_desc_size = cpu_to_le16(EXT4_MIN_DESC_SIZE_64BIT);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  357  	ctx->es.s_reserved_gdt_blocks = cpu_to_le16(SUPER_TEST_RSV_GDT_BLKS);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  358  	ctx->es.s_errors = cpu_to_le16(EXT4_ERRORS_RO);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  359  	ctx->es.s_checksum_type = EXT4_CRC32C_CHKSUM;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  360  	generate_random_uuid(ctx->es.s_uuid);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  361  	ext4_blocks_count_set(&ctx->es, SUPER_TEST_TOTAL_BLKS);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  362  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  363  	ext4_set_feature_sparse_super(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  364  	ext4_set_feature_extents(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  365  	ext4_set_feature_extra_isize(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  366  	ext4_set_feature_metadata_csum(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  367  	ext4_set_feature_64bit(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  368  	sbi->s_csum_seed = ext4_chksum(~0, ctx->es.s_uuid,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  369  				       sizeof(ctx->es.s_uuid));
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  370  	ext4_superblock_csum_set(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  371  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  372  	ctx->sb_bh.b_data = (char *)&ctx->es;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  373  	ctx->sb_bh.b_size = sizeof(ctx->es);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  374  	ctx->sb_bh.b_bdev = &ctx->bdev;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  375  	atomic_set(&ctx->sb_bh.b_count, 1);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  376  	set_buffer_uptodate(&ctx->sb_bh);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  377  	sbi->s_sbh = &ctx->sb_bh;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  378  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  379  	sbi->s_sb_block = 1;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  380  	sbi->s_inode_size = SUPER_TEST_INODE_SIZE;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  381  	sbi->s_inodes_per_block = SUPER_TEST_INODES_PER_BLK;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  382  	sbi->s_inodes_per_group = SUPER_TEST_INODES_PER_GRP;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  383  	sbi->s_itb_per_group = SUPER_TEST_ITB_PER_GRP;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  384  	sbi->s_first_ino = SUPER_TEST_FIRST_INO;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  385  	sbi->s_want_extra_isize = SUPER_TEST_EXTRA_ISIZE;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  386  	sbi->s_blocks_per_group = SUPER_TEST_BLOCKS_PER_GRP;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  387  	sbi->s_clusters_per_group = SUPER_TEST_BLOCKS_PER_GRP;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  388  	sbi->s_cluster_ratio = 1;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  389  	sbi->s_cluster_bits = 0;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  390  	sbi->s_groups_count = SUPER_TEST_NGROUPS;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  391  	sbi->s_gdb_count = SUPER_TEST_GDB_COUNT;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  392  	sbi->s_desc_size = EXT4_MIN_DESC_SIZE_64BIT;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  393  	sbi->s_desc_per_block = SUPER_TEST_BLK_SIZE / EXT4_MIN_DESC_SIZE_64BIT;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  394  	sbi->s_desc_per_block_bits = ilog2(sbi->s_desc_per_block);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  395  	sbi->s_resuid = make_kuid(&init_user_ns, EXT4_DEF_RESUID);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  396  	sbi->s_resgid = make_kgid(&init_user_ns, EXT4_DEF_RESGID);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  397  	sbi->s_commit_interval = JBD2_DEFAULT_MAX_COMMIT_AGE * HZ;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  398  	sbi->s_min_batch_time = EXT4_DEF_MIN_BATCH_TIME;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  399  	sbi->s_max_batch_time = EXT4_DEF_MAX_BATCH_TIME;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  400  	sbi->s_inode_readahead_blks = EXT4_DEF_INODE_READAHEAD_BLKS;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  401  	sbi->s_li_wait_mult = EXT4_DEF_LI_WAIT_MULT;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  402  	sbi->s_err_report_sec = 86400;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  403  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  404  	spin_lock_init(&sbi->s_bdev_wb_lock);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  405  	spin_lock_init(&sbi->s_error_lock);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  406  	spin_lock_init(&sbi->s_md_lock);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  407  	INIT_WORK(&sbi->s_sb_upd_work, super_test_sb_upd_work);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  408  	timer_setup(&sbi->s_err_report, super_test_err_timer, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  409  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  410  	ratelimit_state_init(&sbi->s_err_ratelimit_state,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  411  			     DEFAULT_RATELIMIT_INTERVAL, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  412  	ratelimit_state_init(&sbi->s_warning_ratelimit_state,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  413  			     DEFAULT_RATELIMIT_INTERVAL, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  414  	ratelimit_state_init(&sbi->s_msg_ratelimit_state,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  415  			     DEFAULT_RATELIMIT_INTERVAL, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  416  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  417  	super_setup_default_groups(ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  418  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  419  	root_inode = new_inode(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  420  	if (!root_inode) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  421  		err = -ENOMEM;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  422  		goto err_counters;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  423  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  424  	root_inode->i_ino = EXT4_ROOT_INO;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  425  	root_inode->i_mode = S_IFDIR | 0755;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  426  	root_inode->i_flags |= S_NOQUOTA;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  427  	root_inode->i_op = &simple_dir_inode_operations;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  428  	set_nlink(root_inode, 2);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  429  	sb->s_root = d_make_root(root_inode);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  430  	if (!sb->s_root) {
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  431  		err = -ENOMEM;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  432  		goto err_counters;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  433  	}
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  434  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  435  	up_write(&sb->s_umount);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  436  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  437  	kunit_activate_static_stub(test, ext4_get_group_desc,
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  438  				   super_get_group_desc_stub);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  439  	kunit_activate_static_stub(test, __ext4_iget, super_iget_stub);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  440  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  441  	err = kunit_add_action_or_reset(test, super_test_cleanup_action, ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  442  	KUNIT_ASSERT_EQ(test, err, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  443  	return 0;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  444  
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  445  err_counters:
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  446  	percpu_counter_destroy(&sbi->s_freeinodes_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  447  	percpu_counter_destroy(&sbi->s_dirtyclusters_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  448  	percpu_counter_destroy(&sbi->s_freeclusters_counter);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  449  err_sb:
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  450  	active_super_test = NULL;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  451  	deactivate_locked_super(sb);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  452  	rcu_barrier();
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  453  	free_percpu(ctx->bdev.bd_stats);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  454  	kfree(ctx);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  455  	KUNIT_ASSERT_EQ(test, err, 0);
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  456  	return err;
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  457  }
-1cec1055be7fc2 Theodore Ts'o 2026-11-11  458  
+vim +/folio +1304 fs/ceph/addr.c
+
+1d3576fd10f0d7 Sage Weil               2009-10-06  1234  
+1d3576fd10f0d7 Sage Weil               2009-10-06  1235  /*
+1d3576fd10f0d7 Sage Weil               2009-10-06  1236   * async writeback completion handler.
+1d3576fd10f0d7 Sage Weil               2009-10-06  1237   *
+1d3576fd10f0d7 Sage Weil               2009-10-06  1238   * If we get an error, set the mapping error bit, but not the individual
+1d3576fd10f0d7 Sage Weil               2009-10-06  1239   * page error bits.
+1d3576fd10f0d7 Sage Weil               2009-10-06  1240   */
+85e084feb47349 Ilya Dryomov            2016-04-28  1241  static void writepages_finish(struct ceph_osd_request *req)
+1d3576fd10f0d7 Sage Weil               2009-10-06  1242  {
+1d3576fd10f0d7 Sage Weil               2009-10-06  1243  	struct inode *inode = req->r_inode;
+1d3576fd10f0d7 Sage Weil               2009-10-06  1244  	struct ceph_inode_info *ci = ceph_inode(inode);
+38d46409c4639a Xiubo Li                2023-06-12  1245  	struct ceph_client *cl = ceph_inode_to_client(inode);
+87060c1089a94f Alex Elder              2013-04-03  1246  	struct ceph_osd_data *osd_data;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1247  	int num_pages, total_pages = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1248  	int i, j;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1249  	int rc = req->r_result;
+1d3576fd10f0d7 Sage Weil               2009-10-06  1250  	struct ceph_snap_context *snapc = req->r_snapc;
+1d3576fd10f0d7 Sage Weil               2009-10-06  1251  	struct address_space *mapping = inode->i_mapping;
+5995d90d2d19f3 Xiubo Li                2023-06-12  1252  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1253  	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(inode->i_sb);
+903f4fec78dd05 Xiubo Li                2021-05-13  1254  	unsigned int len = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1255  	bool remove_page;
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1256  	struct ceph_journal_info __ji;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1257  
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1258  	/* OSD callback: reuse existing ctx only. */
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1259  	ceph_blog_enter_gfp(fsc, &__ji, GFP_ATOMIC);
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1260  
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1261  	boutc(cl, "%llx.%llx rc %d\n", ceph_vinop(inode), rc);
+26544c623e741a Jeff Layton             2017-04-04  1262  	if (rc < 0) {
+5b64640cf65be4 Yan, Zheng              2016-01-07  1263  		mapping_set_error(mapping, rc);
+26544c623e741a Jeff Layton             2017-04-04  1264  		ceph_set_error_write(ci);
+0b98acd6188309 Ilya Dryomov            2020-09-14  1265  		if (rc == -EBLOCKLISTED)
+0b98acd6188309 Ilya Dryomov            2020-09-14  1266  			fsc->blocklisted = true;
+26544c623e741a Jeff Layton             2017-04-04  1267  	} else {
+26544c623e741a Jeff Layton             2017-04-04  1268  		ceph_clear_error_write(ci);
+26544c623e741a Jeff Layton             2017-04-04  1269  	}
+1d3576fd10f0d7 Sage Weil               2009-10-06  1270  
+79788c698b2904 Sage Weil               2010-02-02  1271  	/*
+5b64640cf65be4 Yan, Zheng              2016-01-07  1272  	 * We lost the cache cap, need to truncate the page before
+5b64640cf65be4 Yan, Zheng              2016-01-07  1273  	 * it is unlocked, otherwise we'd truncate it later in the
+5b64640cf65be4 Yan, Zheng              2016-01-07  1274  	 * page truncation thread, possibly losing some data that
+5b64640cf65be4 Yan, Zheng              2016-01-07  1275  	 * raced its way in
+79788c698b2904 Sage Weil               2010-02-02  1276  	 */
+5b64640cf65be4 Yan, Zheng              2016-01-07  1277  	remove_page = !(ceph_caps_issued(ci) &
+5b64640cf65be4 Yan, Zheng              2016-01-07  1278  			(CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO));
+1d3576fd10f0d7 Sage Weil               2009-10-06  1279  
+1d3576fd10f0d7 Sage Weil               2009-10-06  1280  	/* clean all pages */
+5b64640cf65be4 Yan, Zheng              2016-01-07  1281  	for (i = 0; i < req->r_num_ops; i++) {
+642d51fb0775a4 Xiubo Li                2022-05-05  1282  		if (req->r_ops[i].op != CEPH_OSD_OP_WRITE) {
+38d46409c4639a Xiubo Li                2023-06-12  1283  			pr_warn_client(cl,
+38d46409c4639a Xiubo Li                2023-06-12  1284  				"%llx.%llx incorrect op %d req %p index %d tid %llu\n",
+38d46409c4639a Xiubo Li                2023-06-12  1285  				ceph_vinop(inode), req->r_ops[i].op, req, i,
+38d46409c4639a Xiubo Li                2023-06-12  1286  				req->r_tid);
+5b64640cf65be4 Yan, Zheng              2016-01-07  1287  			break;
+642d51fb0775a4 Xiubo Li                2022-05-05  1288  		}
+5b64640cf65be4 Yan, Zheng              2016-01-07  1289  
+5b64640cf65be4 Yan, Zheng              2016-01-07  1290  		osd_data = osd_req_op_extent_osd_data(req, i);
+5b64640cf65be4 Yan, Zheng              2016-01-07  1291  		BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+903f4fec78dd05 Xiubo Li                2021-05-13  1292  		len += osd_data->length;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1293  		num_pages = calc_pages_for((u64)osd_data->alignment,
+5b64640cf65be4 Yan, Zheng              2016-01-07  1294  					   (u64)osd_data->length);
+5b64640cf65be4 Yan, Zheng              2016-01-07  1295  		total_pages += num_pages;
+5b64640cf65be4 Yan, Zheng              2016-01-07  1296  		for (j = 0; j < num_pages; j++) {
+0917a0848325cb Tal Zussman             2026-09-02  1297  			struct folio *folio = page_folio(osd_data->pages[j]);
+0917a0848325cb Tal Zussman             2026-09-02  1298  
+0917a0848325cb Tal Zussman             2026-09-02  1299  			if (fscrypt_is_bounce_folio(folio)) {
+0917a0848325cb Tal Zussman             2026-09-02  1300  				folio = fscrypt_pagecache_folio(folio);
+d55207717ded95 Jeff Layton             2022-08-25  1301  				fscrypt_free_bounce_page(osd_data->pages[j]);
+0917a0848325cb Tal Zussman             2026-09-02  1302  				osd_data->pages[j] = &folio->page;
+d55207717ded95 Jeff Layton             2022-08-25  1303  			}
+7530f81a50bb97 Xiubo Li                2026-11-10 @1304  			WARN_ON(!folio_test_uptodate(folio) &&
+7530f81a50bb97 Xiubo Li                2026-11-10  1305  				!__ceph_dirty_range(folio->private));
+1d3576fd10f0d7 Sage Weil               2009-10-06  1306  
+5b64640cf65be4 Yan, Zheng              2016-01-07  1307  			if (atomic_long_dec_return(&fsc->writeback_count) <
+5b64640cf65be4 Yan, Zheng              2016-01-07  1308  			     CONGESTION_OFF_THRESH(
+5b64640cf65be4 Yan, Zheng              2016-01-07  1309  					fsc->mount_options->congestion_kb))
+503d4fa6ee28e8 NeilBrown               2022-03-22  1310  				fsc->write_congested = false;
+2baba25019ec56 Yehuda Sadeh            2009-12-18  1311  
+471aec0b2849a0 Xiubo Li                2026-10-30  1312  			ceph_put_snap_context(ceph_folio_detach_snapc(folio));
+0917a0848325cb Tal Zussman             2026-09-02  1313  			folio_end_writeback(folio);
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1314  
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1315  			if (atomic64_dec_return(&mdsc->dirty_folios) <= 0) {
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1316  				wake_up_all(&mdsc->flush_end_wq);
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1317  				WARN_ON(atomic64_read(&mdsc->dirty_folios) < 0);
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1318  			}
+fd7449d937e7fb Viacheslav Dubeyko      2025-02-04  1319  
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1320  			boutc(cl, "unlocking %p\n", folio);
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  1321  
+5b64640cf65be4 Yan, Zheng              2016-01-07  1322  			if (remove_page)
+af7628d6ec1969 Matthew Wilcox (Oracle  2023-11-17  1323) 				generic_error_remove_folio(inode->i_mapping,
+0917a0848325cb Tal Zussman             2026-09-02  1324  							  folio);
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  1325  
+0917a0848325cb Tal Zussman             2026-09-02  1326  			folio_unlock(folio);
+1d3576fd10f0d7 Sage Weil               2009-10-06  1327  		}
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1328  		boutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
+38d46409c4639a Xiubo Li                2023-06-12  1329  		      ceph_vinop(inode), osd_data->length,
+38d46409c4639a Xiubo Li                2023-06-12  1330  		      rc >= 0 ? num_pages : 0);
+1d3576fd10f0d7 Sage Weil               2009-10-06  1331  
+96ac9158a230e4 John Hubbard            2019-08-08  1332  		release_pages(osd_data->pages, num_pages);
+5b64640cf65be4 Yan, Zheng              2016-01-07  1333  	}
+5b64640cf65be4 Yan, Zheng              2016-01-07  1334  
+903f4fec78dd05 Xiubo Li                2021-05-13  1335  	ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
+903f4fec78dd05 Xiubo Li                2021-05-13  1336  				  req->r_end_latency, len, rc);
+903f4fec78dd05 Xiubo Li                2021-05-13  1337  
+b1137e0b3d4bad Alex Markuze            2026-02-10  1338  	if (rc >= 0 && len > 0)
+b1137e0b3d4bad Alex Markuze            2026-02-10  1339  		ceph_subvolume_metrics_record_io(mdsc, ci, true, len,
+b1137e0b3d4bad Alex Markuze            2026-02-10  1340  						 req->r_start_latency,
+b1137e0b3d4bad Alex Markuze            2026-02-10  1341  						 req->r_end_latency);
+b1137e0b3d4bad Alex Markuze            2026-02-10  1342  
+5b64640cf65be4 Yan, Zheng              2016-01-07  1343  	ceph_put_wrbuffer_cap_refs(ci, total_pages, snapc);
+5b64640cf65be4 Yan, Zheng              2016-01-07  1344  
+5b64640cf65be4 Yan, Zheng              2016-01-07  1345  	osd_data = osd_req_op_extent_osd_data(req, 0);
+87060c1089a94f Alex Elder              2013-04-03  1346  	if (osd_data->pages_from_pool)
+a0102bda5bc099 Jeff Layton             2020-07-30  1347  		mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
+1d3576fd10f0d7 Sage Weil               2009-10-06  1348  	else
+87060c1089a94f Alex Elder              2013-04-03  1349  		kfree(osd_data->pages);
+1d3576fd10f0d7 Sage Weil               2009-10-06  1350  	ceph_osdc_put_request(req);
+1464de9f813e35 Xiubo Li                2023-05-09  1351  	ceph_dec_osd_stopping_blocker(fsc->mdsc);
+4ab4c720c9bad1 Alex Markuze            2026-08-20  1352  	ceph_blog_exit(&__ji);
+1d3576fd10f0d7 Sage Weil               2009-10-06  1353  }
+1d3576fd10f0d7 Sage Weil               2009-10-06  1354  
 
 --
 0-DAY CI Kernel Test Service
