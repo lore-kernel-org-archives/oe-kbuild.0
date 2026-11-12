@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794439213;
-	b=R6TkOGOj3CVHWMaGrbVfFTdhoeI9bcl2t2YTLqpb24CHoeDC3+xeRJnN4CEKyeYaXsJC
-	 QhEyOJmejzCvSmWY3ailYtMVU5ofKafqHSHZP5u3MBO/SJ6AgmqFAFCZCW6zijbmozo1d
-	 +OLoRoqb1oIiRySigXFS3DT1nYoeXhvGaCKRHo0YcaX6LBd2kGNn/OFH6xW85OFGWPOCu
-	 nfWuvCzLdsRsBZqWarxHKoKtcxxi9rpahQFtZ0ORtG9GHEnfu6TRdvTvyCn7tIpEV7FDD
-	 MM+fyC9NBEcgk2zKEfBaZCLE8eRKipirnnoiWYlKps6XWCYZ3BbeRFX2zlRs6Sn5EdQ==
+	t=1794446233;
+	b=mmdEGmwujdPCZkgUiEThbHb83K35gWvQR0Hc6Wy5Toj7RxihZ2RZgy/GUnQr2Z+QtzWZ
+	 TyUrQu3Tmqy0mNarJChJuXF6vcdpv0UuM2QpgP+5tYKq5k0EkDfeR1EUAKxnZOj5hNzy/
+	 kTDty5M8h98evsAMyJHhmExfBJ9Y1YOGsU34eDrrytKjJPrWX1XV5VIANRJ+b5GPyK8Wn
+	 1Ny1FZFzog6fGMYKn6MMinqOFWnsQA1dmsB8qvrJZ/mvQ2zg+qKezn0a/4NeuT6vZTXhT
+	 TqYiQ9YrU/LndfE+1OGmmqxlc2Ts9NjOSc2/AywXgzoXQkps98VMglUx0jRBUCjr0eQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794439213;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794446233;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=gPAau1/rWXmyC6HLMGpRPjpO5/jMSyC2Q/EKTVwxQcQ=;
-	b=kS6kz/aZUJxtmhA3m20+LuD4fJwPnf67XDWq/9vOnhKY7dPr536sVqaVBIs1EVfTQgni
-	 yZKpxGuWMx+B7i/M+/e9sYfBFjJIU0NRxOrSA64PXII99r85Y0SlDwUMBU3crb2i55V4r
-	 AqbH7IKOXJvpu54DPvotp8z0fnEe/sRnsvJ543RmyZ51FPE12ChUpxvZsyubzDrHSpovo
-	 LCcJh467M1gGiADVyBJR0lPWVXySa2Agafm53nt4pdeOBY3HSWnQzE7oSKEAVA4XC8b0t
-	 VnWJ5ycaSQ0Qkktz20Wwj8lZvNjJtZC4e0B8YeKsUNSzULoKGYr4/fr9lMvsvRiCINw==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=yOCz84RAwQ6l85oUTxNaNvq8PQ72eT5WhVWdlKvER+w=;
+	b=E2s8mFvCoZ6jULx3SB0YS6z/lUPO3SBlIsvgk46SiQ0WvBfEHW6tt/ix7RxNhs/h+xDp
+	 gfhKvwjrr1f1mRdMVSZZGXm6/XCbNg0ukpCESsGFm1DzmJQAwrHFL87RHlwNzTy1OEYTC
+	 kfH7AzzRVZ0OQplGy0duHi0MjKMzuYLf+8A6ztZPCdh2pOrpYQ1FFZiRC98NS1QyhOAcM
+	 OLvMuMs90LPhFdcst0ewYTS7mmLo8119xgmFI5M5j+Ld8z19kIFmm8Wsxf/HoSYd/k18q
+	 QxsEzBCMBrz+RspTEUMWB44mdxwOdXsA45uO2uZh2BnrzDONUDWbFl7Yfu7IXx8zmRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUsRVZbu;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=InI9D3qR;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF66606A326
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Nov 2026 23:20:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFF66606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3D0606A326
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Nov 2026 01:17:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E3D0606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUsRVZbu
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=InI9D3qR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794439212; x=1825975212;
-  h=date:from:to:cc:subject:message-id;
-  bh=SsUUtWAxPzIHniTAA+JoscLVFb7IhQmIImR3anjBSuM=;
-  b=kUsRVZbuPYhw28H8s7OIX2VL0/uY4WxXu1vOtgDB9Zgz/njtEnVLNnKB
-   wOlZCEsqsHPGh9lKy1uWcrlaLvUeJjjW5t/OjB/xDSMux3IRjOgVAETu1
-   BNl9wb6jlz1FX8FrRTnLJxneiVuIkUfET9qn4WLmfWiHLbHhkFtF6lbZZ
-   K8IxYws5xoX7NHDMI1x1/yIpMXVb5IpCjLIPP2jpEBI3nG8Gxw+nLu3Ao
-   0vU+Ytv+yAz2fZgH9xFSJgRJix5A1lmPYwJn5Xh+7lsTlknnhGMgWLisf
-   kVBodxsJa6aPDE1cPc4YvFLPAlwXP0CErn6ycluHIz/pfbNHdTBroEQsb
+  t=1794446233; x=1825982233;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/qUka+1ssgZSHRio9LTEt4vRp4lHJ77zXb0IeuaiXjQ=;
+  b=InI9D3qRxxklM98WxfCVba1DzZy0LHMl8szCemi8DZojOY7mJ157JgI4
+   fsLBf/DqihciThY+iMdOQXD+1XXUWCYH0oM9FqIO1AZME+NwRAkzG6BC1
+   1l+LcnaPICKK/8Fd3NH2bIMp2KHPa7nHWIIq6GO7R5ZI+bco4fC2043MP
+   Jj5rlMbFBlqRFtyo4BWF784OoZpUx45KzpcK/m1hXNlhya74NkRJqgDct
+   6PTy8NibjdJdQ8H0JR3mP1oVs7d6vmZYADZLgti30WdkgXL3hDFHDiQwH
+   BpytthBtWFZuet6QsNMLFGYkkokj7uvA61sTzbpuSyZspT3L7AVVJP5xR
    w==;
-X-CSE-ConnectionGUID: S8mz4xwkSNa5BaGPvLaJgw==
-X-CSE-MsgGUID: pz2YVzWZQ6+Ary6QyBhs6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3211409"
+X-CSE-ConnectionGUID: dJI6wiQVRfq/F4qn1mtv2Q==
+X-CSE-MsgGUID: XUKliPmvSWS/4YFsd10iuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3317595"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3211409"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 15:20:12 -0800
-X-CSE-ConnectionGUID: 8HQvrbJYTfuFggsRMoa6jg==
-X-CSE-MsgGUID: 4+GmkGVeRZ+svt+x+tZDAg==
+   d="scan'208";a="3317595"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 17:17:12 -0800
+X-CSE-ConnectionGUID: W08Nn42iRlOGxD0VmKr8sg==
+X-CSE-MsgGUID: lkxsTZFBQs2t5bL95DY1Vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8670761"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Nov 2026 15:20:10 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8614858"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2026 17:17:11 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRHbs-000000000hj-0K5G;
-	Wed, 11 Nov 2026 23:20:08 +0000
-Date: Thu, 12 Nov 2026 00:19:45 +0100
+	id 1xRJR7-000000010AD-3AT3;
+	Thu, 12 Nov 2026 01:17:09 +0000
+Date: Thu, 12 Nov 2026 09:17:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [sudeep-holla:for-next/vexpress/updates 4/7]
- arch/arm/boot/dts/arm/integratorap.dtb: /fpga-bus/rtc@15000000: failed to
- match any schema with compatible: ['arm,pl030', 'arm,primecell']
-Message-ID: <202611120008.PihMcDmF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [RFC PATCH v2 07/15] misc/arm-cla: Set up memory translation
+ context
+Message-ID: <202611120948.eIJQ3E15-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -80,155 +78,134 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Sudeep Holla <sudeep.holla@kernel.org>
-CC: Linus Walleij <linusw@kernel.org>
+In-Reply-To: <20261015142552.4128028-8-ryan.roberts@arm.com>
+References: <20261015142552.4128028-8-ryan.roberts@arm.com>
+TO: Ryan Roberts <ryan.roberts@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/vexpress/updates
-head:   ce28870a8e600baf04d045a394e637f5e246ada3
-commit: e7c38fdf57c42088e6e3a994b73f0cdd72289bb7 [4/7] ARM: dts: arm: Use standard node names
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261112/202611120008.PihMcDmF-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120008.PihMcDmF-lkp@intel.com/reproduce)
+Hi Ryan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on awilliam-vfio/next]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus kvmarm/next linus/master awilliam-vfio/for-linus v7.4-rc2 next-20261110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/misc-arm-cla-Add-driver-skeleton-and-documentation/20261015-152535
+base:   https://github.com/awilliam/linux-vfio.git next
+patch link:    https://lore.kernel.org/r/20261015142552.4128028-8-ryan.roberts%40arm.com
+patch subject: [RFC PATCH v2 07/15] misc/arm-cla: Set up memory translation context
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261112/202611120948.eIJQ3E15-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120948.eIJQ3E15-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611120008.PihMcDmF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611120948.eIJQ3E15-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/arm/integratorap.dts:176.3-197.5: Warning (interrupt_map): /pci@62000000:interrupt-map: Missing property '#address-cells' in node /pic@14000000, using 0 as fallback
-   arch/arm/boot/dts/arm/integratorap.dts:176.3-197.5: Warning (interrupt_map): /pci@62000000:interrupt-map: Missing property '#address-cells' in node /pic@14000000, using 0 as fallback
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap.dtb: / (arm,integrator-ap): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/arm/integratorap.dtb: /ebi@12000000: failed to match any schema with compatible: ['arm,external-bus-interface']
-   arch/arm/boot/dts/arm/integratorap.dtb: /timer@13000000: failed to match any schema with compatible: ['arm,integrator-timer']
-   arch/arm/boot/dts/arm/integratorap.dtb: /timer@13000100: failed to match any schema with compatible: ['arm,integrator-timer']
-   arch/arm/boot/dts/arm/integratorap.dtb: /timer@13000200: failed to match any schema with compatible: ['arm,integrator-timer']
->> arch/arm/boot/dts/arm/integratorap.dtb: /fpga-bus/rtc@15000000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/integratorap.dtb: /fpga-bus/serial@16000000: failed to match any schema with compatible: ['arm,pl010', 'arm,primecell']
-   arch/arm/boot/dts/arm/integratorap.dtb: /fpga-bus/serial@17000000: failed to match any schema with compatible: ['arm,pl010', 'arm,primecell']
-   arch/arm/boot/dts/arm/integratorap.dtb: kmi@18000000 (arm,pl050): 'arm,primecell-periphid' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/serio/arm,pl050.yaml
-   arch/arm/boot/dts/arm/integratorap.dtb: kmi@19000000 (arm,pl050): 'arm,primecell-periphid' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/serio/arm,pl050.yaml
-   arch/arm/boot/dts/arm/integratorap.dtb: syscon@1a000000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm/boot/dts/arm/integratorap.dtb: aliases: 'arm,timer-primary', 'arm,timer-secondary' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm/boot/dts/arm/integratorap.dtb: clock-14745600 (fixed-clock): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/arm/integratorap.dts:176.3-197.5: Warning (interrupt_map): /pci@62000000:interrupt-map: Missing property '#address-cells' in node /pic@14000000, using 0 as fallback
-   arch/arm/boot/dts/arm/integratorap.dts:176.3-197.5: Warning (interrupt_map): /pci@62000000:interrupt-map: Missing property '#address-cells' in node /pic@14000000, using 0 as fallback
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: / (arm,integrator-ap): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /ebi@12000000: failed to match any schema with compatible: ['arm,external-bus-interface']
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /timer@13000000: failed to match any schema with compatible: ['arm,integrator-timer']
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /timer@13000100: failed to match any schema with compatible: ['arm,integrator-timer']
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /timer@13000200: failed to match any schema with compatible: ['arm,integrator-timer']
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /fpga-bus/rtc@15000000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /fpga-bus/serial@16000000: failed to match any schema with compatible: ['arm,pl010', 'arm,primecell']
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /fpga-bus/serial@17000000: failed to match any schema with compatible: ['arm,pl010', 'arm,primecell']
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: kmi@18000000 (arm,pl050): 'arm,primecell-periphid' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/serio/arm,pl050.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: kmi@19000000 (arm,pl050): 'arm,primecell-periphid' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/serio/arm,pl050.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: syscon@1a000000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: aliases: 'arm,timer-primary', 'arm,timer-secondary' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: clock-14745600 (fixed-clock): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: bus@c0000000 (simple-bus): vga: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: bus@c0000000 (simple-bus): gpio_keys: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: bus@c0000000 (simple-bus): clock-uart: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: gpio_keys (gpio-keys): '#address-cells', '#size-cells', 'button@0', 'button@1', 'button@2', 'button@3', 'button@4', 'button@5' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: /bus@c0000000/bus@c0000000/rtc@600000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: display@1000000 (arm,pl110): 'dma-ranges' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dtb: display@1000000 (arm,pl110): port: '#address-cells', '#size-cells', 'endpoint@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml
---
-   arch/arm/boot/dts/arm/versatile-ab.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/arm/versatile-ab.dts:406.22-414.7: Warning (unit_address_vs_reg): /amba-bus/fpga-bus@10000000/sysreg@0/display@0: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/versatile-ab.dtb: / (arm,versatile-ab): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/arm/versatile-ab.dtb: /core-module@10000000: failed to match any schema with compatible: ['arm,core-module-versatile', 'syscon', 'simple-mfd']
->> arch/arm/boot/dts/arm/versatile-ab.dtb: /amba-bus/interrupt-controller@10003000: failed to match any schema with compatible: ['arm,versatile-sic']
-   arch/arm/boot/dts/arm/versatile-ab.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-ab.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-ab.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
->> arch/arm/boot/dts/arm/versatile-ab.dtb: display@10120000 (arm,pl110): port: '#address-cells', '#size-cells', 'endpoint@0', 'endpoint@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml
->> arch/arm/boot/dts/arm/versatile-ab.dtb: /amba-bus/rtc@101e8000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/versatile-ab.dtb: /amba-bus/fpga-bus@10000000: failed to match any schema with compatible: ['arm,versatile-fpga', 'simple-bus']
-   arch/arm/boot/dts/arm/versatile-ab.dtb: sysreg@0 (arm,versatile-sysreg): 'display@0' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,versatile-sysreg.yaml
---
-   arch/arm/boot/dts/arm/versatile-ab.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/arm/versatile-ab.dts:406.22-414.7: Warning (unit_address_vs_reg): /amba-bus/fpga-bus@10000000/sysreg@0/display@0: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: / (arm,versatile-ab): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: /core-module@10000000: failed to match any schema with compatible: ['arm,core-module-versatile', 'syscon', 'simple-mfd']
->> arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: /amba-bus/interrupt-controller@10003000: failed to match any schema with compatible: ['arm,versatile-sic']
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
->> arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: display@10120000 (arm,pl110): port: '#address-cells', '#size-cells', 'endpoint@0', 'endpoint@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml
->> arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: /amba-bus/rtc@101e8000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: /amba-bus/fpga-bus@10000000: failed to match any schema with compatible: ['arm,versatile-fpga', 'simple-bus']
-   arch/arm/boot/dts/arm/versatile-ab-ib2.dtb: sysreg@0 (arm,versatile-sysreg): 'display@0' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,versatile-sysreg.yaml
---
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dts:59.4-77.29: Warning (interrupt_map): /amba-bus/pci@10001000:interrupt-map: Missing property '#address-cells' in node /amba-bus/interrupt-controller@10003000, using 0 as fallback
-   arch/arm/boot/dts/arm/versatile-pb.dtb: / (arm,versatile-pb): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm/boot/dts/arm/versatile-pb.dtb: /core-module@10000000: failed to match any schema with compatible: ['arm,core-module-versatile', 'syscon', 'simple-mfd']
->> arch/arm/boot/dts/arm/versatile-pb.dtb: /amba-bus/interrupt-controller@10003000: failed to match any schema with compatible: ['arm,versatile-sic']
-   arch/arm/boot/dts/arm/versatile-pb.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-pb.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/arm-pl08x.yaml
-   arch/arm/boot/dts/arm/versatile-pb.dtb: dma-controller@10130000 (arm,pl081): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
->> arch/arm/boot/dts/arm/versatile-pb.dtb: display@10120000 (arm,pl110): port: '#address-cells', '#size-cells', 'endpoint@0', 'endpoint@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml
->> arch/arm/boot/dts/arm/versatile-pb.dtb: /amba-bus/rtc@101e8000: failed to match any schema with compatible: ['arm,pl030', 'arm,primecell']
->> arch/arm/boot/dts/arm/versatile-pb.dtb: /amba-bus/fpga-bus@10000000: failed to match any schema with compatible: ['arm,versatile-fpga', 'simple-bus']
-   arch/arm/boot/dts/arm/versatile-pb.dtb: sysreg@0 (arm,versatile-sysreg): 'display@0' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,versatile-sysreg.yaml
+All warnings (new ones prefixed by >>):
+
+>> drivers/misc/arm-cla/cla-mtc.c:22:5: warning: stack frame size (2176) exceeds limit (2048) in 'cla_mtc_setup' [-Wframe-larger-than]
+      22 | int cla_mtc_setup(struct cla_dev *dev)
+         |     ^
+   1 warning generated.
+
+
+vim +/cla_mtc_setup +22 drivers/misc/arm-cla/cla-mtc.c
+
+8fdae6eccece08 Ryan Roberts 2026-10-15  12  
+8fdae6eccece08 Ryan Roberts 2026-10-15  13  #define cla_kernel_mtc \
+8fdae6eccece08 Ryan Roberts 2026-10-15  14  	(cla_kernel_pl == 2 ? CLA_MTC_REGIDX_PL2 : CLA_MTC_REGIDX_PL1)
+8fdae6eccece08 Ryan Roberts 2026-10-15  15  
+8fdae6eccece08 Ryan Roberts 2026-10-15  16  /**
+8fdae6eccece08 Ryan Roberts 2026-10-15  17   * cla_mtc_setup - initialize the memory translation context
+8fdae6eccece08 Ryan Roberts 2026-10-15  18   * @dev: CLA device
+8fdae6eccece08 Ryan Roberts 2026-10-15  19   *
+8fdae6eccece08 Ryan Roberts 2026-10-15  20   * Return: 0 on success, or a negative error code.
+8fdae6eccece08 Ryan Roberts 2026-10-15  21   */
+8fdae6eccece08 Ryan Roberts 2026-10-15 @22  int cla_mtc_setup(struct cla_dev *dev)
+8fdae6eccece08 Ryan Roberts 2026-10-15  23  {
+8fdae6eccece08 Ryan Roberts 2026-10-15  24  	int ret;
+8fdae6eccece08 Ryan Roberts 2026-10-15  25  	u64 tcr;
+8fdae6eccece08 Ryan Roberts 2026-10-15  26  	u64 regs[2 * CLA_MTC_PL_SIZE] = {};
+8fdae6eccece08 Ryan Roberts 2026-10-15  27  	u64 *kregs = &regs[cla_kernel_mtc];
+8fdae6eccece08 Ryan Roberts 2026-10-15  28  	size_t regs_size = cla_kernel_pl * CLA_MTC_PL_SIZE;
+8fdae6eccece08 Ryan Roberts 2026-10-15  29  	u64 reserved_ttbr = phys_to_ttbr(page_to_phys(ZERO_PAGE(0)));
+8fdae6eccece08 Ryan Roberts 2026-10-15  30  
+8fdae6eccece08 Ryan Roberts 2026-10-15  31  	/*
+8fdae6eccece08 Ryan Roberts 2026-10-15  32  	 * The MTC registers deliberately have the same layout as their arm64
+8fdae6eccece08 Ryan Roberts 2026-10-15  33  	 * sysreg counterparts. Where MTC registers don't define a particular
+8fdae6eccece08 Ryan Roberts 2026-10-15  34  	 * field, it is specified as "reserved RAZ/WI", so we can safely copy
+8fdae6eccece08 Ryan Roberts 2026-10-15  35  	 * the whole arm64 register value to the MTC register without needing to
+8fdae6eccece08 Ryan Roberts 2026-10-15  36  	 * do any masking. That just leaves the possibility of the CPU
+8fdae6eccece08 Ryan Roberts 2026-10-15  37  	 * supporting a VMSA feature which is necessary for correct sharing of
+8fdae6eccece08 Ryan Roberts 2026-10-15  38  	 * pgtables that the MTC doesn't support (e.g. MTE, PIE, POE);
+8fdae6eccece08 Ryan Roberts 2026-10-15  39  	 * Fortunately, CLA is part of the CPU implementation so this is
+8fdae6eccece08 Ryan Roberts 2026-10-15  40  	 * guaranteed never to happen.
+8fdae6eccece08 Ryan Roberts 2026-10-15  41  	 */
+8fdae6eccece08 Ryan Roberts 2026-10-15  42  
+8fdae6eccece08 Ryan Roberts 2026-10-15  43  	/* The accelerator always runs as EL0 */
+8fdae6eccece08 Ryan Roberts 2026-10-15  44  	kregs[CLA_MTC_PSTATE] = FIELD_PREP(CLA_MTC_PSTATE_EL, 0) |
+8fdae6eccece08 Ryan Roberts 2026-10-15  45  				FIELD_PREP(CLA_MTC_PSTATE_PAN,
+8fdae6eccece08 Ryan Roberts 2026-10-15  46  					   system_uses_hw_pan());
+8fdae6eccece08 Ryan Roberts 2026-10-15  47  	kregs[CLA_MTC_TTBR0] = reserved_ttbr;
+8fdae6eccece08 Ryan Roberts 2026-10-15  48  	kregs[CLA_MTC_TTBR1] = reserved_ttbr;
+8fdae6eccece08 Ryan Roberts 2026-10-15  49  	kregs[CLA_MTC_SCTLR] = read_sysreg(sctlr_el1);
+8fdae6eccece08 Ryan Roberts 2026-10-15  50  	kregs[CLA_MTC_MAIR] = read_sysreg(mair_el1);
+8fdae6eccece08 Ryan Roberts 2026-10-15  51  
+8fdae6eccece08 Ryan Roberts 2026-10-15  52  	if (cpus_have_final_cap(ARM64_HAS_TCR2))
+8fdae6eccece08 Ryan Roberts 2026-10-15  53  		kregs[CLA_MTC_TCR2] = read_sysreg_s(SYS_TCR2_EL1);
+8fdae6eccece08 Ryan Roberts 2026-10-15  54  
+8fdae6eccece08 Ryan Roberts 2026-10-15  55  	tcr = read_sysreg(tcr_el1);
+8fdae6eccece08 Ryan Roberts 2026-10-15  56  	/*
+8fdae6eccece08 Ryan Roberts 2026-10-15  57  	 * Put ASID in TTBR0, so that we only have one reg to update when
+8fdae6eccece08 Ryan Roberts 2026-10-15  58  	 * switching context.
+8fdae6eccece08 Ryan Roberts 2026-10-15  59  	 */
+8fdae6eccece08 Ryan Roberts 2026-10-15  60  	FIELD_MODIFY(TCR_EL1_A1, &tcr, 0);
+8fdae6eccece08 Ryan Roberts 2026-10-15  61  	/*
+8fdae6eccece08 Ryan Roberts 2026-10-15  62  	 * We never map anything in the TTBR1 VA range so explicitly disable
+8fdae6eccece08 Ryan Roberts 2026-10-15  63  	 * translations via TTBR1.
+8fdae6eccece08 Ryan Roberts 2026-10-15  64  	 */
+8fdae6eccece08 Ryan Roberts 2026-10-15  65  	FIELD_MODIFY(TCR_EL1_EPD1_MASK, &tcr, 1);
+8fdae6eccece08 Ryan Roberts 2026-10-15  66  	kregs[CLA_MTC_TCR] = tcr;
+8fdae6eccece08 Ryan Roberts 2026-10-15  67  
+8fdae6eccece08 Ryan Roberts 2026-10-15  68  	if (cla_kernel_pl == 2) {
+8fdae6eccece08 Ryan Roberts 2026-10-15  69  		/* E2H and TGE */
+8fdae6eccece08 Ryan Roberts 2026-10-15  70  		regs[CLA_MTC_HCR_EL2] = HCR_HOST_VHE_FLAGS;
+8fdae6eccece08 Ryan Roberts 2026-10-15  71  	}
+8fdae6eccece08 Ryan Roberts 2026-10-15  72  
+8fdae6eccece08 Ryan Roberts 2026-10-15  73  	/*
+8fdae6eccece08 Ryan Roberts 2026-10-15  74  	 * All accelerators are idle, meaning there can't be any memory
+8fdae6eccece08 Ryan Roberts 2026-10-15  75  	 * transactions happening. So it is safe to setup the MTC in any order.
+8fdae6eccece08 Ryan Roberts 2026-10-15  76  	 * i.e. there is no issue with setting SCTLR.M=1 before we have
+8fdae6eccece08 Ryan Roberts 2026-10-15  77  	 * configured MAIR or TCR2.
+8fdae6eccece08 Ryan Roberts 2026-10-15  78  	 */
+8fdae6eccece08 Ryan Roberts 2026-10-15  79  	ret = cla_op_setctx(dev, CLA_MTC_REGIDX_PL1, regs_size, regs);
+8fdae6eccece08 Ryan Roberts 2026-10-15  80  	if (ret) {
+8fdae6eccece08 Ryan Roberts 2026-10-15  81  		WARN_ON(cla_mtc_clear(dev));
+8fdae6eccece08 Ryan Roberts 2026-10-15  82  		return ret;
+8fdae6eccece08 Ryan Roberts 2026-10-15  83  	}
+8fdae6eccece08 Ryan Roberts 2026-10-15  84  
+8fdae6eccece08 Ryan Roberts 2026-10-15  85  	return 0;
+8fdae6eccece08 Ryan Roberts 2026-10-15  86  }
+8fdae6eccece08 Ryan Roberts 2026-10-15  87  
 
 --
 0-DAY CI Kernel Test Service
