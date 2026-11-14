@@ -1,90 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794677244;
-	b=bJp0S6VzDT9Nuqu1BBR5TK6UEorvwkU+dtHomqdSVFUGxbcAR4iyIg+/vjTsse7OfmYO
-	 JmzyD5DSgbGwR+6rXokb/ocPErHVeqRxWXiuI+X9ISHdOqiARlqNhiFPKEua3YIVVgBTK
-	 Bb71DWr0VsMzDmli9C1bIBCnj7rpEx8BH28Q44C92DmMQhWvUToRf97Ct+9NVpBHqzycb
-	 RRKa/TrUdPQaMHOlh9ldQ80tuBW3FTNK8fAWNdysPEUavx977nf/zre2hbGnR1hIRsWQL
-	 NohuVUDW7zZzEulun2vY6A6FDcFplUWGagsj2YLwAKQXlTE6xcnK+T2veguR1WQOXdw==
+	t=1794677304;
+	b=UBwPtuzw70CUoCQVjWQ3/VwnxBQ3g5G06uzLU+yBL1CvZMC6vs0s6fbeNYj3ZH47Ipgx
+	 QYCODBxPizDOpLRI38nO1JCgFDYsfQ5JoR592b/AUjvKgmSI623LLxz6o/dulU4vY3lL4
+	 Z90CoDxCrAWes9O7BaLLupZH2vZVngTs8w27QS5T7iMr/hqPUp8Ss5NBI5KlpiMPAU3Bl
+	 T361NxVYGf3CVJW8eHmwLpTYFKgtYC9vv9wOvZavhClSh7MyLql7dli7obIkt0RljLQBs
+	 NgRVDgTke2PMFn+LPyIbWNcwlkS0fh9/g96TiHIVpgigx2hcTlrJyrUKBo7XuLG3goQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794677244;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794677304;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=LbwHycMnCUoAeSBJjI2Fsa4O86qIihNxHNgA079pRlo=;
-	b=iupYbTQ9H/MxooeqQ11LnwTUTwvB5jnc1NFz47jZyJ3uKGr/mcU1jlbqfZ7Km7DJdwKW
-	 1NsTIE4akN8rWp/eiXfZ6TyF7UKfvlCqp5Vtl7PLvF4N+Sv8luM24kIHHiOqKz2q18vq8
-	 FlueyjU/SiNBCCvfpDtcc16VC/8W4ninyB3qeF42yBte3U0s4jmZiIM3pqjnWhkP0GbNv
-	 2H/uzy8vjsRYcoGmP0hqbPlWN4Q1/vHzmyDmnpqMSb2U9iQL/zUCzifdjNubyJ/szZ2aY
-	 ax3rsAo5Gd6ewr9+eSQ1HgeFJbB/urMrKRJN9VbloAqtOv/nPzWMKBajib5BAur7ajg==
+	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:tree:
+	 head:commit:config:compiler:smatch;
+	bh=IdWPTxgUsn9qxutx2bEPW2TAceqmGquTDsM/zJfzVwU=;
+	b=lviUbwZpa3mbriyUdKRm6jR4Z8CVJRDbsDJRuSxZXkNfNExgA69KmrQj5Hwwv1glCcyk
+	 QCcR1q5v9T6uoijNqXXpcxSHYcV/gM2HlQpI8ysRVDoGQeCDmkbwL1GeCpyBzQtHfeeJ9
+	 t/XT2Tntkjw1mSDv34iJwuVqcaxfV7K+kLZ/LF5+5+mW2AE9ruLfWaX2DBmLvXxANEVbz
+	 xQSRY7UsLACmqoX59g6zJKLDq00iM7V7eNNokcYM6apPwgkGq2ecJIfSR2HN3U7yp+wN1
+	 cBBX9jH48StDlgUHS2V6FwDYxeyC/NOSA7HsWHfpbqDqR0d1TojDMHL7952OnM+aQuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8cEEnrs;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TGzpJyNi;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3C9606A329
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 17:27:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E3C9606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D54606A32E
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 17:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9D54606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8cEEnrs
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso23976855e9.3
-        for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 09:27:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TGzpJyNi
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so2595165e9.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 09:28:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794677242; x=1795282042; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LbwHycMnCUoAeSBJjI2Fsa4O86qIihNxHNgA079pRlo=;
-        b=H8cEEnrsw+rzvZIVCp++APeN0gDvu+0lC0NgGBCE4lknBX2B509MEwVEnM6JstnIrl
-         UJBZl9Ew6VXj2PKE1RpuJdrLpJ7XIdrnF3SwkwwtK2yXf1c4QrMUs3hhpq9unpOJZPPk
-         cUbMfUY7cw1shYxpG7bAVhKCfNpqgdhoIFu26TFDS1JbLVCkXeEk27fbZmpIOv5toaWD
-         OUZkEZgpX2DJJFz+hMi4Xu/QgZADkp9G5VQWi/1a5PKG3Ri8vYvdv8doG5wjY/7HMY0m
-         K+b5U29pNkfEpyOLmhUUX5veXWI4G92vbb+qop+V9rnFuGLmRfv2Jld1kqvFJ1FRHRFw
-         pFvQ==
+        d=gmail.com; s=20260707; t=1794677302; x=1795282102; darn=lists.linux.dev;
+        h=smatch:compiler:config:commit:head:tree:content-disposition
+         :content-type:mime-version:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IdWPTxgUsn9qxutx2bEPW2TAceqmGquTDsM/zJfzVwU=;
+        b=TGzpJyNihBBhICc/W7WZlRewk27t48N5Y4oPFMZEsq1avkVKTfYVBhYrHaymp3JpPu
+         bRukyjiCaRVdj7wJLOJ0PAub5L2EYOxYQ1gQQchufzlRorm2B8Od2Hj79LMkVVOCwH4v
+         3mH8T1g7016iJGyXPheWyBLbdnkCoMt7A3UFFZ/z4DsLB6ga26gKhUZmCkOybVndx8JF
+         7YugO5YJshGbkSLLauFpAPhuiacfJ4u0x29b/+fCUtLJ31mOLGcqKpac3FrvHluQhWd+
+         xRjqzSixXfpc6qEfQXi461aBgPB2G9zIPxakFn/29fLTAtel3+sq8VZ9/wEuFfzwaKoV
+         M3lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794677242; x=1795282042;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LbwHycMnCUoAeSBJjI2Fsa4O86qIihNxHNgA079pRlo=;
-        b=lNwo+EB/C097n1vlqhPpuEQZMUl1XpEiTr7i8wE2yZJ5l0xV2RBfP++DxtJR7lAwpa
-         Pf//msXc6L+1eBKoRIhTNTYvOkOuimvIUEkm3TonhZtC1JukROrhzlfHYr9oQHx/YaxY
-         E3G7PskelN7sLqkKlSnyiCsekf0BJkbFmM8+2eaPASnk3GjjmiLp4KsFWiYywMmh4eao
-         L90eDdgHWlll0cLWC00CeOWDjI9EHNKnqxXsnqTqLn64kZdVD9yjvFolcZfYu0MHQiVq
-         xJPS1U/qysqQyKZv7ws+fnZPhq7Pt2jkojB32nUazULsuk3mWrWljHOhK277/LRUL4ei
-         lavA==
-X-Gm-Message-State: APuU4Z9NwdWEV9VefUy9iJ5XMKW+CDrNMnXzF9TOltRGhCAkjf2uzHWa
-	cwJ6doibKD4twpcHsHzXsz9ecTQNS1OHoToaA0FwSc4MUZ6q/BGRNr+CFSNXE0K9IWxEH5a2
-X-Gm-Gg: AYBFou17m5+NS8dLS1pCEwwyAPxE2sWfjJK2TYWpzAc+NwzMZpAxudfcPGxO4eFUtHC
-	wBDMq/f4Weu9CR2Q8PmQI+GPWAuYwLO3Wr5F9TJthdhAUkNUQ8AjIH5ozAowu7CIMpgYFZl/SCO
-	kZpmoqwTqqDu8q3Orv3HBUgVREFO7+psZP6ARs7JTeMW2QcnEOZFdn/1wh9UxWeGbRDfJ7D9pla
-	K0LroV5Oq+SA4ehzFCCdWIfKnPq9lEBGkbKAcCCFGrwzIFyQX6jx6y1hzAJJNbRQBBGWsTqV9Pc
-	DzAjgH+iYXLh32Mi0dJelwHBGKEq7aJhOE08TEcRneUGVyLF5wvaUuXLRG3OZw9kB05C6/7ZtFl
-	+Pxi/U8jdZHzKePsF2Q7UZHlXQorXKNdXstxoAfFmkg0zs5GMZQvmhhN4jM9QFrIY3GtNGMt6Xg
-	QoI23A6asozMkVl8KlKSvARiw2kjv3XCFRwSe86WVzuXQ2EVoQtlyYuxsWW6qdjLPSK+dNvuwOb
-	2k3obF90sjUEBIWPl8xZNeJnWI76i39OzqLWNdKfDoh/md5Y13hulx7cD2A3n670wn9KELPN1PS
-	AEQvj64C2YQezuITM4P85kAWkT9jWi9v3H9iyYPWwmqownNn1CU580WnjOYP2fIUMGkV2NpZYl2
-	agq01df4/LQgQwYRPjTnh6E5PlBpkY8siXAha2szS5tQshKjetVyfsPKnpnzDqfIQB3If
-X-Received: by 2002:a05:600c:4e45:b0:4bb:56bb:1196 with SMTP id 5b1f17b1804b1-4bb56bb49f3mr119986415e9.23.1794677242263;
-        Sat, 14 Nov 2026 09:27:22 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794677302; x=1795282102;
+        h=smatch:compiler:config:commit:head:tree:content-disposition
+         :content-type:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IdWPTxgUsn9qxutx2bEPW2TAceqmGquTDsM/zJfzVwU=;
+        b=dCy4Y7fs9PRqvxuEFDjelVgIuIbvYvbMbNMUA9X5j7Q5w4fMqLt7ecn8z6JXZnOSrz
+         S2e8tK2RwWUW/hE9WZPhcI9WvR45q9QKFdgnIxA5owUgeCLWazHQieUgqajrMb7eo8JQ
+         D0EFWbZq63w47CIIvTiZGfsharQY82QLZ7Nviqus04LirCRGWbv/6QWgTDvxm+n9+7TU
+         Zgd8dwN3d/IDP2JoT+j0IREgGiRXybfVyt99lb+AI0bVUNVkkVBDRJKNI+oc5i0/G0n4
+         AGvxgLcfg/POxRMUok9k6PZEcXT9nijjOaI5ijxZCLTl9crb6Upb4k+4W43Oi89d2jme
+         o/tA==
+X-Gm-Message-State: APuU4Z8OitBsv4ZhFNx3GwKW8fI9CP4q+GHQqcR1iYS7jXjXnKI69WWC
+	vf+P0PMG3+P5X83T/esQbssj/zQa+sU635VRvvIODTxU4oLU1BOK3kwqXZGuyMWiYA5WhwEz
+X-Gm-Gg: AYBFou2ovyh2Rh+rOy9svh9+Ws8NV1E0GWEaQI/aQsuACS9aJdJioMBzcs3M3ihbGvk
+	9EKbGSB2bAK7bl6mRG20cHslkXzLPqJvNkTC4Jm0b0POMWN5OMEbbDtp/dRPoNuSlJOim7/cfC3
+	byANwsRIeyGAeoSWogMl5dm8WZ7ddiW9tS1pFi1rmPRMH8llTzyVR9wqV+jrosaAzWl4p7h1eBh
+	bICYphc8uAUEtsb/JuzUTtj9/RKNDyYSfi/EoxXWRIqVP48Eu40FFfjbA6M6kD1mmsCqipsNlnW
+	Ng2AOkN5mykhmrPATC8e4Dsa+eApJbT9mJjT5Sc4osTMMTjJCFU7EQXC8KztduVSn7zQIhv4KHH
+	qH118c0ZGAxccy+HhDzsfz/uH8mohKHSfg7HEVCeOqSCfSAD5RZ6z0rlbq8E6n9GU0Q2PpzmsvJ
+	+vVOM1tZcz216mpxKIvRRFNEuK7CUt8gHHbAApWX1BvVbGt5m1uE8P6p/geIq4n218BeD2ukKQW
+	NBUkD4LBQCtDnZt+HMlglCb9zj1TdOZCrqn2nqiEqKTcfcg8yQTW9gCO5c2fyaNPK7kIFC4asEp
+	GbCfw9qbOyNSAhYus1JH3ImA4fC3zrOrXHqnMKwkOzWlg6w9qvAbUk0oys5gx+wt20MupxWvho3
+	RCdMOoxZtv3LLWt5kZ5C1/4GmGjykAlhSaTOABLcFi1oFPh8v5G04B8r+Pi5sQ5VW18PoRq472B
+	4C9G7XOe02rg1p
+X-Received: by 2002:a05:600c:1989:b0:4bb:665c:a078 with SMTP id 5b1f17b1804b1-4bb665ca43amr39004545e9.28.1794677301948;
+        Sat, 14 Nov 2026 09:28:21 -0800 (PST)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm403283805e9.1.2026.11.14.09.27.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5fe370f8sm10785232f8f.27.2026.11.14.09.28.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 09:27:21 -0800 (PST)
-Date: Sat, 14 Nov 2026 20:27:17 +0300
+        Sat, 14 Nov 2026 09:28:21 -0800 (PST)
+Date: Sat, 14 Nov 2026 20:28:17 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] mm/damon/tests/sysfs-kunit.h:80
- damon_sysfs_test_add_targets() error: dereferencing freed memory
- 'sysfs_target' (line 79)
-Message-ID: <202611141540.dikinyHI-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [android-common:android16-6.12 1/1]
+ drivers/usb/gadget/function/f_hid.c:1276 hidg_bind() warn: missing error
+ code 'status'
+Message-ID: <202611141744.L7RBYVUc-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -96,75 +99,86 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20261114172717.RW6NIBj_r9rD7uos-Mv6Cfk49LUcagZvWLeOBboweOo@z>
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   793c58ba801e0ec6ed0c3b71d1a1f091a42d299c
-commit: 8a2944f5a54f0b3cece27a265e319c499ca40cb2 [1/1] mm/damon/tests/sysfs-kunit: handle alloc failures on damon_sysfs_test_add_targets()
-config: arm-randconfig-2200-20261113 (https://download.01.org/0day-ci/archive/20261114/202611141540.dikinyHI-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
+tree: https://android.googlesource.com/kernel/common android16-6.12
+head: 793c58ba801e0ec6ed0c3b71d1a1f091a42d299c
+commit: c6c0d13db5d0f8d465eabc14bd23d2b6a7247a43 [1/1] usb: gadget: f_hid:
+ don't call cdev_init while cdev in use
+config: arm-randconfig-2200-20261113
+ (https://download.01.org/0day-ci/archive/20261114/202611141744.L7RBYVUc-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project
+ 8621950157210c1fa68f20f0614cb51310ec9dff)
 smatch: v0.5.0-9187-g5189e3fb
+Message-ID: <20261114172817.9KYrhhD6XH6LPAs5jW8GwFZvLmhcbgP4XEZPai4rk3U@z>
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611141540.dikinyHI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611141744.L7RBYVUc-lkp@intel.com/
 
 smatch warnings:
-mm/damon/tests/sysfs-kunit.h:80 damon_sysfs_test_add_targets() error: dereferencing freed memory 'sysfs_target' (line 79)
+drivers/usb/gadget/function/f_hid.c:1276 hidg_bind() warn: missing error code 'status'
 
-vim +/sysfs_target +80 mm/damon/tests/sysfs-kunit.h
+vim +/status +1276 drivers/usb/gadget/function/f_hid.c
 
-2caef83db9f8e08 mm/damon/sysfs-test.h        SeongJae Park 2024-06-18  41  static void damon_sysfs_test_add_targets(struct kunit *test)
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  42  {
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  43  	struct damon_sysfs_targets *sysfs_targets;
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  44  	struct damon_sysfs_target *sysfs_target;
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  45  	struct damon_ctx *ctx;
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  46  
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  47  	sysfs_targets = damon_sysfs_targets_alloc();
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  48  	if (!sysfs_targets)
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  49  		kunit_skip(test, "sysfs_targets alloc fail");
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  50  	sysfs_targets->nr = 1;
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  51  	sysfs_targets->targets_arr = kmalloc_array(1,
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  52  			sizeof(*sysfs_targets->targets_arr), GFP_KERNEL);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  53  	if (!sysfs_targets->targets_arr) {
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  54  		kfree(sysfs_targets);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  55  		kunit_skip(test, "targets_arr alloc fail");
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  56  	}
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  57  
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  58  	sysfs_target = damon_sysfs_target_alloc();
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  59  	if (!sysfs_target) {
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  60  		kfree(sysfs_targets->targets_arr);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  61  		kfree(sysfs_targets);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  62  		kunit_skip(test, "sysfs_target alloc fail");
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  63  	}
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  64  	sysfs_target->pid = __damon_sysfs_test_get_any_pid(12, 100);
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  65  	sysfs_target->regions = damon_sysfs_regions_alloc();
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  66  	if (!sysfs_target->regions) {
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  67  		kfree(sysfs_targets->targets_arr);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  68  		kfree(sysfs_targets);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  69  		kfree(sysfs_target);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  70  		kunit_skip(test, "sysfs_regions alloc fail");
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  71  	}
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  72  
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  73  	sysfs_targets->targets_arr[0] = sysfs_target;
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  74  
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  75  	ctx = damon_new_ctx();
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  76  	if (!ctx) {
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  77  		kfree(sysfs_targets->targets_arr);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  78  		kfree(sysfs_targets);
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01 @79  		kfree(sysfs_target);
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1243  	if (hidg->use_out_ep)
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1244  		status = usb_assign_descriptors(f,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1245  			hidg_fs_descriptors_intout,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1246  			hidg_hs_descriptors_intout,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1247  			hidg_ss_descriptors_intout,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1248  			hidg_ss_descriptors_intout);
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1249  	else
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1250  		status = usb_assign_descriptors(f,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1251  			hidg_fs_descriptors_ssreport,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1252  			hidg_hs_descriptors_ssreport,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1253  			hidg_ss_descriptors_ssreport,
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1254  			hidg_ss_descriptors_ssreport);
+d7428bc26fc767 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1255  
+10287baec761d3 drivers/usb/gadget/f_hid.c          Sebastian Andrzej Siewior 2012-10-22  1256  	if (status)
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1257  		goto fail;
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1258  
+749494b6bdbbaf drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2017-01-24  1259  	hidg->write_pending = 1;
+749494b6bdbbaf drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2017-01-24  1260  	hidg->req = NULL;
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1261  
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1262  	INIT_WORK(&hidg->work, get_report_workqueue_handler);
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1263  	hidg->workqueue = alloc_workqueue("report_work",
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1264  					  WQ_FREEZABLE |
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1265  					  WQ_MEM_RECLAIM,
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1266  					  1);
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1267  
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1268  	if (!hidg->workqueue) {
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1269  		status = -ENOMEM;
+0ab3ae768c4847 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1270  		goto fail_free_descs;
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1271  	}
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1272  
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1273  	/* create char device */
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1274  	hidg->cdev = cdev_alloc();
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1275  	if (!hidg->cdev)
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27 @1276  		goto fail_free_all;
 
-Freed
+Missing error code.
 
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01 @80  		kfree(sysfs_target->regions);
-
-UAF
-
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  81  		kunit_skip(test, "ctx alloc fail");
-8a2944f5a54f0b3 mm/damon/tests/sysfs-kunit.h SeongJae Park 2025-11-01  82  	}
-b8ee5575f763c23 mm/damon/sysfs-test.h        SeongJae Park 2023-10-22  83  
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1277  	hidg->cdev->ops = &f_hidg_fops;
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1278  
+c6c0d13db5d0f8 drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1279  	status = cdev_device_add(hidg->cdev, &hidg->dev);
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1280  	if (status)
+0ab3ae768c4847 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1281  		goto fail_free_all;
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1282  
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1283  	return 0;
+0ab3ae768c4847 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1284  fail_free_all:
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1285  	destroy_workqueue(hidg->workqueue);
+0ab3ae768c4847 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1286  fail_free_descs:
+d12a8727171c77 drivers/usb/gadget/function/f_hid.c Pavitrakumar Managutte    2014-10-22  1287  	usb_free_all_descriptors(f);
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1288  fail:
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1289  	ERROR(f->config->cdev, "hidg_bind FAILED\n");
+14794d7133d0f1 drivers/usb/gadget/function/f_hid.c Felipe F. Tonello         2016-08-23  1290  	if (hidg->req != NULL)
+14794d7133d0f1 drivers/usb/gadget/function/f_hid.c Felipe F. Tonello         2016-08-23  1291  		free_ep_req(hidg->in_ep, hidg->req);
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1292  
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1293  	usb_ep_free_request(c->cdev->gadget->ep0, hidg->get_req);
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1294  	hidg->get_req = NULL;
+a139c98f760efa drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1295  
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1296  	return status;
+71adf118946957 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1297  }
 
 -- 
 0-DAY CI Kernel Test Service
