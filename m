@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794621322;
-	b=xM06IlEs6zKvu+PYFMHF/D9Qs7AVjGFQnzdvfS+dhu1BN1tmZN0zreYyo4gdFvWiHqcM
-	 FTanjRABRfsnYz6mw1CiJlMx1JnFOsBAWlGQ/uY2r7TeNuf6yX5IfTsOKW0JYcqVX342c
-	 g9/VJRYUDD+bEGAJR2nDY+mZWewgI1xLoqd+h9ef1jstxlSSFDRAYBZpG9RPs7Wqo4V57
-	 4I/+6xf9zSzf3ZUFmwapu7PhLsb1Y3UYRlYJNRcFmMjHif86lXKRtVETnYPHxtwEh63sg
-	 p3XWuXHHbuXbsDajFk6bmyDwwsS+pl6TR/tRegQYJzLJaB6RiSaGtzcRr8SZyO20GhA==
+	t=1794628105;
+	b=CVbhJ109FcJRKLQnErzipyYP4naOG+P7Z2g7oziPAm6HpmpZl/oUaezN67RMiwUAzMyo
+	 /c2u6BUFxW85fHNWAaqaT0tYEp1Y4hMRKrzcQuaBp9Msv9jI9v1WFmA539QC3YrIYZ1OC
+	 ZBqnOp27q/mDwSlhSExEhqaxJ36z+lYew9yEYx0ji0fHK26pPMECdMMYcfa3NWIYG9q9x
+	 tThjDBHX3S/8pHKOQa0fbajLlr75OCwLj1jP2REAai5+EqnO6Vo9hGX3fsQ2Z3lvPsP4M
+	 rHiUQYzcrpBCC6bA/OhQ6oW4G+zG9IlXSaJe2nNSO67VWWCx41s9CYdA9Iw00sdwvOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794621322;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794628105;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=pmGJTH8BH66UKRXhUeHRl8rzQ9v3CCkh6JncSbg6HUY=;
-	b=TKsl645/nspAspxzyFMwSGUgMslfjbpPy2+yj+DJrjF2ed28a6WDWshtpvbvqLcnyf1G
-	 rC/yINWKjN8yCjGchSGWkXynfLpUk6PQy6C7GAt0nji8qFEhu5XJF0IA0+3HpZIrTx3kN
-	 EPB3L1+OZA9ks4H/GdjsGwIqOZ+vqmyO3kIRXJrQOpPt9/KC2BrWLX1hy0n55kgLysfEb
-	 vc3eocuahKBeDMtHr3/INUP0ERYS8j6qAq4fRFIldVETnoJZzfsYLQY9qyaszeTqcHy5r
-	 2z1w8oeVMthGIOdXUsYJKjLHvTEAvpPRVtcCaJPlB9j39an/E+Wpu6Ft5zzWRHzg3Zg==
+	bh=Fdo2SSKK3esvRutd/I4Q6f66eRWvwGcKyUYCEoxCf6s=;
+	b=jWGd/0I4eRwdxDZ71NLVSlslMUy25qI1dxvQH4j52OteSfeUr1ubZMV/g4RpQREQ5Xh1
+	 kvtoM0J2vWOHVKE4t1p+7hys/lDX469MvhSvK/gl/jnRFc4G4fss6fneA4JtuO8JqOcO6
+	 WEn0eUwHiFhJ+9FHH0Hwa+tO8FpSC1ABGP9v9UrM2M2X+l9UJUhK3pjMowqKs5bqIZp/l
+	 zxJIhc1Dgyyp0zsRYji5llB7cmD8Mw4npUenOOZ0z3xTU/KjKuogqBnfMrUcmULleGBPq
+	 9I4lYvpuexKSzJiykDG87lxq1crwfkRxssFtHnI4f1RmKndH24ZS/tHAmKkqvI6VdHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fd4T8BfZ;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="DHSqxP/W";
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2596C606A337
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 01:55:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2596C606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6EF606A330
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 03:48:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B6EF606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fd4T8BfZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DHSqxP/W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794621322; x=1826157322;
+  t=1794628105; x=1826164105;
   h=date:from:to:cc:subject:message-id;
-  bh=M7b5wBIXPaFEPZAlHbk7QNoxZVRayD2brCKN7Els81s=;
-  b=Fd4T8BfZrgvXzoMqPDsi1yCsQfgDaD+3EASWSaPGu2aEsCZVyNrSh7z5
-   xHXSbEIKDWdUiqM+kEtMPqW6T+hzQVhiDmTXnHK1kbI731XTTqj4XzD8J
-   ONfJLxLvtKXsqNLOQw/790ZLSERa/TIa1s+0ATGA9YkyYP79gcneLKfyv
-   blJAwaXULaMFvfIFHW858pL63U8Q7/ed16HbgFLK55BEUOE6LVGZYYgg/
-   NVZMoPoUQLEcROQuA9OwzSZ8al4Qcvd2eYuTT6DvP7sEfdkV51INETR2r
-   Jx2taOzR2Wmbj8UP0kIANUvQgiChfKk0HOkcArnMsQHcqjZyWMfBLSnA+
-   w==;
-X-CSE-ConnectionGUID: Su1Jl046TCmIbeGvvWd2Zg==
-X-CSE-MsgGUID: 7BzZoUA4TayYIvJr1tlXbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3447472"
+  bh=VqLYkvIagzBRPF8NZLYPlKe9cjxOfqkUuB49645BQEc=;
+  b=DHSqxP/WHEqhUReAEbDbt6QKJ3hQFobTMxGxGDCJmXpE1eNf7AaNn5iQ
+   FrJHy6m4esFxfyOXj/5SU1inw9RDNAEtjidotjRCfsASXTTo3D/xvtuUf
+   mJL7vAcIG2doBxsL+rzqnV0Bqz8qmkGM20tbH35wOVakCOqZK5hfypdgW
+   bk9yRgYjXApCTQwE6mACUguT9082RcEZNOGmDIuSn4C2LhIR2ULJ7AW+q
+   fq6iUNu+HbaIcsT4r8dN7dvRs5CjZlVydMbLjdbhlVzmZUgn6GajRYB75
+   harKrferQfItoOQGS1BoGIosbMjrteFdG+XqspOPQHobyAHpSeJg1hQ2c
+   Q==;
+X-CSE-ConnectionGUID: orrLl7NXQHmx9NeB4ZWHqA==
+X-CSE-MsgGUID: MiUQhEzdS2yU/7y/KbPxag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3316937"
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3447472"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 17:55:22 -0800
-X-CSE-ConnectionGUID: 7LtDcvDuSRKAigpwalMSCg==
-X-CSE-MsgGUID: 3DcWDuMFQo2L6coQEtWSzA==
+   d="scan'208";a="3316937"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 19:48:25 -0800
+X-CSE-ConnectionGUID: ONJZt121SxKN/T8qMfgZaA==
+X-CSE-MsgGUID: ttFyERZ0SPmBGDSTVDyFsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="9601530"
+   d="scan'208";a="9417452"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2026 17:55:20 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 13 Nov 2026 19:48:24 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xS2z7-000000001Sh-44uS;
-	Sat, 14 Nov 2026 01:55:17 +0000
-Date: Sat, 14 Nov 2026 02:55:16 +0100
+	id 1xS4kW-000000001Tv-3oxe;
+	Sat, 14 Nov 2026 03:48:20 +0000
+Date: Sat, 14 Nov 2026 04:47:51 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kkdwivedi:cancellations 40/71] kernel/bpf/cancel.c:3728
- cancel_emit_exit() error: we previously assumed 'site' could be null (see
- line 3718)
-Message-ID: <202611140205.92cQED00-lkp@intel.com>
+Subject: [jpirko-mlxsw:wip_attestation_all_2 65/68]
+ drivers/attestation/tests/core_kunit.c:613
+ attestation_test_generation_overflow() warn: passing zero to 'PTR_ERR'
+Message-ID: <202611140423.15v5IlLF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -86,87 +86,83 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+TO: Jiri Pirko <jiri@nvidia.com>
 
-tree:   https://github.com/kkdwivedi/linux cancellations
-head:   3ad9d6e61351ecac109d90e7eb385f2ac07aca89
-commit: 685a972de1419e92f4998eda9954183da49bd167 [40/71] bpf: Let a callee tell at cancel_exit what it released for its caller
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: sparc-randconfig-2200-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140205.92cQED00-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/jpirko/linux_mlxsw wip_attestation_all_2
+head:   7ff5e548abbc2312431d4eea9ad283347963a6e2
+commit: 4a839c7291bb3dae6951a98727c873ddd52ca318 [65/68] attestation: Add KUnit tests
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: powerpc64-randconfig-2200-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140423.15v5IlLF-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611140205.92cQED00-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611140423.15v5IlLF-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/cancel.c:3728 cancel_emit_exit() error: we previously assumed 'site' could be null (see line 3718)
+New smatch warnings:
+drivers/attestation/tests/core_kunit.c:613 attestation_test_generation_overflow() warn: passing zero to 'PTR_ERR'
+drivers/attestation/tests/core_kunit.c:641 attestation_test_allocation_failure() warn: passing zero to 'PTR_ERR'
 
-vim +/site +3728 kernel/bpf/cancel.c
+Old smatch warnings:
+drivers/attestation/tests/core_kunit.c:616 attestation_test_generation_overflow() warn: passing zero to 'PTR_ERR'
 
-77e5ab95100e8d Kumar Kartikeya Dwivedi 2026-11-13  3678  
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3679  /*
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3680   * Leave the frame of subprog @s. cancel_exit returns to the pad of the call that the frame
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3681   * was called by. The kernel entered the main program or an async callback, and nothing else
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3682   * does, see cancel_sub_reason(): all frames are done. The pad tells that the program was
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3683   * cancelled and returns to the kernel like any exit.
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3684   *
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3685   * The pad of a subprog that a call entered tells the pad of that call in R2 which arguments
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3686   * of the frame are released, see bpf_cancel_note_args(). Every such pad does, so that a pad
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3687   * may go by the mask whatever it was called by: 0 says that all is as the call left it.
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3688   * @site is the site of the pad, NULL for the stack check, where the frame did nothing yet:
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3689   * BPF_CANCEL_PAD_EXIT_INSNS at most then. The mask has what the frame gave when it got to
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3690   * the site, and at a call the bit of each argument of the frame that the callee was passed
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3691   * and tells about: the mask of the callee is in the word of the frame, see cancel_emit_pad().
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3692   *
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3693   *	r2 = gave
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3694   *	r1 = *(u32 *)(r10 + mask)
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3695   *	if r1 & BIT(the argument of the callee) goto +1
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3696   *	goto +1
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3697   *	r2 |= BIT(the argument of the frame)
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3698   *	r0 = 0
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3699   *	cancel_exit
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3700   */
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3701  static int cancel_emit_exit(struct bpf_verifier_env *env, int s, const struct cancel_site *site,
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3702  			    struct bpf_insn *buf)
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3703  {
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3704  	u32 fwd = 0;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3705  	s32 val = 0;
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3706  	int n = 0, r;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3707  
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3708  	if (cancel_sub_is_top(env, s)) {
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3709  		/* it didn't refuse in cancel_sub_reason() */
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3710  		if (!s)
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3711  			bpf_prog_cancel_retval(env, &val);
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3712  		buf[n++] = BPF_EMIT_KERNEL_CALL(bpf_prog_report_cancel);
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3713  		buf[n++] = BPF_MOV64_IMM(BPF_REG_0, val);
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3714  		buf[n++] = BPF_EXIT_INSN();
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3715  		return n;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3716  	}
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3717  	buf[n++] = BPF_MOV64_IMM(BPF_REG_2, site ? site->gave : 0);
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13 @3718  	for (r = 1; site && r <= CANCEL_MAX_ARG; r++)
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3719  		if ((site->told & BIT(r)) && site->fwd[r])
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3720  			fwd |= BIT(r);
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3721  	if (fwd)
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3722  		buf[n++] = BPF_LDX_MEM(BPF_W, BPF_REG_1, BPF_REG_FP, site->mask);
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3723  	for (r = 1; r <= CANCEL_MAX_ARG; r++) {
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3724  		if (!(fwd & BIT(r)))
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3725  			continue;
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3726  		buf[n++] = BPF_JMP_IMM(BPF_JSET, BPF_REG_1, BIT(r), 1);
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3727  		buf[n++] = BPF_JMP_A(1);
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13 @3728  		buf[n++] = BPF_ALU64_IMM(BPF_OR, BPF_REG_2, BIT(site->fwd[r]));
-685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3729  	}
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3730  	buf[n++] = BPF_MOV64_IMM(BPF_REG_0, 0);
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3731  	buf[n++] = BPF_RAW_INSN(BPF_JMP | BPF_EXIT, 0, BPF_CANCEL_EXIT, 0, 0);
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3732  	env->subprog_info[s].can_cancel = true;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3733  	env->prog->jit_required = 1;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3734  	return n;
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3735  }
-d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3736  
+vim +/PTR_ERR +613 drivers/attestation/tests/core_kunit.c
+
+4a839c7291bb3da Jiri Pirko 2026-09-29  595  
+4a839c7291bb3da Jiri Pirko 2026-09-29  596  static void attestation_test_generation_overflow(struct kunit *test)
+4a839c7291bb3da Jiri Pirko 2026-09-29  597  {
+4a839c7291bb3da Jiri Pirko 2026-09-29  598  	struct attestation_test *fixture = test->priv;
+4a839c7291bb3da Jiri Pirko 2026-09-29  599  	struct attestation_mr_props props;
+4a839c7291bb3da Jiri Pirko 2026-09-29  600  	struct attestation_mr_target *target;
+4a839c7291bb3da Jiri Pirko 2026-09-29  601  	struct attestation_mr *mr;
+4a839c7291bb3da Jiri Pirko 2026-09-29  602  
+4a839c7291bb3da Jiri Pirko 2026-09-29  603  	fixture->mr_caps.supports_dynamic_topology = true;
+4a839c7291bb3da Jiri Pirko 2026-09-29  604  	KUNIT_ASSERT_EQ(test, attestation_test_create(
+4a839c7291bb3da Jiri Pirko 2026-09-29  605  				test, fixture, "attestation-overflow"), 0);
+4a839c7291bb3da Jiri Pirko 2026-09-29  606  	props = fixture->props;
+4a839c7291bb3da Jiri Pirko 2026-09-29  607  	mutex_lock(&fixture->att->lock);
+4a839c7291bb3da Jiri Pirko 2026-09-29  608  	fixture->att->log->generation = UINT_MAX;
+4a839c7291bb3da Jiri Pirko 2026-09-29  609  	mutex_unlock(&fixture->att->lock);
+4a839c7291bb3da Jiri Pirko 2026-09-29  610  	props.id = 9;
+4a839c7291bb3da Jiri Pirko 2026-09-29  611  	props.name = "overflow";
+4a839c7291bb3da Jiri Pirko 2026-09-29  612  	mr = attestation_mr_create(fixture->att, &props);
+4a839c7291bb3da Jiri Pirko 2026-09-29 @613  	KUNIT_EXPECT_EQ(test, PTR_ERR(mr), -EOVERFLOW);
+4a839c7291bb3da Jiri Pirko 2026-09-29  614  	target = attestation_mr_target_get(
+4a839c7291bb3da Jiri Pirko 2026-09-29  615  		"ctlv-attestation", NULL, NULL, fixture->props.id);
+4a839c7291bb3da Jiri Pirko 2026-09-29  616  	KUNIT_EXPECT_EQ(test, PTR_ERR(target), -ENODEV);
+4a839c7291bb3da Jiri Pirko 2026-09-29  617  }
+4a839c7291bb3da Jiri Pirko 2026-09-29  618  
+4a839c7291bb3da Jiri Pirko 2026-09-29  619  static struct attestation_mr_log_entry_info *
+4a839c7291bb3da Jiri Pirko 2026-09-29  620  attestation_test_info_nomem(const struct attestation_mr *mr)
+4a839c7291bb3da Jiri Pirko 2026-09-29  621  {
+4a839c7291bb3da Jiri Pirko 2026-09-29  622  	return ERR_PTR(-ENOMEM);
+4a839c7291bb3da Jiri Pirko 2026-09-29  623  }
+4a839c7291bb3da Jiri Pirko 2026-09-29  624  
+4a839c7291bb3da Jiri Pirko 2026-09-29  625  static void attestation_test_allocation_failure(struct kunit *test)
+4a839c7291bb3da Jiri Pirko 2026-09-29  626  {
+4a839c7291bb3da Jiri Pirko 2026-09-29  627  	struct attestation_test *fixture = test->priv;
+4a839c7291bb3da Jiri Pirko 2026-09-29  628  	struct attestation_mr_props props;
+4a839c7291bb3da Jiri Pirko 2026-09-29  629  	struct attestation_mr *mr;
+4a839c7291bb3da Jiri Pirko 2026-09-29  630  
+4a839c7291bb3da Jiri Pirko 2026-09-29  631  	fixture->mr_caps.supports_dynamic_topology = true;
+4a839c7291bb3da Jiri Pirko 2026-09-29  632  	KUNIT_ASSERT_EQ(test, attestation_test_create(
+4a839c7291bb3da Jiri Pirko 2026-09-29  633  				test, fixture, "attestation-nomem"), 0);
+4a839c7291bb3da Jiri Pirko 2026-09-29  634  	props = fixture->props;
+4a839c7291bb3da Jiri Pirko 2026-09-29  635  	props.id = 9;
+4a839c7291bb3da Jiri Pirko 2026-09-29  636  	props.name = "allocation-failure";
+4a839c7291bb3da Jiri Pirko 2026-09-29  637  	kunit_activate_static_stub(test, attestation_mr_info_alloc,
+4a839c7291bb3da Jiri Pirko 2026-09-29  638  				   attestation_test_info_nomem);
+4a839c7291bb3da Jiri Pirko 2026-09-29  639  	mr = attestation_mr_create(fixture->att, &props);
+4a839c7291bb3da Jiri Pirko 2026-09-29  640  	kunit_deactivate_static_stub(test, attestation_mr_info_alloc);
+4a839c7291bb3da Jiri Pirko 2026-09-29 @641  	KUNIT_EXPECT_EQ(test, PTR_ERR(mr), -ENOMEM);
+4a839c7291bb3da Jiri Pirko 2026-09-29  642  	KUNIT_EXPECT_EQ(test, fixture->att->log->generation, 1U);
+4a839c7291bb3da Jiri Pirko 2026-09-29  643  	KUNIT_EXPECT_NULL(test, xa_load(&fixture->att->mrs, props.id));
+4a839c7291bb3da Jiri Pirko 2026-09-29  644  }
+4a839c7291bb3da Jiri Pirko 2026-09-29  645  
 
 -- 
 0-DAY CI Kernel Test Service
