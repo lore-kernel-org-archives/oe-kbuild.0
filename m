@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794642218;
-	b=EVAMB1TNezagC1djK48S0/CpNzkTg2dMJ6X2mcfAtQbD2XeBQkTV5SRRsLq1Gm+A9Ebb
-	 UTuKhUMk0IrmIHLBctQBYy1uZiM5Hm85U2JUB3d5lSDkHpYtVGZPuDeBcj7yfEJJPvW28
-	 gne75Apzb/wpRUJ/R3GEUJpsd/z3MGXxEc/M9EKSpDUUU/bebR1akuey9oJUR3+qE4ESW
-	 I8bvcj/grmGlFBCifmVmS5aQc8auEpWQuKKJii7qf5f0t+8t/Dj0xbKOiYKiu40F/M0Ho
-	 Z/fqpx9NaJXWXP7gYplbhyrDQ5K428bv6A7chDm1IqNya56YB9ZG7go4nhOXIsOL6JA==
+	t=1794644621;
+	b=q/x9rgjWsQ1nAUOdMLPrkQbGoCinVXnHm12wx8YVPdlinQqeHo9saD2EpU1oplCYIMv2
+	 bHcIdPnlY5Yk7GycuBQUub3IXzumDTw2nt7rtlCe4q2datcaR0wWRjmsgCgZTdVo/RsNP
+	 HVf3BP5Gpdykp4OYIMFhBkzVrjOPXr2q2cD0mBsYWGxzNj8qDLWkI+N6BKY5YA/yH+LUJ
+	 Yw1r8Y9v903La+Px0IkJalB28WsFbBGf9wK8SvSBXzKEGuIfCXCkNAHFgEFXPIdQ4u/D9
+	 oRTKrrny/j+x3yRTm6mXhZPK4UMzXcKuJj2i3Fo6PDK/YPRapWIb6oVnZDI2erMlFJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794642218;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794644621;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=2moeFHf8cyKgBt8d27z/MTCZw3DbnjqXxNMq6UHstf8=;
-	b=rKyTPhuX6eRyfTyqa8wm7ZVHmij7Ugn8lFD4qzNlYVB/xbF51BkEdoZGYlKbxX3jREI4
-	 R/yNi4SvISWyH4QUon2jKm1BpuaH1upgqNOo4DEj/WTJOZYcnr/HRy5hQ6gFb5jGt1e78
-	 AKq8lcBmmdUg5uJa2EugQoWRhPn2xGh7+lr88DYUB3PQ4EmFF3t79bkCDqoz0pQjsdgaR
-	 oX384b3zO6XZKXp9WYlHcA70pmDRZ8DRhnowSP5xyOOtHKFvEYDVCY/+c8vCGDg/BNDER
-	 upJVLn8AXmzYVQhEiKfMQQO+PAre3U2OZ5akfiG+eWQ8+i+iVkBg2RZH0nW6BKhOs+w==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Ewl7RbTsyStmxsCK3hVoCVI7XKfeT6FGzRN2mESmctQ=;
+	b=VyM0Q0Yeiav/IP33epTuknrZs2IA42hHtfLOfVEAAvBci0T9I2+mlLzYMa9VDu8mXGQh
+	 8D6kUCT5vbrk2bagdWNo0Wj/P8C4WvEa7mUcRRk9haSyMAi26ZXl/CiCJ7TdreFKjYpfM
+	 wj/v9+eUTYUZANZW9xZmGQxr9gMfkThMM0Rr5aUfBGCZHXnjRcYefLCsi5FingbN7ZuZO
+	 3L4WcA9U/1Uc9aS6XuNEKuGIVSsBaHgfExeQQNVe7zK2bHmigNM9MT5vpfd+DB88j+gcr
+	 5t6Q1WrTWZimguzhLHiJPdlJDnvXwK28rn6hdJFOVvWoN/LF6CJt0Ub4sxCTRXT9Y0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OGdQ9CRG;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1pE80wW;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EFE606A331
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 07:43:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40EFE606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0CF606A32D
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 08:23:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF0CF606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OGdQ9CRG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1pE80wW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794642218; x=1826178218;
-  h=date:from:to:cc:subject:message-id;
-  bh=imd42TIeKgL0poky4Qf9Xm+1TrAAWn141Cvm5JzOFas=;
-  b=OGdQ9CRG7kzvdhJOEsU6ARlL0ayD+akXwsE+9ZlajQ8mKwi3UulKYdi5
-   VMgRG4CqRqGe5oNcHMhHHqmk8CbvjST1UPwPGNDcqhwVHjxEdNXiPQy28
-   2ESl6VhaPbsBB47aZAEMqxqTm0l+Nl6Otm3smrWErB3u0fXqc74/fasVS
-   XVR6xfehcP/H2qwh8CT5Ha+CfjYCg3qr2tGs8e5z/tINqFlg+a4sZke1M
-   zbV4VcGaCrYlH6ORMIjs20WNIjI6qMuGmVBhQ/pkdBaXAM03d1T3NI5DR
-   EIn7uScgzhMl9ABBKCR7mty59OSKoIIX4KetBhqSxSKd+Z76AhIIpW5Rt
-   w==;
-X-CSE-ConnectionGUID: WhMGywd+T1yek7H9dJtSqA==
-X-CSE-MsgGUID: KZmmlIF8T3uXZyzwQqNGXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3323865"
+  t=1794644620; x=1826180620;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cRqjhUfmSRV2sPyoXRaRKuH2lbzKblcL2MSl9tzIeMk=;
+  b=l1pE80wWFrHP5lL1q1nIJwYjyMRKWMVrCuvkIKQp1dLJd6Z9miHDRq2t
+   rMebRCg6ZnNbywZg9hdU7XeI7Iz8y5IqLYl2Fhr/9TwJEJcvMUme9iahX
+   U5IzcEgsDx8zahCdg29VgY4w+0jnAk3OiFHWHJioQqbMXAo4vo0uhSko7
+   wCQgDL/CusWXySqT/CYirSQsgawvUgb+ElLlmYG3fgG9fbUeUOeA9kIqy
+   tNoAmTwDhCPfrnvXShsKv2FY9Li4zJTPEGwzb43SRukYauXOvYa3BkeLc
+   cwzUCH8vByYfNLHBuj4Zcr8Y9coFoVVGgEQs7sYiYm10kQZcsRhw69RLP
+   g==;
+X-CSE-ConnectionGUID: GUpMRtaWSbuO1+9BhK3StA==
+X-CSE-MsgGUID: 6SdCwEz2RiS7zP9y9z3VRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3443326"
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="3323865"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 23:43:38 -0800
-X-CSE-ConnectionGUID: Fab0rHqFSMu/8WkmKBPGCw==
-X-CSE-MsgGUID: md1sF4t7TQ+UBj46aieL0A==
+   d="scan'208";a="3443326"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 00:23:39 -0800
+X-CSE-ConnectionGUID: dU4PoxfJQtyxIEV2une1wg==
+X-CSE-MsgGUID: +NmFZe2ZQ6OHUjxN/CFl9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="11012067"
+   d="scan'208";a="9437004"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 13 Nov 2026 23:43:37 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 14 Nov 2026 00:23:39 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xS8QA-000000001WV-3H2v;
-	Sat, 14 Nov 2026 07:43:34 +0000
-Date: Sat, 14 Nov 2026 08:42:46 +0100
+	id 1xS92u-000000001Wd-2KSp;
+	Sat, 14 Nov 2026 08:23:36 +0000
+Date: Sat, 14 Nov 2026 09:23:35 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 82/242]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e20c000
- (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the
- regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202611140852.He7mFdMo-lkp@intel.com>
+Subject: [bpf-next:for-next 330/381] Makefile:14: excluding
+ xskxceiver, bpftool not installed or not working
+Message-ID: <202611140904.io658Rze-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,70 +81,162 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+::::::=20
+:::::: Manual check reason: "low confidence bisect report"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+TO: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: "Bj=C3=B6rn T=C3=B6pel" <bjorn@kernel.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   c46abf5713fa41e1574fb50c462f53392d6f5cd7
-commit: 3e2114629f945662e8f83d3d3db1eba2f8a9db2b [82/242] DROP_v7.4: arm64: dts: apple: t600x: Add legacy "apple,dcs-min-ps" property
-:::::: branch date: 8 days ago
-:::::: commit date: 9 days ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261114/202611140852.He7mFdMo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev6+ged91b647c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140852.He7mFdMo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git fo=
+r-next
+head:   ca4181cacb0c6a5632018f1c94f29d9dbc0e9270
+commit: e8f9d82379881461fe2d7d181f633009970bdb81 [330/381] selftests: xsk: =
+move the AF_XDP test suite to selftests/net
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 days ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261=
+114/202611140904.io658Rze-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261114/202611140904.io658Rze-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611140852.He7mFdMo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611140904.io658Rze-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
---
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
---
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
---
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
---
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
---
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e20c000 (apple,t6000-pmgr-misc): 'apple,dcs-min-ps' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e080000 (apple,t6000-pmgr): 'reset-controller@1a034' does not match any of the regexes: '^pinctrl-[0-9]+$', 'power-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/power-management@28e080000/reset-controller@1a034: failed to match any schema with compatible: ['apple,t6000-cio-reset']
+Note: the bpf-next/for-next HEAD ca4181cacb0c6a5632018f1c94f29d9dbc0e9270 b=
+uilds fine.
+      It only hurts bisectability.
 
--- 
+All errors (new ones prefixed by >>):
+
+   Makefile:70: exec selftests: skipping binfmt_misc_bpf, needs clang, bpft=
+ool, vmlinux BTF and libbpf
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/fuse_symlink_cache_test] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/fuse_mnt] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/fuse_acl_cache_test] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/fuse_readdir_cache_test] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/test_syncfs] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/fusectl_test] Error 1
+   make[1]: *** [../../lib.mk:226: tools/testing/selftests/filesystems/fuse=
+/write_extend_eof_test] Error 1
+   make[1]: Target 'all' not remade because of errors.
+   make[1]: *** [Makefile:117: tools/testing/selftests/hid/tools/sbin/bpfto=
+ol] Error 2
+   make[1]: Target 'all' not remade because of errors.
+   Makefile:60: warning: overriding recipe for target 'emit_tests'
+   ../lib.mk:183: warning: ignoring old recipe for target 'emit_tests'
+   make[1]: Circular tools/testing/selftests/rseq/param_test <- tools/testi=
+ng/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice =
+<- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice =
+<- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tool=
+s/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tool=
+s/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tool=
+s/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare=
+_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare=
+_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency =
+dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare=
+_twice <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare=
+_twice <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice depe=
+ndency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- to=
+ols/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- to=
+ols/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- to=
+ols/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- to=
+ols/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropp=
+ed.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- to=
+ols/testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/tes=
+ting/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testi=
+ng/selftests/rseq/slice_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/slice_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/=
+testing/selftests/rseq/check_optimized dependency dropped.
+>> Makefile:14: excluding xskxceiver, bpftool not installed or not working
+
+
+vim +14 Makefile
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  13 =20
+5f99665ee8f433 Masahiro Yamada 2024-07-04 @14  ifeq ($(filter output-sync,$=
+(.FEATURES)),)
+5f99665ee8f433 Masahiro Yamada 2024-07-04  15  $(error GNU Make >=3D 4.0 is=
+ required. Your Make version is $(MAKE_VERSION))
+87d599fc3955e5 Masahiro Yamada 2022-12-13  16  endif
+87d599fc3955e5 Masahiro Yamada 2022-12-13  17 =20
+
+:::::: The code at line 14 was first introduced by commit
+:::::: 5f99665ee8f4335f334a5292b6d5b41a577fc2c0 kbuild: raise the minimum G=
+NU Make requirement to 4.0
+
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
