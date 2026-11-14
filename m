@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794674884;
-	b=fAW+1SFvU51zepfekrCQLTb/4ZXIvPv+m/EqNF2ep6PGRYUVu2KAZi4uilnbiy1fL1Tn
-	 bsxcRVPKGiuQxLW5ANJ6O3X9FLPZdUSst43PcJmdnmITjvixc+78u3ZZxKG+4vlO+Y9mm
-	 lV8d5oFJWWpolLztoXelZJ46p0qP2nBTJ7xA2Tx1lSi5yrXnJ9DNfb/5Og9wegcKDfgNn
-	 csyNtj1JApb2kIyUDId2iqjSM3s5zjszsik+ODvtAzJtRi2kvj8rUQCiqUgPYm/+jBNCK
-	 N6TGx48T1bMjGFXM2eq1PMysH1GYqQHk1Mo0vl4BADAVPt52gEv03dPHrkahtSnpGrA==
+	t=1794674942;
+	b=nUiD6Ja0YGZVWFi1Ds9FIdOShLjfVWNzrT+tFaB/h7sTorgm2l9+TNQjkaLp7Nubd17U
+	 o4PgWg3qs8+gBXjyOQXCT2fBkGluN31aHb3QRfWdSH3oCHO8hmxxKhqr8zCNZabaQldvv
+	 tnaON3/vnRqgda7HLaycCgD5UlsRI4rH5t2AOQjYvpE1xJ29v9fnObSBRBtA/iRcNQnxQ
+	 NzeSGbcn4Q2syFyT44rv3uIAqU98w5060LLX8ByDqlx6aUECokqHNVG7A01uriZjqD5Y+
+	 4++uGAMvAodNQuYKbtCYUGnndwemda5kKIvisVefhi0SUQnHAdzq0/BQc1D+STOortw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794674884;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794674942;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=b7axfxLFALzEoFtotAdD8s20jLH2XZhg9+Y07ND32zQ=;
-	b=pIdhc1ldZw0vmXlrvk2yv6dUcqB2h1K6kDB3UmVbryQ3+j6ITs5VmKrGHSqMpECEKluE
-	 1QqlKCqytP0STYXTPorWMtZVQkamETNaK3LexC7QLZD2lTWnAvPPbkBdu7EsMQUrUGI7J
-	 cG4wuyclFN4cQCMd+S+IPGaP8Nm9KAvcyfYQE/iuwSoCmQsrMp8vRCzg8mz5drOjdQkjY
-	 w0bQgtTv2Dpf0Ff6QYsN5ue+mA9mOPZcAP5KCQkpq6DYbvAY817M/+IGmlUR1w+yzxSyh
-	 3+VqJpVO69HSxhgc6ovehUaxy6F3aKKhjcs8/qW0WDdb9YfUiGXZzNRUbsw0cBt0Wnw==
+	bh=a0BF49majNDToo1U5aw2Yendl29hN/eT5uUDOtkVp9c=;
+	b=axWPwia/YjHsdDp1CDEjoR1cCIHG0QANdYuWmImYk6KmjtEcmHh2PjHhyqrAwEvrNOxa
+	 c/mRfHRlK+nlyasVge9kuGim750zGpe4V8sipH6BQ0FrmB0z+7kojsPspCs36Bt7mRP7T
+	 B+tXwhWCl+0vKY86OvolgHVO2er6hVcObEOf8eDSrd3y9RND2x5MB+30AMM4vldr9PnEv
+	 cliuce9aGVIwIdHJquK1VDjuH98EUVsEmfRAZ6pZJGxFoR2gqV1dpEl0dCGrguGmQCQVl
+	 txt72NZkq7Fq0iF3Aben5WIHQoZBPFSQU+9GsqCNT8VyR7RuhIIop0ozhGn/6hFqONA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eRx+kPM6;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AbSE1YQs;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572EF606A32E
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 16:48:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 572EF606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E032606A32D
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 16:49:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E032606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eRx+kPM6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AbSE1YQs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794674882; x=1826210882;
+  t=1794674942; x=1826210942;
   h=date:from:to:cc:subject:message-id;
-  bh=m5lpbW118K48yWPzi78Gv1buEbVHXyoKUg34Yqie9G4=;
-  b=eRx+kPM666kZxr84LKtNuuTo89BQzywlhh/PmVpgUmkEGVT3UetCKCDP
-   yosqrfSVsWJg/qWuBsBxyZBGd247Id4eidcuKKa7JmVC00cP19B6Kldm4
-   QyQWqm+r4T/SSOMWy8z4NFlLGsVkYqG+NtEU9ayGwsagc63GKH5XiqmOF
-   x8YBEYNqcfoaWaVJ05MgNw54c3x6wEIbb20vOnvnUZitRix7xck0OffpS
-   njBLgLVV2Qtx8pArVPga1Nxu2b45SmaVFir2zrbPUS5LmjjmKCaKDLK8m
-   s22hracfL7zOJwggrskDs0X16i6g/vqenMwWP0lzWFY4FzP3dvba2bVUJ
-   A==;
-X-CSE-ConnectionGUID: OaE0GTu3RbCu1NkV77eu1w==
-X-CSE-MsgGUID: ptb3GfXLQk6UtEiUuCHaow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3338560"
+  bh=wLrBp4kfHaIBeBIHJG4wkhPegIecB5cmLdQcs0pqF1U=;
+  b=AbSE1YQsmXcoRoRECtDTxb8o5ZHVWaKapFS0jiX154C7qQvTAmFYQIks
+   Im42ouQD84OMQFByh5F3PrikR0ddhf1+3l4QGAjc8vuK2Uj4lHap5P6gQ
+   b3iSlO6rjChdUOHMmSXKmDr4Zem1c0XL8wNZra8dWjyTyp8v2r126kssy
+   kHbVLdOxUOjjmuXGCrJuB7d2/seVOaaTGS1Y8MYzACezE5QNuTqwkFQ9W
+   xIvLk8EDlnfxIcMMBL6TqJlISATsv0YByXWfJF5sJBTDshz4Q2nk8vO/G
+   vqcW9Ib47JUNLt+gqE0qytkyP1NqIiYP3aO2m6id3Wa87+xyR5ZH77oLD
+   g==;
+X-CSE-ConnectionGUID: bU+lalgRQomHjBK+5hVxPQ==
+X-CSE-MsgGUID: 1gpyBkH4QqCwxqHXCFqIIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3338114"
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="3338560"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 08:48:02 -0800
-X-CSE-ConnectionGUID: o28lqMNyTQOgz5mSLCM3xw==
-X-CSE-MsgGUID: jyaWnKvQSVe6U8yYzIIusw==
+   d="scan'208";a="3338114"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 08:49:02 -0800
+X-CSE-ConnectionGUID: aynPCFmzT5qUFRMItCyW5g==
+X-CSE-MsgGUID: W0o6WMesRk67LrRopBYX0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="8984056"
+   d="scan'208";a="9354867"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 14 Nov 2026 08:48:00 -0800
+  by orviesa009.jf.intel.com with ESMTP; 14 Nov 2026 08:49:00 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSGuz-000000001p1-3gQF;
-	Sat, 14 Nov 2026 16:47:57 +0000
-Date: Sat, 14 Nov 2026 17:47:57 +0100
+	id 1xSGvy-000000001p9-08kk;
+	Sat, 14 Nov 2026 16:48:58 +0000
+Date: Sat, 14 Nov 2026 17:47:58 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [akpm-mm:mm-nonmm-unstable 130/152]
- fs/squashfs/namei.c:141:5-10: WARNING: Unsigned expression compared with
- zero: block < 0
-Message-ID: <202611141716.fhmOi3Fb-lkp@intel.com>
+Subject: [sj:damon/next 97/107] mm/damon/sysfs.c:2344:32-39:
+ opportunity for str_on_off(running)
+Message-ID: <202611141704.5YDrU9sC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -83,145 +82,49 @@ Precedence: list
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: Phillip Lougher <phillip@squashfs.org.uk>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: SJ Park <sj@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   9bfc44c252525344c5aebf880259647edf35eda8
-commit: d0a5fe53cf5d2f8f64bf1791ac8d72e2ae69710a [130/152] Squashfs: sanity check directory metadata block location
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: sparc64-randconfig-r2106-20261114 (https://download.01.org/0day-ci/archive/20261114/202611141716.fhmOi3Fb-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   3c1c49cc0b153ce7fd29195e7b1a7e91f0daafdd
+commit: 0977da8ac588af2ff2e24cbefca440856e3db9be [97/107] mm/damon/sysfs: use on/off literals in state_show()
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: openrisc-randconfig-r2107-20261114 (https://download.01.org/0day-ci/archive/20261114/202611141704.5YDrU9sC-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611141716.fhmOi3Fb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611141704.5YDrU9sC-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/squashfs/namei.c:141:5-10: WARNING: Unsigned expression compared with zero: block < 0
+>> mm/damon/sysfs.c:2344:32-39: opportunity for str_on_off(running)
+   mm/damon/sysfs.c:3179:39-56: opportunity for str_on_off(producer -> enabled)
 
-vim +141 fs/squashfs/namei.c
+vim +2344 mm/damon/sysfs.c
 
-c88da2c979369e Phillip Lougher 2009-01-05  123  
-c88da2c979369e Phillip Lougher 2009-01-05  124  
-c88da2c979369e Phillip Lougher 2009-01-05  125  static struct dentry *squashfs_lookup(struct inode *dir, struct dentry *dentry,
-00cd8dd3bf95f2 Al Viro         2012-06-10  126  				 unsigned int flags)
-c88da2c979369e Phillip Lougher 2009-01-05  127  {
-c88da2c979369e Phillip Lougher 2009-01-05  128  	const unsigned char *name = dentry->d_name.name;
-c88da2c979369e Phillip Lougher 2009-01-05  129  	int len = dentry->d_name.len;
-c88da2c979369e Phillip Lougher 2009-01-05  130  	struct inode *inode = NULL;
-c88da2c979369e Phillip Lougher 2009-01-05  131  	struct squashfs_sb_info *msblk = dir->i_sb->s_fs_info;
-c88da2c979369e Phillip Lougher 2009-01-05  132  	struct squashfs_dir_header dirh;
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  133  	struct squashfs_dir_entry *dire = NULL;
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  134  	u64 block = squashfs_dir_start(squashfs_i(dir)->start, msblk);
-c88da2c979369e Phillip Lougher 2009-01-05  135  	int offset = squashfs_i(dir)->offset;
-52e9ce1c0f2060 Phillip Lougher 2013-09-03  136  	int err, length;
-52e9ce1c0f2060 Phillip Lougher 2013-09-03  137  	unsigned int dir_count, size;
-c88da2c979369e Phillip Lougher 2009-01-05  138  
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  139  	TRACE("Entered squashfs_lookup [%llx:%x]\n", squashfs_i(dir)->start, offset);
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  140  
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11 @141  	if (block < 0)
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  142  		goto data_error;
-c88da2c979369e Phillip Lougher 2009-01-05  143  
-c88da2c979369e Phillip Lougher 2009-01-05  144  	dire = kmalloc(sizeof(*dire) + SQUASHFS_NAME_LEN + 1, GFP_KERNEL);
-c88da2c979369e Phillip Lougher 2009-01-05  145  	if (dire == NULL) {
-c88da2c979369e Phillip Lougher 2009-01-05  146  		ERROR("Failed to allocate squashfs_dir_entry\n");
-c88da2c979369e Phillip Lougher 2009-01-05  147  		return ERR_PTR(-ENOMEM);
-c88da2c979369e Phillip Lougher 2009-01-05  148  	}
-c88da2c979369e Phillip Lougher 2009-01-05  149  
-c88da2c979369e Phillip Lougher 2009-01-05  150  	if (len > SQUASHFS_NAME_LEN) {
-c88da2c979369e Phillip Lougher 2009-01-05  151  		err = -ENAMETOOLONG;
-c88da2c979369e Phillip Lougher 2009-01-05  152  		goto failed;
-c88da2c979369e Phillip Lougher 2009-01-05  153  	}
-c88da2c979369e Phillip Lougher 2009-01-05  154  
-c88da2c979369e Phillip Lougher 2009-01-05  155  	length = get_dir_index_using_name(dir->i_sb, &block, &offset,
-c88da2c979369e Phillip Lougher 2009-01-05  156  				squashfs_i(dir)->dir_idx_start,
-c88da2c979369e Phillip Lougher 2009-01-05  157  				squashfs_i(dir)->dir_idx_offset,
-040bf9a717885d Phillip Lougher 2024-04-03  158  				squashfs_i(dir)->dir_idx_cnt, name);
-c88da2c979369e Phillip Lougher 2009-01-05  159  
-c88da2c979369e Phillip Lougher 2009-01-05  160  	while (length < i_size_read(dir)) {
-c88da2c979369e Phillip Lougher 2009-01-05  161  		/*
-c88da2c979369e Phillip Lougher 2009-01-05  162  		 * Read directory header.
-c88da2c979369e Phillip Lougher 2009-01-05  163  		 */
-c88da2c979369e Phillip Lougher 2009-01-05  164  		err = squashfs_read_metadata(dir->i_sb, &dirh, &block,
-c88da2c979369e Phillip Lougher 2009-01-05  165  				&offset, sizeof(dirh));
-c88da2c979369e Phillip Lougher 2009-01-05  166  		if (err < 0)
-c88da2c979369e Phillip Lougher 2009-01-05  167  			goto read_failure;
-c88da2c979369e Phillip Lougher 2009-01-05  168  
-c88da2c979369e Phillip Lougher 2009-01-05  169  		length += sizeof(dirh);
-c88da2c979369e Phillip Lougher 2009-01-05  170  
-c88da2c979369e Phillip Lougher 2009-01-05  171  		dir_count = le32_to_cpu(dirh.count) + 1;
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  172  
-4826d83d9c4f6b Ajeet Yadav     2012-02-02  173  		if (dir_count > SQUASHFS_DIR_COUNT)
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  174  			goto data_error;
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  175  
-c88da2c979369e Phillip Lougher 2009-01-05  176  		while (dir_count--) {
-c88da2c979369e Phillip Lougher 2009-01-05  177  			/*
-c88da2c979369e Phillip Lougher 2009-01-05  178  			 * Read directory entry.
-c88da2c979369e Phillip Lougher 2009-01-05  179  			 */
-c88da2c979369e Phillip Lougher 2009-01-05  180  			err = squashfs_read_metadata(dir->i_sb, dire, &block,
-c88da2c979369e Phillip Lougher 2009-01-05  181  					&offset, sizeof(*dire));
-c88da2c979369e Phillip Lougher 2009-01-05  182  			if (err < 0)
-c88da2c979369e Phillip Lougher 2009-01-05  183  				goto read_failure;
-c88da2c979369e Phillip Lougher 2009-01-05  184  
-c88da2c979369e Phillip Lougher 2009-01-05  185  			size = le16_to_cpu(dire->size) + 1;
-c88da2c979369e Phillip Lougher 2009-01-05  186  
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  187  			/* size should never be larger than SQUASHFS_NAME_LEN */
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  188  			if (size > SQUASHFS_NAME_LEN)
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  189  				goto data_error;
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  190  
-c88da2c979369e Phillip Lougher 2009-01-05  191  			err = squashfs_read_metadata(dir->i_sb, dire->name,
-c88da2c979369e Phillip Lougher 2009-01-05  192  					&block, &offset, size);
-c88da2c979369e Phillip Lougher 2009-01-05  193  			if (err < 0)
-c88da2c979369e Phillip Lougher 2009-01-05  194  				goto read_failure;
-c88da2c979369e Phillip Lougher 2009-01-05  195  
-c88da2c979369e Phillip Lougher 2009-01-05  196  			length += sizeof(*dire) + size;
-c88da2c979369e Phillip Lougher 2009-01-05  197  
-c88da2c979369e Phillip Lougher 2009-01-05  198  			if (name[0] < dire->name[0])
-c88da2c979369e Phillip Lougher 2009-01-05  199  				goto exit_lookup;
-c88da2c979369e Phillip Lougher 2009-01-05  200  
-c88da2c979369e Phillip Lougher 2009-01-05  201  			if (len == size && !strncmp(name, dire->name, len)) {
-c88da2c979369e Phillip Lougher 2009-01-05  202  				unsigned int blk, off, ino_num;
-c88da2c979369e Phillip Lougher 2009-01-05  203  				long long ino;
-c88da2c979369e Phillip Lougher 2009-01-05  204  				blk = le32_to_cpu(dirh.start_block);
-c88da2c979369e Phillip Lougher 2009-01-05  205  				off = le16_to_cpu(dire->offset);
-c88da2c979369e Phillip Lougher 2009-01-05  206  				ino_num = le32_to_cpu(dirh.inode_number) +
-c88da2c979369e Phillip Lougher 2009-01-05  207  					(short) le16_to_cpu(dire->inode_number);
-9a6badf613992e Phillip Lougher 2026-11-11  208  				ino = squashfs_mkinode(blk, off);
-c88da2c979369e Phillip Lougher 2009-01-05  209  
-c88da2c979369e Phillip Lougher 2009-01-05  210  				TRACE("calling squashfs_iget for directory "
-c88da2c979369e Phillip Lougher 2009-01-05  211  					"entry %s, inode  %x:%x, %d\n", name,
-c88da2c979369e Phillip Lougher 2009-01-05  212  					blk, off, ino_num);
-c88da2c979369e Phillip Lougher 2009-01-05  213  
-c88da2c979369e Phillip Lougher 2009-01-05  214  				inode = squashfs_iget(dir->i_sb, ino, ino_num);
-c88da2c979369e Phillip Lougher 2009-01-05  215  				goto exit_lookup;
-c88da2c979369e Phillip Lougher 2009-01-05  216  			}
-c88da2c979369e Phillip Lougher 2009-01-05  217  		}
-c88da2c979369e Phillip Lougher 2009-01-05  218  	}
-c88da2c979369e Phillip Lougher 2009-01-05  219  
-c88da2c979369e Phillip Lougher 2009-01-05  220  exit_lookup:
-c88da2c979369e Phillip Lougher 2009-01-05  221  	kfree(dire);
-c88da2c979369e Phillip Lougher 2009-01-05  222  	return d_splice_alias(inode, dentry);
-c88da2c979369e Phillip Lougher 2009-01-05  223  
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  224  data_error:
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  225  	err = -EIO;
-44cff8a9ee8a97 Phillip Lougher 2011-03-15  226  
-c88da2c979369e Phillip Lougher 2009-01-05  227  read_failure:
-c88da2c979369e Phillip Lougher 2009-01-05  228  	ERROR("Unable to read directory block [%llx:%x]\n",
-d0a5fe53cf5d2f Phillip Lougher 2026-11-11  229  		squashfs_i(dir)->start, squashfs_i(dir)->offset);
-c88da2c979369e Phillip Lougher 2009-01-05  230  failed:
-c88da2c979369e Phillip Lougher 2009-01-05  231  	kfree(dire);
-c88da2c979369e Phillip Lougher 2009-01-05  232  	return ERR_PTR(err);
-c88da2c979369e Phillip Lougher 2009-01-05  233  }
-c88da2c979369e Phillip Lougher 2009-01-05  234  
+4287e082fe877c SJ Park        2026-11-08  2326  
+c951cd3b89010c SJ Park        2022-03-22  2327  static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
+c951cd3b89010c SJ Park        2022-03-22  2328  		char *buf)
+c951cd3b89010c SJ Park        2022-03-22  2329  {
+a61ea561c87139 SJ Park        2022-03-22  2330  	struct damon_sysfs_kdamond *kdamond = container_of(kobj,
+a61ea561c87139 SJ Park        2022-03-22  2331  			struct damon_sysfs_kdamond, kobj);
+3260a3f0828e06 Stanislav Fort 2025-09-05  2332  	struct damon_ctx *ctx;
+3260a3f0828e06 Stanislav Fort 2025-09-05  2333  	bool running = false;
+a61ea561c87139 SJ Park        2022-03-22  2334  
+3260a3f0828e06 Stanislav Fort 2025-09-05  2335  	if (!mutex_trylock(&damon_sysfs_lock))
+3260a3f0828e06 Stanislav Fort 2025-09-05  2336  		return -EBUSY;
+3260a3f0828e06 Stanislav Fort 2025-09-05  2337  
+3260a3f0828e06 Stanislav Fort 2025-09-05  2338  	ctx = kdamond->damon_ctx;
+3260a3f0828e06 Stanislav Fort 2025-09-05  2339  	if (ctx)
+d2b5be741a5045 SJ Park        2025-07-05  2340  		running = damon_is_running(ctx);
+a61ea561c87139 SJ Park        2022-03-22  2341  
+3260a3f0828e06 Stanislav Fort 2025-09-05  2342  	mutex_unlock(&damon_sysfs_lock);
+3260a3f0828e06 Stanislav Fort 2025-09-05  2343  
+0977da8ac588af SJ Park        2026-11-08 @2344  	return sysfs_emit(buf, "%s\n", running ? "on" : "off");
+a61ea561c87139 SJ Park        2022-03-22  2345  }
+a61ea561c87139 SJ Park        2022-03-22  2346  
 
 -- 
 0-DAY CI Kernel Test Service
