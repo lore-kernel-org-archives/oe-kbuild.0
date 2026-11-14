@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794617655;
-	b=Pt0Qo0I4UW58QjL4uWjso2S/M2MVqP0deZYI4b1OJAq0+XtuxkmkQfcogtgylOQ6nFjQ
-	 DgzlQPhZ6hVMzDnskO6/mTkS2Y0gJhZOKQpLx0mDhtXbjq/JJBSUKVI5rOJpvMxFwFmXg
-	 7LuOFFpdIsv02Dn0qwZ/5exRchefYs8OmC1GAKr5eEMH4i6NMGlDO7lO9GqQtBxeZ73TL
-	 XUZS2kSZT+sA04/1/z1V7fk752qvscb5AEdTEVqRt5mCZ+r5bDI6b88XeBdC2Eav9cO6b
-	 6KA5B8FQdemnd/3jCZjPHs15N4YWPL5DCA9rGWtydOzeH2FQMjTjzS+y/lTBHK5M8SQ==
+	t=1794621322;
+	b=xM06IlEs6zKvu+PYFMHF/D9Qs7AVjGFQnzdvfS+dhu1BN1tmZN0zreYyo4gdFvWiHqcM
+	 FTanjRABRfsnYz6mw1CiJlMx1JnFOsBAWlGQ/uY2r7TeNuf6yX5IfTsOKW0JYcqVX342c
+	 g9/VJRYUDD+bEGAJR2nDY+mZWewgI1xLoqd+h9ef1jstxlSSFDRAYBZpG9RPs7Wqo4V57
+	 4I/+6xf9zSzf3ZUFmwapu7PhLsb1Y3UYRlYJNRcFmMjHif86lXKRtVETnYPHxtwEh63sg
+	 p3XWuXHHbuXbsDajFk6bmyDwwsS+pl6TR/tRegQYJzLJaB6RiSaGtzcRr8SZyO20GhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794617655;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794621322;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=wecl+3vh4ESLRoZYslqR2mJMpEJBqJo6nuXzyTrIWl4=;
-	b=c96P7A4ps6LTFZMBlFyo6x9G48IGiE0cPVB0Jdi1tPJV+DvmYhxjNsDyV9OUzRx1FLwQ
-	 HBbCjC1o5SiGphFsT0yVMeKhQkFncqj+Uz32DJSdyjI2M6u8lhMLcpgO1DWpWsgKuO2Md
-	 1GcXxEaVMhhiUUMTJ/m+WHWJEp+eJoVh/zq1ycQkGQGCDqe5aENg/Q/YDIBnYoTY8g6lJ
-	 1xvq6CQu4nGIK74XlMZFyVyY/ndzyYRYfZlWxZRn81McR64OQ6YLtzIFcGTXagqXC77NM
-	 /Tp9/iPjPPDtYBf8LTcj3KL2qAKtRn1DKixNDBpuN/o1uLRhALjDYZyuOshI7aVGeQA==
+	bh=pmGJTH8BH66UKRXhUeHRl8rzQ9v3CCkh6JncSbg6HUY=;
+	b=TKsl645/nspAspxzyFMwSGUgMslfjbpPy2+yj+DJrjF2ed28a6WDWshtpvbvqLcnyf1G
+	 rC/yINWKjN8yCjGchSGWkXynfLpUk6PQy6C7GAt0nji8qFEhu5XJF0IA0+3HpZIrTx3kN
+	 EPB3L1+OZA9ks4H/GdjsGwIqOZ+vqmyO3kIRXJrQOpPt9/KC2BrWLX1hy0n55kgLysfEb
+	 vc3eocuahKBeDMtHr3/INUP0ERYS8j6qAq4fRFIldVETnoJZzfsYLQY9qyaszeTqcHy5r
+	 2z1w8oeVMthGIOdXUsYJKjLHvTEAvpPRVtcCaJPlB9j39an/E+Wpu6Ft5zzWRHzg3Zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UaKGABZY;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fd4T8BfZ;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30932606A334
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 00:54:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30932606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2596C606A337
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Nov 2026 01:55:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2596C606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UaKGABZY
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fd4T8BfZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794617655; x=1826153655;
+  t=1794621322; x=1826157322;
   h=date:from:to:cc:subject:message-id;
-  bh=gkU3uLx6RoY60tACwexFvYiqx4STgmiI5qlgNxJbM94=;
-  b=UaKGABZYDhlSRmmaCzX3KSu8Q8VBAoqJRQu8uVDGTEFOuyqWDhwz8mNK
-   FXR+M+ka4wktE6tvQkhnIszdq3W56z48O8+rvBlE67I05c+S6R/mWdVBS
-   /C8UIOWpOyaYYjETZFwnFf/R4Ne/IuFZuOWKxzglI/ZogL0UknFh0b/OV
-   s706F5dcQu7MVREm4WLEkNNfGIDXxSFbMh7kGJrwlU1lYgkcRQyBbk2lh
-   iPeL1/JTj8HraZDr7vjXdHYukAAsy3Q1Yzjtd6o6MOLYbeeh5/cHe8e24
-   qUwZAm7PMO8vnMM+wmUHDDRg0U8nmACiTEaFIq74SzhLnoFKpc18KWxpA
-   Q==;
-X-CSE-ConnectionGUID: OkTkbFR/R4WYcmul4kQTAw==
-X-CSE-MsgGUID: ce22clodTai+cbxCiKcZLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3427218"
+  bh=M7b5wBIXPaFEPZAlHbk7QNoxZVRayD2brCKN7Els81s=;
+  b=Fd4T8BfZrgvXzoMqPDsi1yCsQfgDaD+3EASWSaPGu2aEsCZVyNrSh7z5
+   xHXSbEIKDWdUiqM+kEtMPqW6T+hzQVhiDmTXnHK1kbI731XTTqj4XzD8J
+   ONfJLxLvtKXsqNLOQw/790ZLSERa/TIa1s+0ATGA9YkyYP79gcneLKfyv
+   blJAwaXULaMFvfIFHW858pL63U8Q7/ed16HbgFLK55BEUOE6LVGZYYgg/
+   NVZMoPoUQLEcROQuA9OwzSZ8al4Qcvd2eYuTT6DvP7sEfdkV51INETR2r
+   Jx2taOzR2Wmbj8UP0kIANUvQgiChfKk0HOkcArnMsQHcqjZyWMfBLSnA+
+   w==;
+X-CSE-ConnectionGUID: Su1Jl046TCmIbeGvvWd2Zg==
+X-CSE-MsgGUID: 7BzZoUA4TayYIvJr1tlXbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3447472"
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3427218"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 16:54:14 -0800
-X-CSE-ConnectionGUID: 7mm9mXSvRtuYKfEHLf/XEQ==
-X-CSE-MsgGUID: 6yWZpeFDRNarib6kTNIzGg==
+   d="scan'208";a="3447472"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 17:55:22 -0800
+X-CSE-ConnectionGUID: 7LtDcvDuSRKAigpwalMSCg==
+X-CSE-MsgGUID: 3DcWDuMFQo2L6coQEtWSzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="9226905"
+   d="scan'208";a="9601530"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2026 16:54:12 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2026 17:55:20 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xS21y-000000001RH-0I7t;
-	Sat, 14 Nov 2026 00:54:10 +0000
-Date: Sat, 14 Nov 2026 01:54:00 +0100
+	id 1xS2z7-000000001Sh-44uS;
+	Sat, 14 Nov 2026 01:55:17 +0000
+Date: Sat, 14 Nov 2026 02:55:16 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jpirko-mlxsw:wip_attestation_all_2 48/68]
- lib/ctlv/tests/event_kunit.c:281 ctlv_event_test_creator_misuse() warn:
- passing zero to 'PTR_ERR'
-Message-ID: <202611140128.XwkaCdD4-lkp@intel.com>
+Subject: [kkdwivedi:cancellations 40/71] kernel/bpf/cancel.c:3728
+ cancel_emit_exit() error: we previously assumed 'site' could be null (see
+ line 3718)
+Message-ID: <202611140205.92cQED00-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -86,162 +86,87 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiri Pirko <jiri@nvidia.com>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-tree:   https://github.com/jpirko/linux_mlxsw wip_attestation_all_2
-head:   7ff5e548abbc2312431d4eea9ad283347963a6e2
-commit: 3e5d2a45aaa3688da1de5a2430c2993c39451793 [48/68] ctlv: Add KUnit tests
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: um-randconfig-2200-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140128.XwkaCdD4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://github.com/kkdwivedi/linux cancellations
+head:   3ad9d6e61351ecac109d90e7eb385f2ac07aca89
+commit: 685a972de1419e92f4998eda9954183da49bd167 [40/71] bpf: Let a callee tell at cancel_exit what it released for its caller
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: sparc-randconfig-2200-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140205.92cQED00-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611140128.XwkaCdD4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611140205.92cQED00-lkp@intel.com/
 
-New smatch warnings:
-lib/ctlv/tests/event_kunit.c:281 ctlv_event_test_creator_misuse() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/event_kunit.c:310 ctlv_event_test_a_dead_device() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/event_kunit.c:364 ctlv_event_test_explicit_loss() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/event_kunit.c:649 ctlv_event_test_context_lifetime() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/blob_kunit.c:608 ctlv_blob_test_a_blob_outside_the_buffer() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/blob_kunit.c:632 ctlv_blob_test_stale_cursor_is_rejected() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/blob_kunit.c:851 ctlv_blob_test_aliased_device_mappings() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/blob_kunit.c:904 ctlv_blob_test_cpu_and_device_access_are_serial() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/blob_kunit.c:979 ctlv_blob_test_exporter_failures() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+kernel/bpf/cancel.c:3728 cancel_emit_exit() error: we previously assumed 'site' could be null (see line 3718)
 
-Old smatch warnings:
-lib/ctlv/tests/event_kunit.c:287 ctlv_event_test_creator_misuse() warn: passing zero to 'PTR_ERR'
-lib/ctlv/tests/event_kunit.c:290 ctlv_event_test_creator_misuse() warn: passing zero to 'PTR_ERR'
+vim +/site +3728 kernel/bpf/cancel.c
 
-vim +/PTR_ERR +281 lib/ctlv/tests/event_kunit.c
-
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  270  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  271  static void ctlv_event_test_creator_misuse(struct kunit *test)
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  272  {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  273  	struct ctlv_event_test_fixture *fx = ctlv_event_test_fixture_open(test);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  274  	struct ctlv_cursor *payload;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  275  	struct ctlv_op_ctx *ctx;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  276  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  277  	kunit_warning_suppress(test) {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  278  		/* An op of this device that is executed rather than emitted. */
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  279  		ctx = ctlv_event_create(&fx->ctlv, CTLV_FIXTURE_OP_NOOP,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  280  					&payload, GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26 @281  		KUNIT_EXPECT_EQ(test, PTR_ERR(ctx), -EINVAL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  282  		/* An op of a family this device is not of. */
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  283  		ctx = ctlv_event_create(&fx->ctlv,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  284  					CTLV_OP(CTLV_FAMILY_FIXTURE + 1,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  285  						1),
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  286  					&payload, GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  287  		KUNIT_EXPECT_EQ(test, PTR_ERR(ctx), -EINVAL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  288  		/* And one of no family at all. */
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  289  		ctx = ctlv_event_create(&fx->ctlv, 0, &payload, GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  290  		KUNIT_EXPECT_EQ(test, PTR_ERR(ctx), -EINVAL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  291  		KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 3);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  292  	}
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  293  	KUNIT_EXPECT_EQ(test, ctlv_event_test_queued(fx), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  294  	KUNIT_EXPECT_EQ(test, fx->cfile.sequence, 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  295  }
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  296  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  297  static void ctlv_event_test_a_dead_device(struct kunit *test)
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  298  {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  299  	struct ctlv_event_test_fixture *fx = ctlv_event_test_fixture_open(test);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  300  	struct ctlv_cursor *payload;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  301  	struct ctlv_op_ctx *ctx;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  302  	struct ctlv_event *event;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  303  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  304  	ctlv_event_test_subscribe(test, fx, CTLV_FIXTURE_OP_PINGED);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  305  	WRITE_ONCE(fx->ctlv.family, NULL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  306  	ctlv_event_device_dead(&fx->ctlv);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  307  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  308  	ctx = ctlv_event_create(&fx->ctlv, CTLV_FIXTURE_OP_PINGED, &payload,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  309  				GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26 @310  	KUNIT_EXPECT_EQ(test, PTR_ERR(ctx), -ENODEV);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  311  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  312  	/* What was queued instead, out of storage this open reserved. */
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  313  	event = ctlv_event_test_take(fx);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  314  	KUNIT_ASSERT_NOT_NULL(test, event);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  315  	KUNIT_EXPECT_TRUE(test, event->reserved);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  316  	KUNIT_EXPECT_EQ(test, event->hdr.op_id, CTLV_OP_DEVICE_REMOVED);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  317  	KUNIT_EXPECT_EQ(test, event->hdr.sequence, 1);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  318  	KUNIT_EXPECT_EQ(test, event->hdr.length, event->len);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  319  	KUNIT_EXPECT_EQ(test, fx->cfile.queue_used, fx->ctlv.queue_reserved);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  320  	KUNIT_EXPECT_EQ(test, ctlv_event_test_queued(fx), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  321  }
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  322  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  323  /* Dropped without queueing, and without taking a sequence number. */
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  324  static void ctlv_event_test_an_event_nobody_wants(struct kunit *test)
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  325  {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  326  	struct ctlv_event_test_fixture *fx = ctlv_event_test_fixture_open(test);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  327  	struct ctlv_cursor *payload;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  328  	struct ctlv_op_ctx *ctx;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  329  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  330  	ctx = ctlv_event_create(&fx->ctlv, CTLV_FIXTURE_OP_PINGED, &payload,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  331  				GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  332  	KUNIT_ASSERT_FALSE(test, IS_ERR(ctx));
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  333  	KUNIT_EXPECT_EQ(test, ctlv_event_emit(ctx), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  334  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  335  	KUNIT_EXPECT_EQ(test, ctlv_event_test_queued(fx), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  336  	KUNIT_EXPECT_EQ(test, fx->cfile.sequence, 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  337  	KUNIT_EXPECT_EQ(test, fx->cfile.queue_used, fx->ctlv.queue_reserved);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  338  }
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  339  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  340  static void ctlv_event_test_explicit_loss(struct kunit *test)
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  341  {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  342  	struct ctlv_event_test_fixture *fx = ctlv_event_test_fixture_open(test);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  343  	struct ctlv_event_test_reader_waiter waiter = {
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  344  		.cfile = &fx->cfile,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  345  	};
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  346  	struct ctlv_file *other = ctlv_event_test_other_open(test, fx);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  347  	struct task_struct *task;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  348  	struct ctlv_cursor *payload;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  349  	struct ctlv_op_ctx *ctx;
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  350  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  351  	init_completion(&waiter.entered);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  352  	init_completion(&waiter.done);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  353  	ctlv_event_test_subscribe(test, fx, CTLV_FIXTURE_OP_PINGED);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  354  	task = kthread_run(ctlv_event_test_reader_wait, &waiter, "ctlv-event-reader");
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  355  	KUNIT_ASSERT_FALSE(test, IS_ERR(task));
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  356  	wait_for_completion(&waiter.entered);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  357  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  358  	kunit_activate_static_stub(test, ctlv_event_create,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  359  				   ctlv_event_test_create_nomem);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  360  	kunit_activate_static_stub(test, ctlv_event_alloc,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  361  				   ctlv_event_test_record_unexpected);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  362  	ctx = ctlv_event_create(&fx->ctlv, CTLV_FIXTURE_OP_PINGED,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  363  				&payload, GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26 @364  	KUNIT_EXPECT_EQ(test, PTR_ERR(ctx), -ENOMEM);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  365  	KUNIT_EXPECT_EQ(test, fx->cfile.sequence, 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  366  	ctlv_event_lost(&fx->ctlv, CTLV_FIXTURE_OP_PINGED);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  367  	kunit_deactivate_static_stub(test, ctlv_event_alloc);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  368  	kunit_deactivate_static_stub(test, ctlv_event_create);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  369  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  370  	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&waiter.done, HZ),
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  371  			0UL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  372  	kthread_stop(task);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  373  	KUNIT_EXPECT_EQ(test, waiter.result, 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  374  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  375  	ctx = ctlv_event_create(&fx->ctlv, CTLV_FIXTURE_OP_PINGED,
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  376  				&payload, GFP_KERNEL);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  377  	KUNIT_ASSERT_FALSE(test, IS_ERR(ctx));
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  378  	KUNIT_EXPECT_EQ(test, ctlv_event_emit(ctx), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  379  	ctlv_event_lost(&fx->ctlv, CTLV_FIXTURE_OP_PINGED);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  380  
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  381  	KUNIT_EXPECT_EQ(test, fx->cfile.sequence, 3);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  382  	KUNIT_EXPECT_TRUE(test, fx->cfile.overflowing);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  383  	KUNIT_EXPECT_EQ(test, fx->cfile.first_dropped, 1);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  384  	KUNIT_EXPECT_EQ(test, fx->cfile.last_dropped, 3);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  385  	KUNIT_EXPECT_EQ(test, fx->cfile.dropped, 3);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  386  	KUNIT_EXPECT_EQ(test, ctlv_event_test_queued(fx), 1);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  387  	KUNIT_EXPECT_EQ(test, other->sequence, 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  388  	KUNIT_EXPECT_FALSE(test, other->overflowing);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  389  	KUNIT_EXPECT_EQ(test, ctlv_event_test_file_queued(other), 0);
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  390  }
-3e5d2a45aaa368 Jiri Pirko 2026-08-26  391  
+77e5ab95100e8d Kumar Kartikeya Dwivedi 2026-11-13  3678  
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3679  /*
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3680   * Leave the frame of subprog @s. cancel_exit returns to the pad of the call that the frame
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3681   * was called by. The kernel entered the main program or an async callback, and nothing else
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3682   * does, see cancel_sub_reason(): all frames are done. The pad tells that the program was
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3683   * cancelled and returns to the kernel like any exit.
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3684   *
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3685   * The pad of a subprog that a call entered tells the pad of that call in R2 which arguments
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3686   * of the frame are released, see bpf_cancel_note_args(). Every such pad does, so that a pad
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3687   * may go by the mask whatever it was called by: 0 says that all is as the call left it.
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3688   * @site is the site of the pad, NULL for the stack check, where the frame did nothing yet:
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3689   * BPF_CANCEL_PAD_EXIT_INSNS at most then. The mask has what the frame gave when it got to
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3690   * the site, and at a call the bit of each argument of the frame that the callee was passed
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3691   * and tells about: the mask of the callee is in the word of the frame, see cancel_emit_pad().
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3692   *
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3693   *	r2 = gave
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3694   *	r1 = *(u32 *)(r10 + mask)
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3695   *	if r1 & BIT(the argument of the callee) goto +1
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3696   *	goto +1
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3697   *	r2 |= BIT(the argument of the frame)
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3698   *	r0 = 0
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3699   *	cancel_exit
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3700   */
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3701  static int cancel_emit_exit(struct bpf_verifier_env *env, int s, const struct cancel_site *site,
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3702  			    struct bpf_insn *buf)
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3703  {
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3704  	u32 fwd = 0;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3705  	s32 val = 0;
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3706  	int n = 0, r;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3707  
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3708  	if (cancel_sub_is_top(env, s)) {
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3709  		/* it didn't refuse in cancel_sub_reason() */
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3710  		if (!s)
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3711  			bpf_prog_cancel_retval(env, &val);
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3712  		buf[n++] = BPF_EMIT_KERNEL_CALL(bpf_prog_report_cancel);
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3713  		buf[n++] = BPF_MOV64_IMM(BPF_REG_0, val);
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3714  		buf[n++] = BPF_EXIT_INSN();
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3715  		return n;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3716  	}
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3717  	buf[n++] = BPF_MOV64_IMM(BPF_REG_2, site ? site->gave : 0);
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13 @3718  	for (r = 1; site && r <= CANCEL_MAX_ARG; r++)
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3719  		if ((site->told & BIT(r)) && site->fwd[r])
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3720  			fwd |= BIT(r);
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3721  	if (fwd)
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3722  		buf[n++] = BPF_LDX_MEM(BPF_W, BPF_REG_1, BPF_REG_FP, site->mask);
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3723  	for (r = 1; r <= CANCEL_MAX_ARG; r++) {
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3724  		if (!(fwd & BIT(r)))
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3725  			continue;
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3726  		buf[n++] = BPF_JMP_IMM(BPF_JSET, BPF_REG_1, BIT(r), 1);
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3727  		buf[n++] = BPF_JMP_A(1);
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13 @3728  		buf[n++] = BPF_ALU64_IMM(BPF_OR, BPF_REG_2, BIT(site->fwd[r]));
+685a972de1419e Kumar Kartikeya Dwivedi 2026-11-13  3729  	}
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3730  	buf[n++] = BPF_MOV64_IMM(BPF_REG_0, 0);
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3731  	buf[n++] = BPF_RAW_INSN(BPF_JMP | BPF_EXIT, 0, BPF_CANCEL_EXIT, 0, 0);
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3732  	env->subprog_info[s].can_cancel = true;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3733  	env->prog->jit_required = 1;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3734  	return n;
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3735  }
+d722e840ee3991 Kumar Kartikeya Dwivedi 2026-11-13  3736  
 
 -- 
 0-DAY CI Kernel Test Service
