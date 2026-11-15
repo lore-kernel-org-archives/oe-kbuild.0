@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794734087;
-	b=1X2z/CdmNp6rUC0YzYao7BF1ViCjtHkDMsejPYme4hHJW3K2i47/v5+jOVjOPOc0RVi8
-	 O9DTfA59qHgmtb3IB1GvU0DhoTz29nNToottSKZXCkzxmjeARSYWBH8sN24givXH4A0uY
-	 cWEE047LimDuR2EQp6M5BZJvlk71ufkpdN28c3fi/z1Kd8C9X1LFCnKGmmp7osTny9nV4
-	 0Cw8D12IcOrLZXEKByhbVyJkm1DgJ3mrtfN7okxWskJrGl90VXE9jdAV8TZPdPedP21Ce
-	 IgtCInC7r5hSTpqtLAooy7evr51NTIqwNQSSWDkai9+mX1o+yutVmd7VXHLf5v+44yQ==
+	t=1794737156;
+	b=I2EMMrBOoA1Ut8+2zjlxHPuB6C2hhi9n0Qb9PPUEk39aGGliAllMWBfFix7NsBiJx1S6
+	 jXrPgGh3UUhymnTglg840e4pXVyv19rB7MP72aFBnhEobowYpFyVfaEJxonPF0SK0H6Jc
+	 540xGHNRUzJ1BARvYU38l2wgRkiMY9Gnt6UM1pN+/kDmvO6uciD2ShorZdzTiItqHc4vu
+	 iJEhab0VFaHvml/2v+I+XRdNjlzrxq69E9Y0N/tK/0M1ncgP7/iwjfZuAlcULHWlyQA5x
+	 98RlvqMSe0/IlwBXdVaFE7/Hk+SVWQGqE4LFlF554QNjLv/zXnjZ5lxVJoCYOR1i/OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794734087;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794737156;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AOLzvpJasJqHsI6EYiTITTwkstVkpvGYqCa6avcGo+0=;
-	b=Yghnm1plt4Lgiu35WbOHyvWWTCnGhc5o8bF89D7JlymzAXV/PKPNHh2ypvdgV7Vh8BM/
-	 SCikL/0B1601jhvSKCNZopxuNommUbk529nld+Zglb2oOKKZoXrDWEJG4LaDWcs7gfCWw
-	 kDE1KEPtLTOuJart4DNOfPJuAoiouzMGWI71GVG/y3zWLWCIrL/pjEa69uE/rxhp0qbhW
-	 U8jmo2NuatUJDsnUA6WW2NJvDwdEKqrLlXigDzhJgIsp3sbylajuM5NfH1+7SyhG7b8ZG
-	 vMfuQjs3k+IuyQPjX+eYY2uWVU8ajNsRHKFhTCU4qTLHX58uZsLKFWiA+MP10jSnUhg==
+	bh=NBTnEo9mnGPlDFSU1a475vOgxqxL+qSDpuavnbSDqRo=;
+	b=nmb0Qegujt5GKxe/0g+8O9SBFR1pCRrqdrA9eFB7fzxaxOqSslP683DAUgTON705rdRj
+	 a4YgU5hGIMSyP296ScikhNk7zdJquxm9xtHFtgvXbzlMCF3jd/7ldLwyHfagl2PEtiaH1
+	 fPc+tvizJ1OyAHaF7NeKKgv02wRMlQ9EdX+PPmWqjjTl4rdef8TzzGgBt7eWHXeRzcJgT
+	 AlRq1TfANFi8DNjYPWnRl3bfbjEWYeCUfGQFHyUem4pg2UEs9ygRQcpu7oPqgTIl7K0TL
+	 tbZd5Ph8UQkcLzpWQO7py3OO8nKIEzIoSLc869S1+45hpiD8xWB/qHAy7iC1G74UheQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5lbVrQH;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N9L9I36t;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1276606A31D
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 09:14:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1276606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F93A606A31E
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 10:05:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F93A606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5lbVrQH
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N9L9I36t
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794734087; x=1826270087;
+  t=1794737155; x=1826273155;
   h=date:from:to:cc:subject:message-id;
-  bh=iBJZXxy/FawibWNSvppaBlWrZoEHZOdXUxZRcbBs22Q=;
-  b=D5lbVrQHvFYzuDwrPiCLbhboBTTsNDePS1QRcEP+PxKd2EGSj+lTACYd
-   rquU+165ORdwWIL3pMblIUmtncvvnj2LYaGp4IbuKjjHdHenhEzLYHfFe
-   HrXkbMokQLg794zOGQCR5CBHaZzN6HGNz8yjbKwQuUPShCREs6EblJD4p
-   wm7iTlnsqXUH4+PabGodBxk86pwWi/p7f43mJafl1BAKVREoIIpc05I9A
-   SdIEhJMbSC5KL4EkZW0tP7E4vNfIxGmrXYm3zT5zmEtdCcl96iBNhx9F5
-   MNRdkVgbK4HX+kdh9hrvWNq5STZmPUyXAx4nmj3qH6mqbwNjfToaaSB7l
-   A==;
-X-CSE-ConnectionGUID: jdc7psxXSLSPI904EKH0ag==
-X-CSE-MsgGUID: Ek9eP7VaQOyblThxoCh1lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3487521"
+  bh=yVLcPm6wbx2FPArpm6LAJCMbOJK4P4GqBATlne4B3Hc=;
+  b=N9L9I36tCj6j5uZXpgq2m5T6mHSP2W53uy5WewXwhnmKlzzhmokg50rJ
+   mwtocRnG9+gp+HpZpYkb77y6sow7qiaGWBzWsd1WO04ccuWvC6tkNhxtt
+   gKPEM6NI23f+EOkTOW/hCZpASfNANd/Va2/68MBL9fVVvoBVJUcMumkJF
+   TXeTU4xCXys7CFsyU/PWLP1zzmz1VSJq+aTAcjT3A+IqTHsDIv9qsB3vj
+   Zz9RgJyIgvoWKmVk6SCpUp4JliPyLfvaL6ULVjbU+Q4DpPdgW3inZUhRy
+   4XHOCV3xnYBcS6s7YaCWJ4Z/JOwbfi6+0LS63X2Liv69RNugpXZW5pH4e
+   Q==;
+X-CSE-ConnectionGUID: WNeUnp01QbSC9kfqjU1y/A==
+X-CSE-MsgGUID: mTnW6Za7T9u+GSJQqtxeLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3384671"
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="3487521"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 01:14:47 -0800
-X-CSE-ConnectionGUID: KerWeXiUQgO8xFNnKBNrvA==
-X-CSE-MsgGUID: xtimTzPxSXmrzSlyEZhr8A==
+   d="scan'208";a="3384671"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 02:05:54 -0800
+X-CSE-ConnectionGUID: Ywfj/VgsThyPZWmksuPpwA==
+X-CSE-MsgGUID: ekAp/HZFSEK5/t20yllang==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="9545965"
+   d="scan'208";a="9227109"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Nov 2026 01:14:45 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Nov 2026 02:05:54 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSWJv-0000000027y-1Dfj;
-	Sun, 15 Nov 2026 09:14:43 +0000
-Date: Sun, 15 Nov 2026 10:14:27 +0100
+	id 1xSX7P-0000000028W-19X4;
+	Sun, 15 Nov 2026 10:05:51 +0000
+Date: Sun, 15 Nov 2026 11:05:35 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/media/i2c/maxim-serdes/max96717.c:607:9: error: call
- to '__compiletime_assert_498' declared with 'error' attribute: field_prep:
- value too large for the field
-Message-ID: <202611151041.O1qSF09B-lkp@intel.com>
+Subject: {standard input}: Error: open CFI at the end of file;
+ missing .cfi_endproc directive
+Message-ID: <202611151052.Mifp7WHU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,139 +81,77 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "too many reports for this commit | /zdci/kbuild/indicators/0f/0fc1bd38a19c108395d8338fb034f90c2d3fbe55-reported_build_error_fbc-error"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Cosmin Tanislav <demonsingur@gmail.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Marco Elver <elver@google.com>
+CC: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+CC: "Harry Yoo (Oracle)" <harry@kernel.org>
 
-Hi Cosmin,
+Hi Marco,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   23c62304dde29abe92013d85910d03a77dada35d
-commit: ea15bcd94f0f916b46bb1ba200ca84d2bd67ec5e media: i2c: maxim-serdes: add MAX96717 driver
-date:   6 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 6 weeks ago
-config: s390-randconfig-2001-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151041.O1qSF09B-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151041.O1qSF09B-lkp@intel.com/reproduce)
+commit: 0fc1bd38a19c108395d8338fb034f90c2d3fbe55 slab: improve KMALLOC_PARTITION_RANDOM randomness
+date:   6 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 months ago
+config: csky-randconfig-r2103-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151052.Mifp7WHU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151052.Mifp7WHU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ea15bcd94f0f ("media: i2c: maxim-serdes: add MAX96717 driver")
+| Fixes: 0fc1bd38a19c ("slab: improve KMALLOC_PARTITION_RANDOM randomness")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611151041.O1qSF09B-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611151052.Mifp7WHU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/i2c/maxim-serdes/max96717.c:607:9: error: call to '__compiletime_assert_498' declared with 'error' attribute: field_prep: value too large for the field
-     607 |                 val = field_prep(mask, arg ? en_val : ~en_val);
-         |                       ^
-   include/linux/bitfield.h:296:32: note: expanded from macro 'field_prep'
-     296 |         (__builtin_constant_p(mask) ? __FIELD_PREP(mask, val, "field_prep: ") \
-         |                                       ^
-   include/linux/bitfield.h:91:3: note: expanded from macro '__FIELD_PREP'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:144:1: note: expanded from here
-     144 | __compiletime_assert_498
+   fs/nfs/nfs4namespace.c: In function 'nfs4_replace_transport':
+   fs/nfs/nfs4namespace.c:577:1: error: could not split insn
+     577 | }
          | ^
-   1 error generated.
-
-
-vim +607 drivers/media/i2c/maxim-serdes/max96717.c
-
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  576  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  577  static int max96717_conf_pin_config_set_one(struct max96717_priv *priv,
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  578  					    unsigned int offset,
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  579  					    unsigned long config)
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  580  {
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  581  	u32 param = pinconf_to_config_param(config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  582  	u32 arg = pinconf_to_config_argument(config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  583  	unsigned int reg, mask, val, en_val;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  584  	int ret;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  585  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  586  	ret = max96717_get_pin_config_reg(offset, param, &reg, &mask, &en_val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  587  	if (ret)
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  588  		return ret;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  589  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  590  	switch (param) {
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  591  	case PIN_CONFIG_DRIVE_OPEN_DRAIN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  592  	case PIN_CONFIG_DRIVE_PUSH_PULL:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  593  	case PIN_CONFIG_BIAS_DISABLE:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  594  	case PIN_CONFIG_BIAS_PULL_DOWN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  595  	case PIN_CONFIG_BIAS_PULL_UP:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  596  		val = field_prep(mask, en_val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  597  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  598  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  599  		break;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  600  	case MAX96717_PINCTRL_JITTER_COMPENSATION_EN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  601  	case MAX96717_PINCTRL_PULL_STRENGTH_HIGH:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  602  	case MAX96717_PINCTRL_TX_EN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  603  	case MAX96717_PINCTRL_RX_EN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  604  	case PIN_CONFIG_OUTPUT_ENABLE:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  605  	case PIN_CONFIG_INPUT_ENABLE:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  606  	case PIN_CONFIG_LEVEL:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30 @607  		val = field_prep(mask, arg ? en_val : ~en_val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  608  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  609  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  610  		break;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  611  	case MAX96717_PINCTRL_TX_ID:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  612  	case MAX96717_PINCTRL_RX_ID:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  613  	case PIN_CONFIG_SLEW_RATE:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  614  		val = field_prep(mask, arg);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  615  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  616  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  617  		break;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  618  	default:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  619  		return -ENOTSUPP;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  620  	}
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  621  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  622  	if (ret)
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  623  		return ret;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  624  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  625  	switch (param) {
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  626  	case PIN_CONFIG_BIAS_PULL_DOWN:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  627  	case PIN_CONFIG_BIAS_PULL_UP:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  628  		arg = arg >= MAX96717_BIAS_PULL_STRENGTH_1000000_OHM;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  629  		config = pinconf_to_config_packed(MAX96717_PINCTRL_PULL_STRENGTH_HIGH, arg);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  630  		return max96717_conf_pin_config_set_one(priv, offset, config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  631  	case PIN_CONFIG_LEVEL:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  632  		config = pinconf_to_config_packed(PIN_CONFIG_OUTPUT_ENABLE, 1);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  633  		return max96717_conf_pin_config_set_one(priv, offset, config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  634  	case PIN_CONFIG_OUTPUT_ENABLE:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  635  		config = pinconf_to_config_packed(MAX96717_PINCTRL_RX_EN, 0);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  636  		return max96717_conf_pin_config_set_one(priv, offset, config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  637  	case MAX96717_PINCTRL_TX_ID:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  638  		config = pinconf_to_config_packed(MAX96717_PINCTRL_TX_EN, 1);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  639  		return max96717_conf_pin_config_set_one(priv, offset, config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  640  	case MAX96717_PINCTRL_RX_ID:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  641  		config = pinconf_to_config_packed(MAX96717_PINCTRL_RX_EN, 1);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  642  		return max96717_conf_pin_config_set_one(priv, offset, config);
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  643  	default:
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  644  		break;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  645  	}
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  646  
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  647  	return 0;
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  648  }
-ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  649  
+   (insn 178 491 855 (set (reg:SI 3 a3 [254])
+           (xor:SI (reg:SI 2 a2 [orig:255 random_kmalloc_seed ] [255])
+               (const:SI (plus:SI (symbol_ref:SI ("*.LANCHOR0") [flags 0x182])
+                       (const_int 4 [0x4]))))) "include/linux/slab.h":698:52 288 {cskyv2_xorsi3}
+        (expr_list:REG_DEAD (reg:SI 2 a2 [orig:255 random_kmalloc_seed ] [255])
+           (nil)))
+   during RTL pass: final
+   fs/nfs/nfs4namespace.c:577:1: internal compiler error: in final_scan_insn_1, at final.cc:2812
+   0x7fe96478fd64 __libc_start_main
+   	???:0
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+   Assembler messages:
+>> {standard input}: Error: open CFI at the end of file; missing .cfi_endproc directive
+--
+   fs/nfs/filelayout/filelayout.c: In function 'filelayout_decode_layout.isra':
+   fs/nfs/filelayout/filelayout.c:733:1: error: could not split insn
+     733 | }
+         | ^
+   (insn 447 722 1341 (set (reg:SI 3 a3 [328])
+           (xor:SI (reg:SI 2 a2 [orig:329 random_kmalloc_seed ] [329])
+               (const:SI (plus:SI (symbol_ref:SI ("*.LANCHOR1") [flags 0x182])
+                       (const_int 81 [0x51]))))) "include/linux/slab.h":698:52 288 {cskyv2_xorsi3}
+        (expr_list:REG_DEAD (reg:SI 2 a2 [orig:329 random_kmalloc_seed ] [329])
+           (nil)))
+   during RTL pass: final
+   fs/nfs/filelayout/filelayout.c:733:1: internal compiler error: in final_scan_insn_1, at final.cc:2812
+   0x7fea3cbebd64 __libc_start_main
+   	???:0
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+   Assembler messages:
+>> {standard input}: Error: open CFI at the end of file; missing .cfi_endproc directive
 
 -- 
 0-DAY CI Kernel Test Service
