@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794706609;
-	b=zq8AAB4SVLh4lIAaG+BGzotolJeBxsikDkfgWgWjarWm36htnUNod+68Sb6jVirk4XoV
-	 hlEGVmx2rfRMar1A0otJD/mS6Ede8mEvWT+g3tMLWpGES7hmp7Qa6Qd2d9T3bCR+/uBN9
-	 L6c3WRRgImiu/txa+tD+1WnVbXbd3aUYQVux4GfVgYcQ3e0fgH8eb6wOrQcr5qaIawm7q
-	 RdjOgsOWcTLw4GliO01HOR7c1BBinCSPpA3rohQCMNlgKgBXjEzwA08peyQypdFnru35y
-	 DF3aDj9X6mvHdQpYqNNxqdHI+1mn+nt5cdLy2RAgJ7yzNfy72HutwlX+C8f8TPxt/uw==
+	t=1794710277;
+	b=5nJFPhE5GiK1Z2YgWJBkWQgDzklHSumSCtjZ8eUdiYpsilx8GDh+WW5fg32VBqEuN1Db
+	 EGwv9AYu+fW5BZJqjZfR0kVa5N3MCBP5rRwNQyKe1Ajpjog2WbPJBiO02vaiJREkBBadA
+	 Hlg0dfkBLSKnmwmoRBti2stCGEFGQYEz8Ro8YB9dXQ/eSdzZ27VvNFFdkV6CLtz9Aoe/j
+	 dFfzGI0Np2CrM7Vq7SibB8tJVDaQEBzHW/lbwOr8ndqAh4mw2BLntSCUD083sGUzox8sy
+	 apE/oasVNiQPEnuZWi6G/8RrPGbm7UBJFeGniQz3dFV4i1sb1wQkIr2VP1xgZf0odfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794706609;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794710277;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=jHMwR7vzu8765NU6GPlCSpa6ElQuaBaHv8Z/QelJtjo=;
-	b=A78yklRRaf7D1povDAuIs+dEzJ8NH9MUXFgWwoq26Cw6NP6AYPfXskOyUPF3YTOKYyfJ
-	 TWVzauIljVYjfby2chaxX9IB7+mArR9QeGJLhCOd+q+3r623Q3In8IFtCFFH3xyo5n2Gc
-	 ulOyFg1Sb/s0iQhVEQ3Q8oT1Hq1pQvkTpXmXulV0nRJGRXG5h8BM7o6NFMIxE0LtINq6r
-	 9+LHXM+k+uLyuHE+51zcztO0Dqky5D7VO7BY8ls9fNvL5AET4cqfrdcUKoKozPYk2KNlX
-	 8CbWTSdaR+GuWmXy3XBeshe3t4onrrcgNpaU+d2rFYPv78uU+QS7K/7zpMxItNK8PJw==
+	bh=PWnnakoJq95zkENTbNdcgPScTLphTjKg3Z+CefNACMY=;
+	b=ltjSmwguvZwKaxriq0cUbuym+zbGNJy+khbRsxoBNsNSOsWYT72diPcCN5IS62yUNXbh
+	 ShSHVnppWnrEndVRaXEtVcQ7SnRBl84QVr4gLXMBhhfYDM+TBIFJYfgbgv0ipl4JDjR/i
+	 y7vi0rDZ9onm/8G+FLeZ0Osbh4SWEDvkJGFBii31dLHT0BiPOC8F3Dkg2Lj8bcrGPzhDh
+	 E9ZYltIUqcl7qs8A7VmACn8RKks0NeZZPLlAhVoX0hTZ3WMYqm70xznxKn6UWFTIR/mpv
+	 LnKJy8UO4mrzp30TnfHZpmeSot9uGGsHF+Bd+SmR1FBW10sX3sdWMsdZI1jJA/KbpQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fT0dkn5c;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=djCfNCWq;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBA6606A323
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 01:36:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DBA6606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEA8606A323
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 02:37:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEEA8606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fT0dkn5c
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=djCfNCWq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794706608; x=1826242608;
+  t=1794710277; x=1826246277;
   h=date:from:to:cc:subject:message-id;
-  bh=PT5kDGgFdPe+Fd+eAhbMkjuzzfeYLyqAx7TfI2DQyRA=;
-  b=fT0dkn5cXIf6iF1riFWkZ4wNee6jlgvHzDqIDPw1DLYo9fT1j5qDtevR
-   uYFDREdoM/HuT0EXHFMYGbW7sZm0AZt07emKd+MMY5G7df9+e4Jnq8eov
-   wSvxUmV/ZrREL9L+hz9Z15ei5pKSuKFVFxkEzac/Mn3HFpm5sz63Ovb4z
-   9cxkndRP6Qo1xufsWrt6MA4xHbpRSAzKa3odqTEqUJWFffFdC9B7BsV5n
-   ismMw+JQ0N8ekRkROHOsA11wdmOY2+KJTcDHckPjT/V9oDf0QI8/mrbV+
-   gx2r6Xq4jt7nLrhumPx5MkdUGgsG9AXYfu0c0cm5UM4qtsgNnf36yUiIb
-   A==;
-X-CSE-ConnectionGUID: OcGcUfeRRgifTw3XZISoXA==
-X-CSE-MsgGUID: ym8Lb5JuTwCHlVsZG9T9QQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3580667"
+  bh=eZbxXFtIZfN27+Y/N5vkUADLNv37rHY8aqZF/ER4ot8=;
+  b=djCfNCWq1cOJQBmnj0/kBD08FBeyAaCJApMbLvn3uJI6Q6e5aK4igcJG
+   OGDUpmYIxIxFjfVO/wRuULBTl250uzXQ4/RpBZNzACDMseA4IhlI1PvDo
+   Oe9seSnEvmv9p6XYMpXSU+vapgKWXtzGW+E8dPsIAZEf/UqELq29OoQkG
+   hHqm+03j8elkx//8jxU8WCkZtIMGHivv+RcNKdDhDaxiKnB2zBf3Ulllm
+   Zv0DUbeDs1uCx7pzfK2GprOtFEMKZwN8Pgs9Fu51UDgaFyl8ELbbu8piA
+   0h4RKjhND2yphWize3tcbPGw+0YtVmUC+bH8b+d3tnyvHfMdVOjDt/D7U
+   Q==;
+X-CSE-ConnectionGUID: QjRbqjlJScKVw1uaeD58XQ==
+X-CSE-MsgGUID: 47dtQtldRYyMXtdkYRo5Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3477565"
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="3580667"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 17:36:48 -0800
-X-CSE-ConnectionGUID: Ot+PTVwRR3u3U66gWfir0A==
-X-CSE-MsgGUID: CkEX/NQiQduRf0a0Muzigg==
+   d="scan'208";a="3477565"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 18:37:56 -0800
+X-CSE-ConnectionGUID: 4hpmGoC9RCKvWQUIqYgL5g==
+X-CSE-MsgGUID: YU4kH0clSkC2M7xnVgY0Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="10961989"
+   d="scan'208";a="9245134"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 14 Nov 2026 17:36:47 -0800
+  by orviesa006.jf.intel.com with ESMTP; 14 Nov 2026 18:37:55 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSPAi-000000001yg-2HXX;
-	Sun, 15 Nov 2026 01:36:44 +0000
-Date: Sun, 15 Nov 2026 02:36:30 +0100
+	id 1xSQ7r-000000001z8-2DHl;
+	Sun, 15 Nov 2026 02:37:51 +0000
+Date: Sun, 15 Nov 2026 03:37:27 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [xilinx-xlnx:zynqmp/dt 10/10]
- arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: pmu@f8891000
- (arm,cortex-a9-pmu): 'reg' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202611150224.G0aEm7fo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jic23-iio:testing 282/283]
+ drivers/iio/adc/ti-ads112c14.c:412 ads112c14_gpio_get_direction() warn:
+ subtract is higher precedence than shift
+Message-ID: <202611150351.IEyI2faZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,71 +81,103 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: git@amd.com
-TO: Pufan Jin <cyan2254650260@gmail.com>
-CC: Michal Simek <monstr@monstr.eu>
+TO: "David Lechner (TI)" <dlechner@baylibre.com>
+CC: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx zynqmp/dt
-head:   689559a7ad00e2b4237c540b771d201214cfec1d
-commit: 689559a7ad00e2b4237c540b771d201214cfec1d [10/10] ARM: dts: zynq: Add ALINX AX7Z020B development board
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261115/202611150224.G0aEm7fo-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev6+ged91b647c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611150224.G0aEm7fo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   3188a89c2608538435bba0d32a472422291c4792
+commit: 9c53dce4b5e9b9b5b44393729c7867582a92132d [282/283] iio: adc: ti-ads112c14: add gpio support
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 hours ago
+config: m68k-randconfig-2200-20261115 (https://download.01.org/0day-ci/archive/20261115/202611150351.IEyI2faZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611150224.G0aEm7fo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202611150351.IEyI2faZ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/xilinx/zynq-7000.dtsi:266.27-275.5: Warning (avoid_unnecessary_addr_size): /axi/ethernet@e000b000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: pmu@f8891000 (arm,cortex-a9-pmu): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml
-   arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
-   arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
-   arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: clkc@100 (xlnx,ps7-clkc): fclk-enable: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: clkc@100 (xlnx,ps7-clkc): ps-clk-frequency: b'\x01\xfc\xa0U' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: etb@f8801000 (arm,coresight-etb10): clock-names:1: 'atclk' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: etb@f8801000 (arm,coresight-etb10): clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: etb@f8801000 (arm,coresight-etb10): clocks: [[1, 27], [1, 46], [1, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: tpiu@f8803000 (arm,coresight-tpiu): clock-names:1: 'atclk' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tpiu.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: tpiu@f8803000 (arm,coresight-tpiu): clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tpiu.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: tpiu@f8803000 (arm,coresight-tpiu): clocks: [[1, 27], [1, 46], [1, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tpiu.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: funnel@f8804000 (arm,coresight-static-funnel): 'clock-names', 'clocks', 'reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-funnel.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: funnel@f8804000 (arm,coresight-static-funnel): compatible: ['arm,coresight-static-funnel', 'arm,primecell'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-funnel.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889c000 (arm,coresight-etm3x): clock-names:1: 'atclk' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889c000 (arm,coresight-etm3x): clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889c000 (arm,coresight-etm3x): clocks: [[1, 27], [1, 46], [1, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889d000 (arm,coresight-etm3x): clock-names:1: 'atclk' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889d000 (arm,coresight-etm3x): clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
->> arch/arm/boot/dts/xilinx/zynq-alinx-ax7z020b.dtb: ptm@f889d000 (arm,coresight-etm3x): clocks: [[1, 27], [1, 46], [1, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml
+New smatch warnings:
+drivers/iio/adc/ti-ads112c14.c:412 ads112c14_gpio_get_direction() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:412 ads112c14_gpio_get_direction() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:412 ads112c14_gpio_get_direction() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:412 ads112c14_gpio_get_direction() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:431 ads112c14_gpio_direction_input() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:431 ads112c14_gpio_direction_input() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:431 ads112c14_gpio_direction_input() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:431 ads112c14_gpio_direction_input() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:450 ads112c14_gpio_direction_output() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:450 ads112c14_gpio_direction_output() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:450 ads112c14_gpio_direction_output() warn: subtract is higher precedence than shift
+drivers/iio/adc/ti-ads112c14.c:450 ads112c14_gpio_direction_output() warn: subtract is higher precedence than shift
+
+Old smatch warnings:
+include/linux/iio/iio.h:788 class___priv__iio_dev_mode_lock_try_direct_constructor() warn: passing zero to 'ERR_PTR'
+
+vim +412 drivers/iio/adc/ti-ads112c14.c
+
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  400) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  401) static int ads112c14_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  402) {
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  403) 	struct iio_dev *indio_dev = gpiochip_get_data(gc);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  404) 	struct ads112c14_data *data = iio_priv(indio_dev);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  405) 	unsigned int reg_val;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  406) 	int ret;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  407) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  408) 	ret = regmap_read(data->regmap, ADS112C14_REG_GPIO_CFG, &reg_val);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  409) 	if (ret)
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  410) 		return ret;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  411) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06 @412) 	switch (field_get(ADS112C14_GPIO_CFG_GPIO_CFG(offset), reg_val)) {
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  413) 	case ADS112C14_GPIO_CFG_GPIO_CFG_INPUT:
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  414) 		return GPIO_LINE_DIRECTION_IN;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  415) 	case ADS112C14_GPIO_CFG_GPIO_CFG_OUTPUT_PUSH_PULL:
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  416) 	case ADS112C14_GPIO_CFG_GPIO_CFG_OUTPUT_OPEN_DRAIN:
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  417) 		return GPIO_LINE_DIRECTION_OUT;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  418) 	default:
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  419) 		return -EINVAL;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  420) 	}
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  421) }
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  422) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  423) static int ads112c14_gpio_direction_input(struct gpio_chip *gc,
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  424) 					  unsigned int offset)
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  425) {
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  426) 	struct iio_dev *indio_dev = gpiochip_get_data(gc);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  427) 	struct ads112c14_data *data = iio_priv(indio_dev);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  428) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  429) 	return regmap_update_bits(data->regmap, ADS112C14_REG_GPIO_CFG,
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  430) 				  ADS112C14_GPIO_CFG_GPIO_CFG(offset),
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06 @431) 				  field_prep(ADS112C14_GPIO_CFG_GPIO_CFG(offset),
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  432) 					     ADS112C14_GPIO_CFG_GPIO_CFG_INPUT));
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  433) }
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  434) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  435) static int ads112c14_gpio_direction_output(struct gpio_chip *gc,
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  436) 					   unsigned int offset, int value)
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  437) {
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  438) 	struct iio_dev *indio_dev = gpiochip_get_data(gc);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  439) 	struct ads112c14_data *data = iio_priv(indio_dev);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  440) 	int ret;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  441) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  442) 	ret = regmap_assign_bits(data->regmap, ADS112C14_REG_GPIO_DATA_OUTPUT,
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  443) 				 ADS112C14_GPIO_DATA_OUTPUT_GPIO_DAT_OUT(offset),
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  444) 				 value);
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  445) 	if (ret)
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  446) 		return ret;
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  447) 
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  448) 	return regmap_update_bits(data->regmap, ADS112C14_REG_GPIO_CFG,
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  449) 				  ADS112C14_GPIO_CFG_GPIO_CFG(offset),
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06 @450) 				  field_prep(ADS112C14_GPIO_CFG_GPIO_CFG(offset),
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  451) 					     ADS112C14_GPIO_CFG_GPIO_CFG_OUTPUT_PUSH_PULL));
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  452) }
+9c53dce4b5e9b9 David Lechner (TI  2026-11-06  453) 
 
 -- 
 0-DAY CI Kernel Test Service
