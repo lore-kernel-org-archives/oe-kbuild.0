@@ -1,78 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794732287;
-	b=t6XfthkAdAgu29GEJ+cGR/LHbZVYrr+hq5mPvktpxPnBE+jCslp4h/1PNxodSI9FD/CI
-	 eSxINNQNQhmiX4YUqsuQwfLo8XLk/E6WYJusV1A29qirTaQjgp4VFCXiK915bDL0JhTM4
-	 bJMhVjY4CdVVsDl7txNKaMABrvkZ+ZGvKNYkAS9Bbgcl9yeoGi5a7FLgYedM0aqOmubwi
-	 4E9xJoy3wrToZ+IDo9KJ8KE8JrCcLBVapDzl9dHKtWqdqveMknNUD0TU98SKoaieA2oST
-	 2INHrNXvY5HpmnXpF+gYfyOcrTsXlcB1PDg+r2bSQloxG1nOzwy7ESZeQqNc20OM8Tg==
+	t=1794734087;
+	b=1X2z/CdmNp6rUC0YzYao7BF1ViCjtHkDMsejPYme4hHJW3K2i47/v5+jOVjOPOc0RVi8
+	 O9DTfA59qHgmtb3IB1GvU0DhoTz29nNToottSKZXCkzxmjeARSYWBH8sN24givXH4A0uY
+	 cWEE047LimDuR2EQp6M5BZJvlk71ufkpdN28c3fi/z1Kd8C9X1LFCnKGmmp7osTny9nV4
+	 0Cw8D12IcOrLZXEKByhbVyJkm1DgJ3mrtfN7okxWskJrGl90VXE9jdAV8TZPdPedP21Ce
+	 IgtCInC7r5hSTpqtLAooy7evr51NTIqwNQSSWDkai9+mX1o+yutVmd7VXHLf5v+44yQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794732287;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794734087;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=nbCQWpSaN0/YPYmktb9plqp+nWDdkW+csJ5C0Q/ZKnE=;
-	b=iFojvSItMBqqjZuXPol0+WPCVRG5WWQx14tUJz+SF8/WHQlawNWeMs2YOkKqEEYHYfcR
-	 DbW6lmpJ6wvVO7RbIDjNG4/WHIw/tPSm4I7gRbwC27rtZcuoQgQSLKkgFdzB3NQAuawrn
-	 kstKMyYAzFHmwydqwI8rxNZjy2mdfFjs+3l2yW7UDIcEnUMFd+JPTSWAcaDnYNrDrWzh0
-	 1ovxxmnxMvAaMxFjO/no36jteHhYE4koAzT7/OtjsUSYSH1CxRhJXOWI8ykdUt8JjAPdd
-	 U9IZyfA2fa8YXuCPvKrWlABJuNjtoV1/XIeLjq4ti2DR9WiTBKIDsIi9xknvJvsJ/+g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=AOLzvpJasJqHsI6EYiTITTwkstVkpvGYqCa6avcGo+0=;
+	b=Yghnm1plt4Lgiu35WbOHyvWWTCnGhc5o8bF89D7JlymzAXV/PKPNHh2ypvdgV7Vh8BM/
+	 SCikL/0B1601jhvSKCNZopxuNommUbk529nld+Zglb2oOKKZoXrDWEJG4LaDWcs7gfCWw
+	 kDE1KEPtLTOuJart4DNOfPJuAoiouzMGWI71GVG/y3zWLWCIrL/pjEa69uE/rxhp0qbhW
+	 U8jmo2NuatUJDsnUA6WW2NJvDwdEKqrLlXigDzhJgIsp3sbylajuM5NfH1+7SyhG7b8ZG
+	 vMfuQjs3k+IuyQPjX+eYY2uWVU8ajNsRHKFhTCU4qTLHX58uZsLKFWiA+MP10jSnUhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z+hDq+Um;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5lbVrQH;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671D0606A31E
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 08:44:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 671D0606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1276606A31D
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Nov 2026 09:14:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1276606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z+hDq+Um
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5lbVrQH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794732287; x=1826268287;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9VdW7s+XZCXGz/qK/l7SmVKEmKmuEmqDyzNhOTCYOR0=;
-  b=Z+hDq+UmJpGnkTgr/CWn/Bzse4Yw6jFxFze5jlDw8RfwsKBgH2cbzi6e
-   H2h4fUEaAGtTmWf0lNI0Idhmi90UXz3LGRJVhCgx4Yl9z5UbOtz0HYEYb
-   HmfQnFuUNO+ZV6eUhu1/qVBInnscGR0U6Swlp8uI3Ywfm9T2jk8R99Tnn
-   WID13PO0zx3kIhCv8PjjrjhznZzyn9VotGWpELMaLXpJVtOFUQtVDIb1n
-   h2jb5LpzEufgkWprnrtm00yxu+Ogeif+qhDXOU7XPlrUnV4/lM+ybPjv7
-   N+xk0Itu0epq0MY5yq7GcxE2y6Dh/b2kE7DhrxIVYXzjJ3BHzR5dPoRi0
-   w==;
-X-CSE-ConnectionGUID: E5QbunZRShCfQ6gLgUxz+w==
-X-CSE-MsgGUID: 5nXeaAYGTB2TVcFY/dJuvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3395129"
+  t=1794734087; x=1826270087;
+  h=date:from:to:cc:subject:message-id;
+  bh=iBJZXxy/FawibWNSvppaBlWrZoEHZOdXUxZRcbBs22Q=;
+  b=D5lbVrQHvFYzuDwrPiCLbhboBTTsNDePS1QRcEP+PxKd2EGSj+lTACYd
+   rquU+165ORdwWIL3pMblIUmtncvvnj2LYaGp4IbuKjjHdHenhEzLYHfFe
+   HrXkbMokQLg794zOGQCR5CBHaZzN6HGNz8yjbKwQuUPShCREs6EblJD4p
+   wm7iTlnsqXUH4+PabGodBxk86pwWi/p7f43mJafl1BAKVREoIIpc05I9A
+   SdIEhJMbSC5KL4EkZW0tP7E4vNfIxGmrXYm3zT5zmEtdCcl96iBNhx9F5
+   MNRdkVgbK4HX+kdh9hrvWNq5STZmPUyXAx4nmj3qH6mqbwNjfToaaSB7l
+   A==;
+X-CSE-ConnectionGUID: jdc7psxXSLSPI904EKH0ag==
+X-CSE-MsgGUID: Ek9eP7VaQOyblThxoCh1lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3487521"
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="3395129"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 00:44:46 -0800
-X-CSE-ConnectionGUID: /GTUb3TpRSihLeF8M9ZL3Q==
-X-CSE-MsgGUID: 4daDanOBQlWmtH2C1UXD8A==
+   d="scan'208";a="3487521"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 01:14:47 -0800
+X-CSE-ConnectionGUID: KerWeXiUQgO8xFNnKBNrvA==
+X-CSE-MsgGUID: xtimTzPxSXmrzSlyEZhr8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="9455367"
+   d="scan'208";a="9545965"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2026 00:44:44 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 15 Nov 2026 01:14:45 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSVqs-0000000027c-0HWU;
-	Sun, 15 Nov 2026 08:44:42 +0000
-Date: Sun, 15 Nov 2026 09:43:44 +0100
+	id 1xSWJv-0000000027y-1Dfj;
+	Sun, 15 Nov 2026 09:14:43 +0000
+Date: Sun, 15 Nov 2026 10:14:27 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [jic23-iio:testing 24/308]
- drivers/iio/accel/mma8452.c:1680:8-28: WARNING: Threaded IRQ with no primary
- handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-Message-ID: <202611150958.553wHmYA-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/media/i2c/maxim-serdes/max96717.c:607:9: error: call
+ to '__compiletime_assert_498' declared with 'error' attribute: field_prep:
+ value too large for the field
+Message-ID: <202611151041.O1qSF09B-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,324 +80,142 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Esben Haabendal <esben@geanix.com>
-CC: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Cosmin Tanislav <demonsingur@gmail.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testi=
-ng
-head:   94921bc9eb214f838481faa847cda5c42e486013
-commit: 5883de8ce9d5d7b29c8da7401e2e92de702ab441 [24/308] iio: accel: mma84=
-52: Only apply trigger type when not set by firmware
-:::::: branch date: 7 hours ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-2104-20261115 (https://download.01.org/0day-ci/ar=
-chive/20261115/202611150958.553wHmYA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Cosmin,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   23c62304dde29abe92013d85910d03a77dada35d
+commit: ea15bcd94f0f916b46bb1ba200ca84d2bd67ec5e media: i2c: maxim-serdes: add MAX96717 driver
+date:   6 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 weeks ago
+config: s390-randconfig-2001-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151041.O1qSF09B-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151041.O1qSF09B-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ea15bcd94f0f ("media: i2c: maxim-serdes: add MAX96717 driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611150958.553wHmYA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611151041.O1qSF09B-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/accel/mma8452.c:1680:8-28: WARNING: Threaded IRQ with no pri=
-mary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+All errors (new ones prefixed by >>):
 
-vim +1680 drivers/iio/accel/mma8452.c
+>> drivers/media/i2c/maxim-serdes/max96717.c:607:9: error: call to '__compiletime_assert_498' declared with 'error' attribute: field_prep: value too large for the field
+     607 |                 val = field_prep(mask, arg ? en_val : ~en_val);
+         |                       ^
+   include/linux/bitfield.h:296:32: note: expanded from macro 'field_prep'
+     296 |         (__builtin_constant_p(mask) ? __FIELD_PREP(mask, val, "field_prep: ") \
+         |                                       ^
+   include/linux/bitfield.h:91:3: note: expanded from macro '__FIELD_PREP'
+      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
+         |                 ^
+   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
+      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
+     690 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:144:1: note: expanded from here
+     144 | __compiletime_assert_498
+         | ^
+   1 error generated.
 
-c3cdd6e48e35b7 Martin Kepplinger     2015-09-01  1545 =20
-226d6dbac88336 Uwe Kleine-K=C3=B6nig      2022-11-18  1546  static int mma8=
-452_probe(struct i2c_client *client)
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1547  {
-32a5c04d457540 Sanjay Chitroda       2026-05-05  1548  	struct device *dev =
-=3D &client->dev;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1549  	struct mma8452_data=
- *data;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1550  	struct iio_dev *ind=
-io_dev;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1551  	int ret;
-c3cdd6e48e35b7 Martin Kepplinger     2015-09-01  1552 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1553  	indio_dev =3D devm_=
-iio_device_alloc(dev, sizeof(*data));
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1554  	if (!indio_dev)
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1555  		return -ENOMEM;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1556 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1557  	data =3D iio_priv(i=
-ndio_dev);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1558  	data->client =3D cl=
-ient;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1559  	mutex_init(&data->l=
-ock);
-a47ac019e7e812 Hans de Goede         2022-02-08  1560 =20
-0f8eaeda7659d0 Biju Das              2023-08-18  1561  	data->chip_info =3D =
-i2c_get_match_data(client);
-0f8eaeda7659d0 Biju Das              2023-08-18  1562  	if (!data->chip_inf=
-o)
-a47a45567852ad Sanjay Chitroda       2026-08-08  1563  		return dev_err_pro=
-be(dev, -ENODEV, "unknown device model\n");
-c3cdd6e48e35b7 Martin Kepplinger     2015-09-01  1564 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1565  	ret =3D iio_read_mo=
-unt_matrix(dev, &data->orientation);
-b863f2e3a83f99 Hans de Goede         2022-02-08  1566  	if (ret)
-b863f2e3a83f99 Hans de Goede         2022-02-08  1567  		return ret;
-b863f2e3a83f99 Hans de Goede         2022-02-08  1568 =20
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1569  	data->regs[0].suppl=
-y =3D "vdd";
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1570  	data->regs[1].suppl=
-y =3D "vddio";
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1571  	ret =3D devm_regula=
-tor_bulk_get(dev, ARRAY_SIZE(data->regs), data->regs);
-32a5c04d457540 Sanjay Chitroda       2026-05-05  1572  	if (ret)
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1573  		return dev_err_pro=
-be(dev, ret, "failed to get regulators\n");
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1574 =20
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1575  	ret =3D regulator_b=
-ulk_enable(ARRAY_SIZE(data->regs), data->regs);
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1576  	if (ret)
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1577  		return dev_err_pro=
-be(dev, ret, "failed to enable regulators\n");
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1578 =20
-417e008ba9db7c Martin Kepplinger     2015-09-01  1579  	ret =3D i2c_smbus_r=
-ead_byte_data(client, MMA8452_WHO_AM_I);
-417e008ba9db7c Martin Kepplinger     2015-09-01  1580  	if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1581  		goto disable_regul=
-ators;
-417e008ba9db7c Martin Kepplinger     2015-09-01  1582 =20
-417e008ba9db7c Martin Kepplinger     2015-09-01  1583  	switch (ret) {
-244a93f651937a Martin Kepplinger     2016-01-16  1584  	case MMA8451_DEVICE=
-_ID:
-417e008ba9db7c Martin Kepplinger     2015-09-01  1585  	case MMA8452_DEVICE=
-_ID:
-417e008ba9db7c Martin Kepplinger     2015-09-01  1586  	case MMA8453_DEVICE=
-_ID:
-417e008ba9db7c Martin Kepplinger     2015-09-01  1587  	case MMA8652_DEVICE=
-_ID:
-417e008ba9db7c Martin Kepplinger     2015-09-01  1588  	case MMA8653_DEVICE=
-_ID:
-e8731180fbf6fd Martin Kepplinger     2016-03-09  1589  	case FXLS8471_DEVIC=
-E_ID:
-417e008ba9db7c Martin Kepplinger     2015-09-01  1590  		if (ret =3D=3D dat=
-a->chip_info->chip_id)
-417e008ba9db7c Martin Kepplinger     2015-09-01  1591  			break;
-df561f6688fef7 Gustavo A. R. Silva   2020-08-23  1592  		fallthrough;
-417e008ba9db7c Martin Kepplinger     2015-09-01  1593  	default:
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1594  		ret =3D -ENODEV;
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1595  		goto disable_regul=
-ators;
-417e008ba9db7c Martin Kepplinger     2015-09-01  1596  	}
-417e008ba9db7c Martin Kepplinger     2015-09-01  1597 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1598  	dev_info(dev, "regi=
-stering %s accelerometer; ID 0x%x\n",
-a47ac019e7e812 Hans de Goede         2022-02-08  1599  		 data->chip_info->=
-name, data->chip_info->chip_id);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1600 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1601  	i2c_set_clientdata(=
-client, indio_dev);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1602  	indio_dev->info =3D =
-&mma8452_info;
-a47ac019e7e812 Hans de Goede         2022-02-08  1603  	indio_dev->name =3D =
-data->chip_info->name;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1604  	indio_dev->modes =
-=3D INDIO_DIRECT_MODE;
-c3cdd6e48e35b7 Martin Kepplinger     2015-09-01  1605  	indio_dev->channels=
- =3D data->chip_info->channels;
-c3cdd6e48e35b7 Martin Kepplinger     2015-09-01  1606  	indio_dev->num_chan=
-nels =3D data->chip_info->num_channels;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1607  	indio_dev->availabl=
-e_scan_masks =3D mma8452_scan_masks;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1608 =20
-ecabae71319695 Martin Fuzzey         2015-05-13  1609  	ret =3D mma8452_res=
-et(client);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1610  	if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1611  		goto disable_regul=
-ators;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1612 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1613  	data->data_cfg =3D =
-MMA8452_DATA_CFG_FS_2G;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1614  	ret =3D i2c_smbus_w=
-rite_byte_data(client, MMA8452_DATA_CFG,
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1615  					data->data_cfg);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1616  	if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1617  		goto disable_regul=
-ators;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1618 =20
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1619  	/*
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1620  	 * By default set t=
-ransient threshold to max to avoid events if
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1621  	 * enabling without=
- configuring threshold.
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1622  	 */
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1623  	ret =3D i2c_smbus_w=
-rite_byte_data(client, MMA8452_TRANSIENT_THS,
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1624  					MMA8452_TRANSIE=
-NT_THS_MASK);
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1625  	if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1626  		goto disable_regul=
-ators;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1627 =20
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1628  	if (client->irq) {
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1629  		int irq2;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1630 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1631  		irq2 =3D fwnode_ir=
-q_get_byname(dev_fwnode(dev), "INT2");
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1632 =20
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1633  		if (irq2 =3D=3D cl=
-ient->irq) {
-a47a45567852ad Sanjay Chitroda       2026-08-08  1634  			dev_dbg(dev, "usi=
-ng interrupt line INT2\n");
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1635  		} else {
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1636  			ret =3D i2c_smbus=
-_write_byte_data(client,
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1637  							MMA8452_CTRL_=
-REG5,
-605f72de137ad9 Harinath Nampally     2017-09-09  1638  							data->chip_in=
-fo->all_events);
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1639  			if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1640  				goto disable_reg=
-ulators;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1641 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1642  			dev_dbg(dev, "usi=
-ng interrupt line INT1\n");
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1643  		}
-d2a3e0931a8f3b Martin Kepplinger     2015-10-15  1644 =20
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1645  		ret =3D i2c_smbus_=
-write_byte_data(client,
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1646  						MMA8452_CTRL_R=
-EG4,
-605f72de137ad9 Harinath Nampally     2017-09-09  1647  						data->chip_inf=
-o->enabled_events);
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1648  		if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1649  			goto disable_regu=
-lators;
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1650 =20
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1651  		ret =3D mma8452_tr=
-igger_setup(indio_dev);
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1652  		if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1653  			goto disable_regu=
-lators;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1654  	}
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1655 =20
-ecabae71319695 Martin Fuzzey         2015-05-13  1656  	data->ctrl_reg1 =3D =
-MMA8452_CTRL_ACTIVE |
-ecabae71319695 Martin Fuzzey         2015-05-13  1657  			  (MMA8452_CTRL_D=
-R_DEFAULT << MMA8452_CTRL_DR_SHIFT);
-a45d1238870446 Richard Tresidder     2018-05-11  1658 =20
-a45d1238870446 Richard Tresidder     2018-05-11  1659  	data->sleep_val =3D =
-mma8452_calculate_sleep(data);
-a45d1238870446 Richard Tresidder     2018-05-11  1660 =20
-ecabae71319695 Martin Fuzzey         2015-05-13  1661  	ret =3D i2c_smbus_w=
-rite_byte_data(client, MMA8452_CTRL_REG1,
-ecabae71319695 Martin Fuzzey         2015-05-13  1662  					data->ctrl_reg1=
-);
-ecabae71319695 Martin Fuzzey         2015-05-13  1663  	if (ret < 0)
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1664  		goto trigger_clean=
-up;
-ecabae71319695 Martin Fuzzey         2015-05-13  1665 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1666  	ret =3D iio_trigger=
-ed_buffer_setup(indio_dev, NULL,
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1667  					 mma8452_trigge=
-r_handler, NULL);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1668  	if (ret < 0)
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1669  		goto trigger_clean=
-up;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1670 =20
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1671  	if (client->irq) {
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1672  		unsigned long irq_=
-flags;
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1673 =20
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1674  		irq_flags =3D irq_=
-get_trigger_type(client->irq);
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1675  		if (irq_flags =3D=
-=3D IRQ_TYPE_NONE) {
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1676  			dev_info(dev, "in=
-valid irq type, setting default active low\n");
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1677  			irq_flags =3D IRQ=
-F_TRIGGER_LOW;
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1678  		}
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1679  		irq_flags |=3D IRQ=
-F_ONESHOT;
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05 @1680  		ret =3D request_th=
-readed_irq(client->irq, NULL, mma8452_interrupt,
-5883de8ce9d5d7 Esben Haabendal       2026-09-28  1681  					   irq_flags, c=
-lient->name, indio_dev);
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1682  		if (ret)
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1683  			goto buffer_clean=
-up;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1684  	}
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1685 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1686  	ret =3D pm_runtime_=
-set_active(dev);
-96c0cb2bbfe0a5 Martin Kepplinger     2016-03-03  1687  	if (ret < 0)
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05  1688  		goto free_irq;
-96c0cb2bbfe0a5 Martin Kepplinger     2016-03-03  1689 =20
-a47a45567852ad Sanjay Chitroda       2026-08-08  1690  	pm_runtime_enable(d=
-ev);
-a47a45567852ad Sanjay Chitroda       2026-08-08  1691  	pm_runtime_set_auto=
-suspend_delay(dev, MMA8452_AUTO_SUSPEND_DELAY_MS);
-a47a45567852ad Sanjay Chitroda       2026-08-08  1692  	pm_runtime_use_auto=
-suspend(dev);
-96c0cb2bbfe0a5 Martin Kepplinger     2016-03-03  1693 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1694  	ret =3D iio_device_=
-register(indio_dev);
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1695  	if (ret < 0)
-49ff01e1519f86 Esben Haabendal       2026-09-28  1696  		goto runtime_suspe=
-nd;
-28e3427824ccc8 Martin Fuzzey         2015-06-01  1697 =20
-4b04266abe3ea0 Martin Kepplinger     2016-01-16  1698  	ret =3D mma8452_set=
-_freefall_mode(data, false);
-1a965d405fc6f6 Bijosh Thykkoottathil 2016-07-04  1699  	if (ret < 0)
-d7369ae1f4d7cf Chuhong Yuan          2020-05-28  1700  		goto unregister_de=
-vice;
-4b04266abe3ea0 Martin Kepplinger     2016-01-16  1701 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1702  	return 0;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1703 =20
-d7369ae1f4d7cf Chuhong Yuan          2020-05-28  1704  unregister_device:
-d7369ae1f4d7cf Chuhong Yuan          2020-05-28  1705  	iio_device_unregist=
-er(indio_dev);
-d7369ae1f4d7cf Chuhong Yuan          2020-05-28  1706 =20
-49ff01e1519f86 Esben Haabendal       2026-09-28  1707  runtime_suspend:
-49ff01e1519f86 Esben Haabendal       2026-09-28  1708  	pm_runtime_disable(=
-dev);
-49ff01e1519f86 Esben Haabendal       2026-09-28  1709  	pm_runtime_set_susp=
-ended(dev);
-49ff01e1519f86 Esben Haabendal       2026-09-28  1710 =20
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05  1711  free_irq:
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05  1712  	if (client->irq)
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05  1713  		free_irq(client->i=
-rq, indio_dev);
-0a6726ec20cd4c Sanjay Chitroda       2026-05-05  1714 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1715  buffer_cleanup:
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1716  	iio_triggered_buffe=
-r_cleanup(indio_dev);
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1717 =20
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1718  trigger_cleanup:
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1719  	mma8452_trigger_cle=
-anup(indio_dev);
-ae6d9ce05691bf Martin Fuzzey         2015-06-01  1720 =20
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1721  disable_regulators:
-37fbab78f94fce Sanjay Chitroda       2026-08-08  1722  	regulator_bulk_disa=
-ble(ARRAY_SIZE(data->regs), data->regs);
-f6ff49b8a3b6f7 Anson Huang           2019-01-08  1723 =20
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1724  	return ret;
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1725  }
-c7eeea93ac60ab Peter Meerwald        2014-02-05  1726 =20
 
-:::::: The code at line 1680 was first introduced by commit
-:::::: 0a6726ec20cd4c0101f2de0ca485a11676224dea iio: accel: mma8452: switch=
- to non-devm request_threaded_irq()
+vim +607 drivers/media/i2c/maxim-serdes/max96717.c
 
-:::::: TO: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-:::::: CC: Jonathan Cameron <jic23@kernel.org>
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  576  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  577  static int max96717_conf_pin_config_set_one(struct max96717_priv *priv,
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  578  					    unsigned int offset,
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  579  					    unsigned long config)
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  580  {
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  581  	u32 param = pinconf_to_config_param(config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  582  	u32 arg = pinconf_to_config_argument(config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  583  	unsigned int reg, mask, val, en_val;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  584  	int ret;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  585  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  586  	ret = max96717_get_pin_config_reg(offset, param, &reg, &mask, &en_val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  587  	if (ret)
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  588  		return ret;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  589  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  590  	switch (param) {
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  591  	case PIN_CONFIG_DRIVE_OPEN_DRAIN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  592  	case PIN_CONFIG_DRIVE_PUSH_PULL:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  593  	case PIN_CONFIG_BIAS_DISABLE:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  594  	case PIN_CONFIG_BIAS_PULL_DOWN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  595  	case PIN_CONFIG_BIAS_PULL_UP:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  596  		val = field_prep(mask, en_val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  597  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  598  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  599  		break;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  600  	case MAX96717_PINCTRL_JITTER_COMPENSATION_EN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  601  	case MAX96717_PINCTRL_PULL_STRENGTH_HIGH:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  602  	case MAX96717_PINCTRL_TX_EN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  603  	case MAX96717_PINCTRL_RX_EN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  604  	case PIN_CONFIG_OUTPUT_ENABLE:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  605  	case PIN_CONFIG_INPUT_ENABLE:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  606  	case PIN_CONFIG_LEVEL:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30 @607  		val = field_prep(mask, arg ? en_val : ~en_val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  608  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  609  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  610  		break;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  611  	case MAX96717_PINCTRL_TX_ID:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  612  	case MAX96717_PINCTRL_RX_ID:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  613  	case PIN_CONFIG_SLEW_RATE:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  614  		val = field_prep(mask, arg);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  615  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  616  		ret = regmap_update_bits(priv->regmap, reg, mask, val);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  617  		break;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  618  	default:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  619  		return -ENOTSUPP;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  620  	}
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  621  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  622  	if (ret)
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  623  		return ret;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  624  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  625  	switch (param) {
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  626  	case PIN_CONFIG_BIAS_PULL_DOWN:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  627  	case PIN_CONFIG_BIAS_PULL_UP:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  628  		arg = arg >= MAX96717_BIAS_PULL_STRENGTH_1000000_OHM;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  629  		config = pinconf_to_config_packed(MAX96717_PINCTRL_PULL_STRENGTH_HIGH, arg);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  630  		return max96717_conf_pin_config_set_one(priv, offset, config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  631  	case PIN_CONFIG_LEVEL:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  632  		config = pinconf_to_config_packed(PIN_CONFIG_OUTPUT_ENABLE, 1);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  633  		return max96717_conf_pin_config_set_one(priv, offset, config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  634  	case PIN_CONFIG_OUTPUT_ENABLE:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  635  		config = pinconf_to_config_packed(MAX96717_PINCTRL_RX_EN, 0);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  636  		return max96717_conf_pin_config_set_one(priv, offset, config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  637  	case MAX96717_PINCTRL_TX_ID:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  638  		config = pinconf_to_config_packed(MAX96717_PINCTRL_TX_EN, 1);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  639  		return max96717_conf_pin_config_set_one(priv, offset, config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  640  	case MAX96717_PINCTRL_RX_ID:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  641  		config = pinconf_to_config_packed(MAX96717_PINCTRL_RX_EN, 1);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  642  		return max96717_conf_pin_config_set_one(priv, offset, config);
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  643  	default:
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  644  		break;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  645  	}
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  646  
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  647  	return 0;
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  648  }
+ea15bcd94f0f91 Cosmin Tanislav 2026-09-30  649  
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
