@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794823161;
-	b=N9W4Tls2AQKZ0eJangyjvqRmLXAdwjyNKTnQMjx7uW4hxGnGec3mVeqWn3gUADF/s2gD
-	 2h64QdXqp1LMVUXFToR661ElG1HKfQhN93wfdKUfGkRqMGZTamkhWIdD4XATqn724JLjA
-	 inG8ud0rSLnZ5Jv0bedtBNugJZoj24NAy4QlKDKJ/EoQfG2Oa62oRv7HBG8FrHFQWpmay
-	 iYH9c9So9Hj+WIoig7+WEOHl8l3S4yU1pWTMgSITFyyv52AOzuoRIhRK+2938v3goDn8U
-	 fyiSBxmVkQEENJMZSyOPrc6/HYEOJFz4xiywTPlOJmmEW+Ghwzf7Om6p7rF+g7q7Rvg==
+	t=1794823889;
+	b=upoxVlB653TnOeV/iBjkMFMxpqdzY4MjR8+JWNxk45CjRtpgXbeCBgU8CCphTcejTXFI
+	 StM6e1wgIcr2jjI1uDfIZJsJ4fSYE2lZ2Dm6GssOZ5zmGuUi4+xY0r139d4veVeY2Smhr
+	 8mMsOPn/6nx4MoyE0DZRY9rfb8VVlPW9Hkr0xD70v1D/wyLtUjLld29IQkp4+0M+i10sW
+	 DhatLJvVKK009DGdPnIDxv21WtKlAU+xUnIs/xg4+aW07WOiyyrdMA5czC2nubxv2i1RQ
+	 wbWoLMjJdMFAKlv93XSf8yr3DPuFE8988qfTUCdrexbidlYKF1kuhJBVe4XirUVKGQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794823161;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794823889;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=kDlCzXF5ZEbdYvuoy87Ei/DY4HeciirkRxeSKMFVkxY=;
-	b=FBibkBwARdx6nfSUYATGQIgqnx1bgH4ievT/prYeUX1IRb1QButRYNaz0pPKRRjgW6TH
-	 wySDBIt+lNE6rori/HSqJqKMZ0b46vIUwQTHmbnW1p/z3hd0owlWK8/OYhzVK0q2rAULw
-	 H2Tcfvx+5BIUN7PVAKnVjhb0/sdCdOqTrvwa/v3Ox50iaWjpG7VLYGNe/fXiIjHwPBGaQ
-	 sdP4OQeLsemSTkTo+d1cWcTO7AXpAve0DDcQlrnms5Z2AaIFGjuPrieCGxRLdbmHCMpE/
-	 ZreG6qNYjU0NF7PGf9c8iHDw/qRAIdnkqQS2fRWRQnk7Cnrs5siVT7R2hxnv5N9b7PQ==
+	bh=u5cUyyz9nywf57cVdxEkWPnwBs5YfF3wmStyayLNPF0=;
+	b=1g3/Txv423w0sB4ZWR5nevCeY6J869yyyDYXBSoIfqeMRg9I8nUNlB1A2k7UKUOwNI9H
+	 LZfi73exDz+nwJKSigAjGsE4vMPgOQ0np+18LZraKQuCSkw1sD4278/qv6vGLITcNd5+O
+	 m7zvgsTbgeSYRS8zqSBWVCHXiZ2ZPms7aKJlned33CjZmWSIy7lXkqKSMcctKKgyrkCEm
+	 E31EtH/62itIXINHkoZKP0yP0rAmfQBN6qAjOH89ajsWmUD31l/QyCuNXEms7K+MSzFVn
+	 kmhop2rfAZlopHb4cXOG/HjjsfWLSMYSAz5iFnFhexxb0q3LzmgvFMcR0nB53xV38Mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="gBFKIKY/";
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NPM7OxAq;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32A7606A331
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 09:59:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B32A7606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06016606A329
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 10:11:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06016606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gBFKIKY/
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NPM7OxAq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794823161; x=1826359161;
+  t=1794823888; x=1826359888;
   h=date:from:to:cc:subject:message-id;
-  bh=yS624CZht3hRVSjvqOLKgbDThGQXH0bu/lZJ5wMH17c=;
-  b=gBFKIKY/5T0C9rVKJigWUbKEHhJKtAibSnS9AjCMy6TlKz8zBlk57Eq0
-   Y7dL2pYofCQyWIF2m/YLTadcEeifSxNClWdP7B4vTuQwUz6hNQFunLagK
-   URHAL2Faxo5uX4Xo8IpT8OUGJuJTkAuiDU8bb4Hpplu+8V0Wy5DOkULsH
-   uEsDwOmcUuYvWnxTsJNGYQQQD85AbjGC8Jg4/vFzWv0F49PS12OKb6ZYi
-   EIsS4gAeWAzKnQQ6nZ5ojbX53X5SdV1kwRTOmcDcAwMcBeyLCIDPf0KyU
-   xoO5Q7p9raxNJmmfBNjw42sjmynKPXKgdzgEn9+nfx4Z9pS7xyobIBx8A
-   A==;
-X-CSE-ConnectionGUID: sr+vzIteTJ6GAE3g/hOy4w==
-X-CSE-MsgGUID: nniKCh53TYSpP136Kna/Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3551223"
+  bh=tJ8R0kR0140eQkvYx6Qty1H5BfdoA0wdmEo4KdrS7m8=;
+  b=NPM7OxAq208om1sjTR9tLaE+pZLilRSfJkfk3BBtox73fnTlkJnvBRZh
+   +fQ6F6wsj/aqAvcno3mXukkC6FOK7eLyQsxUQtdxwrsOjoTpn7jGUaeLq
+   Q7EJ5muFM6qDd0/T+mpZlQ9VEPIwpXA3uVaGD6/62g6odSP/TYXK9HTDX
+   irQAFQMiH8hhYmUfq58puIJYJYTiJJ8tdS2vWgm1W6Cek5EcDe6/MGlKj
+   PZPQdPvL/UkiCBtkxz3Smrtaf0IrUzjbxPHRa3FMr+EsU/t5LAqvUrU5U
+   qqUgEz0QQcPRVmwdIggQybb4IN1UR6ePQGu42E5BxTJwUqfT9z/VlQzwq
+   Q==;
+X-CSE-ConnectionGUID: qKGcT4ThSQCg1SY6zSakRg==
+X-CSE-MsgGUID: 81U5Lxh8Ra209H9sZPE6QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3542446"
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3551223"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 01:59:21 -0800
-X-CSE-ConnectionGUID: lBu9hwMLSe66UFFGPzcH9g==
-X-CSE-MsgGUID: /9zqHYJ3Q7e5nqTbTPXqqA==
+   d="scan'208";a="3542446"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 02:11:27 -0800
+X-CSE-ConnectionGUID: km6Ifxu8TGqs0oVBKFWGhQ==
+X-CSE-MsgGUID: DN34H6ubTE2lF74dkenluQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="9399295"
+   d="scan'208";a="9355551"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 16 Nov 2026 01:59:19 -0800
+  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2026 02:11:26 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xStUa-000000002ex-44SH;
-	Mon, 16 Nov 2026 09:59:16 +0000
-Date: Mon, 16 Nov 2026 10:58:37 +0100
+	id 1xStgJ-000000002f9-3nPj;
+	Mon, 16 Nov 2026 10:11:23 +0000
+Date: Mon, 16 Nov 2026 11:11:12 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android17-6.18-lts 7/7] /usr/bin/ld:
- tools/testing/selftests/vfio/lib/vfio_pci_driver.o:undefined reference to
- `ioat_ops'
-Message-ID: <202611161055.IOLqrwIQ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator
+ variable bound on line 408 cannot be NULL
+Message-ID: <202611161146.Vhc0nZBL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,37 +80,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Johan Hovold <johan@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Florian Fainelli <florian.fainelli@broadcom.com>
 
-Hi David,
+Hi Johan,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
-head:   44c4d19047cd3c9c51c6fa3930c35844b10b5f9a
-commit: 2223587df5c5e935cc6f973f62a9608eef81bec8 [7/7] vfio: selftests: Add driver for Intel CBDMA
-:::::: branch date: 18 hours ago
-:::::: commit date: 1 year, 3 months ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261116/202611161055.IOLqrwIQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161055.IOLqrwIQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aebb7274476403040d582c61478df8f4a7bf9cd3
+commit: 1230fbb225abf3f04c64697c6b0f8dfb473b3790 irqchip: Enable compile testing of Broadcom drivers
+date:   1 year, 1 month ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261116/202611161146.Vhc0nZBL-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2223587df5c5 ("vfio: selftests: Add driver for Intel CBDMA")
+| Fixes: 1230fbb225ab ("irqchip: Enable compile testing of Broadcom drivers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611161055.IOLqrwIQ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202611161146.Vhc0nZBL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator variable bound on line 408 cannot be NULL
 
->> /usr/bin/ld: tools/testing/selftests/vfio/lib/vfio_pci_driver.o:(.data.rel+0x0): undefined reference to `ioat_ops'
-   collect2: error: ld returned 1 exit status
+vim +411 drivers/irqchip/irq-bcm7038-l1.c
+
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  396  
+1e3e330c07076a Johan Hovold      2025-10-13  397  static int bcm7038_l1_probe(struct platform_device *pdev, struct device_node *parent)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  398  {
+1e3e330c07076a Johan Hovold      2025-10-13  399  	struct device_node *dn = pdev->dev.of_node;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  400  	struct bcm7038_l1_chip *intc;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  401  	int idx, ret;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  402  
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  403  	intc = kzalloc(sizeof(*intc), GFP_KERNEL);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  404  	if (!intc)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  405  		return -ENOMEM;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  406  
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  407  	raw_spin_lock_init(&intc->lock);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @408  	for_each_possible_cpu(idx) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  409  		ret = bcm7038_l1_init_one(dn, idx, intc);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  410  		if (ret < 0) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @411  			if (idx)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  412  				break;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  413  			pr_err("failed to remap intc L1 registers\n");
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  414  			goto out_free;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  415  		}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  416  	}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  417  
+affdc0d1bdfa54 Jiri Slaby (SUSE  2025-03-19  418) 	intc->domain = irq_domain_create_linear(of_fwnode_handle(dn), IRQS_PER_WORD * intc->n_words,
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  419  					     &bcm7038_l1_domain_ops,
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  420  					     intc);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  421  	if (!intc->domain) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  422  		ret = -ENOMEM;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  423  		goto out_unmap;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  424  	}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  425  
+
+:::::: The code at line 411 was first introduced by commit
+:::::: 5f7f0317ed28b86bdae9baf65bb72d405b6f79ee IRQCHIP: Add new driver for BCM7038-style level 1 interrupt controllers
+
+:::::: TO: Kevin Cernekee <cernekee@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
