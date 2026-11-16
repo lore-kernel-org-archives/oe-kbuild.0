@@ -1,74 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794815084;
-	b=UY9d3CknrJu9dIwQYohn+qD+XIjHL5DKB2iDmBgLTovfy5vA5n5LNT6ZXBDqlYBCwNdW
-	 NUSKWFIEIJj0sQsC3BGHkXse3qr14F//bXdCCYRc2id9a70eAbNjMpLHqk11bv61JN84a
-	 AjAw1TegrHtfMLYZ4zceNdy9iOcink1GORCZMfJBZ5CQltJvw75eToP0tGwLA9nBC4P7O
-	 zEIwraL3XV71Q89tMQPPsA6Xg3q9CzhJ5hrdXFz1sr/r4m/B+ezPUzqoN3eS/PptQJLjS
-	 pLT4IjEgVwgCTicfIC4oyalUR/kKVgf6CadeVe8nLq8TimQ8MTNIxnGHa+E/lSc33Dw==
+	t=1794818871;
+	b=IYcKZboOwDZ3/ZYdcurIO1Zvf7jmOtiM20p64dj880+UI95RCgfTTnAwTrtXQ5zZ+otI
+	 doJE5FEILgWuOfTn67GgnmAOF7bnaGOz1DWqJoYBa+saEu/eF9qaX+fBWBV1uL47SA0Cr
+	 i7zbXwOvG/SrcxAv7k+qPThrq1qsxOjCo0PH24OTGJfyveu2pTEB2HSwyCxZMK3I/N5LZ
+	 faluDLb2Adnbq0nhsBTtPSZeWqCw0U2anqBIwxsY9xs3wJvy79c3LKJu4jFHGG9gQ8l+Q
+	 UJAcdA9W8/C5o4rGmcbrw0mR9NsIW0Q7VPrTUHqV1yDvOVnr+YWdRYFpBZZbq+9Wejw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794815084;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794818871;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=ZUz9X+JwMJFjr8vq0m4RetD+PsJ4QhL373Rg9iOnK4w=;
-	b=hH2WqexnsUk4gmtW6iK3g42aU1e4KU3BuguHak56OWVfFZIGyVvWUp83wY0EGAueJph4
-	 NiDIvE+ufuj3mUV2OFhJuwhSshwhgudFmmGvmLSNg1cDyODJG535xUWu6rn6ZPdlFNWYw
-	 WxHBI2w7fsZ4HiDzIBBOOmR9GTVD+xikKrUlyY+rO3CJbk6qLDgP0U4solnliQy+oMjhS
-	 1015FI1RzFCNJtU+EljRY7OjOTcmU7zmgy3kWuZatm+HSVDlbXVHmhe+4+bffzi0eqeGE
-	 kQ7eLsANT0KwoK/mQjfxkrWM0IupWg7Wv1wwDxEpk1bwmSF88WV3Z/9CLv25Pu1GZtw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=DIp3YlexNIovf+wKGNIN/DoGGZzaPUtwbMKsTMp2Cl8=;
+	b=TF7EJPeFKPx05V0uAu1ywFpgxGsr2rsH4+HG2Am/CPEhLTfQGFJ06VhhxjnNOetUK/fK
+	 1DbAI8Nqk9uxxN8JEeqAjxHTxaer4dtFNSaqZ2B/hXF27W2ZWBSPV7BA6EmdEjg7qrOpI
+	 DoZ2Jux8QMIuuiMw8l02bqBqWAQKNmmwm8xQ/vMlJRprHpUlz5i298H85N7JMs1CdN7Mm
+	 2Nj9JjctbLooNSdUiGeRFQdPopeZPi2kd8lBaYgkXYv1tChJ6JTKc/M81aiASwJZZ0uD7
+	 Ayg5gTMnSxo/3T+SFtta3cLUZzzCulzDzE2vXqgDzavl9LxHA7EB7nYUZ5iN+pQb+7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mPFGTcyA;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h7iGtYC5;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2FD606A31C
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 07:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA2FD606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B533606A337
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 08:47:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B533606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mPFGTcyA
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h7iGtYC5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794815083; x=1826351083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EafCe9KexSjmHT5immaSCrwezMxhDDBV4fv6mnAYRgU=;
-  b=mPFGTcyAy4kShQXbt6lU++yyPpeY8dlMtewkc5dcvWaJGaOlsWXMkjM1
-   V7wILrqEIotBY75rOIs8hJEz8EbLxc2bK9/1AfIiEZkjjKwwU7+KEiJK5
-   gg7l2dMpPGaMf5i5blZD9L6n+6EQdEsX5/C9uxThSR4cf6TgHWc6mZ+ws
-   UTlvI85LJu+xFNUuz/1WFf7LUa1e21YliycVTavjibdRqjxEBT8QFLhNX
-   kVgdTxc0T2SOoxN7+bFGq6dEUV0NVf7wimWkgeBQmciIopxec02ljHgW1
-   Cjw7LF5P+upJ4fjNAhlX3UnLYbYhOry9HHemKSrrNl0yQY06mDoxwFKBJ
-   Q==;
-X-CSE-ConnectionGUID: RavAfJVcS6qmZ9vBj/v4Yg==
-X-CSE-MsgGUID: k6pfBZJoS1q8VKsHpYB9Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3645390"
+  t=1794818871; x=1826354871;
+  h=date:from:to:cc:subject:message-id;
+  bh=jMoWSLe+hqkku90yEdJBK8KNh4N1zV21UvO4V4mahtY=;
+  b=h7iGtYC5AbflvvzrkaGFVsvcratyNB8955HqA6ofr/K2PbyECjGhdE5x
+   3EvJgDKg8FuHCLCBmRSj75FC3XT/BwQF8FWm7EQkvqBjHQiz4DFppgAVF
+   kaFOj1X9abpc3DYM0Gz0CVskzRXCff+K1ePokMstKTIKMOk0/hqiljnHZ
+   v93ZX3mRQLuT5mdrDIYmkWEp14/01Uvgj8QJbt4N4rIgxdd0oCNBTQ3mN
+   xpyqJWbe3nurhqz+TK0Smgv8c0n0pl2iEeAkjwrC8g7Htai2THZKGLwBe
+   q3Zl+1vA8ahWJhG8/KsWOHlv3K0jIlik38d+9O946ziS5cRaJfhcD6GaA
+   A==;
+X-CSE-ConnectionGUID: YHUatz20QUmPVVkPhwL3+Q==
+X-CSE-MsgGUID: dGEeJIqmQKaeqCG3tYdrnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3408399"
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3645390"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 23:44:43 -0800
-X-CSE-ConnectionGUID: Cf712yKFRRSAIITpE0+3Gw==
-X-CSE-MsgGUID: Wsu+E41wTbCS54r2//8aDA==
+   d="scan'208";a="3408399"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 00:47:50 -0800
+X-CSE-ConnectionGUID: EGFGg5WuTXWcvlTT2HXKFQ==
+X-CSE-MsgGUID: x1cA13fFQUKmZd8j4hBtfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="9610184"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Nov 2026 23:44:41 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9842102"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 16 Nov 2026 00:47:47 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSrOI-0000000183A-2xgt;
-	Mon, 16 Nov 2026 07:44:38 +0000
-Date: Mon, 16 Nov 2026 15:44:09 +0800
+	id 1xSsNM-000000002dH-1yxs;
+	Mon, 16 Nov 2026 08:47:44 +0000
+Date: Mon, 16 Nov 2026 09:46:30 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] staging: sm750fb: make g_fbmode constant array
-Message-ID: <202611161534.NL7ubKXR-lkp@intel.com>
+Subject: kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates
+ bits from constant value (fffffff800000000 becomes 0)
+Message-ID: <202611160959.4AFNNsbw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -77,284 +79,331 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "too many reports for this commit"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261105211344.17532-1-testata.nucleare13@gmail.com>
-References: <20261105211344.17532-1-testata.nucleare13@gmail.com>
-TO: Francesco Giandinoto <testata.nucleare13@gmail.com>
-TO: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-CC: Francesco Giandinoto <testata.nucleare13@gmail.com>
-CC: Teddy Wang <teddy.wang@siliconmotion.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-fbdev@vger.kernel.org
-CC: linux-staging@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
+TO: Alexei Starovoitov <ast@kernel.org>
 
-Hi Francesco,
+Hi Alexei,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Giandinoto/staging-sm750fb-make-g_fbmode-constant-array/20261105-221316
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20261105211344.17532-1-testata.nucleare13%40gmail.com
-patch subject: [PATCH] staging: sm750fb: make g_fbmode constant array
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611161534.NL7ubKXR-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161534.NL7ubKXR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aebb7274476403040d582c61478df8f4a7bf9cd3
+commit: 449f08fa59dda5da40317b6976604b877c4ecd63 bpf: Move fixup/post-processing logic from verifier.c into fixups.c
+date:   7 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r2300-20261116 (https://download.01.org/0day-ci/archive/20261116/202611160959.4AFNNsbw-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160959.4AFNNsbw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 449f08fa59dd ("bpf: Move fixup/post-processing logic from verifier.c into fixups.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611161534.NL7ubKXR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611160959.4AFNNsbw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/fixups.c:2202:38: sparse: sparse: subtraction of functions? Share your drugs
+>> kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates bits from constant value (fffffff800000000 becomes 0)
 
-   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
->> drivers/staging/sm750fb/sm750.c:762:33: error: assignment of read-only location 'g_fbmode[index]'
-     762 |                 g_fbmode[index] = g_def_fbmode;
-         |                                 ^
-   drivers/staging/sm750fb/sm750.c:764:41: error: assignment of read-only location 'g_fbmode[index]'
-     764 |                         g_fbmode[index] = g_fbmode[0];
-         |                                         ^
-   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
->> drivers/staging/sm750fb/sm750.c:877:45: error: assignment of read-only location 'g_fbmode[0]'
-     877 |                                 g_fbmode[0] = opt;
-         |                                             ^
-   drivers/staging/sm750fb/sm750.c:881:45: error: assignment of read-only location 'g_fbmode[1]'
-     881 |                                 g_fbmode[1] = opt;
-         |                                             ^
+vim +1021 kernel/bpf/fixups.c
 
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   975  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   976  int bpf_jit_subprogs(struct bpf_verifier_env *env)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   977  {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   978  	struct bpf_prog *prog = env->prog, **func, *tmp;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   979  	int i, j, subprog_start, subprog_end = 0, len, subprog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   980  	struct bpf_map *map_ptr;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   981  	struct bpf_insn *insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   982  	void *old_bpf_func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   983  	int err, num_exentries;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   984  	int old_len, subprog_start_adjustment = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   985  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   986  	if (env->subprog_cnt <= 1)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   987  		return 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   988  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   989  	for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   990  		if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   991  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   992  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   993  		/* Upon error here we cannot fall back to interpreter but
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   994  		 * need a hard reject of the program. Thus -EFAULT is
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   995  		 * propagated in any case.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   996  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   997  		subprog = bpf_find_subprog(env, i + insn->imm + 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   998  		if (verifier_bug_if(subprog < 0, env, "No program to jit at insn %d",
+449f08fa59dda5 Alexei Starovoitov 2026-04-12   999  				    i + insn->imm + 1))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1000  			return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1001  		/* temporarily remember subprog id inside insn instead of
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1002  		 * aux_data, since next loop will split up all insns into funcs
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1003  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1004  		insn->off = subprog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1005  		/* remember original imm in case JIT fails and fallback
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1006  		 * to interpreter will be needed
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1007  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1008  		env->insn_aux_data[i].call_imm = insn->imm;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1009  		/* point imm to __bpf_call_base+1 from JITs point of view */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1010  		insn->imm = 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1011  		if (bpf_pseudo_func(insn)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1012  #if defined(MODULES_VADDR)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1013  			u64 addr = MODULES_VADDR;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1014  #else
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1015  			u64 addr = VMALLOC_START;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1016  #endif
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1017  			/* jit (e.g. x86_64) may emit fewer instructions
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1018  			 * if it learns a u32 imm is the same as a u64 imm.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1019  			 * Set close enough to possible prog address.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1020  			 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12 @1021  			insn[0].imm = (u32)addr;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1022  			insn[1].imm = addr >> 32;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1023  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1024  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1025  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1026  	err = bpf_prog_alloc_jited_linfo(prog);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1027  	if (err)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1028  		goto out_undo_insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1029  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1030  	err = -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1031  	func = kzalloc_objs(prog, env->subprog_cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1032  	if (!func)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1033  		goto out_undo_insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1034  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1035  	for (i = 0; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1036  		subprog_start = subprog_end;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1037  		subprog_end = env->subprog_info[i + 1].start;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1038  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1039  		len = subprog_end - subprog_start;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1040  		/* bpf_prog_run() doesn't call subprogs directly,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1041  		 * hence main prog stats include the runtime of subprogs.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1042  		 * subprogs don't have IDs and not reachable via prog_get_next_id
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1043  		 * func[i]->stats will never be accessed and stays NULL
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1044  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1045  		func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1046  		if (!func[i])
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1047  			goto out_free;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1048  		memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1049  		       len * sizeof(struct bpf_insn));
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1050  		func[i]->type = prog->type;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1051  		func[i]->len = len;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1052  		if (bpf_prog_calc_tag(func[i]))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1053  			goto out_free;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1054  		func[i]->is_func = 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1055  		func[i]->sleepable = prog->sleepable;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1056  		func[i]->aux->func_idx = i;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1057  		/* Below members will be freed only at prog->aux */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1058  		func[i]->aux->btf = prog->aux->btf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1059  		func[i]->aux->subprog_start = subprog_start + subprog_start_adjustment;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1060  		func[i]->aux->func_info = prog->aux->func_info;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1061  		func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1062  		func[i]->aux->poke_tab = prog->aux->poke_tab;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1063  		func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1064  		func[i]->aux->main_prog_aux = prog->aux;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1065  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1066  		for (j = 0; j < prog->aux->size_poke_tab; j++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1067  			struct bpf_jit_poke_descriptor *poke;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1068  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1069  			poke = &prog->aux->poke_tab[j];
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1070  			if (poke->insn_idx < subprog_end &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1071  			    poke->insn_idx >= subprog_start)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1072  				poke->aux = func[i]->aux;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1073  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1074  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1075  		func[i]->aux->name[0] = 'F';
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1076  		func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1077  		if (env->subprog_info[i].priv_stack_mode == PRIV_STACK_ADAPTIVE)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1078  			func[i]->aux->jits_use_priv_stack = true;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1079  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1080  		func[i]->jit_requested = 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1081  		func[i]->blinding_requested = prog->blinding_requested;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1082  		func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1083  		func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1084  		func[i]->aux->linfo = prog->aux->linfo;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1085  		func[i]->aux->nr_linfo = prog->aux->nr_linfo;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1086  		func[i]->aux->jited_linfo = prog->aux->jited_linfo;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1087  		func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1088  		func[i]->aux->arena = prog->aux->arena;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1089  		func[i]->aux->used_maps = env->used_maps;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1090  		func[i]->aux->used_map_cnt = env->used_map_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1091  		num_exentries = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1092  		insn = func[i]->insnsi;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1093  		for (j = 0; j < func[i]->len; j++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1094  			if (BPF_CLASS(insn->code) == BPF_LDX &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1095  			    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1096  			     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1097  			     BPF_MODE(insn->code) == BPF_PROBE_MEM32SX ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1098  			     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1099  				num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1100  			if ((BPF_CLASS(insn->code) == BPF_STX ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1101  			     BPF_CLASS(insn->code) == BPF_ST) &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1102  			     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1103  				num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1104  			if (BPF_CLASS(insn->code) == BPF_STX &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1105  			     BPF_MODE(insn->code) == BPF_PROBE_ATOMIC)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1106  				num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1107  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1108  		func[i]->aux->num_exentries = num_exentries;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1109  		func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1110  		func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1111  		func[i]->aux->changes_pkt_data = env->subprog_info[i].changes_pkt_data;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1112  		func[i]->aux->might_sleep = env->subprog_info[i].might_sleep;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1113  		if (!i)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1114  			func[i]->aux->exception_boundary = env->seen_exception;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1115  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1116  		/*
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1117  		 * To properly pass the absolute subprog start to jit
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1118  		 * all instruction adjustments should be accumulated
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1119  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1120  		old_len = func[i]->len;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1121  		func[i] = bpf_int_jit_compile(func[i]);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1122  		subprog_start_adjustment += func[i]->len - old_len;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1123  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1124  		if (!func[i]->jited) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1125  			err = -ENOTSUPP;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1126  			goto out_free;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1127  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1128  		cond_resched();
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1129  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1130  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1131  	/* at this point all bpf functions were successfully JITed
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1132  	 * now populate all bpf_calls with correct addresses and
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1133  	 * run last pass of JIT
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1134  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1135  	for (i = 0; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1136  		insn = func[i]->insnsi;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1137  		for (j = 0; j < func[i]->len; j++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1138  			if (bpf_pseudo_func(insn)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1139  				subprog = insn->off;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1140  				insn[0].imm = (u32)(long)func[subprog]->bpf_func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1141  				insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1142  				continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1143  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1144  			if (!bpf_pseudo_call(insn))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1145  				continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1146  			subprog = insn->off;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1147  			insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1148  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1149  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1150  		/* we use the aux data to keep a list of the start addresses
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1151  		 * of the JITed images for each function in the program
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1152  		 *
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1153  		 * for some architectures, such as powerpc64, the imm field
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1154  		 * might not be large enough to hold the offset of the start
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1155  		 * address of the callee's JITed image from __bpf_call_base
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1156  		 *
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1157  		 * in such cases, we can lookup the start address of a callee
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1158  		 * by using its subprog id, available from the off field of
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1159  		 * the call instruction, as an index for this list
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1160  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1161  		func[i]->aux->func = func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1162  		func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1163  		func[i]->aux->real_func_cnt = env->subprog_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1164  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1165  	for (i = 0; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1166  		old_bpf_func = func[i]->bpf_func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1167  		tmp = bpf_int_jit_compile(func[i]);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1168  		if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1169  			verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1170  			err = -ENOTSUPP;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1171  			goto out_free;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1172  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1173  		cond_resched();
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1174  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1175  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1176  	/*
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1177  	 * Cleanup func[i]->aux fields which aren't required
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1178  	 * or can become invalid in future
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1179  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1180  	for (i = 0; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1181  		func[i]->aux->used_maps = NULL;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1182  		func[i]->aux->used_map_cnt = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1183  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1184  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1185  	/* finally lock prog and jit images for all functions and
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1186  	 * populate kallsysm. Begin at the first subprogram, since
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1187  	 * bpf_prog_load will add the kallsyms for the main program.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1188  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1189  	for (i = 1; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1190  		err = bpf_prog_lock_ro(func[i]);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1191  		if (err)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1192  			goto out_free;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1193  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1194  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1195  	for (i = 1; i < env->subprog_cnt; i++)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1196  		bpf_prog_kallsyms_add(func[i]);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1197  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1198  	/* Last step: make now unused interpreter insns from main
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1199  	 * prog consistent for later dump requests, so they can
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1200  	 * later look the same as if they were interpreted only.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1201  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1202  	for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1203  		if (bpf_pseudo_func(insn)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1204  			insn[0].imm = env->insn_aux_data[i].call_imm;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1205  			insn[1].imm = insn->off;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1206  			insn->off = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1207  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1208  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1209  		if (!bpf_pseudo_call(insn))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1210  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1211  		insn->off = env->insn_aux_data[i].call_imm;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1212  		subprog = bpf_find_subprog(env, i + insn->off + 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1213  		insn->imm = subprog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1214  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1215  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1216  	prog->jited = 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1217  	prog->bpf_func = func[0]->bpf_func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1218  	prog->jited_len = func[0]->jited_len;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1219  	prog->aux->extable = func[0]->aux->extable;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1220  	prog->aux->num_exentries = func[0]->aux->num_exentries;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1221  	prog->aux->func = func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1222  	prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1223  	prog->aux->real_func_cnt = env->subprog_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1224  	prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1225  	prog->aux->exception_boundary = func[0]->aux->exception_boundary;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1226  	bpf_prog_jit_attempt_done(prog);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1227  	return 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1228  out_free:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1229  	/* We failed JIT'ing, so at this point we need to unregister poke
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1230  	 * descriptors from subprogs, so that kernel is not attempting to
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1231  	 * patch it anymore as we're freeing the subprog JIT memory.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1232  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1233  	for (i = 0; i < prog->aux->size_poke_tab; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1234  		map_ptr = prog->aux->poke_tab[i].tail_call.map;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1235  		map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1236  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1237  	/* At this point we're guaranteed that poke descriptors are not
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1238  	 * live anymore. We can just unlink its descriptor table as it's
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1239  	 * released with the main prog.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1240  	 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1241  	for (i = 0; i < env->subprog_cnt; i++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1242  		if (!func[i])
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1243  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1244  		func[i]->aux->poke_tab = NULL;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1245  		bpf_jit_free(func[i]);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1246  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1247  	kfree(func);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1248  out_undo_insn:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1249  	/* cleanup main prog to be interpreted */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1250  	prog->jit_requested = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1251  	prog->blinding_requested = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1252  	for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1253  		if (!bpf_pseudo_call(insn))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1254  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1255  		insn->off = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1256  		insn->imm = env->insn_aux_data[i].call_imm;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1257  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1258  	bpf_prog_jit_attempt_done(prog);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1259  	return err;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1260  }
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  1261  
 
-vim +762 drivers/staging/sm750fb/sm750.c
-
-81dee67e215b23 Sudip Mukherjee      2015-03-03  696  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  697  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  698  {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  699  	int i;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  700  	struct lynxfb_par *par;
-e359b6a863e19f Mike Rapoport        2015-10-26  701  	struct sm750_dev *sm750_dev;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  702  	struct lynxfb_crtc *crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  703  	struct lynxfb_output *output;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  704  	struct fb_var_screeninfo *var;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  705  	struct fb_fix_screeninfo *fix;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  706  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  707  	const struct fb_videomode *pdb[] = {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  708  		lynx750_ext, NULL, vesa_modes,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  709  	};
-81dee67e215b23 Sudip Mukherjee      2015-03-03  710  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
-d0856045f0e9fc Hungyu Lin           2026-04-01  711  	static const char * const fix_id[2] = {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  712  		"sm750_fb1", "sm750_fb2",
-81dee67e215b23 Sudip Mukherjee      2015-03-03  713  	};
-81dee67e215b23 Sudip Mukherjee      2015-03-03  714  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  715  	int ret, line_length;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  716  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  717  	ret = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  718  	par = (struct lynxfb_par *)info->par;
-e359b6a863e19f Mike Rapoport        2015-10-26  719  	sm750_dev = par->dev;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  720  	crtc = &par->crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  721  	output = &par->output;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  722  	var = &info->var;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  723  	fix = &info->fix;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  724  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  725  	/* set index */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  726  	par->index = index;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  727  	output->channel = &crtc->channel;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  728  	sm750fb_set_drv(par);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  729  
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  730  	/*
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  731  	 * set current cursor variable and proc pointer,
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  732  	 * must be set after crtc member initialized
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  733  	 */
-fdc234d85210d9 Benjamin Philip      2021-07-28  734  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
-1be54c03f7519c Jad Keskes           2026-06-19  735  	crtc->cursor.mmio = sm750_dev->mmio +
-e359b6a863e19f Mike Rapoport        2015-10-26  736  		0x800f0 + (int)crtc->channel * 0x140;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  737  
-cd33da26036ea5 Christopher Carbone  2022-08-23  738  	crtc->cursor.max_h = 64;
-cd33da26036ea5 Christopher Carbone  2022-08-23  739  	crtc->cursor.max_w = 64;
-39f9137268ee3d Benjamin Philip      2021-07-26  740  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
-f50b4602fea62f Jennifer Guo         2026-05-09  741  	crtc->cursor.vstart = sm750_dev->vmem + crtc->cursor.offset;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  742  
-3de08a2d14ff8c Lorenzo Stoakes      2015-03-20  743  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  744  	if (!g_hwcursor)
-52d0744d751d8f Arnd Bergmann        2016-11-09  745  		sm750_hw_cursor_disable(&crtc->cursor);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  746  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  747  	/* set info->fbops, must be set before fb_find_mode */
-e359b6a863e19f Mike Rapoport        2015-10-26  748  	if (!sm750_dev->accel_off) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  749  		/* use 2d acceleration */
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  750  		if (!g_hwcursor)
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  751  			info->fbops = &lynxfb_ops_accel;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  752  		else
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  753  			info->fbops = &lynxfb_ops_accel_with_cursor;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  754  	} else {
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  755  		if (!g_hwcursor)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  756  			info->fbops = &lynxfb_ops;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  757  		else
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  758  			info->fbops = &lynxfb_ops_with_cursor;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  759  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  760  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  761  	if (!g_fbmode[index]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03 @762  		g_fbmode[index] = g_def_fbmode;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  763  		if (index)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  764  			g_fbmode[index] = g_fbmode[0];
-81dee67e215b23 Sudip Mukherjee      2015-03-03  765  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  766  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  767  	for (i = 0; i < 3; i++) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  768  		ret = fb_find_mode(var, info, g_fbmode[index],
-81dee67e215b23 Sudip Mukherjee      2015-03-03  769  				   pdb[i], cdb[i], NULL, 8);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  770  
-db7fb3588ab492 Artem Lytkin         2026-02-23  771  		if (ret == 1 || ret == 2)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  772  			break;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  773  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  774  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  775  	/* set par */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  776  	par->info = info;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  777  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  778  	/* set info */
-e3a3f9f5123683 Mike Rapoport        2015-10-26  779  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
-e3a3f9f5123683 Mike Rapoport        2015-10-26  780  			    crtc->line_pad);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  781  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  782  	info->pseudo_palette = &par->pseudo_palette[0];
-cc59bde1c920ab Benjamin Philip      2021-07-28  783  	info->screen_base = crtc->v_screen;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  784  	info->screen_size = line_length * var->yres_virtual;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  785  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  786  	/* set info->fix */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  787  	fix->type = FB_TYPE_PACKED_PIXELS;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  788  	fix->type_aux = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  789  	fix->xpanstep = crtc->xpanstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  790  	fix->ypanstep = crtc->ypanstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  791  	fix->ywrapstep = crtc->ywrapstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  792  	fix->accel = FB_ACCEL_SMI;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  793  
-8c475735085a7d Tim Wassink          2025-12-21  794  	strscpy(fix->id, fix_id[index], sizeof(fix->id));
-81dee67e215b23 Sudip Mukherjee      2015-03-03  795  
-fdc234d85210d9 Benjamin Philip      2021-07-28  796  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  797  	/*
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  798  	 * according to mmap experiment from user space application,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  799  	 * fix->mmio_len should not larger than virtual size
-81dee67e215b23 Sudip Mukherjee      2015-03-03  800  	 * (xres_virtual x yres_virtual x ByPP)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  801  	 * Below line maybe buggy when user mmap fb dev node and write
-81dee67e215b23 Sudip Mukherjee      2015-03-03  802  	 * data into the bound over virtual size
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  803  	 */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  804  	fix->smem_len = crtc->vidmem_size;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  805  	info->screen_size = fix->smem_len;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  806  	fix->line_length = line_length;
-e359b6a863e19f Mike Rapoport        2015-10-26  807  	fix->mmio_start = sm750_dev->vidreg_start;
-e359b6a863e19f Mike Rapoport        2015-10-26  808  	fix->mmio_len = sm750_dev->vidreg_size;
-b610e1193a917f Matej Dujava         2020-04-30  809  
-b610e1193a917f Matej Dujava         2020-04-30  810  	lynxfb_set_visual_mode(info);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  811  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  812  	/* set var */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  813  	var->activate = FB_ACTIVATE_NOW;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  814  	var->accel_flags = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  815  	var->vmode = FB_VMODE_NONINTERLACED;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  816  
-61c507cf652da1 Michel von Czettritz 2015-03-26  817  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
-61c507cf652da1 Michel von Czettritz 2015-03-26  818  	if (ret < 0) {
-fbab250eb51d6d Artem Lytkin         2026-02-07  819  		dev_err(info->device, "Could not allocate memory for cmap.\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  820  		goto exit;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  821  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  822  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  823  exit:
-81dee67e215b23 Sudip Mukherjee      2015-03-03  824  	lynxfb_ops_check_var(var, info);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  825  	return ret;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  826  }
-81dee67e215b23 Sudip Mukherjee      2015-03-03  827  
-b7c885194b81a0 Lucas Costa          2026-09-22  828  static void lynxfb_unset_fbinfo(struct fb_info *info)
-b7c885194b81a0 Lucas Costa          2026-09-22  829  {
-b7c885194b81a0 Lucas Costa          2026-09-22  830  	fb_dealloc_cmap(&info->cmap);
-b7c885194b81a0 Lucas Costa          2026-09-22  831  }
-b7c885194b81a0 Lucas Costa          2026-09-22  832  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  833  /*	chip specific g_option configuration routine */
-700591a9adc8b1 Mike Rapoport        2015-10-26  834  static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  835  {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  836  	char *opt;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  837  	int swap;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  838  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  839  	swap = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  840  
-523200db5cb01f Hungyu Lin           2026-05-30  841  	sm750_dev->init_parm.chip_clock = 0;
-523200db5cb01f Hungyu Lin           2026-05-30  842  	sm750_dev->init_parm.mem_clock = 0;
-523200db5cb01f Hungyu Lin           2026-05-30  843  	sm750_dev->init_parm.master_clock = 0;
-45a337c12624fc Jennifer Guo         2026-05-09  844  	sm750_dev->init_parm.power_mode = 0;
-45a337c12624fc Jennifer Guo         2026-05-09  845  	sm750_dev->init_parm.reset_memory = 1;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  846  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  847  	/* defaultly turn g_hwcursor on for both view */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  848  	g_hwcursor = 3;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  849  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  850  	if (!src || !*src) {
-c56de0967a658c Elise Lennion        2016-10-31  851  		dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  852  		goto NO_PARAM;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  853  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  854  
-0fa96e39279988 Sudip Mukherjee      2015-03-10  855  	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-c56de0967a658c Elise Lennion        2016-10-31  856  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
-c56de0967a658c Elise Lennion        2016-10-31  857  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  858  
-144634a6b42146 Katie Dunne          2017-02-19  859  		if (!strncmp(opt, "swap", strlen("swap"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  860  			swap = 1;
-144634a6b42146 Katie Dunne          2017-02-19  861  		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
-1757d106a9ce8c Mike Rapoport        2015-10-26  862  			sm750_dev->nocrt = 1;
-144634a6b42146 Katie Dunne          2017-02-19  863  		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  864  			sm750_dev->pnltype = SM750_DOUBLE_TFT;
-144634a6b42146 Katie Dunne          2017-02-19  865  		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  866  			sm750_dev->pnltype = SM750_DUAL_TFT;
-144634a6b42146 Katie Dunne          2017-02-19  867  		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  868  			sm750_dev->pnltype = SM750_24TFT;
-144634a6b42146 Katie Dunne          2017-02-19  869  		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  870  			g_hwcursor &= ~0x1;
-144634a6b42146 Katie Dunne          2017-02-19  871  		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  872  			g_hwcursor &= ~0x2;
-144634a6b42146 Katie Dunne          2017-02-19  873  		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  874  			g_hwcursor = 0;
-144634a6b42146 Katie Dunne          2017-02-19  875  		} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  876  			if (!g_fbmode[0]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03 @877  				g_fbmode[0] = opt;
-cee9ba1c30d051 Abdul Rauf           2017-01-08  878  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d051 Abdul Rauf           2017-01-08  879  					 "find fbmode0 : %s\n", g_fbmode[0]);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  880  			} else if (!g_fbmode[1]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  881  				g_fbmode[1] = opt;
-cee9ba1c30d051 Abdul Rauf           2017-01-08  882  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d051 Abdul Rauf           2017-01-08  883  					 "find fbmode1 : %s\n", g_fbmode[1]);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  884  			} else {
-c56de0967a658c Elise Lennion        2016-10-31  885  				dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  886  			}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  887  		}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  888  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  889  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  890  NO_PARAM:
-e359b6a863e19f Mike Rapoport        2015-10-26  891  	if (sm750_dev->revid != SM750LE_REVISION_ID) {
-d352778979d2ee Ahmet Sezgin Duran   2026-05-21  892  		if (g_dualview) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  893  			if (swap)
-1757d106a9ce8c Mike Rapoport        2015-10-26  894  				sm750_dev->dataflow = sm750_dual_swap;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  895  			else
-1757d106a9ce8c Mike Rapoport        2015-10-26  896  				sm750_dev->dataflow = sm750_dual_normal;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  897  		} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  898  			if (swap)
-1757d106a9ce8c Mike Rapoport        2015-10-26  899  				sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  900  			else
-1757d106a9ce8c Mike Rapoport        2015-10-26  901  				sm750_dev->dataflow = sm750_simul_pri;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  902  		}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  903  	} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  904  		/* SM750LE only have one crt channel */
-1757d106a9ce8c Mike Rapoport        2015-10-26  905  		sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  906  		/* sm750le do not have complex attributes */
-1757d106a9ce8c Mike Rapoport        2015-10-26  907  		sm750_dev->nocrt = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  908  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  909  }
-81dee67e215b23 Sudip Mukherjee      2015-03-03  910  
-
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
