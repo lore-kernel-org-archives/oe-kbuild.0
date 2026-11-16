@@ -1,76 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794861988;
-	b=gK6OTXU7M4ZYCPE5PntJXgf7+ihrsY/tgie08oObCWwNYamMbirfJkK8XjflQH/2Gg6o
-	 z4FUlZOGxmTtLbLb4gsxKjqMfP9YHBpoyoHkxVZqn8qSUihvi3CybswQA1yeoQYKnlp8a
-	 EbAFGHWyYc8ut+ffXKo0GQubXg4GwUt4IvmiOFv4CWig3C9yWgvDbtPcFQ3ndM+6ZRqJz
-	 C7D2JoFmsIpGl3GQdPdguO9vypez1nMIzkDpMBx/k4kClQ6ecNU5akImQuCedVZAL0mkF
-	 e9/h1TWre1STmcDV9D/qQyp2QtFNVSRoWqTWZvq06c7mwKymzdXCVaooEKDoZaB2oPQ==
+	t=1794862980;
+	b=Ep0UI1XuvR3y/G8VnEUOuFgOA9bHDXKNg9poNsm/2bNCblNA/uPnCVFADJqn+CVI+Re+
+	 WsczSGDJqR2jfeH2kTiOrp1f5z/q74Ak3jAATG3pZ0WM2BRqyrpM2PPbu0DepWPfDdrs6
+	 5y0z/LR41eDSrvqOo9jnvVm27hcr1UG4V/ZTqPJiG307QKPyXvlwyR6wCofU/xpR850hh
+	 7OFDYkT4qlafNdcb6WZOXOeHrI3eLDKke0aDT+EVT5sHwgGgtYLfFDetoAGLhI1YG/qGN
+	 qDbf0VI8L8040nYLLXeustl+IBbPePgurZePkcBCGjwygcaMlbImx661z/tMisZ1dkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794861988;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794862980;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=7DqrhhFMuRGsxmzkFa4bifXE162hvgOiw9hKCvD4yA4=;
-	b=KDCG5/iUzaiOmFm2J1NkrhJWoASGQ3OGjBHXfg3TLBZghi3wRBwCveNVNo1h+gfy9a8e
-	 qpFsnRuUIlaheWAqNmKAF3HbWwrdDL9Za0q7MZIs8orRkZPdb5cEVie/ExSKHne6R5or4
-	 6xloaF1fOY8rsfmTbJB3+L7jgsrpHYvTkr0FY5ebaB+MSIGrACKb62OCBVIHUwFTR6zZQ
-	 UarZsn7bSQmqhBH9HrggbAKXE2kvEVBSWFF3GnDQPdfCBtALo22HrbuJh3WxFAvsjb1cP
-	 LMdSENHk9lBnbZCVHbwgoiPlWfZHJWaJWA+UkIEE35rqkNlRMNysZffaW07Uzqp+GBQ==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=j2e4RWHxBHaHqSuUopGWyeHrZmt5JXyxtq64GxbQsHI=;
+	b=sltPDlN8QwNjw0Qd0l3QRFjCYIpnKbiW9x+iL6r5rW23UYuJM1nAVGWVhArEw3Ndt9rg
+	 +P7XJ9dQiI8v+k01s75D7xLQYjDaZD1fiuak+Gp7kAZ5a6O3f6ZkjLghgrKhIcGWXYAED
+	 mpfaYKL4yB355PW4MmeeBOHshEpmOy/0GOooqXvCW1cAsCsmx4KJUXe9a/24DdPUOqh2j
+	 iVq3kZvvJSknN4g1x0edmiI7l7+XgxxyZVyMtJ6abAjKweYsMyBGaoK8fP50NxV2YFHnA
+	 KG1K9l7o1m11MAY/mMBzvRttMs9JYZ95C9hkbRCGQf9bvjMfnPfflPMlprszi8V5uTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DiQoJrzj;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="IME6W/J1";
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E564606A322
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 20:46:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E564606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19051606A330
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 21:02:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19051606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DiQoJrzj
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IME6W/J1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794861987; x=1826397987;
-  h=date:from:to:cc:subject:message-id;
-  bh=k6CunJLc3sUGhEdLW8T6D/X/K13JalxNt28iWXeODDw=;
-  b=DiQoJrzjsmAhrr3/IPAvLffG3EDjq5F0mRNJQfJBCiRNlEZCSIeh2zDf
-   tWKWk3kLZA6mAEUjiKdB66y3l0jW0w+nBbZW7h6nhsojf6+U43qt/wDxV
-   L19pZs2ZmmcLewWcwTdmmJpqNqkO55DWosIZDNpagtrFJAMVwgeqNMwfq
-   XQ3vkYH/Tub8V+7eG2ofTtJRg5J3DTEe7C+dJL9Z8qfqXLVZIv8faFEKz
-   K5xGlxy0es9rtbZSYoo2oYS46DGvow0zCkFR4q6Lmgq0+Y5ttJ87FuQkj
-   uRg7ak7LEb/HWMfywu40idPYJb03yEkkFfc6stc8DB59JZTJ61Oy7/gOj
-   g==;
-X-CSE-ConnectionGUID: jcc3G6DnSO2478J++z457w==
-X-CSE-MsgGUID: h9N1ErB6Qb2PG0SXjSeEdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3463617"
+  t=1794862978; x=1826398978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HnaO96hzT3/YbZeCquZvUGP28bhUIo2/zdOA/Bq3SKM=;
+  b=IME6W/J1lwDfUAT0qU/MlGaW6I1Gvo/UhK9z2VoRPTVvZf5l51TcO8zQ
+   k2zk+Vw5yyj9T5mfDBNqJE8oaT+Lvbyex2qpLXcfIkK2xmnLly5TCojrg
+   jdKx7lzsIz7Xf75RHBerT2CZINhQM9fTYKvgQbBSnjlztRCfDyvW7Pmah
+   lHfGNy4F64vEKHJmuzdo+bdVC2U3CdxKGORKez1kxqZcUilmMbfLIqR72
+   Oq8tDgRDjRYuqCi5mpQfVfKjR4dCAFf7mfBwP90++v5dOmJOkZ+au2H7B
+   4UlNG9wlIf4l+81WTodouVbNDfQYfLi3CRhSzq6PIwu4FNb943Ln4id5D
+   Q==;
+X-CSE-ConnectionGUID: 3rwQBzAgStmrkxF3ovUrGw==
+X-CSE-MsgGUID: eLVlgXI4TPCsadmnTl4tkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3494047"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3463617"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 12:46:27 -0800
-X-CSE-ConnectionGUID: R1Notj9tSz+ym8f91T9bpg==
-X-CSE-MsgGUID: CyDKuNDwT/Wu0d8wX4q72A==
+   d="scan'208";a="3494047"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 13:02:58 -0800
+X-CSE-ConnectionGUID: 0Gse+A2TRB+SuvBRzjVlPQ==
+X-CSE-MsgGUID: FDmbOplNTD+jhgkgd4xVJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9569489"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 16 Nov 2026 12:46:26 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="11567206"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 16 Nov 2026 13:02:56 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT3aq-000000002oE-0CVR;
-	Mon, 16 Nov 2026 20:46:24 +0000
-Date: Mon, 16 Nov 2026 21:45:54 +0100
+	id 1xT3qo-000000019QC-1nIl;
+	Mon, 16 Nov 2026 21:02:54 +0000
+Date: Tue, 17 Nov 2026 05:02:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: fs/jbd2/journal.o: warning: objtool: init_module+0xb4:
- unreachable instruction
-Message-ID: <202611162158.0gjYCxY6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] seq_buf: always inline seq_buf_terminate()
+Message-ID: <202611170443.Mk0PC85z-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -79,42 +77,58 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "too many reports for this commit"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20261115153430.1607764-1-sashal@kernel.org>
+References: <20261115153430.1607764-1-sashal@kernel.org>
+TO: Sasha Levin <sashal@kernel.org>
+TO: Kees Cook <kees@kernel.org>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Petr Mladek <pmladek@suse.com>
+CC: linux-hardening@vger.kernel.org
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   141b164bbe186423e295b139e40e8e2d11cf1341
-commit: 9205a322cf96f16a49e412dfa3f09431f3e02fc5 objtool: Return canonical symbol when aliases exist in symbol finding helpers
-date:   12 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 12 months ago
-config: loongarch-randconfig-r2302-20261115 (https://download.01.org/0day-ci/archive/20261116/202611162158.0gjYCxY6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162158.0gjYCxY6-lkp@intel.com/reproduce)
+Hi Sasha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7b8cd26b6aab8cf147165610d13964f79200a5a7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sasha-Levin/seq_buf-always-inline-seq_buf_terminate/20261115-103429
+base:   7b8cd26b6aab8cf147165610d13964f79200a5a7
+patch link:    https://lore.kernel.org/r/20261115153430.1607764-1-sashal%40kernel.org
+patch subject: [PATCH] seq_buf: always inline seq_buf_terminate()
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: x86_64-randconfig-1015-20261116 (https://download.01.org/0day-ci/archive/20261117/202611170443.Mk0PC85z-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170443.Mk0PC85z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9205a322cf96 ("objtool: Return canonical symbol when aliases exist in symbol finding helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611162158.0gjYCxY6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611170443.Mk0PC85z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   fs/jbd2/journal.o: warning: objtool: get_slab+0x60: unreachable instruction
-   fs/jbd2/journal.o: warning: objtool: jbd2_journal_destroy+0x148: unreachable instruction
-   fs/jbd2/journal.o: warning: objtool: jbd2_journal_flush+0x178: unreachable instruction
-   fs/jbd2/journal.o: warning: objtool: jbd2_alloc+0x44: unreachable instruction
-   fs/jbd2/journal.o: warning: objtool: jbd2_journal_put_journal_head+0x48: unreachable instruction
->> fs/jbd2/journal.o: warning: objtool: init_module+0xb4: unreachable instruction
+>> WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_set_overflow+0x3 (section: .text.seq_buf_set_overflow) -> bootup_event_seq (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_set_overflow+0xa (section: .text.seq_buf_set_overflow) -> bootup_event_seq (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_set_overflow+0x16 (section: .text.seq_buf_set_overflow) -> bootup_event_seq (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_set_overflow+0x24 (section: .text.seq_buf_set_overflow) -> bootup_event_seq (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_set_overflow+0x2e (section: .text.seq_buf_set_overflow) -> bootup_event_seq (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
