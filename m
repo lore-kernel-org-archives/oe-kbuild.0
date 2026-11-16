@@ -1,78 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794811946;
-	b=4KX4lbAvRalCpFpEzXdjbZsBWlUIJzwyTKSC3kUdmZiJ6f72YONE/hd8mplz2Eao5OhR
-	 5CLi1tdLx43TLR7Zaz7uFO5a3iNNmFhCaLlQv/2UjS8mIYvkmjctgAfy0Em7VzOG+/FGA
-	 7BMwICG9d0KdjcQFJmHxafC6AcFefsi6BMznSEz3fOHN7RuwtzML3nmutK3x2IgJ5JrQm
-	 B8SJXbY6tmBkagBTpO0WsmC1TcfkJr+1uC8ciWnpNT2nkbed1ZbMnHckApIwrzwjFsURW
-	 8QeG0RRss5eaL+yygN7ZF5RCjpi3yIB5my31zbWa7dVllovIRW9ucv7mELfONd/CdzQ==
+	t=1794815084;
+	b=UY9d3CknrJu9dIwQYohn+qD+XIjHL5DKB2iDmBgLTovfy5vA5n5LNT6ZXBDqlYBCwNdW
+	 NUSKWFIEIJj0sQsC3BGHkXse3qr14F//bXdCCYRc2id9a70eAbNjMpLHqk11bv61JN84a
+	 AjAw1TegrHtfMLYZ4zceNdy9iOcink1GORCZMfJBZ5CQltJvw75eToP0tGwLA9nBC4P7O
+	 zEIwraL3XV71Q89tMQPPsA6Xg3q9CzhJ5hrdXFz1sr/r4m/B+ezPUzqoN3eS/PptQJLjS
+	 pLT4IjEgVwgCTicfIC4oyalUR/kKVgf6CadeVe8nLq8TimQ8MTNIxnGHa+E/lSc33Dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794811946;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794815084;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=uUivrNr2y8LYjHi0/j9Gu6aJan3fLBUPEk3TZXT67X0=;
-	b=3yPC6iTutUdckcbjjh2IyRKrvP/MI9PTpMARwQIgEptHc+C8LyNhSMxngJaj6WEY1hVZ
-	 uDcLFAJdw8w8YhGHXB2mee2PvUplLwPd/Mb/AJvhYR0b9TJUR7UAPvYKzr0z/dr2dcYIC
-	 gku6dM7ORNzkPLiLjVILHJ15nn5vjOyMpOj9IBbLP5SVkJC5WEAeaTQCPaQ74Bm52dpqk
-	 +58VxcdOEb5FQElqmB/AJrVZ2udkAIYWbTV/6zTWsQYUs/tXbXNxwajfwN2IBsJnijkc7
-	 2voUJP6hJSNgWJk6HManeI+Tmw6PLizoQ7E0fnxPyavmqPRU2y1D3p4U06nqlbQf1Vw==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=ZUz9X+JwMJFjr8vq0m4RetD+PsJ4QhL373Rg9iOnK4w=;
+	b=hH2WqexnsUk4gmtW6iK3g42aU1e4KU3BuguHak56OWVfFZIGyVvWUp83wY0EGAueJph4
+	 NiDIvE+ufuj3mUV2OFhJuwhSshwhgudFmmGvmLSNg1cDyODJG535xUWu6rn6ZPdlFNWYw
+	 WxHBI2w7fsZ4HiDzIBBOOmR9GTVD+xikKrUlyY+rO3CJbk6qLDgP0U4solnliQy+oMjhS
+	 1015FI1RzFCNJtU+EljRY7OjOTcmU7zmgy3kWuZatm+HSVDlbXVHmhe+4+bffzi0eqeGE
+	 kQ7eLsANT0KwoK/mQjfxkrWM0IupWg7Wv1wwDxEpk1bwmSF88WV3Z/9CLv25Pu1GZtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I5c491eb;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mPFGTcyA;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F3C606A31C
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 06:52:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63F3C606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2FD606A31C
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Nov 2026 07:44:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA2FD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I5c491eb
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mPFGTcyA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794811946; x=1826347946;
-  h=date:from:to:cc:subject:message-id;
-  bh=SyIUoWfQLz0h13M+Q8uRvgvdapP43cl8Ozoiht4ZoKw=;
-  b=I5c491ebbQOTybvEKT1n2EjuJO+L3uXZaF+Dol2YhXFZPHEIvyyiQiW+
-   MPmWltkZfKRZ2PR5oDtEFwbprHZakj+IwS2AfAS2SzA53RZJaWwY4IopZ
-   gnS2i3+YzT3KQU5l1BTfWGUJVmHyuXy2FILPh/gVPrGHxb9VP5AB+9x9j
-   EAp44McPeLo5u6QLibyo6xPzMZl+PzX4Az29YjeVsGTKKjixOfCPhnzv/
-   T+BoP21tnNbFQcJpp8s4LLu12JBY7FCE826LdvlXSyAwOQwj5aWsr7pzM
-   q/AReJb1hYiUWlSk93fkjrrH7lfzjjCChPdkKPJlOWn7ndnjFuRxfz9vY
-   A==;
-X-CSE-ConnectionGUID: CPEW9bZxRKyZRKTgU6eXVw==
-X-CSE-MsgGUID: G0QiiI3jRja888ccpqJpIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3568277"
+  t=1794815083; x=1826351083;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EafCe9KexSjmHT5immaSCrwezMxhDDBV4fv6mnAYRgU=;
+  b=mPFGTcyAy4kShQXbt6lU++yyPpeY8dlMtewkc5dcvWaJGaOlsWXMkjM1
+   V7wILrqEIotBY75rOIs8hJEz8EbLxc2bK9/1AfIiEZkjjKwwU7+KEiJK5
+   gg7l2dMpPGaMf5i5blZD9L6n+6EQdEsX5/C9uxThSR4cf6TgHWc6mZ+ws
+   UTlvI85LJu+xFNUuz/1WFf7LUa1e21YliycVTavjibdRqjxEBT8QFLhNX
+   kVgdTxc0T2SOoxN7+bFGq6dEUV0NVf7wimWkgeBQmciIopxec02ljHgW1
+   Cjw7LF5P+upJ4fjNAhlX3UnLYbYhOry9HHemKSrrNl0yQY06mDoxwFKBJ
+   Q==;
+X-CSE-ConnectionGUID: RavAfJVcS6qmZ9vBj/v4Yg==
+X-CSE-MsgGUID: k6pfBZJoS1q8VKsHpYB9Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3645390"
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3568277"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 22:52:25 -0800
-X-CSE-ConnectionGUID: uH2SSJF2SOCbIpe0dH1yUA==
-X-CSE-MsgGUID: OjbGAQoBTo22i1RLF/Zdmw==
+   d="scan'208";a="3645390"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 23:44:43 -0800
+X-CSE-ConnectionGUID: Cf712yKFRRSAIITpE0+3Gw==
+X-CSE-MsgGUID: Wsu+E41wTbCS54r2//8aDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="11253268"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 15 Nov 2026 22:52:24 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9610184"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 15 Nov 2026 23:44:41 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSqZh-000000002cd-3O2i;
-	Mon, 16 Nov 2026 06:52:21 +0000
-Date: Mon, 16 Nov 2026 07:51:27 +0100
+	id 1xSrOI-0000000183A-2xgt;
+	Mon, 16 Nov 2026 07:44:38 +0000
+Date: Mon, 16 Nov 2026 15:44:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [anolis-intel-cloud:devel-6.6 184/184]
- ./include/linux/fortify-string.h:597:25: error: call to
- '__write_overflow_field' declared with attribute warning: detected write
- beyond size of field (1st parameter); maybe use struct_group()?
-Message-ID: <202611160755.fvDmizH6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] staging: sm750fb: make g_fbmode constant array
+Message-ID: <202611161534.NL7ubKXR-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -81,174 +77,284 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "too many reports for this commit"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: aubrey.li@linux.intel.com
+In-Reply-To: <20261105211344.17532-1-testata.nucleare13@gmail.com>
+References: <20261105211344.17532-1-testata.nucleare13@gmail.com>
+TO: Francesco Giandinoto <testata.nucleare13@gmail.com>
+TO: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+CC: Francesco Giandinoto <testata.nucleare13@gmail.com>
+CC: Teddy Wang <teddy.wang@siliconmotion.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: linux-fbdev@vger.kernel.org
+CC: linux-staging@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
 
-Hi liujie_answer,
+Hi Francesco,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   ec0f60ac1b22917359f4629bc611716d948a9917
-commit: fb6fc5e1c34166fc6092ff4a41fcc8f7783996c6 [184/184] anolis: net: update linkdata ethernet driver features.
-:::::: branch date: 30 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261116/202611160755.fvDmizH6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160755.fvDmizH6-lkp@intel.com/reproduce)
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Giandinoto/staging-sm750fb-make-g_fbmode-constant-array/20261105-221316
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20261105211344.17532-1-testata.nucleare13%40gmail.com
+patch subject: [PATCH] staging: sm750fb: make g_fbmode constant array
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611161534.NL7ubKXR-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161534.NL7ubKXR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611160755.fvDmizH6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611161534.NL7ubKXR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from ./include/linux/string.h:296,
-                    from ./include/linux/bitmap.h:12,
-                    from ./include/linux/cpumask.h:12,
-                    from ./arch/x86/include/asm/cpumask.h:5,
-                    from ./arch/x86/include/asm/msr.h:11,
-                    from ./arch/x86/include/asm/processor.h:23,
-                    from ./arch/x86/include/asm/cpufeature.h:5,
-                    from ./arch/x86/include/asm/thread_info.h:53,
-                    from ./include/linux/thread_info.h:60,
-                    from ./arch/x86/include/asm/preempt.h:9,
-                    from ./include/linux/preempt.h:79,
-                    from ./include/linux/percpu.h:6,
-                    from ./include/linux/prandom.h:13,
-                    from ./include/linux/random.h:153,
-                    from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:12:
-   In function 'fortify_memcpy_chk',
-       inlined from 'sxe_upgrade_flash' at drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:457:2:
->> ./include/linux/fortify-string.h:597:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
-     597 |                         __write_overflow_field(p_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
+>> drivers/staging/sm750fb/sm750.c:762:33: error: assignment of read-only location 'g_fbmode[index]'
+     762 |                 g_fbmode[index] = g_def_fbmode;
+         |                                 ^
+   drivers/staging/sm750fb/sm750.c:764:41: error: assignment of read-only location 'g_fbmode[index]'
+     764 |                         g_fbmode[index] = g_fbmode[0];
+         |                                         ^
+   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
+>> drivers/staging/sm750fb/sm750.c:877:45: error: assignment of read-only location 'g_fbmode[0]'
+     877 |                                 g_fbmode[0] = opt;
+         |                                             ^
+   drivers/staging/sm750fb/sm750.c:881:45: error: assignment of read-only location 'g_fbmode[1]'
+     881 |                                 g_fbmode[1] = opt;
+         |                                             ^
 
 
-vim +/__write_overflow_field +597 ./include/linux/fortify-string.h
+vim +762 drivers/staging/sm750fb/sm750.c
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  541  
-f68f2ff91512c1 Kees Cook      2021-04-20  542  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  549   *
-f68f2ff91512c1 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  551   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  565   *
-f68f2ff91512c1 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  571   *
-f68f2ff91512c1 Kees Cook      2021-04-20  572   */
-54d9469bc515dc Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  574  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  575  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  578  					 const char *func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  579  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  581  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  585  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  586  
-f68f2ff91512c1 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  590  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  593  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  594  
-f68f2ff91512c1 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20 @597  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  598  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  601  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  602  		 */
-fa35198f39571b Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  606  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  607  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  608  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  613  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  614  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  615  
-f68f2ff91512c1 Kees Cook      2021-04-20  616  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  621  	 */
-311fb40aa0569a Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
-311fb40aa0569a Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
-f68f2ff91512c1 Kees Cook      2021-04-20  624  		fortify_panic(func);
-54d9469bc515dc Kees Cook      2021-06-24  625  
-54d9469bc515dc Kees Cook      2021-06-24  626  	/*
-54d9469bc515dc Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  628  	 *
-54d9469bc515dc Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc Kees Cook      2021-06-24  631  	 * proper flexible arrays.
-54d9469bc515dc Kees Cook      2021-06-24  632  	 *
-9f7d69c5cd2390 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  640  	 */
-54d9469bc515dc Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  643  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  644  
-54d9469bc515dc Kees Cook      2021-06-24  645  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  646  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  647  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  696  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  697  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  698  {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  699  	int i;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  700  	struct lynxfb_par *par;
+e359b6a863e19f Mike Rapoport        2015-10-26  701  	struct sm750_dev *sm750_dev;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  702  	struct lynxfb_crtc *crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  703  	struct lynxfb_output *output;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  704  	struct fb_var_screeninfo *var;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  705  	struct fb_fix_screeninfo *fix;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  706  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  707  	const struct fb_videomode *pdb[] = {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  708  		lynx750_ext, NULL, vesa_modes,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  709  	};
+81dee67e215b23 Sudip Mukherjee      2015-03-03  710  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
+d0856045f0e9fc Hungyu Lin           2026-04-01  711  	static const char * const fix_id[2] = {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  712  		"sm750_fb1", "sm750_fb2",
+81dee67e215b23 Sudip Mukherjee      2015-03-03  713  	};
+81dee67e215b23 Sudip Mukherjee      2015-03-03  714  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  715  	int ret, line_length;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  716  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  717  	ret = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  718  	par = (struct lynxfb_par *)info->par;
+e359b6a863e19f Mike Rapoport        2015-10-26  719  	sm750_dev = par->dev;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  720  	crtc = &par->crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  721  	output = &par->output;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  722  	var = &info->var;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  723  	fix = &info->fix;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  724  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  725  	/* set index */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  726  	par->index = index;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  727  	output->channel = &crtc->channel;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  728  	sm750fb_set_drv(par);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  729  
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  730  	/*
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  731  	 * set current cursor variable and proc pointer,
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  732  	 * must be set after crtc member initialized
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  733  	 */
+fdc234d85210d9 Benjamin Philip      2021-07-28  734  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+1be54c03f7519c Jad Keskes           2026-06-19  735  	crtc->cursor.mmio = sm750_dev->mmio +
+e359b6a863e19f Mike Rapoport        2015-10-26  736  		0x800f0 + (int)crtc->channel * 0x140;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  737  
+cd33da26036ea5 Christopher Carbone  2022-08-23  738  	crtc->cursor.max_h = 64;
+cd33da26036ea5 Christopher Carbone  2022-08-23  739  	crtc->cursor.max_w = 64;
+39f9137268ee3d Benjamin Philip      2021-07-26  740  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+f50b4602fea62f Jennifer Guo         2026-05-09  741  	crtc->cursor.vstart = sm750_dev->vmem + crtc->cursor.offset;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  742  
+3de08a2d14ff8c Lorenzo Stoakes      2015-03-20  743  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  744  	if (!g_hwcursor)
+52d0744d751d8f Arnd Bergmann        2016-11-09  745  		sm750_hw_cursor_disable(&crtc->cursor);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  746  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  747  	/* set info->fbops, must be set before fb_find_mode */
+e359b6a863e19f Mike Rapoport        2015-10-26  748  	if (!sm750_dev->accel_off) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  749  		/* use 2d acceleration */
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  750  		if (!g_hwcursor)
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  751  			info->fbops = &lynxfb_ops_accel;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  752  		else
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  753  			info->fbops = &lynxfb_ops_accel_with_cursor;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  754  	} else {
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  755  		if (!g_hwcursor)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  756  			info->fbops = &lynxfb_ops;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  757  		else
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  758  			info->fbops = &lynxfb_ops_with_cursor;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  759  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  760  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  761  	if (!g_fbmode[index]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03 @762  		g_fbmode[index] = g_def_fbmode;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  763  		if (index)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  764  			g_fbmode[index] = g_fbmode[0];
+81dee67e215b23 Sudip Mukherjee      2015-03-03  765  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  766  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  767  	for (i = 0; i < 3; i++) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  768  		ret = fb_find_mode(var, info, g_fbmode[index],
+81dee67e215b23 Sudip Mukherjee      2015-03-03  769  				   pdb[i], cdb[i], NULL, 8);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  770  
+db7fb3588ab492 Artem Lytkin         2026-02-23  771  		if (ret == 1 || ret == 2)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  772  			break;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  773  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  774  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  775  	/* set par */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  776  	par->info = info;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  777  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  778  	/* set info */
+e3a3f9f5123683 Mike Rapoport        2015-10-26  779  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
+e3a3f9f5123683 Mike Rapoport        2015-10-26  780  			    crtc->line_pad);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  781  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  782  	info->pseudo_palette = &par->pseudo_palette[0];
+cc59bde1c920ab Benjamin Philip      2021-07-28  783  	info->screen_base = crtc->v_screen;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  784  	info->screen_size = line_length * var->yres_virtual;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  785  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  786  	/* set info->fix */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  787  	fix->type = FB_TYPE_PACKED_PIXELS;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  788  	fix->type_aux = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  789  	fix->xpanstep = crtc->xpanstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  790  	fix->ypanstep = crtc->ypanstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  791  	fix->ywrapstep = crtc->ywrapstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  792  	fix->accel = FB_ACCEL_SMI;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  793  
+8c475735085a7d Tim Wassink          2025-12-21  794  	strscpy(fix->id, fix_id[index], sizeof(fix->id));
+81dee67e215b23 Sudip Mukherjee      2015-03-03  795  
+fdc234d85210d9 Benjamin Philip      2021-07-28  796  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  797  	/*
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  798  	 * according to mmap experiment from user space application,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  799  	 * fix->mmio_len should not larger than virtual size
+81dee67e215b23 Sudip Mukherjee      2015-03-03  800  	 * (xres_virtual x yres_virtual x ByPP)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  801  	 * Below line maybe buggy when user mmap fb dev node and write
+81dee67e215b23 Sudip Mukherjee      2015-03-03  802  	 * data into the bound over virtual size
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  803  	 */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  804  	fix->smem_len = crtc->vidmem_size;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  805  	info->screen_size = fix->smem_len;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  806  	fix->line_length = line_length;
+e359b6a863e19f Mike Rapoport        2015-10-26  807  	fix->mmio_start = sm750_dev->vidreg_start;
+e359b6a863e19f Mike Rapoport        2015-10-26  808  	fix->mmio_len = sm750_dev->vidreg_size;
+b610e1193a917f Matej Dujava         2020-04-30  809  
+b610e1193a917f Matej Dujava         2020-04-30  810  	lynxfb_set_visual_mode(info);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  811  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  812  	/* set var */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  813  	var->activate = FB_ACTIVATE_NOW;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  814  	var->accel_flags = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  815  	var->vmode = FB_VMODE_NONINTERLACED;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  816  
+61c507cf652da1 Michel von Czettritz 2015-03-26  817  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
+61c507cf652da1 Michel von Czettritz 2015-03-26  818  	if (ret < 0) {
+fbab250eb51d6d Artem Lytkin         2026-02-07  819  		dev_err(info->device, "Could not allocate memory for cmap.\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  820  		goto exit;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  821  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  822  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  823  exit:
+81dee67e215b23 Sudip Mukherjee      2015-03-03  824  	lynxfb_ops_check_var(var, info);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  825  	return ret;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  826  }
+81dee67e215b23 Sudip Mukherjee      2015-03-03  827  
+b7c885194b81a0 Lucas Costa          2026-09-22  828  static void lynxfb_unset_fbinfo(struct fb_info *info)
+b7c885194b81a0 Lucas Costa          2026-09-22  829  {
+b7c885194b81a0 Lucas Costa          2026-09-22  830  	fb_dealloc_cmap(&info->cmap);
+b7c885194b81a0 Lucas Costa          2026-09-22  831  }
+b7c885194b81a0 Lucas Costa          2026-09-22  832  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  833  /*	chip specific g_option configuration routine */
+700591a9adc8b1 Mike Rapoport        2015-10-26  834  static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  835  {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  836  	char *opt;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  837  	int swap;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  838  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  839  	swap = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  840  
+523200db5cb01f Hungyu Lin           2026-05-30  841  	sm750_dev->init_parm.chip_clock = 0;
+523200db5cb01f Hungyu Lin           2026-05-30  842  	sm750_dev->init_parm.mem_clock = 0;
+523200db5cb01f Hungyu Lin           2026-05-30  843  	sm750_dev->init_parm.master_clock = 0;
+45a337c12624fc Jennifer Guo         2026-05-09  844  	sm750_dev->init_parm.power_mode = 0;
+45a337c12624fc Jennifer Guo         2026-05-09  845  	sm750_dev->init_parm.reset_memory = 1;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  846  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  847  	/* defaultly turn g_hwcursor on for both view */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  848  	g_hwcursor = 3;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  849  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  850  	if (!src || !*src) {
+c56de0967a658c Elise Lennion        2016-10-31  851  		dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  852  		goto NO_PARAM;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  853  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  854  
+0fa96e39279988 Sudip Mukherjee      2015-03-10  855  	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+c56de0967a658c Elise Lennion        2016-10-31  856  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+c56de0967a658c Elise Lennion        2016-10-31  857  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  858  
+144634a6b42146 Katie Dunne          2017-02-19  859  		if (!strncmp(opt, "swap", strlen("swap"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  860  			swap = 1;
+144634a6b42146 Katie Dunne          2017-02-19  861  		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+1757d106a9ce8c Mike Rapoport        2015-10-26  862  			sm750_dev->nocrt = 1;
+144634a6b42146 Katie Dunne          2017-02-19  863  		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+94c938a0c15863 Shubham Chakraborty  2026-04-07  864  			sm750_dev->pnltype = SM750_DOUBLE_TFT;
+144634a6b42146 Katie Dunne          2017-02-19  865  		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+94c938a0c15863 Shubham Chakraborty  2026-04-07  866  			sm750_dev->pnltype = SM750_DUAL_TFT;
+144634a6b42146 Katie Dunne          2017-02-19  867  		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+94c938a0c15863 Shubham Chakraborty  2026-04-07  868  			sm750_dev->pnltype = SM750_24TFT;
+144634a6b42146 Katie Dunne          2017-02-19  869  		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  870  			g_hwcursor &= ~0x1;
+144634a6b42146 Katie Dunne          2017-02-19  871  		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  872  			g_hwcursor &= ~0x2;
+144634a6b42146 Katie Dunne          2017-02-19  873  		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  874  			g_hwcursor = 0;
+144634a6b42146 Katie Dunne          2017-02-19  875  		} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  876  			if (!g_fbmode[0]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03 @877  				g_fbmode[0] = opt;
+cee9ba1c30d051 Abdul Rauf           2017-01-08  878  				dev_info(&sm750_dev->pdev->dev,
+cee9ba1c30d051 Abdul Rauf           2017-01-08  879  					 "find fbmode0 : %s\n", g_fbmode[0]);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  880  			} else if (!g_fbmode[1]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  881  				g_fbmode[1] = opt;
+cee9ba1c30d051 Abdul Rauf           2017-01-08  882  				dev_info(&sm750_dev->pdev->dev,
+cee9ba1c30d051 Abdul Rauf           2017-01-08  883  					 "find fbmode1 : %s\n", g_fbmode[1]);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  884  			} else {
+c56de0967a658c Elise Lennion        2016-10-31  885  				dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  886  			}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  887  		}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  888  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  889  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  890  NO_PARAM:
+e359b6a863e19f Mike Rapoport        2015-10-26  891  	if (sm750_dev->revid != SM750LE_REVISION_ID) {
+d352778979d2ee Ahmet Sezgin Duran   2026-05-21  892  		if (g_dualview) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  893  			if (swap)
+1757d106a9ce8c Mike Rapoport        2015-10-26  894  				sm750_dev->dataflow = sm750_dual_swap;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  895  			else
+1757d106a9ce8c Mike Rapoport        2015-10-26  896  				sm750_dev->dataflow = sm750_dual_normal;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  897  		} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  898  			if (swap)
+1757d106a9ce8c Mike Rapoport        2015-10-26  899  				sm750_dev->dataflow = sm750_simul_sec;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  900  			else
+1757d106a9ce8c Mike Rapoport        2015-10-26  901  				sm750_dev->dataflow = sm750_simul_pri;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  902  		}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  903  	} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  904  		/* SM750LE only have one crt channel */
+1757d106a9ce8c Mike Rapoport        2015-10-26  905  		sm750_dev->dataflow = sm750_simul_sec;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  906  		/* sm750le do not have complex attributes */
+1757d106a9ce8c Mike Rapoport        2015-10-26  907  		sm750_dev->nocrt = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  908  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  909  }
+81dee67e215b23 Sudip Mukherjee      2015-03-03  910  
 
-:::::: The code at line 597 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
