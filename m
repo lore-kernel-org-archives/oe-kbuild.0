@@ -1,75 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794896178;
-	b=bL7HrhX3uSbX0s0ktVBMPDSpdFCTzDkH25KUXne2InZ5MiO8fhMK60QXI9i2LR9psE7Q
-	 wKgrc6xo4Oenr6Rn53MFPFHRCGFMwMXBNqCpEMPyfxtwwfW5QfqE4hQ4NMrVLZ271npIs
-	 KijuwX9vUxy5msC94+oJ9oIbF9VIc0kB6FYBA+M4Xm9Rbs680w6wM511CpZ11MaPx92Rq
-	 zWhKw9Uj9+Fd6KE/rUMNMcsZLpPbGAoiQe6JgXYdrCqvEAF1TV9uyidYoChrfMMmHcNxG
-	 Cpj1TXgIheKlNaqpsDmehUqKgv9uoK00gADeSyuchoC1Gz34HuoplcJ1Vc66gguh5Ug==
+	t=1794911638;
+	b=rE7/5HiIOyNJBhuFqNQ4kbyqoF4Q/NCAyWp+wMntbPAGE7X/Dxc9x1hHr7nad8rYvt+d
+	 kFxz03ziZqXsY7as1QL0uqGfKft3hp1Se5CWhU79jFpN/N2AZ1oRREQltjLQbYmqxuKBt
+	 /jy7F+8Hbgs7JWLkkUrngaczV7wyFmNNFI0WtfR7e8slht1B5tocSWPM5b6PbNYKD0pD3
+	 uR7YjzPnucG86BT/hTlK/txKbJ41Y+JxuiawyKhT8xv7vLfogdSKZPoZAE54UInYw03DA
+	 UlLlSnE+n9doPcxTzxsl2k1SW7vL1pciuJbkyB3fbP2ePBQCGwpK3RcXDPjfhZWyQOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794896178;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794911638;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=9kVfpwXb65QiTfT13PlR4HGC4zqBt8rkl7VyBnRef0s=;
-	b=n91FHn95ZFlq0mgEeKqKG7iAKyk9zHJw+l/kP/oz8aUMO/AcDCr/4LmClr36F3i/Ks6d
-	 CQM16mF+9ngZzVDK20oidNKUvtqdn2owCW62qdvulHWl3ZlZ3SIlg6aaYE0FyH5j6KwOv
-	 7C14k2/0SBEnC+OwnHd1SWDv0X3qz6YwjVhh07EFGSHIZCHluOi5xLMB4KuNPU4/lFDJZ
-	 CxLoZtNLwEj/jDkP+fM0wGOC7V2J3wNS2H7QXeZ9w2ncgxjraObLwxeTp1Cfo8NM8Cqhc
-	 QoBqQO6c3oSyd3yCOpdDeQWhA1q55p34go6B+JI104CqU/NHo4xiLywVg6IYFSomFAA==
+	bh=qj+mAjBe3RFGusVaLa+vFcKtymBXdw7Z0KDSk4BZsPw=;
+	b=0HGon4gZ0eQM+4VvjMPlmvfk7PbBSiIqsqvWzAjme4AlaXGbgtwGi0Yfb0k+RD7xH6uw
+	 mmUB57xrl+xJi/8d3fCplAqsLEJQX2KxOHR9xDwdoH/DzbrMQ6FzMpU72WyyJr89zMASH
+	 +VTYz/Srao8dl1vhjforKSClJbpq49TeHBv+HarCCPMmgijP6NhqOUGOWcSleAKAjklkI
+	 cFXsdjI6jQH4RYo7THDNUempAsiD/tjQUmkiQu0In0lj1cRQdrQTUi5Qv1HvpuJb7XslN
+	 9UzCDGLbmsJsAaF4yuudH8BPoIcPQaffAKTqaKjyZley5doLUY+p9HO3gjfUJzVNEMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j9XTdjFP;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hocIumbV;
 	arc=none smtp.remote-ip=198.175.65.21
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1626F606A31C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 06:16:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1626F606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998BA606A895
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 10:33:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 998BA606A895
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j9XTdjFP
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hocIumbV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794896178; x=1826432178;
+  t=1794911638; x=1826447638;
   h=date:from:to:cc:subject:message-id;
-  bh=k4RhCg8zCNM/tO0RI9Yy6Br1DQVBekM3EZn6RUEYZmU=;
-  b=j9XTdjFPnjYARpkKuQEHlkh5/ssD2yiXOnh6/Yq9c7TS1J/6VTStRaz4
-   ddSuN9h+VLj9JLoYdbkDfL0FfBMnOLSEfLrBUZf+VMhRl4KlhwV2BsmZd
-   FkGQ+fchtFnzTZmqkgZvKhDbUGNGT9X0w29MGjHWvV5KTyTEfibnroWZe
-   JJvwzz4xDV1s+Nx8VT75D9K+Yssulh7KJmZTFi/cxhD8FDzKlTf0SGzFb
-   X9cx5/3XQPi8y2nubF6PQym/UVn5oW4tIHR7tyCSCotGo0n114jHTe6pj
-   9+zaADSRCdUZt5JEtuLk1YSQnkL2W6CXTQh4DqHOsRKCusvkcN+LUtocy
-   A==;
-X-CSE-ConnectionGUID: /w25aDPuS+WWbB45sVZ8Bg==
-X-CSE-MsgGUID: pcnWGsW3Q3WIyX2HaLTnAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3730323"
+  bh=QkaD7p2ZU5tg79RBkiOmfl0jk+cHAhTOYlSMqsRW/ms=;
+  b=hocIumbVxd5k/19t+hnlWtSVcEGWzxd4vIOYFa2c1U0ZpZnFqzOj8rvU
+   0fk/Y0vhruWHT74kx/V/H2aoOeClQ/nSvX0+x8JoromLUfXe9qqOCjWD6
+   O9oEY/nN2yxPQB/bzoMMI6i6c/noo4VJDLtgUNXB/wFEIWCU0dtS6OUU0
+   wVM+ca8Tsd287EheYgLdrY0SXjcvW5aZRTUgwUWNexzC61lsgh4YozndF
+   6LNrL4ewHQdLG8me3o+/DiTWQIBMcDSOJrCWvdQPpLbC9KXKA3YLnPp6M
+   fL+SDlozOD5JWXZZSujaryplK6OXX8RR8TsAi0qO/k63giXxmU/wPi/9U
+   w==;
+X-CSE-ConnectionGUID: tAJPrCMIRJ2YYJqCoBsU1A==
+X-CSE-MsgGUID: 5alP8uC6Syi+JWtan/BWSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3759482"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3730323"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 22:16:18 -0800
-X-CSE-ConnectionGUID: rFdivNdlRJqOslDDg3B5dA==
-X-CSE-MsgGUID: RZ78XlNASl6S0Tzz0gmk7g==
+   d="scan'208";a="3759482"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:33:57 -0800
+X-CSE-ConnectionGUID: Rprv3fd5RE+bgo0EWKGQ2g==
+X-CSE-MsgGUID: kF2WPCYORKmORF1sWiFeJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11539412"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 16 Nov 2026 22:16:16 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9980422"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2026 02:33:56 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTCUH-00000001A99-3yux;
-	Tue, 17 Nov 2026 06:16:13 +0000
-Date: Tue, 17 Nov 2026 14:15:51 +0800
+	id 1xTGVd-0000000035K-0XjX;
+	Tue, 17 Nov 2026 10:33:53 +0000
+Date: Tue, 17 Nov 2026 11:33:01 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [broonie-ci:asoc-7.5 6/6] sound/soc/amd/acp-config.c:164:2:
- error: expected '}'
-Message-ID: <202611171416.SbpDnoUs-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 4010/7459]
+ drivers/firmware/arm/scmi/bus.c:139:18-22: ERROR: reference preceded by free
+ on line 113
+Message-ID: <20261117112926.VaJ4DrTm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,189 +81,140 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "too many reports for this commit"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Mark Brown <broonie@kernel.org>
+TO: Sudeep Holla <sudeep.holla@kernel.org>
+CC: Yeoreum Yun <yeoreum.yun@arm.com>
+CC: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-7.5
-head:   d986a3c94d54cbbe6373ec963321b85662585c4e
-commit: d986a3c94d54cbbe6373ec963321b85662585c4e [6/6] ASoC: Merge up fixes
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: arm64-randconfig-1000-20261117 (https://download.01.org/0day-ci/archive/20261117/202611171416.SbpDnoUs-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a69be15ed58ed48738a69ec4c7d0f3e8c7dbe4ce)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611171416.SbpDnoUs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   749a4de370409464cf8501ec5b2451df45c84eb4
+commit: 49c49ca0c4d02848a9576f72c4741c38c5ba09de [4010/7459] firmware: arm: Group interface drivers under arm/
+:::::: branch date: 14 hours ago
+:::::: commit date: 8 days ago
+config: s390-randconfig-r2107-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117112926.VaJ4DrTm-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c7014922f5829426952a38d079220c21b0a8ebe8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611171416.SbpDnoUs-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261117112926.VaJ4DrTm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm/scmi/bus.c:139:18-22: ERROR: reference preceded by free on line 113
+   drivers/firmware/arm/scmi/bus.c:139:18-22: ERROR: reference preceded by free on line 124
+--
+>> drivers/firmware/arm/scmi/raw_mode.c:955:8-24: WARNING: scmi_dbg_raw_mode_reset_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
 
->> sound/soc/amd/acp-config.c:164:2: error: expected '}'
-     164 | };
-         |  ^
-   sound/soc/amd/acp-config.c:26:70: note: to match this '{'
-      26 | static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
-         |                                                                      ^
-   1 error generated.
+vim +139 drivers/firmware/arm/scmi/bus.c
 
+3b0c8dd5a8d57d drivers/firmware/arm_scmi/bus.c Sudeep Holla     2026-10-05   44  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   45  /**
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   46   * scmi_protocol_device_request  - Helper to request a device
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   47   *
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   48   * @id_table: A protocol/name pair descriptor for the device to be created.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   49   *
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   50   * This helper let an SCMI driver request specific devices identified by the
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   51   * @id_table to be created for each active SCMI instance.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   52   *
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   53   * The requested device name MUST NOT be already existent for this protocol;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   54   * at first the freshly requested @id_table is annotated in the IDR table
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   55   * @scmi_requested_devices and then the requested device is advertised to any
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   56   * registered party via the @scmi_requested_devices_nh notification chain.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   57   *
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   58   * Return: 0 on Success
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   59   */
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   60  static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   61  {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   62  	int ret = 0;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   63  	struct list_head *head, *phead = NULL;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   64  	struct scmi_requested_dev *rdev;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   65  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   66  	pr_debug("Requesting SCMI device (%s) for protocol %x\n",
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   67  		 id_table->name, id_table->protocol_id);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   68  
+3b0c8dd5a8d57d drivers/firmware/arm_scmi/bus.c Sudeep Holla     2026-10-05   69  	if (scmi_raw_mode_only()) {
+ba80acb0dfca87 drivers/firmware/arm_scmi/bus.c Cristian Marussi 2023-01-18   70  		pr_warn("SCMI Raw mode active. Rejecting '%s'/0x%02X\n",
+ba80acb0dfca87 drivers/firmware/arm_scmi/bus.c Cristian Marussi 2023-01-18   71  			id_table->name, id_table->protocol_id);
+ba80acb0dfca87 drivers/firmware/arm_scmi/bus.c Cristian Marussi 2023-01-18   72  		return -EINVAL;
+ba80acb0dfca87 drivers/firmware/arm_scmi/bus.c Cristian Marussi 2023-01-18   73  	}
+ba80acb0dfca87 drivers/firmware/arm_scmi/bus.c Cristian Marussi 2023-01-18   74  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   75  	/*
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   76  	 * Find the matching protocol rdev list and then search of any
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   77  	 * existent equally named device...fails if any duplicate found.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   78  	 */
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   79  	mutex_lock(&scmi_requested_devices_mtx);
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   80  	phead = idr_find(&scmi_requested_devices, id_table->protocol_id);
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   81  	if (phead) {
+21ee965267bcbd drivers/firmware/arm_scmi/bus.c Sudeep Holla     2025-01-31   82  		head = phead;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   83  		list_for_each_entry(rdev, head, node) {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   84  			if (!strcmp(rdev->id_table->name, id_table->name)) {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   85  				pr_err("Ignoring duplicate request [%d] %s\n",
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   86  				       rdev->id_table->protocol_id,
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   87  				       rdev->id_table->name);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   88  				ret = -EINVAL;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   89  				goto out;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   90  			}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   91  		}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   92  	}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   93  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   94  	/*
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   95  	 * No duplicate found for requested id_table, so let's create a new
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   96  	 * requested device entry for this new valid request.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   97  	 */
+bf4afc53b77aea drivers/firmware/arm_scmi/bus.c Linus Torvalds   2026-02-21   98  	rdev = kzalloc_obj(*rdev);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22   99  	if (!rdev) {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  100  		ret = -ENOMEM;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  101  		goto out;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  102  	}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  103  	rdev->id_table = id_table;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  104  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  105  	/*
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  106  	 * Append the new requested device table descriptor to the head of the
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  107  	 * related protocol list, eventually creating such head if not already
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  108  	 * there.
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  109  	 */
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  110  	if (!phead) {
+bf4afc53b77aea drivers/firmware/arm_scmi/bus.c Linus Torvalds   2026-02-21  111  		phead = kzalloc_obj(*phead);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  112  		if (!phead) {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22 @113  			kfree(rdev);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  114  			ret = -ENOMEM;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  115  			goto out;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  116  		}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  117  		INIT_LIST_HEAD(phead);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  118  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  119  		ret = idr_alloc(&scmi_requested_devices, (void *)phead,
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  120  				id_table->protocol_id,
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  121  				id_table->protocol_id + 1, GFP_KERNEL);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  122  		if (ret != id_table->protocol_id) {
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  123  			pr_err("Failed to save SCMI device - ret:%d\n", ret);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  124  			kfree(rdev);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  125  			kfree(phead);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  126  			ret = -EINVAL;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  127  			goto out;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  128  		}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  129  		ret = 0;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  130  	}
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  131  	list_add(&rdev->node, phead);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  132  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  133  out:
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  134  	mutex_unlock(&scmi_requested_devices_mtx);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  135  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  136  	if (!ret)
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  137  		blocking_notifier_call_chain(&scmi_requested_devices_nh,
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  138  					     SCMI_BUS_NOTIFY_DEVICE_REQUEST,
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22 @139  					     (void *)rdev->id_table);
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  140  
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  141  	return ret;
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  142  }
+d3cd7c525fd2ec drivers/firmware/arm_scmi/bus.c Cristian Marussi 2022-12-22  143  
 
-vim +164 sound/soc/amd/acp-config.c
+:::::: The code at line 139 was first introduced by commit
+:::::: d3cd7c525fd2ecce3a6c963f314969a54783d211 firmware: arm_scmi: Refactor protocol device creation
 
-f1bdd8d385a8035 Ajit Kumar Pandey 2021-11-17   25  
-d0426510a9e1fab Hasun Park        2026-03-09   26  static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
-d0426510a9e1fab Hasun Park        2026-03-09   27  	{
-d0426510a9e1fab Hasun Park        2026-03-09   28  		.matches = {
-d0426510a9e1fab Hasun Park        2026-03-09   29  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-d0426510a9e1fab Hasun Park        2026-03-09   30  			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
-d0426510a9e1fab Hasun Park        2026-03-09   31  		},
-d0426510a9e1fab Hasun Park        2026-03-09   32  	},
-7587fc10cba6c4a Simon Trimmer     2026-10-07   33  	{
-7587fc10cba6c4a Simon Trimmer     2026-10-07   34  		/* ASUS EXPERTBOOK AM7406CKA (Kraken Point, ACP 7.0) */
-7587fc10cba6c4a Simon Trimmer     2026-10-07   35  		.matches = {
-7587fc10cba6c4a Simon Trimmer     2026-10-07   36  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-7587fc10cba6c4a Simon Trimmer     2026-10-07   37  			DMI_MATCH(DMI_PRODUCT_NAME, "ASUS EXPERTBOOK AM7406CKA"),
-7587fc10cba6c4a Simon Trimmer     2026-10-07   38  		},
-7587fc10cba6c4a Simon Trimmer     2026-10-07   39  	},
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   40  	{
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   41  		/* ASUS Zenbook S16 UM5606GA (Strix Point, ACP 7.0) */
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   42  		.matches = {
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   43  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   44  			DMI_MATCH(DMI_PRODUCT_NAME, "Zenbook S16 UM5606GA"),
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   45  		},
-6e4bfd9da8851f5 Jasper Smet       2026-05-13   46  	},
-fc12cf16df9af86 Jackie Dong       2026-05-27   47  	{
-fc12cf16df9af86 Jackie Dong       2026-05-27   48  		/* Lenovo Yoga Pro 7 15ASH11 (Strix Halo, ACP 7.0) */
-fc12cf16df9af86 Jackie Dong       2026-05-27   49  		.matches = {
-fc12cf16df9af86 Jackie Dong       2026-05-27   50  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fc12cf16df9af86 Jackie Dong       2026-05-27   51  			DMI_MATCH(DMI_PRODUCT_NAME, "83W5"),
-fc12cf16df9af86 Jackie Dong       2026-05-27   52  		},
-fc12cf16df9af86 Jackie Dong       2026-05-27   53  	},
-9ad4c2331d2330a Jackie Dong       2026-07-27   54  	{
-9ad4c2331d2330a Jackie Dong       2026-07-27   55  		/* Lenovo Legion 7 15ASH11 (Strix Halo, ACP 7.0) */
-9ad4c2331d2330a Jackie Dong       2026-07-27   56  		.matches = {
-9ad4c2331d2330a Jackie Dong       2026-07-27   57  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-9ad4c2331d2330a Jackie Dong       2026-07-27   58  			DMI_MATCH(DMI_PRODUCT_NAME, "83V9"),
-9ad4c2331d2330a Jackie Dong       2026-07-27   59  		},
-9ad4c2331d2330a Jackie Dong       2026-07-27   60  	},
-5d35f9be9b54a1b Zhang Heng        2026-09-22   61  	{
-5d35f9be9b54a1b Zhang Heng        2026-09-22   62  		/* Lenovo Yoga Pro 7 14ASP9 (Strix Point, ACP 7.0) */
-5d35f9be9b54a1b Zhang Heng        2026-09-22   63  		.matches = {
-5d35f9be9b54a1b Zhang Heng        2026-09-22   64  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-5d35f9be9b54a1b Zhang Heng        2026-09-22   65  			DMI_MATCH(DMI_PRODUCT_NAME, "83HN"),
-5d35f9be9b54a1b Zhang Heng        2026-09-22   66  		},
-5d35f9be9b54a1b Zhang Heng        2026-09-22   67  	},
-8f356232d0d563b Zhang Heng        2026-11-09   68  	{
-8f356232d0d563b Zhang Heng        2026-11-09   69  		/* Lenovo Legion 5 15AGP11 (ACP 7.0) */
-8f356232d0d563b Zhang Heng        2026-11-09   70  		.matches = {
-8f356232d0d563b Zhang Heng        2026-11-09   71  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-8f356232d0d563b Zhang Heng        2026-11-09   72  			DMI_MATCH(DMI_PRODUCT_NAME, "83Q6"),
-8f356232d0d563b Zhang Heng        2026-11-09   73  		},
-8f356232d0d563b Zhang Heng        2026-11-09   74  	},
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   75  	{
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   76  		.matches = {
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   77  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
-15596a87fcc6fa0 Shengyu Qu        2026-08-27   78  			DMI_MATCH(DMI_PRODUCT_NAME, "FA401EA"),
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   79  		},
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   80  	},
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   81  	{
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   82  		.matches = {
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   83  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   84  			DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook 18 M1807GA"),
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   85  		},
-27d090f3ccd4cad Syed Saba Kareem  2026-07-10   86  	},
-de0be324fcb97a4 Zhang Heng        2026-09-28   87  	{
-de0be324fcb97a4 Zhang Heng        2026-09-28   88  		/* ASUS Zenbook S14 UM5406GA (Strix Point, ACP 7.0) */
-de0be324fcb97a4 Zhang Heng        2026-09-28   89  		.matches = {
-de0be324fcb97a4 Zhang Heng        2026-09-28   90  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-de0be324fcb97a4 Zhang Heng        2026-09-28   91  			DMI_MATCH(DMI_PRODUCT_NAME, "Zenbook S14 UM5406GA"),
-de0be324fcb97a4 Zhang Heng        2026-09-28   92  		},
-de0be324fcb97a4 Zhang Heng        2026-09-28   93  	},
-8393e0bf593be4f Ville Saarinen    2026-08-09   94  	{
-8393e0bf593be4f Ville Saarinen    2026-08-09   95  		/* HP OmniBook X Flip 14-kc0xxx (Strix Point, ACP 7.2) */
-8393e0bf593be4f Ville Saarinen    2026-08-09   96  		.matches = {
-8393e0bf593be4f Ville Saarinen    2026-08-09   97  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-8393e0bf593be4f Ville Saarinen    2026-08-09   98  			DMI_MATCH(DMI_BOARD_NAME, "8EA1"),
-8393e0bf593be4f Ville Saarinen    2026-08-09   99  		},
-8393e0bf593be4f Ville Saarinen    2026-08-09  100  	},
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  101  	{
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  102  		/* HP OmniBook X Flip 16-cc0xxx */
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  103  		.matches = {
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  104  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  105  			DMI_MATCH(DMI_BOARD_NAME, "8EA2"),
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  106  		},
-4d6642d64cd00f2 Sehat Mahde       2026-08-25  107  	},
-a08578200344eb4 Baojun Xu         2026-11-03  108  	{
-a08578200344eb4 Baojun Xu         2026-11-03  109  		/* HP Cashmere-A */
-a08578200344eb4 Baojun Xu         2026-11-03  110  		.matches = {
-a08578200344eb4 Baojun Xu         2026-11-03  111  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-a08578200344eb4 Baojun Xu         2026-11-03  112  			DMI_MATCH(DMI_BOARD_NAME, "8EF5"),
-a08578200344eb4 Baojun Xu         2026-11-03  113  		},
-a08578200344eb4 Baojun Xu         2026-11-03  114  	},
-a08578200344eb4 Baojun Xu         2026-11-03  115  	{
-a08578200344eb4 Baojun Xu         2026-11-03  116  		/* HP Sundae */
-a08578200344eb4 Baojun Xu         2026-11-03  117  		.matches = {
-a08578200344eb4 Baojun Xu         2026-11-03  118  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-a08578200344eb4 Baojun Xu         2026-11-03  119  			DMI_MATCH(DMI_BOARD_NAME, "8F6D"),
-a08578200344eb4 Baojun Xu         2026-11-03  120  		},
-a08578200344eb4 Baojun Xu         2026-11-03  121  	},
-a08578200344eb4 Baojun Xu         2026-11-03  122  	{
-a08578200344eb4 Baojun Xu         2026-11-03  123  		/* HP SundaeWhip UMA */
-a08578200344eb4 Baojun Xu         2026-11-03  124  		.matches = {
-a08578200344eb4 Baojun Xu         2026-11-03  125  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-a08578200344eb4 Baojun Xu         2026-11-03  126  			DMI_MATCH(DMI_BOARD_NAME, "8FA4"),
-a08578200344eb4 Baojun Xu         2026-11-03  127  		},
-a08578200344eb4 Baojun Xu         2026-11-03  128  	},
-a08578200344eb4 Baojun Xu         2026-11-03  129  	{
-a08578200344eb4 Baojun Xu         2026-11-03  130  		/* HP SundaeWhip DSC */
-a08578200344eb4 Baojun Xu         2026-11-03  131  		.matches = {
-a08578200344eb4 Baojun Xu         2026-11-03  132  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-a08578200344eb4 Baojun Xu         2026-11-03  133  			DMI_MATCH(DMI_BOARD_NAME, "8FA5"),
-a08578200344eb4 Baojun Xu         2026-11-03  134  		},
-a08578200344eb4 Baojun Xu         2026-11-03  135  	},
-a08578200344eb4 Baojun Xu         2026-11-03  136  	{
-a08578200344eb4 Baojun Xu         2026-11-03  137  		/* HP Kata-A */
-a08578200344eb4 Baojun Xu         2026-11-03  138  		.matches = {
-a08578200344eb4 Baojun Xu         2026-11-03  139  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-a08578200344eb4 Baojun Xu         2026-11-03  140  			DMI_MATCH(DMI_BOARD_NAME, "9056"),
-a08578200344eb4 Baojun Xu         2026-11-03  141  		},
-a08578200344eb4 Baojun Xu         2026-11-03  142  	},
-38cb2ef26b64112 Art O Cathain     2026-10-16  143  	{
-38cb2ef26b64112 Art O Cathain     2026-10-16  144  		/* Dell 14S DS14265 */
-38cb2ef26b64112 Art O Cathain     2026-10-16  145  		.matches = {
-38cb2ef26b64112 Art O Cathain     2026-10-16  146  			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-38cb2ef26b64112 Art O Cathain     2026-10-16  147  			DMI_MATCH(DMI_PRODUCT_NAME, "Dell 14S DS14265"),
-38cb2ef26b64112 Art O Cathain     2026-10-16  148  		},
-38cb2ef26b64112 Art O Cathain     2026-10-16  149  	},
-817b86669dcedaf Matthew Schwartz  2026-11-04  150  	{
-817b86669dcedaf Matthew Schwartz  2026-11-04  151  		/* ASUS ROG Xbox Ally X20 (Strix Point, ACP 7.0) */
-817b86669dcedaf Matthew Schwartz  2026-11-04  152  		.matches = {
-817b86669dcedaf Matthew Schwartz  2026-11-04  153  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-817b86669dcedaf Matthew Schwartz  2026-11-04  154  			DMI_MATCH(DMI_BOARD_NAME, "RC74XA"),
-817b86669dcedaf Matthew Schwartz  2026-11-04  155  	},
-067db578cc2d16d Jaehoon Kim       2026-11-11  156  	{
-067db578cc2d16d Jaehoon Kim       2026-11-11  157  		/* LG gram 16 16Z95U (ACP 7.2) */
-067db578cc2d16d Jaehoon Kim       2026-11-11  158  		.matches = {
-067db578cc2d16d Jaehoon Kim       2026-11-11  159  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
-067db578cc2d16d Jaehoon Kim       2026-11-11  160  			DMI_MATCH(DMI_PRODUCT_NAME, "16Z95U"),
-067db578cc2d16d Jaehoon Kim       2026-11-11  161  		},
-817b86669dcedaf Matthew Schwartz  2026-11-04  162  	},
-d0426510a9e1fab Hasun Park        2026-03-09  163  	{}
-d0426510a9e1fab Hasun Park        2026-03-09 @164  };
-d0426510a9e1fab Hasun Park        2026-03-09  165  
-
-:::::: The code at line 164 was first introduced by commit
-:::::: d0426510a9e1fabf074e274ceff26ffc6500980a ASoC: amd: acp: add DMI override for ACP70 flag
-
-:::::: TO: Hasun Park <hasunpark@gmail.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Cristian Marussi <cristian.marussi@arm.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
