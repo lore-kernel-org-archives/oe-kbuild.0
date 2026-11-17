@@ -1,76 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794943586;
-	b=nLcjAXpGNQfJqYgfkBMyd5X2h2qW5/TdUXYlPkmjSQG96MJP1qmu6D9j+XN5bVZ8o3ya
-	 BvcZN0xdXdf+3uBPRPs4I8J5sASljomDRBiTP+w12rjxHivE7DxO/0U4CdFmS2AeHz4Ke
-	 6OUeRvOq8notL02xgZjuIVVOoaTFeXuWj/ezTxY3Imv0xxYRyQbfKcokbPP82/Pc1MNtu
-	 EacZAvHodrXgthrALdzPRwjWDbrOMKjEUw/TN3r+ZfIClVVc48pTwQXOgjRzMIA/rS7yJ
-	 6y2HZReimx3+oHfGHr5LUxEQwPAZBSCYCmmpjkSgDhjGoz31BBUZZBhicX5LZcUACzw==
+	t=1794943587;
+	b=oXt0Rf7T1Bp/4Di7XfxtR3BnxfEE6kkW4gaElXfZtOBK3UQH4Gd+gMkU0M6ITBs0yRqD
+	 K0971uZffbUWYRqSfO/t/LmRSiYFVAiAyTC96S4OmN0MM9FR9JKJzXTOeTMo/oc3HOCZ5
+	 3HhM3qyPpiW+J05xyx6H+iaxX/cYunvTpEuWjLuPqDdFyMTkJoSNqPTd9xOD7Pi0dRLek
+	 wdvacgXSAFfDzhwIyEmaBEhMbCdB+/BjV51EK9IlOzLk0BSA8SKZDbGBrmE3UyMf8H9dt
+	 CzhhH7L1FlXscV41dOjONfXdoUB+KudIl7jaL9glQ/1FY/ZFjr1kFJOh3pTj7imnlyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794943586;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794943587;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=+/r6Zt+0pvLXjqRyXBUcz9o0yD48T4S59nrKM4Q/kI0=;
-	b=RkJEN2389zI7dKLi1W8dvfGU4o5YaRyDOlXgFL3oLE44QeQL82bgKufQ8AkRF9R1A3EO
-	 +9jlSTh79aCGujFXa6P4WoeUen++kfehmqLa+/A5SYem+9H6iuzAXlIzuvkys3sG9Zod6
-	 ZcvZY2gavWxguKHYmEE5Vgu0TcpT/vrBVfJs0BJL4tmaGQHktiLAFG2gW2RV3Lt7p2pQD
-	 ckGzbAwsS0fA8Eu0bQm3r+pq9VzzSXqj0LJXtxAg1N1ymmLX4eQ4D096itZPKFooA+gR+
-	 2YsQnQp4YwYmtzvyJoHqRpoKkGH2c9Fw0Cw7JbWys6/EA2TVzS0+stO6hsDrXYM0DrA==
+	bh=OLzo8E1e47ZFLEVZ3IjmaMEVw3VjXg9KmzXnWc1pFRk=;
+	b=S6i8/XDG3WHqBZYoMhue5mWNNRBAhgsF6siH1L/WEyZbN3TMXpTCL83+lwQvVmI9ms4u
+	 Wv0nKlVzKYXradYR3hHA9cr4iOKnA6DU4ebxzlsIChujXOzv8i/yDLEg+Ymb3hOi/Vesk
+	 dZv9so5qgOg0LwNdoLaXGAKrgjI3Nop+zUVennnJ25RCphnyj4/KhsOOo5sytmpExoVvw
+	 311lU0KxrggtmU5GkjjXWWz/nklWODB0Yaw6jEhUJQbM6x2wkEN4XVYK2vreuNlXOIo+7
+	 IbEytisSv8sfoFnRp4E12aL/Obc3+q1sfprsGj4IjyjvVGNMIyecQfLtmfijxL81FEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b0FdJg0s;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQ4mwnmZ;
 	arc=none smtp.remote-ip=192.198.163.15
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBD2606A32C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 19:26:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BBD2606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F027606A32F
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 19:26:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F027606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b0FdJg0s
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQ4mwnmZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794943586; x=1826479586;
+  t=1794943587; x=1826479587;
   h=date:from:to:cc:subject:message-id;
-  bh=1+yj3UE1O2XooayFw2NywB0BiLrtkLtcSsv/f5jOBlg=;
-  b=b0FdJg0sVm6ScqjIncTVOnnIRcZOn4Wei0/mv3zBfivEg1z5qHUknSPp
-   E8L9incZ9oWdzQ/ie0njRc9WI0au1xUqmSG9dPg0w4ll0UP7FZYQn+lyU
-   fDurCN364Mq1Wgh818/zxn8ZyjXVdTahG6yagr1NQXDbi2buJ/vCAVdfX
-   ID59CIYN/8ziLXHgghApMtBM7t0l1SrFDaRbr42oc790tG0xxb8K7hIHm
-   bl+CnAujkW0qCmi/hqg2iu7BMY78ogdMrzonspmOK3xcjapy7SZOygZrE
-   mWUodDTxMAnJej17PLXMkuCXvghI4In5K+gcHMbZLLE1k9LwL6ZyiBUVb
-   A==;
-X-CSE-ConnectionGUID: GkbO56BZQGqk37peSv6Cxg==
-X-CSE-MsgGUID: eHu5+8U8Q1elYMdxa7SDsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3741713"
+  bh=it15u0golUdZEzMxWATpR1BKpRm4EK6LTsQuFJ+8JIY=;
+  b=SQ4mwnmZIva6UhC3afnL47yrMVhohf1UkMmRXKkVBX6YBZ4YFwRhD2ul
+   4faBNhSFb7FPZ7Lv8E+RYY0IHipOPa+/VBLFo/JH2LTaIAogWNz063BTw
+   oUmnA4DbiU3+xUQCH4QPItIpHBtHRp4L5P7pXmxsCtoCGzoP7s41Ym07v
+   wteDAnsFxpMIlKnY5LBGnt7AnMVPI2lNSFva3LJYWpGdoQVqOZWJyNV+d
+   HCySQfLsb0eCUDlHe0vM7pVJuwbmREHZfTC5yTHbzRU3ONA1qKGcyx4Mk
+   As1anUKzWzq0ZMu5VJa43JyrUtXPwHQDvg3dXQM1iPpK7xk8lxp/DvlHv
+   Q==;
+X-CSE-ConnectionGUID: wYo7tlDaTrOFGZHqRdw2cQ==
+X-CSE-MsgGUID: iH3fU+5YTaaO8CQraLDzmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3741720"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3741713"
+   d="scan'208";a="3741720"
 Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 11:26:25 -0800
-X-CSE-ConnectionGUID: j/BhkExDR6+jpDbnjMwFxg==
-X-CSE-MsgGUID: bJZJKqEjSUCGNF+DZ40DEQ==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 11:26:27 -0800
+X-CSE-ConnectionGUID: ykgdo4oaQbmvgIQKBt61LQ==
+X-CSE-MsgGUID: cL8RaPOqQ3mFtC61vChwyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11737760"
+   d="scan'208";a="11737773"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 17 Nov 2026 11:26:25 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 17 Nov 2026 11:26:26 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTOow-000000003Be-2AoT;
-	Tue, 17 Nov 2026 19:26:22 +0000
-Date: Tue, 17 Nov 2026 20:25:39 +0100
+	id 1xTOox-000000003Bh-3LzN;
+	Tue, 17 Nov 2026 19:26:23 +0000
+Date: Tue, 17 Nov 2026 20:25:56 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-lts 205/205]
- mm/pagewalk.c:590:5: warning: no previous prototype for
- 'walk_page_range_debug'
-Message-ID: <20261117201829.3eSjdrxM-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/clk/davinci/da8xx-cfgchip.c:766:18-25: ERROR:
+ PTR_ERR applied after initialization to constant on line 747
+Message-ID: <20261117201958.Mh5y2e1X-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,89 +80,70 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "too many reports for this commit"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Rosen Penev <rosenp@gmail.com>
+CC: Brian Masney <bmasney@redhat.com>
 
-Hi Lorenzo,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
-head:   824580839cbc0d47e64dd2bbdef66590a57ef92d
-commit: 56a45fdbe5b254d952bdfd9891be3330b831ff0d [205/205] mm/pagewalk: split walk_page_range_novma() into kernel/user parts
-:::::: branch date: 30 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+commit: 551ba775497e93d93bb849f6ee572ca768cbaa3e clk: davinci: add COMPILE_TEST support
+date:   3 months ago
+:::::: branch date: 26 hours ago
 :::::: commit date: 3 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261117/20261117201829.3eSjdrxM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117201829.3eSjdrxM-lkp@intel.com/reproduce)
+config: arm64-randconfig-r2109-20261116 (https://download.01.org/0day-ci/archive/20261117/20261117201958.Mh5y2e1X-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5637411ce5dc86d0b7f87cde0f7ee47406d29db6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 551ba775497e ("clk: davinci: add COMPILE_TEST support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261117201829.3eSjdrxM-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261117201958.Mh5y2e1X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/davinci/da8xx-cfgchip.c:766:18-25: ERROR: PTR_ERR applied after initialization to constant on line 747
 
->> mm/pagewalk.c:590:5: warning: no previous prototype for 'walk_page_range_debug' [-Wmissing-prototypes]
-     590 | int walk_page_range_debug(struct mm_struct *mm, unsigned long start,
-         |     ^~~~~~~~~~~~~~~~~~~~~
+vim +766 drivers/clk/davinci/da8xx-cfgchip.c
 
+1e88a8d64f2212 David Lechner 2018-03-15  741  
+1e88a8d64f2212 David Lechner 2018-03-15  742  static int da8xx_cfgchip_probe(struct platform_device *pdev)
+1e88a8d64f2212 David Lechner 2018-03-15  743  {
+1e88a8d64f2212 David Lechner 2018-03-15  744  	struct device *dev = &pdev->dev;
+1e88a8d64f2212 David Lechner 2018-03-15  745  	struct da8xx_cfgchip_clk_platform_data *pdata = dev->platform_data;
+1e88a8d64f2212 David Lechner 2018-03-15  746  	da8xx_cfgchip_init clk_init = NULL;
+1e88a8d64f2212 David Lechner 2018-03-15 @747  	struct regmap *regmap = NULL;
+1e88a8d64f2212 David Lechner 2018-03-15  748  
+409c39ec92a35e Rob Herring   2023-10-06  749  	clk_init = device_get_match_data(dev);
+409c39ec92a35e Rob Herring   2023-10-06  750  	if (clk_init) {
+f9848cfa4bec95 David Hunter  2024-07-20  751  		struct device_node *parent __free(device_node) = of_get_parent(dev->of_node);
+1e88a8d64f2212 David Lechner 2018-03-15  752  
+1e88a8d64f2212 David Lechner 2018-03-15  753  		regmap = syscon_node_to_regmap(parent);
+1e88a8d64f2212 David Lechner 2018-03-15  754  	} else if (pdev->id_entry && pdata) {
+1e88a8d64f2212 David Lechner 2018-03-15  755  		clk_init = (void *)pdev->id_entry->driver_data;
+1e88a8d64f2212 David Lechner 2018-03-15  756  		regmap = pdata->cfgchip;
+1e88a8d64f2212 David Lechner 2018-03-15  757  	}
+1e88a8d64f2212 David Lechner 2018-03-15  758  
+1e88a8d64f2212 David Lechner 2018-03-15  759  	if (!clk_init) {
+1e88a8d64f2212 David Lechner 2018-03-15  760  		dev_err(dev, "unable to find driver data\n");
+1e88a8d64f2212 David Lechner 2018-03-15  761  		return -EINVAL;
+1e88a8d64f2212 David Lechner 2018-03-15  762  	}
+1e88a8d64f2212 David Lechner 2018-03-15  763  
+1e88a8d64f2212 David Lechner 2018-03-15  764  	if (IS_ERR_OR_NULL(regmap)) {
+1e88a8d64f2212 David Lechner 2018-03-15  765  		dev_err(dev, "no regmap for CFGCHIP syscon\n");
+1e88a8d64f2212 David Lechner 2018-03-15 @766  		return regmap ? PTR_ERR(regmap) : -ENOENT;
+1e88a8d64f2212 David Lechner 2018-03-15  767  	}
+1e88a8d64f2212 David Lechner 2018-03-15  768  
+1e88a8d64f2212 David Lechner 2018-03-15  769  	return clk_init(dev, regmap);
+1e88a8d64f2212 David Lechner 2018-03-15  770  }
+1e88a8d64f2212 David Lechner 2018-03-15  771  
 
-vim +/walk_page_range_debug +590 mm/pagewalk.c
+:::::: The code at line 766 was first introduced by commit
+:::::: 1e88a8d64f221208801bb279ee7452df0b6d609f clk: davinci: New driver for TI DA8XX CFGCHIP clocks
 
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  574  
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  575  /**
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  576   * walk_page_range_debug - walk a range of pagetables not backed by a vma
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  577   * @mm:		mm_struct representing the target process of page table walk
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  578   * @start:	start address of the virtual address range
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  579   * @end:	end address of the virtual address range
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  580   * @ops:	operation to call during the walk
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  581   * @pgd:	pgd to walk if different from mm->pgd
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  582   * @private:	private data for callbacks' usage
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  583   *
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  584   * Similar to walk_page_range() but can walk any page tables even if they are
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  585   * not backed by VMAs. Because 'unusual' entries may be walked this function
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  586   * will also not lock the PTEs for the pte_entry() callback.
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  587   *
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  588   * This is for debugging purposes ONLY.
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  589   */
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14 @590  int walk_page_range_debug(struct mm_struct *mm, unsigned long start,
-488ae6a2b933cb5 Steven Price    2020-02-03  591  			  unsigned long end, const struct mm_walk_ops *ops,
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  592  			  pgd_t *pgd, void *private)
-488ae6a2b933cb5 Steven Price    2020-02-03  593  {
-488ae6a2b933cb5 Steven Price    2020-02-03  594  	struct mm_walk walk = {
-488ae6a2b933cb5 Steven Price    2020-02-03  595  		.ops		= ops,
-488ae6a2b933cb5 Steven Price    2020-02-03  596  		.mm		= mm,
-e47690d756a7605 Steven Price    2020-02-03  597  		.pgd		= pgd,
-488ae6a2b933cb5 Steven Price    2020-02-03  598  		.private	= private,
-488ae6a2b933cb5 Steven Price    2020-02-03  599  		.no_vma		= true
-488ae6a2b933cb5 Steven Price    2020-02-03  600  	};
-488ae6a2b933cb5 Steven Price    2020-02-03  601  
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  602  	/* For convenience, we allow traversal of kernel mappings. */
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  603  	if (mm == &init_mm)
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  604  		return walk_kernel_page_table_range(start, end, ops,
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  605  						    pgd, private);
-488ae6a2b933cb5 Steven Price    2020-02-03  606  	if (start >= end || !walk.mm)
-488ae6a2b933cb5 Steven Price    2020-02-03  607  		return -EINVAL;
-488ae6a2b933cb5 Steven Price    2020-02-03  608  
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  609  	/*
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  610  	 * The mmap lock protects the page walker from changes to the page
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  611  	 * tables during the walk.  However a read lock is insufficient to
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  612  	 * protect those areas which don't have a VMA as munmap() detaches
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  613  	 * the VMAs before downgrading to a read lock and actually tearing
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  614  	 * down PTEs/page tables. In which case, the mmap write lock should
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  615  	 * be held.
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  616  	 */
-56a45fdbe5b254d Lorenzo Stoakes 2026-08-14  617  	mmap_assert_write_locked(mm);
-488ae6a2b933cb5 Steven Price    2020-02-03  618  
-8782fb61cc84836 Steven Price    2022-09-02  619  	return walk_pgd_range(start, end, &walk);
-488ae6a2b933cb5 Steven Price    2020-02-03  620  }
-488ae6a2b933cb5 Steven Price    2020-02-03  621  
+:::::: TO: David Lechner <david@lechnology.com>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
