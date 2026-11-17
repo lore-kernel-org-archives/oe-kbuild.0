@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794918587;
-	b=X4YyIxnvXPf5QjBaPOLxQxsYAen2rnMN5vn94U/vpTg4SMMqrvmD81Cm5Ea2Q4IkaKl9
-	 utJvmSBeNFngAFeI6fvTi1Zz8Ub37FERIw02iocMWXvVf1DE87qZd4SS0ASEFxxjAtFMn
-	 aS2WnO1czQy1Qvl5lTA3/FEA2DFPhiXoZHqyrgDcubcy3S37cpyNLZAXIVgU7vITJL8tA
-	 2FFaQAjjCRopDTazgimTk3CYir5/d47RvYI09PWZ0Uuvgj9Q6Zdek1DDpgu+7RLIofspE
-	 W3XpIjLCqyYTZy/+t40yaWNv2EAgVfPWRH/MT6GhQORe2zQytXsyHUZz5zutQwqX9qA==
+	t=1794920463;
+	b=ys5gOrTPTmOOER8MzFNDLzh8Z+drZQmKsVaL+vV/52wlx4oQqAZ3N7DgGXBjOhoYxIhy
+	 2KrgDO01bDNYg4d3f+xezALkYw/bLwNBNou+bEEPoag9JGSwNAe8NQ32d55TNlRa0PDZF
+	 Gu9y+Vg1MrIpAj21ySEU7/I47NEAi1bw+KTs5xdd+/MokqhNm4muY10nPftNWhx9VQXyp
+	 YajYr1/KcLdw0/4tcS70TZjmYQ3o0jxMgZyCr0M9L7ox/DZKKKTsRHc0yxY8ktUkxK2h0
+	 pIB5Wa4BZpBlHCfpMLM1xoTKZ2o0lCq/5q5vuGYm0eNrYjh1WsKdd24Nm2jgQFmj0BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794918587;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794920463;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=rusvfkWTn6ixAFdl6fzEDS5asMWn8omfUwiJL2b9WYg=;
-	b=4BGAVXYzh9NixV0uaR0hdg1dnEipOdALYWoRy2EOaCVyXCMWa7h/kmy1thFEohvsnh40
-	 gB2UURYy9M9HDZri5BsubdC3gG5QaM8HkAHXGwkOayu//C+Pb/RKtA6MuEXK6AveJn2vP
-	 0YMaI+YUbwrB1V9/vNxmo77iXgRE19IGrZ2Th89TlyafuwnN6qiOj60ZGtBZZEbiMbvSI
-	 o245QKVTmjrEbdja+Poo7lsWXzpILn504FbKFeanHkzBuhpCpa0YW9hTBPLRWsTjcC5wp
-	 ttpHNr0y/6utti7EQ3FXT0DMnSSeGFNargfNgYMAEjrOAIKKN3eA+Lgs51Sjye2QfMw==
+	bh=FnuBIw9ilBPd/pVFzq04Rm0GrxsZ5RitICLkAlp4qm4=;
+	b=lnqr49/HY2BWYEvtyFfUqcb3naWroAdc/Qptp9aqW86TIrmvS/rw53QOy7u9NqHkGVqU
+	 YqAh0efzkKCtiRvJN7j7wX80YN0hBMUWqVwkpiVn+qJTNBOEELQ/Ggm05SSpCc9UO61YT
+	 SlpX0j2UBM+xS0yFv42JtYPT0BvLna9eCEiia5mPylPGn+qcfqHpDM0X6unIDCwwybLct
+	 Njm1rzLLMY8VsQEKfAnjS8iraBbon7JgGns8j3IBTYhs5IGEc5U9t6p6eTV0uXBotUWGY
+	 O5n2ku4eCuwZJK6cud9sMt/zem8x7b5zcdy3rES3thIruILP6Ypg5dcNr4kYwI+Fmig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZmGv0cZ;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="h/svvwU8";
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6620A606A31C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 12:29:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6620A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8D606A329
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 13:01:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3D8D606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZmGv0cZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h/svvwU8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794918587; x=1826454587;
+  t=1794920462; x=1826456462;
   h=date:from:to:cc:subject:message-id;
-  bh=mviRSS5lr9fcwK3XIqq7Q2vDbowJLG0pyB70AQpljX0=;
-  b=hZmGv0cZE9AShMl1TiCmDFyi+EMGzyQ4Vf7mk/kP1Gp7Pe0JFMn8gymw
-   uKHmA3pndLkLQyRDZncHzH89OzEtNh/XiFDFYHURgTvGWbqD1KTfaUCdt
-   KqjWFXROfq39OQjG0htDDLQLdlkanlB9nN74ZqmmEem+dSMrQO+vibg/i
-   +WMukm5tLUkhbsu0dY9q/nuKIFCzO8W/DtcynrkKaHhwcDusLViO+xbpD
-   loBk1lVviGs+8hIMTCak3spr8FP/7n/t76q3tnY5raCLoOZIL4YzUR0Uv
-   +KctbnRjRfTWMsPNNcW0Gol5mFsNnB8SNJyQ1+sQls5t6YHZiItP4cHix
-   Q==;
-X-CSE-ConnectionGUID: WPtGazbvT6e4ctEwgB32hg==
-X-CSE-MsgGUID: osJu13f+RY22uqOqLS/iOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3679326"
+  bh=2UX7kE+bkCJmO0yoTvbBdOALg4+seC15Q86/FYf3fiw=;
+  b=h/svvwU8cQNrfteXvSu1FZtDGyQEEIFLhlyeubw9jp2gPTIl4DqvqyZp
+   l/AEf0C0LehskK5S2/PpRuIMLAhxZLNqyEuVdAYuik5RaGjLFSgHY622N
+   OqlWNvthQDlY3IusVNDcDc+oJQXz5SeFWS1KT85urPERwcs6uiJkUej4+
+   t+MM8jmQtwlrDgwivZrSsQZDM0mQMrunvFJTRddmfUdgjQbXUZKcKsn20
+   QmBysxENwsFTYF3LmdGMwwNVbO3L2bUrADLm377OTSa2iqWN4q75lXG7o
+   LU0nu3VYZma3/NBSEa07p+zChFe08jls6s4rGHpmILWGu4RM5JhvQWkYY
+   A==;
+X-CSE-ConnectionGUID: KDdF0hQtRjSYL9d4X8S4Kw==
+X-CSE-MsgGUID: SrpdH+mfSe+FT8UrpLCziQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3711036"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3679326"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 04:29:47 -0800
-X-CSE-ConnectionGUID: 7+ny7SD5RBqenY+0lH1k7g==
-X-CSE-MsgGUID: nGhWk+J4TGSNmkglFG4Bpg==
+   d="scan'208";a="3711036"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 05:00:49 -0800
+X-CSE-ConnectionGUID: k+5baECzTue01jgQ2XpaFw==
+X-CSE-MsgGUID: xKyrz0IUTDSbMFf/HwfGUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11756270"
+   d="scan'208";a="9911228"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 17 Nov 2026 04:29:46 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Nov 2026 05:00:48 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTIJj-00000000370-2weK;
-	Tue, 17 Nov 2026 12:29:43 +0000
-Date: Tue, 17 Nov 2026 13:29:36 +0100
+	id 1xTInl-0000000037C-3jOg;
+	Tue, 17 Nov 2026 13:00:45 +0000
+Date: Tue, 17 Nov 2026 14:00:18 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator
- variable bound on line 408 cannot be NULL
-Message-ID: <20261117131927.IHtEpxWQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [ardb:raid6-arm64-eor3 1/2] lib/raid/raid6/arm/neon1.c:84:9:
+ sparse: sparse: Trying to use reserved word 'return' as identifier
+Message-ID: <20261117135326.OS3AJr1u-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,74 +80,1047 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: lib/raid/raid6/arm/neon1.c:84:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Florian Fainelli <florian.fainelli@broadcom.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
 
-Hi Johan,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-commit: 1230fbb225abf3f04c64697c6b0f8dfb473b3790 irqchip: Enable compile testing of Broadcom drivers
-date:   1 year, 1 month ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261117/20261117131927.IHtEpxWQ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git raid6-arm64-eor3
+head:   043c329c87cd57114635e717638bdfd0a678e03d
+commit: 9e93abb5ac1e3270e5410d47de5d59cae9809264 [1/2] raid6: neon: process four data disks per Horner step
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: arm64-randconfig-r2302-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117135326.OS3AJr1u-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117135326.OS3AJr1u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1230fbb225ab ("irqchip: Enable compile testing of Broadcom drivers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261117131927.IHtEpxWQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261117135326.OS3AJr1u-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator variable bound on line 408 cannot be NULL
-
-vim +411 drivers/irqchip/irq-bcm7038-l1.c
-
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  396  
-1e3e330c07076a Johan Hovold      2025-10-13  397  static int bcm7038_l1_probe(struct platform_device *pdev, struct device_node *parent)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  398  {
-1e3e330c07076a Johan Hovold      2025-10-13  399  	struct device_node *dn = pdev->dev.of_node;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  400  	struct bcm7038_l1_chip *intc;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  401  	int idx, ret;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  402  
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  403  	intc = kzalloc(sizeof(*intc), GFP_KERNEL);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  404  	if (!intc)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  405  		return -ENOMEM;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  406  
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  407  	raw_spin_lock_init(&intc->lock);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @408  	for_each_possible_cpu(idx) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  409  		ret = bcm7038_l1_init_one(dn, idx, intc);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  410  		if (ret < 0) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @411  			if (idx)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  412  				break;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  413  			pr_err("failed to remap intc L1 registers\n");
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  414  			goto out_free;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  415  		}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  416  	}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  417  
-affdc0d1bdfa54 Jiri Slaby (SUSE  2025-03-19  418) 	intc->domain = irq_domain_create_linear(of_fwnode_handle(dn), IRQS_PER_WORD * intc->n_words,
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  419  					     &bcm7038_l1_domain_ops,
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  420  					     intc);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  421  	if (!intc->domain) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  422  		ret = -ENOMEM;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  423  		goto out_unmap;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  424  	}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  425  
-
-:::::: The code at line 411 was first introduced by commit
-:::::: 5f7f0317ed28b86bdae9baf65bb72d405b6f79ee IRQCHIP: Add new driver for BCM7038-style level 1 interrupt controllers
-
-:::::: TO: Kevin Cernekee <cernekee@gmail.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+sparse warnings: (new ones prefixed by >>)
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:42:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:42:20: sparse: sparse: got unative_t
+   lib/raid/raid6/arm/neon1.c:52:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:52:25: sparse: sparse: got SHLBYTE
+   lib/raid/raid6/arm/neon1.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:55:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:64:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:64:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:69:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:69:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:75:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:75:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:82:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:82:19: sparse: sparse: got hi
+>> lib/raid/raid6/arm/neon1.c:84:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon1.c:84:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:84:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon1.c:85:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:85:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:93:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:93:19: sparse: sparse: got hi
+   lib/raid/raid6/arm/neon1.c:96:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon1.c:96:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:96:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon1.c:97:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:97:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:109:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:109:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon1.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:117:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:117:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon1.c:119:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:119:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon1.c:121:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:121:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:128:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:128:19: sparse: sparse: got d2
+   lib/raid/raid6/arm/neon1.c:129:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:129:19: sparse: sparse: got d1
+   lib/raid/raid6/arm/neon1.c:130:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:130:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon1.c:132:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:132:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon1.c:134:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:134:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:140:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:140:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:149:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:149:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon1.c:150:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:150:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon1.c:156:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:156:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon1.c:156:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon1.c:156:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:156:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon1.c:156:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:156:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon1.c:161:24: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:161:24: sparse: sparse: got &
+>> lib/raid/raid6/arm/neon1.c:161:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon1.c:163:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:163:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon1.c:164:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:164:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:167:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:167:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon1.c:168:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:168:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:169:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:169:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon1.c:169:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:169:36: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon1.c:171:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:171:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:173:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:173:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon1.c:174:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:174:9: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:189:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:189:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon1.c:190:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:190:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon1.c:191:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:191:25: sparse: sparse: got gm0
+   lib/raid/raid6/arm/neon1.c:192:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:192:25: sparse: sparse: got gm1
+   lib/raid/raid6/arm/neon1.c:198:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:198:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon1.c:198:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon1.c:198:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:198:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon1.c:198:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:198:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon1.c:204:21: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:204:21: sparse: sparse: got (
+   lib/raid/raid6/arm/neon1.c:204:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon1.c:206:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:206:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon1.c:207:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:207:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:210:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:210:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon1.c:211:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:211:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:212:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:212:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon1.c:212:40: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon1.c:212:40: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon1.c:214:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:214:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:219:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:219:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon1.c:222:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:222:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon1.c:223:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon1.c:223:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon1.c:224:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon1.c:224:9: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3131:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3131:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3138:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3138:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3145:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3145:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3152:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3152:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3159:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3159:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3166:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3166:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3173:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3173:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3180:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3180:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3187:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3187:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3194:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3194:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3201:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3201:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3208:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3208:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3215:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3215:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3222:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3222:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3231:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3231:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3238:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3238:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3245:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3245:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3252:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3252:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3259:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3259:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3266:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3266:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3273:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3273:10: sparse: sparse: bad constant expression type
+--
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:42:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:42:20: sparse: sparse: got unative_t
+   lib/raid/raid6/arm/neon2.c:52:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:52:25: sparse: sparse: got SHLBYTE
+   lib/raid/raid6/arm/neon2.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:55:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:64:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:64:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:69:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:69:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:75:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:75:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:82:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:82:19: sparse: sparse: got hi
+>> lib/raid/raid6/arm/neon2.c:84:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon2.c:84:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:84:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon2.c:85:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:85:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:93:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:93:19: sparse: sparse: got hi
+   lib/raid/raid6/arm/neon2.c:96:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon2.c:96:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:96:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon2.c:97:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:97:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:109:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:109:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon2.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:117:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:117:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon2.c:119:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:119:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon2.c:121:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:121:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:128:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:128:19: sparse: sparse: got d2
+   lib/raid/raid6/arm/neon2.c:129:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:129:19: sparse: sparse: got d1
+   lib/raid/raid6/arm/neon2.c:130:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:130:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon2.c:132:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:132:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon2.c:134:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:134:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:140:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:140:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:149:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:149:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon2.c:150:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:150:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon2.c:151:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:151:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon2.c:157:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:157:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon2.c:157:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon2.c:157:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:157:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon2.c:157:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:157:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon2.c:163:24: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:163:24: sparse: sparse: got &
+>> lib/raid/raid6/arm/neon2.c:163:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon2.c:165:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:165:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:166:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:166:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon2.c:167:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:167:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:170:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:170:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:171:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:171:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon2.c:172:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:172:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:173:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:173:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon2.c:173:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:173:36: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon2.c:175:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:175:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:176:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:176:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:178:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:178:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:179:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:179:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:180:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:180:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:181:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:181:9: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:196:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:196:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon2.c:197:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:197:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon2.c:198:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:198:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon2.c:199:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:199:25: sparse: sparse: got gm0
+   lib/raid/raid6/arm/neon2.c:200:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:200:25: sparse: sparse: got gm1
+   lib/raid/raid6/arm/neon2.c:206:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:206:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon2.c:206:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon2.c:206:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:206:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon2.c:206:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:206:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon2.c:214:21: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:214:21: sparse: sparse: got (
+   lib/raid/raid6/arm/neon2.c:214:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon2.c:216:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:216:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:217:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:217:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon2.c:218:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:218:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:221:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:221:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:222:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:222:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon2.c:223:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:223:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:224:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:224:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon2.c:224:40: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:224:40: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon2.c:226:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:226:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:227:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:227:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:233:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:233:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon2.c:236:21: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon2.c:236:21: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon2.c:237:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:237:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:238:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:238:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:239:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:239:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:240:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon2.c:240:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon2.c:241:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon2.c:241:9: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3131:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3131:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3138:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3138:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3145:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3145:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3152:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3152:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3159:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3159:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3166:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3166:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3173:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3173:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3180:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3180:10: sparse: sparse: bad constant expression type
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3187:10: sparse: sparse: undefined identifier '__b'
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:3187:10: sparse: sparse: bad constant expression type
+--
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:42:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:42:20: sparse: sparse: got unative_t
+   lib/raid/raid6/arm/neon4.c:52:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:52:25: sparse: sparse: got SHLBYTE
+   lib/raid/raid6/arm/neon4.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:55:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:64:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:64:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:69:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:69:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:75:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:75:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:82:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:82:19: sparse: sparse: got hi
+>> lib/raid/raid6/arm/neon4.c:84:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon4.c:84:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:84:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon4.c:85:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:85:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:93:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:93:19: sparse: sparse: got hi
+   lib/raid/raid6/arm/neon4.c:96:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon4.c:96:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:96:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon4.c:97:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:97:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:109:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:109:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon4.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:117:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:117:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon4.c:119:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:119:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon4.c:121:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:121:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:128:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:128:19: sparse: sparse: got d2
+   lib/raid/raid6/arm/neon4.c:129:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:129:19: sparse: sparse: got d1
+   lib/raid/raid6/arm/neon4.c:130:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:130:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon4.c:132:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:132:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon4.c:134:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:134:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:140:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:140:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:149:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:149:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon4.c:150:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:150:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon4.c:151:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:151:19: sparse: sparse: got wq2
+   lib/raid/raid6/arm/neon4.c:152:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:152:19: sparse: sparse: got wq3
+   lib/raid/raid6/arm/neon4.c:153:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:153:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon4.c:159:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:159:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon4.c:159:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon4.c:159:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:159:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon4.c:159:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:159:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon4.c:167:24: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:167:24: sparse: sparse: got &
+>> lib/raid/raid6/arm/neon4.c:167:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon4.c:169:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:169:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:170:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:170:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:171:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:171:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:172:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:172:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon4.c:173:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:173:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:176:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:176:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:177:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:177:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:178:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:178:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:179:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:179:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon4.c:180:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:180:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:181:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:181:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon4.c:181:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:181:36: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon4.c:183:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:183:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:184:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:184:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:185:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:185:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:186:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:186:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:188:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:188:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:189:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:189:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:190:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:190:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:191:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:191:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:192:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:192:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:193:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:193:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:194:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:194:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:195:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:195:9: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:210:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:210:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon4.c:211:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:211:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon4.c:212:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:212:19: sparse: sparse: got wq2
+   lib/raid/raid6/arm/neon4.c:213:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:213:19: sparse: sparse: got wq3
+   lib/raid/raid6/arm/neon4.c:214:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:214:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon4.c:215:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:215:25: sparse: sparse: got gm0
+   lib/raid/raid6/arm/neon4.c:216:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:216:25: sparse: sparse: got gm1
+   lib/raid/raid6/arm/neon4.c:222:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:222:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon4.c:222:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon4.c:222:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:222:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon4.c:222:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:222:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon4.c:234:21: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:234:21: sparse: sparse: got (
+   lib/raid/raid6/arm/neon4.c:234:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon4.c:236:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:236:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:237:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:237:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:238:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:238:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:239:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:239:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon4.c:240:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:240:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:243:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:243:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:244:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:244:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:245:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:245:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:246:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:246:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon4.c:247:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon4.c:247:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon4.c:248:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:248:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon4.c:248:40: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon4.c:248:40: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon4.c:250:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:250:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon4.c:251:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon4.c:251:31: sparse: sparse: got &
+--
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34484:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34491:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34498:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34505:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34513:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34521:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34529:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34537:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34545:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34553:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34561:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34569:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34577:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34585:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34593:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34601:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34609:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34617:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34625:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34633:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34642:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34649:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34656:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34663:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34670:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34677:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34684:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34694:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34701:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34709:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34716:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34723:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34730:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34737:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34744:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34751:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34758:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34765:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34772:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34779:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34786:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34793:1: sparse: sparse: got }
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: Expected ; at the end of type declaration
+   ../lib/gcc/aarch64-linux/9.5.0/include/arm_neon.h:34800:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:42:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:42:20: sparse: sparse: got unative_t
+   lib/raid/raid6/arm/neon8.c:52:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:52:25: sparse: sparse: got SHLBYTE
+   lib/raid/raid6/arm/neon8.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:55:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:64:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:64:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:69:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:69:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:75:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:75:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:82:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:82:19: sparse: sparse: got hi
+>> lib/raid/raid6/arm/neon8.c:84:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon8.c:84:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:84:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon8.c:85:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:85:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:93:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:93:19: sparse: sparse: got hi
+   lib/raid/raid6/arm/neon8.c:96:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid/raid6/arm/neon8.c:96:16: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:96:16: sparse: sparse: got lo
+   lib/raid/raid6/arm/neon8.c:97:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:97:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:109:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:109:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon8.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:111:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:117:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:117:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon8.c:119:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:119:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon8.c:121:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:121:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:128:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:128:19: sparse: sparse: got d2
+   lib/raid/raid6/arm/neon8.c:129:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:129:19: sparse: sparse: got d1
+   lib/raid/raid6/arm/neon8.c:130:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:130:19: sparse: sparse: got d0
+   lib/raid/raid6/arm/neon8.c:132:13: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:132:13: sparse: sparse: got ^=
+   lib/raid/raid6/arm/neon8.c:134:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:134:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:140:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:140:1: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:149:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:149:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon8.c:150:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:150:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon8.c:151:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:151:19: sparse: sparse: got wq2
+   lib/raid/raid6/arm/neon8.c:152:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:152:19: sparse: sparse: got wq3
+   lib/raid/raid6/arm/neon8.c:153:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:153:19: sparse: sparse: got wq4
+   lib/raid/raid6/arm/neon8.c:154:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:154:19: sparse: sparse: got wq5
+   lib/raid/raid6/arm/neon8.c:155:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:155:19: sparse: sparse: got wq6
+   lib/raid/raid6/arm/neon8.c:156:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:156:19: sparse: sparse: got wq7
+   lib/raid/raid6/arm/neon8.c:157:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:157:25: sparse: sparse: got x1d
+   lib/raid/raid6/arm/neon8.c:163:17: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:163:17: sparse: sparse: got =
+   lib/raid/raid6/arm/neon8.c:163:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid/raid6/arm/neon8.c:163:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:163:25: sparse: sparse: got <
+   lib/raid/raid6/arm/neon8.c:163:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:163:37: sparse: sparse: got +=
+   lib/raid/raid6/arm/neon8.c:175:24: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:175:24: sparse: sparse: got &
+>> lib/raid/raid6/arm/neon8.c:175:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/raid/raid6/arm/neon8.c:177:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:177:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:178:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:178:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:179:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:179:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:180:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:180:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:181:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:181:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:182:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:182:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:183:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:183:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:184:26: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:184:26: sparse: sparse: got --
+   lib/raid/raid6/arm/neon8.c:185:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:185:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:188:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:188:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:189:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:189:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:190:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:190:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:191:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:191:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:192:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:192:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:193:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:193:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:194:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:194:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:195:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:195:27: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon8.c:196:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:196:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:197:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:197:27: sparse: sparse: got >=
+   lib/raid/raid6/arm/neon8.c:197:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:197:36: sparse: sparse: got -=
+   lib/raid/raid6/arm/neon8.c:199:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:199:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:200:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:200:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:201:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:201:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:202:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:202:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:203:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:203:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:204:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:204:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:205:31: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:205:31: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:206:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:206:17: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:208:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:208:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:209:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:209:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:210:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:210:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:211:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:211:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:212:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:212:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:213:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:213:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:214:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:214:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:215:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:215:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:216:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:216:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:217:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:217:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:218:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:218:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:219:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:219:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:220:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:220:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:221:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:221:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:222:26: sparse: sparse: Expected ) in function declarator
+   lib/raid/raid6/arm/neon8.c:222:26: sparse: sparse: got &
+   lib/raid/raid6/arm/neon8.c:223:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid/raid6/arm/neon8.c:223:9: sparse: sparse: got }
+   lib/raid/raid6/arm/neon8.c:238:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:238:19: sparse: sparse: got wq0
+   lib/raid/raid6/arm/neon8.c:239:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:239:19: sparse: sparse: got wq1
+   lib/raid/raid6/arm/neon8.c:240:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:240:19: sparse: sparse: got wq2
+   lib/raid/raid6/arm/neon8.c:241:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:241:19: sparse: sparse: got wq3
+   lib/raid/raid6/arm/neon8.c:242:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:242:19: sparse: sparse: got wq4
+   lib/raid/raid6/arm/neon8.c:243:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid/raid6/arm/neon8.c:243:19: sparse: sparse: got wq5
 
 -- 
 0-DAY CI Kernel Test Service
