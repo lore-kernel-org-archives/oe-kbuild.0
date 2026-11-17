@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794944870;
-	b=SwufKruext8rFuSiJChYhVvWKNNC/IQPiLWByn5jXPhwk8wkq8Vfyrw4IbdR0By8cNXV
-	 2ZzUe8plk8xYWSiTYoqw9E3K/bxREJ1TWSbOccKXlTGzYl4HK2qG9/IA5HM2PCwVtT2tu
-	 cTjTm3rwSNR+o4Be2jlix9mvNq+zo4PdMrFKIqHA2zZGJzUIngcwAUGjdrG+28GKYHRIR
-	 AoPALdVFARwrUuK1gjpk9iA/Qc4LAu5PR7XPTIUEuhwJKPcHRDoKBWF7HNGFKfy6mgWtu
-	 GJhHdmHGMlhEr3DjjjikkC6cgr6zv22eaG1IKrs6YQcnE48XeuorlYL+EdFUXrziXxQ==
+	t=1794952480;
+	b=CL63c2Z/bMm8jxG9kKAji0zSjgHAt8/ZjLwmN32yZhKgcdONHR/yTe2zttxufUNvU303
+	 mJ4KtC3I6msdmMC+kHbV5O9HzF6ZkuWy1sKUb7B9xc5vxg0Fr3ZlLS0J0WNWLIzurkXc7
+	 hgP3Ay/JHB6ohkqSthZ6vfycUvZNsSjMzktiSYGaLABHdY/LCdtRihIg4tihRSiCxsbiR
+	 y641LHfE3JWD0OTV8gmR0JTk/iQ8HhgCNW/WIRR59Gb9UQmENBdBlCHpBFaIRMKCFTz4N
+	 utF3MMu6mxkqF00ERnGhmEDdj8FYMYidxmq8DohiKhHljBujSy3BFhADAczsstJ82kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794944870;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794952480;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=S/sdcartzQjW/kqjyiil3z9NKXuwyhVteoPdKUz4Avc=;
-	b=hFvKaAduRDyeysS2j6TkCfilpd1lyzIYkmZclFtu4rGtXANmclpc0ds6Uka4jQ9GFK8y
-	 obeh0L0nW08oNeIljNwqIk4sWLXnc8WZj7bWgZqP0ThF6vjj+YhCUoKd6wtwFeDWfvHkc
-	 iTj38ikEaKruR0oBCtviaYS6F2HEvSlAeiEiiNLfEjTeJzrNT97ibsAnmQaD8d4kM7cCg
-	 2QZiZAYb6ZDfHkLJYGv1sR9vy0ynJHgAbn2ljr5coGHC/7FX5lfHXcIWgP4uiC1vudxrK
-	 YS58DAkiFwRRQROpYk2WqUwJMsYK6n5dZu8Soq7MvafE9D8GSx25kL+6Ppd8BIBFh9Q==
+	bh=i5zLxtMxFAHLP/BHPyqhTrlvykYMT0ZRe8AQ0aGfqRQ=;
+	b=g9s6f+RUgksgRHc5/ADVmCadrY/vHGY10iS3eixCbDA/bNmcCTZnGwQlfT8BwGJJSlNE
+	 E8gw3RR3WSfJs2jwmzbYDbDP2YQbrMWQVkQJ5mNB0Dy4ZrFTja0VXx+3pB3MsXEtPwWIT
+	 YIbthf+eCgHDDARgwCWT3lN1/e79PNu8CuykCK3HQo+5Ftros4SD2u3IwIuvS7zsxz/dy
+	 +GmhPVZPZft7rjuSa2JrTgqI1gNTaUO7CulnnTkFUq/2dKeeRsQNRBk/FA82jxb6A7PyV
+	 W7qJh4h18tRxwJBz3IYdtlyVjNJ4Ej/ShPE8VmARYu5W3XAPba5cxdnMx6IkL8IGf7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BnSTD+jh;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz0OqoYP;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D0F606A32C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 19:47:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39D0F606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F4E606A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 21:54:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87F4E606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BnSTD+jh
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz0OqoYP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794944870; x=1826480870;
+  t=1794952479; x=1826488479;
   h=date:from:to:cc:subject:message-id;
-  bh=4fhQMMRCg0WIABZmYu8lRc864ubGsKHINrfyIjQysCE=;
-  b=BnSTD+jhDIZl6qaInMMJlDAYg85SVJGJj4PPUuKjJzxkbgfN+3Y3ihg2
-   WEpYyYstS6CHOoYZCfHvDkA6KEtEd9WiyHsCEArvF3MHxoeD6Ke+nTaTE
-   kdVq/oNpsbjOO8vHV2OByBwFR0jT6CxvcuW2jiFJRIGQMORICmAZ0lWEE
-   shkYkmyGXlEBypOCRtBpVxMWsze0qqr5YzkF/0O4Eju6z4M/F8PdjSoXj
-   kvorkLiqa9W3iKVDD6qtFCQ7NDrOK7+MKLxWWhWK6o1ZqOM6p/kdRI1Sj
-   fHgGCurKkNgbbCv7Ul6qqZOT+3SUN68OuL3zQywYHwXSJGH9Aurv4kUq6
+  bh=o46MLZBfxWzPY8OrX+9H2/TyJ2ndJoDgPPYfGNe7a8E=;
+  b=Fz0OqoYPr5gyciiNwZZpZJpvloA4fDsNmH6U6dxMW9O9HVweB1AqNfK3
+   AnBAXiDrLhHcjUmzNWIgJISr5v2yA9B5MYENl4VyZCcmGPU2e9ajYn9YH
+   YRBfZSJR9s1BxciN1mg4vcMMMfPCb9n9lHhnKqTZ2oRhT3+Qz2xHiiYZ9
+   3pvaI37ketYjl97iK0K/d/uIwu9Ztbzkz+i/lId0IXo2EdnVokiW6XU4e
+   kPa+NFbq00SSqfVTLgUWaQVR9YAZmeZCouCxueKV2l7jzNuWZvfTfrUEg
+   QzAdbyV8CPW0+dtRQrutqH7XVEr21m1bwE5yNuMDcExwVNoBVIzONsvc2
    Q==;
-X-CSE-ConnectionGUID: Ahp0pKzhTbqwwtDHCTOslQ==
-X-CSE-MsgGUID: K6HVxExNSUqQvDvg7WCemg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3657334"
+X-CSE-ConnectionGUID: n062qkaTSD27KNZPlhDVsA==
+X-CSE-MsgGUID: p6g9LaXfQ72URv26S/t87w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3784219"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3657334"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 11:47:43 -0800
-X-CSE-ConnectionGUID: HEN8pYF4Tcy71sJ1mPBlcA==
-X-CSE-MsgGUID: P1gX1dzDR1uApjEG27mYeA==
+   d="scan'208";a="3784219"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 13:54:39 -0800
+X-CSE-ConnectionGUID: hRdDLXsNSFm57hZuCGe9eA==
+X-CSE-MsgGUID: 0cNT4xcmR6Stv53LXmfscw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11648534"
+   d="scan'208";a="10201608"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 17 Nov 2026 11:47:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 17 Nov 2026 13:54:39 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTP9X-000000003Bm-2IhX;
-	Tue, 17 Nov 2026 19:47:39 +0000
-Date: Tue, 17 Nov 2026 20:46:44 +0100
+	id 1xTR8N-000000003CY-39hQ;
+	Tue, 17 Nov 2026 21:54:35 +0000
+Date: Tue, 17 Nov 2026 22:54:09 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/regulator/pf1550-regulator.c:399:8-33: WARNING:
- Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
- it is nested IRQ)
-Message-ID: <20261117203730.aJacrdD5-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android16-6.12-lts 152/152]
+ reuseport_bpf_numa.c:111:8: error: unknown type name 'bool'
+Message-ID: <20261117224728.dIe1dxGB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,102 +80,51 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-commit: 7320d41c29bbd80144bb89112b8bf0c8223b94a1 regulator: pf1550: Add support for regulator
-date:   1 year, 1 month ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261117/20261117203730.aJacrdD5-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
+commit: 14b39ed41b930d65901ec4fd4e4f1e7e72317c37 [152/152] selftests: net: reuseport_bpf_numa: consider cpuless numa node
+:::::: branch date: 3 days ago
+:::::: commit date: 7 days ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261117/20261117224728.dIe1dxGB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117224728.dIe1dxGB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7320d41c29bb ("regulator: pf1550: Add support for regulator")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261117203730.aJacrdD5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261117224728.dIe1dxGB-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/regulator/pf1550-regulator.c:399:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+All errors (new ones prefixed by >>):
 
-vim +399 drivers/regulator/pf1550-regulator.c
-
-7320d41c29bbd8 Samuel Kayode 2025-10-01  345  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  346  static int pf1550_regulator_probe(struct platform_device *pdev)
-7320d41c29bbd8 Samuel Kayode 2025-10-01  347  {
-7320d41c29bbd8 Samuel Kayode 2025-10-01  348  	const struct pf1550_ddata *pf1550 = dev_get_drvdata(pdev->dev.parent);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  349  	struct regulator_config config = { };
-7320d41c29bbd8 Samuel Kayode 2025-10-01  350  	struct pf1550_regulator_info *info;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  351  	int i, irq = -1, ret = 0;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  352  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  353  	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  354  	if (!info)
-7320d41c29bbd8 Samuel Kayode 2025-10-01  355  		return -ENOMEM;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  356  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  357  	config.regmap = dev_get_regmap(pf1550->dev, NULL);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  358  	if (!config.regmap)
-7320d41c29bbd8 Samuel Kayode 2025-10-01  359  		return dev_err_probe(&pdev->dev, -ENODEV,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  360  				     "failed to get parent regmap\n");
-7320d41c29bbd8 Samuel Kayode 2025-10-01  361  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  362  	config.dev = pf1550->dev;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  363  	config.regmap = pf1550->regmap;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  364  	info->dev = &pdev->dev;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  365  	info->pf1550 = pf1550;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  366  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  367  	memcpy(info->regulator_descs, pf1550_regulators,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  368  	       sizeof(info->regulator_descs));
-7320d41c29bbd8 Samuel Kayode 2025-10-01  369  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  370  	for (i = 0; i < ARRAY_SIZE(pf1550_regulators); i++) {
-7320d41c29bbd8 Samuel Kayode 2025-10-01  371  		struct regulator_desc *desc;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  372  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  373  		desc = &info->regulator_descs[i].desc;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  374  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  375  		if ((desc->id == PF1550_SW2 && !pf1550->dvs2_enable) ||
-7320d41c29bbd8 Samuel Kayode 2025-10-01  376  		    (desc->id == PF1550_SW1 && !pf1550->dvs1_enable)) {
-7320d41c29bbd8 Samuel Kayode 2025-10-01  377  			/* OTP_SW2_DVS_ENB == 1? or OTP_SW1_DVS_ENB == 1? */
-7320d41c29bbd8 Samuel Kayode 2025-10-01  378  			desc->volt_table = pf1550_sw12_volts;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  379  			desc->n_voltages = ARRAY_SIZE(pf1550_sw12_volts);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  380  			desc->ops = &pf1550_sw1_ops;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  381  		}
-7320d41c29bbd8 Samuel Kayode 2025-10-01  382  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  383  		info->rdevs[i] = devm_regulator_register(&pdev->dev, desc,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  384  							 &config);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  385  		if (IS_ERR(info->rdevs[i]))
-7320d41c29bbd8 Samuel Kayode 2025-10-01  386  			return dev_err_probe(&pdev->dev,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  387  					     PTR_ERR(info->rdevs[i]),
-7320d41c29bbd8 Samuel Kayode 2025-10-01  388  					     "failed to initialize regulator-%d\n",
-7320d41c29bbd8 Samuel Kayode 2025-10-01  389  					     i);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  390  	}
-7320d41c29bbd8 Samuel Kayode 2025-10-01  391  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  392  	platform_set_drvdata(pdev, info);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  393  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  394  	for (i = 0; i < PF1550_REGULATOR_IRQ_NR; i++) {
-7320d41c29bbd8 Samuel Kayode 2025-10-01  395  		irq = platform_get_irq(pdev, i);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  396  		if (irq < 0)
-7320d41c29bbd8 Samuel Kayode 2025-10-01  397  			return irq;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  398  
-7320d41c29bbd8 Samuel Kayode 2025-10-01 @399  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  400  						pf1550_regulator_irq_handler,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  401  						IRQF_NO_SUSPEND,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  402  						"pf1550-regulator", info);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  403  		if (ret)
-7320d41c29bbd8 Samuel Kayode 2025-10-01  404  			return dev_err_probe(&pdev->dev, ret,
-7320d41c29bbd8 Samuel Kayode 2025-10-01  405  					     "failed: irq request (IRQ: %d)\n",
-7320d41c29bbd8 Samuel Kayode 2025-10-01  406  					     i);
-7320d41c29bbd8 Samuel Kayode 2025-10-01  407  	}
-7320d41c29bbd8 Samuel Kayode 2025-10-01  408  
-7320d41c29bbd8 Samuel Kayode 2025-10-01  409  	return 0;
-7320d41c29bbd8 Samuel Kayode 2025-10-01  410  }
-7320d41c29bbd8 Samuel Kayode 2025-10-01  411  
+>> reuseport_bpf_numa.c:111:8: error: unknown type name 'bool'
+     111 | static bool is_cpuless_node(int node_id)
+         |        ^~~~
+   reuseport_bpf_numa.c:27:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+      26 | #include "../kselftest.h"
+     +++ |+#include <stdbool.h>
+      27 | 
+   reuseport_bpf_numa.c: In function 'is_cpuless_node':
+   reuseport_bpf_numa.c:114:9: error: unknown type name 'bool'
+     114 |         bool ret = false;
+         |         ^~~~
+   reuseport_bpf_numa.c:114:9: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+>> reuseport_bpf_numa.c:114:20: error: 'false' undeclared (first use in this function)
+     114 |         bool ret = false;
+         |                    ^~~~~
+   reuseport_bpf_numa.c:114:20: note: 'false' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+   reuseport_bpf_numa.c:114:20: note: each undeclared identifier is reported only once for each function it appears in
+>> reuseport_bpf_numa.c:121:23: error: 'true' undeclared (first use in this function)
+     121 |                 ret = true;
+         |                       ^~~~
+   reuseport_bpf_numa.c:121:23: note: 'true' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
 
 -- 
 0-DAY CI Kernel Test Service
