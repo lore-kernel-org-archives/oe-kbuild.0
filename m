@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794918237;
-	b=Ubrgc43822gFObfM6Cex+qMlisbPw0FHP3eEFIdPa4GoR9MIP7Y1TNh42DV5gjTq+dyC
-	 EkxpG7ZXbAfOO1MHyRc8NenSAwneY7sSiGF7qjSeoQxGp68ah38ZXu2NELzgWzjAtHXsA
-	 cN8ttfhPp0N5WVuRMq1WvClfcWwGYBIYyRC4mSuUp9djHthiZzN6U1d4oVXbH2Om97Pir
-	 VZCEKhT+BoDLh6myGX1H5n+3/oZLL2Pvzg12Aa1tEZjtLipLqv42BY8nYnAohP0N/aJZZ
-	 BPSuSADF3GF+oSa4XWxbP6DkOnCUKeD4bhzoCvcbLOdBmyaJQE8P4bS3RAwKW8I26Dw==
+	t=1794918587;
+	b=X4YyIxnvXPf5QjBaPOLxQxsYAen2rnMN5vn94U/vpTg4SMMqrvmD81Cm5Ea2Q4IkaKl9
+	 utJvmSBeNFngAFeI6fvTi1Zz8Ub37FERIw02iocMWXvVf1DE87qZd4SS0ASEFxxjAtFMn
+	 aS2WnO1czQy1Qvl5lTA3/FEA2DFPhiXoZHqyrgDcubcy3S37cpyNLZAXIVgU7vITJL8tA
+	 2FFaQAjjCRopDTazgimTk3CYir5/d47RvYI09PWZ0Uuvgj9Q6Zdek1DDpgu+7RLIofspE
+	 W3XpIjLCqyYTZy/+t40yaWNv2EAgVfPWRH/MT6GhQORe2zQytXsyHUZz5zutQwqX9qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794918237;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794918587;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=+QCw9W359V+FOpD681v6I+eHXZ9So0fxQrly5SXFhBc=;
-	b=G5qmBxRnraxWtjAU1l3LU6ZFihrTXwqrfDn0k09Y28bJQQ6XFq3F5LIlM1Znrjv6v9q/
-	 lESCTn6rGCLCIJApjoqphD6hYf1mzWGgDrr06HVtzPQAc8RVbD7BZXk+zK5o3DNObua0C
-	 XoyuOMoo7hUu3CGyQ2/0hb88BK0BIu4oV26AeEybs4h+1eIwZImdqruL0Z8W5oYX2UOzK
-	 DgQ3/y/gaConVhtmkn/y+T4RiA0g4VbZtFlJFQb0c3Vp8DjzPcQuOXQzjX42R4Vnmt5QP
-	 +llHOGx7gKTrse3YZqA8DheNw+ErCUL7hc5NaQRAX+/yUwkyzAdaEzctvfrrTDbC1Rg==
+	bh=rusvfkWTn6ixAFdl6fzEDS5asMWn8omfUwiJL2b9WYg=;
+	b=4BGAVXYzh9NixV0uaR0hdg1dnEipOdALYWoRy2EOaCVyXCMWa7h/kmy1thFEohvsnh40
+	 gB2UURYy9M9HDZri5BsubdC3gG5QaM8HkAHXGwkOayu//C+Pb/RKtA6MuEXK6AveJn2vP
+	 0YMaI+YUbwrB1V9/vNxmo77iXgRE19IGrZ2Th89TlyafuwnN6qiOj60ZGtBZZEbiMbvSI
+	 o245QKVTmjrEbdja+Poo7lsWXzpILn504FbKFeanHkzBuhpCpa0YW9hTBPLRWsTjcC5wp
+	 ttpHNr0y/6utti7EQ3FXT0DMnSSeGFNargfNgYMAEjrOAIKKN3eA+Lgs51Sjye2QfMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k4ZdBZjP;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZmGv0cZ;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41122606A31C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 12:23:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41122606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6620A606A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Nov 2026 12:29:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6620A606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k4ZdBZjP
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZmGv0cZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794918236; x=1826454236;
+  t=1794918587; x=1826454587;
   h=date:from:to:cc:subject:message-id;
-  bh=geE/W+G1bhcCsfYLn9o1rCvbakG7UPilmVupY59JnZQ=;
-  b=k4ZdBZjPJIlRMVHBOz97auknnanjyjoFqVF+lAQhUuLjzFQHbcdlunI8
-   61y1yRTGsyOEmKE81fQtFCXa3QHWWabWc8Nc+68LnE6ie5xMYD+HunVBT
-   HxITJfFKAnNQtCo6vhfc5EEjJqQRd2cTiTf2l/HTW3njZo/HUJVLpIVQ3
-   EZvM34eownrxZkQOF3I0hDEdj3niVVBoCJmkvYmx/17OLhKipiVtpM60+
-   KnUX0wZ5w0eLw39rWeCbl9gLGpTHqYXU4HOWkZxpfn0Do2QcNKardh0p3
-   9txQWDzUz0rmw9mGycFnF0VD8qfUFoz7uEWRtb1JFeOYwdom3l4HOD47j
+  bh=mviRSS5lr9fcwK3XIqq7Q2vDbowJLG0pyB70AQpljX0=;
+  b=hZmGv0cZE9AShMl1TiCmDFyi+EMGzyQ4Vf7mk/kP1Gp7Pe0JFMn8gymw
+   uKHmA3pndLkLQyRDZncHzH89OzEtNh/XiFDFYHURgTvGWbqD1KTfaUCdt
+   KqjWFXROfq39OQjG0htDDLQLdlkanlB9nN74ZqmmEem+dSMrQO+vibg/i
+   +WMukm5tLUkhbsu0dY9q/nuKIFCzO8W/DtcynrkKaHhwcDusLViO+xbpD
+   loBk1lVviGs+8hIMTCak3spr8FP/7n/t76q3tnY5raCLoOZIL4YzUR0Uv
+   +KctbnRjRfTWMsPNNcW0Gol5mFsNnB8SNJyQ1+sQls5t6YHZiItP4cHix
    Q==;
-X-CSE-ConnectionGUID: 9Eg7bQuESE+tyuGWUok82w==
-X-CSE-MsgGUID: Z4uBrXhOT+iGyzcIT/PZkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3567862"
+X-CSE-ConnectionGUID: WPtGazbvT6e4ctEwgB32hg==
+X-CSE-MsgGUID: osJu13f+RY22uqOqLS/iOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3679326"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3567862"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 04:23:56 -0800
-X-CSE-ConnectionGUID: UiR09w1GSwO51ulvKjxxuw==
-X-CSE-MsgGUID: NvlYNbIJThWBu8LuxOmPVg==
+   d="scan'208";a="3679326"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 04:29:47 -0800
+X-CSE-ConnectionGUID: 7+ny7SD5RBqenY+0lH1k7g==
+X-CSE-MsgGUID: nGhWk+J4TGSNmkglFG4Bpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9730329"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Nov 2026 04:23:55 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="11756270"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 17 Nov 2026 04:29:46 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTIE4-00000001BSt-1ZPm;
-	Tue, 17 Nov 2026 12:23:52 +0000
-Date: Tue, 17 Nov 2026 20:23:27 +0800
+	id 1xTIJj-00000000370-2weK;
+	Tue, 17 Nov 2026 12:29:43 +0000
+Date: Tue, 17 Nov 2026 13:29:36 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/240-isp 95/96]
- drivers/media/platform/apple/msr/msr-hw.c:151:4: error: call to undeclared
- function 'readq_relaxed'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202611172027.eMvhMLjh-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator
+ variable bound on line 408 cannot be NULL
+Message-ID: <20261117131927.IHtEpxWQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,151 +80,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "too many reports for this commit"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sofus Forstreuter <sofus.c@icloud.com>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: Johan Hovold <johan@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Florian Fainelli <florian.fainelli@broadcom.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   41eeb3a08926fbe6037568be57148a360190fbe6
-commit: c967c4f5b870c69ed8f3b064e2d53f9171ec93d4 [95/96] media: apple: add msr driver
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261117/202611172027.eMvhMLjh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a69be15ed58ed48738a69ec4c7d0f3e8c7dbe4ce)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611172027.eMvhMLjh-lkp@intel.com/reproduce)
+Hi Johan,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+commit: 1230fbb225abf3f04c64697c6b0f8dfb473b3790 irqchip: Enable compile testing of Broadcom drivers
+date:   1 year, 1 month ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261117/20261117131927.IHtEpxWQ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1230fbb225ab ("irqchip: Enable compile testing of Broadcom drivers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611172027.eMvhMLjh-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261117131927.IHtEpxWQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator variable bound on line 408 cannot be NULL
 
->> drivers/media/platform/apple/msr/msr-hw.c:151:4: error: call to undeclared function 'readq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     151 |                         readq_relaxed(base + reg + i * 8));
-         |                         ^
->> drivers/media/platform/apple/msr/msr-hw.c:151:4: warning: format specifies type 'unsigned long long' but the argument has type 'int' [-Wformat]
-     150 |                 msr_dbg(2, ctx->msr, "%s[%d] dma:  %12llx\n", FRM_STR(frm), i,
-         |                                                    ~~~~~~
-         |                                                    %12x
-     151 |                         readq_relaxed(base + reg + i * 8));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/apple/msr/msr.h:116:50: note: expanded from macro 'msr_dbg'
-     116 |         v4l2_dbg(level, debug, &(msr)->v4l2_dev, fmt, ##args)
-         |                                                  ~~~    ^~~~
-   include/media/v4l2-common.h:74:42: note: expanded from macro 'v4l2_dbg'
-      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
-         |                                                      ~~~      ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_printk'
-      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
-         |                             ~~~                   ^~~
-   include/linux/printk.h:511:60: note: expanded from macro 'printk'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   drivers/media/platform/apple/msr/msr-hw.c:158:4: error: call to undeclared function 'readq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     158 |                         readq_relaxed(base + reg + i * 8));
-         |                         ^
-   drivers/media/platform/apple/msr/msr-hw.c:158:4: warning: format specifies type 'unsigned long long' but the argument has type 'int' [-Wformat]
-     157 |                 msr_dbg(2, ctx->msr, "%s[%d] meta: %12llx\n", FRM_STR(frm), i,
-         |                                                    ~~~~~~
-         |                                                    %12x
-     158 |                         readq_relaxed(base + reg + i * 8));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/apple/msr/msr.h:116:50: note: expanded from macro 'msr_dbg'
-     116 |         v4l2_dbg(level, debug, &(msr)->v4l2_dev, fmt, ##args)
-         |                                                  ~~~    ^~~~
-   include/media/v4l2-common.h:74:42: note: expanded from macro 'v4l2_dbg'
-      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
-         |                                                      ~~~      ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_printk'
-      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
-         |                             ~~~                   ^~~
-   include/linux/printk.h:511:60: note: expanded from macro 'printk'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings and 2 errors generated.
+vim +411 drivers/irqchip/irq-bcm7038-l1.c
 
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  396  
+1e3e330c07076a Johan Hovold      2025-10-13  397  static int bcm7038_l1_probe(struct platform_device *pdev, struct device_node *parent)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  398  {
+1e3e330c07076a Johan Hovold      2025-10-13  399  	struct device_node *dn = pdev->dev.of_node;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  400  	struct bcm7038_l1_chip *intc;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  401  	int idx, ret;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  402  
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  403  	intc = kzalloc(sizeof(*intc), GFP_KERNEL);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  404  	if (!intc)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  405  		return -ENOMEM;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  406  
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  407  	raw_spin_lock_init(&intc->lock);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @408  	for_each_possible_cpu(idx) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  409  		ret = bcm7038_l1_init_one(dn, idx, intc);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  410  		if (ret < 0) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @411  			if (idx)
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  412  				break;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  413  			pr_err("failed to remap intc L1 registers\n");
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  414  			goto out_free;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  415  		}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  416  	}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  417  
+affdc0d1bdfa54 Jiri Slaby (SUSE  2025-03-19  418) 	intc->domain = irq_domain_create_linear(of_fwnode_handle(dn), IRQS_PER_WORD * intc->n_words,
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  419  					     &bcm7038_l1_domain_ops,
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  420  					     intc);
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  421  	if (!intc->domain) {
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  422  		ret = -ENOMEM;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  423  		goto out_unmap;
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  424  	}
+5f7f0317ed28b8 Kevin Cernekee    2014-12-25  425  
 
-vim +/readq_relaxed +151 drivers/media/platform/apple/msr/msr-hw.c
+:::::: The code at line 411 was first introduced by commit
+:::::: 5f7f0317ed28b86bdae9baf65bb72d405b6f79ee IRQCHIP: Add new driver for BCM7038-style level 1 interrupt controllers
 
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  124  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  125  static void configure_fmt(struct msr_ctx *ctx, struct msr_vb_buffer *vb,
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  126  			  struct msr_frame *frm)
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  127  {
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  128  	const struct msr_fmt *fmt = frm->fmt;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  129  	void __iomem *base = ctx->msr->base;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  130  	size_t reg = 0;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  131  	int i;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  132  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  133  	reg = IS_SRC(frm) ? 0x180 : 0x280;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  134  	msr_writel(ctx, MSR_DMA_ALPHA(fmt->alpha) |
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  135  		   MSR_DMA_SUBSAMPLING(fmt->subsampling), reg);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  136  	msr_dbg(2, ctx->msr, "%s: %x\n", FRM_STR(frm),
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  137  		readl_relaxed(base + reg));
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  138  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  139  	for (i = 0; i < MSR_MAX_PLANES; i++) {
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  140  		msr_writel(ctx, MSR_DMA_STORAGE(fmt->storage[i]),
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  141  			   reg + 4 + (i * 4));
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  142  		msr_dbg(2, ctx->msr, "%s[%d]: %05x\n", FRM_STR(frm), i,
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  143  			readl_relaxed(base + reg + 4 + (i * 4)));
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  144  	}
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  145  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  146  	/* XXX: can src have 4 planes? */
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  147  	reg = IS_SRC(frm) ? 0x198 : 0x290;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  148  	for (i = 0; i < MSR_MAX_PLANES; i++) {
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  149  		msr_writeq(ctx, vb->dma_addrs[i], reg + i * 8);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  150  		msr_dbg(2, ctx->msr, "%s[%d] dma:  %12llx\n", FRM_STR(frm), i,
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11 @151  			readq_relaxed(base + reg + i * 8));
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  152  	}
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  153  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  154  	reg = IS_SRC(frm) ? 0x1b8 : 0x2a8;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  155  	for (i = 0; i < MSR_MAX_PLANES; i++) {
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  156  		msr_writeq(ctx, vb->dma_meta_addrs[i], reg + i * 8);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  157  		msr_dbg(2, ctx->msr, "%s[%d] meta: %12llx\n", FRM_STR(frm), i,
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  158  			readq_relaxed(base + reg + i * 8));
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  159  	}
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  160  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  161  	reg = IS_SRC(frm) ? 0x1d8 : 0x2c0;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  162  	for (i = 0; i < MSR_MAX_PLANES; i++)
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  163  		msr_writel(ctx, vb->stride[i], reg + i * 4);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  164  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  165  	/* offsets? */
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  166  	reg = IS_SRC(frm) ? 0x1e8 : 0x2cc;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  167  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  168  	/* component order, so hw can normalize */
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  169  	reg = IS_SRC(frm) ? 0x1f8 : 0x2d8;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  170  	msr_writel(ctx, MSR_FMT_COMP0(fmt->comp_order[0]) |
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  171  			MSR_FMT_COMP1(fmt->comp_order[1]) |
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  172  			MSR_FMT_COMP2(fmt->comp_order[2]) |
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  173  			MSR_FMT_COMP3(fmt->comp_order[3]), reg);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  174  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  175  	msr_writel(ctx, frm->pix.width, reg + 4);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  176  	msr_writel(ctx, frm->pix.height, reg + 8);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  177  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  178  	/* plane sizes */
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  179  	reg = IS_SRC(frm) ? 0x234 : 0x308;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  180  	msr_writel(ctx, frm->pix.width, reg);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  181  	msr_writel(ctx, frm->pix.width / frm->info->hdiv, reg + 4);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  182  	msr_writel(ctx, frm->pix.width, reg + 8);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  183  
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  184  	reg = IS_SRC(frm) ? 0x244 : 0x314;
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  185  	msr_writel(ctx, frm->pix.height, reg);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  186  	msr_writel(ctx, frm->pix.height / frm->info->vdiv, reg + 4);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  187  	msr_writel(ctx, frm->pix.height, reg + 8);
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  188  }
-c967c4f5b870c69 Sofus Forstreuter 2026-10-11  189  
+:::::: TO: Kevin Cernekee <cernekee@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
