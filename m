@@ -1,75 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795027294;
-	b=4wiioF9L63dX0CFp5JSJW12Hsr2U989j4QUtPI98nHiI0emzPK1sRUZKnSB8gVsFTWI8
-	 07oynVIrRLe7SOYcFtPn34CTXmNSfyHRGxeA9RdbETfDDp8L2mnhs+I9irAD/+5rzPSkW
-	 c0YKORwGEgFa6hBTT+Kil/9VFfXFlkHu4TLTY6/CPU5w1PNyMptZs3vSdJjXhKlF8iad4
-	 cLilMCW9tEpciOox7WQa+5nIDvx91uKynd8Co1179TZKOrG26AdCGIQTiVrcCqQgJ//0W
-	 yUj41+kG7MavL236Qb7HP3+B6SMiwqmJo46biLOKGqh2bXQK1Mkpk0b2whfnFhxZpMg==
+	t=1795027295;
+	b=XGueniibo3AjxDR35fUgTAxdK8KmoTvDBODWKaCStBlskXeu6/8ShCW9TfPENjGlzarD
+	 ynlnmPphR38pVpcY/IXmsXJf7l1bUK3Mm5ZZCZFwiCwHG23QF/m5P92N+ujp4w/RBXjPw
+	 yEuArNEyjCBdTzpXPrXRKEO4daE2ZiXrh2tBW/vlsx9kfG36D4sjbEmd0c62WGFp8cyvG
+	 WFy24/hyWikB8tF2eK1X04qY2LbCCDO843LzMp35vW6YOqjVqNW0FRqRRgJM6nktqh8ZM
+	 WIxMNHEAZqh0PmNgObiOW0RClC3dDV4l5TPHX+1iNVAPvVtB0lu3h/tYzC6fIe76/+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795027294;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795027295;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=hoKZ7Si7c53lLHknj2/7htVsE1/U++9Hb4gpqekU2Tw=;
-	b=Y/W8NRAZDHNsnH5DPz8JnkIwQyMLesPCF3+A8eZS8ejhFefJmFpp9onPgg0dTc4Btj7s
-	 K5nBAowdDE+TSHL1v/CaTwteGjUnmjXwdUFWGLTq3soe530la/13A/aV+Z3DnySyFrOU9
-	 WsYteXvCRhxk+p1laIoCo7z+XgZPgY4sOufjEPNT6JoJNBtRVhWzhyJfbvnl8HB08ZjdE
-	 4EjA5DT90AxW7bKwDcP1VoCGwr08PklU0NezPN6LMMzQioWDinGLqP/iZwfExnb/E9Sjo
-	 Rhmy2713TXHyTux51PZZl/DOuGXmnvIl/JCz4SFwob9X2xIB/UKkqPqHmF9hvYJZMzA==
+	bh=/QpIq26A1SoIVSjalEALObqVvMd5o8NB+Wm2wK5PxHY=;
+	b=NYqeEVHKpEF4EfyTGuP70a6Lv6qjV61lLLoxz28VNLV+aw2/T6XwMcfWVIx28yUVLDQ4
+	 bxDxfdEbUvhnRww9Vz5WkZykwQjLGZ87uX724CoSWLqY7+I2FC5RLnYJLQijjpZXIZSvt
+	 NYkCrAF8PsOSPef8xYRoc8OZDZXBNUHIYXR6UF7quQkk2B1J7dz0oBp6rTE7z0Z+o+C+S
+	 BWdsc2FGyxtQMWkldg/7hXqUJ8F65DT6RIqV3+OsBkOMg6N2HLCaFAnPeQG+relp/K14p
+	 2NuiK7BOHn58l8aBQfPf3TZ7J7xDV9/G1MgeftK/7ONFZqQjeLBMX/iH3BkrxcfbGtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fZ1HaUDW;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="R/bmxjQR";
 	arc=none smtp.remote-ip=192.198.163.10
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341BC606A320
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 18:41:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 341BC606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A5A606A32A
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 18:41:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80A5A606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fZ1HaUDW
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R/bmxjQR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795027294; x=1826563294;
+  t=1795027295; x=1826563295;
   h=date:from:to:cc:subject:message-id;
-  bh=V1KpYftxLpQc2Db2Y3GFqTD5EzpQXaygAgh6WDP+lMg=;
-  b=fZ1HaUDWFcpJtAWBWoETZygp1XG7k9o+cEY3AWMPTkbModUMPkgBYQFS
-   ljH5Ibi210EqReevaQn+BDgmpiL2l93rKfk7ireEzA20YkSUawkCpyd3R
-   upkVwrkYu3sAAnV+nFCVBMn68qx1JL+KqskZIU3qc9C5mmIL4JjtTEfXI
-   4uXD50iKHXi5WzNi7j6KwU/STFelHD+ye32eR0W7GQ0PBBH1ikefTf2hv
-   0lWahriTgjnC6ms3N7u8Sy8wKfzeINgNpLvpa6b18qJvD1lYil45M6N8L
-   clTU/4dqcXKHMBvKk8ZvG732mE8qUFI56wdXF/wneu2az/zBd3AM8Fzci
-   A==;
-X-CSE-ConnectionGUID: dzQtfv08QF+XVYK2SssbIA==
-X-CSE-MsgGUID: 5HK1kcSWRimSayJmvaZFhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3746945"
+  bh=q76MPxWC+08F/3bZPWbgBhYwpXviaYtDIleV38Y/qXM=;
+  b=R/bmxjQRGras3rSr/9oohH5yodwbTo7Nx0rlHvwshOV9AvmoifLoTdnw
+   WKk2YSFZHefl6msEb2s+pVGfELm1dBzZvCOsnkE5UzeUuNtK+W76hCaLy
+   lPa85B9uRT5izkaTvl/+Uxi/Yu1IRetCXI5nB6EjiyVBQAcml7aeG2Dch
+   6IOe7wktxZFX06oa56ibp2zxzpdmh6A/wKo21piZ3kd+jOi+qN8BrLQsR
+   LiiTqpFrDgfLqQ3FPxVWmtOGJ4GrnRhcWRh/JCWZGl7apLwtwxw65R2PT
+   S58iyq1WHlmT4BfAXig5ysJDvC3jIsZZq7cEePy/2RItMhNWq92rMR3Uj
+   Q==;
+X-CSE-ConnectionGUID: xUfg0cqvQoi565j54gnMTQ==
+X-CSE-MsgGUID: wW68EfyvR+W9kV9LWj+FYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3746946"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3746945"
+   d="scan'208";a="3746946"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 10:41:33 -0800
-X-CSE-ConnectionGUID: YPpq/CO/TquB+FKUy/NVEw==
-X-CSE-MsgGUID: OXe1BS1FSYeoyOK8RdN3wg==
+X-CSE-ConnectionGUID: no4Ru2DtT/6x4A+LQ/fQaQ==
+X-CSE-MsgGUID: LsHIZ88OQ/CNDAA3WK4ZSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10488112"
+   d="scan'208";a="10488119"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
   by orviesa009.jf.intel.com with ESMTP; 18 Nov 2026 10:41:32 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTkay-000000003Rh-3ZdQ;
-	Wed, 18 Nov 2026 18:41:24 +0000
-Date: Wed, 18 Nov 2026 19:40:41 +0100
+	id 1xTkaz-000000003Rj-0lnM;
+	Wed, 18 Nov 2026 18:41:25 +0000
+Date: Wed, 18 Nov 2026 19:40:43 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: [android-common:android15-6.6-2026-07 2/2]
- include/linux/mm.h:1298: undefined reference to `folio_total_mapcount'
-Message-ID: <20261118193456.yZ5cUufV-lkp@intel.com>
+ include/linux/mm.h:1298:undefined reference to `folio_total_mapcount'
+Message-ID: <20261118193753.4VX3DIBB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -93,20 +93,21 @@ head:   f5ef82ff5548236b904840f35358d8a81ecd3bbd
 commit: 093bce68a3d77381073cf569c91da0c78a0fa8c6 [2/2] BACKPORT: mm: vmscan: put rotation-missed folios at the LRU tail
 :::::: branch date: 9 hours ago
 :::::: commit date: 9 days ago
-config: arm-randconfig-2002-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118193456.yZ5cUufV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118193456.yZ5cUufV-lkp@intel.com/reproduce)
+config: arm-randconfig-2000-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118193753.4VX3DIBB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118193753.4VX3DIBB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261118193456.yZ5cUufV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261118193753.4VX3DIBB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: mm/vmscan.o: in function `move_folios_to_lru':
->> include/linux/mm.h:1298: undefined reference to `folio_total_mapcount'
->> arm-linux-gnueabi-ld: mm/vmscan.o:(.debug_addr+0x204): undefined reference to `folio_total_mapcount'
+   arm-linux-gnueabi-ld: mm/vmscan.o: in function `folio_mapcount':
+>> include/linux/mm.h:1298:(.text+0x21dc): undefined reference to `folio_total_mapcount'
+   arm-linux-gnueabi-ld: (folio_total_mapcount): Unknown destination type (ARM/Thumb) in mm/vmscan.o
+>> include/linux/mm.h:1298:(.text+0x21dc): dangerous relocation: unsupported relocation
 
 
 vim +1298 include/linux/mm.h
