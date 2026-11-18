@@ -1,75 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794965502;
-	b=XQARC0IUbbij//LBRycnGwG7YzoXWD07hYuh/3z/BQLQoUwTVEKo/p2ewKrudVNOPWsl
-	 9DvMl9rwPSlwAYdU/lkZEUqxICPiGlGFFvIbv3RRwB1/lsYgztV2Z47UySAO+7Pzqe+XR
-	 0ig7eSzJajOMHaPwsxE89HQgka2v7HtnYKzALm32EYzNrRIu9LA0mFV8+4Dys/30xEQBN
-	 N0hUGnRN5p2CVb3QUNObmLDW77twnpcN1cyS1PWat/iosXrMIitxqXfv1o+NY6Wz98cnB
-	 zsE1UYdHDI3ZpIOmR1tiUHlt5GLruzBIimgvi6HaFv22YOac8kIbHytW5Eu2wUQqmUg==
+	b=ySXlRBkoL88EKYmlqbikYcqQAiPoCGI70RcWeRrA8I784DfxU5AuaYrz+SRTgL4ugkHn
+	 Sec+k940gY4ucJXYCs7rl5kCUS3GBNhtU6zhGVtXB2xUMSvLgZMaS3klO/3osIjFT1zXq
+	 q7Dv5KjHXqE/kWIDpbvbCp1/m+4wHZ2BffapHU7HMXDfrywszV/7gdUCNGgAJrQ+1FgBR
+	 gx/AwbTUNH4oMMtsqGmwikH3rGhbdEH5yp8z91u7CWfg/pYU20WuDi1SRlbCpeAM9dyk+
+	 CeJtMwpNtZXrE5MDekdebWSUaMQlxFW6Tcezs3wMVxNEpFxXBq3Uscte5y/Frq5/R8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794965502;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=tW2iiTCIiuJWHuJY/Cp+tdsIah84T+e4R4Mt3kHFb/Q=;
-	b=4Xd4HsAUTWeBjR5sANZK1SQeM7Lsh7vmgLPjRxDbzSWC1W3x8WaBvGuRkKmq0v8SrKZv
-	 SyjsaGas3f+IX3Y7fgXrCP6f0UVmiT86Jjptuci8iqqs0PFeKhk+vPpv5+sCIK4xQlErK
-	 H30s0G6qHjI+mePYgSnmLbHoKpf1Unm4SH8lTkwnKUJ/QPR0Yl4fjEG2ZOcYYGFX1rCOZ
-	 aata69XGygRPBUGpuimqrBvVWhy8ddtraGsqCuTiRTiZBMe5qFzIWPUVuNJbazwVRMR42
-	 wKb8xEo0sdsOIYret6NzotC0zGr9mywn24Yrl4NxJXiyxocfq793ebjjnBTaQDHF8IQ==
+	bh=eUwre9brCRxpLEktYAKB3LC20hAVEdiigYPJJrechus=;
+	b=ycQ2D0x/NEYB9qFuriHwpRDPS8cfbJ8PMCZ151rGwOJnmf6BrWyrrB2wuyY8Qdup3wA2
+	 KkqywR0mS3wCN47rtiQsF7shjeYQ8WpOsuxSa2BILTm6LnfszcXo88k0RvDoz0zvE6B6i
+	 /ZvBJOBveJB7KXIBkvUxdZY7SrqobuEjXLtnRHbcwlKubDI5GqYShFT1tphppwjIM0JMD
+	 EAloMjrakCg+itqhJDHW8tE6zTFBXLNx50rFXlt/fgo4Ae54O9zUwZlNZsh8XZsD1Su+8
+	 +gKoZbE5x5p/0/YAj3UFFCpNhsngkHaf64TL+iFwSOFaoThJFdna9DkKMVxaut/nwpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jqFL585k;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BJGxkh0y;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB74606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEFD606A32C
 	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 01:31:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDB74606A32A
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDEFD606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jqFL585k
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BJGxkh0y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1794965502; x=1826501502;
   h=date:from:to:cc:subject:message-id;
-  bh=eDCpoUCj4nbn7A5wVBpvpTzbZ8KU7AkgYSr/rW4aKq4=;
-  b=jqFL585kYXEl2244IkKM/Iff1rC+s8tuFsIjaelr2lVFAOdeWljJgc/z
-   OviVPUJDT8aGEPjaFthAd2bQpRiBj3pZGrv/LA6QByDxcZB5FQV6eg/Bn
-   2QqksSMFvfSWMAyJUuwnuwYRjPNW8Xr4v7hsWN3NAgeFCYyRt9uWUR6CN
-   hHfLos2PwzcO3tqOO+DKx+2hzNjI37a/FTPNMlKrydoTsDOCbAVf2wgVQ
-   0h4+oMeSaI15tUwlvIEv99LYkq9rd/F4NxOgczTugNennmnYtf6AMr0OK
-   iB8N+TIKXL25a6IiH/YCo1pAPLn1DLzgQo58UaBAenK41dp2Ougwb10UQ
-   Q==;
-X-CSE-ConnectionGUID: xtDnrpajQiCwVkYlJwjRXA==
-X-CSE-MsgGUID: WeKEMAmKShWFSgwy0hb/bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3660278"
+  bh=6IC/AQvdtNzB12DP/hCYqqNRmUA25EX8trInrwpr4hE=;
+  b=BJGxkh0y920qU+bSTwDJGNa11Y4msFMv+WroD3AwBxfoOYVqSYBBzNUN
+   3hh3/mjXLzATHz/f67sEEqL30iyGOBPvcd4DVn+frbY0boe5v+WUiXVyT
+   s9oK/6hz84b/1iMWAo2c1hJZ4iEHv+3wtCkgBI4eMOwCItP7rCcaMyBTC
+   QRAghFIKsxBdX2om7kE6USrZybCR5Cv/mpvHoq8LuhZ62FtTKqmuEiKOz
+   7XiQ9rFHQa6J+cE7fOlCt1FoddecWWQO/lIa0k5aHK/PN4CeTIeyD0Wgf
+   bmopM/Sx4TgbSh0p3Wmy+QqVrN//pE0RWE98BgT52Fhog2CkVT7oo9Quu
+   g==;
+X-CSE-ConnectionGUID: KEv1QkbWR1OWsg+fAZqY3Q==
+X-CSE-MsgGUID: 2YfjNOV8ToKZWKokLGvekQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3752843"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3660278"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 17:31:41 -0800
-X-CSE-ConnectionGUID: 8jU9FOe2TK6sHEecj8rRuQ==
-X-CSE-MsgGUID: NSWBZdLpTAixAK6uF4l8vA==
+   d="scan'208";a="3752843"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 17:31:41 -0800
+X-CSE-ConnectionGUID: 5/pOunnTS/GhXqaaCk9bAA==
+X-CSE-MsgGUID: WYMII1tTRrCD/qjCJwFp/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="9909018"
+   d="scan'208";a="9988262"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 17:31:40 -0800
+  by orviesa002.jf.intel.com with ESMTP; 17 Nov 2026 17:31:40 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTUWP-000000003HS-12f4;
+	id 1xTUWP-000000003Ha-3giA;
 	Wed, 18 Nov 2026 01:31:37 +0000
-Date: Wed, 18 Nov 2026 02:30:36 +0100
+Date: Wed, 18 Nov 2026 02:30:39 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-lts 205/205] tls.c:2015:23:
- error: implicit declaration of function '__test_passed'
-Message-ID: <20261118022341.1eKY5esK-lkp@intel.com>
+Subject: [mediatek:v7.4-next/dts64 2/18]
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: keyboard@10010000
+ (mediatek,mt8173-keypad): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <20261118022359.QZXxisfT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,142 +83,65 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Ryan Brue <ryanbrue.dev@gmail.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
-head:   824580839cbc0d47e64dd2bbdef66590a57ef92d
-commit: e3738530ad9c98c5aa518a7e55453684938c4144 [205/205] selftests: tls: add rekey tests
-:::::: branch date: 2 days ago
-:::::: commit date: 4 weeks ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261118/20261118022341.1eKY5esK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118022341.1eKY5esK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v7.4-next/dts64
+head:   14cdd904db60288b782ffeac59f4c626ef11e9f5
+commit: a09ffcb4fd6b0a417f36e1b819b329a0b489f7ce [2/18] arm64: dts: mediatek: mt8173: Add the keypad controller
+:::::: branch date: 13 hours ago
+:::::: commit date: 15 hours ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261118/20261118022359.QZXxisfT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118022359.QZXxisfT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261118022341.1eKY5esK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261118022359.QZXxisfT-lkp@intel.com/
 
-Note: the android-common/android15-6.6-lts HEAD 824580839cbc0d47e64dd2bbdef66590a57ef92d builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1673:9: error: too many arguments to function 'tls_crypto_info_init'
-    1673 |         tls_crypto_info_init(TLS_1_3_VERSION, TLS_CIPHER_AES_GCM_128,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey':
-   tls.c:1709:9: error: too many arguments to function 'tls_crypto_info_init'
-    1709 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_fail':
-   tls.c:1757:17: error: too many arguments to function 'tls_crypto_info_init'
-    1757 |                 tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1764:9: error: too many arguments to function 'tls_crypto_info_init'
-    1764 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1768:9: error: too many arguments to function 'tls_crypto_info_init'
-    1768 |         tls_crypto_info_init(TLS_1_2_VERSION, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1773:9: error: too many arguments to function 'tls_crypto_info_init'
-    1773 |         tls_crypto_info_init(TLS_1_2_VERSION, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1779:17: error: too many arguments to function 'tls_crypto_info_init'
-    1779 |                 tls_crypto_info_init(variant->tls_version, TLS_CIPHER_CHACHA20_POLY1305, &tls12, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1781:17: error: too many arguments to function 'tls_crypto_info_init'
-    1781 |                 tls_crypto_info_init(variant->tls_version, TLS_CIPHER_AES_GCM_256, &tls12, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1804:9: error: too many arguments to function 'tls_crypto_info_init'
-    1804 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_peek':
-   tls.c:1827:9: error: too many arguments to function 'tls_crypto_info_init'
-    1827 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_splice_rekey':
-   tls.c:1867:9: error: too many arguments to function 'tls_crypto_info_init'
-    1867 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_peek_splice':
-   tls.c:1917:9: error: too many arguments to function 'tls_crypto_info_init'
-    1917 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_getsockopt':
-   tls.c:1934:9: error: too many arguments to function 'tls_crypto_info_init'
-    1934 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c:1950:9: error: too many arguments to function 'tls_crypto_info_init'
-    1950 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_poll_pending':
-   tls.c:1980:9: error: too many arguments to function 'tls_crypto_info_init'
-    1980 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
->> tls.c:2015:23: error: implicit declaration of function '__test_passed' [-Wimplicit-function-declaration]
-    2015 |                 exit(!__test_passed(_metadata));
-         |                       ^~~~~~~~~~~~~
-   tls.c: In function 'tls_rekey_poll_delay':
-   tls.c:2032:9: error: too many arguments to function 'tls_crypto_info_init'
-    2032 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   tls.c:46:13: note: declared here
-      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
-         |             ^~~~~~~~~~~~~~~~~~~~
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: keyboard@10010000 (mediatek,mt8173-keypad): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad'] is too long
+   	'mediatek,mt6779-keypad' was expected
+   	'mediatek,mt8173-keypad' is not one of ['mediatek,mt6572-keypad', 'mediatek,mt6873-keypad', 'mediatek,mt8183-keypad', 'mediatek,mt8365-keypad', 'mediatek,mt8516-keypad']
+   	from schema $id: http://devicetree.org/schemas/input/mediatek,mt6779-keypad.yaml
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/keyboard@10010000: failed to match any schema with compatible: ['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000 (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: keyboard@10010000 (mediatek,mt8173-keypad): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad'] is too long
+   	'mediatek,mt6779-keypad' was expected
+   	'mediatek,mt8173-keypad' is not one of ['mediatek,mt6572-keypad', 'mediatek,mt6873-keypad', 'mediatek,mt8183-keypad', 'mediatek,mt8365-keypad', 'mediatek,mt8516-keypad']
+   	from schema $id: http://devicetree.org/schemas/input/mediatek,mt6779-keypad.yaml
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/keyboard@10010000: failed to match any schema with compatible: ['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: syscon@14000000 (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: keyboard@10010000 (mediatek,mt8173-keypad): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad'] is too long
+   	'mediatek,mt6779-keypad' was expected
+   	'mediatek,mt8173-keypad' is not one of ['mediatek,mt6572-keypad', 'mediatek,mt6873-keypad', 'mediatek,mt8183-keypad', 'mediatek,mt8365-keypad', 'mediatek,mt8516-keypad']
+   	from schema $id: http://devicetree.org/schemas/input/mediatek,mt6779-keypad.yaml
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/keyboard@10010000: failed to match any schema with compatible: ['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: syscon@14000000 (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: keyboard@10010000 (mediatek,mt8173-keypad): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad'] is too long
+   	'mediatek,mt6779-keypad' was expected
+   	'mediatek,mt8173-keypad' is not one of ['mediatek,mt6572-keypad', 'mediatek,mt6873-keypad', 'mediatek,mt8183-keypad', 'mediatek,mt8365-keypad', 'mediatek,mt8516-keypad']
+   	from schema $id: http://devicetree.org/schemas/input/mediatek,mt6779-keypad.yaml
+>> arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/keyboard@10010000: failed to match any schema with compatible: ['mediatek,mt8173-keypad', 'mediatek,mt6779-keypad']
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: syscon@14000000 (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
 
 -- 
 0-DAY CI Kernel Test Service
