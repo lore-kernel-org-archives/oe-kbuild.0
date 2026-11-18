@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794960907;
-	b=bHFMpfJ1gArTNYkX+C0fqHAqO6pExfcZ6hf02FrcSlO1GspC/aNJ6rTbn+J4Y1qRu63+
-	 ZP+7QUjMqrxquAPPIAjwnGMGgYQberKg0JeH/VPYlzk03YZoPa3vu9imfvmLydWKNgBEv
-	 Uft5bGO8aKelAH9YWSJrHW9++u3HcKjgEKsO2lk6DYxtiqSW995sUKNKEOdrPr7cOwGol
-	 psz36y4HnVn+dUp7xxGlHXpM67xGNjUQvq0bxFd6w/WM/9Ka1AutUT8RAbwWjcKeJo8t+
-	 dFNemJxJZikxueX4gcyJdrhz1piK3ff9/qSli5ZfzCQrPpeJAGNJDeq5URYHfmfp+jg==
+	t=1794965502;
+	b=XQARC0IUbbij//LBRycnGwG7YzoXWD07hYuh/3z/BQLQoUwTVEKo/p2ewKrudVNOPWsl
+	 9DvMl9rwPSlwAYdU/lkZEUqxICPiGlGFFvIbv3RRwB1/lsYgztV2Z47UySAO+7Pzqe+XR
+	 0ig7eSzJajOMHaPwsxE89HQgka2v7HtnYKzALm32EYzNrRIu9LA0mFV8+4Dys/30xEQBN
+	 N0hUGnRN5p2CVb3QUNObmLDW77twnpcN1cyS1PWat/iosXrMIitxqXfv1o+NY6Wz98cnB
+	 zsE1UYdHDI3ZpIOmR1tiUHlt5GLruzBIimgvi6HaFv22YOac8kIbHytW5Eu2wUQqmUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794960907;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794965502;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=UxD5j+eNBM2ohDorLefqaQPC23WcgDM4VGo88YRmLKo=;
-	b=N3JfDdnLaa/cEJ1H1JtYUQFq2U9ZbDkI0j2Sy1sD7wtF7owqItyqyeWsozgB7gHAr1Xp
-	 F2dP55cdFEfxJ8lYircAXJtqKTbDx2a4ecPZ9n79w8JIz+LOduOLAvEr80M1kcFp1Rk2e
-	 mGM/Bj6Hn1cAPEVNtxIi70kwEO1GbGBmX72ASH/tdPWAqwXyDoQOS+t0moNCDw9c3ImWr
-	 jXq1ZY452qKTfmh2Nhc3c37UFlv2tcCEeI79uzGWXG81GooVLD6xnSYhMg8TyvXTJnlon
-	 cHGHR4hTzXkLsfdrnuDdI+vQyNHHDj9plMuzBr20i0DkdfUx03av/DGcvFDbJszOZOw==
+	bh=tW2iiTCIiuJWHuJY/Cp+tdsIah84T+e4R4Mt3kHFb/Q=;
+	b=4Xd4HsAUTWeBjR5sANZK1SQeM7Lsh7vmgLPjRxDbzSWC1W3x8WaBvGuRkKmq0v8SrKZv
+	 SyjsaGas3f+IX3Y7fgXrCP6f0UVmiT86Jjptuci8iqqs0PFeKhk+vPpv5+sCIK4xQlErK
+	 H30s0G6qHjI+mePYgSnmLbHoKpf1Unm4SH8lTkwnKUJ/QPR0Yl4fjEG2ZOcYYGFX1rCOZ
+	 aata69XGygRPBUGpuimqrBvVWhy8ddtraGsqCuTiRTiZBMe5qFzIWPUVuNJbazwVRMR42
+	 wKb8xEo0sdsOIYret6NzotC0zGr9mywn24Yrl4NxJXiyxocfq793ebjjnBTaQDHF8IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P9FdLhpk;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jqFL585k;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70135606A32C
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 00:15:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70135606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB74606A32A
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 01:31:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDB74606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P9FdLhpk
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jqFL585k
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794960906; x=1826496906;
+  t=1794965502; x=1826501502;
   h=date:from:to:cc:subject:message-id;
-  bh=Oa6j+QZdzDQsatx5eq9iAg/7r/DcDpSKkHT/ypeXjtY=;
-  b=P9FdLhpkcNEVVkjsugZ7aTOrzW4RNEREsHl/vIiSi5ElkXXxHrAhHDFA
-   5dCp5ju9ug6cryxNfOePmUyLbCruqkA/iLdP/df1MgqiamgSAU3HXj9Cb
-   Kfmc4BNBj8oFX6GtiBDAL8dNyF4kcUCgNHgzlmJyAv1IPBv1TpW13o03i
-   oL7SSTaBYGr+7Y5v8/ZXnH0miq4+rAQtmxxtcv6AV/VaJLjVwkyJmXqEY
-   rLa0unpfjviKkGiLJpRZEtBWjVc3vrjtMHZ6uk2YPB5DTfdB7K6D2N1Wp
-   FSpCMDDg0tmX+p6FC2OQTvikQoyZUR0i3FduTa0CYFlRiWCB9EnW/h3zG
+  bh=eDCpoUCj4nbn7A5wVBpvpTzbZ8KU7AkgYSr/rW4aKq4=;
+  b=jqFL585kYXEl2244IkKM/Iff1rC+s8tuFsIjaelr2lVFAOdeWljJgc/z
+   OviVPUJDT8aGEPjaFthAd2bQpRiBj3pZGrv/LA6QByDxcZB5FQV6eg/Bn
+   2QqksSMFvfSWMAyJUuwnuwYRjPNW8Xr4v7hsWN3NAgeFCYyRt9uWUR6CN
+   hHfLos2PwzcO3tqOO+DKx+2hzNjI37a/FTPNMlKrydoTsDOCbAVf2wgVQ
+   0h4+oMeSaI15tUwlvIEv99LYkq9rd/F4NxOgczTugNennmnYtf6AMr0OK
+   iB8N+TIKXL25a6IiH/YCo1pAPLn1DLzgQo58UaBAenK41dp2Ougwb10UQ
    Q==;
-X-CSE-ConnectionGUID: aFZ7moIPQsqDP0EijSZ4RQ==
-X-CSE-MsgGUID: Bad1x0HOQmu4SYF6Fmc/Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3617449"
+X-CSE-ConnectionGUID: xtDnrpajQiCwVkYlJwjRXA==
+X-CSE-MsgGUID: WeKEMAmKShWFSgwy0hb/bQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3660278"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3617449"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 16:15:05 -0800
-X-CSE-ConnectionGUID: sdrNO9KeSlm1iGhIDt3xlg==
-X-CSE-MsgGUID: XR/L1wwUTlmS5YRM1QXW8A==
+   d="scan'208";a="3660278"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 17:31:41 -0800
+X-CSE-ConnectionGUID: 8jU9FOe2TK6sHEecj8rRuQ==
+X-CSE-MsgGUID: NSWBZdLpTAixAK6uF4l8vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="9939158"
+   d="scan'208";a="9909018"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Nov 2026 16:15:04 -0800
+  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 17:31:40 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTTKG-000000003GI-4C0F;
-	Wed, 18 Nov 2026 00:15:01 +0000
-Date: Wed, 18 Nov 2026 01:14:38 +0100
+	id 1xTUWP-000000003HS-12f4;
+	Wed, 18 Nov 2026 01:31:37 +0000
+Date: Wed, 18 Nov 2026 02:30:36 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/input/misc/pf1550-onkey.c:113:10-35: WARNING:
- Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
- it is nested IRQ)
-Message-ID: <20261118001856.QJzRyJHb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android15-6.6-lts 205/205] tls.c:2015:23:
+ error: implicit declaration of function '__test_passed'
+Message-ID: <20261118022341.1eKY5esK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,108 +80,143 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   63fdb511c27afcebce797e3db580b3534ddfa639
-commit: 9acb215cbebdce721af2219e2859ad17342c9084 Input: pf1550 - add onkey support
-date:   1 year, 1 month ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261118/20261118001856.QJzRyJHb-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
+head:   824580839cbc0d47e64dd2bbdef66590a57ef92d
+commit: e3738530ad9c98c5aa518a7e55453684938c4144 [205/205] selftests: tls: add rekey tests
+:::::: branch date: 2 days ago
+:::::: commit date: 4 weeks ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261118/20261118022341.1eKY5esK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118022341.1eKY5esK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9acb215cbebd ("Input: pf1550 - add onkey support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261118001856.QJzRyJHb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261118022341.1eKY5esK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/input/misc/pf1550-onkey.c:113:10-35: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+Note: the android-common/android15-6.6-lts HEAD 824580839cbc0d47e64dd2bbdef66590a57ef92d builds fine.
+      It only hurts bisectability.
 
-vim +113 drivers/input/misc/pf1550-onkey.c
+All errors (new ones prefixed by >>):
 
-9acb215cbebdce Samuel Kayode 2025-10-01   59  
-9acb215cbebdce Samuel Kayode 2025-10-01   60  static int pf1550_onkey_probe(struct platform_device *pdev)
-9acb215cbebdce Samuel Kayode 2025-10-01   61  {
-9acb215cbebdce Samuel Kayode 2025-10-01   62  	struct onkey_drv_data *onkey;
-9acb215cbebdce Samuel Kayode 2025-10-01   63  	struct input_dev *input;
-9acb215cbebdce Samuel Kayode 2025-10-01   64  	bool key_power = false;
-9acb215cbebdce Samuel Kayode 2025-10-01   65  	int i, irq, error;
-9acb215cbebdce Samuel Kayode 2025-10-01   66  
-9acb215cbebdce Samuel Kayode 2025-10-01   67  	onkey = devm_kzalloc(&pdev->dev, sizeof(*onkey), GFP_KERNEL);
-9acb215cbebdce Samuel Kayode 2025-10-01   68  	if (!onkey)
-9acb215cbebdce Samuel Kayode 2025-10-01   69  		return -ENOMEM;
-9acb215cbebdce Samuel Kayode 2025-10-01   70  
-9acb215cbebdce Samuel Kayode 2025-10-01   71  	onkey->dev = &pdev->dev;
-9acb215cbebdce Samuel Kayode 2025-10-01   72  
-9acb215cbebdce Samuel Kayode 2025-10-01   73  	onkey->pf1550 = dev_get_drvdata(pdev->dev.parent);
-9acb215cbebdce Samuel Kayode 2025-10-01   74  	if (!onkey->pf1550->regmap)
-9acb215cbebdce Samuel Kayode 2025-10-01   75  		return dev_err_probe(&pdev->dev, -ENODEV,
-9acb215cbebdce Samuel Kayode 2025-10-01   76  				     "failed to get regmap\n");
-9acb215cbebdce Samuel Kayode 2025-10-01   77  
-9acb215cbebdce Samuel Kayode 2025-10-01   78  	onkey->wakeup = device_property_read_bool(pdev->dev.parent,
-9acb215cbebdce Samuel Kayode 2025-10-01   79  						  "wakeup-source");
-9acb215cbebdce Samuel Kayode 2025-10-01   80  
-9acb215cbebdce Samuel Kayode 2025-10-01   81  	if (device_property_read_bool(pdev->dev.parent,
-9acb215cbebdce Samuel Kayode 2025-10-01   82  				      "nxp,disable-key-power")) {
-9acb215cbebdce Samuel Kayode 2025-10-01   83  		error = regmap_clear_bits(onkey->pf1550->regmap,
-9acb215cbebdce Samuel Kayode 2025-10-01   84  					  PF1550_PMIC_REG_PWRCTRL1,
-9acb215cbebdce Samuel Kayode 2025-10-01   85  					  PF1550_ONKEY_RST_EN);
-9acb215cbebdce Samuel Kayode 2025-10-01   86  		if (error)
-9acb215cbebdce Samuel Kayode 2025-10-01   87  			return dev_err_probe(&pdev->dev, error,
-9acb215cbebdce Samuel Kayode 2025-10-01   88  					     "failed: disable turn system off");
-9acb215cbebdce Samuel Kayode 2025-10-01   89  	} else {
-9acb215cbebdce Samuel Kayode 2025-10-01   90  		key_power = true;
-9acb215cbebdce Samuel Kayode 2025-10-01   91  	}
-9acb215cbebdce Samuel Kayode 2025-10-01   92  
-9acb215cbebdce Samuel Kayode 2025-10-01   93  	input = devm_input_allocate_device(&pdev->dev);
-9acb215cbebdce Samuel Kayode 2025-10-01   94  	if (!input)
-9acb215cbebdce Samuel Kayode 2025-10-01   95  		return dev_err_probe(&pdev->dev, -ENOMEM,
-9acb215cbebdce Samuel Kayode 2025-10-01   96  				     "failed to allocate the input device\n");
-9acb215cbebdce Samuel Kayode 2025-10-01   97  
-9acb215cbebdce Samuel Kayode 2025-10-01   98  	input->name = pdev->name;
-9acb215cbebdce Samuel Kayode 2025-10-01   99  	input->phys = "pf1550-onkey/input0";
-9acb215cbebdce Samuel Kayode 2025-10-01  100  	input->id.bustype = BUS_HOST;
-9acb215cbebdce Samuel Kayode 2025-10-01  101  
-9acb215cbebdce Samuel Kayode 2025-10-01  102  	if (key_power)
-9acb215cbebdce Samuel Kayode 2025-10-01  103  		input_set_capability(input, EV_KEY, KEY_POWER);
-9acb215cbebdce Samuel Kayode 2025-10-01  104  
-9acb215cbebdce Samuel Kayode 2025-10-01  105  	onkey->input = input;
-9acb215cbebdce Samuel Kayode 2025-10-01  106  	platform_set_drvdata(pdev, onkey);
-9acb215cbebdce Samuel Kayode 2025-10-01  107  
-9acb215cbebdce Samuel Kayode 2025-10-01  108  	for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-9acb215cbebdce Samuel Kayode 2025-10-01  109  		irq = platform_get_irq(pdev, i);
-9acb215cbebdce Samuel Kayode 2025-10-01  110  		if (irq < 0)
-9acb215cbebdce Samuel Kayode 2025-10-01  111  			return irq;
-9acb215cbebdce Samuel Kayode 2025-10-01  112  
-9acb215cbebdce Samuel Kayode 2025-10-01 @113  		error = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-9acb215cbebdce Samuel Kayode 2025-10-01  114  						  pf1550_onkey_irq_handler,
-9acb215cbebdce Samuel Kayode 2025-10-01  115  						  IRQF_NO_SUSPEND,
-9acb215cbebdce Samuel Kayode 2025-10-01  116  						  "pf1550-onkey", onkey);
-9acb215cbebdce Samuel Kayode 2025-10-01  117  		if (error)
-9acb215cbebdce Samuel Kayode 2025-10-01  118  			return dev_err_probe(&pdev->dev, error,
-9acb215cbebdce Samuel Kayode 2025-10-01  119  					     "failed: irq request (IRQ: %d)\n",
-9acb215cbebdce Samuel Kayode 2025-10-01  120  					     i);
-9acb215cbebdce Samuel Kayode 2025-10-01  121  	}
-9acb215cbebdce Samuel Kayode 2025-10-01  122  
-9acb215cbebdce Samuel Kayode 2025-10-01  123  	error = input_register_device(input);
-9acb215cbebdce Samuel Kayode 2025-10-01  124  	if (error)
-9acb215cbebdce Samuel Kayode 2025-10-01  125  		return dev_err_probe(&pdev->dev, error,
-9acb215cbebdce Samuel Kayode 2025-10-01  126  				     "failed to register input device\n");
-9acb215cbebdce Samuel Kayode 2025-10-01  127  
-9acb215cbebdce Samuel Kayode 2025-10-01  128  	device_init_wakeup(&pdev->dev, onkey->wakeup);
-9acb215cbebdce Samuel Kayode 2025-10-01  129  
-9acb215cbebdce Samuel Kayode 2025-10-01  130  	return 0;
-9acb215cbebdce Samuel Kayode 2025-10-01  131  }
-9acb215cbebdce Samuel Kayode 2025-10-01  132  
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1673:9: error: too many arguments to function 'tls_crypto_info_init'
+    1673 |         tls_crypto_info_init(TLS_1_3_VERSION, TLS_CIPHER_AES_GCM_128,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey':
+   tls.c:1709:9: error: too many arguments to function 'tls_crypto_info_init'
+    1709 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_fail':
+   tls.c:1757:17: error: too many arguments to function 'tls_crypto_info_init'
+    1757 |                 tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1764:9: error: too many arguments to function 'tls_crypto_info_init'
+    1764 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1768:9: error: too many arguments to function 'tls_crypto_info_init'
+    1768 |         tls_crypto_info_init(TLS_1_2_VERSION, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1773:9: error: too many arguments to function 'tls_crypto_info_init'
+    1773 |         tls_crypto_info_init(TLS_1_2_VERSION, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1779:17: error: too many arguments to function 'tls_crypto_info_init'
+    1779 |                 tls_crypto_info_init(variant->tls_version, TLS_CIPHER_CHACHA20_POLY1305, &tls12, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1781:17: error: too many arguments to function 'tls_crypto_info_init'
+    1781 |                 tls_crypto_info_init(variant->tls_version, TLS_CIPHER_AES_GCM_256, &tls12, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1804:9: error: too many arguments to function 'tls_crypto_info_init'
+    1804 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_peek':
+   tls.c:1827:9: error: too many arguments to function 'tls_crypto_info_init'
+    1827 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_splice_rekey':
+   tls.c:1867:9: error: too many arguments to function 'tls_crypto_info_init'
+    1867 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_peek_splice':
+   tls.c:1917:9: error: too many arguments to function 'tls_crypto_info_init'
+    1917 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_getsockopt':
+   tls.c:1934:9: error: too many arguments to function 'tls_crypto_info_init'
+    1934 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 0);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c:1950:9: error: too many arguments to function 'tls_crypto_info_init'
+    1950 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_poll_pending':
+   tls.c:1980:9: error: too many arguments to function 'tls_crypto_info_init'
+    1980 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> tls.c:2015:23: error: implicit declaration of function '__test_passed' [-Wimplicit-function-declaration]
+    2015 |                 exit(!__test_passed(_metadata));
+         |                       ^~~~~~~~~~~~~
+   tls.c: In function 'tls_rekey_poll_delay':
+   tls.c:2032:9: error: too many arguments to function 'tls_crypto_info_init'
+    2032 |         tls_crypto_info_init(variant->tls_version, variant->cipher_type, &tls12, 1);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   tls.c:46:13: note: declared here
+      46 | static void tls_crypto_info_init(uint16_t tls_version, uint16_t cipher_type,
+         |             ^~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
