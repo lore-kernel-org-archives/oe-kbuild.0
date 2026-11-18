@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794974966;
-	b=axfYoVP8cmQbos97K+c6kpubq/SLh+T8QGsN0syOYtGQMJshKIu/fUHOy4ZpaRnPe9Wf
-	 OEt9L5VfCTnhlJvrUgsf07igK+I+TFYjIoZEGyPThe6SmWg5aKCnuY9PvDJaXSTl1MH/B
-	 rETstcLVt7WAaYDNErUhMhPLkXPWjVfNgL2te3o4vhJOwcVnxapoSclnQtTIPNsXhee6Y
-	 /k5aW5AsgCdPpwy8KP5QB1Ie8lEMQvqlSMDwsRJE0c5RMw+Pcb5HQwSKbcEkHfOOzX0fB
-	 RMbBXamnuwYOd7M6cWrJNHn38o+m/8hgtTP6SC8jHBcJNgic8ofaQ2KAi4ZzWzDDCng==
+	t=1794981697;
+	b=P24UM3Ww2YD07bZAOOioizfC1h8TiRueqSfKbCgO/tvVUn2ExYTauHqzVwq7bpt5dD9k
+	 /tgXsuClHjvGyeCf98PMg6Xv54k2ZVAnqyYq687s78m9jZtjnHhTMf+0LFbDKEWO4v5RT
+	 opCUlGXRe7urdqqH+FyoeCTZSRtdblfP9oIhRquq9zA2DVUkj6/EecpbBYluiNO/TUaAR
+	 YHzQtFFMVbnsxoIOlMqZZYpbFbFz0zpvcrA326bVS0glcNKyl1/lTa2qxwZTRIIZdq8dn
+	 yzqWq92IUY3eDj6MoyZLMdQOeNPeGGwqJ2dXVQDy/7SNPjBF2cUSDCU4XTClFD0Akzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794974966;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794981697;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=liYRl8LAhe8LTI1hVgszuKD30MMZ4km1UBx4fGOgS9I=;
-	b=WW8+gJ7cGSWW4iBJoeH/rGHlF4lrnXB/cy23aN/NNhiqzMnaFnaMPPtdWDvKti7HTHNX
-	 dqRzF61fJQCMuLIQqzfg1KpFLMsqXaodad9/AwGdZaZ7GgBIeUakjarcNEVudJX1B1O9X
-	 OxN4xRG2L25AO+pQJnS7Wf++sW4/r59XKIK/XDraHK2t6WZLPc1h9/TeEb9yVr4Kwa3kd
-	 xd5hjVBsszXO/6VXsLYB7iaT55/YY28uHao5U6QaWVJeTOrY9omX0ZbwEyYo0Gmj4geTO
-	 1n02xq2VWmdB26vagP9SlKmXMFTS9MdTbSzX2KAhEETsCBbmRQKFWDzGxQj0IUCGQ8A==
+	bh=JNzKbFbxMVEIYHJB3fkRc8h7TJR13CbTvd9RegpKkiw=;
+	b=NcOEZ2ZJYEHopecrdDLwsfvYCUL6AVgTmWzfmhJhWMksGGyPrwtysyFTZm3+kHrHf8+O
+	 haMgIS/WTlWpe/WyaNsyjVL2X2UJZaaIXMlXlwd0YAKXT+7MN2jkYUk9BvjiVx6UGoRtw
+	 E6cEl9Q/zrn1oYwWGdyKrsFoY0oH9P8e7jT11nvcXQBeGl7zzAfEjzaxlFk8vfGb1dxsI
+	 VWzTTVKYfQ6ZSsiE+jda7R7QMF6q/0nXJtEFy4Od6qz+aVy6OFrg1czyOo53TvK1fXzZm
+	 JdxEnO6qyq+TNw2ypiqEuAwu9jB7YUzc94NECIM/j0UnMykQPd9Tdzl/bMnk8ypj9Dg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hl3rlLVI;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nGJuW4b9;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CEE606A31C
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 04:09:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99CEE606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6300E606A31C
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 06:01:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6300E606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hl3rlLVI
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nGJuW4b9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794974966; x=1826510966;
+  t=1794981696; x=1826517696;
   h=date:from:to:cc:subject:message-id;
-  bh=YuVANDBvQHdJo4BsChi6ml4iZVacHLuCSLp/cjwBX1w=;
-  b=hl3rlLVIN2CLwIMiOmSwPgo4XoKWFG1604VML6NdgRaziT/W/JdkudMl
-   /Tw+2lY2NtRtNIERQd9vrGXT06dn01Mx7J7iVTmJ+ifVdDhwXwiua/CRM
-   s3kUTMiF/e6lb3AUhW7pasr2Gp8qMjXFa7jBW5pykb0Sfdq4Rj4g3EF4/
-   dTVCsx9voTU1Nw0Y7V5ldQu3lJgevbkaM1pRHdwmfryh4OX0qelWnfVuP
-   yukY1cQB7mQ8qZtrxcDPv2iowL6qAD0WgD3PQAe9bEmeBcPxIsjwc30bv
-   qem1GAKL6V8LLedC0Wa6qz3m6eM6T+N1hhd73g46+UiMVPTaIIU/zC1e4
+  bh=VRMTR/3/Aoqo7UhlVlVNAscVgGmwKflmFtAyCAI023o=;
+  b=nGJuW4b9BQhxSKEH5eaGZIq3Ve7h/nBq2hz2SCcYliyLoq8lOBuPid7B
+   MEFF+hJevzRQxV5RsefoZRK+jowNMg5KEpHoLdtJCELK1MlgqCLFaqftG
+   Kzf7D9OORt5ee4oLqxwCX17UMdiXc+sG2FCeFhWy4rzH1s+pHohrhusPc
+   LMFieUCxTfu6wLDencVuBhMpjtamZLu7xy2Z6ubGzU48ZMgX81tmAdDx6
+   LlpnIlq1ETMSDrnPfUhq5f1vLaCaeFEJojpxXZ5lQcsfcnBO+aZu/5M/i
+   aJxKdvBZEaH63d+ME1EM+Qvy5cu0segAsN5JRLtL6zQ8ovQzREDZze2UJ
    g==;
-X-CSE-ConnectionGUID: TFC7BgrtQHqaDaieuJu4tw==
-X-CSE-MsgGUID: dHBCU1h0Syiepj62edF3FA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3790347"
+X-CSE-ConnectionGUID: uv3z37kVTCyNx/5ZSNMXNw==
+X-CSE-MsgGUID: D/I8vEm1RCS8i43zFVEOKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3821548"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3790347"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 20:09:26 -0800
-X-CSE-ConnectionGUID: Et/4zZslTqmZ80egAZwlHA==
-X-CSE-MsgGUID: oh0OldRZSeeojPLSsd2n7Q==
+   d="scan'208";a="3821548"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 22:01:35 -0800
+X-CSE-ConnectionGUID: d60ry/7PQzaPy9xyRUshuA==
+X-CSE-MsgGUID: 09FRy01OQ3y1mqP4Tr6rsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="11737189"
+   d="scan'208";a="10104008"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 17 Nov 2026 20:09:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Nov 2026 22:01:34 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTWz4-000000003K4-0JDF;
-	Wed, 18 Nov 2026 04:09:22 +0000
-Date: Wed, 18 Nov 2026 05:08:38 +0100
+	id 1xTYja-000000003LS-2HBV;
+	Wed, 18 Nov 2026 06:01:30 +0000
+Date: Wed, 18 Nov 2026 07:00:58 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [superna9999:topic/sm8650/el2-reboot 1/4]
- Documentation/devicetree/bindings/power/reset/qcom,pon.yaml:45:1: [warning]
- too many blank lines (2 > 1) (empty-lines)
-Message-ID: <20261118050731.DkyRPWiB-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing
+ put_device; call of_find_device_by_node on line 168, but without a
+ corresponding object release within this function.
+Message-ID: <20261118065443.yy428iNv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,100 +81,82 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-tree:   https://github.com/superna9999/linux topic/sm8650/el2-reboot
-head:   127b5bbcefff0cffb21eea90b05a8cac30951c4e
-commit: 13055a84200377fe69eed6287248c3163e09f76b [1/4] dt-bindings: power: reset: qcom-pon: Document the qcom,el2-reset-config property
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20261118/20261118050731.DkyRPWiB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118050731.DkyRPWiB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
+commit: 4c413248920106393b35b5e014e6ac525405437e PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices
+date:   10 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261118/20261118065443.yy428iNv-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4c4132489201 ("PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261118050731.DkyRPWiB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261118065443.yy428iNv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/power/reset/qcom,pon.yaml:45:1: [warning] too many blank lines (2 > 1) (empty-lines)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call of_find_device_by_node on line 168, but without a corresponding object release within this function.
 
-vim +45 Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+vim +198 drivers/pci/pwrctrl/core.c
 
-76ba1900cb6739 satya priya         2021-07-23   8  
-76ba1900cb6739 satya priya         2021-07-23   9  maintainers:
-76ba1900cb6739 satya priya         2021-07-23  10    - Vinod Koul <vkoul@kernel.org>
-76ba1900cb6739 satya priya         2021-07-23  11  
-76ba1900cb6739 satya priya         2021-07-23  12  description: |
-76ba1900cb6739 satya priya         2021-07-23  13    The Power On device for Qualcomm PM8xxx is MFD supporting pwrkey
-76ba1900cb6739 satya priya         2021-07-23  14    and resin along with the Android reboot-mode.
-76ba1900cb6739 satya priya         2021-07-23  15  
-76ba1900cb6739 satya priya         2021-07-23  16    This DT node has pwrkey and resin as sub nodes.
-76ba1900cb6739 satya priya         2021-07-23  17  
-76ba1900cb6739 satya priya         2021-07-23  18  properties:
-76ba1900cb6739 satya priya         2021-07-23  19    compatible:
-84b3a9353e3f32 Rakesh Kota         2026-07-24  20      oneOf:
-84b3a9353e3f32 Rakesh Kota         2026-07-24  21        - enum:
-76ba1900cb6739 satya priya         2021-07-23  22            - qcom,pm8916-pon
-7a54cf02d7176a Dmitry Baryshkov    2023-06-09  23            - qcom,pm8941-pon
-76ba1900cb6739 satya priya         2021-07-23  24            - qcom,pms405-pon
-76ba1900cb6739 satya priya         2021-07-23  25            - qcom,pm8998-pon
-03fccdc76dce96 David Collins       2022-09-09  26            - qcom,pmk8350-pon
-84b3a9353e3f32 Rakesh Kota         2026-07-24  27        - items:
-84b3a9353e3f32 Rakesh Kota         2026-07-24  28            - const: qcom,pmm8654au-pon
-84b3a9353e3f32 Rakesh Kota         2026-07-24  29            - const: qcom,pmk8350-pon
-76ba1900cb6739 satya priya         2021-07-23  30  
-76ba1900cb6739 satya priya         2021-07-23  31    reg:
-03fccdc76dce96 David Collins       2022-09-09  32      description: |
-03fccdc76dce96 David Collins       2022-09-09  33        Specifies the SPMI base address for the PON (power-on) peripheral.  For
-03fccdc76dce96 David Collins       2022-09-09  34        PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-03fccdc76dce96 David Collins       2022-09-09  35        (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-03fccdc76dce96 David Collins       2022-09-09  36        peripherals.  In that case, the PON_PBS address needs to be specified to
-03fccdc76dce96 David Collins       2022-09-09  37        facilitate software debouncing on some PMIC.
-03fccdc76dce96 David Collins       2022-09-09  38      minItems: 1
-03fccdc76dce96 David Collins       2022-09-09  39      maxItems: 2
-03fccdc76dce96 David Collins       2022-09-09  40  
-03fccdc76dce96 David Collins       2022-09-09  41    reg-names:
-03fccdc76dce96 David Collins       2022-09-09  42      minItems: 1
-03fccdc76dce96 David Collins       2022-09-09  43      maxItems: 2
-76ba1900cb6739 satya priya         2021-07-23  44  
-13055a84200377 Neil Armstrong      2026-11-16 @45  
-13055a84200377 Neil Armstrong      2026-11-16  46    qcom,el2-reset-config:
-13055a84200377 Neil Armstrong      2026-11-16  47      type: boolean
-13055a84200377 Neil Armstrong      2026-11-16  48      description:
-13055a84200377 Neil Armstrong      2026-11-16  49        Specifies the PBS control registers should be set to indicate the
-13055a84200377 Neil Armstrong      2026-11-16  50        reboot type (Warm Reset, Power Off, Hard Reset) when booted the HLOS
-13055a84200377 Neil Armstrong      2026-11-16  51        in EL2 without an Hypervisor.
-13055a84200377 Neil Armstrong      2026-11-16  52  
-76ba1900cb6739 satya priya         2021-07-23  53    pwrkey:
-76ba1900cb6739 satya priya         2021-07-23  54      type: object
-99cab201fc634f Krzysztof Kozlowski 2022-07-26  55      $ref: /schemas/input/qcom,pm8941-pwrkey.yaml#
-76ba1900cb6739 satya priya         2021-07-23  56  
-76ba1900cb6739 satya priya         2021-07-23  57    resin:
-76ba1900cb6739 satya priya         2021-07-23  58      type: object
-99cab201fc634f Krzysztof Kozlowski 2022-07-26  59      $ref: /schemas/input/qcom,pm8941-pwrkey.yaml#
-76ba1900cb6739 satya priya         2021-07-23  60  
-60320e6ef48507 Krzysztof Kozlowski 2022-07-26  61    watchdog:
-60320e6ef48507 Krzysztof Kozlowski 2022-07-26  62      type: object
-60320e6ef48507 Krzysztof Kozlowski 2022-07-26  63      $ref: /schemas/watchdog/qcom,pm8916-wdt.yaml
-60320e6ef48507 Krzysztof Kozlowski 2022-07-26  64  
-76ba1900cb6739 satya priya         2021-07-23  65  required:
-76ba1900cb6739 satya priya         2021-07-23  66    - compatible
-76ba1900cb6739 satya priya         2021-07-23  67    - reg
-76ba1900cb6739 satya priya         2021-07-23  68  
-05d9044177c3e9 Elliot Berman       2024-11-07  69  patternProperties:
-05d9044177c3e9 Elliot Berman       2024-11-07  70    "^mode-.*$":
-05d9044177c3e9 Elliot Berman       2024-11-07  71      maxItems: 1
-05d9044177c3e9 Elliot Berman       2024-11-07  72  
+4565d2652a37e4 drivers/pci/pwrctl/core.c  Bartosz Golaszewski       2024-06-12  154  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  155  static int pci_pwrctrl_create_device(struct device_node *np,
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  156  				     struct device *parent)
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  157  {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  158  	struct platform_device *pdev;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  159  	int ret;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  160  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  161  	for_each_available_child_of_node_scoped(np, child) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  162  		ret = pci_pwrctrl_create_device(child, parent);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  163  		if (ret)
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  164  			return ret;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  165  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  166  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  167  	/* Bail out if the platform device is already available for the node */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @168  	pdev = of_find_device_by_node(np);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  169  	if (pdev) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  170  		platform_device_put(pdev);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  171  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  172  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  173  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  174  	/*
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  175  	 * Sanity check to make sure that the node has the compatible property
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  176  	 * to allow driver binding.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  177  	 */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  178  	if (!of_property_present(np, "compatible"))
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  179  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  180  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  181  	/*
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  182  	 * Check whether the pwrctrl device really needs to be created or not.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  183  	 * This is decided based on at least one of the power supplies being
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  184  	 * defined in the devicetree node of the device.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  185  	 */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  186  	if (!of_pci_supply_present(np)) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  187  		dev_dbg(parent, "Skipping OF node: %s\n", np->name);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  188  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  189  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  190  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  191  	/* Now create the pwrctrl device */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  192  	pdev = of_platform_device_create(np, NULL, parent);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  193  	if (!pdev) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  194  		dev_err(parent, "Failed to create pwrctrl device for node: %s\n", np->name);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  195  		return -EINVAL;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  196  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  197  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @198  	return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  199  }
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  200  
 
 -- 
 0-DAY CI Kernel Test Service
