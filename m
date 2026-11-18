@@ -1,75 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795040493;
-	b=e7szkzGldP2h3Q7g42DeZISYu9qYp9hq+kiEmMwRaG9AWhcj2YkRkCFGPQYPttGfCZnR
-	 OLrKDegKuL/mJaH6S8AFDfQ03Qat6CAeZSgmjSetShCMnzreAWriL+nreyGlqpPwxvzn+
-	 CpBMFAGOl4nRn5x2lc0nLa3odmGC6OBLZIl1u8vRCe38Y/gWNiGOR41/nEsLqnYsUUzzD
-	 GJ3xBBOpUEjR/ioI7fffpcMB+/yTJ7SQ0An9I1MmQo7EnaJuN5H+0ZPFX3nV5e7wXrmnM
-	 LQuni5dhRF1IBmjM/C+Ed4SsoVz9OkxiAeRwSoMvmy1Hj0M03s9KFgselnmByDVrNjg==
+	t=1795043404;
+	b=PhJWTf1ZocYg5hf5CDSLipR/9w8gtc12WmMs+rcb+04zlnbRiVA2J6LAxKYgGErJLEN2
+	 J6AiFCdX39dn7r2nYIHnJpfw9OIXQlwlqVgZbRbuMp64Cl9ier+AtmO4RU1jbKl4Ewih1
+	 /prniSkJsuqcQxEBH/n/QR8klikQKNPSo9NR2V/8i7bofC/Grz6EgQ0uOjoYq5DDLPm+T
+	 9lcQWFnF7DlCVMoBE6QbMUsobIl58RvRoxcLS1/N8t33dTaXuR3HoC+MDkcokJ8/unu1C
+	 Y/ofMeVC4mT3zY5rcj0D5uOBWl1opJk+mCNoQqvJ3cnbzJCQUK2+7Y/uHNzUwQrYS6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795040493;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795043404;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=Vt6dRcC2+yJnMbdJqb6B5oofYGBZ2zL3dkPWo2luQdI=;
-	b=Ls/vuhy29NwSpWHct0MtF1q+FVryNjM8Pr/pPu2MjweiNFiRP6GMaxZ9Pyq7opQcB+gf
-	 gQxuzgSA4iMWlQBTwUbklcP6txw73EoH2LZGn16pFWS0TGKho4+saYQX4eBSATnZ+aRQ9
-	 gykEq02b1HorZdyd0OzR0wcTs6ksDgcIZwy9aaQUM8U9gDyQgR4gqd4B3WjwHLxFBPRnx
-	 f3hEnLiEi81HmhVdUGoBBGxYToGhcmSAsDBAXKBEAERTv0aNmwMqfhrCF+I99R8+/2bU8
-	 GuoC43FPUP7JB8sOjy/Q7ro5eAm5NHKpad3XhveNQ6WQtnHK3V0yCTmgZDWedt2tk9g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=J3kFu8dDhn2aUPsm00Fvxu60SMezinzUBAJFDAbamTQ=;
+	b=IN0e5WzrTapTdBiISiohirhrFMX9+wfNYM4DVd+822IhNIvBTkbfav2BHU001WH/ckn+
+	 kprx0BonRMKPWMlX0Lro9HcHxD0x2nIJzWAKRer4iqoW5Rs6R3Wm3qeN7s+ypnZJRV3jD
+	 JW/LdgjQ7Bn+JcQVj6MP9oxA3YBNM36tihWBy1PJEqRyZoyfvjZuBZhsz8ftXXrOyC6kM
+	 qhDR+yBWQMMGWQ+UkA9pyuwyfydWrZ4KZyLveJR0jwqMhewZu7mUmJyGG5LITbCdDNV7Q
+	 3/Q00U5B/6WvwWX+SXLzvt24PEKUp33lXvgNE/LqN+fLXC3Yi3EU4WGSyh4r2ELzi5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g8VYa3gq;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PckVchTq;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500B9606A31C
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 22:21:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 500B9606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C370A606A325
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Nov 2026 23:10:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C370A606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g8VYa3gq
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PckVchTq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795040492; x=1826576492;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LU6BAAHmWcQt9x5lS93o5vTBH5t7R/K4CzZuws/LWdk=;
-  b=g8VYa3gqzdlwJ616AsGbsGft751RJH/wpZL5CSQYSSgYCOulwHLGAnjd
-   oKIP6/lLxc2YOB7M8yFVO4Pfnzt1mKuZS4hBCAEqUkb7u3Oif1re4RwFr
-   din/Bga3Wf+d5URljKOvUiVwNTz6E4ag8cQKtKREuT5N0aTEIDfEJPAfJ
-   2Z8yvg7TGYAQ6uKLVOdkO41ehhkBYxKRdEu+SbLxfNNnRaLOE51eyqWSd
-   siHmjs5tfrWPdHdl0FU9VlMJUmKVd2epiitdDEKbRJ4rtykslsMEO3Sbg
-   EaML2eQF033KCj1JQdsCcfzDnQES4hfpGCAGaRy7NfTG2F5lYN4VcL9zn
-   w==;
-X-CSE-ConnectionGUID: GOGTJl5xRcuB0oTxG5/7rg==
-X-CSE-MsgGUID: 24YddkstR2yyS+R7uDUjnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3795600"
+  t=1795043402; x=1826579402;
+  h=date:from:to:cc:subject:message-id;
+  bh=HjRg6wzqXW/nE81ytBUyTCnKC8FMLgTsFW4rCiuqBwQ=;
+  b=PckVchTqfxq9cd1HsogW0D2dSwOm9iO9/ochcRq7U243bvvp0G2/voVk
+   548nXTbWRS97NdIcYd5tzashz8WtuAZVcKOGN2GitTKh66yssXPGCB5QR
+   lnWJ5g52D7HfJHB4QCvAGi/guCSxhTh6QQxXp//mQ0mfuQnWaTMG8H7C3
+   HeVxOCJSXco/+Ro0bjE/hUWw7iVbPqf8e9OW0uNYqbgJcBdxl5j07yEgR
+   +2x/04ijEAU9hrdxiLqFI4oAuh2RLEV1ij77yBhdgpplqJI4zkF1Asksp
+   ysppucb90gATX4j99IcRBJYT19uEX1O2wlnL5H7TNfivJDDYRP4j6Jk65
+   g==;
+X-CSE-ConnectionGUID: j0KwgUPgTdeS8ZolPYB1bw==
+X-CSE-MsgGUID: 0r1jm73bRsSq/LKzUAMAww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3775237"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3795600"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 14:21:32 -0800
-X-CSE-ConnectionGUID: B9nDyawtQLSBzWBlfdA3yQ==
-X-CSE-MsgGUID: ydI8LGrWRtin0nM3SwHX/g==
+   d="scan'208";a="3775237"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 15:10:02 -0800
+X-CSE-ConnectionGUID: nCE5L8PBTfqBepFR85xOIA==
+X-CSE-MsgGUID: Xr5OsEpuSnKevpN25p/fQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10529653"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Nov 2026 14:21:30 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10268103"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 18 Nov 2026 15:10:00 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTo1w-00000001EUg-2AyX;
-	Wed, 18 Nov 2026 22:21:28 +0000
-Date: Thu, 19 Nov 2026 06:21:24 +0800
+	id 1xTomq-000000003Vt-3WSC;
+	Wed, 18 Nov 2026 23:09:56 +0000
+Date: Thu, 19 Nov 2026 00:09:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 4/6] tee: optee: Register TEE devices on the platform
- bus
-Message-ID: <202611190518.7hwZ5tER-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [leon-rdma:device-trust-core-v3 20/32]
+ drivers/base/trust.c:95 device_trust_prepare() error: we previously assumed
+ 'dev->p' could be null (see line 90)
+Message-ID: <20261119000643.qKZkrw1f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -78,195 +80,62 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261111-ice-migrate-tee-svc-v2-4-29d19f6c92ab@oss.qualcomm.com>
-References: <20261111-ice-migrate-tee-svc-v2-4-29d19f6c92ab@oss.qualcomm.com>
-TO: Harshal Dev <harshal.dev@oss.qualcomm.com>
-TO: Eric Biggers <ebiggers@kernel.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Abel Vesa <abelvesa@kernel.org>
-TO: Kuldeep Singh <kuldeep.singh@oss.qualcomm.com>
-TO: Neeraj Soni <neeraj.soni@oss.qualcomm.com>
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-TO: Sumit Garg <sumit.garg@oss.qualcomm.com>
-TO: Selvam Sathappan Periakaruppan <selvam.periakaruppan@oss.qualcomm.com>
-CC: Basant Kumar <basantk@qti.qualcomm.com>
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-crypto@vger.kernel.org
-CC: Harshal Dev <harshal.dev@oss.qualcomm.com>
+TO: Leon Romanovsky <leonro@nvidia.com>
 
-Hi Harshal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8f7df005a7564bd7ffa75da9c3085d5b996f1e16]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harshal-Dev/soc-qcom-ice-Add-TZ-agnostic-re-direction-functions/20261111-194701
-base:   8f7df005a7564bd7ffa75da9c3085d5b996f1e16
-patch link:    https://lore.kernel.org/r/20261111-ice-migrate-tee-svc-v2-4-29d19f6c92ab%40oss.qualcomm.com
-patch subject: [PATCH v2 4/6] tee: optee: Register TEE devices on the platform bus
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261119/202611190518.7hwZ5tER-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 67ab6538dff0ed2593b90166214d93e992c74905)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611190518.7hwZ5tER-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git device-trust-core-v3
+head:   ff78947dbc26baf4175b0a682ded1a9f45d2df0c
+commit: ecb674d98988f0f964435c876c16e49290941770 [20/32] driver core: Introduce a generic device trust level
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 hours ago
+config: m68k-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119000643.qKZkrw1f-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611190518.7hwZ5tER-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/20261119000643.qKZkrw1f-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/base/trust.c:95 device_trust_prepare() error: we previously assumed 'dev->p' could be null (see line 90)
 
->> drivers/soc/qcom/ice.c:141:10: warning: use of bitwise '&' with boolean operands [-Wbitwise-instead-of-logical]
-     141 |         return (qcom_scm_is_available() & qcom_ice_tee_is_available());
-         |                ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         &&
-   drivers/soc/qcom/ice.c:141:10: note: cast one or both operands to int to silence this warning
-   drivers/soc/qcom/ice.c:232:5: error: redefinition of 'qcom_ice_tz_ops_register'
-     232 | int qcom_ice_tz_ops_register(struct qcom_ice_tz_ops *ops)
-         |     ^
-   include/soc/qcom/ice.h:79:19: note: previous definition is here
-      79 | static inline int qcom_ice_tz_ops_register(struct qcom_ice_tz_ops *__unused)
-         |                   ^
-   drivers/soc/qcom/ice.c:244:6: error: redefinition of 'qcom_ice_tz_ops_unregister'
-     244 | void qcom_ice_tz_ops_unregister(struct qcom_ice_tz_ops *ops)
-         |      ^
-   include/soc/qcom/ice.h:85:6: note: previous definition is here
-      85 | void qcom_ice_tz_ops_unregister(struct qcom_ice_tz_ops *__unused)
-         |      ^
-   1 warning and 2 errors generated.
---
->> drivers/firmware/qcom/qcom_ice_tee.c:440:1: error: redefinition of '__inittest'
-     440 | module_platform_driver(qcom_ice_plat_driver);
-         | ^
-   include/linux/platform_device.h:335:2: note: expanded from macro 'module_platform_driver'
-     335 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:270:3: note: expanded from macro 'module_driver'
-     270 | } \
-         |   ^
-   include/linux/module.h:132:42: note: expanded from macro '\
-   module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
-   drivers/firmware/qcom/qcom_ice_tee.c:415:1: note: previous definition is here
-     415 | module_tee_client_driver(qcom_ice_tee_driver);
-         | ^
-   include/linux/tee_drv.h:334:2: note: expanded from macro 'module_tee_client_driver'
-     334 |         module_driver(__tee_client_driver, tee_client_driver_register, \
-         |         ^
-   include/linux/device/driver.h:270:3: note: expanded from macro 'module_driver'
-     270 | } \
-         |   ^
-   include/linux/module.h:132:42: note: expanded from macro '\
-   module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
->> drivers/firmware/qcom/qcom_ice_tee.c:440:1: error: redefinition of 'init_module'
-     440 | module_platform_driver(qcom_ice_plat_driver);
-         | ^
-   include/linux/platform_device.h:335:2: note: expanded from macro 'module_platform_driver'
-     335 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:270:3: note: expanded from macro 'module_driver'
-     270 | } \
-         |   ^
-   include/linux/module.h:134:6: note: expanded from macro '\
-   module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
-   drivers/firmware/qcom/qcom_ice_tee.c:415:1: note: previous definition is here
-     415 | module_tee_client_driver(qcom_ice_tee_driver);
-         | ^
-   include/linux/tee_drv.h:334:2: note: expanded from macro 'module_tee_client_driver'
-     334 |         module_driver(__tee_client_driver, tee_client_driver_register, \
-         |         ^
-   include/linux/device/driver.h:270:3: note: expanded from macro 'module_driver'
-     270 | } \
-         |   ^
-   include/linux/module.h:134:6: note: expanded from macro '\
-   module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
->> drivers/firmware/qcom/qcom_ice_tee.c:440:1: error: redefinition of '__exittest'
-     440 | module_platform_driver(qcom_ice_plat_driver);
-         | ^
-   include/linux/platform_device.h:335:2: note: expanded from macro 'module_platform_driver'
-     335 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:275:3: note: expanded from macro 'module_driver'
-     275 | } \
-         |   ^
-   include/linux/module.h:140:42: note: expanded from macro '\
-   module_exit'
-     140 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^
-   drivers/firmware/qcom/qcom_ice_tee.c:415:1: note: previous definition is here
-     415 | module_tee_client_driver(qcom_ice_tee_driver);
-         | ^
-   include/linux/tee_drv.h:334:2: note: expanded from macro 'module_tee_client_driver'
-     334 |         module_driver(__tee_client_driver, tee_client_driver_register, \
-         |         ^
-   include/linux/device/driver.h:275:3: note: expanded from macro 'module_driver'
-     275 | } \
-         |   ^
-   include/linux/module.h:140:42: note: expanded from macro '\
-   module_exit'
-     140 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^
->> drivers/firmware/qcom/qcom_ice_tee.c:440:1: error: redefinition of 'cleanup_module'
-     440 | module_platform_driver(qcom_ice_plat_driver);
-         | ^
-   include/linux/platform_device.h:335:2: note: expanded from macro 'module_platform_driver'
-     335 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:275:3: note: expanded from macro 'module_driver'
-     275 | } \
-         |   ^
-   include/linux/module.h:142:7: note: expanded from macro '\
-   module_exit'
-     142 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^
-   drivers/firmware/qcom/qcom_ice_tee.c:415:1: note: previous definition is here
-     415 | module_tee_client_driver(qcom_ice_tee_driver);
-         | ^
-   include/linux/tee_drv.h:334:2: note: expanded from macro 'module_tee_client_driver'
-     334 |         module_driver(__tee_client_driver, tee_client_driver_register, \
-         |         ^
-   include/linux/device/driver.h:275:3: note: expanded from macro 'module_driver'
-     275 | } \
-         |   ^
-   include/linux/module.h:142:7: note: expanded from macro '\
-   module_exit'
-     142 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^
-   4 errors generated.
+vim +95 drivers/base/trust.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for QCOM_ICE_TEE
-   Depends on [n]: TEE [=m] && !CPU_BIG_ENDIAN [=y]
-   Selected by [m]:
-   - QCOM_INLINE_CRYPTO_ENGINE [=m]
-
-
-vim +/__inittest +440 drivers/firmware/qcom/qcom_ice_tee.c
-
-b7366a54413d33f Harshal Dev 2026-11-11  439  
-b7366a54413d33f Harshal Dev 2026-11-11 @440  module_platform_driver(qcom_ice_plat_driver);
-b7366a54413d33f Harshal Dev 2026-11-11  441  
+ecb674d98988f0 Leon Romanovsky 2026-11-11   73  
+ecb674d98988f0 Leon Romanovsky 2026-11-11   74  /**
+ecb674d98988f0 Leon Romanovsky 2026-11-11   75   * device_trust_prepare - Admit a driver before operating a device
+ecb674d98988f0 Leon Romanovsky 2026-11-11   76   * @dev: initialized device with its bus, name and initial policy set
+ecb674d98988f0 Leon Romanovsky 2026-11-11   77   * @drv: driver claiming or probing the device
+ecb674d98988f0 Leon Romanovsky 2026-11-11   78   *
+ecb674d98988f0 Leon Romanovsky 2026-11-11   79   * The caller must hold the device lock. Buses may admit a claim before
+ecb674d98988f0 Leon Romanovsky 2026-11-11   80   * device_add(); registration preserves the resulting policy and commitment.
+ecb674d98988f0 Leon Romanovsky 2026-11-11   81   * Clear the active level after the driver has stopped operating the device.
+ecb674d98988f0 Leon Romanovsky 2026-11-11   82   *
+ecb674d98988f0 Leon Romanovsky 2026-11-11   83   * Return: 0 on admission, or a negative error before driver setup.
+ecb674d98988f0 Leon Romanovsky 2026-11-11   84   */
+ecb674d98988f0 Leon Romanovsky 2026-11-11   85  int device_trust_prepare(struct device *dev, const struct device_driver *drv)
+ecb674d98988f0 Leon Romanovsky 2026-11-11   86  {
+ecb674d98988f0 Leon Romanovsky 2026-11-11   87  	int ret;
+ecb674d98988f0 Leon Romanovsky 2026-11-11   88  
+ecb674d98988f0 Leon Romanovsky 2026-11-11   89  	device_lock_assert(dev);
+ecb674d98988f0 Leon Romanovsky 2026-11-11  @90  	if (!dev->p) {
+ecb674d98988f0 Leon Romanovsky 2026-11-11   91  		ret = device_private_init(dev);
+ecb674d98988f0 Leon Romanovsky 2026-11-11   92  		if (ret)
+ecb674d98988f0 Leon Romanovsky 2026-11-11   93  			return ret;
+ecb674d98988f0 Leon Romanovsky 2026-11-11   94  		device_trust_init(dev);
+ecb674d98988f0 Leon Romanovsky 2026-11-11  @95  		device_trust_init_state(dev);
+ecb674d98988f0 Leon Romanovsky 2026-11-11   96  	}
+ecb674d98988f0 Leon Romanovsky 2026-11-11   97  	return __device_trust_prepare(dev, drv, false);
+ecb674d98988f0 Leon Romanovsky 2026-11-11   98  }
+ecb674d98988f0 Leon Romanovsky 2026-11-11   99  EXPORT_SYMBOL_GPL(device_trust_prepare);
+ecb674d98988f0 Leon Romanovsky 2026-11-11  100  
 
 -- 
 0-DAY CI Kernel Test Service
