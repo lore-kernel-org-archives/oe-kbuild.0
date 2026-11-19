@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795073519;
-	b=g+uWWo2XGWxDUiUckFSBM92euBpC1Xm1RcPMg9rTT4iWACATTXnn+YlFGJZsk31aoJVb
-	 KaNb9DFxNHaunRKUcZ0bSF3lezhEzQdXXLycKexC8qVzSqTVVcEW41j8Y/cLYjrelEBlz
-	 Ek7Aw1IgaHqg1JZwpl3BRon5DqUxqHqYWHKqxMRIY3m/5aHW1cAFYvpNjsuxrXauZkU0L
-	 aapmKq1C/F6yFPIlTuNmEMGf9KDJpKZVHquCcPQLu80jLhf9ozomesT26Ez7jFN4lqyyY
-	 hfx0+6h1U/NBydxda0AfMRo5jPDASBwdrC07UAGo3QYxt2rujVPDDShgcteSDordfjQ==
+	t=1795074121;
+	b=RkSyolYx9fTX3DFL61lp/wkghzo4bOVBDsDcR+EJlvGFMGcdv3aiPFlXng5wQV19TDn8
+	 TFR1Fx6mrN0zlrckNg1u0wFb0mIoihi6+aFBpXWaLvJV1I9zf4sDj2ICvitmYOwKz/kYO
+	 nu1DEWfny8Z7C96m9q/Oe/2yBkdzWSFkufZZ2Kb1Fv1GFnbF3aiJiC+h9DTjTlBw9i1QK
+	 Dlf5RFTQ3g9+UPM9bbywocRwBYVwNe30Xjf0j4IFnc1OPvfw/J1txlmm1tth8pTseDcuS
+	 xll0yQrsqonc88nWxNnGwgXZVwFcG4g8L5wXcqyfmjRDZ53HSLp8kG6ezLfKglarKow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795073519;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795074121;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZsdPFOnm3ucwggj6mKbKsbv+sb4czRnAydpQEdIh3BU=;
-	b=vAyH51yKIZeEmSUBwY1hMZQi1LDapasI8CJZ/OHZM2DaSEcdT/BSeKonNUkVW7Naoub6
-	 45BLJHqiQA89m7LrxbFzEe/dmXb013TN5ilte+QWljG7o1brKcsa8eq1/oziQ/MfmRCIz
-	 w/A6OjKpTO7frp+qkbuTX1tgGNlOk5t60v7yx2u8x8enhXDTE+zgQVN9sZKClTO/QoMX/
-	 37Ko8r9yIxWCfU/Wq5f9I9HjHhWfu7NkFEANB1D2EjzkNLRN0/TUGcsFaBueJXXKaXbf+
-	 6hTfEBhVub1CtYi2s1h1d//yyNN0JD8dR+e+OLl3i24lvz4+SSAqvhykXoQyyHkQGNA==
+	bh=NlBfcMbwfjYd+HgJfvU+dKS3/g7QXWFmndFTgYXfSt0=;
+	b=JQTeVepan/yQ+3Nkgc2iAzWqnLaXPAe66x+u6PywoFReaXaVupVVMrSBLO5w5w5sYCq4
+	 YAysSakRGy4TOh+jP2oZ17qqgFANDKTxXER1Rs5E2m2pa0+3IrjsvH7tTA+Ny7h4FkJaY
+	 0tRnb6+Vl96n40IUs429YzmZPc1QhtoDramdhMo7VLHwHa2PlMkJSkHGGpbBQ043kqe8j
+	 Rss6luEHMTYbBgIM4rwztPumZ3+c1Hfv5GBxceeOljKXp1IyIvEVbrWW2sTCk55ML+W8w
+	 WEk39iZyuj8nBN7DFu9r3EtiowbHq5d59zZCzycra7Gryw6jQp7rU/6+zSTpNwXfWVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HsU6EOLh;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PkUkp15m;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581F606A320
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 07:31:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C581F606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B668E606A320
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 07:42:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B668E606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HsU6EOLh
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PkUkp15m
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795073519; x=1826609519;
+  t=1795074121; x=1826610121;
   h=date:from:to:cc:subject:message-id;
-  bh=x9qU9K09LheLxAbEXvBq01vsltr18GS74VI7vpMuiYQ=;
-  b=HsU6EOLhYP6hGV9bu/D+KaNxHH8CTGFsIpYk4qimM+SKOqtWcNHtE/sj
-   Q2dZk0qbFsi0cU/36GNBpVxcNrQFxXK9i/ojqhlXa3qw63hci5BDHTShF
-   mzX8+ddhXDEGFfvjgjZ6RjHH6y4NjVv9K4PwluWa0sabJm8wUH8HM8UpW
-   isN17aZ7DS6Uo0t5LwIZLuxbSJQme8Wb3WeZgHf9aH3ywIKcaqAXRo6xm
-   7LlyC3bYGcWbAOZN/MxLtdwQAVNTCh2I9HNmdAmFiiuV1iyPHFy0pgQXj
-   2rVCMbTjk1BO0XfW7Qq3ni6gX4TdcUazfT4zomcsnrFAB9jPfjlm51uPQ
-   g==;
-X-CSE-ConnectionGUID: 0zq9vnfATtCPI6OV7qpo4w==
-X-CSE-MsgGUID: UKxiQWjvTHmKILiecVxRyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3801842"
+  bh=AnEPy6SvxIb6t0eAxca16XWZUt9/NFzBtKPOhGhx8P8=;
+  b=PkUkp15myFa/CL5xw2jIpnsn2TzEVOpQBPAgIyLeMMrPV3KGWrF7iynC
+   8Sm3twbgAZtl1DrV2lG7lbQmtd3AyS228t5SEdx47xiObnyWAjmdb3n9C
+   2Lwj1iJBQ/GK3qusmhkLZG8MOvo5c8IaNwJqGTYOEvqxzH8u6reI2URWe
+   Np9hVtUf/KVipZHFl8ej1QMG2Rq+YuOdIuJlFryGuPk19ln7fIFhHoYvI
+   B0NZvMnIdkhE669aB+wPj3qdsEoXMbFeIapyrevVNG7bv2hzaLlavWJDZ
+   k6m0FPY8IYUdqcRLHzNunB8uxyabNIFdnnepLB41WGqzuU4bxIvyhMnW0
+   A==;
+X-CSE-ConnectionGUID: iYooWRi3RIGMuqNDJB+WPQ==
+X-CSE-MsgGUID: bsSrGNKQSASubaOISD0bhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3832907"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3801842"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 23:31:58 -0800
-X-CSE-ConnectionGUID: QrRlyN4SS/S2jd1LJ6tpSA==
-X-CSE-MsgGUID: 0FMlMqWxT1yO5Is9KcAltA==
+   d="scan'208";a="3832907"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 23:42:00 -0800
+X-CSE-ConnectionGUID: JytDoXTISq6IeU0yrcnR6g==
+X-CSE-MsgGUID: nplSOEgtS2WtDj27SjFjEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10697044"
+   d="scan'208";a="10357524"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 23:31:58 -0800
+  by orviesa006.jf.intel.com with ESMTP; 18 Nov 2026 23:42:00 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTwcd-000000003hx-1pMm;
-	Thu, 19 Nov 2026 07:31:55 +0000
-Date: Thu, 19 Nov 2026 08:31:07 +0100
+	id 1xTwmK-000000003iD-0bMU;
+	Thu, 19 Nov 2026 07:41:56 +0000
+Date: Thu, 19 Nov 2026 08:41:43 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [brauner-github:vfs-7.5.misc 22/29]
- ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of
- type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long
- unsigned int'}
-Message-ID: <20261119082400.bsY00dqo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-5.15-lts 29/29]
+ drivers/ufs/core/ufs-mcq.c:293 ufshcd_mcq_poll_cqe_nolock() error: we
+ previously assumed 'compl_cmd' could be null (see line 292)
+Message-ID: <20261119083916.lKKo8kHM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,166 +81,56 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Sasha Levin <sashal@kernel.org>
-CC: Christian Brauner <brauner@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/brauner/linux.git vfs-7.5.misc
-head:   bc0dc43794630fd5c38369d19e91477d2a197328
-commit: c07b5d746febe1ae2658304a0d878939e632f5f3 [22/29] selftests: add namespaces to TARGETS
-:::::: branch date: 18 hours ago
-:::::: commit date: 19 hours ago
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261119/20261119082400.bsY00dqo-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119082400.bsY00dqo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15-lts
+head:   6a30f9e067712464f3f2299dc278bcb5be365a3e
+commit: 8563ce58954679187f0c269a504520d8def37e41 [29/29] BACKPORT: FROMLIST: scsi: ufs: Make the polling code report which command has been completed
+:::::: branch date: 2 days ago
+:::::: commit date: 2 years, 7 months ago
+config: i386-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119083916.lKKo8kHM-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261119082400.bsY00dqo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/20261119083916.lKKo8kHM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/ufs/core/ufs-mcq.c:293 ufshcd_mcq_poll_cqe_nolock() error: we previously assumed 'compl_cmd' could be null (see line 292)
 
-   In file included from siocgskns_test.c:20:
-   siocgskns_test.c: In function 'siocgskns_listns_visibility':
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:741:9: note: in expansion of macro 'TH_LOG'
-     741 |         TH_LOG("Found netns %llu in listns() output (kept alive by socket)", netns_id);
-         |         ^~~~~~
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:758:9: note: in expansion of macro 'TH_LOG'
-     758 |         TH_LOG("Found netns %llu owned by userns %llu", netns_id, owner_id);
-         |         ^~~~~~
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:758:9: note: in expansion of macro 'TH_LOG'
-     758 |         TH_LOG("Found netns %llu owned by userns %llu", netns_id, owner_id);
-         |         ^~~~~~
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:779:9: note: in expansion of macro 'TH_LOG'
-     779 |         TH_LOG("Netns %llu correctly disappeared from listns() after socket closed", netns_id);
-         |         ^~~~~~
-   siocgskns_test.c: In function 'siocgskns_file_handle':
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:914:9: note: in expansion of macro 'TH_LOG'
-     914 |         TH_LOG("Constructed file handle for netns %lu (id=%llu)", netns_ino, netns_id);
-         |         ^~~~~~
-   siocgskns_test.c: In function 'siocgskns_listns_and_file_handle':
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1140:9: note: in expansion of macro 'TH_LOG'
-    1140 |         TH_LOG("Testing netns %lu (id=%llu) owned by userns id=%llu", netns_ino, netns_id, userns_id);
-         |         ^~~~~~
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 8 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1140:9: note: in expansion of macro 'TH_LOG'
-    1140 |         TH_LOG("Testing netns %lu (id=%llu) owned by userns id=%llu", netns_ino, netns_id, userns_id);
-         |         ^~~~~~
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1164:9: note: in expansion of macro 'TH_LOG'
-    1164 |         TH_LOG("Found netns %llu in listns() output", netns_id);
-         |         ^~~~~~
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1228:9: note: in expansion of macro 'TH_LOG'
-    1228 |         TH_LOG("Found netns %llu in listns() output", netns_id);
-         |         ^~~~~~
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1254:9: note: in expansion of macro 'TH_LOG'
-    1254 |         TH_LOG("Netns %llu correctly disappeared from listns() after socket closed", netns_id);
-         |         ^~~~~~
-   siocgskns_test.c: In function 'siocgskns_multilevel_resurrection':
->> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
-    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
-         |         ^~~~~~
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
-    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
-         |         ^~~~~~
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 8 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
-    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
-         |         ^~~~~~
-   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 9 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
-     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
-         |                                        ^~~~~~~~~~~~~
-   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
-     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
-         |                 ^~~~~~~~
-   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
-    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
-         |         ^~~~~~
-   /usr/lib/gcc-cross/powerpc64-linux-gnu/14/../../../../powerpc64-linux-gnu/bin/ld: cannot find -lcap: No such file or directory
-   collect2: error: ld returned 1 exit status
+vim +/compl_cmd +293 drivers/ufs/core/ufs-mcq.c
+
+31fe4a16211a23 Asutosh Das     2023-01-13  281  
+8563ce58954679 Bart Van Assche 2024-04-11  282  /* Clears *@compl_cmd if and only if *@compl_cmd has been completed. */
+31fe4a16211a23 Asutosh Das     2023-01-13  283  unsigned long ufshcd_mcq_poll_cqe_nolock(struct ufs_hba *hba,
+8563ce58954679 Bart Van Assche 2024-04-11  284  					 struct ufs_hw_queue *hwq,
+8563ce58954679 Bart Van Assche 2024-04-11  285  					 struct scsi_cmnd **compl_cmd)
+31fe4a16211a23 Asutosh Das     2023-01-13  286  {
+31fe4a16211a23 Asutosh Das     2023-01-13  287  	unsigned long completed_reqs = 0;
+31fe4a16211a23 Asutosh Das     2023-01-13  288  
+31fe4a16211a23 Asutosh Das     2023-01-13  289  	ufshcd_mcq_update_cq_tail_slot(hwq);
+31fe4a16211a23 Asutosh Das     2023-01-13  290  	while (!ufshcd_mcq_is_cq_empty(hwq)) {
+8563ce58954679 Bart Van Assche 2024-04-11  291  		if (ufshcd_mcq_process_cqe(hba, hwq,
+8563ce58954679 Bart Van Assche 2024-04-11 @292  					   compl_cmd ? *compl_cmd : NULL))
+8563ce58954679 Bart Van Assche 2024-04-11 @293  			*compl_cmd = NULL;
+31fe4a16211a23 Asutosh Das     2023-01-13  294  		ufshcd_mcq_inc_cq_head_slot(hwq);
+31fe4a16211a23 Asutosh Das     2023-01-13  295  		completed_reqs++;
+31fe4a16211a23 Asutosh Das     2023-01-13  296  	}
+31fe4a16211a23 Asutosh Das     2023-01-13  297  
+31fe4a16211a23 Asutosh Das     2023-01-13  298  	if (completed_reqs)
+31fe4a16211a23 Asutosh Das     2023-01-13  299  		ufshcd_mcq_update_cq_head(hwq);
+31fe4a16211a23 Asutosh Das     2023-01-13  300  
+31fe4a16211a23 Asutosh Das     2023-01-13  301  	return completed_reqs;
+31fe4a16211a23 Asutosh Das     2023-01-13  302  }
+31fe4a16211a23 Asutosh Das     2023-01-13  303  
 
 -- 
 0-DAY CI Kernel Test Service
