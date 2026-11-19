@@ -1,75 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795071658;
-	b=SOMDOOwb6rowhKCdEzGMFd98ZnWwhPZtlcfURUdRV58mGh1Gpb0xgfXx6iA87Z8h/pEn
-	 PX7XGMpSdJUiFbSu+wCpPojto6hoSvwPdBawUIEOlXjA9KywwJTSXVjvZNwqjliP8MUK1
-	 8HEtfAfSF4bGVFX107IbshVhd5IN2MQ+i04nNoR3Ib/8YDbqNSWbRT4icxoaqPAOZPs5I
-	 tOLy6wEt6yZ0A7vItN4gwxNErpxPWTTKkMUrmXi1EDyeCaXoit22nieqCk5khnAMUyrCJ
-	 CdDARJi1Db1WkEiyekoT1X5zM9V82vblqCkNVqooKfFj8w9tC94BPzu5xjHihoqYuLQ==
+	t=1795073519;
+	b=g+uWWo2XGWxDUiUckFSBM92euBpC1Xm1RcPMg9rTT4iWACATTXnn+YlFGJZsk31aoJVb
+	 KaNb9DFxNHaunRKUcZ0bSF3lezhEzQdXXLycKexC8qVzSqTVVcEW41j8Y/cLYjrelEBlz
+	 Ek7Aw1IgaHqg1JZwpl3BRon5DqUxqHqYWHKqxMRIY3m/5aHW1cAFYvpNjsuxrXauZkU0L
+	 aapmKq1C/F6yFPIlTuNmEMGf9KDJpKZVHquCcPQLu80jLhf9ozomesT26Ez7jFN4lqyyY
+	 hfx0+6h1U/NBydxda0AfMRo5jPDASBwdrC07UAGo3QYxt2rujVPDDShgcteSDordfjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795071658;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795073519;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZRfP63ghV9Kf35xMU3i7Dlvj/+zB3BuU6jme9NLBR3c=;
-	b=Ii0s3FS/VQkyqagJv4cDftm3RLL7nlFMdHpmm2A3hJr/t+hzg/mJSzgEq/ufQlyq+D66
-	 b/FP7V7xj/9FdqGMlZA+uRxg58SwvXuIB6Xfetl6TqiAt8iqvdYT2bhCiXXin6/YWISVY
-	 hT1rWt4RoD7qkEF7er3CPJhxtbHYn2743RkskTSIYNYSmgeLZBURG1pHzJWtj/2u4snKm
-	 jZUggnuaYBbnG9s3xa25DvkvVZdqXwyoNzYVUEMWeDroMKScsuEa7DTswVKaJKH/S9l4T
-	 YD5xNfdcGXD2ko2SJzRk9TfwGkh6Shu5V6RsyTn0gp2nN+JXcZMOzUslHyNPu0vNzkg==
+	bh=ZsdPFOnm3ucwggj6mKbKsbv+sb4czRnAydpQEdIh3BU=;
+	b=vAyH51yKIZeEmSUBwY1hMZQi1LDapasI8CJZ/OHZM2DaSEcdT/BSeKonNUkVW7Naoub6
+	 45BLJHqiQA89m7LrxbFzEe/dmXb013TN5ilte+QWljG7o1brKcsa8eq1/oziQ/MfmRCIz
+	 w/A6OjKpTO7frp+qkbuTX1tgGNlOk5t60v7yx2u8x8enhXDTE+zgQVN9sZKClTO/QoMX/
+	 37Ko8r9yIxWCfU/Wq5f9I9HjHhWfu7NkFEANB1D2EjzkNLRN0/TUGcsFaBueJXXKaXbf+
+	 6hTfEBhVub1CtYi2s1h1d//yyNN0JD8dR+e+OLl3i24lvz4+SSAqvhykXoQyyHkQGNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HoYKXAwv;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HsU6EOLh;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EDD606A325
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 07:00:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87EDD606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581F606A320
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 07:31:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C581F606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HoYKXAwv
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HsU6EOLh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795071657; x=1826607657;
+  t=1795073519; x=1826609519;
   h=date:from:to:cc:subject:message-id;
-  bh=5ZA+MQwYyur2+DVF0jSlSOi8ImRTydMTovT94GxAioE=;
-  b=HoYKXAwv0GxYUVYNnF2mxna8q35+JnDJPT3UCseppxjYeH1x5PdoLCmA
-   FsLFOtKOWbFFEhvDLxPlBBrTeo9O1qWa/0V0NYO5Fs57FE+mZcgQwJb8T
-   ZD6y1oz6XoNNn6yl6ruOhvaGFg3wd1tZACSZ1LYI918e4OVPyTycqHcdd
-   7DTMF145gGjQ/+NN/M7eQxvCw4XjlnV9pC41Hlp+V7eXYfGr3H2Uqwm36
-   /YSw5TWXD4F6GLASroMczOr9uX5emqdAssHj/9I6ptSA3b9ostxvthffA
-   Up9ODnfNNlKbaIEuJ1W0WykqHS98Nh+uuyoMfESjaUxYYdTp61/8fpjk9
-   w==;
-X-CSE-ConnectionGUID: B3w1pEbiSKa9XuBSWT0ehQ==
-X-CSE-MsgGUID: is2bV8y7R5CAzva5Qwv4qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3928963"
+  bh=x9qU9K09LheLxAbEXvBq01vsltr18GS74VI7vpMuiYQ=;
+  b=HsU6EOLhYP6hGV9bu/D+KaNxHH8CTGFsIpYk4qimM+SKOqtWcNHtE/sj
+   Q2dZk0qbFsi0cU/36GNBpVxcNrQFxXK9i/ojqhlXa3qw63hci5BDHTShF
+   mzX8+ddhXDEGFfvjgjZ6RjHH6y4NjVv9K4PwluWa0sabJm8wUH8HM8UpW
+   isN17aZ7DS6Uo0t5LwIZLuxbSJQme8Wb3WeZgHf9aH3ywIKcaqAXRo6xm
+   7LlyC3bYGcWbAOZN/MxLtdwQAVNTCh2I9HNmdAmFiiuV1iyPHFy0pgQXj
+   2rVCMbTjk1BO0XfW7Qq3ni6gX4TdcUazfT4zomcsnrFAB9jPfjlm51uPQ
+   g==;
+X-CSE-ConnectionGUID: 0zq9vnfATtCPI6OV7qpo4w==
+X-CSE-MsgGUID: UKxiQWjvTHmKILiecVxRyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3801842"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3928963"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 23:00:56 -0800
-X-CSE-ConnectionGUID: SPjHHg7PSs+kwNWBoIFtUw==
-X-CSE-MsgGUID: Z/6BE+frTqWu0NbhVCDWFw==
+   d="scan'208";a="3801842"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 23:31:58 -0800
+X-CSE-ConnectionGUID: QrRlyN4SS/S2jd1LJ6tpSA==
+X-CSE-MsgGUID: 0FMlMqWxT1yO5Is9KcAltA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10497082"
+   d="scan'208";a="10697044"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2026 23:00:54 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 23:31:58 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTw8a-000000003hh-35Ve;
-	Thu, 19 Nov 2026 07:00:52 +0000
-Date: Thu, 19 Nov 2026 08:00:11 +0100
+	id 1xTwcd-000000003hx-1pMm;
+	Thu, 19 Nov 2026 07:31:55 +0000
+Date: Thu, 19 Nov 2026 08:31:07 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm64:for-next/fixes 20/20] lib/crc/crc64-neon.c:26:9:
- sparse: sparse: Trying to use reserved word 'for' as identifier
-Message-ID: <20261119075110.rk4w6gCt-lkp@intel.com>
+Subject: [brauner-github:vfs-7.5.misc 22/29]
+ ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of
+ type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long
+ unsigned int'}
+Message-ID: <20261119082400.bsY00dqo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,253 +83,165 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: lib/crc/crc64-neon.c:26:9: sparse: sparse: Trying to use reserved word 'for' as identifier"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: Eric Biggers <ebiggers@kernel.org>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Sasha Levin <sashal@kernel.org>
+CC: Christian Brauner <brauner@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/fixes
-head:   a041bdbe1f3a8efa8a527a89c84d3771232b4942
-commit: a041bdbe1f3a8efa8a527a89c84d3771232b4942 [20/20] arm64: Drop stdint.h type overrides from asm/neon-intrinsics.h
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-randconfig-r2300-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119075110.rk4w6gCt-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8db60b003f961f25c5cafe91ee44176f61374279)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119075110.rk4w6gCt-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-7.5.misc
+head:   bc0dc43794630fd5c38369d19e91477d2a197328
+commit: c07b5d746febe1ae2658304a0d878939e632f5f3 [22/29] selftests: add namespaces to TARGETS
+:::::: branch date: 18 hours ago
+:::::: commit date: 19 hours ago
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261119/20261119082400.bsY00dqo-lkp@intel.com/config)
+compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119082400.bsY00dqo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261119075110.rk4w6gCt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261119082400.bsY00dqo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/crc/crc64-neon.c: note: in included file:
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h:22:22: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through /opt/cross/clang-8db60b003f/lib/clang/24/include/stddef.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
-   lib/crc/crc64-neon.c: note: in included file (through arch/arm64/include/asm/neon-intrinsics.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/arm_neon.h:30:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-   lib/crc/crc64-neon.c: note: in included file:
-   lib/crc/arm64/crc64-neon.h:3:26: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm64/crc64-neon.h:3:26: sparse: sparse: got pmull64
-   lib/crc/arm64/crc64-neon.h:7:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm64/crc64-neon.h:7:1: sparse: sparse: got }
-   lib/crc/arm64/crc64-neon.h:12:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm64/crc64-neon.h:12:20: sparse: sparse: got m
-   lib/crc/arm64/crc64-neon.h:14:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/crc/arm64/crc64-neon.h:14:16: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm64/crc64-neon.h:14:16: sparse: sparse: got vreinterpretq_u64_p128
-   lib/crc/arm64/crc64-neon.h:15:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm64/crc64-neon.h:15:1: sparse: sparse: got }
-   lib/crc/arm64/crc64-neon.h:21:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm64/crc64-neon.h:21:1: sparse: sparse: got }
-   lib/crc/crc64-neon.c:14:23: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:14:23: sparse: sparse: got fold_consts_val
-   lib/crc/crc64-neon.c:17:23: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:17:23: sparse: sparse: got bconsts_val
-   lib/crc/crc64-neon.c:20:50: sparse: sparse: Expected ) in function declarator
-   lib/crc/crc64-neon.c:20:50: sparse: sparse: got len
-   lib/crc/crc64-neon.c:23:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:23:20: sparse: sparse: got v0
-   lib/crc/crc64-neon.c:24:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:24:20: sparse: sparse: got zero
-   lib/crc/crc64-neon.c:26:14: sparse: sparse: Expected ) in function declarator
-   lib/crc/crc64-neon.c:26:14: sparse: sparse: got ;
->> lib/crc/crc64-neon.c:26:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/crc/crc64-neon.c:26:16: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/crc64-neon.c:26:16: sparse: sparse: got )
-   lib/crc/crc64-neon.c:29:19: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:29:19: sparse: sparse: got +=
-   lib/crc/crc64-neon.c:30:21: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:30:21: sparse: sparse: got -=
-   lib/crc/crc64-neon.c:31:25: sparse: sparse: Expected ) in function declarator
-   lib/crc/crc64-neon.c:31:25: sparse: sparse: got <
->> lib/crc/crc64-neon.c:31:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   lib/crc/crc64-neon.c:35:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/crc64-neon.c:35:9: sparse: sparse: got }
-   lib/crc/crc64-neon.c:41:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:41:20: sparse: sparse: got bconsts
-   lib/crc/crc64-neon.c:42:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:42:20: sparse: sparse: got final
-   lib/crc/crc64-neon.c:44:12: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:44:12: sparse: sparse: got ^=
->> lib/crc/crc64-neon.c:46:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/crc/crc64-neon.c:46:16: sparse: sparse: Expected ; at end of declaration
-   lib/crc/crc64-neon.c:46:16: sparse: sparse: got vgetq_lane_u64
-   lib/crc/crc64-neon.c:47:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/crc64-neon.c:47:1: sparse: sparse: got }
-   lib/crc/crc64-neon.c:34:22: sparse: sparse: undefined identifier 'pmull64'
-   lib/crc/crc64-neon.c:34:49: sparse: sparse: undefined identifier 'pmull64_high'
---
-   lib/raid/xor/xor-neon.c: note: in included file (through arch/arm64/include/asm/neon-intrinsics.h):
-   /opt/cross/clang-8db60b003f/lib/clang/24/include/arm_neon.h:30:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
->> lib/raid/xor/xor-neon.c:14:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:14:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:14:37: sparse: sparse: got p1
-   lib/raid/xor/xor-neon.c:15:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:15:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:15:37: sparse: sparse: got p2
-   lib/raid/xor/xor-neon.c:17:29: sparse: sparse: Expected ; at end of declaration
-   lib/raid/xor/xor-neon.c:17:29: sparse: sparse: got v0
-   lib/raid/xor/xor-neon.c:42:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:42:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:42:37: sparse: sparse: got p1
-   lib/raid/xor/xor-neon.c:43:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:43:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:43:37: sparse: sparse: got p2
-   lib/raid/xor/xor-neon.c:44:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:44:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:44:37: sparse: sparse: got p3
-   lib/raid/xor/xor-neon.c:46:29: sparse: sparse: Expected ; at end of declaration
-   lib/raid/xor/xor-neon.c:46:29: sparse: sparse: got v0
-   lib/raid/xor/xor-neon.c:79:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:79:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:79:37: sparse: sparse: got p1
-   lib/raid/xor/xor-neon.c:80:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:80:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:80:37: sparse: sparse: got p2
-   lib/raid/xor/xor-neon.c:81:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:81:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:81:37: sparse: sparse: got p3
-   lib/raid/xor/xor-neon.c:82:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:82:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:82:37: sparse: sparse: got p4
-   lib/raid/xor/xor-neon.c:84:29: sparse: sparse: Expected ; at end of declaration
-   lib/raid/xor/xor-neon.c:84:29: sparse: sparse: got v0
-   lib/raid/xor/xor-neon.c:125:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:125:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:125:37: sparse: sparse: got p1
-   lib/raid/xor/xor-neon.c:126:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:126:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:126:37: sparse: sparse: got p2
-   lib/raid/xor/xor-neon.c:127:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:127:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:127:37: sparse: sparse: got p3
-   lib/raid/xor/xor-neon.c:128:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:128:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:128:37: sparse: sparse: got p4
-   lib/raid/xor/xor-neon.c:129:36: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/xor/xor-neon.c:129:37: sparse: sparse: Expected ; at end of statement
-   lib/raid/xor/xor-neon.c:129:37: sparse: sparse: got p5
-   lib/raid/xor/xor-neon.c:131:29: sparse: sparse: Expected ; at end of declaration
-   lib/raid/xor/xor-neon.c:131:29: sparse: sparse: got v0
-   lib/raid/xor/xor-neon.c:14:9: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:14:19: sparse: sparse: undefined identifier 'dp1'
-   lib/raid/xor/xor-neon.c:14:26: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:15:9: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:15:19: sparse: sparse: undefined identifier 'dp2'
-   lib/raid/xor/xor-neon.c:15:26: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:22:17: sparse: sparse: undefined identifier 'v0'
-   lib/raid/xor/xor-neon.c:22:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:23:17: sparse: sparse: undefined identifier 'v1'
-   lib/raid/xor/xor-neon.c:23:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:24:17: sparse: sparse: undefined identifier 'v2'
-   lib/raid/xor/xor-neon.c:24:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:25:17: sparse: sparse: undefined identifier 'v3'
-   lib/raid/xor/xor-neon.c:25:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:28:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:29:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:30:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:31:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:33:17: sparse: sparse: undefined identifier 'dp1'
-   lib/raid/xor/xor-neon.c:34:17: sparse: sparse: undefined identifier 'dp2'
-   lib/raid/xor/xor-neon.c:42:9: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:42:19: sparse: sparse: undefined identifier 'dp1'
-   lib/raid/xor/xor-neon.c:42:26: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:43:9: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:43:19: sparse: sparse: undefined identifier 'dp2'
-   lib/raid/xor/xor-neon.c:43:26: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:44:9: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:44:19: sparse: sparse: undefined identifier 'dp3'
-   lib/raid/xor/xor-neon.c:44:26: sparse: sparse: undefined identifier 'uint64_t'
-   lib/raid/xor/xor-neon.c:51:17: sparse: sparse: undefined identifier 'v0'
-   lib/raid/xor/xor-neon.c:51:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:52:17: sparse: sparse: undefined identifier 'v1'
-   lib/raid/xor/xor-neon.c:52:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:53:17: sparse: sparse: undefined identifier 'v2'
-   lib/raid/xor/xor-neon.c:53:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:54:17: sparse: sparse: undefined identifier 'v3'
-   lib/raid/xor/xor-neon.c:54:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:57:17: sparse: sparse: undefined identifier 'v0'
-   lib/raid/xor/xor-neon.c:57:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:58:17: sparse: sparse: undefined identifier 'v1'
-   lib/raid/xor/xor-neon.c:58:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:59:17: sparse: sparse: undefined identifier 'v2'
-   lib/raid/xor/xor-neon.c:59:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:60:17: sparse: sparse: undefined identifier 'v3'
-   lib/raid/xor/xor-neon.c:60:22: sparse: sparse: undefined identifier 'veorq_u64'
-   lib/raid/xor/xor-neon.c:63:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:64:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:65:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:66:17: sparse: sparse: undefined identifier 'vst1q_u64'
-   lib/raid/xor/xor-neon.c:68:17: sparse: sparse: undefined identifier 'dp1'
-   lib/raid/xor/xor-neon.c:69:17: sparse: sparse: undefined identifier 'dp2'
+All warnings (new ones prefixed by >>):
 
-vim +/for +26 lib/crc/crc64-neon.c
-
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  12  
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  13  /* x^191 mod G, x^127 mod G */
-ff049836f05f5e lib/crc/crc64-neon.c             Ard Biesheuvel 2026-10-29  14  static const uint64_t fold_consts_val[2] = { 0xeadc41fd2ba3d420ULL,
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  15  					     0x21e9761e252621acULL };
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  16  /* floor(x^127 / G), (G - x^64) / x */
-ff049836f05f5e lib/crc/crc64-neon.c             Ard Biesheuvel 2026-10-29  17  static const uint64_t bconsts_val[2] = { 0x27ecfa329aef9f77ULL,
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  18  					 0x34d926535897936aULL };
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  19  
-061cef5fcee5a4 lib/crc/crc64-neon.c             Ard Biesheuvel 2026-04-22  20  u64 crc64_nvme_neon(u64 crc, const u8 *p, size_t len)
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  21  {
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  22  	uint64x2_t fold_consts = vld1q_u64(fold_consts_val);
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  23  	uint64x2_t v0 = { crc, 0 };
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  24  	uint64x2_t zero = { };
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  25  
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @26  	for (;;) {
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  27  		v0 ^= vreinterpretq_u64_u8(vld1q_u8(p));
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  28  
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  29  		p += 16;
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  30  		len -= 16;
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @31  		if (len < 16)
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  32  			break;
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  33  
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  34  		v0 = pmull64(fold_consts, v0) ^ pmull64_high(fold_consts, v0);
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  35  	}
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  36  
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  37  	/* Multiply the 128-bit value by x^64 and reduce it back to 128 bits. */
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  38  	v0 = vextq_u64(v0, zero, 1) ^ pmull64_hi_lo(fold_consts, v0);
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  39  
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  40  	/* Final Barrett reduction */
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  41  	uint64x2_t bconsts = vld1q_u64(bconsts_val);
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  42  	uint64x2_t final = pmull64(bconsts, v0);
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  43  
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  44  	v0 ^= vextq_u64(zero, final, 1) ^ pmull64_hi_lo(bconsts, final);
-63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  45  
-8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @46  	return vgetq_lane_u64(v0, 1);
-
-:::::: The code at line 26 was first introduced by commit
-:::::: 8fdef85d601db670e9c178314eedffe7bbb07e52 lib/crc: arm64: Simplify intrinsics implementation
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Eric Biggers <ebiggers@kernel.org>
+   In file included from siocgskns_test.c:20:
+   siocgskns_test.c: In function 'siocgskns_listns_visibility':
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:741:9: note: in expansion of macro 'TH_LOG'
+     741 |         TH_LOG("Found netns %llu in listns() output (kept alive by socket)", netns_id);
+         |         ^~~~~~
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:758:9: note: in expansion of macro 'TH_LOG'
+     758 |         TH_LOG("Found netns %llu owned by userns %llu", netns_id, owner_id);
+         |         ^~~~~~
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:758:9: note: in expansion of macro 'TH_LOG'
+     758 |         TH_LOG("Found netns %llu owned by userns %llu", netns_id, owner_id);
+         |         ^~~~~~
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:779:9: note: in expansion of macro 'TH_LOG'
+     779 |         TH_LOG("Netns %llu correctly disappeared from listns() after socket closed", netns_id);
+         |         ^~~~~~
+   siocgskns_test.c: In function 'siocgskns_file_handle':
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:914:9: note: in expansion of macro 'TH_LOG'
+     914 |         TH_LOG("Constructed file handle for netns %lu (id=%llu)", netns_ino, netns_id);
+         |         ^~~~~~
+   siocgskns_test.c: In function 'siocgskns_listns_and_file_handle':
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1140:9: note: in expansion of macro 'TH_LOG'
+    1140 |         TH_LOG("Testing netns %lu (id=%llu) owned by userns id=%llu", netns_ino, netns_id, userns_id);
+         |         ^~~~~~
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 8 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1140:9: note: in expansion of macro 'TH_LOG'
+    1140 |         TH_LOG("Testing netns %lu (id=%llu) owned by userns id=%llu", netns_ino, netns_id, userns_id);
+         |         ^~~~~~
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1164:9: note: in expansion of macro 'TH_LOG'
+    1164 |         TH_LOG("Found netns %llu in listns() output", netns_id);
+         |         ^~~~~~
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1228:9: note: in expansion of macro 'TH_LOG'
+    1228 |         TH_LOG("Found netns %llu in listns() output", netns_id);
+         |         ^~~~~~
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1254:9: note: in expansion of macro 'TH_LOG'
+    1254 |         TH_LOG("Netns %llu correctly disappeared from listns() after socket closed", netns_id);
+         |         ^~~~~~
+   siocgskns_test.c: In function 'siocgskns_multilevel_resurrection':
+>> ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
+    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
+         |         ^~~~~~
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
+    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
+         |         ^~~~~~
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 8 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
+    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
+         |         ^~~~~~
+   ../kselftest_harness.h:116:40: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 9 has type '__u64' {aka 'long unsigned int'} [-Wformat=]
+     116 |                 fprintf(TH_LOG_STREAM, "# %s:%d:%s:" fmt "\n", \
+         |                                        ^~~~~~~~~~~~~
+   ../kselftest_harness.h:111:17: note: in expansion of macro '__TH_LOG'
+     111 |                 __TH_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~
+   siocgskns_test.c:1664:9: note: in expansion of macro 'TH_LOG'
+    1664 |         TH_LOG("Multi-level hierarchy: net_L3A (id=%llu) -> userns_L3 (id=%llu) -> userns_L2 (id=%llu) -> userns_L1 (id=%llu)",
+         |         ^~~~~~
+   /usr/lib/gcc-cross/powerpc64-linux-gnu/14/../../../../powerpc64-linux-gnu/bin/ld: cannot find -lcap: No such file or directory
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
