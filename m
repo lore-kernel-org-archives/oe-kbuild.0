@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795051016;
-	b=Hhkei8fxMgNuBGLlC2VPlPhvNqalOEaaTNMPH5a7Les7VwKSY9qu+bIFigQVLfgrqo8L
-	 MbzLJW7xtxSiB/bjPy3tcpztF0cXW/7Db+/6E4AVPkcEqTzw1XZMhLks5lgCoqU/HKCMP
-	 OzrAGz804AYWpdw23B/E/2P9bDAa65uO37SKPtr3v/kbXVXLW+t5nPBqWFbg50XkG8MOr
-	 FqK+7P1aIZ2ArXx18WUwSLT2/PlyFYCHR1JrXfvt9mNHZflFM7QeEiSdt/TnTWsV1XtpW
-	 56jNtkeIwhUeLhCHQeF7iQdjXaXKVxtQR43GHc+h08naAtLPSLnNXjVKAs8Lz7F8caA==
+	t=1795051017;
+	b=G+3k17lBqoWWhMwQeS2ERTKzH+FTZuSbGHWEVAcwy62Xi92n+6CHdJFQPRTRaFRSmqJT
+	 PBp7AFc+QUhVdt08eF59W405cNJBCUiemz5k73+J7UjnStFcdk7gDU5iY0+b8T3QJfe8x
+	 r50vL5r8hnsdFnDYV5sFOArxD2u09ktbDg4IOPRBDsnvhq2hcawaZ+YHRsn/zHsrbqsvd
+	 dBo4WX46VXreKjI8Dt41jtM9wuRbiFEfGBqfCNDaAb1RbJAmy7Hny4rgo4mJt2jvcdjoh
+	 i/M/E2Nf4WgC1pd7RRnbdCM1ecmyMwxM9yjFEToA/xe8466rW7Da135ayYGKwwrsaqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795051016;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795051017;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=qYGmoCNY6pNXohleyXIm5EAm4pyR0oMLJRcEJXW/9d4=;
-	b=SN676ATR2D4bjgHBSregYFf+R+Zlw040PbviTgfwkkIrxH/UqQktJsH8wGGLDxN1lt6a
-	 WegavvZU7WwN6g1jxXqR6L7tm9lkICiYjOgGiBb1j58T1PdCeXNyxA7r+iKWhTOfGuELo
-	 WXUpmiPrihs2kmeiIZsvAyngYYEymLUCq4G0Zyska24fW4PRa7Xki47XeBaDiNvGu8CsA
-	 +BGoFxltEO9n/2ccqDdDn58dWR+CSW5wSEgauMRtZIPaTy5kpC7IicZyCuFVqZvIdnxcK
-	 2IrAeSWbUs0uHEKPy9ADIuqtJI8PdiQHlvZZKfoashj/P7vWfeMc2TCbsBLCKUBe7xw==
+	bh=ASAo4C/KkDKpN2Fpef2bp7wbIjUPDgpz2SHNkEdQ5eY=;
+	b=wOi8+VD/VuxsbwVjzHUuBoTANmMBaRku594+xcmBXyKrxh2dS9XP0RxrDCssNJw3kwcA
+	 Xo3/WSUOqkpTY22Iivy8eXupC5UM0SadquplJ3k4dIdI52uHkASck6YKZDeECNRUBmfse
+	 iNYpt4cQmLtRf2Qx8Mmc/rhmwfcBWugZtEJugwshubdOrCQGOVI5QSuKryxRarkhXQZ18
+	 Pnx5JwwHFUCqT/lWcaAjcdaXQ3XvhsWAfg/SJtBXKC7UuXLgTHmVibKro8NFbnmugPX92
+	 rjcoAiK4RhB1qcOZWFhfMGAjKULkVaVvdE2UK5qxh14/Kd7IbMExkaOszFe6cXJPAug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZfoRNa+Y;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BXbCIwD3;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8427D606A331
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 01:16:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8427D606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF11606A325
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 01:16:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEF11606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZfoRNa+Y
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BXbCIwD3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795051015; x=1826587015;
+  t=1795051017; x=1826587017;
   h=date:from:to:cc:subject:message-id;
-  bh=WiRFQhjGdpxTezHpXv/TZppAGJqg6dpNKry7S88bzCA=;
-  b=ZfoRNa+YWnR+zHV5X+OfBULACUMKUjXBFbVpsxaHZf0xY9/NO6zy3XTs
-   dcjLTl6dVgTyLrJ3gjAj36ho26H0A5FJf9oBTTr8s44JVorXKjCb6kRwN
-   6HWSR1cpZAdBdOLpK4SBqm7fPn7KpbxrRQWh5j5n/iNmJxkybAeYPYANo
-   NnCPvf0LR1EATeZLwtedNo6EZObBzH1YCPWYUt1Oh9EoRSRVqzqMWpOnV
-   CkJgd+lh9Onn946DPhS7Q5RfgcyjNbXRGBa6Y/0k1Ai24n0fm8EXIww9A
-   F/GaZMuPPDHOhBwtqvJ0h0EEe2TrcImVItgs6MT9vbOvX9DqijFXEoC28
-   w==;
-X-CSE-ConnectionGUID: gcIzG8pETtamOivKj6MmsA==
-X-CSE-MsgGUID: 3BJoEzA8QrKPdKxWIchkFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3904531"
+  bh=GssfwhZ49glL7R3SCA6dOjrajQQQORY8uoq/d7JItlU=;
+  b=BXbCIwD3y0ivkffixKKa9ZFUYlCrcWLlLS1C/mO5Xzjw6sl39hYoqzcK
+   7D0exLMn+QVm0W5giGlxmEBFZWR7nIZDX+v/b6I/Df4KYEfRXOb5zoS7L
+   7cPGmQ+dVA6c4i+V7M8F0v2SSfkIip6MqMCg6pTEWWbjJhDiyyRc6qmZZ
+   ZGS6TcBnD8T7nw7Z5eiQIGHroZwm5QH1b1AemL//89GbhvJZjzuOLAEy1
+   tGHvNpK82+lqyZPc5dVU6+eJSxkRmnVtL3fpFVtpDIhTjQrwio4tBvtnm
+   mglp+QCKuO99XI+4DVx0vy3xCAgdJWvayZpT/38+H6T7I4yXym2zUDb+R
+   g==;
+X-CSE-ConnectionGUID: VG5du8gMQmK9ycoM3Jiy8g==
+X-CSE-MsgGUID: sYWaz+o3S6GoHkMlG7pexQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3746106"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3904531"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 17:16:54 -0800
-X-CSE-ConnectionGUID: Rzi+if1MR9qz3DVw0HwxZA==
-X-CSE-MsgGUID: 4cQ7YUVHSdGwSyXvVy295A==
+   d="scan'208";a="3746106"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 17:16:57 -0800
+X-CSE-ConnectionGUID: Y63eMS13QDOmUopmydEE6g==
+X-CSE-MsgGUID: BYuvqqksT3+21LMhqIO2wA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10333074"
+   d="scan'208";a="10683018"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 18 Nov 2026 17:16:54 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 18 Nov 2026 17:16:55 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTqlf-000000003ZI-0x2Y;
-	Thu, 19 Nov 2026 01:16:51 +0000
-Date: Thu, 19 Nov 2026 02:16:33 +0100
+	id 1xTqlg-000000003ZN-2SU3;
+	Thu, 19 Nov 2026 01:16:52 +0000
+Date: Thu, 19 Nov 2026 02:16:34 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12-sp 24/24]
- mm/huge_memory.c:870 setup_thp_anon() error: strcpy() 'str' too large for
- 'str_dup' (1010102 vs 4096)
-Message-ID: <20261119021343.oLspWIlR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [bvanassche:thread-safety 272/460]
+ drivers/usb/host/max3421-hcd.c:344:34: error: initialization of 'struct
+ spi_device *' from 'int' makes pointer from integer without a cast
+Message-ID: <20261119021342.6rIvSt98-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,109 +81,194 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "too many reports for this commit"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Bart Van Assche <bvanassche@acm.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-sp
-head:   8642d493c489225226aeda3fe1640c380d6c0c59
-commit: dd4d30d1cdbe826e6569b44453c2d9bb9424d234 [24/24] mm: override mTHP "enabled" defaults at kernel cmdline
-:::::: branch date: 17 hours ago
-:::::: commit date: 2 years, 3 months ago
-config: i386-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119021343.oLspWIlR-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   754c0efaaee1c85b67fd7f8a45f7be89900b661f
+commit: b92d6bdb8a97a9e35c1baf80d282833e714e75de [272/460] spi: Convert to_spi_device() into an inline function
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: csky-randconfig-2000-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119021342.6rIvSt98-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119021342.6rIvSt98-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: dd4d30d1cdbe ("mm: override mTHP "enabled" defaults at kernel cmdline")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261119021343.oLspWIlR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261119021342.6rIvSt98-lkp@intel.com/
 
-smatch warnings:
-mm/huge_memory.c:870 setup_thp_anon() error: strcpy() 'str' too large for 'str_dup' (1010102 vs 4096)
+All errors (new ones prefixed by >>):
 
-vim +870 mm/huge_memory.c
+   In file included from drivers/usb/host/max3421-hcd.c:61:
+   include/linux/spi/spi.h:284:1: error: attributes should be specified before the declarator in a function definition
+     284 | static inline struct spi_device *to_spi_device(struct device *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:290:1: error: attributes should be specified before the declarator in a function definition
+     290 | static inline struct spi_device *to_spi_device(void *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:296:1: error: attributes should be specified before the declarator in a function definition
+     296 | static inline const struct spi_device *to_spi_device(const struct device *dev)
+         | ^~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'spi_rd8':
+   drivers/usb/host/max3421-hcd.c:344:34: error: implicit declaration of function 'to_spi_device'; did you mean 'to_usb_device'? [-Wimplicit-function-declaration]
+     344 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+         |                                  to_usb_device
+>> drivers/usb/host/max3421-hcd.c:344:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/usb/host/max3421-hcd.c: In function 'spi_wr8':
+   drivers/usb/host/max3421-hcd.c:369:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     369 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'spi_rd_buf':
+   drivers/usb/host/max3421-hcd.c:393:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     393 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'spi_wr_buf':
+   drivers/usb/host/max3421-hcd.c:419:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     419 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_transfer_out':
+   drivers/usb/host/max3421-hcd.c:525:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     525 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_select_and_start_urb':
+   drivers/usb/host/max3421-hcd.c:631:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     631 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_check_unlink':
+   drivers/usb/host/max3421-hcd.c:766:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     766 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_handle_error':
+   drivers/usb/host/max3421-hcd.c:852:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     852 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_transfer_in_done':
+   drivers/usb/host/max3421-hcd.c:941:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     941 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_irq_handler':
+   drivers/usb/host/max3421-hcd.c:1136:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1136 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_reset_hcd':
+   drivers/usb/host/max3421-hcd.c:1285:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1285 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_spi_thread':
+   drivers/usb/host/max3421-hcd.c:1374:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1374 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_urb_enqueue':
+   drivers/usb/host/max3421-hcd.c:1501:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1501 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+   drivers/usb/host/max3421-hcd.c: In function 'max3421_hub_control':
+   drivers/usb/host/max3421-hcd.c:1674:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1674 |         struct spi_device *spi = to_spi_device(hcd->self.controller);
+         |                                  ^~~~~~~~~~~~~
+--
+   In file included from drivers/input/touchscreen/ads7846.c:29:
+   include/linux/spi/spi.h:284:1: error: attributes should be specified before the declarator in a function definition
+     284 | static inline struct spi_device *to_spi_device(struct device *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:290:1: error: attributes should be specified before the declarator in a function definition
+     290 | static inline struct spi_device *to_spi_device(void *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:296:1: error: attributes should be specified before the declarator in a function definition
+     296 | static inline const struct spi_device *to_spi_device(const struct device *dev)
+         | ^~~~~~
+   drivers/input/touchscreen/ads7846.c: In function 'ads7846_read12_ser':
+   drivers/input/touchscreen/ads7846.c:354:34: error: implicit declaration of function 'to_spi_device'; did you mean 'to_spi_driver'? [-Wimplicit-function-declaration]
+     354 |         struct spi_device *spi = to_spi_device(dev);
+         |                                  ^~~~~~~~~~~~~
+         |                                  to_spi_driver
+>> drivers/input/touchscreen/ads7846.c:354:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/input/touchscreen/ads7846.c: In function 'ads7845_read12_ser':
+   drivers/input/touchscreen/ads7846.c:436:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     436 |         struct spi_device *spi = to_spi_device(dev);
+         |                                  ^~~~~~~~~~~~~
+--
+   In file included from drivers/input/touchscreen/tsc2005.c:15:
+   include/linux/spi/spi.h:284:1: error: attributes should be specified before the declarator in a function definition
+     284 | static inline struct spi_device *to_spi_device(struct device *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:290:1: error: attributes should be specified before the declarator in a function definition
+     290 | static inline struct spi_device *to_spi_device(void *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:296:1: error: attributes should be specified before the declarator in a function definition
+     296 | static inline const struct spi_device *to_spi_device(const struct device *dev)
+         | ^~~~~~
+   drivers/input/touchscreen/tsc2005.c: In function 'tsc2005_cmd':
+   drivers/input/touchscreen/tsc2005.c:33:34: error: implicit declaration of function 'to_spi_device'; did you mean 'to_spi_driver'? [-Wimplicit-function-declaration]
+      33 |         struct spi_device *spi = to_spi_device(dev);
+         |                                  ^~~~~~~~~~~~~
+         |                                  to_spi_driver
+>> drivers/input/touchscreen/tsc2005.c:33:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   In file included from drivers/misc/lis3lv02d/lis3lv02d_spi.c:14:
+   include/linux/spi/spi.h:284:1: error: attributes should be specified before the declarator in a function definition
+     284 | static inline struct spi_device *to_spi_device(struct device *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:290:1: error: attributes should be specified before the declarator in a function definition
+     290 | static inline struct spi_device *to_spi_device(void *dev)
+         | ^~~~~~
+   include/linux/spi/spi.h:296:1: error: attributes should be specified before the declarator in a function definition
+     296 | static inline const struct spi_device *to_spi_device(const struct device *dev)
+         | ^~~~~~
+   drivers/misc/lis3lv02d/lis3lv02d_spi.c: In function 'lis3lv02d_spi_suspend':
+   drivers/misc/lis3lv02d/lis3lv02d_spi.c:110:34: error: implicit declaration of function 'to_spi_device'; did you mean 'to_spi_driver'? [-Wimplicit-function-declaration]
+     110 |         struct spi_device *spi = to_spi_device(dev);
+         |                                  ^~~~~~~~~~~~~
+         |                                  to_spi_driver
+>> drivers/misc/lis3lv02d/lis3lv02d_spi.c:110:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/misc/lis3lv02d/lis3lv02d_spi.c: In function 'lis3lv02d_spi_resume':
+   drivers/misc/lis3lv02d/lis3lv02d_spi.c:121:34: error: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     121 |         struct spi_device *spi = to_spi_device(dev);
+         |                                  ^~~~~~~~~~~~~
 
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  858  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  859  static char str_dup[PAGE_SIZE] __initdata;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  860  static int __init setup_thp_anon(char *str)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  861  {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  862  	char *token, *range, *policy, *subtoken;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  863  	unsigned long always, inherit, madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  864  	char *start_size, *end_size;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  865  	int start, end, nr;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  866  	char *p;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  867  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  868  	if (!str || strlen(str) + 1 > PAGE_SIZE)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  869  		goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14 @870  	strcpy(str_dup, str);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  871  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  872  	always = huge_anon_orders_always;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  873  	madvise = huge_anon_orders_madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  874  	inherit = huge_anon_orders_inherit;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  875  	p = str_dup;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  876  	while ((token = strsep(&p, ";")) != NULL) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  877  		range = strsep(&token, ":");
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  878  		policy = token;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  879  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  880  		if (!policy)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  881  			goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  882  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  883  		while ((subtoken = strsep(&range, ",")) != NULL) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  884  			if (strchr(subtoken, '-')) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  885  				start_size = strsep(&subtoken, "-");
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  886  				end_size = subtoken;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  887  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  888  				start = get_order_from_str(start_size);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  889  				end = get_order_from_str(end_size);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  890  			} else {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  891  				start = end = get_order_from_str(subtoken);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  892  			}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  893  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  894  			if (start < 0 || end < 0 || start > end)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  895  				goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  896  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  897  			nr = end - start + 1;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  898  			if (!strcmp(policy, "always")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  899  				bitmap_set(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  900  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  901  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  902  			} else if (!strcmp(policy, "madvise")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  903  				bitmap_set(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  904  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  905  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  906  			} else if (!strcmp(policy, "inherit")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  907  				bitmap_set(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  908  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  909  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  910  			} else if (!strcmp(policy, "never")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  911  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  912  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  913  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  914  			} else {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  915  				pr_err("invalid policy %s in thp_anon boot parameter\n", policy);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  916  				goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  917  			}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  918  		}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  919  	}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  920  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  921  	huge_anon_orders_always = always;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  922  	huge_anon_orders_madvise = madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  923  	huge_anon_orders_inherit = inherit;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  924  	anon_orders_configured = true;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  925  	return 1;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  926  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  927  err:
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  928  	pr_warn("thp_anon=%s: error parsing string, ignoring setting\n", str);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  929  	return 0;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  930  }
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  931  __setup("thp_anon=", setup_thp_anon);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  932  
+
+vim +344 drivers/usb/host/max3421-hcd.c
+
+2d53139f31626b David Mosberger      2014-04-28  339  
+2d53139f31626b David Mosberger      2014-04-28  340  static u8
+2d53139f31626b David Mosberger      2014-04-28  341  spi_rd8(struct usb_hcd *hcd, unsigned int reg)
+2d53139f31626b David Mosberger      2014-04-28  342  {
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  343  	struct max3421_hcd *max3421_hcd = hcd_to_max3421(hcd);
+2d53139f31626b David Mosberger      2014-04-28 @344  	struct spi_device *spi = to_spi_device(hcd->self.controller);
+2d53139f31626b David Mosberger      2014-04-28  345  	struct spi_transfer transfer;
+2d53139f31626b David Mosberger      2014-04-28  346  	struct spi_message msg;
+2d53139f31626b David Mosberger      2014-04-28  347  
+2d53139f31626b David Mosberger      2014-04-28  348  	memset(&transfer, 0, sizeof(transfer));
+2d53139f31626b David Mosberger      2014-04-28  349  
+2d53139f31626b David Mosberger      2014-04-28  350  	spi_message_init(&msg);
+2d53139f31626b David Mosberger      2014-04-28  351  
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  352  	max3421_hcd->tx->data[0] =
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  353  		(field(reg, MAX3421_SPI_REG_SHIFT) |
+2d53139f31626b David Mosberger      2014-04-28  354  		 field(MAX3421_SPI_DIR_RD, MAX3421_SPI_DIR_SHIFT));
+2d53139f31626b David Mosberger      2014-04-28  355  
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  356  	transfer.tx_buf = max3421_hcd->tx->data;
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  357  	transfer.rx_buf = max3421_hcd->rx->data;
+2d53139f31626b David Mosberger      2014-04-28  358  	transfer.len = 2;
+2d53139f31626b David Mosberger      2014-04-28  359  
+2d53139f31626b David Mosberger      2014-04-28  360  	spi_message_add_tail(&transfer, &msg);
+2d53139f31626b David Mosberger      2014-04-28  361  	spi_sync(spi, &msg);
+2d53139f31626b David Mosberger      2014-04-28  362  
+05dfa5c9bc3793 David Mosberger-Tang 2014-05-28  363  	return max3421_hcd->rx->data[1];
+2d53139f31626b David Mosberger      2014-04-28  364  }
+2d53139f31626b David Mosberger      2014-04-28  365  
+
+:::::: The code at line 344 was first introduced by commit
+:::::: 2d53139f31626bad6f8983d8e519ddde2cbba921 Add support for using a MAX3421E chip as a host driver.
+
+:::::: TO: David Mosberger <davidm@egauge.net>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
