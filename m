@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795065537;
-	b=hKIIJyEL2eXdIAvUIRzG4aT5H3a9Noq98XkWRjHffgZBbbRjWUcFiFJ2KPw2doEAdifO
-	 f9mPbX6x//9Mqatp1aUOJrIAg/cYjZubqvIz9mlHrULRW7YO5n74B9NbagzPp6LqD9KHh
-	 EHJPTDfGTwEoO+Rn0XKCQCKpZSL1ecb5JOOY/UewqEqp5znzwn9XgcPu0D+1hP6lDcODm
-	 f2IsPCX4nNu/y6AZ9Z1r0umO1XTBuccf7chYjxjzbJDX2visboKjfHKv9QWhiO1CPcfII
-	 ORLwqEc2uVaNd8Bd1Z6DYJqQ0c853bdKmECq/IZ60NVzXrP9EzQP3rRVkz5p0rSfhqg==
+	t=1795066113;
+	b=CqCEnf96/VtoS5GvDuRNk6x3dhckcZ/t1kCRJrMBGU9dmQnslAYaCclYZ/wPUnQxM2m7
+	 oq11xnpTxaJKxLWodLtMvuhq3T8EgOYEtv3cr7S8JYwbBut+pWuu+ZQSrzWNZZ7A/MYSt
+	 eAK1pjzQiwyythmHcQNx+Nk/w1H+uBJARSEWM9Jb/03BAGgKOrOPJM5zZ2/GkLLvQTkMy
+	 hokYoz40WSar3phRmYvXpMGq8NKcCLMqMb8gTG5hDjgQTwz6lIpG1y+wCMEM+QiITIx2Y
+	 38C1Wv5b3pgv+Nni2Pgy9UjLQMdowI52VfcGX/HW93v6rvuvoXL3Ooz0vjYRYv5+8MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795065537;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795066113;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=gHt9E1piNfBPbs0nXUZM3drllkp+3KsSkhgVGNv3mWo=;
-	b=XpdHKjgtIexywc6hyh49026P9UtXVDwMOPMVsSRh0Yf8vAxWvu6BgCAY9M9vCWFi5cZy
-	 I8jwHEPxcxn8ae+81WFxZnJCw4Uio4HeGny8qVwNxI/QmquZ5+8YCDazvaDR/U27TcubZ
-	 1o7AYkrbb1k1f2tu0t06YISso8mdaJbxSLUSpqpMPbsyCsic28gKV8Zo9hgkc4Ls/MDlC
-	 XQP+MiYTbT/3jnC+M7RSBbNIoVGPa9tbeVLZXTQ7lDP1i8ASAOUFZK/sXI7b81KD69adw
-	 PXC6N8gZiZaIPd57IeSZQvptP2RRFrxTqbm0N199UAjgLid+cqWvsT3ny58RBTa8E2w==
+	bh=MZKv2fG/6gjtEvheFxek6/Ft/xUBs9E8nt64wsLJSmU=;
+	b=YyMnt1hLL+wwHzOJ7SOW+rPzG/JFY/g8psaPE0jGi/CcPeqJA9HhN1jNjYmPykAA1f8G
+	 6D6SqpsQV+QdpG92ogBXD0mXhQTGuMyczU/lRaVpLSRtryNx4nWI9vZllOIAQyA82Dilk
+	 ue5OPJ2F7DBKUiiCHsLTdEMj4gShkpsdsCxToC7ngPLdnvLirqDS/52BX/skPtsyur18z
+	 dGpIJ1hrLiCsho7TMSRb2Pw57UpsrlIR0pvYd3kFlENSPy80XdgXOHKMgplbpNCcEyhmI
+	 +9XxV/2uRFEVnY12WoIBmKSPO5RjKTwGnWmYkoVboRgVJdBkxJYGeAidIMajIOyMynQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NPtGZCRg;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LRcbuKbm;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1ABC606A320
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 05:18:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1ABC606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E0F606A320
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Nov 2026 05:28:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96E0F606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NPtGZCRg
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LRcbuKbm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795065535; x=1826601535;
+  t=1795066113; x=1826602113;
   h=date:from:to:cc:subject:message-id;
-  bh=qTCws6urRjg/9CY64sPeq13AgglBILeT3F1BvnDQhsE=;
-  b=NPtGZCRgKWwFYO995qnAPxuHPpWoFlJ2L7eZhQs5zvz8UBtLtnYPf65t
-   Oh+OYe94B20rNSvxNH+Rv2b6GqLLN4kKMkWX4vyjZajTsqdwM69lnI6Fc
-   S0DMUiK78cXnwjYGlYqsiHP5qCcdwpb/3A4BitJef0FjYU6SswnxvUZoq
-   BK1Zso4yEb+PdKWps/62J9u76mQYeO+HbCUR/3/bRX8a5FMDSEeSH4jnj
-   p26yGb8buRgAZYsDZYxPS7bcUE1YSSvvLm5uP3rA6RAKEM2kjZqk4jzFF
-   sV54KL5PawdCNDIs69s2jNY4N5+ZgGvxxIF2u+krhvOnQNyNX3WWDLb1Y
+  bh=CLiDFfsc9ZCYDl7eCAIhT0xChSwTuvoPC0/W3+yse90=;
+  b=LRcbuKbmRYIUXTJz2dqefW/Uo1U8hr80k5WMms6XPqa/1XaR+A3U8UCC
+   632PYeoy+r79s9aYhiYu2EN2GdXP57s0cmCXG+CIWzLxQMEJrLMfZilMC
+   wfGXbDSQf/+FuP+AUJyyVTSX7aJG2xbDd3JmEzHwGz++gq8P8MxhqimrG
+   oRDRWwaOZtfB/meXT+vD3awTFlwQ1ZPROupUCLW6V57ANsUgZ6a478hd0
+   xjJgGS8wgqKORammV+k8lITpm8iDh9L9J/5A63yo9XJ4mXmLO7pFVLq6h
+   Y2kbZED9kgI+rboLsR/QQCQvqj8Vb79dHMgY8KVQWP9S4Nku4vm3fXgen
    w==;
-X-CSE-ConnectionGUID: YxhzLF4qSZ6A6mYdX41KrA==
-X-CSE-MsgGUID: t3A0ynfUTLy4DENs7tn42g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3895370"
+X-CSE-ConnectionGUID: LT2tivJlQ++zvWdbh0LuYA==
+X-CSE-MsgGUID: FQT4u6a1RwGiUBJZ5h1TdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3793253"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3895370"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 21:18:30 -0800
-X-CSE-ConnectionGUID: ieTMKukHTj+cLzYouuid8g==
-X-CSE-MsgGUID: ghYOiZCWTl2z7G5C/4UpZg==
+   d="scan'208";a="3793253"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 21:28:32 -0800
+X-CSE-ConnectionGUID: 8mBBuyS+Q4yzNHL27Hz7PA==
+X-CSE-MsgGUID: viYVKDuuSBWIPQMc5viGtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="12080773"
+   d="scan'208";a="10138453"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 18 Nov 2026 21:18:29 -0800
+  by orviesa008.jf.intel.com with ESMTP; 18 Nov 2026 21:28:31 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTuXT-000000003fx-0i2j;
-	Thu, 19 Nov 2026 05:18:27 +0000
-Date: Thu, 19 Nov 2026 06:17:27 +0100
+	id 1xTuh9-000000003g5-2sQZ;
+	Thu, 19 Nov 2026 05:28:27 +0000
+Date: Thu, 19 Nov 2026 06:28:01 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7173/9180] fs/smb/server/vfs.c:1633
- ksmbd_vfs_make_xattr_posix_acl() warn: passing zero to 'ERR_CAST'
-Message-ID: <20261119060855.mn1TjZpt-lkp@intel.com>
+Subject: [android-common:android14-5.15-lts 29/29] fs/f2fs/data.c:996
+ f2fs_grab_read_bio() warn: variable dereferenced before check 'bio' (see line
+ 995)
+Message-ID: <20261119061955.OcPMvkmV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -85,97 +86,87 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ian Bridges <icb@fastmail.org>
-CC: Namjae Jeon <linkinjeon@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e8017d29067fd1310a65c3494ce1a1b492adbac6
-commit: c710c654b8a3c92b34e38740dc17c29daf5b222e [7173/9180] ksmbd: do not treat an unreadable security descriptor as none
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 days ago
-config: s390-randconfig-2200-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119060855.mn1TjZpt-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8db60b003f961f25c5cafe91ee44176f61374279)
+tree:   https://android.googlesource.com/kernel/common android14-5.15-lts
+head:   6a30f9e067712464f3f2299dc278bcb5be365a3e
+commit: e8e3f1a12d05d0aef2c819664890b540dfb055af [29/29] f2fs: don't pass a bio to f2fs_target_device
+:::::: branch date: 2 days ago
+:::::: commit date: 4 years, 7 months ago
+config: i386-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119061955.OcPMvkmV-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261119060855.mn1TjZpt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261119061955.OcPMvkmV-lkp@intel.com/
 
-smatch warnings:
-fs/smb/server/vfs.c:1633 ksmbd_vfs_make_xattr_posix_acl() warn: passing zero to 'ERR_CAST'
+New smatch warnings:
+fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before check 'bio' (see line 995)
 
-vim +/ERR_CAST +1633 fs/smb/server/vfs.c
+Old smatch warnings:
+fs/f2fs/data.c:263 f2fs_post_read_work() warn: bitwise AND condition is false here
+fs/f2fs/data.c:2158 f2fs_read_multi_pages() warn: missing error code 'ret'
 
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1617  
-1923c1065fe94c fs/smb/server/vfs.c Christian Brauner 2026-09-01  1618  static struct xattr_smb_acl *ksmbd_vfs_make_xattr_posix_acl(const struct mnt_idmap *idmap,
-af34983e831587 fs/ksmbd/vfs.c      Hyunchul Lee      2021-06-30  1619  							    struct inode *inode,
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1620  							    int acl_type)
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1621  {
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1622  	struct xattr_smb_acl *smb_acl = NULL;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1623  	struct posix_acl *posix_acls;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1624  	struct posix_acl_entry *pa_entry;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1625  	struct xattr_acl_entry *xa_entry;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1626  	int i;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1627  
-777cad1604d68e fs/ksmbd/vfs.c      Namjae Jeon       2021-08-13  1628  	if (!IS_ENABLED(CONFIG_FS_POSIX_ACL))
-777cad1604d68e fs/ksmbd/vfs.c      Namjae Jeon       2021-08-13  1629  		return NULL;
-777cad1604d68e fs/ksmbd/vfs.c      Namjae Jeon       2021-08-13  1630  
-cac2f8b8d8b50e fs/ksmbd/vfs.c      Christian Brauner 2022-09-22  1631  	posix_acls = get_inode_acl(inode, acl_type);
-25933573ef48f3 fs/smb/server/vfs.c Namjae Jeon       2023-05-30  1632  	if (IS_ERR_OR_NULL(posix_acls))
-c710c654b8a3c9 fs/smb/server/vfs.c Ian Bridges       2026-11-16 @1633  		return ERR_CAST(posix_acls);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1634  
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1635  	smb_acl = kzalloc(sizeof(struct xattr_smb_acl) +
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1636  			  sizeof(struct xattr_acl_entry) * posix_acls->a_count,
-0066f623bce8f9 fs/smb/server/vfs.c Namjae Jeon       2024-11-22  1637  			  KSMBD_DEFAULT_GFP);
-c710c654b8a3c9 fs/smb/server/vfs.c Ian Bridges       2026-11-16  1638  	if (!smb_acl) {
-c710c654b8a3c9 fs/smb/server/vfs.c Ian Bridges       2026-11-16  1639  		smb_acl = ERR_PTR(-ENOMEM);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1640  		goto out;
-c710c654b8a3c9 fs/smb/server/vfs.c Ian Bridges       2026-11-16  1641  	}
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1642  
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1643  	smb_acl->count = posix_acls->a_count;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1644  	pa_entry = posix_acls->a_entries;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1645  	xa_entry = smb_acl->entries;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1646  	for (i = 0; i < posix_acls->a_count; i++, pa_entry++, xa_entry++) {
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1647  		switch (pa_entry->e_tag) {
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1648  		case ACL_USER:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1649  			xa_entry->type = SMB_ACL_USER;
-4d7ca4090184c1 fs/ksmbd/vfs.c      Christian Brauner 2023-01-13  1650  			xa_entry->uid = posix_acl_uid_translate(idmap, pa_entry);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1651  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1652  		case ACL_USER_OBJ:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1653  			xa_entry->type = SMB_ACL_USER_OBJ;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1654  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1655  		case ACL_GROUP:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1656  			xa_entry->type = SMB_ACL_GROUP;
-4d7ca4090184c1 fs/ksmbd/vfs.c      Christian Brauner 2023-01-13  1657  			xa_entry->gid = posix_acl_gid_translate(idmap, pa_entry);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1658  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1659  		case ACL_GROUP_OBJ:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1660  			xa_entry->type = SMB_ACL_GROUP_OBJ;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1661  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1662  		case ACL_OTHER:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1663  			xa_entry->type = SMB_ACL_OTHER;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1664  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1665  		case ACL_MASK:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1666  			xa_entry->type = SMB_ACL_MASK;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1667  			break;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1668  		default:
-bde1694aecdb53 fs/cifsd/vfs.c      Namjae Jeon       2021-06-28  1669  			pr_err("unknown type : 0x%x\n", pa_entry->e_tag);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1670  			goto out;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1671  		}
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1672  
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1673  		if (pa_entry->e_perm & ACL_READ)
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1674  			xa_entry->perm |= SMB_ACL_READ;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1675  		if (pa_entry->e_perm & ACL_WRITE)
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1676  			xa_entry->perm |= SMB_ACL_WRITE;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1677  		if (pa_entry->e_perm & ACL_EXECUTE)
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1678  			xa_entry->perm |= SMB_ACL_EXECUTE;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1679  	}
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1680  out:
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1681  	posix_acl_release(posix_acls);
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1682  	return smb_acl;
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1683  }
-f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon       2021-03-16  1684  
+vim +/bio +996 fs/f2fs/data.c
+
+93dfe2ac516250 Jaegeuk Kim             2013-11-30   981  
+13ba41e346170e Jaegeuk Kim             2017-09-06   982  static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
+95ae251fe82838 Eric Biggers            2019-07-22   983  				      unsigned nr_pages, unsigned op_flag,
+7f59b277f79e8a Eric Biggers            2021-01-04   984  				      pgoff_t first_idx, bool for_write)
+13ba41e346170e Jaegeuk Kim             2017-09-06   985  {
+13ba41e346170e Jaegeuk Kim             2017-09-06   986  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+13ba41e346170e Jaegeuk Kim             2017-09-06   987  	struct bio *bio;
+a4b6817625e71d Daeho Jeong             2021-08-20   988  	struct bio_post_read_ctx *ctx = NULL;
+6dbb17961f46b2 Eric Biggers            2018-04-18   989  	unsigned int post_read_steps = 0;
+e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   990  	sector_t sector;
+e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   991  	struct block_device *bdev = f2fs_target_device(sbi, blkaddr, &sector);
+13ba41e346170e Jaegeuk Kim             2017-09-06   992  
+67883ade7a98a7 Christoph Hellwig       2021-01-26   993  	bio = bio_alloc_bioset(for_write ? GFP_NOIO : GFP_KERNEL,
+5f7136db829960 Matthew Wilcox (Oracle  2021-01-29   994) 			       bio_max_segs(nr_pages), &f2fs_bioset);
+e8e3f1a12d05d0 Christoph Hellwig       2022-02-28  @995  	bio_set_dev(bio, bdev);
+6dbb17961f46b2 Eric Biggers            2018-04-18  @996  	if (!bio)
+13ba41e346170e Jaegeuk Kim             2017-09-06   997  		return ERR_PTR(-ENOMEM);
+e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   998  	bio->bi_iter.bi_sector = sector;
+27aacd28ea3b89 Satya Tangirala         2020-07-02   999  	f2fs_set_bio_crypt_ctx(bio, inode, first_idx, NULL, GFP_NOFS);
+13ba41e346170e Jaegeuk Kim             2017-09-06  1000  	bio->bi_end_io = f2fs_read_end_io;
+e2e59414aae2c8 Jaegeuk Kim             2018-06-21  1001  	bio_set_op_attrs(bio, REQ_OP_READ, op_flag);
+13ba41e346170e Jaegeuk Kim             2017-09-06  1002  
+27aacd28ea3b89 Satya Tangirala         2020-07-02  1003  	if (fscrypt_inode_uses_fs_layer_crypto(inode))
+7f59b277f79e8a Eric Biggers            2021-01-04  1004  		post_read_steps |= STEP_DECRYPT;
+7f59b277f79e8a Eric Biggers            2021-01-04  1005  
+7f59b277f79e8a Eric Biggers            2021-01-04  1006  	if (f2fs_need_verity(inode, first_idx))
+7f59b277f79e8a Eric Biggers            2021-01-04  1007  		post_read_steps |= STEP_VERITY;
+7f59b277f79e8a Eric Biggers            2021-01-04  1008  
+7f59b277f79e8a Eric Biggers            2021-01-04  1009  	/*
+7f59b277f79e8a Eric Biggers            2021-01-04  1010  	 * STEP_DECOMPRESS is handled specially, since a compressed file might
+7f59b277f79e8a Eric Biggers            2021-01-04  1011  	 * contain both compressed and uncompressed clusters.  We'll allocate a
+7f59b277f79e8a Eric Biggers            2021-01-04  1012  	 * bio_post_read_ctx if the file is compressed, but the caller is
+7f59b277f79e8a Eric Biggers            2021-01-04  1013  	 * responsible for enabling STEP_DECOMPRESS if it's actually needed.
+7f59b277f79e8a Eric Biggers            2021-01-04  1014  	 */
+95ae251fe82838 Eric Biggers            2019-07-22  1015  
+7f59b277f79e8a Eric Biggers            2021-01-04  1016  	if (post_read_steps || f2fs_compressed_file(inode)) {
+e8ce5749d781ec Eric Biggers            2019-12-31  1017  		/* Due to the mempool, this never fails. */
+6dbb17961f46b2 Eric Biggers            2018-04-18  1018  		ctx = mempool_alloc(bio_post_read_ctx_pool, GFP_NOFS);
+6dbb17961f46b2 Eric Biggers            2018-04-18  1019  		ctx->bio = bio;
+4c8ff7095bef64 Chao Yu                 2019-11-01  1020  		ctx->sbi = sbi;
+6dbb17961f46b2 Eric Biggers            2018-04-18  1021  		ctx->enabled_steps = post_read_steps;
+4931e0c93e1243 Daeho Jeong             2021-07-28  1022  		ctx->fs_blkaddr = blkaddr;
+6dbb17961f46b2 Eric Biggers            2018-04-18  1023  		bio->bi_private = ctx;
+6dbb17961f46b2 Eric Biggers            2018-04-18  1024  	}
+a4b6817625e71d Daeho Jeong             2021-08-20  1025  	iostat_alloc_and_bind_ctx(sbi, bio, ctx);
+6dbb17961f46b2 Eric Biggers            2018-04-18  1026  
+13ba41e346170e Jaegeuk Kim             2017-09-06  1027  	return bio;
+13ba41e346170e Jaegeuk Kim             2017-09-06  1028  }
+13ba41e346170e Jaegeuk Kim             2017-09-06  1029  
+
+:::::: The code at line 996 was first introduced by commit
+:::::: 6dbb17961f46b2eafcea2f2627aabb309553e068 f2fs: refactor read path to allow multiple postprocessing steps
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
