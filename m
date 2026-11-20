@@ -1,74 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.83.209.82
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795205511;
-	b=mtggSnTNiy6Kv9Oue+BrPxrvJ71z6aWHJmrelY50WgqZrZLtJ3EQ5spWqzYq1rH/t78U
-	 DpwROt3qei1AJmNUhrbSMGXzdU0EG+44YQKBni/qs7LdNdVDNVF/yOs6aYcMDLf/HqTFB
-	 4SYgDL4iHtaKQkSx6IcGcMqfhuYhePSE0WxVGtDdvFT7SsCULmqSE8wgyRvAwGxaNaehg
-	 ke8Nb5FlJtUE2ByfLO1+tIC7F4sZAvCld5HLixNZh3iul0uLjlPWG1AeOt50rDZqSsJx2
-	 NlBPyYILNxF7chRv0jrtgdeWUr6TJWak5Pl30V5rrpBEzwwjTdUvdueRdilfIceeORg==
+	t=1795207776;
+	b=kddD3HYh3wOyB6B4nIGCoxqlADFYUvwHugVBASOoV/2Y2uozYVzwd2tuMuckpXdBgl4a
+	 WWOTf20nkG3A8lXi/XQ74E9RibIjaJdu2AuwKiXgGHez0PvMZ+Fywt04ttObdPrAeqDSE
+	 GxAhAtsIMXzCnCLttVv1FDpA29yTU2Bq0CC4QRxMPkl2NI5PS9cibq4GhzogAnIFLQyXp
+	 IkZNOnd9YJzw75YGUEDMK/y9jo/9joJfd3frK7yYBRSpTawdlWU5iEFRDltlwUSML3QWL
+	 Kn55FLFX35ViXcFoj+PkYbK1hscqT1Fna9/wPFhnAdqbzasn9m+Yj++WfKqE3SVeAbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795205511;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=sXrKDPFId300ONm3496Cp7KjCrfEiVZAVoLTCTTk3i0=;
-	b=ZNjKVs8rCU+etEtRAQHJN4+QUEbG11lNJ1g7jldd4S9qvvEUR7EtWZXk9Q0yYCgUHc6J
-	 kYRRC6nwi7HKHiyeanZlzOub7gF8Q7SyZEE0vyGFE5Cc8uLSS/pOrsE0iq9uyFx4n01Je
-	 YlXCkLG140KUspl4V9+/Hj4fSlwQ94BlD3aqMvvx3PM+gVTNZrqEQ0zFJFzJLEE5D7Xud
-	 t3ZLxtlr4z3rgqB8dzxnwji2UA+bMzVt/Q3pXsLINI77o+Uv/56Cqf53fgaKC11/uahsh
-	 OUBnQCcqwSOrSjbzTroOs758ZKVJfIJixzkbSRmHEYZ85828P5DIWVaw3kxD5pFoDyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795207776;
+	h=DMARC-Filter:X-Sender-Id:Received:Received:X-Sender-Id:X-MC-Relay:
+	 X-MailChannels-SenderId:X-MailChannels-Auth-Id:X-Industry-Bottle:
+	 X-MC-Loop-Signature:X-MC-Ingress-Time:Received:Received:
+	 DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=wGpqzD9JNY9RpOtVFshGt+AvUOfyvv/zbTsS9hx1rHU=;
+	b=jAV/cpaiES6r6XAzaHtY00vh3hlJCU9AnyqSKc+T76femgE61NMBbT3bGxCBKMV9WdQQ
+	 RTTKEPbz13mrLnCCzJ2DY6plufW0Klx2MM3jtiP8014OkxlXZ7yu8byHwJk+G83Aoq9+l
+	 hwbDjGYmDEXqCMiwVbgRfXnizhCupV4897wh3YX68X728tL0LZLiq+ih0sW+3SQn0Tj75
+	 C5WyZydAJuC5/RPq9Tac3hBDfhsnG0U4SqaCIMhZgoRTDg4Cqs6xh5Bu+z25r3rJYRx2T
+	 +5j6jl7aZ0cvXIIgnE0L2boJDZ0yy8wVprE4IxECq2YCjbPu0Z4kiG6OnC6fLjJ1W8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="P6j/sG0o";
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=stgolabs.net;
+	spf=fail smtp.mailfrom=stgolabs.net;
+	dkim=pass header.d=stgolabs.net header.i=@stgolabs.net header.a=rsa-sha256 header.s=dreamhost header.b=qhunHOih;
+	arc=none smtp.remote-ip=23.83.209.82
+Received: from heron.birch.relay.mailchannels.net (heron.birch.relay.mailchannels.net [23.83.209.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E62606A6DD
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Nov 2026 20:11:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84E62606A6DD
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F4C606A68D
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Nov 2026 20:49:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1F4C606A68D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=stgolabs.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P6j/sG0o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795205508; x=1826741508;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6KrFBTx3pIunQsGSuYNCTwWLt+YBeaE/RkMaFotxx6E=;
-  b=P6j/sG0omSV91KZk+a+bOas8SS41ddm+kiyi3zF9NludnKotyeSyROBm
-   +RJJGNvFn0+oBK1Xmw+fpKckuestM6iPLZfr+2tV6bBQqznfwG3TQ9nj0
-   aCxC9U1rjuECh9qwWzDb5tXdXUhbIPSCKUh5ixsTlhCDVsGZkG01m+0OC
-   WbEE3L8VpRAoL3vmuR+gokSX49jpGTV/nVHiGM8skRvu9rzrfGqqk/SZw
-   IT6uf7p1dOoghyCdh3WfwFMfY6FFu6fWqmETFE47jI6OxDSbA7RuOrGHw
-   7KglTvmstrgJF36mTUilzEe6OxEiCMaAV7gs83WtEEOlMBI8+MniqSrQ7
-   g==;
-X-CSE-ConnectionGUID: mnYWicH5RkyrA364cuJXgQ==
-X-CSE-MsgGUID: 84iZFG83QwuUClEQwR4G8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3974426"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3974426"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 12:11:48 -0800
-X-CSE-ConnectionGUID: 088fn7GeRSyj6cqo/o+aTA==
-X-CSE-MsgGUID: ZruT0G0SQhCflQP5OHeOcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="12484835"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 20 Nov 2026 12:11:47 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xUUxU-00000001ISi-3FM8;
-	Fri, 20 Nov 2026 20:11:44 +0000
-Date: Sat, 21 Nov 2026 04:11:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 3/9] nvme-auth: switch to use 'struct key'
-Message-ID: <202611210433.kaUKHSYE-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=stgolabs.net header.i=@stgolabs.net header.a=rsa-sha256 header.s=dreamhost header.b=qhunHOih
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id B853B401DE0;
+	Fri, 20 Nov 2026 20:49:20 +0000 (UTC)
+Received: from pdx1-sub0-mail-a240.dreamhost.com (trex-green-7.trex.outbound.svc.cluster.local [100.97.144.129])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 22E36401DD1;
+	Fri, 20 Nov 2026 20:49:20 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Industry-Bottle: 02df356d737d1a08_1795207760494_1206187580
+X-MC-Loop-Signature: 1795207760494:2617741215
+X-MC-Ingress-Time: 1795207760493
+Received: from pdx1-sub0-mail-a240.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.97.144.129 (trex/8.0.2);
+	Fri, 20 Nov 2026 20:49:20 +0000
+Received: from offworld (unknown [76.167.199.67])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a240.dreamhost.com (Postfix) with ESMTPSA id 4jWSB757CTz105k;
+	Fri, 20 Nov 2026 12:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1795207759;
+	bh=wGpqzD9JNY9RpOtVFshGt+AvUOfyvv/zbTsS9hx1rHU=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=qhunHOihQ+2yqVDygj6ehHu6jtHLQHnz2tmSeSFOazj42Ps49yhilmUoToM4jNVfe
+	 IpvtHjtXAhlHcCGhFPXg44Dqmt0XYKDrhgfmvl/NkIF7K9Ios2ETid/23ExIXqwyW9
+	 lUVuIlunjFJ4ae8E6rTsBP1PM2tTU6ouNuY7KZI3UR2WAzoC9UYi41Qi2X+L0Z2drC
+	 jFJzT3egkuZ55TyR78Sh37KmrhCXWpAb7XIWTFZ4w+9pxNV2a8B+DdosW08y/WSMo+
+	 Qlxpt6wYRvAIhs546bP0fNvezJFGMeahWs1YjXGXkkGqMb7DYdq7E3WsVA10EnUMH4
+	 EPccJmEqBUb1g==
+Date: Fri, 20 Nov 2026 12:49:16 -0800
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+Subject: Re: [linux-next:master 7153/10560] arch/riscv/kvm/main.c:37
+ kvm_riscv_setup_vendor_features() warn: impossible condition
+ '(riscv_cached_marchid(0) == 9223372036854775816) => (0-u32max ==
+ 9223372036854775816)'
+Message-ID: <20261120204916.pwwxbk6dq3bblmam@offworld>
+References: <20261120205750.YcnKhuSh-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -78,97 +91,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
+In-Reply-To: <20261120205750.YcnKhuSh-lkp@intel.com>
+User-Agent: NeoMutt/20220429
 
-:::::: 
-:::::: Manual check reason: "same reports for this branch"
-:::::: 
+On Fri, 20 Nov 2026, kernel test robot wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261120-dhchap-keyring-v4-v4-3-5f8c7d9926ee@kernel.org>
-References: <20261120-dhchap-keyring-v4-v4-3-5f8c7d9926ee@kernel.org>
-TO: Hannes Reinecke <hare@kernel.org>
-TO: Keith Busch <kbusch@kernel.org>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: Christoph Hellwig <hch@lst.de>
-TO: Sagi Grimberg <sagi@grimberg.me>
-TO: Hannes Reinecke <hare@suse.de>
-TO: Chaitanya Kulkarni <kch@nvidia.com>
-CC: linux-nvme@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+>Unfiltered warning: this smatch report is sent as-is and has not been
+>reviewed for false positives, so please treat it with due skepticism.
+>
+>BCC: lkp@intel.com
+>CC: oe-kbuild-all@lists.linux.dev
+>TO: Davidlohr Bueso <dave@stgolabs.net>
+>CC: Anup Patel <anup@brainfault.org>
+>
+>tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>head:   909ef7a9a30fa139e69e555e3606680f5cca7726
+>commit: 403daa3414a6ad1378082f97b3a8bec08a50c641 [7153/10560] RISC-V: KVM: Do not touch the envcfg CSRs on the SiFive P550
+>:::::: branch date: 3 hours ago
+>:::::: commit date: 4 days ago
+>config: riscv-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261120/20261120205750.YcnKhuSh-lkp@intel.com/config)
+>compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 51d7f08b16b68285b1a400f413215b69f07a65e3)
+>smatch: v0.5.0-9187-g5189e3fb
+>
+>If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Reported-by: Dan Carpenter <error27@gmail.com>
+>| Closes: https://lore.kernel.org/r/20261120205750.YcnKhuSh-lkp@intel.com/
+>
+>smatch warnings:
+>arch/riscv/kvm/main.c:37 kvm_riscv_setup_vendor_features() warn: impossible condition '(riscv_cached_marchid(0) == 9223372036854775816) => (0-u32max == 9223372036854775816)'
+>
+>vim +37 arch/riscv/kvm/main.c
+>
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  25
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  26  static void kvm_riscv_setup_vendor_features(void)
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  27  {
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  28  	/* Andes AX66: split two-stage TLBs */
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  29  	if (riscv_cached_mvendorid(0) == ANDES_VENDOR_ID &&
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  30  	    (riscv_cached_marchid(0) & 0xFFFF) == 0x8A66) {
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  31  		static_branch_enable(&kvm_riscv_vsstage_tlb_no_gpa);
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  32  		kvm_info("VS-stage TLB does not cache guest physical address and VMID\n");
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  33  	}
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  34
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  35  	/* SiFive P550 (ESWIN EIC7700X): H on a 1.11 base, no henvcfg/senvcfg */
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  36  	if (riscv_cached_mvendorid(0) == SIFIVE_VENDOR_ID &&
+>403daa3414a6ad Davidlohr Bueso   2026-10-23 @37  	    riscv_cached_marchid(0) == 0x8000000000000008ULL) {
 
-Hi Hannes,
+The config has CONFIG_32BIT=y, where marchid is a 32-bit unsigned long
+and can indeed never match. But this is intended, the P550 is 64-bit,
+so on rv32 the check is dead code and the static key stays off.
+64-bit is not affected, so this would be a false positive.
 
-kernel test robot noticed the following build errors:
+Thanks,
+Davidlohr
 
-[auto build test ERROR on 68099cf27253a8c89d703a282d3d811446d9453b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/nvme-auth-modify-nvme_auth_transform_key-to-return-status/20261120-121400
-base:   68099cf27253a8c89d703a282d3d811446d9453b
-patch link:    https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-3-5f8c7d9926ee%40kernel.org
-patch subject: [PATCH v4 3/9] nvme-auth: switch to use 'struct key'
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: nios2-randconfig-1000-20261120 (https://download.01.org/0day-ci/archive/20261121/202611210433.kaUKHSYE-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210433.kaUKHSYE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611210433.kaUKHSYE-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/nvme/host/fabrics.c:15:
->> include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before '{' token
-      54 | {
-         | ^
->> include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
-      57 | u8 nvme_dhchap_psk_hash(struct key *key)
-         |    ^~~~~~~~~~~~~~~~~~~~
->> include/linux/nvme-keyring.h:52:27: warning: 'nvme_dhchap_psk_lookup' declared 'static' but never defined [-Wunused-function]
-      52 | static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +54 include/linux/nvme-keyring.h
-
-50d8f97114b492 Hannes Reinecke 2026-11-20  26  
-9d77eb52778499 Hannes Reinecke 2023-08-24  27  #else
-62eb89323cb08f Hannes Reinecke 2025-02-24  28  static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
-62eb89323cb08f Hannes Reinecke 2025-02-24  29  		u8 *data, size_t data_len, const char *digest)
-62eb89323cb08f Hannes Reinecke 2025-02-24  30  {
-50d8f97114b492 Hannes Reinecke 2026-11-20  31  	return ERR_PTR(-EOPNOTSUPP);
-62eb89323cb08f Hannes Reinecke 2025-02-24  32  }
-501cc6f4aca8dc Hannes Reinecke 2023-08-24  33  static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-501cc6f4aca8dc Hannes Reinecke 2023-08-24  34  		const char *hostnqn, const char *subnqn)
-501cc6f4aca8dc Hannes Reinecke 2023-08-24  35  {
-501cc6f4aca8dc Hannes Reinecke 2023-08-24  36  	return 0;
-501cc6f4aca8dc Hannes Reinecke 2023-08-24  37  }
-9d77eb52778499 Hannes Reinecke 2023-08-24  38  static inline key_serial_t nvme_keyring_id(void)
-9d77eb52778499 Hannes Reinecke 2023-08-24  39  {
-9d77eb52778499 Hannes Reinecke 2023-08-24  40  	return 0;
-9d77eb52778499 Hannes Reinecke 2023-08-24  41  }
-5bc46b49c828a6 Hannes Reinecke 2024-07-22  42  static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
-5bc46b49c828a6 Hannes Reinecke 2024-07-22  43  {
-50d8f97114b492 Hannes Reinecke 2026-11-20  44  	return ERR_PTR(-EOPNOTSUPP);
-50d8f97114b492 Hannes Reinecke 2026-11-20  45  }
-50d8f97114b492 Hannes Reinecke 2026-11-20  46  static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
-50d8f97114b492 Hannes Reinecke 2026-11-20  47  		const char *hostnqn, const char *subnqn,
-50d8f97114b492 Hannes Reinecke 2026-11-20  48  		u8 *data, size_t data_len)
-50d8f97114b492 Hannes Reinecke 2026-11-20  49  {
-50d8f97114b492 Hannes Reinecke 2026-11-20  50  	return ERR_PTR(-EOPNOTSUPP);
-50d8f97114b492 Hannes Reinecke 2026-11-20  51  }
-50d8f97114b492 Hannes Reinecke 2026-11-20 @52  static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
-50d8f97114b492 Hannes Reinecke 2026-11-20  53  		const char *hostnqn, const char *subnqn, u8 hmac);
-50d8f97114b492 Hannes Reinecke 2026-11-20 @54  {
-50d8f97114b492 Hannes Reinecke 2026-11-20  55  	return ERR_PTR(-EOPNOTSUPP);
-50d8f97114b492 Hannes Reinecke 2026-11-20  56  }
-50d8f97114b492 Hannes Reinecke 2026-11-20 @57  u8 nvme_dhchap_psk_hash(struct key *key)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  38  		static_branch_enable(&kvm_riscv_no_xenvcfg);
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  39  		kvm_info("henvcfg and senvcfg CSRs not implemented\n");
+>403daa3414a6ad Davidlohr Bueso   2026-10-23  40  	}
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  41  }
+>3239c52fd21257 Hui Min Mina Chou 2025-11-17  42
+>
+>-- 
+>0-DAY CI Kernel Test Service
+>https://github.com/intel/lkp-tests/wiki
