@@ -1,76 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795135657;
-	b=w1ciIwZngHZ18dDeqzPPrc5Qa4ntXmbYI3CH0HehGMRn74W4RwYRFiCwaQcA7ICGNoQc
-	 T9YbiL8qsgpIzehYqZ1wArcM85TTkv99Up+pjj5D3lcPXabW/LMp7DHiceCk+eCxKQTyj
-	 90SHm/pTWM6mkq2FW6eE2Xo4EcVbVhJRFtfWajdsNhtzcjvNFXwlRamM+/lV9LI0M2GBD
-	 1YLHy2IznSZDuWDLPxq7j9yaBjvwpjAvAfnIImvofwWO91CzhaGDplIcEEB6GUQpGg6j3
-	 QC3jYtajC6aZzOq8u/LNg0Ogjl0q0hjUfELLl33Vo92J32/cH/2snqJOv8UXgZpQ3Jw==
+	t=1795139323;
+	b=pWxqOKPVeZZWUWMbeCJJE4e7FAr1FQ/oOflmD6b/6iysVRLAYHKRnwhUphNuispwTktA
+	 YWuMoh0t5rZJ73g6OiK9HcUN9Q16RetaWc3bQGRmMUJSKru7uO+MdV/5kk3WTxOUb8HOa
+	 m+9BXpoIsOtNRvyz+2nwX7vAHwDjzbH5FflahkSwvZSj0ZQwHCtNgO5UOf5aVwS/FDaeh
+	 xLWU7HkjiIHEH4F1ebOp7XNTGq4GJTgpzf4tYp7F7DWltdnGRISfv40+mAXVCzrydV72v
+	 5dmPxrmmm5cnHqFlEfHLyATxy9Ic0OzMn/yeqHk5NVzdMQU2Zv49bnXh3xLqNX1cXOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795135657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795139323;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=cHQxUxxHyZ1Dasu8AnAANqscnKRaYl1dOVNT8rCNqmQ=;
-	b=dKsXP63R25E8L44/zo9c8jePDZ/R/+8N1q7G7rUHVgKUf90V1VmdP+Dtg+jIbEm+wUG5
-	 UnokSxt8CqN2STTU3LP28FnSkMBCk1tNgtXBbUqdjqd7RIAcL8DzBMR8rnIPA4sFlipWi
-	 +SETBkS+ZqhbDTjCfJE7i3U3OfdQpRxKgibyBbsvK+JsmXiw2/Ai7WCPypnKCBwx/Mpc7
-	 grrhC0Z4k94+v6R9QR1UIPEGDeVL1pFhZkS7aBSY16/ur6RNptRMiUZxqjYmoY2FWInjo
-	 hrBTBw6P2KhKz+3rS2BNudx5WkrR7QQYbkK8wCn/dDm18Bu8/EyMuyxyE1FnFhagIoQ==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=3vigQ8HsxyyVhIWhdb79VY6rRPpMR2yuCR+KxEwaSxU=;
+	b=uXc4Mwdp1mEGI1qLXh8hV6S+/XgrHZOQbSZciPl6MMww61gny7B4WPRfasAM6NUD0ve/
+	 MS8XxkRxUZmUuDJvAQ470So9H6mb74nx1K4mV/wbt5oluCOc4y5ciwUkq5VaSQ7Vup12j
+	 ITy/iHshj26Fh/5GB8vbGc5xTD3rdZhiNWz3NiNICemIlLCgeCwsjFiB11r5rzNJ19EMW
+	 rDhz5LCPe0HmCuT9Upg41Ze1zKo6Vl9s0rGU58jiVV8PXxX7nTyAmnc6Icyjoov9tucQo
+	 ST6HXkexCiVLO7GboJbTFqP9R9D290trvsq++c+i5behFDvYL19JoyjuSLYtJYQtNqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJ6tfitG;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lFMHoXRB;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CDD606A320
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Nov 2026 00:47:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6CDD606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01948606A320
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Nov 2026 01:48:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01948606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJ6tfitG
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lFMHoXRB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795135658; x=1826671658;
-  h=date:from:to:cc:subject:message-id;
-  bh=5PTdXNjYRTlCka4WUHq/+iKIvKZAYr2dcXJB2CvkQaY=;
-  b=nJ6tfitGrQnX/c7D2VV0ecbcQFyRiJNuClh1dp7zAbUyIXYI4hKbpejP
-   7GpliBZoS4IQ/FsKfUmmAsC5gbMhB53UZ8gEDM4njx5lrpgTUcIQgfzG2
-   tcUfTE6zodMQ2vrnd7RkX+JWMsXFTREZ9xLExSWijvDKZw6qj2IzW3wUm
-   eo6mZFV8JStoVnxgLZy5GgeT6IY+Mk+FpnrrcvGe515Z/CBfbrmsvl+qJ
-   PKQyB3hO/R2XXWK8C4B3M04ftH2iw3KYO/2pFTkxAYxF5Gmfth6x/NTDX
-   zGkYsYfl3AdSIV+CWKGBNHBhPIFcStxX+8wetJ+OSr4FhjWjH9Z7H2x5U
-   w==;
-X-CSE-ConnectionGUID: mL1NCVfxRL6vnsvRjHiuOw==
-X-CSE-MsgGUID: GPrqUXKxRrKlIDpX/XQn/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4040520"
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="4040520"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 16:47:37 -0800
-X-CSE-ConnectionGUID: IB589QRwQV6DT233MGUEEQ==
-X-CSE-MsgGUID: rHGQ9yx2Svyx1KulZpww5g==
+  t=1795139323; x=1826675323;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vxf4aPv1O7btmg53L/TUUpnsDhaycPx/tIqdO8To+Sk=;
+  b=lFMHoXRB8BkeIFF0FTbV1JqKzU5yk3GgS1X0zsqOMrhJMwrpqwS9hUk4
+   OojoyHZ2VRngYnvAWsVcDgmDqMmX+MF4eINNme7+/zPDyrL4bQSevO5n1
+   whlCaF0Yh+K9gyINBJH6tSmii9JQatj9Gtq1c3Hufq8OnvCp/dCrfHjhu
+   V4sd1EzIHLmtMPWsQo/A/uSArVmWuVBCCUH1iG8mXfcBaHrpFnl/wAH9h
+   +kFXF2twsQxAEHZigfiVhmJtb90vlG/wac4ofRaNyj4LOP863qSubGEn1
+   AisQGpMt328LEsePLTl0i9Xce53YDlJLIp2r3iLzeXLcyDWMYsYyPrUV8
+   Q==;
+X-CSE-ConnectionGUID: MnvKS10oRoqLA9Cyz7y8Rg==
+X-CSE-MsgGUID: p9mnj2H0SEeTTpAPtL6xtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3903830"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="3903830"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 17:48:42 -0800
+X-CSE-ConnectionGUID: pjz2+a2HT42vfhZNlR9tjg==
+X-CSE-MsgGUID: 5CUVQVOLQz6URBAlQXQIMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="12278546"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="10570814"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 19 Nov 2026 16:47:35 -0800
+  by orviesa006.jf.intel.com with ESMTP; 19 Nov 2026 17:48:41 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUCmm-000000003uP-2Foy;
-	Fri, 20 Nov 2026 00:47:28 +0000
-Date: Fri, 20 Nov 2026 01:47:00 +0100
+	id 1xUDjz-000000003vB-21tJ;
+	Fri, 20 Nov 2026 01:48:39 +0000
+Date: Fri, 20 Nov 2026 02:47:55 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing
- put_device; call of_find_device_by_node on line 168, but without a
- corresponding object release within this function.
-Message-ID: <20261120014128.l2GB7Dp0-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5015/9862]
+ drivers/platform/asus/asus-wmi.c:2513 asus_new_rfkill() warn: '*rfkill' is an
+ error pointer or valid
+Message-ID: <20261120024705.y3mEBTWi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,84 +82,124 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+TO: Chipang Kao <chipang_kao@asus.com>
+CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Denis Benato <denis.benato@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   65e4fd942f72a9dba0e4e257290c4fa1aa756854
-commit: 4c413248920106393b35b5e014e6ac525405437e PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261120/20261120014128.l2GB7Dp0-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+Hi Chipang,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   adcad7f4e6332cff3d6d7165f41584899f598534
+commit: ef696e89f836c31825b754abe181b490b82fbee7 [5015/9862] platform/asus:=
+ Move ASUS platform drivers out of drivers/platform/x86
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 days ago
+config: riscv-randconfig-2200-20261120 (https://download.01.org/0day-ci/arc=
+hive/20261120/20261120024705.y3mEBTWi-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 4c4132489201 ("PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261120014128.l2GB7Dp0-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/20261120024705.y3mEBTWi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call of_find_device_by_node on line 168, but without a corresponding object release within this function.
+smatch warnings:
+drivers/platform/asus/asus-wmi.c:2513 asus_new_rfkill() warn: '*rfkill' is =
+an error pointer or valid
 
-vim +198 drivers/pci/pwrctrl/core.c
+vim +2513 drivers/platform/asus/asus-wmi.c
 
-4565d2652a37e43 drivers/pci/pwrctl/core.c  Bartosz Golaszewski       2024-06-12  154  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  155  static int pci_pwrctrl_create_device(struct device_node *np,
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  156  				     struct device *parent)
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  157  {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  158  	struct platform_device *pdev;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  159  	int ret;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  160  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  161  	for_each_available_child_of_node_scoped(np, child) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  162  		ret = pci_pwrctrl_create_device(child, parent);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  163  		if (ret)
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  164  			return ret;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  165  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  166  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  167  	/* Bail out if the platform device is already available for the node */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @168  	pdev = of_find_device_by_node(np);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  169  	if (pdev) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  170  		platform_device_put(pdev);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  171  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  172  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  173  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  174  	/*
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  175  	 * Sanity check to make sure that the node has the compatible property
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  176  	 * to allow driver binding.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  177  	 */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  178  	if (!of_property_present(np, "compatible"))
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  179  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  180  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  181  	/*
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  182  	 * Check whether the pwrctrl device really needs to be created or not.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  183  	 * This is decided based on at least one of the power supplies being
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  184  	 * defined in the devicetree node of the device.
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  185  	 */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  186  	if (!of_pci_supply_present(np)) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  187  		dev_dbg(parent, "Skipping OF node: %s\n", np->name);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  188  		return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  189  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  190  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  191  	/* Now create the pwrctrl device */
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  192  	pdev = of_platform_device_create(np, NULL, parent);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  193  	if (!pdev) {
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  194  		dev_err(parent, "Failed to create pwrctrl device for node: %s\n", np->name);
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  195  		return -EINVAL;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  196  	}
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  197  
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @198  	return 0;
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  199  }
-4c4132489201063 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  200  
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2496 =20
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2497  static int asus_new_rfkill(struct asus_wmi *asus,
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2498  			   struct asus_rfkill *arfkill,
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2499  			   const char *name, enum rfkill_type type, int dev_id)
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2500  {
+1d070f89a723bd drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2501  	int result =3D asus_wmi_get_devstate_simple(asus, dev_id);
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2502  	struct rfkill **rfkill =3D &arfkill->rfkill;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2503 =20
+5c95638d115f9c drivers/platform/x86/eeepc-wmi.c Corentin Chary 2011-02-06  =
+2504  	if (result < 0)
+5c95638d115f9c drivers/platform/x86/eeepc-wmi.c Corentin Chary 2011-02-06  =
+2505  		return result;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2506 =20
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2507  	arfkill->dev_id =3D dev_id;
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2508  	arfkill->asus =3D asus;
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2509 =20
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2510  	*rfkill =3D rfkill_alloc(name, &asus->platform_device->dev, type,
+a7ce3f041e640d drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  =
+2511  			       &asus_rfkill_ops, arfkill);
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2512 =20
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29 @=
+2513  	if (!*rfkill)
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2514  		return -EINVAL;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2515 =20
+e8f56c80aedacf drivers/platform/x86/asus-wmi.c  AceLan Kao     2013-05-30  =
+2516  	if ((dev_id =3D=3D ASUS_WMI_DEVID_WLAN) &&
+f515623cac706e drivers/platform/x86/asus-wmi.c  AceLan Kao     2014-07-09  =
+2517  			(asus->driver->quirks->wapf > 0))
+6cae06e603339f drivers/platform/x86/asus-wmi.c  AceLan Kao     2012-07-27  =
+2518  		rfkill_set_led_trigger_name(*rfkill, "asus-wlan");
+6cae06e603339f drivers/platform/x86/asus-wmi.c  AceLan Kao     2012-07-27  =
+2519 =20
+5c95638d115f9c drivers/platform/x86/eeepc-wmi.c Corentin Chary 2011-02-06  =
+2520  	rfkill_init_sw_state(*rfkill, !result);
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2521  	result =3D rfkill_register(*rfkill);
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2522  	if (result) {
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2523  		rfkill_destroy(*rfkill);
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2524  		*rfkill =3D NULL;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2525  		return result;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2526  	}
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2527  	return 0;
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2528  }
+ba48fdb969d040 drivers/platform/x86/eeepc-wmi.c Corentin Chary 2010-11-29  =
+2529 =20
 
--- 
+:::::: The code at line 2513 was first introduced by commit
+:::::: ba48fdb969d0404d54f6fa0266373afecbbd19d7 eeepc-wmi: add rfkill suppo=
+rt for wlan, bluetooth and 3g
+
+:::::: TO: Corentin Chary <corentincj@iksaif.net>
+:::::: CC: Matthew Garrett <mjg@redhat.com>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
