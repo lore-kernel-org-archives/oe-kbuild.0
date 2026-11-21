@@ -1,74 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795239728;
-	b=GrmAqDN/Hv3AKPuNiJ0sy3yzg/M7d4gl+SF/rTcqv0XCLOqEY3XHgWq0+gH4O3jakYvD
-	 DhVe8tZco6l+PoO7iHxKgalc/dEPiZx3O6eih8JyU8JLMsth4QvZTPnyn19O11EnQ4+F9
-	 zDKCn8VgMxMMjm759ea2UKrRpCHKuSt3tZGIh+JbvVls71q9crzRuWsg3ZMhDAwGORXRL
-	 7sVEaq4tjf4gQ/sVCX8ubMTftG8udC9t72LZkv2O1MdhvKA0oY+XqUshaGV/J66FsAWoh
-	 UMreCpqau6LYxa1n9Kr8WMDQbgBBlzcGA4OpCuUntpFKcw3sZc+RMGpBXLf7c2TBYPA==
+	t=1795241593;
+	b=ifxb5T3ziMX6Me3UT23hP7TIagIY2uNtonRmkrSGaOAoEWc7xVsbMlcFatGP+oknIX8R
+	 6+yk9hq2xV/lkO9V4kAelV5aQeC3rxxBbCI5jpmxbN6EPN/oashcf6Aev3J1mWB3qAdTN
+	 LWwdYr8xrYmFnBQf6fwtPAMz6pX//gY/h29SudoZFuHiJOnamI4TLVaV8r/ix2Rusc0ES
+	 3EbkN28FfGOyHlbyh4EfTnPsqdb27hGcMkuEAZTyzJMtlH3iB2J/i8slxM1XTmC73fVvv
+	 egC9deirzBQ8YAwLrEW0avT5TkVN0JFCEnzjujiFS6WMszl+qRdWf8oYiqmNJn3kQVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795239728;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795241593;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=N4XvRA/m1PW2O9gRCr6bDZmNugb8sb1D1C7mVuDWDSw=;
-	b=ao9fTPK1KjXDoi0EtxyfCevVGRkIMn4L1sZtTeaeGJ+6Dlmik4yGVU0R0ptyH9N/fhfF
-	 3ujfLjgOWKfx3LtY3TXmjULSuAa1z/GmblQdxFQs34OJAdy4v7R1GF+s46nZDKEQij3SN
-	 /fYQRu5IfVlg11KV6JOUWCYKtIslrHMhCje7BlQfs9fxMQ2U8r5BD0fT/yaNMz9B8e2FM
-	 LWGxDVbz0lMchol+g6IGG95au/2pnIN86RU0EK0EKaW3NWMA8YSi6UXkcIzxouhLQNqGg
-	 A8C07IjsEsOItPbLZdf+7vV3CtbfbRnXw5Z8gN4uPaIsD/eyeKjGvRMvR3aOShFoY3g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=Vy03bDrMhyy+HHt3VMZCK+gj1gR+fhN0otYPqrXw2tY=;
+	b=T9dSzV5QeHNOssupbiyhLHhfnk/IFTrXbL18r9v/vHwjeb9BjPEiQZ4WFQRsR5TBNh5N
+	 14bcIZJZiQBiixF5YZHbk2dT0BVQsUFy5S4VlgX2VJ3rLHIGWqEhKd8np822wbHS2fPzO
+	 LYRCoDKOvrgZIlQ+g+cI9/LKyajU2SHVEg/h4lvdcva98uYlryT11cIWrqUrlemJdOXnV
+	 oC8Phij3jWu+HIgzl5qSibGC1dmO3B33uelGPl4YDyDEZ8I7RSl1x+P7SKItzKe2fv4B9
+	 JFPnDgvpb4HmblAYPuPeDzFI0spbTGJdHd83ESFoG4v0rpQhCj1tSwp/QDVdzLJ2OnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S9iARk2s;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bKIsT6fk;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D81606A68F
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 05:42:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35D81606A68F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E68E606A331
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 06:13:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E68E606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S9iARk2s
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bKIsT6fk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795239726; x=1826775726;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ngkhkObgboH4YLTIAG4nL1mOzXEra5JezKyG7Jydd8U=;
-  b=S9iARk2seAx8k8lxyziis1cRR/FHjzrJzEq8DnID0DKBgsR2vUI0SzZH
-   3wCBsu0etwo/ozV/e9cOClI+VH8YvGoRko3OsTHLUHYl/PUkcg21PdXFB
-   PaAnUnDyvnIgiL8Wkd5WNvdYorR5TPsRTdSnCB1v5ptyVAocn0GF2hril
-   cHFNA3dF34/C/CL9qu2xwtUo/e/y+a+lzTbXZFAPbC5NeyWAYDuiBQIa7
-   UzvgWKULxako0KDX6GZYgTkA5uva+u2lTEr3Gn9RbGOcDftmuoOHbx81E
-   7U8AUVDA7bvWvjE6Ry4KW2QVVnrPeucUiae1fxoGcnU66NB0M8iuTuh1h
-   Q==;
-X-CSE-ConnectionGUID: 91VxS9tJT5iHXNgv9dw/Og==
-X-CSE-MsgGUID: RmyKNKzOTISSU4Db+VEUOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4163242"
+  t=1795241591; x=1826777591;
+  h=date:from:to:cc:subject:message-id;
+  bh=Iqvuq5Cejom5lUkRj+pSoa/BjpjFjCTe3+PmWgfG9NI=;
+  b=bKIsT6fksZohU9lzW87vNDZ1L2W24HHP6pV4Luv2SBj3SIb0tVDM6876
+   UHnSeiMKMKvnda3ITTeNwooaupsbW9prDYPOh0QKRXcOHtaUcM0hcU4rR
+   kPj/pgpQqzIG96jEAkWgR3fFn6NsDOwlFUftL13gLGRNIPxcXsZYBHAcS
+   ZxRE+9KgKvLsLXACNTSpkvbF5mXQVDyvcTYsHokUkeLedJcGDz70vHlFd
+   g7EFbqlyf2PrIXep7VugtdtNqzgbMpPfjXarVjCkIkFrV+LI7FNvCLpFa
+   nFPwJ5Y6FL1gZXLWcogsC8RvA8A1UN+OxegVK/F13TzBfYQeQGckB4Sxq
+   A==;
+X-CSE-ConnectionGUID: CBXRZb/URHe2THyznq+ZBA==
+X-CSE-MsgGUID: kA49hCcQTFet9jyitob2Sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4005363"
 X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="4163242"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 21:42:06 -0800
-X-CSE-ConnectionGUID: i1+pnovwTEK34wQ5AbYDsg==
-X-CSE-MsgGUID: u9aWRDq7S8etBDb+Oo8rOg==
+   d="scan'208";a="4005363"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 22:13:10 -0800
+X-CSE-ConnectionGUID: 7KBBByJrQRaMk9RE9oTMXw==
+X-CSE-MsgGUID: A7e0ImvuRIqhwf0njiPLNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="10939333"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Nov 2026 21:42:05 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10805638"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 20 Nov 2026 22:13:09 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUdrO-00000001JZf-2FZx;
-	Sat, 21 Nov 2026 05:42:02 +0000
-Date: Sat, 21 Nov 2026 13:41:52 +0800
+	id 1xUeLT-000000004FN-1ycj;
+	Sat, 21 Nov 2026 06:13:07 +0000
+Date: Sat, 21 Nov 2026 07:12:30 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4 4/9] nvme: parse dhchap keys during option parsing
-Message-ID: <202611211340.Diefn7um-lkp@intel.com>
+Subject: [cixtech-mainline:cix/dt 2/2]
+ arch/arm64/boot/dts/cix/sky1-orion-o6.dtb: /soc@0/phy@1414c000: failed to
+ match any schema with compatible: ['cix,sky1-dp-phy']
+Message-ID: <20261121070442.7PO7RoO9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -77,53 +80,35 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "same reports for this branch"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261120-dhchap-keyring-v4-v4-4-5f8c7d9926ee@kernel.org>
-References: <20261120-dhchap-keyring-v4-v4-4-5f8c7d9926ee@kernel.org>
-TO: Hannes Reinecke <hare@kernel.org>
-TO: Keith Busch <kbusch@kernel.org>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: Christoph Hellwig <hch@lst.de>
-TO: Sagi Grimberg <sagi@grimberg.me>
-TO: Hannes Reinecke <hare@suse.de>
-TO: Chaitanya Kulkarni <kch@nvidia.com>
-CC: linux-nvme@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+TO: Luo Liu <Luo.Liu@cixtech.com>
+CC: Gary Yang <gary.yang@cixtech.com>
 
-Hi Hannes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 68099cf27253a8c89d703a282d3d811446d9453b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/nvme-auth-modify-nvme_auth_transform_key-to-return-status/20261120-121400
-base:   68099cf27253a8c89d703a282d3d811446d9453b
-patch link:    https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-4-5f8c7d9926ee%40kernel.org
-patch subject: [PATCH v4 4/9] nvme: parse dhchap keys during option parsing
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-buildonly-randconfig-1002-20261121 (https://download.01.org/0day-ci/archive/20261121/202611211340.Diefn7um-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211340.Diefn7um-lkp@intel.com/reproduce)
+tree:   https://github.com/cixtech/linux-mainline cix/dt
+head:   2e0b451c1659139f5daf7780beabc1d7748696f8
+commit: 2e0b451c1659139f5daf7780beabc1d7748696f8 [2/2] arm64: dts: cix: Add Sky1 DP PHY node
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261121/20261121070442.7PO7RoO9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121070442.7PO7RoO9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611211340.Diefn7um-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261121070442.7PO7RoO9-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: drivers/nvme/host/nvme-fabrics.ko: symbol 'nvme_auth_extract_key' undefined!
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/cix/sky1-orion-o6.dtb: /soc@0/phy@1414c000: failed to match any schema with compatible: ['cix,sky1-dp-phy']
+--
+>> arch/arm64/boot/dts/cix/sky1-xcp.dtb: /soc@0/phy@1414c000: failed to match any schema with compatible: ['cix,sky1-dp-phy']
 
 -- 
 0-DAY CI Kernel Test Service
