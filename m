@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795218845;
-	b=qxPLIAVTLl9DoTuBnqM7lRZDrsZ/RYUsLwJxHCbq8f2F4AzpWFLmn9j3s64xKw09oKXY
-	 WmDW+CSxa3YhK35HjVXn7sL6+a+GE8WPBXjDsseOmCgw6BbZEpDfPLByoZVTuJR8DO6hn
-	 Jabr03kTizdWEV3L2Tv+oTO5ELVcXMfhXmRCyAlWQdiekjY6UmNbBaK44AhPR6LF1BTOD
-	 yqL6yQ83DYEzQqmMon5xtOYW7uryAAj9RKLJabI84Pk37XM2bmXukfw79X3LdGdH9KzR3
-	 zBojPyc+ksDvmVIaaiWESv7ggabe7unbDr55FBhFCbdvRXnpP0Sw4W0tZgW78wLajAA==
+	t=1795219510;
+	b=u1em7W91RoAoI5o+v2UAt5pmvHIMPJZYFmr9n9o2sukYC1+8xTtT66GIIV1qX7kOABIf
+	 i4nPyMTx9X0V3eb2Tzk8ujxI/1uPuD2EHaowJjGQfZuw0vjio8Rr7kUfosgvlIekCGxGK
+	 0OaKZ50iDfQbqQsITMdFpe0DuiQhS8JuAQGEnmXRJpNxx8a1+CGkfQEquk9E2yKVpw1Cw
+	 T/O6zd7+COO190zfzI5cpINyRWipQ1X4IbGmvFjw9X75rbnqc7ikiO9NRaJ7oInf6U7mc
+	 w2PVZ9rxJfWPuhGgrZv/NM4PJea1YZ4gMZH0rF9Kwsr8JCqLiV1Fj/TGQ7GWfbwpzUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795218845;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795219510;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=OUVTk8GZtqk4lFEIdx/NYHbCUXtmujnsg2zHzLbhksY=;
-	b=Vo5ZTnjFgeuXDgNTKL28c0YeHjHQ30UQ2asls7tGeLFTrP2YZ2T2nmB2MKc62O6YFSLg
-	 HdX707REsHR8LxPYqU/4GlTFO4iUdSr1a7gKqlPGw3MpxlFGSaY8Aknl8WhxV/x/Zvhph
-	 wGypmVKWHF1FjHhUH6ZH9NlszDvAK/UYGrWykiNfCrnHUnR/4A/vxtiyaGScU8r1gxMc7
-	 KEDBs22RVjuBtD3D/rKN9H4Ev/6yjV8UKTDyFczrkAkYBoZ9czmmgRlvVScovsM80XYDe
-	 jPl4B/aLdRA5rWxkV6TewtvUyXgIR33+Kw5209HT7zbPyBadcr3FEDYDft3kG4uY6dw==
+	bh=51lhobxyeRz1ggF0Rt/1xuZBqcV6ZZIR/gHd/M4g6PU=;
+	b=ok30+F4x9i8gNuxQZfIcbvOXVDiY+0tVxM0LFW3LuGoZJI5hr/Mfx0e5GrMdSxAjwJ+I
+	 e8Cuy6ykiem0TciDEMd+UnyrJrurL0rKZtnJRTp3mXYCCsC1yEn8QchjANTlyemMuk2eh
+	 pkq2VgGkPjS6JAqyVPQt16Jc7wXb4FPSmv/y4UxkGwJCpq3QEoApWENZqxiAjgyDVAY4S
+	 Bg//DEEv01k/usaQj8xmwszjJrP4McrMuDVo4RorFLZG8L39dzk11XaZD33SMptEIkPwJ
+	 1Yt6k4JOzubqLpzQXygq4x8xsSBN0RQdSotzQN+0UXod1mS54dyk13EXwcu/oKO6GXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KaBaFffG;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aZMMhg2O;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753A9606A6B9
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Nov 2026 23:53:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 753A9606A6B9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA668606A338
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 00:04:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA668606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KaBaFffG
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aZMMhg2O
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795218839; x=1826754839;
+  t=1795219499; x=1826755499;
   h=date:from:to:cc:subject:message-id;
-  bh=8GJ1Hs2gCd5SJ5zUpKcXt7O/p5I8RE+Xd3krsHDmTMI=;
-  b=KaBaFffGjdCZdGgGweDz/icO8QixsVOGwQw+JX3xT3hWoDNG6a3kDI4S
-   sfiXYzOqZf7r776NBBNJ6kviR8R0S+jkFn0+CgyWOsqoWCLvxRpRhWOnW
-   YxAGwv/ftKsbs8hoM6jZW9P3FSHXxy5uqqDnV0j7SpNFj5lPzHWBaF1oV
-   EXXVnTMFKrNPT3kuvlD8Fjm8BVJbs+d27kuS9LhtSrQN7GlG1Nx06tLUm
-   HzR1MQy5qo15PpK8ej2n1RDWrEaNK7HGhnfGhEbJn65w6khneRKWePRUF
-   sS8UD0RX7NsLNIvJw+h/ds1bpa7VFeHdL29Fc/J+9fcdTo74TTJY0wr5O
-   Q==;
-X-CSE-ConnectionGUID: OlZt5j+ORwGEqs8nxldwXQ==
-X-CSE-MsgGUID: kp3YHqufTWut0u9BIN3dZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3952406"
+  bh=lm/NsABCxqfG4fUDziaLgrryPfFYARiaOvtPZiV0sDI=;
+  b=aZMMhg2ObGd/9qKD4R4C8czgu86TxVnK0NWSMzvIvZXGuZKH2PYN5f0X
+   lAWe9aEWuMgbMaMAwMledrdrTYV5Rf8u+vPZtxqGtGapil37W0OHsCO2F
+   JQKlAgEnj8rV+SlI6Cvu3eL42gwjQOt3kYb67Np664KyQY9aTF3iiCacy
+   pn+/eZtoawb6yble5wfvwGvbzHZil2JtF8Ri4XBY4n6XegdEPs7lwORPk
+   JxF6BK0PuB27vvB4L6OkhOj0S1IYNK41XrgG0M/dOmc0WXktouN6swtbQ
+   F+iaMamqu52RmJbVd+NxeFeKtw9xoCskejWiJJKLbbADEYJ37mNJEeP+X
+   w==;
+X-CSE-ConnectionGUID: nXx3TLRVRSKU1K2mxTVLQg==
+X-CSE-MsgGUID: FbMwwVK9SGGMi0P3z+ojpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4112250"
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3952406"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 15:53:59 -0800
-X-CSE-ConnectionGUID: 8A2peOr/QN+jVyK47LfR7g==
-X-CSE-MsgGUID: pu+mjrkkTbid7IZawLBH/Q==
+   d="scan'208";a="4112250"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 16:04:59 -0800
+X-CSE-ConnectionGUID: TlJBMdwrThGJAuBXUxgJSg==
+X-CSE-MsgGUID: BzOqxu3dRCGjeVGPyr2LLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="10709647"
+   d="scan'208";a="11163612"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2026 15:53:58 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Nov 2026 16:04:58 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUYQV-000000004An-2ZgD;
-	Fri, 20 Nov 2026 23:53:55 +0000
-Date: Sat, 21 Nov 2026 00:53:02 +0100
+	id 1xUYbA-000000004BR-1CAE;
+	Sat, 21 Nov 2026 00:04:56 +0000
+Date: Sat, 21 Nov 2026 01:04:00 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 8956/10560] main.c:undefined reference to
- `__st_r13_to_r15'
-Message-ID: <20261121004452.TskH9STt-lkp@intel.com>
+Subject: [lpieralisi:b4/acpi-static-table-irq-probe-defer-v2 3/10]
+ include/linux/acpi.h:71:10: error: implicit declaration of function
+ 'FIELD_PREP'
+Message-ID: <20261121005445.XTnGDF7r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,171 +82,146 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "too many reports for this commit"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vineet Gupta <vgupta@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
-CC: Arnd Bergmann <arnd@arndb.de>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   909ef7a9a30fa139e69e555e3606680f5cca7726
-commit: 86a4eab2bd8313fec6e54742e3ea187b65b86b07 [8956/10560] ARC: stop linking libgcc
-:::::: branch date: 7 hours ago
-:::::: commit date: 2 days ago
-config: arc-randconfig-2000-20261120 (https://download.01.org/0day-ci/archive/20261121/20261121004452.TskH9STt-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121004452.TskH9STt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/acpi-static-table-irq-probe-defer-v2
+head:   a75860f203b994ab67f8a876c7f568ac0f7f84c0
+commit: 5df91ea5bcbef51cb967f3a07dd7c69c50681213 [3/10] ACPI: Introduce irq_get() for static fwnodes
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261121/20261121005445.XTnGDF7r-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121005445.XTnGDF7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261121004452.TskH9STt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261121005445.XTnGDF7r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arc-linux-ld: init/main.o: in function `__traceiter_initcall_finish':
->> main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
->> arc-linux-ld: main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
->> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
->> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `perf_trace_initcall_start':
->> main.c:(.text+0xe0): undefined reference to `__st_r13_to_r16'
->> arc-linux-ld: main.c:(.text+0xe0): undefined reference to `__st_r13_to_r16'
->> arc-linux-ld: main.c:(.text+0x16e): undefined reference to `__ld_r13_to_r16_ret'
->> arc-linux-ld: main.c:(.text+0x16e): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: init/main.o: in function `perf_trace_initcall_finish':
->> main.c:(.text+0x178): undefined reference to `__st_r13_to_r17'
->> arc-linux-ld: main.c:(.text+0x178): undefined reference to `__st_r13_to_r17'
->> arc-linux-ld: main.c:(.text+0x20c): undefined reference to `__ld_r13_to_r17_ret'
->> arc-linux-ld: main.c:(.text+0x20c): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `trace_event_raw_event_initcall_level':
-   main.c:(.text+0x214): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x214): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x2f2): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.text+0x2f2): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `trace_event_raw_event_initcall_start':
-   main.c:(.text+0x2fc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x2fc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x36e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.text+0x36e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `trace_event_raw_event_initcall_finish':
->> main.c:(.text+0x3a8): undefined reference to `__st_r13_to_r18'
->> arc-linux-ld: main.c:(.text+0x3a8): undefined reference to `__st_r13_to_r18'
->> arc-linux-ld: main.c:(.text+0x41c): undefined reference to `__ld_r13_to_r18_ret'
->> arc-linux-ld: main.c:(.text+0x41c): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: init/main.o: in function `__srcu_read_lock_fast.constprop.0':
-   main.c:(.text+0x624): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.text+0x624): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.text+0x678): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: main.c:(.text+0x678): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `trace_initcall_finish_cb':
->> main.c:(.text+0x680): undefined reference to `__st_r13_to_r19'
->> arc-linux-ld: main.c:(.text+0x680): undefined reference to `__st_r13_to_r19'
->> arc-linux-ld: main.c:(.text+0x764): undefined reference to `__ld_r13_to_r19'
->> arc-linux-ld: main.c:(.text+0x764): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: init/main.o: in function `perf_trace_initcall_level':
-   main.c:(.text+0x778): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.text+0x778): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.text+0x856): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: main.c:(.text+0x856): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/main.o: in function `do_one_initcall':
-   main.c:(.text+0x860): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: main.c:(.text+0x860): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: main.c:(.text+0xd4a): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: main.c:(.text+0xd4a): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: init/main.o: in function `do_early_param':
-   main.c:(.init.text+0x78): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x78): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x96): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: main.c:(.init.text+0x96): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `unknown_bootoption':
-   main.c:(.init.text+0x17c): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x17c): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x264): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: main.c:(.init.text+0x264): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: init/main.o: in function `xbc_kernel_param_filter':
-   main.c:(.init.text+0x2cc): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x2cc): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x322): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: main.c:(.init.text+0x322): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: init/main.o: in function `xbc_make_cmdline':
-   main.c:(.init.text+0x37c): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.init.text+0x37c): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.init.text+0x3e2): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.init.text+0x3e2): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `initcall_blacklist':
-   main.c:(.init.text+0x444): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x444): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x4f8): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: main.c:(.init.text+0x4f8): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: init/main.o: in function `start_kernel':
-   main.c:(.init.text+0x588): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x588): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: init/main.o: in function `kernel_init_freeable':
-   main.c:(.init.text+0xcb8): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: main.c:(.init.text+0xcb8): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: main.c:(.init.text+0xff8): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: main.c:(.init.text+0xff8): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: main.c:(.init.text+0x1016): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: main.c:(.init.text+0x1016): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: init/main.o: in function `run_init_process':
-   main.c:(.text.unlikely+0x3c): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.text.unlikely+0x3c): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.text.unlikely+0xde): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: main.c:(.text.unlikely+0xde): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: init/main.o: in function `trace_initcall_level':
-   main.c:(.text.unlikely+0x210): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x210): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x42e): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x42e): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x43e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.text.unlikely+0x43e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/do_mounts.o: in function `do_mount_root':
-   do_mounts.c:(.init.text+0x130): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x130): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x28c): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x28c): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root_generic':
-   do_mounts.c:(.init.text+0x318): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x318): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x4c4): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x4c4): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root':
-   do_mounts.c:(.init.text+0x598): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x598): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x5ce): undefined reference to `__ld_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x5ce): undefined reference to `__ld_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x7a6): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x7a6): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: init/do_mounts.o: in function `prepare_namespace':
-   do_mounts.c:(.init.text+0x7b0): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: do_mounts.c:(.init.text+0x7b0): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: do_mounts.c:(.init.text+0x8b2): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x8b2): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/initramfs.o: in function `do_utime':
-   initramfs.c:(.init.text+0x14): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: initramfs.c:(.init.text+0x14): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: initramfs.c:(.init.text+0x3e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: initramfs.c:(.init.text+0x3e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/initramfs.o: in function `do_skip':
-   initramfs.c:(.init.text+0xc4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: initramfs.c:(.init.text+0xc4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: initramfs.c:(.init.text+0xf8): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: initramfs.c:(.init.text+0xf8): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/initramfs.o: in function `flush_buffer':
-   initramfs.c:(.init.text+0x1cc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: initramfs.c:(.init.text+0x1cc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: initramfs.c:(.init.text+0x22e): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: initramfs.c:(.init.text+0x22e): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: init/initramfs.o: in function `maybe_link':
-   initramfs.c:(.init.text+0x310): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: initramfs.c:(.init.text+0x310): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: initramfs.c:(.init.text+0x4a6): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: initramfs.c:(.init.text+0x4a6): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: init/initramfs.o: in function `do_header':
+   In file included from drivers/acpi/tables.c:19:
+   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
+>> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
+         |          ^~~~~~~~~~
+   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
+     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/acpi/property.c:16:
+   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
+>> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
+         |          ^~~~~~~~~~
+   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
+     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/property.c: At top level:
+>> drivers/acpi/property.c:1791:12: error: static declaration of 'acpi_static_fwnode_irq_get' follows non-static declaration
+    1791 | static int acpi_static_fwnode_irq_get(const struct fwnode_handle *fwnode,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/acpi.h:92:5: note: previous declaration of 'acpi_static_fwnode_irq_get' with type 'int(const struct fwnode_handle *, unsigned int)'
+      92 | int acpi_static_fwnode_irq_get(const struct fwnode_handle *fwnode,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/property.c: In function 'acpi_static_fwnode_irq_get':
+>> include/linux/acpi.h:75:9: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      75 |         FIELD_GET(ACPI_STATIC_IRQ_TRIGGER_MASK, (flags))
+         |         ^~~~~~~~~
+   drivers/acpi/property.c:1802:50: note: in expansion of macro 'ACPI_STATIC_IRQ_TRIGGER'
+    1802 |         return acpi_register_gsi(NULL, irq->gsi, ACPI_STATIC_IRQ_TRIGGER(irq->flags),
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from sound/hda/controllers/intel.c:38:
+   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
+>> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
+         |          ^~~~~~~~~~
+   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
+     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/div64.h:27,
+                    from arch/x86/include/asm/div64.h:100,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from sound/hda/controllers/intel.c:23:
+   sound/hda/controllers/intel.c: At top level:
+>> include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
+     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
+     528 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/hda/controllers/intel.c:127:1: note: in expansion of macro 'module_param_array'
+     127 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/hda/controllers/intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
+     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from intel.c:38:
+   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
+>> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
+         |          ^~~~~~~~~~
+   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
+     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/div64.h:27,
+                    from arch/x86/include/asm/div64.h:100,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from intel.c:23:
+   intel.c: At top level:
+>> include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
+     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
+     528 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   intel.c:127:1: note: in expansion of macro 'module_param_array'
+     127 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+   intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
+     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+
+
+vim +/FIELD_PREP +71 include/linux/acpi.h
+
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  69  
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  70  #define ACPI_STATIC_IRQ_FLAGS(trigger, polarity) \
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04 @71  	(FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))	| \
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  72  	 FIELD_PREP(ACPI_STATIC_IRQ_POLARITY_MASK, (polarity)))
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  73  
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  74  #define ACPI_STATIC_IRQ_TRIGGER(flags)		\
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04 @75  	FIELD_GET(ACPI_STATIC_IRQ_TRIGGER_MASK, (flags))
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  76  #define ACPI_STATIC_IRQ_POLARITY(flags)	\
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  77  	FIELD_GET(ACPI_STATIC_IRQ_POLARITY_MASK, (flags))
+5df91ea5bcbef51 Lorenzo Pieralisi 2026-09-04  78  
 
 -- 
 0-DAY CI Kernel Test Service
