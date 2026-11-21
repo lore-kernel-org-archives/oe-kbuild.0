@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795295962;
-	b=FV2TSAr/5UEzQUqXHCm6+k67vgGOkiyq0YQQBcr+rtU/wD0CdxccTketLrGg+UtUcXw/
-	 fYQUMD3yGtNm/FzWacCTXczYjkz+QEmEaPlnSePK7vcriDc57vO186BoehTv5k6XHHIHG
-	 RHW7ph9V9/h3OrhrB1Xrjb1EC2XMe2ChbvjPAuZWORPBB2Wr1Kz2Y5shGxHiQDh6mHW2N
-	 B7xyivn/frICnQDsTimTbtiiyRKCB+6rBCl9zbmRgAgcIgVpU3zrXfSRCztpt9W5jAIdc
-	 qXa61aPDyFPAKOmohNpmwDHODsnB0TT23rWvobPDIv0u1UU1vQvBQCkeqTuJX6iSgJQ==
+	t=1795297824;
+	b=3mkvkFoN1E/Zmri7j0/Wn9/D47k0KWE7BPtxe0tFeOlFdMSG3FoQ9fbZOHvElvk8If0U
+	 IqKUo49pzIB2O+NCXS6SMBJNg9Plf/RZFjDK09/rzlt4RA8/89TN85BOiWArl5317cxD3
+	 O+P6l4eWC8lA/D0btWmcf/R+flPv5ORWZIxtvj7/P/pA5eky9LcSiy4b4NrbGmaKbt/kG
+	 PmkCwEjo/f3nh8eWW/ejXwkWeg/IyAZwFtxxTznJc8RCaJ/2Bhs8AIzWaaeEw4+7A0SIw
+	 ugXZKvDSX1TL4eAAvDc0XNjOA+359MOYzjfNvhQBm5eMO3Xm7P666tzHrZOg2yJSsjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795295962;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795297824;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Ku3GsiJZt53Wj+Xxy9cE0tL+DEY0keapFITRd7oZP8I=;
-	b=JcSAzOeabUEMxjvTnmerT3i+PQlEh1SaRgHmYfVWFdGgo7za7vwSlck4pOsjZSUQRMMx
-	 Z36bAe87VaNzW7BVuOOl2SF2nTXdyJnu8yEpEujCkdTmI0siSFJ5MKNpaMTqGdf24QhyO
-	 e6IaXEWJMldZHgQhFvMXECs3f/ZFMexMFX3ggFrvNF6Z9zhBZ4AtYtv/+stzriSsz5mjs
-	 XxH0uJ8hXEomF701tAHXl2BcygfKXfdndNirMQSmVHY3YpxJLicIwiKKfJj4VoWnljMSx
-	 dLq/vq8NZ6+QLe2KBNeUN4hzZZo7g7HivWZPTu2Wk3YN5S8lOmDwo/Wut9VBOyMtOxA==
+	bh=jZzgfPaVB2tzUxRvzbnk1aHTARnm5DZuamfyVr0IX4g=;
+	b=JO95xxEIKk2q0RrlDyusv0bf7VEu/ePhlFWypmnMCPEZRAg6rvT2L5ZObAVw0an6STzq
+	 AUns4d+tvXNIEAbpSGG8/sZcas2/8gZLxoUiw4UHda2yJuEtO98L9ZSc7OUWjemyX2lZE
+	 RLKWv/i9AsullRIw4Lz4+con4RyaYtm36U2l3YiEFe2rzxrFX4SekWwAq+2VqTkKKC6xI
+	 2OnXH3cErEE51/6cVLmBlMDau06Ve7ts7tEov1IsRRZpTETXoZ606zpnK1d+WTnJlADvz
+	 S4Rlcj7UUX2txzZd4kWupaTVjkEVub62oNp50JTOWjskdR4Hlgj24K7BaqVwbNsRhgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fIom931L;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fyB3YEv5;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5230E606A320
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 21:19:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5230E606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B910606A682
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 21:50:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B910606A682
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fIom931L
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fyB3YEv5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795295962; x=1826831962;
+  t=1795297822; x=1826833822;
   h=date:from:to:cc:subject:message-id;
-  bh=cI6/0jd8bG+SLdzPvwEmmwlJuzZCjw1DkjBlAmUjhNI=;
-  b=fIom931Lh/4YSxYOugbin4qUAv9sNMWHUx8PtArlVMzEbTC+Hxu2CR2m
-   SdEOrtJFBJs2Eyx9u4e+wTNo95AAZ2XRUcNJhv3nIXhcv8rTSCPZ+gc1J
-   FiNBvNHT/eLIKjpfzlinip3XaVR3CTocpAgP3RaL9Ayfnu7I/NPOd0FNo
-   WTpom7Ki+Y4Ek6el6Gy+ehU7sW3gnCdLAZDmaTN/Mnfs9SOTlzkAxJWlb
-   vqYb3oFh2e48kL0paKqMbFPAlX2BoTdMsUaWW/SN2iWnTuaRxiAe9vbvT
-   Cp/wOBy8ZWQpxGHlcK4/RVw0YixjqTZF/V7nulU+6mgVK3WSEJcHREAjM
-   w==;
-X-CSE-ConnectionGUID: PqLz0NM8Raebauh+2KgZuw==
-X-CSE-MsgGUID: fk6MtbBkSba8RA3LSm0SzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4043224"
+  bh=pqqrC0f5m47f+yD8m40PpxPut8Hjep2n0I0Ny+kh/J8=;
+  b=fyB3YEv5Qa/vJDWgiYzktJuQgP8UBPnllhpmgxvPI745OlRabSgltioN
+   zrPrRPDD5hOA9qKXmcIOUf/w7+nfkjigVDpEAXDZz4nAANWmnjB3uIiBt
+   SQj1G3KnaKgOOTayNlnDIfdqZKTMZIRsjfgZZaRlAI05xkmrq3xDMEo+R
+   dLqU1mgFMAG0+3bz6JhAxtKNKSKrx9ilLfAikJtCOWVFE0dt2ZHaKpipL
+   dZ1PIl1TmzSx2FEKgGN/fuLDb3FuNsyF6Gz9Sx7uW49JPmFD1VgnE5NrW
+   /jtEEJdk/aR32Z0Cxz87Zk/bSanVcCXv7Qs4rWlW1EzG6cI0gwHRHNb+i
+   Q==;
+X-CSE-ConnectionGUID: v5YK74iWSdmU5+twn+vcyA==
+X-CSE-MsgGUID: mYOD5T9UQRy5q8sfitHCCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4026990"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4043224"
+   d="scan'208";a="4026990"
 Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 13:19:21 -0800
-X-CSE-ConnectionGUID: k6P0H849RGC4iVoYcXabow==
-X-CSE-MsgGUID: DwC7fnhRQdO9GHtu4Srxog==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 13:50:21 -0800
+X-CSE-ConnectionGUID: fRVaB3TvSkOcYUpPGcHwBQ==
+X-CSE-MsgGUID: pjxoTfGGSGq0Gat5vRGhOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="12675640"
+   d="scan'208";a="12679024"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 21 Nov 2026 13:19:19 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 21 Nov 2026 13:50:20 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUsUK-000000004Nd-3p0I;
-	Sat, 21 Nov 2026 21:19:12 +0000
-Date: Sat, 21 Nov 2026 22:18:50 +0100
+	id 1xUsyP-000000004Np-3lUe;
+	Sat, 21 Nov 2026 21:50:17 +0000
+Date: Sat, 21 Nov 2026 22:50:09 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ceph-client:wip-aainscow-ec-direct-reads 19/26]
- net/ceph/osd_client.c:3221 ec_split_complete() error: we previously assumed
- 'op->extent.sparse_ext' could be null (see line 3218)
-Message-ID: <20261121221451.VKxZzWwe-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [bpf-next:master 38/51] verifier.c:(.text+0x2313c):
+ dangerous relocation: unsupported relocation
+Message-ID: <20261121224554.IsNYE7Fs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,64 +80,34 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "too many reports for this commit"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: ceph-devel@vger.kernel.org
-TO: Alex Ainscow <aainscow@uk.ibm.com>
+TO: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://github.com/ceph/ceph-client.git wip-aainscow-ec-direct-reads
-head:   00d89e140a99b56b752bc5a02b7788df249d08ed
-commit: 7ebc8cd159d55d3f731f77409941478450d54859 [19/26] libceph: split EC direct reads across shards
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-2200-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121221451.VKxZzWwe-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   9867c61abbd44f7053a871566b3d982f62c6d8dc
+commit: 09c84023b0b4ef040548929859de81177a15bab2 [38/51] bpf: Verify in passes
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arm-randconfig-r2103-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121224554.IsNYE7Fs-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121224554.IsNYE7Fs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261121221451.VKxZzWwe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261121224554.IsNYE7Fs-lkp@intel.com/
 
-smatch warnings:
-net/ceph/osd_client.c:3221 ec_split_complete() error: we previously assumed 'op->extent.sparse_ext' could be null (see line 3218)
+All errors (new ones prefixed by >>):
 
-vim +3221 net/ceph/osd_client.c
-
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3211  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3212  static void ec_split_complete(struct ceph_osd_request *req, int result)
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3213  {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3214  	struct ceph_osd_req_op *op = &req->r_ops[0];
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3215  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3216  	if (result > 0 && op->op == CEPH_OSD_OP_SPARSE_READ) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3217  		/* one extent, in the array the caller gave us if any */
-7ebc8cd159d55d Alex Ainscow 2026-11-12 @3218  		if (op->extent.sparse_ext ||
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3219  		    !__ceph_alloc_sparse_ext_map(op, 1)) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3220  			op->extent.sparse_ext_cnt = 1;
-7ebc8cd159d55d Alex Ainscow 2026-11-12 @3221  			op->extent.sparse_ext[0].off = op->extent.offset;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3222  			op->extent.sparse_ext[0].len = result;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3223  		} else {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3224  			result = -ENOMEM;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3225  		}
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3226  	} else if (op->op == CEPH_OSD_OP_SPARSE_READ) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3227  		op->extent.sparse_ext_cnt = 0;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3228  	}
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3229  	if (result >= 0) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3230  		op->rval = 0;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3231  		op->outdata_len = result;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3232  	} else {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3233  		op->rval = result;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3234  	}
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3235  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3236  	req->r_result = result;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3237  	req->r_ec_split = NULL;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3238  	finish_request(req);
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3239  }
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3240  
+   arm-linux-gnueabi-ld: kernel/bpf/verifier.o: in function `do_check_block':
+   verifier.c:(.text+0x2313c): undefined reference to `bpf_prog_offload_verify_insn'
+   arm-linux-gnueabi-ld: (bpf_prog_offload_verify_insn): Unknown destination type (ARM/Thumb) in kernel/bpf/verifier.o
+>> verifier.c:(.text+0x2313c): dangerous relocation: unsupported relocation
 
 -- 
 0-DAY CI Kernel Test Service
