@@ -1,77 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795280718;
-	b=yY7SjV5E9xSqmZkvVvExCi1Wk0UL9s3AtNQ+cYrhy5/P33TjMmcQ/3RHsdowwd2sg7KQ
-	 zQFKOsT5uhIJTuJ307aKHFelevRFohI/KuLz0HSBv+Jf0rde7Ujx7/U2IAv5bNA/HPnZ9
-	 icTGxLKrQiWZcjj83MHOkhOfHdTbGxakE2cik4k52FX0ByZQL7NEDDzXmLerAA3rfMx7c
-	 NaUIq++7OKyRPkErO7+DxmJ4E7lYizr+pUYkCC9nTXmwl9FY6cEh9Za89dt/8WPLgz6gU
-	 TFJhM4bB2q81nDmTL4g34OrAGHzg80X/F60pvHkpGwCVK/GJYNg71dyysdL+LYlImAQ==
+	t=1795284889;
+	b=O4Wte5AY71IZ88n7foNau5331mOhZnixRcFJnfjmgRwUssr61B/BCKLla5Qu9KRNkmUU
+	 v14aFYscG0lLXBHkCldH1RfJlsoese8R7FV26L7+NnPqoYOv/kurlYjZmGfvpCoyqFOa3
+	 XyCcRNAoTXVlBFZO9oxXRlYJkypLP21ofnwMXwhQ/BvoscfVMyc3wluBr55TRK81G4CwJ
+	 FrdTqBccmiPSC5XRdMImFN2uSF1yvdWSkPk2NeXsDXK9cV/rVHkxkJwBo0w3oHJBv0B4q
+	 Wgrk5WxGNQbX8GY9zMDTl2u6qbXC5Z3Q+2e+b+8bKmcfwwFDI+Qc1YaPfTcagYH8fbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795280718;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795284889;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=9nse68J7HCSaGj66FrQveVSu2w+Gs1tkGu99R2arX+k=;
-	b=ETNRNU3Askk7ePi/CI4Wk1KS6HG+Q99vJz733/mJ35KaeeJ7R883GVqFDjB/Yt5AbJeO
-	 qq1Ly4LtUZm0MuVr+os3fZo9nqP30R2sHWNHUm8ARLpCkCw64A7Pv9VTdtXCh8p/6TYQC
-	 oa299IBdyzCfL7JGmdIfbB50pu7L01lm2e36SvTthCYCYhRFrrngdb5i5Jd0207HGqDde
-	 p5JbPIFFL8qaVZpnJd+F2OIrU4rIbOYflxwIBY+d9Y2H7t2LtfZKPyw5AGeq2FGCFYyGZ
-	 LLw7Gfb+GHKsmZmNtR+NuLgKyVDVpqRmySUj3x6ey2ADvg7GFCiTxfH0f6ciAbuotew==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=5IH3VdNAilC4greWeShjIpBUQr8ejpoBnifZyyjbgxY=;
+	b=iYsYC9ITLOwPwLKPFsoWKs78v8pIHpzG2fvnHKm14CXCtDqEyxmdN0t5waQ+CWIc8Nkv
+	 2OnLKW4e1xbVbGdqZV42EDGLB3p6IKcQiFRrG3xzirDuvz2EVvogSv4XOc5LSlSVUNV78
+	 OTn69cNMlTvyvEBPB+8eVY9JRlrgtkXjkV5PgJswmt6/bvj0PnAtf/e0E/CEKWcKbHYih
+	 BgrjM76r/ELa2KkYVgHxftsZA6JgVrhQ61tTSTRgPPTk5Jt/CzMih5+1HI48Q9g4JhODz
+	 mx0R64N7tvgaFhpS+9p/wOa26WaqKthsljIlEhyWj6uyndD6mfAg9GJe436J9Q9fvPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KlkQLyYw;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eqQWEwnY;
 	arc=none smtp.remote-ip=198.175.65.20
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B980606A320
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 17:05:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B980606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221E1606A320
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 18:14:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 221E1606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KlkQLyYw
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eqQWEwnY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795280718; x=1826816718;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KSlxRfKsf4fWMb9YD9srRMBAWzfGFQmcYMIgHHtWd7s=;
-  b=KlkQLyYwnpNTjY6Z5tWSTCeVxu1Hs98k9MgXWL5XLjmLeCg1I/TL/huZ
-   9f6qCs4NmyrPfPFiD10+bUTwPRGaN+k2obTgC3gUR0B6Lk1Hm+U79VPH7
-   OxNQL5Kyim8/FBOE+VZcjrvcXAYGRM6gwjzarRJYTUEhygxGrbjYxfwqA
-   xlH6RizEZzLsPbSjEEGhlaZv5IANmJpPkoNZjJfi8L3DZT9qp0iYhqrOa
-   y/cLk3J188YSCILPXwjvEdHDXFv7dBSPXk9c+Wa4fkxzbymZQOxfRzjLN
-   WdTvsA9YlkEIWacN40GE9UhXM6ydzKNj8hfH93ZYkAo/CDh5RczDaqu7q
-   w==;
-X-CSE-ConnectionGUID: 0xDPPBgkRmuhH3iMJkE2JA==
-X-CSE-MsgGUID: 61ER4I3PSoqC9h3OWnqlSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4180474"
+  t=1795284887; x=1826820887;
+  h=date:from:to:cc:subject:message-id;
+  bh=1NNxf6NGhYidpKqynZDJnEBZOFumoU88JelO2GRVhnQ=;
+  b=eqQWEwnYChY7TviHMFEW/t8YGK/NuNIy/CvsS4YnyKD2T6Bb6pSID8sW
+   MnMVPXCYyvEH3iKODVyo2rmeQ/v/dHg0PzGB2eSatYBGtfFTNUVX2QFob
+   lrU7/xd7eZdcVcWcoeD/d9+w+RUCBWgJcvtMBKhZBDL3jmsV2kXZlfZsj
+   unnfwzwvFIE9qeQM2vnYm1zTMD23Llcm6htTmkZjLNMtPYUcLRfUJMkeI
+   GOjh2ngXQBT4u37FtxdZ1FnHsJNHAQJhB3MbwmVtHotw3e4u6Yl0qBtTX
+   3plfvGwJgCcNHRoCadwU9DgVMdvKmGrwqcsOi0bWWGamB4rNEvukiDw8+
+   Q==;
+X-CSE-ConnectionGUID: bGcRGjF3RteqJuPrfiE8uA==
+X-CSE-MsgGUID: so0s1TVVSsK/3ykkWipIoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4182874"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4180474"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 09:05:17 -0800
-X-CSE-ConnectionGUID: WDwihs0rT0evN8Df5aUk9w==
-X-CSE-MsgGUID: NzMFNzI5TZOGyC2EO8LyFQ==
+   d="scan'208";a="4182874"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 10:14:46 -0800
+X-CSE-ConnectionGUID: 9/k8OeQnReS5GsO+ZkOfKg==
+X-CSE-MsgGUID: oR7beUpdSeyeWAFtUokBVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="11208549"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Nov 2026 09:05:16 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="11273037"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2026 10:14:45 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUoWY-00000001KKl-0hGu;
-	Sat, 21 Nov 2026 17:05:14 +0000
-Date: Sun, 22 Nov 2026 01:04:28 +0800
+	id 1xUpbl-000000004Mj-1LZQ;
+	Sat, 21 Nov 2026 18:14:41 +0000
+Date: Sat, 21 Nov 2026 19:14:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH RFC wireless-next 1/4] wifi: b43: 11ac chanspec for the
- AC microcode
-Message-ID: <202611220014.qAoTWLEz-lkp@intel.com>
+Subject: [linusw-nomadik:b4/ux500-asoc-drop-vape 7/10]
+ arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500):
+ power-controller: 'ranges' is a required property
+Message-ID: <20261121190821.XGMR64V5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -80,104 +80,310 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261112175640.40603-2-gonsolo@gmail.com>
-References: <20261112175640.40603-2-gonsolo@gmail.com>
-TO: Andreas Wendleder <gonsolo@gmail.com>
+CC: linux-arm-kernel@lists.infradead.org
+TO: Linus Walleij <linusw@kernel.org>
 
-Hi Andreas,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Wendleder/wifi-b43-11ac-chanspec-for-the-AC-microcode/20261112-185637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20261112175640.40603-2-gonsolo%40gmail.com
-patch subject: [PATCH RFC wireless-next 1/4] wifi: b43: 11ac chanspec for the AC microcode
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20261122/202611220014.qAoTWLEz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git b4/ux500-asoc-drop-vape
+head:   dffa834f5df342fa0e28bed04778e0809e51ca0d
+commit: 960473d7ce054df17f2aa5423feb3d1096f61797 [7/10] ARM: dts: ux500: Rename power domains node
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261121/20261121190821.XGMR64V5-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611220014.qAoTWLEz-lkp@intel.com/reproduce)
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121190821.XGMR64V5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202611220014.qAoTWLEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261121190821.XGMR64V5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/wireless/broadcom/b43/phy_common.c:24:
-   In file included from drivers/net/wireless/broadcom/b43/b43.h:7:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/net/wireless/broadcom/b43/phy_common.c:442:6: error: call to undeclared function 'b43_ucode_is_ac'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     442 |         if (b43_ucode_is_ac(dev))
-         |             ^
-   1 warning and 1 error generated.
-
-
-vim +/b43_ucode_is_ac +442 drivers/net/wireless/broadcom/b43/phy_common.c
-
-d7012183113b1b drivers/net/wireless/broadcom/b43/phy_common.c Andreas Wendleder 2026-11-12  426  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  427  int b43_switch_channel(struct b43_wldev *dev, unsigned int new_channel)
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  428  {
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  429  	struct b43_phy *phy = &(dev->phy);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  430  	u16 channelcookie, savedcookie;
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  431  	int err;
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  432  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  433  	/* First we set the channel radio code to prevent the
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  434  	 * firmware from sending ghost packets.
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  435  	 */
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  436  	channelcookie = new_channel;
-57fbcce37be7c1 drivers/net/wireless/broadcom/b43/phy_common.c Johannes Berg     2016-04-12  437  	if (b43_current_band(dev->wl) == NL80211_BAND_5GHZ)
-106cb09a145a5c drivers/net/wireless/b43/phy_common.c          Rafał Miłecki     2010-10-06  438  		channelcookie |= B43_SHM_SH_CHAN_5GHZ;
-106cb09a145a5c drivers/net/wireless/b43/phy_common.c          Rafał Miłecki     2010-10-06  439  	/* FIXME: set 40Mhz flag if required */
-106cb09a145a5c drivers/net/wireless/b43/phy_common.c          Rafał Miłecki     2010-10-06  440  	if (0)
-106cb09a145a5c drivers/net/wireless/b43/phy_common.c          Rafał Miłecki     2010-10-06  441  		channelcookie |= B43_SHM_SH_CHAN_40MHZ;
-d7012183113b1b drivers/net/wireless/broadcom/b43/phy_common.c Andreas Wendleder 2026-11-12 @442  	if (b43_ucode_is_ac(dev))
-d7012183113b1b drivers/net/wireless/broadcom/b43/phy_common.c Andreas Wendleder 2026-11-12  443  		channelcookie = b43_ac_chanspec(dev, new_channel);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  444  	savedcookie = b43_shm_read16(dev, B43_SHM_SHARED, B43_SHM_SH_CHAN);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  445  	b43_shm_write16(dev, B43_SHM_SHARED, B43_SHM_SH_CHAN, channelcookie);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  446  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  447  	/* Now try to switch the PHY hardware channel. */
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  448  	err = phy->ops->switch_channel(dev, new_channel);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  449  	if (err)
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  450  		goto err_restore_cookie;
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  451  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  452  	/* Wait for the radio to tune to the channel and stabilize. */
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  453  	msleep(8);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  454  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  455  	return 0;
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  456  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  457  err_restore_cookie:
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  458  	b43_shm_write16(dev, B43_SHM_SHARED,
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  459  			B43_SHM_SH_CHAN, savedcookie);
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  460  
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  461  	return err;
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  462  }
-ef1a628d83fc04 drivers/net/wireless/b43/phy_common.c          Michael Buesch    2008-08-27  463  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:605.32-616.5: Warning (simple_bus_reg): /soc/dma-controller@801C0000: simple-bus unit address format error, expected "801c0000"
+   arch/arm/boot/dts/st/ste-snowball.dts:226.25-244.5: Warning (simple_bus_reg): /soc/regulator-gpio: missing or empty reg/ranges property
+   arch/arm/boot/dts/st/ste-snowball.dts:62.12-102.4: Warning (avoid_unnecessary_addr_size): /gpio_keys: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/st/ste-snowball.dtb: / (calaosystems,snowball-a9500): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-snowball.dtb: soc (stericsson,db8500): regulator-gpio: 'ranges' is a required property
+--
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/gpio@8012e000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+--
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: / (st-ericsson,mop500): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+--
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: / (st-ericsson,hrefv60+): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+--
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: / (st-ericsson,hrefv60+): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+--
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: / (st-ericsson,href520): thermistor@1: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: / (st-ericsson,href520): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+>> arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-href520-tvk.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+--
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: /soc/gpio@8012e000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+--
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: /soc/gpio@8012e000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: gpio@8012e080 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+--
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+--
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:560.20-566.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:605.32-616.5: Warning (simple_bus_reg): /soc/dma-controller@801C0000: simple-bus unit address format error, expected "801c0000"
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: / (samsung,codina): regulator-gpio: {'compatible': ['regulator-fixed'], 'gpios': [[24, 23, 0]], 'enable-active-high': True, 'regulator-name': ['sd-level-translator'], 'regulator-min-microvolt': [[2900000]], 'regulator-max-microvolt': [[2900000]], 'regulator-type': ['voltage'], 'startup-delay-us': [200], 'pinctrl-names': ['default'], 'pinctrl-0': [[122]], 'phandle': 102} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+--
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:560.20-566.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:605.32-616.5: Warning (simple_bus_reg): /soc/dma-controller@801C0000: simple-bus unit address format error, expected "801c0000"
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: / (samsung,codina-tmo): regulator-gpio: {'compatible': ['regulator-fixed'], 'gpios': [[24, 23, 0]], 'enable-active-high': True, 'regulator-name': ['sd-level-translator'], 'regulator-min-microvolt': [[2900000]], 'regulator-max-microvolt': [[2900000]], 'regulator-type': ['voltage'], 'startup-delay-us': [200], 'pinctrl-names': ['default'], 'pinctrl-0': [[114]], 'phandle': 94} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+--
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): dma-controller@801C0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: /soc: failed to match any schema with compatible: ['stericsson,db8500', 'simple-bus']
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: /soc/backupram@80150000: failed to match any schema with compatible: ['ste,dbx500-backupram']
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: gpio@8012e000 (stericsson,db8500-gpio): compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio'] is too long
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: /soc/gpio@8012e000: failed to match any schema with compatible: ['stericsson,db8500-gpio', 'st,nomadik-gpio']
+   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: gpio@8012e080 (stericsson,db8500-gpio): compatible:0: 'stericsson,db8500-gpio' is not one of ['st,nomadik-gpio', 'mobileye,eyeq5-gpio']
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yaml
+--
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:346.32-349.5: Warning (simple_bus_reg): /soc/power-controller: missing or empty reg/ranges property
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:351.10-389.5: Warning (simple_bus_reg): /soc/clocks: simple-bus unit address format error, expected "8012f000"
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:560.20-566.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
+   arch/arm/boot/dts/st/ste-dbx5x0.dtsi:605.32-616.5: Warning (simple_bus_reg): /soc/dma-controller@801C0000: simple-bus unit address format error, expected "801c0000"
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: / (samsung,kyle): regulator-gpio: {'compatible': ['regulator-fixed'], 'gpios': [[24, 23, 0]], 'enable-active-high': True, 'regulator-name': ['sd-level-translator'], 'regulator-min-microvolt': [[2900000]], 'regulator-max-microvolt': [[2900000]], 'regulator-type': ['voltage'], 'startup-delay-us': [200], 'pinctrl-names': ['default'], 'pinctrl-0': [[121]], 'phandle': 98} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: thermal-zones: cpu-thermal:cooling-maps: 'contribution', 'cooling-device', 'trip' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
+>> arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): power-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): pmu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): cache-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: soc (stericsson,db8500): pinctrl: 'ranges' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
