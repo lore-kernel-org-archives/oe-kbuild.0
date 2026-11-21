@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795300886;
-	b=GkY2Pr3c7S8St5AZTCllCZPft7Nr5Cv5Q9OkAX3IotOfU2P9qpCRSA3kBobz7m3jk6KD
-	 ey32hlKMpezjuwxKYpr8mIkLhqYIp9xATQFRF92hsd/UJ2dRN9t8s0/sec56uB+t4Jbk0
-	 W9plWoi6ZhV+Gg32ng1qqV27hy15Hw4Iaw9vvwMo/Q5u+RbKjFA1h9eiWAHv58getOiWb
-	 YkrHb1droQyYm1ZiF+gbOgJcn5LgUJvBE6j3n52rk2jFih5dB+dTV41k8jTIUmetxF3ej
-	 /tPyCMo0zrCsptdclxIIC6e5et/AHL9DkmPVkSRqhKqG3m5hAZuL0WmM2u3p/HnUHQw==
+	t=1795303361;
+	b=oaPkJynzH8tmh2qR62bbOy0ZkN8YL/oc2/REATRqKRet+DSOoFI70eTuNkaFebHO+7zS
+	 8p7qVZd+059JE3Dy9bG0T4u1v5NSwrtNAjS5I8i4dYkM7EVocNFB2v7njCTArKii8OMsG
+	 HWAT54Ek94dgZZ0yn3XpxZkFHYgw16gnCJZVTeD3HHRS15Djpqv7wpg7hR/Ai0Tk8Orok
+	 7AJS/FRbDd38z2DN0qxBWbaGi43IEX71QgKkPecKgGwJitkYM0RRivvYAEjWPWhqIDCXj
+	 N7A8xAz2DYzypfBzqYr1Sbk226YAdk3OlOggOXyjYG3PgWANVQMgGj0gjqrHz6lgwAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795300886;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795303361;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=EXMWZ9TrSPKM7Qh56rGsxH3db1dOYXp6UgX4As34hnI=;
-	b=AiL3NFmKE13pbpqZezIZi91xFRCVykHYnYPjpddA1TE68Spl3EuAPg66KytTOPKFIrZd
-	 AFWlXVioYkIywLTvhS7xVFsh1ctRrDeAcPM+3HC3M8SUtCh6SEjLDXTbqtahvg9bzkAVz
-	 vTkCI17TiBBAttMzaht/ZnxSjVHdWzVg94q2BAEZU/acNTzaHAemekmV0l2GrusZ/feRM
-	 gD724y+FCoIwsoBxscnYD4dP3cDTdNePft64Bxr7GPVUIpa+3OQmfW8y7rIP6G605SZfz
-	 djvzl14jh0S5IZxzRoetPep01R1HIOAJWskTfHF1dfXMbQCnAeijbpzbJw4zJ19TsLw==
+	bh=UC6II18BigQ10YSW7rruVoReR5Vi/1nTsgpplPD29bY=;
+	b=KFxTbqf/HZYeCtuKZiIo9uvfv0pVyrVmb0ZS5QyTskyPUu2xsy/IMDVhhcd5qomQa8tr
+	 Ee52XOVcdt176KpnADRaoNGHuEK00vo1AwJNXD7jM0Tc0rNE89wK8UJaT1uHUotC8MV3p
+	 nthJxcyrLnLamyh2QSuG27rWU2mKrb84yggkGQz+rfcz5l31rGq4QcMczsxrCPXchyLUM
+	 b19SJD712/nx6x+VAfUe+b1WIVzeSV7jjA/sSGbDqezxA4y4THDYpnqOd0bgvqQ7eGSwm
+	 1N/b04iJD8lTfthLktGkuYlyoBm7SNjFijevVidfFPnyzLZUG5nd7IDEo46tuH2aJog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="JCRwFK/J";
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CH69wWkV;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6902C606A320
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 22:41:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6902C606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06071606A320
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 23:22:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06071606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JCRwFK/J
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CH69wWkV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795300886; x=1826836886;
+  t=1795303360; x=1826839360;
   h=date:from:to:cc:subject:message-id;
-  bh=Ll9x0u0HMqdrMtsJiJb1opOFTB5qDiSFvJpJwgMrKI8=;
-  b=JCRwFK/J0JMFqD2fEg7QBvkp4owN1rU6TR7dBz1nFZ5ArzIJ5I/rEe6Y
-   lIhjkZypYr8ady9Bu7zkhv4Btrf3SvjK7KxYR3mDAfYclwp3IF28u2ASl
-   2kl0dmKapbrDEKBFhVf2lEBCLJs/np1uNdl1DaJcAIN18qks2AP7V1KNn
-   4aQeLJEIbydrLCDTVLYzleAy1AWwgOfxblZuy4jABrl4Wfz88+S0P+JHR
-   7MpN3HWeSHXMwdUQox12R8Q757YfAFZRRXzS2qnExS40oZ1TxXCAi999r
-   r0ivkpaFrBjRR2fuBWx93LSGTgf4LTt7OXW3tvUQYQYtmMML98/6ZW4jN
-   Q==;
-X-CSE-ConnectionGUID: BgUZMvRJTN+BC7Asf/jQBA==
-X-CSE-MsgGUID: NyfSB6KBRMuwZ0rJkVnM2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4031891"
+  bh=boqD/td3ECK/JueO0Ef+/Ddr+sY/trNmXABBlSbwisA=;
+  b=CH69wWkVLo1eDXFsyEeeYCBO4n2Pgq/fnm0HBxkpJCFsq6Ba2EIKVvYH
+   2kGrkcgwoooi3PLR3muNNd5VVOtYiqXiZSQlamv1MgdU+rzIxO1RKCqVs
+   QsTZVEMx8RfakFSKf/j6h1tP0W/dYvKaO+LpjgCa4EMyQqDVkdocyvZ9c
+   vs6TcgvVaLsQ1Q/anOcxfcQm3cnJnY3bX1abV+ZNN9JJXlyMRkJ6yKfvx
+   mc4ofa+JZowBVcz4rn/RRsDti3gfZhLjxusuwMOfJtP9M3bzER7Yz1GUI
+   7uJWUrp54jqmlb+whVKdxvDuWqrY3CmV0G4G2qSVGmQL/hutHy1WfDk7P
+   g==;
+X-CSE-ConnectionGUID: f7A3qObXSWWMXXEqPI5sZQ==
+X-CSE-MsgGUID: XYYxkdvWR8O+ECUzVW2ZZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4040967"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4031891"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 14:41:25 -0800
-X-CSE-ConnectionGUID: au0q1e7RSzGoABdGiDumnw==
-X-CSE-MsgGUID: Bg7sAbCERN6KwKNC80HMrA==
+   d="scan'208";a="4040967"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 15:22:39 -0800
+X-CSE-ConnectionGUID: jFPicLuvRmuBXeldMDQ+7w==
+X-CSE-MsgGUID: IeaONUWjTcuARPVcjs2+bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="12976101"
+   d="scan'208";a="10858959"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 21 Nov 2026 14:41:24 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2026 15:22:39 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUtlp-000000004Nx-2tnj;
-	Sat, 21 Nov 2026 22:41:21 +0000
-Date: Sat, 21 Nov 2026 23:41:03 +0100
+	id 1xUuPk-000000004PZ-0UYt;
+	Sat, 21 Nov 2026 23:22:36 +0000
+Date: Sun, 22 Nov 2026 00:22:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ceph-client:wip-aainscow-ec-direct-reads 20/26]
- net/ceph/osd_client.c:3155 ec_split_versions_match() error: we previously
- assumed 'ref' could be null (see line 3146)
-Message-ID: <20261121233623.lCiPrnr2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [frank-li:imx/dt64 92/93]
+ arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43810000
+ (fsl,imx95-gpio): clock-names: ['gpio'] is too short
+Message-ID: <20261122001621.lHO6O5I8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,74 +81,46 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: ceph-devel@vger.kernel.org
-TO: Alex Ainscow <aainscow@uk.ibm.com>
+TO: Leonardo Costa <leonardo.costa@toradex.com>
+CC: Frank Li <Frank.Li@nxp.com>
+CC: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-tree:   https://github.com/ceph/ceph-client.git wip-aainscow-ec-direct-reads
-head:   00d89e140a99b56b752bc5a02b7788df249d08ed
-commit: ea761b1c80d32b77a18cc30fab5d3a4da2b99d53 [20/26] libceph: fall back to GET_INTERNAL_VERSIONS for split reads
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
+head:   e32bda9845c5239c3b7605c465d61f3e2d350599
+commit: feda8a3590ccfb9febbb70a95d763e7775b167a3 [92/93] arm64: dts: freescale: imx95-aquila: Add Lotus Carrier Board
+:::::: branch date: 31 hours ago
 :::::: commit date: 2 days ago
-config: alpha-randconfig-2200-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121233623.lCiPrnr2-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261122/20261122001621.lHO6O5I8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/20261122001621.lHO6O5I8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261121233623.lCiPrnr2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261122001621.lHO6O5I8-lkp@intel.com/
 
-New smatch warnings:
-net/ceph/osd_client.c:3155 ec_split_versions_match() error: we previously assumed 'ref' could be null (see line 3146)
-
-Old smatch warnings:
-net/ceph/osd_client.c:3239 ec_split_complete() error: we previously assumed 'op->extent.sparse_ext' could be null (see line 3236)
-
-vim +/ref +3155 net/ceph/osd_client.c
-
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3125  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3126  /*
-ea761b1c80d32b Alex Ainscow 2026-11-12  3127   * GET_INTERNAL_VERSIONS_V2: the sub-read whose shard has the newest version
-ea761b1c80d32b Alex Ainscow 2026-11-12  3128   * is the reference.  GET_INTERNAL_VERSIONS: the primary's sub-read is.
-ea761b1c80d32b Alex Ainscow 2026-11-12  3129   * Every other shard must have the version that the reference has for it.
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3130   */
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3131  static bool ec_split_versions_match(struct ceph_ec_split *sp)
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3132  {
-ea761b1c80d32b Alex Ainscow 2026-11-12  3133  	struct ec_split_sub *ref = sp->v1 ? &sp->subs[sp->ref] : NULL;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3134  	struct ec_version v;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3135  	int i;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3136  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3137  	for (i = 0; i < sp->num_subs; i++) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3138  		struct ec_split_sub *sub = &sp->subs[i];
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3139  
-ea761b1c80d32b Alex Ainscow 2026-11-12  3140  		if (sp->v1 && sub == ref)
-ea761b1c80d32b Alex Ainscow 2026-11-12  3141  			continue;
-ea761b1c80d32b Alex Ainscow 2026-11-12  3142  		if (ec_shard_version(sub->req, sp->v1, sub->shard,
-ea761b1c80d32b Alex Ainscow 2026-11-12  3143  				     &sub->version))
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3144  			return false;
-ea761b1c80d32b Alex Ainscow 2026-11-12  3145  		if (!sp->v1 &&
-ea761b1c80d32b Alex Ainscow 2026-11-12 @3146  		    (!ref || ec_version_cmp(&sub->version, &ref->version) > 0))
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3147  			ref = sub;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3148  	}
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3149  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3150  	for (i = 0; i < sp->num_subs; i++) {
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3151  		struct ec_split_sub *sub = &sp->subs[i];
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3152  
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3153  		if (sub == ref)
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3154  			continue;
-ea761b1c80d32b Alex Ainscow 2026-11-12 @3155  		if (ec_shard_version(ref->req, sp->v1, sub->shard, &v) ||
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3156  		    ec_version_cmp(&sub->version, &v))
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3157  			return false;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3158  	}
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3159  	return true;
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3160  }
-7ebc8cd159d55d Alex Ainscow 2026-11-12  3161  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx95.dtsi:1873.16-1902.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+>> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
+   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
 
 -- 
 0-DAY CI Kernel Test Service
