@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795262643;
-	b=onUhJk7tyf4RazXStBdZ350W2uAvxsIQGcU/xqZ15ilJRfgvNZN4POmXrkX3eFaOtLcK
-	 TVn+c0sFDWt64e2sTkcBJXKivMhvzGIPLgtSR7zRTJY7Ob7YRs8LEGAwh+K1HmnxUgGLJ
-	 e6qomBQZ0kxZ54hiUOY70S6+bWmArx+BJ6iBRGP8Me6desXNT0QeIhR6UdIad1xgXIU4v
-	 VeRMdjvLzWv1Gg0EXzBWi8oPU2a7ECNEqcolbHyH1AdjFR+6wYzO1QiLRImPV6cyOrg3O
-	 o2CiwX1c2s9WtTNgNdW4SWzJ5DUX0sk5ddhiv6TdmOxP6YhU9+uxdplp45Z7NKmjMiA==
+	t=1795265768;
+	b=24iZF/ix2KMTFSpGH92ZeFLsoSyktzr/9Dui35diPmBk1iGb58mx2KiLid6H8FTkIHav
+	 LchRtMNt5rcrSjBOrzJIAvbB9P/bi6kkTDU51H2VV0I3l6gIc/cEIteZj/PZSAsfo8pIo
+	 HE2dcyi0Hl47NpCsVh7jFMXVsO4otI1cAl3bz4Ef3HG+t5N7CSjdRwk1HVlh3y0Bin9km
+	 CNvBtLuvamb2o3NuZIhDiI4k3hRr9bPkjT0LSB/09sqrZAvovCa5WKl1Etulae85VO8Ij
+	 fAPwD6WfZmyAiK7vgiqoEa12xQHgFDVQATw7QArDS9czTJPMnNZd1h3jIEWVlmi5W9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795262643;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795265768;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=M5Oz74kvcVmMvDFjfNtRsMKgUorJfO9qRtagIQ/HJgI=;
-	b=jYsh869heWPIVmWvgXKnaFE8yzUSzUgNnAMO+duJhHpgjmCjfmXKhPsSUW2SkA+yEeLT
-	 3AIdvDB55C9xpIYWsDoanWDopApzOMZshoRlrnmpn/Zjq/LDUwbIkrbg3gAeMtB3g+eiK
-	 VnYUZPsnOrjT9jArpBSHyfDnuG2IOCWxn3Mje1UZwViLfOCrj2cOAYPIsIGezZ0P6PoeB
-	 pWucWcxXFxWj2737CRq3BitWp43excqpAoRqQCRubpoCcaNjaKo2FanCFrpHJicpm+BT4
-	 0kvaV9Roh2HKMLKVPw+STovOK0C/ehNA4X0tPTwEbIf/IKcXFXE1L1oT99xCbEg+TOQ==
+	bh=STpj12xJjCcU8YEPp0/9i9ngkMLWObdzUX2ximIih0w=;
+	b=Qoyptt2ZcvTBSRTXKNWZOVcZ9PX4s6ltqVdJWNzTK2U8AX0DtN/zC9ztx4JsBCGQ9se2
+	 WUteVQJD9LUem8cF+YBq+sOJTdxFxaRs0xsG497NNxF2sYAMbChzzIuBBetliZNGapo7c
+	 WCSCEgluCc0jWW0+aYpDw0z38lTX14BnqQCdNt8ngMnAi9rhGnpFpucNOxMGX2kEN63SS
+	 Qn6JHJhxXvYX5tc2NyLnIcv3Y7b6RJ/CnI52hEr/Vqi4I0PxtfVaY6r1pg3NCefxXX2qv
+	 pH3NDeXtpyv+sChDlDgMaerLOSijas0IInpLX2aGwDGm5v0DbAMnPn2WVTWPaf0ezhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YTWH8hj6;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=M1GdhcQo;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD94606A32A
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 12:04:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFD94606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B917F606A32C
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Nov 2026 12:56:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B917F606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YTWH8hj6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=M1GdhcQo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795262643; x=1826798643;
+  t=1795265766; x=1826801766;
   h=date:from:to:cc:subject:message-id;
-  bh=9MalFMeY3bcxS6G1SdRSua1lVuCIjtJXJRGsJacxfEA=;
-  b=YTWH8hj6URznewBvmcThVxSnIYBh1LpjdgF8yJbwrhQijBfdAto/EvjU
-   4jIqu0ChfJ9TnhNgVFs8vyCI9z67yNbnZaMAqEGCpM5OrH2oHnNIGcUsr
-   XKlTD5cOiVVGa3QUlUxEdmAKL7kxPwoLNhSMjmgkosroFbBboBBj3UCfX
-   ICLYWTyrDsTmDctLAcj69GL5Ct6PiHbtAwArkrK2hD2nrv/OWhxhy/gQJ
-   RLj1x0H+jGJ1tClr8ryLWXKwWlo1FPqpzM7K9sxCkgfax2jdfaD0t7JpJ
-   AmscNzZzl5tq/XFjoMzVT9g0VgjDo0yBWMxrjC470kLADw64vjGwNWp5v
-   g==;
-X-CSE-ConnectionGUID: mVWooEc9Qs6W+M67pzf8rQ==
-X-CSE-MsgGUID: FTKHFcX7RCOQp9fVQuZktQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4172788"
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="4172788"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 04:04:02 -0800
-X-CSE-ConnectionGUID: gVdVGyheR6eT/OZxGtzx5A==
-X-CSE-MsgGUID: gFU4Zi5XRMCv6g58I1E6eA==
+  bh=g8+63FmKg34z9ad0AsJHAUbWxPEdvwLhRNiktVgVzEw=;
+  b=M1GdhcQoEBK+Tcf80iBPQsHLdiWWQF2terX//cWpjD4aaBjjU8E4SKas
+   VfJbKNiPGIFmuh+xNkhAxqmdgZZYnVrdSsy7e8x2EE7Xfr2CY6N36c3r8
+   v2cNlqWXvfWx4nQSKqJxHSqd1WWkm0RrxVZ93RGRGcY8w06ddBq5w5xt3
+   8ijL2Yl3Uf2JC8QghA01ZfEKDEao/eXfJpawHWl31vzzv502T1VD4Nprk
+   0prCHlEfvYkjEUbeA+FH1Uy0o10LiH6Zn41Wy/rc7r/3OJ+e2UQcb0vr8
+   l8YYFCGKhjFR6dnB+0Z6xRFj468U1hzyZEmJEZvcxmedu1g9UGONdSZ2q
+   Q==;
+X-CSE-ConnectionGUID: evwVYPteQBKul00qZH+neA==
+X-CSE-MsgGUID: /ia8mWQjRAG9oWg+91Pk2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4215255"
+X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
+   d="scan'208";a="4215255"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 04:56:05 -0800
+X-CSE-ConnectionGUID: DYEqOSSdSzCPFgJIK0hvXA==
+X-CSE-MsgGUID: DBB4yxz4S5mYyEXgE4I/Uw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="11480912"
+X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
+   d="scan'208";a="11179860"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Nov 2026 04:04:01 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Nov 2026 04:56:05 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUjp0-000000004Jh-1db5;
-	Sat, 21 Nov 2026 12:03:58 +0000
-Date: Sat, 21 Nov 2026 13:03:47 +0100
+	id 1xUkdN-000000004K1-3kwG;
+	Sat, 21 Nov 2026 12:56:01 +0000
+Date: Sat, 21 Nov 2026 13:55:47 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 8956/10560] main.c:undefined reference to
- `__ld_r13_to_r14_ret'
-Message-ID: <20261121125243.34yaORF7-lkp@intel.com>
+Subject: [bpf-next:master 38/51] kernel/bpf/verifier.c:21690:
+ undefined reference to `bpf_prog_offload_verify_insn'
+Message-ID: <20261121134501.KyPjoxHn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,196 +81,263 @@ List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "too many reports for this commit"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vineet Gupta <vgupta@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
-CC: Arnd Bergmann <arnd@arndb.de>
+TO: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   909ef7a9a30fa139e69e555e3606680f5cca7726
-commit: 86a4eab2bd8313fec6e54742e3ea187b65b86b07 [8956/10560] ARC: stop linking libgcc
-:::::: branch date: 19 hours ago
-:::::: commit date: 2 days ago
-config: arc-randconfig-2005-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121125243.34yaORF7-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121125243.34yaORF7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   9867c61abbd44f7053a871566b3d982f62c6d8dc
+commit: 09c84023b0b4ef040548929859de81177a15bab2 [38/51] bpf: Verify in passes
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: sh-randconfig-2001-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121134501.KyPjoxHn-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121134501.KyPjoxHn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261121125243.34yaORF7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261121134501.KyPjoxHn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arc-linux-ld: init/main.o: in function `initcall_blacklisted':
->> main.c:(.text+0x2c): undefined reference to `__ld_r13_to_r14_ret'
->> arc-linux-ld: main.c:(.text+0x2c): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: init/main.o: in function `do_one_initcall':
-   main.c:(.text+0x8e): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x8e): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text+0x22e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.text+0x22e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `do_early_param':
-   main.c:(.init.text+0x86): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x86): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0xac): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: main.c:(.init.text+0xac): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: init/main.o: in function `repair_env_string':
->> main.c:(.init.text+0x118): undefined reference to `__ld_r13_to_r14_ret'
->> arc-linux-ld: main.c:(.init.text+0x118): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: init/main.o: in function `set_init_arg':
-   main.c:(.init.text+0x1ac): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: main.c:(.init.text+0x1ac): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: init/main.o: in function `unknown_bootoption':
-   main.c:(.init.text+0x1ba): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x1ba): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x248): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: main.c:(.init.text+0x248): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: init/main.o: in function `initcall_blacklist':
->> main.c:(.init.text+0x33e): undefined reference to `__st_r13_to_r20'
->> arc-linux-ld: main.c:(.init.text+0x33e): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0x3fa): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: main.c:(.init.text+0x3fa): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/main.o: in function `start_kernel':
-   main.c:(.init.text+0x498): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0x498): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: init/main.o: in function `kernel_init_freeable':
-   main.c:(.init.text+0x880): undefined reference to `__st_r13_to_r23'
-   arc-linux-ld: main.c:(.init.text+0x880): undefined reference to `__st_r13_to_r23'
-   arc-linux-ld: main.c:(.init.text+0xa28): undefined reference to `__ld_r13_to_r23'
-   arc-linux-ld: main.c:(.init.text+0xa28): undefined reference to `__ld_r13_to_r23'
-   arc-linux-ld: init/main.o: in function `kernel_init':
->> main.c:(.ref.text+0x140): undefined reference to `__ld_r13_to_r14_ret'
->> arc-linux-ld: main.c:(.ref.text+0x140): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: init/main.o: in function `run_init_process':
-   main.c:(.text.unlikely+0xa): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0xa): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x9c): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: main.c:(.text.unlikely+0x9c): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: init/main.o: in function `try_to_run_init_process':
->> main.c:(.text.unlikely+0x11e): undefined reference to `__ld_r13_to_r14_ret'
->> arc-linux-ld: main.c:(.text.unlikely+0x11e): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: init/do_mounts.o: in function `do_mount_root':
->> do_mounts.c:(.init.text+0xee): undefined reference to `__st_r13_to_r17'
->> arc-linux-ld: do_mounts.c:(.init.text+0xee): undefined reference to `__st_r13_to_r17'
->> arc-linux-ld: do_mounts.c:(.init.text+0x1b8): undefined reference to `__ld_r13_to_r17_ret'
->> arc-linux-ld: do_mounts.c:(.init.text+0x1b8): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root_generic':
-   do_mounts.c:(.init.text+0x23a): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x23a): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x308): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x308): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root':
->> do_mounts.c:(.init.text+0x3e8): undefined reference to `__st_r13_to_r22'
->> arc-linux-ld: do_mounts.c:(.init.text+0x3e8): undefined reference to `__st_r13_to_r22'
->> arc-linux-ld: do_mounts.c:(.init.text+0x45a): undefined reference to `__ld_r13_to_r22_ret'
->> arc-linux-ld: do_mounts.c:(.init.text+0x45a): undefined reference to `__ld_r13_to_r22_ret'
->> arc-linux-ld: do_mounts.c:(.init.text+0x4ca): undefined reference to `__ld_r13_to_r22'
->> arc-linux-ld: do_mounts.c:(.init.text+0x4ca): undefined reference to `__ld_r13_to_r22'
-   arc-linux-ld: init/do_mounts.o: in function `prepare_namespace':
-   do_mounts.c:(.init.text+0x522): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: do_mounts.c:(.init.text+0x522): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: do_mounts.c:(.init.text+0x62e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x62e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/calibrate.o: in function `calibrate_delay':
-   calibrate.c:(.text+0xa): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0xa): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0x6a): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0x6a): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `arc_cpu_mumbojumbo.constprop.2':
-   setup.c:(.text+0x72): undefined reference to `__st_r13_to_r23'
-   arc-linux-ld: setup.c:(.text+0x72): undefined reference to `__st_r13_to_r23'
-   arc-linux-ld: setup.c:(.text+0x398): undefined reference to `__ld_r13_to_r23_ret'
-   arc-linux-ld: setup.c:(.text+0x398): undefined reference to `__ld_r13_to_r23_ret'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `show_cpuinfo':
-   setup.c:(.text+0x3ae): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: setup.c:(.text+0x3ae): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: setup.c:(.text+0x3e0): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: setup.c:(.text+0x3e0): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `handle_uboot_args':
-   setup.c:(.init.text+0x128): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: setup.c:(.init.text+0x128): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: arch/arc/kernel/irq.o: in function `arch_do_IRQ':
-   irq.c:(.text+0x2): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: irq.c:(.text+0x2): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: irq.c:(.text+0x24): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: irq.c:(.text+0x24): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: arch/arc/kernel/devtree.o: in function `setup_machine_fdt':
-   devtree.c:(.init.text+0x34): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: devtree.c:(.init.text+0x34): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: devtree.c:(.init.text+0x82): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: devtree.c:(.init.text+0x82): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: arch/arc/mm/init.o: in function `early_init_dt_add_memory_arch':
-   init.c:(.init.text+0xb6): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0xb6): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0xf4): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0xf4): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `arc_cache_mumbojumbo':
-   cache.c:(.text+0x146): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x146): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x260): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: cache.c:(.text+0x260): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `flush_icache_range':
-   cache.c:(.text+0x2da): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x2da): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x318): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x318): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x332): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x332): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x370): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: cache.c:(.text+0x370): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `copy_user_highpage':
-   cache.c:(.text+0x404): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: cache.c:(.text+0x404): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: kernel/fork.o: in function `ptrace_event_pid':
-   fork.c:(.text+0x1a2): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: fork.c:(.text+0x1a2): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: kernel/fork.o: in function `sysctl_max_threads':
-   fork.c:(.text+0x1aa): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x1aa): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x204): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x204): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `copy_clone_args_from_user':
-   fork.c:(.text+0x46e): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0x46e): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0x48a): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: fork.c:(.text+0x48a): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: kernel/fork.o: in function `mm_init.isra.127':
-   fork.c:(.text+0x6e0): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x6e0): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x7ca): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x7ca): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `__mmdrop':
-   fork.c:(.text+0x87e): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x87e): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x958): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x958): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: kernel/fork.o: in function `set_mm_exe_file':
-   fork.c:(.text+0xb22): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0xb22): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0xb66): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0xb66): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `replace_mm_exe_file':
-   fork.c:(.text+0xca2): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0xca2): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0xd3a): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0xd3a): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `mm_access':
-   fork.c:(.text+0xd7a): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0xd7a): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0xde2): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: fork.c:(.text+0xde2): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/fork.o: in function `mm_exit_exec_release':
-   fork.c:(.text+0xe5c): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: fork.c:(.text+0xe5c): undefined reference to `__ld_r13_to_r14_ret'
-   arc-linux-ld: kernel/fork.o: in function `pidfd_prepare':
-   fork.c:(.text+0xeb6): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0xeb6): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0xf16): undefined reference to `__ld_r13_to_r16_ret'
+   sh4-linux-ld: arch/sh/kernel/irq.o: in function `init_IRQ':
+   arch/sh/kernel/irq.c:219: undefined reference to `plat_irq_setup'
+   sh4-linux-ld: arch/sh/kernel/cpu/clock-cpg.o: in function `cpg_clk_init':
+   arch/sh/kernel/cpu/clock-cpg.c:69: undefined reference to `arch_init_clk_ops'
+   sh4-linux-ld: kernel/bpf/verifier.o: in function `do_check_block':
+>> kernel/bpf/verifier.c:21690: undefined reference to `bpf_prog_offload_verify_insn'
+   sh4-linux-ld: kernel/bpf/verifier.o: in function `do_check_all':
+>> kernel/bpf/verifier.c:23634: undefined reference to `bpf_prog_offload_verifier_prep'
+
+
+vim +21690 kernel/bpf/verifier.c
+
+3c41899af5d0855 Alexei Starovoitov      2026-11-20  21604  
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21605  /* Process the current state until it gets to the start of a basic block. */
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21606  static int do_check_block(struct bpf_verifier_env *env, int prev_insn_idx)
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21607  {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21608  	struct bpf_verifier_state *state = env->cur_state;
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21609  	struct bpf_verifier_stack_elem *elem;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21610  	struct bpf_insn *insns = env->prog->insnsi;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21611  	int insn_cnt = env->prog->len;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21612  	bool do_print_state = true, from_unproven;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21613  	struct prog_requirements prog_requirements, new_requirements;
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21614  	bool again = prev_insn_idx == env->insn_idx;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21615  	unsigned long ranges;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21616  	bool stack_args;
+37e13b091537b2e Alexei Starovoitov      2026-11-20  21617  	u32 held;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21618  
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21619  	mark_verifier_state_scratched(env);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21620  	for (;;) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21621  		struct bpf_insn *insn;
+dadb59104c6441f Luis Gerhorst           2025-07-05  21622  		struct bpf_insn_aux_data *insn_aux;
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21623  		struct bpf_insn_fixups fixups;
+6762e3a0bce5fce Eduard Zingerman        2026-04-10  21624  		int err;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21625  
+3c41899af5d0855 Alexei Starovoitov      2026-11-20  21626  		err = bpf_check_limits(env);
+3c41899af5d0855 Alexei Starovoitov      2026-11-20  21627  		if (err)
+3c41899af5d0855 Alexei Starovoitov      2026-11-20  21628  			return err;
+8fd58560b71e97e Alexei Starovoitov      2026-11-07  21629  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21630  		env->prev_insn_idx = prev_insn_idx;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21631  		if (env->insn_idx >= insn_cnt) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21632  			verbose(env, "invalid insn idx %d insn_cnt %d\n",
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21633  				env->insn_idx, insn_cnt);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21634  			return -EFAULT;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21635  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21636  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21637  		insn = &insns[env->insn_idx];
+dadb59104c6441f Luis Gerhorst           2025-07-05  21638  		insn_aux = &env->insn_aux_data[env->insn_idx];
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21639  
+14c950ac2be8cad Kumar Kartikeya Dwivedi 2026-08-13  21640  		account_processed_insn(env);
+14c950ac2be8cad Kumar Kartikeya Dwivedi 2026-08-13  21641  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21642  		state->last_insn_idx = env->prev_insn_idx;
+13f843c0177eeb3 Eduard Zingerman        2025-06-11  21643  		state->insn_idx = env->insn_idx;
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21644  		/*
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21645  		 * Record the incoming edge. A zero-offset conditional has identical
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21646  		 * successors, so its outcome cannot be reconstructed from the edge.
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21647  		 */
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21648  		if (!state->speculative && prev_insn_idx >= 0 && prev_insn_idx < insn_cnt) {
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21649  			struct bpf_insn *prev_insn = &insns[prev_insn_idx];
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21650  			int fallthrough_idx = prev_insn_idx + 1;
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21651  			int branch_idx = prev_insn_idx + bpf_jmp_offset(prev_insn) + 1;
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21652  			u8 class = BPF_CLASS(prev_insn->code);
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21653  			u8 opcode = BPF_OP(prev_insn->code);
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21654  
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21655  			if ((class == BPF_JMP || class == BPF_JMP32) &&
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21656  			    opcode != BPF_JA && opcode != BPF_CALL && opcode != BPF_EXIT &&
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21657  			    opcode <= BPF_JCOND && branch_idx != fallthrough_idx) {
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21658  				if (env->insn_idx == branch_idx)
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21659  					bpf_diag_record_branch(env, prev_insn_idx, true);
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21660  				else if (env->insn_idx == fallthrough_idx)
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21661  					bpf_diag_record_branch(env, prev_insn_idx, false);
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21662  			}
+daf8248701b621d Kumar Kartikeya Dwivedi 2026-08-15  21663  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21664  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21665  		if (env->log.level & BPF_LOG_LEVEL2 && do_print_state) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21666  			verbose(env, "\nfrom %d to %d%s:",
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21667  				env->prev_insn_idx, env->insn_idx,
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21668  				env->cur_state->speculative ?
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21669  				" (speculative execution)" : "");
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21670  			print_verifier_state(env, state, state->curframe, true);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21671  			do_print_state = false;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21672  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21673  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21674  		if (env->log.level & BPF_LOG_LEVEL) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21675  			if (verifier_state_scratched(env))
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21676  				print_insn_state(env, state, state->curframe);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21677  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21678  			verbose_linfo(env, env->insn_idx, "; ");
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21679  			env->prev_log_pos = env->log.end_pos;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21680  			verbose(env, "%d: ", env->insn_idx);
+19dbb1347481105 Alexei Starovoitov      2026-04-02  21681  			bpf_verbose_insn(env, insn);
+483a1bb0b6cf816 Eduard Zingerman        2026-08-07  21682  			verbose(env, "\n");
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21683  			env->prev_insn_print_pos = env->log.end_pos - env->prev_log_pos;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21684  			env->prev_log_pos = env->log.end_pos;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21685  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21686  
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21687  		if (env->replay) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21688  			err = bpf_prog_offload_verify_insn(env, env->insn_idx,
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21689  							   env->prev_insn_idx);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03 @21690  			if (err)
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21691  				return err;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21692  		} else if (bpf_prog_is_offloaded(env->prog->aux)) {
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21693  			/* the driver cannot forget what an imprecise state shows */
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21694  			note_pessimized_insn(env, env->insn_idx);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21695  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21696  
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21697  		sanitize_mark_insn_seen(env);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21698  		insn_aux->suspect_loops |= state->suspect_loops;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21699  		prev_insn_idx = env->insn_idx;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21700  
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21701  		/* Sanity check: precomputed constants must match verifier state */
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21702  		if (!state->speculative && !env->err && !env->extra_values &&
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21703  		    insn_aux->const_reg_mask) {
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21704  			struct bpf_reg_state *regs = cur_regs(env);
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21705  			u16 mask = insn_aux->const_reg_mask;
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21706  
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21707  			for (int r = 0; r < ARRAY_SIZE(insn_aux->const_reg_vals); r++) {
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21708  				u32 cval = insn_aux->const_reg_vals[r];
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21709  
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21710  				if (!(mask & BIT(r)))
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21711  					continue;
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21712  				if (regs[r].type != SCALAR_VALUE)
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21713  					continue;
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21714  				if (!tnum_is_const(regs[r].var_off))
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21715  					continue;
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21716  				if (verifier_bug_if((u32)regs[r].var_off.value != cval,
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21717  						    env, "const R%d: %u != %llu",
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21718  						    r, cval, regs[r].var_off.value))
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21719  					return -EFAULT;
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21720  			}
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21721  		}
+f1606dd0ac49230 Alexei Starovoitov      2026-04-02  21722  
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21723  		/* Reduce verification complexity by stopping speculative path
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21724  		 * verification when a nospec is encountered.
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21725  		 */
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21726  		if (state->speculative && insn_aux->non_speculative_first)
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21727  			need_nospec(env, env->insn_idx);
+dadb59104c6441f Luis Gerhorst           2025-07-05  21728  		if (state->speculative && insn_aux->nospec)
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21729  			goto process_bpf_exit;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21730  		insn_aux->speculative_first |= !insn_aux->seen;
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21731  
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21732  		ranges = operands_with_range(env, insn);
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21733  		stack_args = cur_func(env)->out_stack_arg_cnt;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21734  
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21735  		err = check_loop_guard(env) ?: check_recursion_guard(env);
+eaea73907052141 Alexei Starovoitov      2026-11-07  21736  		if (err)
+eaea73907052141 Alexei Starovoitov      2026-11-07  21737  			return err;
+eaea73907052141 Alexei Starovoitov      2026-11-07  21738  
+92907a9af652365 Alexei Starovoitov      2026-11-20  21739  		bpf_equations_before_insn(env);
+37e13b091537b2e Alexei Starovoitov      2026-11-20  21740  		held = held_cnt(state);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21741  		from_unproven = reads_from_unproven(env);
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21742  		fixups = insn_aux->fixups;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21743  		prog_requirements = get_prog_requirements(env);
+a46de5d64e18603 Alexei Starovoitov      2026-11-20  21744  		env->no_report = state->speculative;
+92907a9af652365 Alexei Starovoitov      2026-11-20  21745  		err = do_check_insn(env, &do_print_state) ?: bpf_equations_after_insn(env);
+a46de5d64e18603 Alexei Starovoitov      2026-11-20  21746  		env->no_report = false;
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21747  		new_requirements = get_prog_requirements(env);
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21748  		/* a join adds values only to a range */
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21749  		if ((ranges || stack_args || again) &&
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21750  		    memcmp(&prog_requirements, &new_requirements, sizeof(new_requirements)))
+cd97aa1387d9478 Alexei Starovoitov      2026-11-20  21751  			note_pessimized_insn(env, prev_insn_idx);
+762e1478d7c5da9 Alexei Starovoitov      2026-11-20  21752  		/* a call or an exit gave the state to the flow, the error is from there */
+762e1478d7c5da9 Alexei Starovoitov      2026-11-20  21753  		if (err < 0 && !state->frame[0])
+762e1478d7c5da9 Alexei Starovoitov      2026-11-20  21754  			return err;
+37e13b091537b2e Alexei Starovoitov      2026-11-20  21755  		insn_aux->releases |= held_cnt(state) < held && err != PROCESS_BPF_EXIT;
+37e13b091537b2e Alexei Starovoitov      2026-11-20  21756  		insn_aux->acquires |= held_cnt(state) > held;
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21757  		if (nospec_ends_path(env, state, err)) {
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21758  			/* Prevent this speculative path from ever reaching the
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21759  			 * insn that would have been unsafe to execute.
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21760  			 * What it noted does not apply to the other paths.
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21761  			 * check_fastcall_stack_contract() clears the pattern only once.
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21762  			 */
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21763  			fixups.fastcall_spills_num = insn_aux->fastcall_spills_num;
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21764  			insn_aux->fixups = fixups;
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21765  			need_nospec(env, prev_insn_idx);
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21766  			free_pushed_states(env);
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21767  			goto process_bpf_exit;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21768  		} else if (error_is_recoverable(err) && !env->path_sensitive) {
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21769  			env->insn_idx = prev_insn_idx;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21770  			if (bpf_same_insns_unproven(env))
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21771  				return err;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21772  			if (from_unproven)
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21773  				bpf_note_reads_from_unproven(env, prev_insn_idx);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21774  			else
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21775  				note_error(env, err);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21776  			err = skip_unproven_insn(env, insn);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21777  			if (err < 0)
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21778  				return err;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21779  			if (err)
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21780  				goto process_bpf_exit;
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21781  			mark_from_unproven(env, prev_insn_idx, true);
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21782  			env->insn_idx++;
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21783  		} else if (err < 0) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21784  			return err;
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21785  		} else if (err == PROCESS_BPF_EXIT) {
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21786  			goto process_bpf_exit;
+2ec74a053611edf Alexei Starovoitov      2026-04-11  21787  		} else if (err == INSN_IDX_UPDATED) {
+2ec74a053611edf Alexei Starovoitov      2026-04-11  21788  		} else if (err == 0) {
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21789  			if (!bpf_pseudo_call(insn) && !bpf_is_callx(insn))
+0e549bbe75ab747 Alexei Starovoitov      2026-11-20  21790  				mark_from_unproven(env, prev_insn_idx, from_unproven);
+2ec74a053611edf Alexei Starovoitov      2026-04-11  21791  			env->insn_idx++;
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21792  		}
+d6f1c85f22534d2 Luis Gerhorst           2025-06-03  21793  
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21794  		/* only a store that stays gets it, see bpf_convert_ctx_accesses() */
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21795  		if (state->speculative && insn_aux->nospec_result && !insn_aux->fastcall_pattern &&
+d83c595d9480edd Alexei Starovoitov      2026-11-20  21796  		    bpf_is_mem_insn(insn) && BPF_MODE(insn->code) == BPF_MEM) {
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21797  process_bpf_exit:
+14c950ac2be8cad Kumar Kartikeya Dwivedi 2026-08-13  21798  			account_current_path(env);
+3c41899af5d0855 Alexei Starovoitov      2026-11-20  21799  			bpf_free_verifier_state(env, state, false);
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21800  			memset(state, 0, sizeof(*state));
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21801  			return flow_drain(env);
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21802  		}
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21803  
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21804  		/* if the insn pushed a part, the current state is a part too */
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21805  		for (elem = env->head; elem; elem = elem->next)
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21806  			again |= elem->again;
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21807  		err = flow_drain(env);
+c9e31900b54cadf Eduard Zingerman        2025-06-11  21808  		if (err)
+c9e31900b54cadf Eduard Zingerman        2025-06-11  21809  			return err;
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21810  
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21811  		/* the parts of a state meet at the next insn */
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21812  		if (env->insn_idx < insn_cnt &&
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21813  		    (again || bpf_flow_is_bb_start(env, env->insn_idx))) {
+5395aa9bbeb5690 Alexei Starovoitov      2026-11-07  21814  			account_current_path(env);
+0e5e78acdf2a625 Alexei Starovoitov      2026-11-20  21815  			return bpf_flow_deliver(env, state, env->insn_idx, prev_insn_idx, false);
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21816  		}
+8b7df50fd40d7ab Luis Gerhorst           2025-06-03  21817  	}
+17a5267067f3c37 Alexei Starovoitov      2014-09-26  21818  }
+17a5267067f3c37 Alexei Starovoitov      2014-09-26  21819  
+
+:::::: The code at line 21690 was first introduced by commit
+:::::: 8b7df50fd40d7ab3b467c9739965b0e5a02e6113 bpf: Move insn if/else into do_check_insn()
+
+:::::: TO: Luis Gerhorst <luis.gerhorst@fau.de>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
