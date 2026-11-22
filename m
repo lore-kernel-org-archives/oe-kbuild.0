@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795326368;
-	b=2uZbfZfXyzsA3vqeJX4isETj6wT/9bUXRbG7KWWQ3whaZfqz7+OZAFox/yatq6cq4rQD
-	 4VE45rnVLcYyoMOLtZcMtqAWBM1+WJLYCkqreR29RRYYSI5PwnfBFx7uXq6Cqkk3jW2lR
-	 jYApEKglo3E3O6mzfip1HAFihOQLuB5GDlYwAoPu4tibvV5s2x/0BBRt0d+dAi2YHaAd4
-	 MOv5WiNxjaR9KEOGc12hEM4rHr4GlofXvrlyWrT7R1+HMvbixI8UhC4K+i37Xcgh8AFTO
-	 0UweHDjTrhhdojfNG9N4q89zrsjub+c5McljrZOO4fe5i8g820moiLHb1Eyi0d319LA==
+	t=1795327629;
+	b=H7lZ0gqilJn4N8bAPncBI3GteCM5C+OikeHhcZuDuyOnBPhuk7Ww/dm64pJb16Lygx5A
+	 poK/ZK4T7z5iKYkZbXd0tNtYbZXzP0P4uWpZtuS/ut6E1aXEnSQXZFAYlbSLEmSrJT5mG
+	 5u8LBRU2ogFsvXBlGxaJszHdU1pM/IoMSpMhx2+3q7V7GcaDshXErffRm7hN7Po9ZLXyc
+	 W1Kgtq60zuTgGIIuyjrkM57G2FLX0rViL3qYmV5yH4jChM6yo9UI6yvSOLyvH2l77cz1W
+	 px4sbBvIcqM55CDYElAx9lEYyYyAg+u/Pt4FfSglyGvVCmG4//ovLLsnVdxyH1AWltA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795326368;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795327629;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=o7eSxCJDV/AqeO0t2FwC5u7OyFf795RPX5uH+uHDBbs=;
-	b=rd84XLoKHasVtIxa47H2WaKtQklZ1XbUt+7fZEfXZrmN+a/wFJ5X+JOPyY+cnUjBIKkg
-	 HRi/p1KnKdTK0MXCA6g8T+uZ4aAORGdWT/0HWMCxbzQhmAnUDOfojxOgEWsGufvuch1FK
-	 aS3t3TxbsQ7ZS6MRL8ZFOdwjynfTj46BmFY6YMqBpVKbLsvuMllmH5mLYRM41gYIYM4X8
-	 HzC0mgYBGau7sRKgJ56xQLUe7Sqi3QdCt9NC+MYuXTIGVda67x08lsYtc/PFYRFabXZ8H
-	 KKA2rxm3j3ps0OA7d+i3rRxLpBy9umYCbDO/DgkOD9+2K5Pzn6jh3xQ+ptK3QcgFU/w==
+	bh=wjeH0tSZ6I/WwK2L1oOs7hiI3l4QwXYrB/ePfMDmc2Q=;
+	b=iEcr0iB6LQG1TPoFfeA6NIYauHXsZqxrbnGv1LjQ2knfHFPuokJdD+hM/1Y1Pz5p4Ro/
+	 x1GBdeq9dPYbNmO3B2cBP3FfsKWZdi7rzR3zMG2bHTOvEQ0LNPkeZSlKfJ3aVkMcAarX9
+	 mXVu/Vq3tKQrD9dKE7pzKcJs1OzEFwwwRCCX4mbZ3mtnOUI8mqaHc3hZrHlLzepaS9ZLV
+	 iUWSgGj4EmpYQur07KCSj1jFTs3MwlnOLgE1emPlixGaAs4AvDiAs7ok2nYSAp8F48mcJ
+	 M6sxZ9Il8ERonyYNAUlb5nh2+fskeysN6CG/ysQNYwmPh8sUhWVhhAJHANatvOcQGWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DOXkrnD0;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dCryQzgQ;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BCC606A320
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Nov 2026 05:46:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26BCC606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1494E606A320
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Nov 2026 06:07:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1494E606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DOXkrnD0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dCryQzgQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795326368; x=1826862368;
+  t=1795327628; x=1826863628;
   h=date:from:to:cc:subject:message-id;
-  bh=MXWDLZtISy13QLJqWtHlkHodnQ9a6bOrg2MPqCW8YR0=;
-  b=DOXkrnD05XVA/wShqFXSi+orOXyFhUGN88s63QtxM3OwMZ/97WkO3ZKv
-   Woc7zBgvHzzC37ymgW+xZTHzV/WL/vAB2I+4cbIyuluUOdQcGmjIy3sPI
-   UHJyewo+wPEPYjQzG4ktlvkKGxEqEXSb+awCmjZEjO7UoJoM8jHIHabT1
-   NH5/ti4doh84GtY0D+1eOftM/2kR3j7Awe+xYvlY87CELASmbfElTQNAp
-   ao93UXt4HJnbKrIw1NAV6bD0SO8ifkWvcp5OYUfScP5JnwXq5Mz340nWS
-   yOot2L3ps1XSQaGToo0aAxeUSIn0wXrGrHyXen7uj8A1a29NZC/CRNC06
+  bh=txqTseu6slHVaLXl07Em9Aq4gR3eWtwv85mFdGun180=;
+  b=dCryQzgQ77JaCNiL7hr/HHtaI3Y6+sqvuljzGXVUH3X2UoyPSQXRqhcA
+   flS+d67bSdPVHdZt7dhLKUNAY7Yrc8HRVQ6980Iuzztn5mr/+590ZAD+I
+   fHkfcFfYiSVzl8Kk4nEpdKqpecBX45rXcyCAfWTtbzlMUGuhUcjVnVPLM
+   6wSMjsRCVawscXcgsF7XvmDAuDYOD9ns2LdZ84Hzyg0hUHmoXuShoEGmN
+   NI51TRZXlKpLJHQEgKjSUuz6x48f8v+KXFORwBGJn0wkJOzEMDn3iem/P
+   1Mmg7ipOQVdOLQI9bnbmTkDeQ3lekc1bKMUpR/nSutwKuXwS8xWxi5vAu
    w==;
-X-CSE-ConnectionGUID: TH2kZU7IQXSxHwE4WasCpw==
-X-CSE-MsgGUID: 8GGBYtZySiu4U5kwKkeAIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4071901"
+X-CSE-ConnectionGUID: P0QSQSIFT1eb1gMSxHjKWw==
+X-CSE-MsgGUID: ug/UX9NeTjWO3DrslTL7Cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4043199"
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4071901"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 21:46:07 -0800
-X-CSE-ConnectionGUID: S9RvUSq9ROuOwoMgEKnDfQ==
-X-CSE-MsgGUID: VL4jKrbgRiynL5QE6zwLKw==
+   d="scan'208";a="4043199"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 22:07:07 -0800
+X-CSE-ConnectionGUID: sgGLp1QwQvuHXOyL3B0bGg==
+X-CSE-MsgGUID: MbVZ0VmESkCmZFGyQHHfBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="10923529"
+   d="scan'208";a="10907926"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 21 Nov 2026 21:46:05 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2026 22:07:06 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xV0Op-000000004VZ-1mMz;
-	Sun, 22 Nov 2026 05:46:03 +0000
-Date: Sun, 22 Nov 2026 06:45:49 +0100
+	id 1xV0j9-000000004Vh-3N8s;
+	Sun, 22 Nov 2026 06:07:03 +0000
+Date: Sun, 22 Nov 2026 07:06:47 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kkdwivedi:cancellations-new 37/72] kernel/bpf/flow.c:1183
- flow_prune_or_join() warn: missing error code 'err'
-Message-ID: <20261122064023.oRrKanAo-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linuxtv-media-pending:master 27/30] ERROR: modpost:
+ __ex_table+0x198c references non-executable section
+ '.sbss.reuseport_array_map_btf_ids'
+Message-ID: <20261122070334.CzWPpZJI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,137 +81,241 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+:::::: 
+:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+CC: linux-media@vger.kernel.org
+TO: John Cronin <john@stromback.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Kate Hsuan <hpa@redhat.com>
 
-tree:   https://github.com/kkdwivedi/linux cancellations-new
-head:   f4608ac56932654a33b3aace6a52bff14bbbd237
-commit: 9fd8f177e03075555aeafac32e223cb450a35353 [37/72] bpf: Remove the way out of a loop for may_goto that the verifier adds
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: m68k-randconfig-2200-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122064023.oRrKanAo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.linuxtv.org/media-ci/media-pending.git master
+head:   aa0f4c41d4870a18e65772a1817af16427200371
+commit: 73f9f99e2745b2922d99d06e264927bfbce34815 [27/30] media: i2c: imx471: return 0 from get_selection after filling crop
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: riscv-randconfig-r2101-20261121 (https://download.01.org/0day-ci/archive/20261122/20261122070334.CzWPpZJI-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/20261122070334.CzWPpZJI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261122064023.oRrKanAo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261122070334.CzWPpZJI-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/flow.c:1183 flow_prune_or_join() warn: missing error code 'err'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/err +1183 kernel/bpf/flow.c
-
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1137  
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1138  /*
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1139   * All states arrive here. @s is
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1140   * - pruned, if a state subsumes it,
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1141   * - joined with a state, unless the join rule keeps them apart,
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1142   * - pending otherwise.
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1143   * @loop: @s came around it, or @enters its leftover.
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1144   */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1145  static int flow_prune_or_join(struct bpf_verifier_env *env, struct flow_state *s,
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1146  			      struct bpf_loop *loop, bool enters)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1147  {
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1148  	bool log = (env->log.level & BPF_LOG_LEVEL2) && s->kind == FLOW_AT, widen, subsumed;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1149  	int insn_idx = s->st.insn_idx, prev = s->prev_insn_idx, err = 0;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1150  	struct loop_stack_entry *e;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1151  	struct flow_state *t, *tn;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1152  	bool joined = false, widened = false;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1153  	struct bpf_loop *leftover_loop;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1154  
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1155  again:
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1156  	err = err ?: bpf_check_limits(env);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1157  	if (err)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1158  		goto free;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1159  	/* the calls get no equations, see bpf_flow_return() */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1160  	if (s->kind == FLOW_FUNC_EXIT)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1161  		bpf_equations_free(&s->st.equations);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1162  
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1163  	flow_for_each_near(env, s, t, tn) {
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1164  		if (!flow_same_join_key(env, t, s))
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1165  			continue;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1166  		/* what the calls have can get into the function again */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1167  		leftover_loop = s->kind == FLOW_FUNC_EXIT && t->pending && !t->returned ?
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1168  				NULL : loop;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1169  		e = leftover_loop ? flow_loop_entry(&s->st, leftover_loop) : NULL;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1170  		if (bpf_must_keep_apart(env, &t->st, &s->st,
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1171  					e && flow_same_entry(leftover_loop, t, s) ?
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1172  					BPF_JOIN_POINT_HEADER : BPF_JOIN_POINT, e))
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1173  			continue;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1174  		if (e && e->peeled)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1175  			leftover_loop = NULL;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1176  		subsumed = bpf_state_subsumes(env, &t->st, &s->st);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1177  		if (!subsumed && t->st.speculative != s->st.speculative)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1178  			continue;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1179  		if (subsumed) {
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1180  			if (env->log.level & BPF_LOG_LEVEL2)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1181  				verbose(env, "from %d to %d: pruned\n", prev, insn_idx);
-9fd8f177e03075 Alexei Starovoitov 2026-11-13  1182  			flow_check_trip_counts(env, t, s);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20 @1183  			goto free;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1184  		}
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1185  		/* what grows in a loop is widened, it is not replaced */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1186  		if (!leftover_loop && bpf_state_subsumes(env, &s->st, &t->st)) {
-9fd8f177e03075 Alexei Starovoitov 2026-11-13  1187  			flow_check_trip_counts(env, s, t);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1188  			/* it goes on with the leftover that @t started */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1189  			if (s->kind == FLOW_LEFTOVER)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1190  				bpf_top_loop(s->st.frame[s->st.curframe])->entry_id =
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1191  				bpf_top_loop(t->st.frame[t->st.curframe])->entry_id;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1192  			flow_free_state(env, t);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1193  			joined = true;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1194  			continue;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1195  		}
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1196  		if (!leftover_loop && s->kind == FLOW_AT && flow_is_stale(t, s)) {
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1197  			flow_free_state(env, t);
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1198  			continue;
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1199  		}
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1200  		joined = true;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1201  		widened = leftover_loop;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1202  		s->returned |= widened;
-b00adefb7a6570 Alexei Starovoitov 2026-11-20  1203  		/* what enters did not grow in this loop */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1204  		widen = !t->pending && !enters;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1205  		flow_unlink(env, t);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1206  		err = bpf_states_join(env, &t->st, &s->st, leftover_loop, widen);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1207  		swap(s->st, t->st);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1208  		s->st.last_insn_idx = prev;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1209  		flow_free_state(env, t);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1210  		/* another state can subsume the join, or have a join with it */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1211  		goto again;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1212  	}
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1213  
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1214  	/*
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1215  	 * The state is printed when its turn comes. That says enough about a state that
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1216  	 * is new, and about a state that goes on to the next insn.
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1217  	 */
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1218  	if (prev >= 0 && insn_idx == prev + 1 + bpf_is_ldimm64(&env->prog->insnsi[prev]) &&
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1219  	    !widened)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1220  		joined = false;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1221  	if (log && joined)
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1222  		verbose(env, "from %d to %d: %s\n", prev, insn_idx, widened ? "widened" : "joined");
-97f92b0c1df6fe Alexei Starovoitov 2026-11-20  1223  	err = enters && !widened ? bpf_guess_first_trips(env, &s->st, loop) : 0;
-97f92b0c1df6fe Alexei Starovoitov 2026-11-20  1224  	if (err < 0)
-97f92b0c1df6fe Alexei Starovoitov 2026-11-20  1225  		goto free;
-97f92b0c1df6fe Alexei Starovoitov 2026-11-20  1226  	if (err)
-97f92b0c1df6fe Alexei Starovoitov 2026-11-20  1227  		flow_find(env, s);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1228  	flow_link(env, s);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1229  	return 0;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1230  free:
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1231  	flow_free_state(env, s);
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1232  	return err;
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1233  }
-0e5e78acdf2a62 Alexei Starovoitov 2026-11-20  1234  
-
-:::::: The code at line 1183 was first introduced by commit
-:::::: 0e5e78acdf2a625f7266e74235eff622a1268134 bpf: Prune or join each state that arrives
-
-:::::: TO: Alexei Starovoitov <ast@kernel.org>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+WARNING: modpost: vmlinux: section mismatch in reference: init_pivot_root+0x98 (section: .init.text) -> .L0  (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x14 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x11c (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x18 (section: .text.rcu_read_unlock) -> .LBB640 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x64 (section: .text.rcu_read_unlock) -> .LBE640 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0xb0 (section: .text.rcu_read_unlock) -> .LBE640 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0xfc (section: .text.rcu_read_unlock) -> .LBE640 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x120 (section: .text.rcu_read_unlock) -> .LBB641 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x140 (section: .text.rcu_read_unlock) -> .LBE641 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x168 (section: .text.rcu_read_unlock) -> get_pte_virt_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x188 (section: .text.rcu_read_unlock) -> .LFE5868 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x1fc (section: .text.rcu_read_unlock) -> .LBE640 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x18 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x64 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0xb0 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0xfc (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x120 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x140 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x164 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x168 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x188 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x19c (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x1a0 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x1bc (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x1c0 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x1fc (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0x224 (section: .text.rcu_read_unlock) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_perf_trace_initcall_level+0x5c (section: .text.do_perf_trace_initcall_level) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trace_event_raw_event_initcall_level+0xa4 (section: .text.do_trace_event_raw_event_initcall_level) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_report_syscall_exit.isra.0+0xb0 (section: .text.ptrace_report_syscall_exit.isra.0) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_report_syscall_exit.isra.0+0xb0 (section: .text.ptrace_report_syscall_exit.isra.0) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: arch_ptrace+0x48 (section: .text.arch_ptrace) -> .L85 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: 0x198c (section: __ex_table) -> reuseport_array_map_btf_ids (section: .sbss.reuseport_array_map_btf_ids)
+>> ERROR: modpost: __ex_table+0x198c references non-executable section '.sbss.reuseport_array_map_btf_ids'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1990 (section: __ex_table) -> 0x0 (section: .rodata.__cgroup_bpf_run_filter_getsockopt.str1.4)
+ERROR: modpost: __ex_table+0x1990 references non-executable section '.rodata.__cgroup_bpf_run_filter_getsockopt.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x199c (section: __ex_table) -> bpf_get_netns_cookie_sockopt_proto (section: .rodata.bpf_get_netns_cookie_sockopt_proto)
+>> ERROR: modpost: __ex_table+0x199c references non-executable section '.rodata.bpf_get_netns_cookie_sockopt_proto'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19b0 (section: __ex_table) -> 0x0 (section: .rodata.bpf_struct_ops_map_delete_elem.str1.4)
+>> ERROR: modpost: __ex_table+0x19b0 references non-executable section '.rodata.bpf_struct_ops_map_delete_elem.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19b4 (section: __ex_table) -> 0x0 (section: .rodata.reuseport_array_free.str1.4)
+>> ERROR: modpost: __ex_table+0x19b4 references non-executable section '.rodata.reuseport_array_free.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19c0 (section: __ex_table) -> 0x0 (section: .rodata.reuseport_array_free.str1.4)
+ERROR: modpost: __ex_table+0x19c0 references non-executable section '.rodata.reuseport_array_free.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19cc (section: __ex_table) -> 0x0 (section: .rodata.reuseport_array_free.str1.4)
+ERROR: modpost: __ex_table+0x19cc references non-executable section '.rodata.reuseport_array_free.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19d4 (section: __ex_table) -> 0x0 (section: .rodata.backing_file_splice_write.str1.4)
+>> ERROR: modpost: __ex_table+0x19d4 references non-executable section '.rodata.backing_file_splice_write.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19d8 (section: __ex_table) -> bm_dir_inode_operations (section: .rodata.bm_dir_inode_operations)
+>> ERROR: modpost: __ex_table+0x19d8 references non-executable section '.rodata.bm_dir_inode_operations'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x19f0 (section: __ex_table) -> 0x0 (section: .rodata.posix_acl_valid)
+>> ERROR: modpost: __ex_table+0x19f0 references non-executable section '.rodata.posix_acl_valid'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a04 (section: __ex_table) -> cs_dsp_debugfs_read_controls_fops (section: .rodata.cs_dsp_debugfs_read_controls_fops)
+ERROR: modpost: __ex_table+0x1a04 references non-executable section '.rodata.cs_dsp_debugfs_read_controls_fops'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a08 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_adsp1_power_up.str1.4)
+ERROR: modpost: __ex_table+0x1a08 references non-executable section '.rodata.cs_dsp_adsp1_power_up.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a10 (section: __ex_table) -> cs_dsp_halo_ops (section: .rodata.cs_dsp_halo_ops)
+ERROR: modpost: __ex_table+0x1a10 references non-executable section '.rodata.cs_dsp_halo_ops'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a14 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_adsp1_power_up.str1.4)
+ERROR: modpost: __ex_table+0x1a14 references non-executable section '.rodata.cs_dsp_adsp1_power_up.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a64 (section: __ex_table) -> cs_dsp_mock_halo_xm_hdr (section: .rodata.cs_dsp_mock_halo_xm_hdr)
+ERROR: modpost: __ex_table+0x1a64 references non-executable section '.rodata.cs_dsp_mock_halo_xm_hdr'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a70 (section: __ex_table) -> cs_dsp_mock_adsp2_32bit_dsp1_region_sizes (section: .rodata.cs_dsp_mock_adsp2_32bit_dsp1_region_sizes)
+ERROR: modpost: __ex_table+0x1a70 references non-executable section '.rodata.cs_dsp_mock_adsp2_32bit_dsp1_region_sizes'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a74 (section: __ex_table) -> cs_dsp_mock_halo_dsp1_region_sizes (section: .rodata.cs_dsp_mock_halo_dsp1_region_sizes)
+ERROR: modpost: __ex_table+0x1a74 references non-executable section '.rodata.cs_dsp_mock_halo_dsp1_region_sizes'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a7c (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_bin_get_firmware.str1.4)
+ERROR: modpost: __ex_table+0x1a7c references non-executable section '.rodata.cs_dsp_mock_bin_get_firmware.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a80 (section: __ex_table) -> cs_dsp_mock_halo_dsp1_region_sizes (section: .rodata.cs_dsp_mock_halo_dsp1_region_sizes)
+ERROR: modpost: __ex_table+0x1a80 references non-executable section '.rodata.cs_dsp_mock_halo_dsp1_region_sizes'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a88 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_bin_add_raw_block.str1.4)
+ERROR: modpost: __ex_table+0x1a88 references non-executable section '.rodata.cs_dsp_mock_bin_add_raw_block.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a94 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_bin_init.str1.4)
+ERROR: modpost: __ex_table+0x1a94 references non-executable section '.rodata.cs_dsp_mock_bin_init.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1a98 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_bin_add_name_or_info.isra.0.str1.4)
+ERROR: modpost: __ex_table+0x1a98 references non-executable section '.rodata.cs_dsp_mock_bin_add_name_or_info.isra.0.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1ad0 (section: __ex_table) -> cs_dsp_mock_regmap_halo (section: .rodata.cs_dsp_mock_regmap_halo)
+ERROR: modpost: __ex_table+0x1ad0 references non-executable section '.rodata.cs_dsp_mock_regmap_halo'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1ad4 (section: __ex_table) -> halo_readable (section: .rodata.halo_readable)
+ERROR: modpost: __ex_table+0x1ad4 references non-executable section '.rodata.halo_readable'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1adc (section: __ex_table) -> cs_dsp_mock_halo_core_base (section: .srodata.cs_dsp_mock_halo_core_base)
+ERROR: modpost: __ex_table+0x1adc references non-executable section '.srodata.cs_dsp_mock_halo_core_base'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1ae0 (section: __ex_table) -> halo_readable (section: .rodata.halo_readable)
+ERROR: modpost: __ex_table+0x1ae0 references non-executable section '.rodata.halo_readable'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1ae8 (section: __ex_table) -> halo_register_defaults (section: .rodata.halo_register_defaults)
+ERROR: modpost: __ex_table+0x1ae8 references non-executable section '.rodata.halo_register_defaults'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1aec (section: __ex_table) -> adsp2_16bit_rw (section: .rodata.adsp2_16bit_rw)
+ERROR: modpost: __ex_table+0x1aec references non-executable section '.rodata.adsp2_16bit_rw'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1af4 (section: __ex_table) -> adsp2_16bit_registers (section: .rodata.adsp2_16bit_registers)
+ERROR: modpost: __ex_table+0x1af4 references non-executable section '.rodata.adsp2_16bit_registers'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1af8 (section: __ex_table) -> cs_dsp_mock_regmap_adsp2_32bit (section: .rodata.cs_dsp_mock_regmap_adsp2_32bit)
+>> ERROR: modpost: __ex_table+0x1af8 references non-executable section '.rodata.cs_dsp_mock_regmap_adsp2_32bit'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b00 (section: __ex_table) -> cs_dsp_mock_adsp2_32bit_sysbase (section: .srodata.cs_dsp_mock_adsp2_32bit_sysbase)
+>> ERROR: modpost: __ex_table+0x1b00 references non-executable section '.srodata.cs_dsp_mock_adsp2_32bit_sysbase'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b04 (section: __ex_table) -> adsp2_32bit_register_defaults (section: .rodata.adsp2_32bit_register_defaults)
+ERROR: modpost: __ex_table+0x1b04 references non-executable section '.rodata.adsp2_32bit_register_defaults'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b18 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_wmfw_add_raw_block.str1.4)
+ERROR: modpost: __ex_table+0x1b18 references non-executable section '.rodata.cs_dsp_mock_wmfw_add_raw_block.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b30 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_init_adsp2_halo_wmfw.constprop.0.str1.4)
+ERROR: modpost: __ex_table+0x1b30 references non-executable section '.rodata.cs_dsp_init_adsp2_halo_wmfw.constprop.0.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b34 (section: __ex_table) -> 0x0 (section: .rodata.cs_dsp_mock_wmfw_init.str1.4)
+ERROR: modpost: __ex_table+0x1b34 references non-executable section '.rodata.cs_dsp_mock_wmfw_init.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b60 (section: __ex_table) -> 0x0 (section: .rodata.x_or_y_or_z_and_alg_param_desc.str1.4)
+>> ERROR: modpost: __ex_table+0x1b60 references non-executable section '.rodata.x_or_y_or_z_and_alg_param_desc.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b78 (section: __ex_table) -> 0x0 (section: .rodata.packed_x_or_y_and_offset_gen_params.str1.4)
+>> ERROR: modpost: __ex_table+0x1b78 references non-executable section '.rodata.packed_x_or_y_and_offset_gen_params.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b7c (section: __ex_table) -> 0x0 (section: .rodata.packed_x_or_y_gen_params.str1.4)
+>> ERROR: modpost: __ex_table+0x1b7c references non-executable section '.rodata.packed_x_or_y_gen_params.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1b88 (section: __ex_table) -> 0x0 (section: .rodata.packed_x_or_y_gen_params.str1.4)
+ERROR: modpost: __ex_table+0x1b88 references non-executable section '.rodata.packed_x_or_y_gen_params.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: arch_do_signal_or_restart+0x19c (section: .text.arch_do_signal_or_restart) -> dma_debug_fs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hwprobe_one_pair+0xd8 (section: .text.hwprobe_one_pair) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: syscall_handler+0x2c (section: .text.syscall_handler) -> .LBE6043 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dump_instr+0xec (section: .text.dump_instr) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_report_syscall_permit_entry.isra.0+0x6c (section: .text.ptrace_report_syscall_permit_entry.isra.0) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: handle_break+0xb4 (section: .text.handle_break) -> .LBE6044 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap+0x114 (section: .text.do_trap) -> .LBE6044 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __sbi_send_ipi_v01+0x50 (section: .text.__sbi_send_ipi_v01) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kgdb_riscv_notify+0x94 (section: .text.kgdb_riscv_notify) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dump_prot+0x104 (section: .text.dump_prot) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: arch_setup_dma_ops+0x5c (section: .text.arch_setup_dma_ops) -> __TRACE_SYSTEM_TICK_DEP_BIT_RCU_EXP (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: arch_setup_dma_ops+0xd8 (section: .text.arch_setup_dma_ops) -> __TRACE_SYSTEM_TICK_DEP_BIT_RCU_EXP (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: bpf_jit_free+0x188 (section: .text.bpf_jit_free) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bpf_jit_emit_insn+0x10f4 (section: .text.bpf_jit_emit_insn) -> .L80 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mmput_async_fn+0x68 (section: .text.mmput_async_fn) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mmput+0x90 (section: .text.mmput) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_event_pid+0x348 (section: .text.ptrace_event_pid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_task_stack+0xa8 (section: .text.put_task_stack) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_set_tid_address+0x30 (section: .text.___se_sys_set_tid_address) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_process+0xeec (section: .text.copy_process) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: copy_process+0x20b0 (section: .text.copy_process) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_clone+0x544 (section: .text.kernel_clone) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_clone+0x56c (section: .text.kernel_clone) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_task_exec_state+0x60 (section: .text.put_task_exec_state) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: delayed_put_task_struct+0x1e8 (section: .text.delayed_put_task_struct) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_continued+0x348 (section: .text.wait_task_continued) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_continued+0x43c (section: .text.wait_task_continued) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_stopped+0x488 (section: .text.wait_task_stopped) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_stopped+0x528 (section: .text.wait_task_stopped) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_task_struct_rcu_user+0x6c (section: .text.put_task_struct_rcu_user) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_zombie+0x48 (section: .text.wait_task_zombie) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wait_task_zombie+0x400 (section: .text.wait_task_zombie) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_exit+0x590 (section: .text.do_exit) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_perf_trace_irq_handler_entry+0x50 (section: .text.do_perf_trace_irq_handler_entry) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trace_event_raw_event_irq_handler_entry+0x84 (section: .text.do_trace_event_raw_event_irq_handler_entry) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: irq_enter_rcu+0x68 (section: .text.irq_enter_rcu) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_request_resource+0xb8 (section: .text.devm_request_resource) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __devm_request_region+0xa4 (section: .text.__devm_request_region) -> dma_debug_driver_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __devm_request_region+0xc4 (section: .text.__devm_request_region) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_ptrace+0x24c (section: .text.___se_sys_ptrace) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_ptrace+0x420 (section: .text.___se_sys_ptrace) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __send_signal_locked+0x3a0 (section: .text.__send_signal_locked) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_notify_parent+0x278 (section: .text.do_notify_parent) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: send_signal_locked+0x64 (section: .text.send_signal_locked) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_notify_parent_cldstop+0x180 (section: .text.do_notify_parent_cldstop) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_notify+0xbc (section: .text.ptrace_notify) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ptrace_signal+0x184 (section: .text.ptrace_signal) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: get_signal+0x374 (section: .text.get_signal) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_pidfd_send_signal+0x294 (section: .text.do_pidfd_send_signal) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_send_specific+0x198 (section: .text.do_send_specific) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_kill+0x138 (section: .text.___se_sys_kill) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_tgkill+0x80 (section: .text.___se_sys_tgkill) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_tkill+0x64 (section: .text.___se_sys_tkill) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_rt_sigqueueinfo+0xbc (section: .text.___se_sys_rt_sigqueueinfo) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_rt_tgsigqueueinfo+0xe4 (section: .text.___se_sys_rt_tgsigqueueinfo) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_rt_sigaction+0xc4 (section: .text.___se_sys_rt_sigaction) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_rt_sigaction+0x11c (section: .text.___se_sys_rt_sigaction) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_setpgid+0x5c (section: .text.__do_sys_setpgid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_getpriority+0x580 (section: .text.__do_sys_getpriority) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_setpriority+0x5a8 (section: .text.__do_sys_setpriority) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __do_sys_prlimit64+0x694 (section: .text.__do_sys_prlimit64) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __riscv_sys_getpid+0x24 (section: .text.__riscv_sys_getpid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __riscv_sys_gettid+0x24 (section: .text.__riscv_sys_gettid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __riscv_sys_getppid+0x1e8 (section: .text.__riscv_sys_getppid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: call_usermodehelper_exec+0xc8 (section: .text.call_usermodehelper_exec) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: cpumask_show+0x64 (section: .text.cpumask_show) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: cpumask_show+0x64 (section: .text.cpumask_show) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: create_worker+0x390 (section: .text.create_worker) -> .LBE120 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: init_rescuer+0x238 (section: .text.init_rescuer) -> .LBE120 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: init_rescuer+0x258 (section: .text.init_rescuer) -> .LBE120 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: queue_rcu_work+0x80 (section: .text.queue_rcu_work) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: put_unbound_pool+0x340 (section: .text.put_unbound_pool) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: pwq_release_workfn+0x4d0 (section: .text.pwq_release_workfn) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: free_pid+0x184 (section: .text.free_pid) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_pidfd_getfd+0x144 (section: .text.___se_sys_pidfd_getfd) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_pidfd_getfd+0x1c8 (section: .text.___se_sys_pidfd_getfd) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_pidfd_getfd+0x274 (section: .text.___se_sys_pidfd_getfd) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ___se_sys_pidfd_getfd+0x2d4 (section: .text.___se_sys_pidfd_getfd) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: parameq+0x3c (section: .text.parameq) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_bind+0x84 (section: .text.kthread_bind) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_unpark+0xac (section: .text.kthread_unpark) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop+0x284 (section: .text.kthread_stop) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kthread_stop_put+0x78 (section: .text.kthread_stop_put) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_blocking_notifier_chain_register+0x118 (section: .text.devm_blocking_notifier_chain_register) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_atomic_notifier_chain_register+0xe8 (section: .text.devm_atomic_notifier_chain_register) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __put_cred+0xe0 (section: .text.__put_cred) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: devm_register_reboot_notifier+0x98 (section: .text.devm_register_reboot_notifier) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __hw_protection_trigger+0xd8 (section: .text.__hw_protection_trigger) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: migrate_to_reboot_cpu+0x60 (section: .text.migrate_to_reboot_cpu) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_restart+0x78 (section: .text.kernel_restart) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_halt+0x5c (section: .text.kernel_halt) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kernel_power_off+0x70 (section: .text.kernel_power_off) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_get_offsets_sched_prepare_exec+0x3c (section: .text.trace_event_get_offsets_sched_prepare_exec) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_get_offsets_sched_prepare_exec+0x80 (section: .text.trace_event_get_offsets_sched_prepare_exec) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __schedule+0x1f4 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __mutex_unlock_slowpath+0x3e4 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rt_mutex_adjust_prio_chain.isra.0+0x140 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rt_mutex_adjust_prio_chain.isra.0+0x2b0 (section: .sched.text) -> .L0  (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
