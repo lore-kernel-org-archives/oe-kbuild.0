@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795324501;
-	b=szcsHDOD1AC626iC5+vNIElYbMVJeCtJLqRjZbTioLQJ6Pf5zsuNU5J9+ikW998+AS+X
-	 kjp3fZa33UVyCrtpR/Incc/VIuFQfz8rbAV9HtMnKxaizS6v5EiYq0+obEUNonI/hx9lH
-	 AuBBePfNo03Rb2LeI2arLPKHE6YeDs5RaS+KIph6RhMNZN00uQawdvZbjmebiL4AU6N88
-	 1ZgT9e4+U9J3FiDUh5bFupDWn32Rs6IpVfycR+q0u3UsVnKES0lZS+M1wEaDxYS8XmLYM
-	 NUvApA6oBsbgaLEdyOfPs7v6RfITrVBqZEfkBXdgP/jU+31EiQ+xjfp3wMbpHt/Hi8A==
+	t=1795325768;
+	b=xpKP3BAAy64C6mxASbTjpWGxX2dQ071WznfI/dUrN+/yZ+cAN0yETV+aWBBEGMmYm9Ig
+	 KkMtXzZXb59maDKkhIgr9DCcGJgHWbXRmA3UqJXc9IrKdK4W+zxBZFNYiB76OmnmCbPnQ
+	 JCS2URufD2E+APsb3dCO5nM80bMNTKuHJtdTD/t0eUc58A0u/5nqs5saoGrhOVYA09KO7
+	 924Jmb60fiBBo0Y3LnQD4FeT0qU/TJRNMqUy07XrqIL2iydwUwiNXkHiu777IYy4pEg0L
+	 3wZOg/U0+EdeKfJqy4OBYlhXCSf1fue1e/2bpZXBx9zc/Cdm4rjo2CYPUGV9jLzT8DA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795324501;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795325768;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=JandlGMDRHR0vIWZxlG1t//OjZJskAYJ/ylvu0OH4vw=;
-	b=W0b41zLPV/Y5lfdHCumKLA0iro4wbrOIYTkQdwRlS8vP7q74uj2nFWe/ZE8UpLAA/kxD
-	 anAKGS3UFuW+E8fqsXFa31nnuF1nsPwzrhJdeiZ2VfGO9C+FqPs8F1+yZ6HY0qt8a1GaN
-	 YMwiGUsDD5G6ITiuoHL5LyVJrdjZabn9Qb+OK5lBr44fUpbk3CBOAJlnrpwQQmQC9BDfU
-	 0PKTJQh/GSFk8niyMA9PGIxcCiGgCbLWDZGvvp0H9nuK+bKX11MWmZQf585WMjy9+35tY
-	 inp1GsLa3XYglYBXyDiN7jXtSYk2+UOW6HAWSCHLOLEPGUPILWu/T6j811BEIqqOnvw==
+	bh=mIWjPFXHmDehzMgIfvs7Phz+Prud/pZdqb1EX3GrzCg=;
+	b=dQM5ShsTuJWCMaoAvbN8Snte5Tbkx9lCnB2I1qwZXFGwi7pO4lbde+Tayp6XjcYRaEjD
+	 so6kkRsa0uxp4PcvzRo8SOpsGPuYTJSSod0z5o5zcU9EpE9IIO+jWWOfn6OVsiJyRtTY7
+	 4BicMqMVu4n46zmRZU8L1m5U/4ig4fjsWbnCEmMmh5PaYLnsvNulAsI7O8pJWNm/ZXFxs
+	 cpNe7lSf+/drUzEh2npHGWzwQh/2jLkIGpcvVHZ2stW7js5DkIgSWCMZ56avj7sx7S3Dd
+	 2UmII4RK9bEdo9vdawVnnSeV1Amu0YpubnOCPbeTb+vJsjCA8/lwMUCfgh3QX9Mq4MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Y/BwPFhq";
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=juJw91x+;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DF0606A320
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Nov 2026 05:15:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69DF0606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315C5606A320
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Nov 2026 05:36:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 315C5606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y/BwPFhq
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=juJw91x+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795324501; x=1826860501;
+  t=1795325767; x=1826861767;
   h=date:from:to:cc:subject:message-id;
-  bh=ORu3BfFYG9V84tPxvmDxQOIZdA7EBOYH9cxlkFwLZrs=;
-  b=Y/BwPFhqer0S5PqfU1xx3xPjcKs9wUosFm++nOcFAD4kRqf4uagehIpx
-   iplvVUiHNqeBQr9nfBV9+EablicLBGYJdOe+uq35Mq+SdWGmsJcLifjl7
-   1lVDDbr0yo3zkBQb9aP9wlvYGVukS6mS/ZSPCxh2sOEmd6Cdu1oqApFoP
-   3GfGtK2/csPJySODLXaAkMZs4a5aiicUiQpvNsuyXDfH6tIrTGPUQaTfA
-   RZvh0lmlRX6vMY7xQzPMSMJ8C8qJ7gAzz6vdpZtKRanfY5RFHSmlvgPTR
-   gMbHN5XkShIU4d2DgmUhz9rbsSpj78Qs2dz0D7eb1Gf2uOexdnSucqbCL
-   A==;
-X-CSE-ConnectionGUID: hBrbhIQSTSCTwayV3U4f1A==
-X-CSE-MsgGUID: BFotBiFEQcS+dd1CGc8JvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4050374"
+  bh=BGBY8VGYgh+XSqo5Iydg91VrjQObbYM8v1t98rCJ1NE=;
+  b=juJw91x+IFoqzxCj2vSvUIgyOVPatlsO80Et/qwN3a3xc6hIDfkzB+DA
+   BqWoDgj27WBkKhBOHapwRorEVgqfwK67iXpscpNRDy7dVCZpWfGxLaHVe
+   9/VFeBAL50Siei5iSYPOvFPY1mZboQ0eRqE3DHmlkgWhoGxUDNUY79ea9
+   vRPEwU7NexiCtTEngJ/hsHbKi5safvXPwN4rPjseAZ5WfJAdFfgJZ4/Q7
+   m6416lhyfyO6Fsch4VcAZ7gBBOaL2exohjo3HyI0Z2zZPpu0sAsMw9Cyi
+   6dvzJW43iG+SeMt57TDA/Vih2fDG0ggodjPgT7mRFoJxDoI6vMJ9sKbIe
+   w==;
+X-CSE-ConnectionGUID: XWS8c2XcTl22zqIGRgxYEA==
+X-CSE-MsgGUID: 6Ivt/WCzTSm09En2tvAOHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4167311"
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4050374"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 21:15:00 -0800
-X-CSE-ConnectionGUID: 4FzVrf/tR/mhO8rg7KOssw==
-X-CSE-MsgGUID: kIqjhsObSy6ttxTTlktm8g==
+   d="scan'208";a="4167311"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 21:36:07 -0800
+X-CSE-ConnectionGUID: tBFrtD0vRYSyMq/EySF1VQ==
+X-CSE-MsgGUID: YcKMu1fLS6erbwh3U7Y+Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="11346648"
+   d="scan'208";a="11441002"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2026 21:14:58 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2026 21:36:06 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUzuh-000000004Uz-2bNr;
-	Sun, 22 Nov 2026 05:14:55 +0000
-Date: Sun, 22 Nov 2026 06:14:17 +0100
+	id 1xV0F9-000000004VR-1KdN;
+	Sun, 22 Nov 2026 05:36:03 +0000
+Date: Sun, 22 Nov 2026 06:35:09 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: [kkdwivedi:fermata 187/284] kernel/bpf/states.c:557
- same_refs() error: __builtin_memcmp() '&a->refs[i]->ptr' too small (4 vs 8)
-Message-ID: <20261122060423.8PB6kgiy-lkp@intel.com>
+ same_refs() error: memcmp() '&a->refs[i]->ptr' too small (4 vs 8)
+Message-ID: <20261122062625.bcP0YNJd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -90,21 +90,21 @@ TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 tree:   https://github.com/kkdwivedi/linux fermata
 head:   7f7b1fb0e49ec9ac76f5d9f32824c34f601bd438
 commit: 594aa7bcd085fc1bee0df72e792e57426e710157 [187/284] bpf: Add reference-owned slot arrays to verifier state
-:::::: branch date: 54 minutes ago
+:::::: branch date: 76 minutes ago
 :::::: commit date: 5 hours ago
-config: m68k-randconfig-2200-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122060423.8PB6kgiy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
+config: csky-randconfig-2200-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122062625.bcP0YNJd-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 9.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261122060423.8PB6kgiy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261122062625.bcP0YNJd-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/states.c:557 same_refs() error: __builtin_memcmp() '&a->refs[i]->ptr' too small (4 vs 8)
-kernel/bpf/states.c:557 same_refs() error: __builtin_memcmp() '&b->refs[i]->ptr' too small (4 vs 8)
+kernel/bpf/states.c:557 same_refs() error: memcmp() '&a->refs[i]->ptr' too small (4 vs 8)
+kernel/bpf/states.c:557 same_refs() error: memcmp() '&b->refs[i]->ptr' too small (4 vs 8)
 
 vim +557 kernel/bpf/states.c
 
