@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795440236;
-	b=Y8p6JLJuEb0pYGrx1FcqU3Mn1QbaiuzQoW72VHEYpC2l9e/EtlNrNoKyZLTI4b46QG2L
-	 j/KReBF2wOys0ZS4nivyEFN8LUCDn7RqrPZfQptgtsSswX9x8aRyrP8N9Hp5AGSdpv6Lv
-	 KN+pIv3uR0iuqdyIYT6NbgHzf1pf7QxYxQa8J0WT+zmUgaL9ismcllrDwnXHuEqnnmNUs
-	 LPa+9A7GaFdw+ObAgjRRoh5XhK9p9d2X1wS4Dbs5PwVprPiE523qgcmthNLnemv/ePtql
-	 G+dHcKRkieofBlZCbDMjaDJpAMDlkNSS7q/RqjKW+2M5zoM2k+r5G3Ma4OOkwGHfdCA==
+	t=1795455044;
+	b=RCWtVuvKUEBZ9CLEKsTbrUQzD6Qzo5jaaa5NZuAa/1zZGEcq4Idfqdarma7cfQ6wVW2g
+	 RFSwEXlP9mQTBSuNaRKS9JahlsuHRCLCZ5EAuJ9hZyft5ppoxxMU2+igSWdKat005rRYs
+	 W7v+Kx2ZfgOOuglR+3Lr+PSlnbOfu7oQrKc9i01kyNF2USvv7GNpguWTaXFMZURY3rgLk
+	 rE/AbNV+nXWyDEQiwY0Lu8PyBhbbzb08t2NzoRZmoMYVm7aLuCsYbQyKziqX85qVMgmMY
+	 DPCdq8vAwcsygio0ilgbJangrfSkdHeYiLfJjJzwXb+0Ze3P9FCkU1BCTV6SYExGidw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795440236;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=cuP7SObGgNcigrigLRsAOfRGPC/Kfzad7ThJDALzqv8=;
-	b=mMmev0XHJ9kqqeaapVxIpNLExH9Gd9RwT/NJCUgeWQLeAQ2/WoPPWd0YHFZ557Phj6HW
-	 Fe1CMXPeuNtLzNg2jrWvWcGp5BqwCljmR+g7cGZBXjXGc4C0Cnb59EM6ax6yc5M322UiE
-	 /bDNSlCfU76SyYUfyW+AGbNTdqv2QJgjgWKNME8DM+yz0adeeMSFNvrz8yVuNBKCZ5Y35
-	 exeVNWQ0dLI+ikouxWWPAUBTNtW3r7hnEfevTNULbrgxn4UXHT5Kt5BxvSqpuo7dZ6JWg
-	 yz9lnnlg/ao7hteHLxDO5+UYHz4x6fJ4ZblBV2OqFIlZfAMv1yoQcvzJODCv2KVRDTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795455044;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=a0mV4QQEG/iBfBCQtTS7DzHXr5gdSdEueYIwyoQVL7c=;
+	b=Z8pY/iVcSdOgF/wI32eSgBv1NdvFK4H/vUn2dEmN3YwqkgcRBVV9vZf+EQ6gY/Uhh1fW
+	 DPYUmnrCvpPnL1yZzKT4yZZSmdUTLayiWTdAeDpMZTL/yzTrZYvLw7EYatwMKV5TpDGUW
+	 /y+t4qneeRNsXonS/vvWgKRngnoq1kPfhMulT7WS6c6psHLJ7UacKpZztbdgkueXu9NMU
+	 f+s6Iu3ucfluMNHUp7c6NjDzIp6FuMk45kXt6nTso4VtqW3IXL/Mny7YHgoTe0+rZrZdm
+	 u0nfWVnYlfhlvfSp5b6c8XrCCu65P1bj4EpstYEMh2P3eb8BzmD1PKzHomsazcBCCeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gK69V6l3;
-	arc=none smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mtKwQPeK;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B84606A31A
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Nov 2026 13:23:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38B84606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E68606A338
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Nov 2026 17:30:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57E68606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gK69V6l3
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b8627e0eb2so4175411a12.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 23 Nov 2026 05:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795440235; x=1796045035; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cuP7SObGgNcigrigLRsAOfRGPC/Kfzad7ThJDALzqv8=;
-        b=gK69V6l381KNE2w/4EyX58WRPlX9DHr9B9thQfoPhTrisKJrm+R1IU3AWeCE63uG1S
-         M3mX353uAjvKnSJSh/9vKwhjKIw1LBk4q1Rgla+tuUyNf2XB+PJfQkPN82VUJ3qsSKDz
-         SgsNbrVHDqdRpwSHKE/sljCUZlTjRwCS1bSQdXwZ4xuueT8ArMcsC7U3XX8tKdHa7Q6k
-         XmDdA84JxRf64msxELmtQbxQneZc2SvfkyjNYADfvUMxjwY5z7LXuZNb+nUeujqdfbvd
-         hSCf1tMt9d9CkjsSzNm5qNiY7ZsRwsUYqcq6VfTZJaEs6mr56IgHeIduDV4mGe6KNGhA
-         /Pnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795440235; x=1796045035;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cuP7SObGgNcigrigLRsAOfRGPC/Kfzad7ThJDALzqv8=;
-        b=nSoIhyFKI0LLSNcncD39TSwpmnffg/NKDRlAlpmgAV/gvMmhAxOl3Oh9s1cS8+dGWZ
-         vRhR7qRTDL6XHNBwoHIyo6mopHEd82m0z5Ob26l1lB2koUILm6uUtWPWV88cKJ3jRqhh
-         DqIAXQqgdJ2nT60FYPSn+/3mZwNimxZWBjs5O5xjXaoG7NRabvL9/dIvun2339bTNYQ/
-         /Y7N1jsq3J8SmDG6TtWHbZl8ytF1SQoRzCWu2hVj2HwVqM8tfrp5jwJONp215nu1nESF
-         WefiUCnDXc+DNWRgE5YQlu+TdSfhUgWHHAlIhRfm/g6bEONc3NGTbRn78aiMMTu7oqTl
-         XFNw==
-X-Gm-Message-State: APuU4Z/Zos3C/mZBUkws+5SNaVS604l8B0eTirKqFaE1xuuyPBo/n626
-	A11ICKuI+YecX3cVUFmjXIE7RLESjvbG4oaapmw6SsvJuGs97pMMfzTM9TL7QyefgtaIpcVE
-X-Gm-Gg: AZFdTZclvNgY/odrPCFgbTHQj3LCr8SV5NbbaFsUZv46BUzG6vNUwkoLLEWGSJJFWMY
-	fN30jJnWbO9WagBYuWUW7dDcqRx0nORAwmf1EA15qaZD9e7z7hScCuU1eAa0CdygkgIXC0Jqfr6
-	Y+nsxgZhKWWx/6yk7TlHmEX6+gEEIru58uw3WqdfKavpwVuK6UUVAlkZh0LNydIzG8oGtQEnyvr
-	Z2nA/hcHkIxdLm1TrZioFCRlMcf4wyPdNTDQKr6uBAH6R2GmaJgKHW5/58hupgfosTD3NdET1Rg
-	VqtBIkwqOGDtD0yqKMCHT/gp/kZsVt7gi6EqsLr89oygURueS7uYTZ85xgM+MY/Lgra3x0YTS8l
-	fsuW9bZQMgYekXr4QB1MFP7j2lG8e0W/FF5jKvk7QGa6qDOwC22pUec/ZzLLH9/nDJZ5pOKQ0Rx
-	aoIbivoVoVFqZEOjataOeTsjfBSpaCEDL+cztBsIp/dOTazVq0iqJdc4xfAyEOFRaDPVogG5AdY
-	ZLr8JrPbJt+uqKUiwNPGryBV1RbZ4gQnUrkmBMTUtqyEwKcj1p1+QpnMd3wCEJvR0/rcrDO7rI3
-	lnssAr64nRzcotfw3jqoudHWoI/p52SyRGJqv6mhkHb3f51wIZyqya5tT+OW9oBXVz8QP4j0eyJ
-	4cCF3Q0x7ppMP7veQpjBVwaywAwTzxaNZx4rg97SKiTZJAf5BChcPoNj2zsm2oVgJ5cc=
-X-Received: by 2002:a05:6402:210e:b0:6ba:9d0c:cc83 with SMTP id 4fb4d7f45d1cf-6ba9d0ccee5mr3026054a12.31.1795440234436;
-        Mon, 23 Nov 2026 05:23:54 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba36d730d1sm5327255a12.0.2026.11.23.05.23.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 05:23:53 -0800 (PST)
-Date: Mon, 23 Nov 2026 16:23:49 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Chengwen Feng <fengchengwen@huawei.com>,
-	alex@shazbot.org, jgg@ziepe.ca, helgaas@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	wathsala.vithanage@arm.com, wei.huang2@amd.com, zhipingz@meta.com,
-	wangzhou1@hisilicon.com, wangyushan12@huawei.com,
-	liuyonglong@huawei.com, kvm@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v21 10/13] vfio/pci: Add IV-ST TPH policy and TPH_PROGRAM
- batch programming support
-Message-ID: <20261123133843.7qO4iqGj-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mtKwQPeK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795455044; x=1826991044;
+  h=date:from:to:cc:subject:message-id;
+  bh=MWwJDidh8ueulFwmwUk2bWYIbRQNfnpwkJXiQ2iEIfY=;
+  b=mtKwQPeKlxbK3DJlgux6x1HVGIas/csCnpRPzPRu++39lj1hG99o35Df
+   aByvhxnf80tPm0LbzToVHljKNg8j+3HYbrswnhlJMLDkiBMUZMGiakCdx
+   wBUrPFkWWNVDBJCuF5SlxGd1k4n7PIdCdaEYpkkfmDaJ1NGXjXggeptKj
+   k4E6A8IyfUCJ1RfZPpR4CQ8aCPa8NOLEt5yrd5TXRdbeKO502KuJ14/dd
+   sW+3sjP8h3fLSYEL6/tArjvNkQGSVM5/7m7Eufap/M0b5EH6qpL4Z0Bf2
+   AvLnwnNhHwcLIIWCvMs8NzX3T7RCphW6dPtNhSKd2gycZC0TCiq9/9UUv
+   A==;
+X-CSE-ConnectionGUID: POra3fieR02Z3/cNbwJm0Q==
+X-CSE-MsgGUID: AggFXT3cQoujplWzbWIO6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4165563"
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="4165563"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 09:30:31 -0800
+X-CSE-ConnectionGUID: y39Er7NwT9iYdEUpGi4k9g==
+X-CSE-MsgGUID: F0L7nd6UQVOxcT6ZDrWQug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="11340187"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Nov 2026 09:30:29 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVXs2-000000004sv-1Zmd;
+	Mon, 23 Nov 2026 17:30:26 +0000
+Date: Mon, 23 Nov 2026 18:29:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android15-6.6 1/1]
+ drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c:1202 qlcnic_get_strings()
+ error: __builtin_memcpy() '*qlcnic_gstrings_test' too small (32 vs 192)
+Message-ID: <20261123182517.IpqNj1TT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -98,139 +80,105 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118091238.45992-11-fengchengwen@huawei.com>
-Message-ID: <20261123132349.cded3iC2xS58l0kgEXFo97rC5fpPZ3s_3LDEfX64TEE@z>
 
-Hi Chengwen,
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-pcie_tph_get_st_table_loc-field-extraction/20261118-171226
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20261118091238.45992-11-fengchengwen%40huawei.com
-patch subject: [PATCH v21 10/13] vfio/pci: Add IV-ST TPH policy and TPH_PROGRAM batch programming support
-config: xtensa-randconfig-2200-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123133843.7qO4iqGj-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   a5c942b8c5be461264ec25e7893e53fda4144a3a
+commit: c3e439cb04cf6988551994a2a7cb03cda2355ce5 [1/1] kasan, fortify: properly rename memintrinsics
+:::::: branch date: 8 hours ago
+:::::: commit date: 2 years, 5 months ago
+config: x86_64-randconfig-2200-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123182517.IpqNj1TT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261123133843.7qO4iqGj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261123182517.IpqNj1TT-lkp@intel.com/
 
-New smatch warnings:
-drivers/vfio/pci/vfio_pci_core.c:1889 vfio_pci_core_feature_tph_program() warn: check sign expansion for '-1'
-drivers/vfio/pci/vfio_pci_core.c:1890 vfio_pci_core_feature_tph_program() error: we previously assumed 'src_handle' could be null (see line 1873)
+smatch warnings:
+drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c:1202 qlcnic_get_strings() error: __builtin_memcpy() '*qlcnic_gstrings_test' too small (32 vs 192)
+drivers/net/ethernet/broadcom/bnx2x/bnx2x_sriov.c:2655 bnx2x_get_vf_config() error: __builtin_memcpy() '&bulletin->vlan' too small (2 vs 4)
 
-vim +1889 drivers/vfio/pci/vfio_pci_core.c
+vim +1202 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c
 
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1811  static int vfio_pci_core_feature_tph_program(struct vfio_pci_core_device *vdev,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1812  			u32 flags,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1813  			struct vfio_device_feature_tph_program __user *arg,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1814  			size_t argsz)
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1815  {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1816  	struct vfio_device_feature_tph_program program;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1817  	u32 user_flags, src_mask, st_size;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1818  	struct pci_dev *pdev = vdev->pdev;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1819  	bool extended, stop_on_zero;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1820  	u32 *src_handle = NULL;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1821  	int ret, i, k, written;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1822  	u16 *tags = NULL;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1823  	u16 cmd;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1824  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1825  	if (!vdev->tph_opt_in ||
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1826  		!vfio_pci_tph_has_architected_st(vdev))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1827  		return -EOPNOTSUPP;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1828  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1829  	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_SET,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1830  				 sizeof(program));
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1831  	if (ret != 1)
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1832  		return ret;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1833  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1834  	if (copy_from_user(&program, arg, sizeof(program)))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1835  		return -EFAULT;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1836  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1837  	user_flags = program.flags;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1838  	extended = !!(user_flags & VFIO_DEVICE_TPH_EXTENDED);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1839  	if (extended && !pcie_ext_tph_supported(vdev->pdev))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1840  		return -EOPNOTSUPP;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1841  	user_flags &= ~VFIO_DEVICE_TPH_EXTENDED;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1842  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1843  	stop_on_zero = !!(user_flags & VFIO_DEVICE_TPH_REQUIRE_ST);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1844  	if (stop_on_zero && (user_flags & VFIO_DEVICE_TPH_SRC_NONE))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1845  		return -EINVAL;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1846  	user_flags &= ~VFIO_DEVICE_TPH_REQUIRE_ST;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1847  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1848  	src_mask = vfio_pci_tph_get_src_mask(vdev);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1849  	if (user_flags & ~src_mask || !is_power_of_2(user_flags))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1850  		return -EINVAL;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1851  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1852  	st_size = vfio_pci_tph_get_st_table_size(vdev);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1853  	if (program.start >= st_size || program.count == 0 ||
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1854  		program.count > st_size - program.start)
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1855  		return -EINVAL;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1856  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1857  	if (!(user_flags & VFIO_DEVICE_TPH_SRC_NONE)) {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1858  		src_handle = memdup_array_user(u64_to_user_ptr(program.srcs),
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1859  					       program.count, sizeof(u32));
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1860  		if (IS_ERR(src_handle))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1861  			return PTR_ERR(src_handle);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1862  	}
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1863  	tags = kcalloc(program.count, sizeof(u16), GFP_KERNEL_ACCOUNT);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1864  	if (!tags) {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1865  		ret = -ENOMEM;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1866  		goto out;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1867  	}
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1868  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1869  	cpus_read_lock();
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1870  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1871  	for (i = 0; i < program.count; i++) {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1872  		ret = vfio_pci_tph_resolve_st_tag(pdev, user_flags,
-7f5a45f0971e7a Chengwen Feng 2026-11-18 @1873  						src_handle ? src_handle[i] : 0,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1874  						extended, &tags[i]);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1875  		if (ret || (stop_on_zero && tags[i] == 0))
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1876  			break;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1877  	}
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1878  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1879  	if (i > 0) {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1880  		mutex_lock(&vdev->tph_lock);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1881  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1882  		cmd = vfio_pci_memory_lock_and_enable(vdev);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1883  		ret = written = pcie_tph_set_st_entries(pdev, program.start, i,
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1884  							tags);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1885  		vfio_pci_memory_unlock_and_restore(vdev, cmd);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1886  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1887  		if (written > 0) {
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1888  			for (k = 0; k < written; k++)
-7f5a45f0971e7a Chengwen Feng 2026-11-18 @1889  				vdev->tph_st_cpu[program.start + k] =
-7f5a45f0971e7a Chengwen Feng 2026-11-18 @1890  					(tags[k] == 0) ? -1 : src_handle[k];
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1193  
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1194  static void
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1195  qlcnic_get_strings(struct net_device *dev, u32 stringset, u8 *data)
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1196  {
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1197  	struct qlcnic_adapter *adapter = netdev_priv(dev);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1198  	int index, i, num_stats;
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1199  
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1200  	switch (stringset) {
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1201  	case ETH_SS_TEST:
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13 @1202  		memcpy(data, *qlcnic_gstrings_test,
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1203  		       QLCNIC_TEST_LEN * ETH_GSTRING_LEN);
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1204  		break;
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1205  	case ETH_SS_STATS:
+f27c75b3903ab0 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-11-04  1206  		num_stats = ARRAY_SIZE(qlcnic_tx_queue_stats_strings);
+34e8c406fda5b5 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-11-04  1207  		for (i = 0; i < adapter->drv_tx_rings; i++) {
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1208  			for (index = 0; index < num_stats; index++) {
+f27c75b3903ab0 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-11-04  1209  				sprintf(data, "tx_queue_%d %s", i,
+f27c75b3903ab0 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-11-04  1210  					qlcnic_tx_queue_stats_strings[index]);
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1211  				data += ETH_GSTRING_LEN;
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1212  			}
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1213  		}
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1214  
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1215  		for (index = 0; index < QLCNIC_STATS_LEN; index++) {
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1216  			memcpy(data + index * ETH_GSTRING_LEN,
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1217  			       qlcnic_gstrings_stats[index].stat_string,
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1218  			       ETH_GSTRING_LEN);
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1219  		}
+aa4a1f7df7cbb9 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Himanshu Madhani   2013-08-21  1220  
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1221  		if (qlcnic_83xx_check(adapter)) {
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1222  			num_stats = ARRAY_SIZE(qlcnic_83xx_tx_stats_strings);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1223  			for (i = 0; i < num_stats; i++, index++)
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1224  				memcpy(data + index * ETH_GSTRING_LEN,
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1225  				       qlcnic_83xx_tx_stats_strings[i],
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1226  				       ETH_GSTRING_LEN);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1227  			num_stats = ARRAY_SIZE(qlcnic_83xx_mac_stats_strings);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1228  			for (i = 0; i < num_stats; i++, index++)
+54a8997c6a0266 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Jitendra Kalsaria  2012-04-26  1229  				memcpy(data + index * ETH_GSTRING_LEN,
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1230  				       qlcnic_83xx_mac_stats_strings[i],
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1231  				       ETH_GSTRING_LEN);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1232  			num_stats = ARRAY_SIZE(qlcnic_83xx_rx_stats_strings);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1233  			for (i = 0; i < num_stats; i++, index++)
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1234  				memcpy(data + index * ETH_GSTRING_LEN,
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1235  				       qlcnic_83xx_rx_stats_strings[i],
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1236  				       ETH_GSTRING_LEN);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1237  			return;
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1238  		} else {
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1239  			num_stats = ARRAY_SIZE(qlcnic_83xx_mac_stats_strings);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1240  			for (i = 0; i < num_stats; i++, index++)
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1241  				memcpy(data + index * ETH_GSTRING_LEN,
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1242  				       qlcnic_83xx_mac_stats_strings[i],
+54a8997c6a0266 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Jitendra Kalsaria  2012-04-26  1243  				       ETH_GSTRING_LEN);
+54a8997c6a0266 drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Jitendra Kalsaria  2012-04-26  1244  		}
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1245  		if (!(adapter->flags & QLCNIC_ESWITCH_ENABLED))
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1246  			return;
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1247  		num_stats = ARRAY_SIZE(qlcnic_device_gstrings_stats);
+7e38d04bcb405e drivers/net/ethernet/qlogic/qlcnic/qlcnic_ethtool.c Sony Chacko        2013-01-01  1248  		for (i = 0; i < num_stats; index++, i++) {
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1249  			memcpy(data + index * ETH_GSTRING_LEN,
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1250  			       qlcnic_device_gstrings_stats[i],
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1251  			       ETH_GSTRING_LEN);
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1252  		}
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1253  	}
+af19b49152bdb6 drivers/net/qlcnic/qlcnic_ethtool.c                 Amit Kumar Salecha 2010-01-13  1254  }
+3666e0b04f092f drivers/net/qlcnic/qlcnic_ethtool.c                 amit salecha       2010-10-18  1255  
 
-tph_st_cpu[] is an array of s64 but because of sign expansion
-instead of saving -1 to it, we save UINT_MAX.
+:::::: The code at line 1202 was first introduced by commit
+:::::: af19b49152bdb68fda894183e88096d6d1aa5c3d qlcnic: Qlogic ethernet driver for CNA devices
 
-Smatch is also complaining that src_handle[] might be NULL but that
-might be a false positive...  (probably is).
-
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1891  		}
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1892  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1893  		mutex_unlock(&vdev->tph_lock);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1894  	}
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1895  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1896  	cpus_read_unlock();
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1897  
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1898  out:
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1899  	kfree(tags);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1900  	kfree(src_handle);
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1901  	return ret;
-7f5a45f0971e7a Chengwen Feng 2026-11-18  1902  }
+:::::: TO: Amit Kumar Salecha <amit.salecha@qlogic.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
