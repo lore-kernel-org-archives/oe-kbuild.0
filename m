@@ -1,77 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527151;
-	b=PCv3LONmpoU4FrJaZRROFyT52Xpt34bX2FHh/SezQvsuBzNZvUMygIAaTTYVvs3xri3O
-	 stGOv79kxIL+gYwBJc+c4xEsf8wGTldlheRzwKA2aCIFIUeeH7Y87X3CwZ//xqPN7hXDh
-	 /EKI7y9ZeaNLDaRHBCruXKOrVzGFOZFJIVDJWREuz2NnCJ/8EXvsiAtkkLixe2vuLsb5M
-	 AXBt2MphwAlxT/lUQlM4zn3PDC5q90yhIH9oXMd52MfBXhWofkdWcaVzADk+E78KrmQ60
-	 0E0juvZxNCmHNWRB2NGu17jTmUs6MELqoIrS+AGtG/27i+ZaN/4NyLg4cj/0t6n+kAQ==
+	t=1795529567;
+	b=cyqS8b9pWnuJtRfTitcyXM3d9YA5kGNRuS8Wi/dHoou1zo+wRSON2ELAEyzqMgVoB2ym
+	 4ofw3D21qMloGlWgldVfriBBevMKlW89Eym0lstfpWHXBPdrnbW630EMs8L9FJpZuqLAA
+	 9ucI10loS7PCwaP1lFIfSdc824RCEkBgvzhDGxQFj87hXuEAZYn8QmKIkILto3Ijv54A5
+	 hkn+S2zJbMx0KhLln8+j49/dix43NlbrrSgF6HWjRUcMGPIvcrsk+CtT46MCgLJw+L6N0
+	 EX3MpPASQPE89Pa/YrJozofuXFhw75V3D6kZgSFbJu+9g/bNlz9yZ7EnupseC6OuIlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527151;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795529567;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=nfXhSqvJb+ZSjQdoH2VZaTsIebnWKr41oH8xBMVMINc=;
-	b=unsz845tx2gVoxXhLCrwtoQL/s6WoFzX9+MOtkuTyzEI+iMX8whhVLcMslKU41Po9q3f
-	 ZsClmcJe8Mohop86XxzitOmjBq1jDVKkwtDaW/0+L3AU1p7AG9rzn8+F2Gvw+D6D8v1t0
-	 5ylyq3Zjuyl5OY8haQEoMZ7Cn+efhxglqVP/LpZAiWAkef/rMrgg/6oBND9x/NDD2XK9w
-	 3tgVd9b5pNSJPOLXkEXPIMaeNHFGRELwU60KDjt5NP5K2QQwPd3Yv6p2+oxHLyfYV2Tsu
-	 2viA4mbw1BokmLDFSUTNcHzb2Z4IJGSxEXspwwKTzAodNY++mOz4TDFx1pLYUpwnvAQ==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=0yChGyAIDpWgaIXVeLFY7xhpVWBAICkCrZEJvdIlRqg=;
+	b=3dlf/hRDNpbguuMHw8j8yi2s3znjOPSQ7DtE3DjL1bLshr+avw6b09nptUnojrqyIMQ7
+	 Xqchs56fkTYN1QSY7IV3XTtBlIPM8xLfZtdh4v/I6AcqBMOBllwGVMRgb9VZRsaVzXL0r
+	 lmMT8biKUN5ovsmjvEWJVCZv6UQ+Jk8CTyL1xpp3gZHi2vblGp9nGoXngkLsME6iZtcrK
+	 Gtr7wyOZ2hzt6gXWv3KNMQoK1bpoD+mTkIGQvudy3f39ilrlHOtdIOToPoQSKdvKeRvJV
+	 gvkrFVjccDHmWa4ZaQGQuUpaUbSvZm0egaKkNb44BpaUiIYmz3lDr6TYrzHBjh9WYCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=klL4TuIz;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kXJSNcVd;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D275B606A31E
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Nov 2026 13:32:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D275B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2C5606A33B
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Nov 2026 14:12:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A2C5606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=klL4TuIz
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kXJSNcVd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795527150; x=1827063150;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ee9CAZSx68SphLqzWIhz3Z8fKFv8wQQzulFogHDGzeA=;
-  b=klL4TuIzffuB46JoLynqX/HbtRvg1W3+7ojVcNlnc/ChYFF0LHAK/Gaq
-   v5u+EPmPOLOM1WSZNnfGp7bcQ28fS+oMMJIdVeaTFTX6pPtS0hwqpfPt1
-   2IE7+TAfX27+bA+/1DysyiY5AZXgqZ42UviStYpJHlFUUPRQgIMMaKt+B
-   sM9DZ+3TesYJzDSs+DmRlmAVHWcuqmdpzv3AiJ+O7B4fl6CS0bqfdvW9k
-   pS941Vyx48Ckd2miiIoP7j+cAd5NdrBIMKLcDkJ+Srds5bTW+T69wRHyj
-   9/oGze0jdYGhDVkT8L2DbZcEVnHFmbiu9RzybclqUh0hHzaWt7HqB1NYk
-   g==;
-X-CSE-ConnectionGUID: bM3nrqABT+O1dn5/lx0hHQ==
-X-CSE-MsgGUID: 9gYLOtQxQE+aVtVBFOrAJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4272654"
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="4272654"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 05:32:30 -0800
-X-CSE-ConnectionGUID: ayYKoMoPTnOyLea6jEfYnA==
-X-CSE-MsgGUID: kyoBJFk7SKWHVxhW4WKynw==
+  t=1795529566; x=1827065566;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jZrU4yaq4LP7V7uh6rev3EVVPmpxmeh2NNE0632cFms=;
+  b=kXJSNcVd9og2LYctBxtVzT3sAP2SG06sUuuj8lUc02wtdHhAKUlVw8Ln
+   TqK1GVBzwLMmRpQ9Y+IPlPaAJ9aVUJe1z5mjeXs2Tj6i9ZgmzOp+MYwSi
+   VfSXaEbZeaJYGmVGbLGXq3NSdx/nk9EvbPO/08QxwRlxfvADxKsPQDQGQ
+   YbmHZqasHPFVp2xAFlwOHFz8wCpxEtgHmNn2hHcbUtH32EzSjaOrWaxyj
+   g4UbLJ5+hLT66xvLMQEBsLqzu9C9rLORockVqle0cpCxIHn5q1VCN6Phe
+   VXpoT6TD86/c3xoluYXRPjsrq6g9Pbfa9zXxQFTC9bgsg2F6QvFYgVUTZ
+   w==;
+X-CSE-ConnectionGUID: yb1Bsd3MTk6y8/wirxRMJw==
+X-CSE-MsgGUID: dvuU8ZDETo2mAN0fHzZr6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4217552"
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="4217552"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 06:12:45 -0800
+X-CSE-ConnectionGUID: b7opEKW3Qk28qO6x/dU+BQ==
+X-CSE-MsgGUID: YP/kf7FyRg6j+pU3V/xmyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="13358025"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 24 Nov 2026 05:32:28 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="12162395"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Nov 2026 06:12:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xVqdF-000000005Cb-0NOo;
-	Tue, 24 Nov 2026 13:32:25 +0000
-Date: Tue, 24 Nov 2026 14:31:41 +0100
+	id 1xVrGD-00000001PSU-38wx;
+	Tue, 24 Nov 2026 14:12:41 +0000
+Date: Tue, 24 Nov 2026 22:12:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [frank-li:imx/dt64 96/125]
- arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107):
- 'vddaon-supply' is a required property
-Message-ID: <20261124142225.oSpR9anc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v4] gpio: amdptpci: add support for AMD PT PCI controller
+Message-ID: <20261124220243.DfEpXhMD-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -80,148 +77,93 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vitor Soares <vitor.soares@toradex.com>
-CC: Frank Li <Frank.Li@nxp.com>
-CC: Francesco Dolcini <francesco.dolcini@toradex.com>
+In-Reply-To: <20261116075510.5722-1-Chloe_Chen@asmedia.com.tw>
+References: <20261116075510.5722-1-Chloe_Chen@asmedia.com.tw>
+TO: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+TO: linusw@kernel.org
+TO: Markus.Elfring@web.de
+TO: linux-gpio@vger.kernel.org
+TO: brgl@kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Yd_Tseng@asmedia.com.tw
+CC: Jesse1_Chang@asmedia.com.tw
+CC: Richard_Hsu@asmedia.com.tw
+CC: Szuying Chen <Chloe_Chen@asmedia.com.tw>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
-head:   65f8b4684f2bb651f3e5168da9b237a31fed25b5
-commit: 8a03967da41f55b803d31a6c5b5052bc35346eb6 [96/125] arm64: dts: freescale: imx95-aquila: Add ath12k calibration variant
-:::::: branch date: 15 hours ago
-:::::: commit date: 16 hours ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261124/20261124142225.oSpR9anc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124142225.oSpR9anc-lkp@intel.com/reproduce)
+Hi Szuying,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v7.4-rc4 next-20261123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Szuying-Chen/gpio-amdptpci-add-support-for-AMD-PT-PCI-controller/20261116-155510
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20261116075510.5722-1-Chloe_Chen%40asmedia.com.tw
+patch subject: [PATCH v4] gpio: amdptpci: add support for AMD PT PCI controller
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20261124/20261124220243.DfEpXhMD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124220243.DfEpXhMD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261124142225.oSpR9anc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261124220243.DfEpXhMD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43850000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@47400000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@47400000 (fsl,imx95-gpio): clocks: [[24, 54]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'qcom,calibration-variant' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: wifi@0 (pci17cb,1107): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
---
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@47400000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@47400000 (fsl,imx95-gpio): clocks: [[24, 54]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'qcom,calibration-variant' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: wifi@0 (pci17cb,1107): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
---
-   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@43850000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@47400000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: gpio@47400000 (fsl,imx95-gpio): clocks: [[24, 54]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'qcom,calibration-variant' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-lotus.dtb: wifi@0 (pci17cb,1107): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
---
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: gpio@43850000 (fsl,imx95-gpio): clocks: [[24, 119]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: gpio@47400000 (fsl,imx95-gpio): clock-names: ['gpio'] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: gpio@47400000 (fsl,imx95-gpio): clocks: [[24, 54]] is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'qcom,calibration-variant' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev-uart4-mcu.dtb: wifi@0 (pci17cb,1107): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml
+All warnings (new ones prefixed by >>):
+
+   drivers/gpio/gpio-amdptpci.c: In function 'pt27_gpio_suspend':
+>> drivers/gpio/gpio-amdptpci.c:537:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     537 |         if (!device_may_wakeup(dev))
+         |         ^~
+   drivers/gpio/gpio-amdptpci.c:540:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     540 |                 iowrite16(PT27_WAKE_MASK, chip->base + PT27_REG_WAKE_STAT);
+         |                 ^~~~~~~~~
+
+
+vim +/if +537 drivers/gpio/gpio-amdptpci.c
+
+bba230f88fa2c8 Szuying Chen 2026-11-16  521  
+bba230f88fa2c8 Szuying Chen 2026-11-16  522  static int __maybe_unused pt27_gpio_suspend(struct device *dev)
+bba230f88fa2c8 Szuying Chen 2026-11-16  523  {
+bba230f88fa2c8 Szuying Chen 2026-11-16  524  	struct pt27_gpio *chip = dev_get_drvdata(dev);
+bba230f88fa2c8 Szuying Chen 2026-11-16  525  
+bba230f88fa2c8 Szuying Chen 2026-11-16  526  	if (pm_runtime_status_suspended(dev)) {
+bba230f88fa2c8 Szuying Chen 2026-11-16  527  		dev_dbg(dev, "%s: already runtime-suspended, skipping save\n", __func__);
+bba230f88fa2c8 Szuying Chen 2026-11-16  528  		return 0;
+bba230f88fa2c8 Szuying Chen 2026-11-16  529  	}
+bba230f88fa2c8 Szuying Chen 2026-11-16  530  
+bba230f88fa2c8 Szuying Chen 2026-11-16  531  	scoped_guard(raw_spinlock_irqsave, &chip->gen.lock) {
+bba230f88fa2c8 Szuying Chen 2026-11-16  532  		pt27_save_regs(chip);
+bba230f88fa2c8 Szuying Chen 2026-11-16  533  		iowrite32(0, chip->base + PT27_REG_INT_EN);
+bba230f88fa2c8 Szuying Chen 2026-11-16  534  		iowrite32(PT27_GPIO_MASK, chip->base + PT27_REG_INT_MASK);
+bba230f88fa2c8 Szuying Chen 2026-11-16  535  		iowrite32(PT27_GPIO_MASK, chip->base + PT27_REG_INT_STAT);
+bba230f88fa2c8 Szuying Chen 2026-11-16  536  
+bba230f88fa2c8 Szuying Chen 2026-11-16 @537  	if (!device_may_wakeup(dev))
+bba230f88fa2c8 Szuying Chen 2026-11-16  538  		iowrite16(0, chip->base + PT27_REG_WAKE_EN);
+bba230f88fa2c8 Szuying Chen 2026-11-16  539  
+bba230f88fa2c8 Szuying Chen 2026-11-16  540  		iowrite16(PT27_WAKE_MASK, chip->base + PT27_REG_WAKE_STAT);
+bba230f88fa2c8 Szuying Chen 2026-11-16  541  	}
+bba230f88fa2c8 Szuying Chen 2026-11-16  542  
+bba230f88fa2c8 Szuying Chen 2026-11-16  543  	synchronize_irq(chip->irq);
+bba230f88fa2c8 Szuying Chen 2026-11-16  544  	return 0;
+bba230f88fa2c8 Szuying Chen 2026-11-16  545  }
+bba230f88fa2c8 Szuying Chen 2026-11-16  546  
 
 -- 
 0-DAY CI Kernel Test Service
