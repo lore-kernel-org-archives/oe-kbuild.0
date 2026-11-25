@@ -1,78 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795618008;
-	b=iCnWpZUSw0NaiCW3QE7+DtrklisZHViNw2jVJveF1LQg85pD2t56YzfbDWKOlYnbp4R5
-	 4HONwFIRg6Mt3QkQx5sHTS3xHcqKLXE5/2IpcsvuR1AZXDhVEBC2pMSIusBYEvXv54VqU
-	 X5xhjQ6X8/U+uv20E/2B5LKuct9nTrcoiD1a11URLFuGhAhy1S71CbCKNLWr9AQ+iTDcI
-	 V6GOeOZGvOO+LWiMFdR6xlLEXqI+GhNWiMMai5sdZp4u/SqJ/l6/o+cZ1wsDg+44RPbSU
-	 DBbBUjVITyNeZOyHhL8PdEk/kClJ9leyO6Sxa2Bi0TsLzPwpqBH4RNKJ9BBP+Aeh4IA==
+	t=1795626979;
+	b=2SO0EUAQH0ScBhgtc45MdcWpKiqB3VnDGHn9PyJI4YRCom84bjbwUqRJr4H4xRy6YFmK
+	 cPtiAfEqm9spWRKwoWgOCVNvrjvTeQ1qpbO1Xvu8wx+CBRJBePVXqzlWPkKnKXAjphlZL
+	 yu3/KG52GtiJtx7Dewkymvjkmcv7bEuFbnMUfb3n49QuIlHutjgJIS6Q1vcsHng4rm6FV
+	 ihqGBQfE3/QT/Dbj31T4Yy7MKnC0dthv9mNws4j8CePVsa7TN5TZb/4RfpZ9Y1NvHUOGf
+	 3xItkmn8wtEFd2kol+WoBG3xjM/xJKRUmCd7zvkxacLvkeMAPUGZA7w6BHfRWpEL/jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795618008;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626979;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=0MRh/ni/Qocdkrg5uj8qH6UoiosB5AgSERSFQdJ6+IY=;
-	b=0dCuIKvi+S9wtyzf2qTgBFuUqCjdp3Fo3fsZDgvB6xISDwymY4T5/ze2qnxFzY0nfW/D
-	 1CPa7/WBMnWQfP2JbUHk/Il5LJcTERpp2JksBZKfTbFr2uLaEQ2PH1Gshf51NBsUfVOAX
-	 G7vgfvfIdHs46THOSSUlCetL1ouJNjqfpqOLZrcLI0DasEz4DjMTwVRn0frIimFqXf1Sw
-	 R6h+V7aOFd/DV2KsyoBVF9YUBHanAuNsZg+TY209MRlzV3tyH6czc/1XOPGVQaMiRHfS5
-	 8QIRtm0UbfFs8dWVaCprFvMxg84wvthQAxLCItesKUZDLeJ80JeYu0cs3MpYXWgprwA==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=KQefqJae7DkFKFVCm3MFkcQ8Ww2j5D2XzNPXX/tmJfk=;
+	b=zRexlm+OVjTa2acifvvQCphB9fFZwHT3VV3qST8q75LX3loHj0QXKJPDmvFRPU6F4iob
+	 LmH0t/tEYW5JgGqmZM3A+u2UBsJbStR1RUpAdJrK0M625svHbQ3fjlIy/Qvn13SGHbx7O
+	 ogM2XTCebRON1oZOUBe1gyrDwdrnIJiuhF90TrpMZH203Am85+lrtaqbuU+o+c54qBC39
+	 Vr6A3OPt91Z9YK/ugSIV8cB69hVDAKM9EII8oSp8Gj7dYFtduXtKdq9Eq/GWVSWnkwNgb
+	 zwLjB/fGERZ+rXyNiPBZ+4V1pL0V587lo+BZ+GprltYtoqDu3pBYWz/tLZBqE0NvSsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CkGnSMsj;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b9Inou8m;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B3E606A327
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 14:46:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0B3E606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D872606A321
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 17:16:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D872606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CkGnSMsj
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b9Inou8m
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795618008; x=1827154008;
-  h=date:from:to:cc:subject:message-id;
-  bh=mUdk3XP4Zijrn5eqzS93Nv5qqqCsOZ83Z3OL/FXJtV0=;
-  b=CkGnSMsjzyL4ULduYDNaPBwOKVYjlxL2wlfq0VXOBQFz02KF0sbVMWvt
-   vdaVBoel5v89lc3X9JNS0JrSWoYBz9EE3ZxEFFABCPa9GIklISubuMIbF
-   YHrWBucqqttFgxl1WfknonmV8IB2rWwQ/M8A+ZEhLHtiolFa+AZUidTXc
-   lx6IkhIg8k3TijxDQf8SRP2dU1hboRHmo/zCvnP6hlzzImcaWHx02aeWm
-   XAR+35j4gjVg3HhQUr8UzbQUzbfI88nB06Lda2ei66RDIPLJwuRBgsFVz
-   002CZ2FyJrqDBB3pRMUJdkA+cCnCwmM6JaHua26UuHCzJUkvhbsslzcAF
-   g==;
-X-CSE-ConnectionGUID: L7TR2DR/SoavlPG9NJBQfQ==
-X-CSE-MsgGUID: DKyUpqppRJGSw/fFTKZCMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4577763"
+  t=1795626978; x=1827162978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oWAP8huZpoUTIvQjRCtPr8pkaqutXGX4nJY7FU4gnts=;
+  b=b9Inou8m+hAObdcIBE5dLJk94LOa3WnkfY2Tzx/gRD3ps2BsbddUbW6y
+   QWMcQtHhD1PaJSt8adDDs9VcmnI4wfngbF6JyUu+Vepq4wLdxN9tuEKqZ
+   2l/49qB8uViPrC76siVu9BvkJQMNOgWYEDZEntgjSuZ4cL//fginnOU0H
+   FS5EEn/lSenjSWTsIDhtjUSzIdfAg+JnxGMPWxxzD3oQPKzRErEahTvKF
+   zsn/tnmhLK9MyN1+GdsN9slJnWYbplKatBSVNZzDdzWYGfvG4n/b1DT7Q
+   uzTXAKxv99UdhyFDSf9MlGudW8GvgPCGYhTV+5RlOQyM+VmrraG5X1d1P
+   Q==;
+X-CSE-ConnectionGUID: j+/2XqERR3OgnEacj6BKJQ==
+X-CSE-MsgGUID: Ao6DT5jcTO66Sv1oLDU9/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4504405"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4577763"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 06:27:11 -0800
-X-CSE-ConnectionGUID: 6V2+8fAlTx2kmbAYZvVTTQ==
-X-CSE-MsgGUID: rrTTiGX5TJKY/wQI0HQB3A==
+   d="scan'208";a="4504405"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 08:45:06 -0800
+X-CSE-ConnectionGUID: UIbtpS6zR6CJtKjLElgVNg==
+X-CSE-MsgGUID: J4qbMQqwTdKz9EMEBFoAew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12167240"
-Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Nov 2026 06:24:51 -0800
-Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
+   d="scan'208";a="11897457"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2026 08:45:04 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWDvU-0000000008x-0NEQ;
-	Wed, 25 Nov 2026 14:24:48 +0000
-Date: Wed, 25 Nov 2026 15:23:55 +0100
+	id 1xWG7C-00000001S7I-0GTW;
+	Wed, 25 Nov 2026 16:45:02 +0000
+Date: Thu, 26 Nov 2026 00:44:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [atorgue-stm32:stm32-next 12/12]
- arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40060000
- (st,stm32mp25-timers): 'timer@b' does not match any of the regexes:
- '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-Message-ID: <20261125151353.aayKci5z-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20261126004052.sdzwOT4E-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -81,140 +77,88 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "too many reports for this commit"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-CC: Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <awXJ__-grexFFPb4@sirena.org.uk>
+References: <awXJ__-grexFFPb4@sirena.org.uk>
+TO: Mark Brown <broonie@kernel.org>
+TO: Simona Vetter <simona.vetter@ffwll.ch>
+TO: Intel Graphics <intel-gfx@lists.freedesktop.org>
+TO: DRI <dri-devel@lists.freedesktop.org>
+CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+CC: Linux Next Mailing List <linux-next@vger.kernel.org>
 
-Hi Fabrice,
+Hi Mark,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-head:   491a11f03340483ad696f7c5d9e5d879a389f642
-commit: 491a11f03340483ad696f7c5d9e5d879a389f642 [12/12] arm64: dts: stm32: Use hex timer addresses on stm32mp251
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261125/20261125151353.aayKci5z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev9+g7453fd0b0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125151353.aayKci5z-lkp@intel.com/reproduce)
+[auto build test ERROR on next-20261123]
+[cannot apply to drm-tip/drm-tip linus/master v7.4-rc4 v7.4-rc3 v7.4-rc2 v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-build-failure-after-merge-of-the-drm-misc-tree/20261124-173143
+base:   next-20261123
+patch link:    https://lore.kernel.org/r/awXJ__-grexFFPb4%40sirena.org.uk
+patch subject: linux-next: build failure after merge of the drm-misc tree
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261126/20261126004052.sdzwOT4E-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126004052.sdzwOT4E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261125151353.aayKci5z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261126004052.sdzwOT4E-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp25xx-dhcos-bb.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-dk.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp255c-dhcos-dhsbc-overlay-imx219-x10.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-am-1280800w8tzqw-t00h.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
---
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@40060000 (st,stm32mp25-timers): 'timer@b' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@40070000 (st,stm32mp25-timers): 'timer@c' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@40080000 (st,stm32mp25-timers): 'timer@d' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@401d0000 (st,stm32mp25-timers): 'timer@a' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@40250000 (st,stm32mp25-timers): 'timer@e' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
->> arch/arm64/boot/dts/st/stm32mp257d-engicam-microgea-rmm-overlay-rk050hr345-ct106a.dtb: timer@40260000 (st,stm32mp25-timers): 'timer@f' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timer@[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stm32-timers.yaml
+All errors (new ones prefixed by >>):
+
+   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c: In function 'vc_sm_clean_up_dmabuf':
+>> drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:217:17: error: implicit declaration of function 'dma_buf_unmap_sgt_unlocked'; did you mean 'dma_buf_vunmap_unlocked'? [-Wimplicit-function-declaration]
+     217 |                 dma_buf_unmap_sgt_unlocked(buffer->attach, buffer->sgt,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 dma_buf_vunmap_unlocked
+   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c: In function 'vc_sm_cma_import_dmabuf_internal':
+>> drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:437:15: error: implicit declaration of function 'dma_buf_map_sgt_unlocked'; did you mean 'dma_buf_vmap_unlocked'? [-Wimplicit-function-declaration]
+     437 |         sgt = dma_buf_map_sgt_unlocked(attach, DMA_BIDIRECTIONAL);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |               dma_buf_vmap_unlocked
+>> drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:437:13: error: assignment to 'struct sg_table *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     437 |         sgt = dma_buf_map_sgt_unlocked(attach, DMA_BIDIRECTIONAL);
+         |             ^
+
+
+vim +217 drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  208  
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  209  /*
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  210   * Cleans up imported dmabuf.
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  211   * Should be called with mutex held.
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  212   */
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  213  static void vc_sm_clean_up_dmabuf(struct vc_sm_buffer *buffer)
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  214  {
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  215  	/* Handle cleaning up imported dmabufs */
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  216  	if (buffer->sgt) {
+0720963f866f108 Mark Brown     2026-11-24 @217  		dma_buf_unmap_sgt_unlocked(buffer->attach, buffer->sgt,
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  218  					   DMA_BIDIRECTIONAL);
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  219  		buffer->sgt = NULL;
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  220  	}
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  221  	if (buffer->attach) {
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  222  		dma_buf_detach(buffer->imported_dma_buf, buffer->attach);
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  223  		buffer->attach = NULL;
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  224  	}
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  225  }
+6e0a8f1a83473ae Dave Stevenson 2026-11-12  226  
 
 -- 
 0-DAY CI Kernel Test Service
