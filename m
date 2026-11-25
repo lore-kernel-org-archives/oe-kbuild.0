@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600981;
-	b=o8UL5PCjdEhKuEWWY8PK4Ff/M++KbsVgEsKqthDNEQ56E97dnvYAxqs9Cfy/UbypJKHO
-	 zLd6TtIFTm6fxy3JJU/7y4oelNEMlraQ/XWzQo0q295/VToMvmAr2Dc+dt4nbhiQJlvH+
-	 32drVouU0pdcfBNJK3T2aDCDMixbemdbBEz0Uk0YuOhR0j5y7oo59z/Q6pE13F/xNpviX
-	 3ET6pY8yY4LV1BPjdnkYp8x1uEgtOJtrzbur+jISr3M0/rmiKwbvaBRHveZkKjm/r1s9K
-	 XOzsqphswwncFVb7HZzBhLk0EiPM6L1Nnh6blmkHlfdMVUo/bRc19VdGqpbHJTSskqw==
+	t=1795606778;
+	b=sG/0t38VgxeDgwZlY7Nqn9lytG8wNEdx4lSjMc23b8Tf5O34Nv/zcj+0n4HPvxxzORLQ
+	 T8Vo7zeMAdXvFL1/GSW4tVFlLmUiPjXGUplq/KvzdQLVJ9vMKDpqeqi9UiR2QAt+JNGht
+	 daUUj+v7VwoH/acGRdimfsfAou9gz5XIZDxN4PBnZ3p58bt4lhp90Zy6DCuO/iLtLfNYd
+	 6lfmIxfngbxZVCfpxMVJa+7i6OYY9shWSNCjvp7eFzZQ/DGFYK29uCb4XL80+x5AoqIJe
+	 C/ko+0h+NMlmc2L8qd9WyZIOa6Km7+YjoyqeQH4CU5BChYoLXgxoM2SxckP0mtc3QhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600981;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795606778;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=EzlSnJ1dpSit82xeAz1r9+bSBPbI93uZ+XqwBJLcFew=;
-	b=UTtNrPgIP/FtcG1KsI30NLGSDQLoyfytJdRDRIddiM9S3KX9p9I0gRc/lXOIyy2TbuPj
-	 jybZVuUnJyHf0fUrfa5kYDBRMcPvsS8gwfJOXasnTfGSAPFutEG+wPh4fEnpwqP/z47fv
-	 ZIEWbAPYUJ+4wVBmxSZMZMzNpwH0oC/Jt+ev34fHUfTFXfRSrFVxNHybQxNelylYMk3IN
-	 P6mBCxijj1pxWE5ECOxzz4q5qpELyIGOcb88tvqeVgn4yNh8hm4zBgdRUuxOTPtAeUHpp
-	 VPHT7DI/GPdouPNsuXFA4Ni99odxvdpkxdwjSlvmMLWmde8thwb6RObJdQHdQt4I+Rw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=dVnXYfPZiDr5ULZyiELOYrTIQcdrNt044cy7SB2zaTY=;
+	b=hROdxhY2XfQjmvPnplUzNR7ofZdUcdbXnh0wbO8YIf9ENzSjtbmJ7CsuKpzjEQqpkB9x
+	 oRhmaJapU1qLiJJg0XA8VGr1B2y8znaJOQ2RuN6YOquLLrr/syS19FqS4avG14hHREsR4
+	 33zr2PD8bKQCgRjg7T0ETIaYi23eiboW6OEdBTLcZ7JHerSXwdKJ5dSHqV2mzpzkuT7R3
+	 kIjWsklGXsgDkj35Qul+BDoAuCeX44Wd5+jgBb1ho2YSoNzLKfQpcX8uf1T6uuHI8xA/9
+	 2fK91QwIbhbWGskOmjvcelwAgdQzhOAqFaJmOTOXD9lT+Q3FxTe54yaUd0TwrXGDqvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VfxEV7Nc;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dLaIvdx7;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702AB606A321
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 10:03:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 702AB606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E128C606A31E
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 11:39:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E128C606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VfxEV7Nc
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dLaIvdx7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795600981; x=1827136981;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G4teWzOL/xze5636ImP29c2rYif/nJU5gYcSkKseDcY=;
-  b=VfxEV7Nc6qluuZ5+hbiH2cNhjf2zGzK5rAIzOgG7VfaMVFqBxwPd7SKc
-   JscjplQyrcP2VYMHvYpwioaMse2J3UBf24qM+7n4rbNeGEPtQnS9/6r5o
-   vJ8JzncTCuN//mQ5ksXZ905PRk5+vIMPEbTWGstfIvSzSyTyZaz9YYf4/
-   AzR762HnB3vBgAOlAaPwuR80ECR3xzXFMFv6gsPZc/QGGH4FrzH9c78lO
-   HQKqwUuhCHYbj5LlBVjhN21jUwGNyfDtSeql/HcMta/mCyxqG92N8tqX+
-   84M9tYVILBrtPSgySshoy4y4B6k+8Oux315wIyAplu2rWHhjXObWl3ox5
+  t=1795606778; x=1827142778;
+  h=date:from:to:cc:subject:message-id;
+  bh=oD8E4skDw437juNwkPdtPc8H52nhfubUozw0BwWdYGI=;
+  b=dLaIvdx70Qy4oFf1G+eoUoeoUCWJKBvPprIDEE0nbakq92th7027nMCg
+   YFyh/xjSo95ZGHsAFu5uQddulxAG7LnIlvnImgjlfmeRkjy1EM+WMR23H
+   2pIvn3Oyu5jQrJXYDPgyw5IVco0vUAX1GckK/+rGwBA892wvkpk25SzpS
+   fCceILCRxgvNSz1pws7r5bolyxSPwfjHvBJfkSkPF5Es4PsHsilVMjlMJ
+   XcKfpV+gY0Fo3o09uPWJFkZydJF02iyH2YdCjY1E3nDFNtc0xwgRqe0VR
+   op4FaPAwv6H7EgZmryqxelK0G3RNgTa3zuzPZdgDWMfCfLzuY5HDKn9fQ
    Q==;
-X-CSE-ConnectionGUID: tMj5M9zARsu4ej0PvYP7uA==
-X-CSE-MsgGUID: V0HOZgG8Ry6Fk04VXVdtwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4532670"
+X-CSE-ConnectionGUID: sc9QZmytSHWq1vcJZfF8xg==
+X-CSE-MsgGUID: M9MOJYTDQ3qIrBg0vsM/aQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4519376"
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4532670"
+   d="scan'208";a="4519376"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 01:56:54 -0800
-X-CSE-ConnectionGUID: 5/L7NNCsSsiPS/SPsylirA==
-X-CSE-MsgGUID: SvM3v6iKSTaTlkSs/Ecl6Q==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 03:39:37 -0800
+X-CSE-ConnectionGUID: 9hJr41M5Rz6N5LK+gaqz3g==
+X-CSE-MsgGUID: CQM9PadYQ4C/Urr5/Yjenw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="11802522"
+   d="scan'208";a="11824739"
 Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2026 01:56:35 -0800
+  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2026 03:39:36 -0800
 Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xW9jr-0000000006Z-1Cyx;
-	Wed, 25 Nov 2026 09:56:31 +0000
-Date: Wed, 25 Nov 2026 10:55:39 +0100
+	id 1xWBLY-0000000007T-3SNa;
+	Wed, 25 Nov 2026 11:39:32 +0000
+Date: Wed, 25 Nov 2026 12:39:21 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: {standard input}: Error: open CFI at the end of file;
- missing .cfi_endproc directive
-Message-ID: <20261125104958.PWmWlqW7-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/wireless/ath/ath12k/wifi7/dp_rx.c:1712:3-6:
+ ERROR: invalid reference to the index variable of the iterator on line 1702
+Message-ID: <20261125122832.glgFTcGL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,104 +79,107 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "too many reports for this commit"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marco Elver <elver@google.com>
-CC: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-CC: "Harry Yoo (Oracle)" <harry@kernel.org>
+TO: Pavankumar Nandeshwar <quic_pnandesh@quicinc.com>
+CC: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+CC: Ripan Deuri <quic_rdeuri@quicinc.com>
+CC: Vasanthakumar Thiagarajan <vasanthakumar.thiagarajan@oss.qualcomm.com>
+CC: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
 
-Hi Marco,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4dce97c6c265544342e716e62fd24bbb232590c5
-commit: 0fc1bd38a19c108395d8338fb034f90c2d3fbe55 slab: improve KMALLOC_PART=
-ITION_RANDOM randomness
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: csky-randconfig-2000-20261125 (https://download.01.org/0day-ci/arch=
-ive/20261125/20261125104958.PWmWlqW7-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261125/20261125104958.PWmWlqW7-lkp@intel.com/reproduce)
+commit: 5d2df2aa84303a187b82ca048ae28709bef85f77 wifi: ath12k: Move srng processing to wifi7 directory
+date:   1 year, 3 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 1 year, 3 months ago
+config: x86_64-randconfig-2103-20261124 (https://download.01.org/0day-ci/archive/20261125/20261125122832.glgFTcGL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0fc1bd38a19c ("slab: improve KMALLOC_PARTITION_RANDOM randomness")
+| Fixes: 5d2df2aa8430 ("wifi: ath12k: Move srng processing to wifi7 directory")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261125104958.PWmWlqW7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261125122832.glgFTcGL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/ath/ath12k/wifi7/dp_rx.c:1712:3-6: ERROR: invalid reference to the index variable of the iterator on line 1702
+   drivers/net/wireless/ath/ath12k/wifi7/dp_rx.c:1712:29-32: ERROR: invalid reference to the index variable of the iterator on line 1702
 
-   drivers/base/regmap/regmap-debugfs.c: In function 'regmap_debugfs_get_du=
-mp_start':
-   drivers/base/regmap/regmap-debugfs.c:180:1: error: could not split insn
-     180 | }
-         | ^
-   (insn 107 354 543 (set (reg:SI 3 a3 [orig:275 _109 ] [275])
-           (xor:SI (reg:SI 2 a2 [orig:276 random_kmalloc_seed ] [276])
-               (const:SI (plus:SI (symbol_ref:SI ("*.LANCHOR0") [flags 0x18=
-2])
-                       (const_int 1 [0x1]))))) "include/linux/slab.h":698:5=
-2 288 {cskyv2_xorsi3}
-        (expr_list:REG_DEAD (reg:SI 2 a2 [orig:276 random_kmalloc_seed ] [2=
-76])
-           (nil)))
-   during RTL pass: final
-   drivers/base/regmap/regmap-debugfs.c:180:1: internal compiler error: in =
-final_scan_insn_1, at final.cc:2823
-   0x7f7c825b4d64 __libc_start_main
-   	???:0
-   ../lib/gcc/csky-linux/16.2.0/ -D __KERNEL__ -D KBUILD_EXTRA_WARN1 -D CSK=
-YCPU_DEF_NAME=3D"ck807f" -D KBUILD_MODFILE=3D"drivers/base/regmap/regmap-de=
-bugfs" -D KBUILD_BASENAME=3D"regmap_debugfs" -D KBUILD_MODNAME=3D"regmap_de=
-bugfs" -D __KBUILD_MODNAME=3Dregmap_debugfs -include include/linux/compiler=
--version.h -include include/linux/kconfig.h -include include/linux/compiler=
-_types.h -MMD drivers/base/regmap/.regmap-debugfs.o.d drivers/base/regmap/r=
-egmap-debugfs.c -quiet -dumpdir drivers/base/regmap/ -dumpbase regmap-debug=
-fs.c -dumpbase-ext .c -mlittle-endian -mcpu=3Dck807 -mfloat-abi=3Dsoft -mdi=
-v -mno-stack-size -g -gdwarf-5 -gz=3Dzlib -Os -Wall -Wextra -Werror=3Dimpli=
-cit-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werr=
-or=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-addre=
-ss -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototype=
-s -Wno-main -Wno-type-limits -Wdangling-pointer=3D0 -Wvla-larger-than=3D1 -=
-Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initializati=
-on -Warray-bounds=3D0 -Wstringop-overflow=3D0 -Walloc-size-larger-than=3D18=
-446744073709551615EiB -Wimplicit-fallthrough=3D5 -Werror=3Ddate-time -Werro=
-r=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wenum-conversion =
--Wunused -Wsuggest-attribute=3Dformat -Wmissing-include-dirs -Wunused-const=
--variable=3D2 -Wno-missing-field-initializers -Wno-shift-negative-value -Wn=
-o-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -Wno-error=3Dr=
-eturn-type -Wreturn-type -Wundef -std=3Dgnu11 -fmacro-prefix-map=3D=3D -fsh=
-ort-wchar -fno-common -fno-PIE -fno-strict-aliasing -fms-extensions -fno-tr=
-ee-vectorize -fno-delete-null-pointer-checks -fno-allow-store-data-races -f=
-no-reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -fno-stack-protec=
-tor -fomit-frame-pointer -ftrivial-auto-var-init=3Dzero -fzero-init-padding=
--bits=3Dall -fno-stack-clash-protection -fdiagnostics-show-context=3D2 -fno=
--inline-functions-called-once -fstrict-flex-arrays=3D3 -fno-strict-overflow=
- -fstack-check=3Dno -fconserve-stack -fno-builtin-wcslen -fno-var-tracking =
--femit-struct-debug-baseonly -funsigned-char -falign-functions=3D64 -o -
-   Please submit a full bug report, with preprocessed source (by using -fre=
-port-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
-   Assembler messages:
->> {standard input}: Error: open CFI at the end of file; missing .cfi_endpr=
-oc directive
+vim +1712 drivers/net/wireless/ath/ath12k/wifi7/dp_rx.c
 
---=20
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1645  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1646  void ath12k_dp_rx_process_reo_status(struct ath12k_base *ab)
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1647  {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1648  	struct ath12k_dp *dp = &ab->dp;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1649  	struct hal_tlv_64_hdr *hdr;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1650  	struct hal_srng *srng;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1651  	struct ath12k_dp_rx_reo_cmd *cmd, *tmp;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1652  	bool found = false;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1653  	u16 tag;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1654  	struct hal_reo_status reo_status;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1655  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1656  	srng = &ab->hal.srng_list[dp->reo_status_ring.ring_id];
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1657  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1658  	memset(&reo_status, 0, sizeof(reo_status));
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1659  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1660  	spin_lock_bh(&srng->lock);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1661  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1662  	ath12k_hal_srng_access_begin(ab, srng);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1663  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1664  	while ((hdr = ath12k_hal_srng_dst_get_next_entry(ab, srng))) {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1665  		tag = le64_get_bits(hdr->tl, HAL_SRNG_TLV_HDR_TAG);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1666  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1667  		switch (tag) {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1668  		case HAL_REO_GET_QUEUE_STATS_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1669  			ath12k_hal_reo_status_queue_stats(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1670  							  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1671  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1672  		case HAL_REO_FLUSH_QUEUE_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1673  			ath12k_hal_reo_flush_queue_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1674  							  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1675  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1676  		case HAL_REO_FLUSH_CACHE_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1677  			ath12k_hal_reo_flush_cache_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1678  							  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1679  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1680  		case HAL_REO_UNBLOCK_CACHE_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1681  			ath12k_hal_reo_unblk_cache_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1682  							  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1683  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1684  		case HAL_REO_FLUSH_TIMEOUT_LIST_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1685  			ath12k_hal_reo_flush_timeout_list_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1686  								 &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1687  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1688  		case HAL_REO_DESCRIPTOR_THRESHOLD_REACHED_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1689  			ath12k_hal_reo_desc_thresh_reached_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1690  								  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1691  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1692  		case HAL_REO_UPDATE_RX_REO_QUEUE_STATUS:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1693  			ath12k_hal_reo_update_rx_reo_queue_status(ab, hdr,
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1694  								  &reo_status);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1695  			break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1696  		default:
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1697  			ath12k_warn(ab, "Unknown reo status type %d\n", tag);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1698  			continue;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1699  		}
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1700  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1701  		spin_lock_bh(&dp->reo_cmd_lock);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28 @1702  		list_for_each_entry_safe(cmd, tmp, &dp->reo_cmd_list, list) {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1703  			if (reo_status.uniform_hdr.cmd_num == cmd->cmd_num) {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1704  				found = true;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1705  				list_del(&cmd->list);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1706  				break;
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1707  			}
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1708  		}
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1709  		spin_unlock_bh(&dp->reo_cmd_lock);
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1710  
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28  1711  		if (found) {
+5d2df2aa84303a Pavankumar Nandeshwar 2025-08-28 @1712  			cmd->handler(dp, (void *)&cmd->data,
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
