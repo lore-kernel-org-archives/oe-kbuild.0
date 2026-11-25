@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629352;
-	b=uqVb3Nqv4L4GYbFHWW0Y+1hG8VPTtK9o4VIXBUdO0lEXfzYETJNAnv1BjEzbaYvU6EtL
-	 VNBzGw9WP5Har3awb7/0mUNc9NO+OJqkbPM2CERRHE9OWPGQmY8IQ+DWy61oYvtgDpUc8
-	 wxswhHQm+OQyJGxgApgWEAR8TvTOCPugDFLTYKzRylUdo/Gwk4iFmNVcE19BiGROjM4mf
-	 cVugwgC/y6Gku/mAnEt8HYP7jvTkIKIYre4Y8qzPD6DJa9hYiPGNpDFMV8/KW69SHbSF8
-	 vkOD5JzDyt6Jahd9YYzmTiDtzSz9vUz6EBFqq1H2WV8V0K4xu7stFozRJ8yMr8mHtbQ==
+	t=1795633603;
+	b=NOxwSXOvsRe3KFGclTIvm8iTxgIGtO15S1ufWlBlOWFlLX0EifbDo0YtWWOZY6yI0frN
+	 PjbBusOHAgVb0T9/aqrkBdFjmLHMA7HQDFpqq+kMRjyei3/HubN0lUgpx3YCeKHCNqrJt
+	 QDR3WOVnxLZuko1NcJ1yBvgZXc90k+bng/zq95Oce77QIvM20lcWPQfzjGJavNteDzUj6
+	 n221RrpFv5ssmuZBjG5KFpHErdsQ3b89QL/YxZ3bUwCi6aro6phkaqBd0hoht6oClJFji
+	 keH9GP85ZDoxSs44byzMavTLxLoFwznLad20+T7G67ngp6t2uqpeBwdE1Z4rq6kBBpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629352;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795633603;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=O+tZeLMj7AB3nPeOlllTVyeFOtFd3xxvp5gW1+sfvjg=;
-	b=mbFSCE+CbaqP6S4KP1sHevTLruTV75aY8FjP9dxxXywOZ6MKvn4/jttcXictWxRrxmYX
-	 acK+ffDJVE8wykhFKzo0cwj4TALcbr9baD4UteatRj4LI/ETwVK6acgtMcwBNVzmfz+ci
-	 wDQayMhjteEwMY2M9pSdHNFua4+KTGo0JXSYiKX3clvjx4gJGOA00UAT7PoHvIQm0qUs2
-	 m26tKL1kH54n22NPlcY3O7KwYfE+wMknWu0IGymvCvu4SLQt1Z0eE+gj582mTPvIIYQCf
-	 7u2GAjp8/MUBeU6fYwZBU+guyJLFw17UxnWP71eQ6r1KcmxZ0225uQeBecnLz8UCTEw==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ZMlXQXGNt6cHw/ad/74QKugE+q0wvhlwsq/uXemo6L0=;
+	b=XkT5KEYsTg0b/s7KNJU+0wqoYYvYEeeD0bn9+gB3Tqmvpwzs57VSEdBuChXA+aWsLelB
+	 4eURTtwBwZsIFu1wtEwIFEJ/27VOZerbnHY4RqP75cVeLzv3aMg6yVIz8hD2wLg4gErRS
+	 3g/J3kI53/8Cx/2EtIsZvN2lQ959rdMqmh7VYhfHjyjNphkROp+x1cfiqGoiTJyleSf7M
+	 vmBrIXa07I3rM6elETEBO9u3y09Iq8PvFDHmLAft/qYkkYnK1hFrhUE1QNrwVnKB+mtiz
+	 Cj3gq0RB1q7WkpyCuPkRnFeqccVHC4IfiWZj7kwgfkIXT9PX88hMWjTN6Y+BddVi2ZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oHd6w9OK;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P7SxJ5TH;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968F606A32E
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 17:55:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4968F606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B0D606A321
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Nov 2026 19:06:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2B0D606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oHd6w9OK
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P7SxJ5TH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795629352; x=1827165352;
-  h=date:from:to:cc:subject:message-id;
-  bh=b0l82r8/SocfLrewX4h2dEYJaXbHN/moDBY5yz0JULY=;
-  b=oHd6w9OKvOeRiZBsMFJ1hJEkG4xhLjRy08tvpNQkRFUajBwkngcn8S8R
-   B5H8o6s2kjvBrOFB+GKhmrZPQm2Kg2n7y1PD4bF7cAAXJePRF46tIrYMA
-   e6jexTC2oXly0lGlr+wfNvG2HjGAY3KmkeTQ+IaJ3p3jX1jwdsxgC+Gyo
-   I1dtSe2flBcWshyV4hRzYelHMXOXbUPXQkFQE3uLcxKvDxqk6l+HWx0ns
-   Wkf4ZTq2cEvOD0jnB7TQfgOSzPFr7QGaXIvM2ZotC7HadK/8SyYLFMUPh
-   3815Vk7W7vrMYx9NIjAGXfPPk8BAqEVsyZHxjnHrovt59KTnS9Jy9i5Qy
+  t=1795633603; x=1827169603;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Jb8KE7IopVFdOrC7zhbBGQ5V95KKskwY0zmJKbCqC+s=;
+  b=P7SxJ5THQ5BrIlipF69QSGdq576H833YVAA+/9zNBQVaUezre0KQJl3M
+   GCUTnleg9hyBzM4wt8aXupEhBY1VX51mqafX44TITQgGdZxIWgL8z8UlR
+   7MYIJjYDTbgF24RRI3hsUgbL6cH8t52yZgfSZYZNjF1c62JjlNveNev/h
+   L9yHqBfeS5a1LFREbJlg5rlKoa90RrG7/TOntpCPIR+h+7bL1ZcMPjbTn
+   yEJjinDIbcag9pm1PncshPvRSbPnUko7hGlJDXvyIStXRA/Cgs+W+X0et
+   TvBlPbt/n2ZVfZmDAaVwGUgpDaAP9K0BNub9EViLttUcCniPLBCt3hfxd
    A==;
-X-CSE-ConnectionGUID: E21X3dYmT9yi7F6RmG6KUg==
-X-CSE-MsgGUID: sbkSQyCHT9qA8W1D1o9Ijw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4410595"
+X-CSE-ConnectionGUID: zPAd2dENQuCnY64H8pQNMg==
+X-CSE-MsgGUID: FW4/4HwtSVqSjlBjm4c6Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4530008"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4410595"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 09:55:52 -0800
-X-CSE-ConnectionGUID: LqKYLG68R32G3M7ECKXAzQ==
-X-CSE-MsgGUID: ewvb5YKnRGi37V4wTZxGHg==
+   d="scan'208";a="4530008"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 09:58:53 -0800
+X-CSE-ConnectionGUID: fBG842EzRS2ZUg/0tIKnIQ==
+X-CSE-MsgGUID: y6DB01lPSiekB2z2RUk5jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="11817065"
+   d="scan'208";a="12238397"
 Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2026 09:55:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 25 Nov 2026 09:55:51 -0800
 Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWHDf-0000000002p-1UAu;
+	id 1xWHDf-0000000002r-1cML;
 	Wed, 25 Nov 2026 17:55:47 +0000
-Date: Wed, 25 Nov 2026 18:55:15 +0100
+Date: Wed, 25 Nov 2026 18:55:30 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [broonie-regulator:for-7.5 6/6]
- drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
- warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
-Message-ID: <20261125184601.R647t8Sj-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/dsa/realtek/rtl8365mb_main.c:1323:2-16:
+ opportunity for str_enable_disable(vlan_filtering)
+Message-ID: <20261125185405.EBTevcP1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,99 +81,218 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yaohan Li <shunsheng1218@gmail.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Alvin =C5=A0ipraga" <alsi@bang-olufsen.dk>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Linus Walleij <linusw@kernel.org>
+CC: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+CC: Luiz Angelo Daros de Luca <luizluca@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-7.5
-head:   d23ba232a8fefe909aeb9366e3905a95a429ebfc
-commit: d23ba232a8fefe909aeb9366e3905a95a429ebfc [6/6] regulator: qcom-labibb: stop the recovery workers on teardown
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: openrisc-randconfig-2200-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125184601.R647t8Sj-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4dce97c6c265544342e716e62fd24bbb232590c5
+commit: 9da2c8672f77108a1f09232320f22225ab53dde9 net: dsa: realtek: rtl8365=
+mb: add VLAN support
+date:   6 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-2102-20261125 (https://download.01.org/0day-ci/arch=
+ive/20261125/20261125185405.EBTevcP1-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
+e47d3a3451d81e72ac174dcb5aa28b59d1)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 9da2c8672f77 ("net: dsa: realtek: rtl8365mb: add VLAN support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261125184601.R647t8Sj-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261125185405.EBTevcP1-lkp@intel.com/
 
-smatch warnings:
-drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq() warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/realtek/rtl8365mb_main.c:1323:2-16: opportunity for str_=
+enable_disable(vlan_filtering)
 
-vim +444 drivers/regulator/qcom-labibb-regulator.c
+vim +1323 drivers/net/dsa/realtek/rtl8365mb_main.c
 
-d23ba232a8fefe9 Yaohan Li 2026-11-18  384  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  385  /*
-d23ba232a8fefe9 Yaohan Li 2026-11-18  386   * Request the over-current interrupt once the regulator is registered.
-d23ba232a8fefe9 Yaohan Li 2026-11-18  387   * Requesting it from ->set_over_current_protection() is not possible: the
-d23ba232a8fefe9 Yaohan Li 2026-11-18  388   * regulator core calls that op from set_machine_constraints(), inside
-d23ba232a8fefe9 Yaohan Li 2026-11-18  389   * regulator_register(), and a devres node created there is released after
-d23ba232a8fefe9 Yaohan Li 2026-11-18  390   * the regulator itself.  The recovery worker would then still be runnable
-d23ba232a8fefe9 Yaohan Li 2026-11-18  391   * while vreg->rdev is already gone.
-d23ba232a8fefe9 Yaohan Li 2026-11-18  392   */
-d23ba232a8fefe9 Yaohan Li 2026-11-18  393  static int qcom_labibb_setup_ocp_irq(struct labibb_regulator *vreg)
-d23ba232a8fefe9 Yaohan Li 2026-11-18  394  {
-d23ba232a8fefe9 Yaohan Li 2026-11-18  395  	u32 irq_flags = IRQF_ONESHOT;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  396  	int ret;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  397  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  398  	lockdep_assert_held(&vreg->ocp_lock);
-d23ba232a8fefe9 Yaohan Li 2026-11-18  399  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  400  	if (vreg->shutting_down)
-d23ba232a8fefe9 Yaohan Li 2026-11-18  401  		return -ESHUTDOWN;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  402  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  403  	if (!vreg->ocp_requested)
-d23ba232a8fefe9 Yaohan Li 2026-11-18  404  		return 0;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  405  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  406  	if (!vreg->ocp_irq_done) {
-d23ba232a8fefe9 Yaohan Li 2026-11-18  407  		/* IRQ polarities - LAB: trigger-low, IBB: trigger-high */
-d23ba232a8fefe9 Yaohan Li 2026-11-18  408  		switch (vreg->type) {
-d23ba232a8fefe9 Yaohan Li 2026-11-18  409  		case QCOM_LAB_TYPE:
-d23ba232a8fefe9 Yaohan Li 2026-11-18  410  			irq_flags |= IRQF_TRIGGER_LOW;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  411  			break;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  412  		case QCOM_IBB_TYPE:
-d23ba232a8fefe9 Yaohan Li 2026-11-18  413  			irq_flags |= IRQF_TRIGGER_HIGH;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  414  			break;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  415  		default:
-d23ba232a8fefe9 Yaohan Li 2026-11-18  416  			return -EINVAL;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  417  		}
-d23ba232a8fefe9 Yaohan Li 2026-11-18  418  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  419  		/*
-d23ba232a8fefe9 Yaohan Li 2026-11-18  420  		 * The interrupt is owned and released by the cleanup
-d23ba232a8fefe9 Yaohan Li 2026-11-18  421  		 * action, so its name has to outlive the interrupt:
-d23ba232a8fefe9 Yaohan Li 2026-11-18  422  		 * devres would release a name allocated here before the
-d23ba232a8fefe9 Yaohan Li 2026-11-18  423  		 * action runs, while vreg->desc.name is owned by the
-d23ba232a8fefe9 Yaohan Li 2026-11-18  424  		 * driver data.
-d23ba232a8fefe9 Yaohan Li 2026-11-18  425  		 */
-d23ba232a8fefe9 Yaohan Li 2026-11-18  426  		ret = request_threaded_irq(vreg->ocp_irq, NULL,
-d23ba232a8fefe9 Yaohan Li 2026-11-18  427  					   qcom_labibb_ocp_isr, irq_flags,
-d23ba232a8fefe9 Yaohan Li 2026-11-18  428  					   vreg->desc.name, vreg);
-d23ba232a8fefe9 Yaohan Li 2026-11-18  429  		if (ret)
-d23ba232a8fefe9 Yaohan Li 2026-11-18  430  			return ret;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  431  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  432  		vreg->ocp_irq_done = true;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  433  	}
-d23ba232a8fefe9 Yaohan Li 2026-11-18  434  
-d23ba232a8fefe9 Yaohan Li 2026-11-18  435  	/*
-d23ba232a8fefe9 Yaohan Li 2026-11-18  436  	 * Enable the hardware source only once a handler exists, and turn
-d23ba232a8fefe9 Yaohan Li 2026-11-18  437  	 * it back off if that failed, so that a later attempt can retry
-d23ba232a8fefe9 Yaohan Li 2026-11-18  438  	 * without leaving the source enabled on its own.
-d23ba232a8fefe9 Yaohan Li 2026-11-18  439  	 */
-d23ba232a8fefe9 Yaohan Li 2026-11-18  440  	ret = qcom_labibb_ocp_hw_enable(vreg->rdev);
-d23ba232a8fefe9 Yaohan Li 2026-11-18  441  	if (ret)
-d23ba232a8fefe9 Yaohan Li 2026-11-18  442  		qcom_labibb_ocp_hw_disable(vreg->rdev);
-d23ba232a8fefe9 Yaohan Li 2026-11-18  443  
-d23ba232a8fefe9 Yaohan Li 2026-11-18 @444  	return ret;
-d23ba232a8fefe9 Yaohan Li 2026-11-18  445  }
-d23ba232a8fefe9 Yaohan Li 2026-11-18  446  
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1309 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1310  static int rtl8365mb_po=
+rt_vlan_filtering(struct dsa_switch *ds, int port,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1311  					 bool vlan_filteri=
+ng,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1312  					 struct netlink_ex=
+t_ack *extack)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1313  {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1314  	enum rtl8365mb_frame_i=
+ngress accepted_frame, prev_accepted_frame;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1315  	enum rtl8365mb_vlan_eg=
+ress_mode mode;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1316  	struct realtek_priv *p=
+riv =3D ds->priv;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1317  	u32 configured_ports =
+=3D 0;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1318  	struct dsa_port *dp;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1319  	u16 pvid_vid;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1320  	int ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1321 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1322  	dev_dbg(priv->dev, "po=
+rt %d: %s VLAN filtering\n", port,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06 @1323  		vlan_filtering ? "ena=
+ble" : "disable");
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1324 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1325  	ret =3D rtl8365mb_vlan=
+_port_get_framefilter(priv, port,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1326  						  &prev_accepted_=
+frame);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1327  	if (ret) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1328  		NL_SET_ERR_MSG_MOD(ex=
+tack,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1329  				   "Failed to get c=
+urrent framefilter");
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1330  		return ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1331  	}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1332 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1333  	/* While filtering, on=
+ly accepts untagged frames if PVID is enabled */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1334  	if (vlan_filtering) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1335  		ret =3D rtl8365mb_vla=
+n_port_get_pvid(priv, port, &pvid_vid);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1336  		if (ret)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1337  			return ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1338 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1339  		if (pvid_vid)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1340  			accepted_frame =3D R=
+TL8365MB_FRAME_TYPE_ANY_FRAME;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1341  		else
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1342  			accepted_frame =3D R=
+TL8365MB_FRAME_TYPE_TAGGED_ONLY;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1343  	} else {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1344  		accepted_frame =3D RT=
+L8365MB_FRAME_TYPE_ANY_FRAME;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1345  	}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1346 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1347  	/* When vlan filter is=
+ enable/disabled in a bridge, this function is
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1348  	 * called for all memb=
+er ports. We need to enable/disable ingress
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1349  	 * VLAN membership che=
+ck.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1350  	 */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1351  	ret =3D rtl8365mb_port=
+_set_ingress_filtering(priv, port, vlan_filtering);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1352  	if (ret)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1353  		return ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1354 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1355  	/* However, we also en=
+able/disable egress filtering because the switch
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1356  	 * still consider the =
+egress interface VLAN membership to forward the
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1357  	 * traffic. We enable/=
+disable that check disabling/enabling transparent
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1358  	 * VLAN between the in=
+gress port and all other available ports.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1359  	 */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1360  	dsa_switch_for_each_av=
+ailable_port(dp, ds) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1361  		/* port isolation wil=
+l still keep traffic inside the bridge */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1362  		ret =3D rtl8365mb_por=
+t_set_transparent(priv, port, dp->index,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1363  						     !vlan_filter=
+ing);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1364  		if (ret)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1365  			goto undo_transparen=
+t;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1366 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1367  		configured_ports |=3D =
+BIT(dp->index);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1368  	}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1369 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1370  	if (accepted_frame !=
+=3D prev_accepted_frame) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1371  		ret =3D rtl8365mb_vla=
+n_port_set_framefilter(priv, port,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1372  							  accepted_frame=
+);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1373  		if (ret) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1374  			NL_SET_ERR_MSG_MOD(e=
+xtack,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1375  					   "Failed to set =
+port framefilter");
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1376  			goto undo_transparen=
+t;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1377  		}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1378  	}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1379 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1380  	/* When VLAN filtering=
+ is disabled, preserve frames exactly as received.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1381  	 * Otherwise, the VLAN=
+ egress pipeline may still alter tag state
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1382  	 * according to VLAN m=
+embership and untag configuration.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1383  	 */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1384  	if (vlan_filtering)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1385  		mode =3D RTL8365MB_VL=
+AN_EGRESS_MODE_ORIGINAL;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1386  	else
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1387  		mode =3D RTL8365MB_VL=
+AN_EGRESS_MODE_REAL_KEEP;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1388 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1389  	ret =3D rtl8365mb_port=
+_set_vlan_egress_mode(priv, port, mode);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1390  	if (ret)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1391  		goto undo_set_framefi=
+lter;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1392 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1393  	return ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1394 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1395  undo_set_framefilter:
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1396  	if (prev_accepted_fram=
+e !=3D accepted_frame)
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1397  		rtl8365mb_vlan_port_s=
+et_framefilter(priv, port,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1398  						    prev_accepted=
+_frame);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1399  undo_transparent:
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1400  	/* The DSA core guaran=
+tees this callback is only invoked on an actual
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1401  	 * state transition, e=
+nsuring the previous hardware state was the
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1402  	 * opposite (!vlan_fil=
+tering). It is also called during setup but, in
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1403  	 * that case, any fail=
+ure here aborts the entire switch initialization.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1404  	 *
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1405  	 * VLAN_INGRESS and VL=
+AN_EGRESS_TRANSPARENT states are directly derived
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1406  	 * from vlan_filtering=
+. That way, we can simply undo it without
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1407  	 * checking the curren=
+t HW state as we do with VLAN_EGRESS_MODE.
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1408  	 */
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1409  	dsa_switch_for_each_po=
+rt(dp, ds) {
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1410  		if (configured_ports =
+& BIT(dp->index))
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1411  			rtl8365mb_port_set_t=
+ransparent(priv, port, dp->index,
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1412  						       vlan_filte=
+ring);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1413  	}
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1414 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1415  	rtl8365mb_port_set_ing=
+ress_filtering(priv, port, !vlan_filtering);
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1416 =20
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1417  	return ret;
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1418  }
+9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1419 =20
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
