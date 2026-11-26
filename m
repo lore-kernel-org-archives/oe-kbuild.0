@@ -1,75 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795670823;
-	b=zuDNRPKbmrqJsGqQC8zd42m6s/z//bHT3Oi0VYJNCXK1g2Sm595yPz4hL5VI3/KfY9g/
-	 hjAbEqgQT8al2zyScU5Fh1NPRDXJJ9vM7ozsp8rZmOwPYEHWsSbbWHOIj2/hKjuOxqT7I
-	 XTdln/lKSIFIUTBXBFSxQ8sZDHDa9QT9+EDe3g17uITziFXbQkG6km7PuNZnQWqwGY87C
-	 0vbPwQoeUmrAYL4l0Lg8REMDXhx9i4rR2b7UmzFLpaHFf9HP3swTvPBt9fFGFDXK/vEZF
-	 WqwZtALlEdp2DGFVDqrLfF4oNuygHAHdGcpPc9ifgIBTDs6HvPFngUpwdh8/6nPvCPw==
+	t=1795671956;
+	b=HOaKimKfPipq+axNZOqQNK7UxfBWCtFpCbp7hv9HKrAdM5saIWr6pNZZUbdQjN7KH2U3
+	 AQ1kgXzStnNkyOvySZEiuiQcuo2A2Joibmt0BA9YDNuMLasGPX5YaoWO1b6+5QK5trCxV
+	 b+T3gq9UdHHd4CgDT8vt5NYEY5fDSDv4P80oDJzVGJngOfWChXH0aJwo9ioOAx+IaomWM
+	 JVbpwR/YuvKLqmc8uZ1JqLaxocHYPTYCB1ymVnkuYDckbpeMAR5wvH7+0UJ8KczUBjpah
+	 d7MqXA8KO2JsnisDDpNXCEP1z7UF7on1jGyfixl2tcZnc4YrnltVzbYyOfp5g2NH/4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795670823;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795671956;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=LQSzf3/iUMZ/6YxCMLNqcaWHRbhCg9P8UVgRnsDoX3I=;
-	b=r9n/A+YZib+P5XroivLpk/GymcuILDlhki+/DFm+L1CimN9EbQJX08m+B3nb6jeIbckn
-	 KLdVGogFUW4eeISEhO7dwm3zDmET+lRo15veZ/XamWW8uge/eiC12d1KMGVFcTA5Rx2tI
-	 6UpsVaonwBY5e+CF/V0YgQq9tUh8vnF0i9A19GSHZcg21PoCh7G3tosM5PBtMUQFer47x
-	 vgUOjRkGE+NsRrVif/bttomi5SKOS93dFW+X7LfofaqlqT07s4TNzqluRgPZ14OfO2gHT
-	 DQkfKX0FU9dzRYhSqwOFIX8LFCM+JCXrFs36j6Uoy+anHfJYQq9hLlAUmxzoFygPwjQ==
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=OGmEsYRm0M9WcPIrYBL3N4DoY3CLbLokQf0XPjqiv1U=;
+	b=nM8Zzr2qtjwLAe7K9wdWO0Nxm0dqkiDRCWfzEyojR9qopfrqtlQiF8wjDMJZ6mwGe9N3
+	 zurrzIIOMY7eZa4mVrQX5qFZg0TL99DtbH7ca7voXzRUko2uJtH5SJkTJD+cyEPfgvGqr
+	 IcA4wgGS3BegKr+4NAw46n0l43eOdE10xULd7P0BZI6WhhbNyBSVv9Tc4+zgeeNGRRb/z
+	 g2tpk8ZDR2SwHoXXpNxD1IckK4B8wEOIRvESp0+n9kH8W9kOyamUMXxUWpJIJ4bioOCpu
+	 k0LacacQC/aTj6lYgYCPkQpBKCrdGZHC6pqkwEg1nk3mXOjsrS1j35Iu5dgtonH9vGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csfNwYUR;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cBrPFYyq;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9019C606A31E
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 05:27:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9019C606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4E6606A31C
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 05:45:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E4E6606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csfNwYUR
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cBrPFYyq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795670822; x=1827206822;
-  h=date:from:to:cc:subject:message-id;
-  bh=TpGNtm/Pwug5K9xpy/n+RGuGp7g8GwooWZj7Suqkl/o=;
-  b=csfNwYURShSJ8NEozdEaawK2xHiP21rajPQNeHvRZH4PEc/ljpGfupks
-   BWMgC9OBKcw6umDDv53AvM8cBR6IB8ylqueh8n1336Ft938XSQmc++jhM
-   Qd0AQCIVczf1/AkEPzUpef9KHfnCl1J83mo63m5iAfJzPExWSuzhw8oZj
-   TWrAXwsHMB0bFsptLY/FLg6CGxvLFZFiPoSwUw+qTTNKYMvgrBwAfviJc
-   H1rWd9WztqmGBtX0yarWxzMhL1O1+5c8s/SR/znNlSja8zT/YOlVYeYeY
-   bWHpEkosvtsVRZbXwtQi9PooOZB16p1xVW34lsnvQ1VUiw59A/BgnoA42
-   A==;
-X-CSE-ConnectionGUID: x2Xcx0oBTjedR7Iw7/skMQ==
-X-CSE-MsgGUID: vAJ1BqbkT1eqBjlM+v7iSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4577048"
+  t=1795671955; x=1827207955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/nx63tBc0h0a5n0+0zw2U5cs/x12DWvL1Pa+00XY4/k=;
+  b=cBrPFYyqaEPRV1EukA9Lr+0GT9nk2AfFGEM7Olrs17RkR7Y2m992su2D
+   xqfi/GfrQoIMVzgkB4A+i1RJfJFFMbclR86QGlHvJjvV9Sx6MX2RVYINQ
+   RBhwRbYEA0chw7FGB1jxKjxsn35UdE8IkXoDSbXBRNa0o7Yee/05ZlB9N
+   s7FzqJ/La8dVA1kqsT3f3Uz8AbUIfTWfhCLs49JstuJZbfwEL9omd16Au
+   X+1M2nD3/tQGzqucE+OoVOPm/3+1xFuoSOekbjuKI9qUb8/ozi0/uvwdP
+   d2gdWJaSWo8ItmXzm4GoNMHPdIbd2PLTpWsUUktQnjR6JNS7Q+i9tsYhV
+   g==;
+X-CSE-ConnectionGUID: oGofyRSFToSeKvHOWOigBg==
+X-CSE-MsgGUID: 9aw9Pxo1TRC7rg91U2PqyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4568539"
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4577048"
+   d="scan'208";a="4568539"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 21:25:10 -0800
-X-CSE-ConnectionGUID: XBoQ4q8mTcCosAPOez/NFA==
-X-CSE-MsgGUID: 0ge2jv4QSC6aSEyIwKHnGg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 21:45:55 -0800
+X-CSE-ConnectionGUID: 2H8ix5XSR+CtPbb0W7hiVA==
+X-CSE-MsgGUID: UMsqQZyvTIqgij0lsAhgxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="12234955"
-Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 25 Nov 2026 21:24:41 -0800
-Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
+   d="scan'208";a="12237679"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 25 Nov 2026 21:45:54 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWRyI-000000000El-1lYL;
-	Thu, 26 Nov 2026 05:24:38 +0000
-Date: Thu, 26 Nov 2026 06:24:24 +0100
+	id 1xWSIp-00000001TNW-36IQ;
+	Thu, 26 Nov 2026 05:45:51 +0000
+Date: Thu, 26 Nov 2026 13:45:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: arch/riscv/kvm/mmu.c:147:3-9: preceding lock on line 143
-Message-ID: <20261126061910.YfGdaG3l-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4] gpio: amdptpci: add support for AMD PT PCI controller
+Message-ID: <20261126133330.QuRKwyeZ-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -78,80 +77,95 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "linux-review patch is more than 7 days old, verify it wasn't already superseded"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wang Yechao <wang.yechao255@zte.com.cn>
-CC: Anup Patel <anup@brainfault.org>
+In-Reply-To: <20261116075510.5722-1-Chloe_Chen@asmedia.com.tw>
+References: <20261116075510.5722-1-Chloe_Chen@asmedia.com.tw>
+TO: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+TO: linusw@kernel.org
+TO: Markus.Elfring@web.de
+TO: linux-gpio@vger.kernel.org
+TO: brgl@kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Yd_Tseng@asmedia.com.tw
+CC: Jesse1_Chang@asmedia.com.tw
+CC: Richard_Hsu@asmedia.com.tw
+CC: Szuying Chen <Chloe_Chen@asmedia.com.tw>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40212b29a6f718d4e7fb3275cede181cb8e137cf
-commit: da870fdafa8adf6f6287dbbdd2c3b3181655965e RISC-V: KVM: Split huge pages when dirty logging is enabled
-date:   4 months ago
-:::::: branch date: 66 minutes ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-r2102-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126061910.YfGdaG3l-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 16.2.0
+Hi Szuying,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v7.4-rc4 next-20261125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Szuying-Chen/gpio-amdptpci-add-support-for-AMD-PT-PCI-controller/20261116-155510
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20261116075510.5722-1-Chloe_Chen%40asmedia.com.tw
+patch subject: [PATCH v4] gpio: amdptpci: add support for AMD PT PCI controller
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261126/20261126133330.QuRKwyeZ-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126133330.QuRKwyeZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: da870fdafa8a ("RISC-V: KVM: Split huge pages when dirty logging is enabled")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261126061910.YfGdaG3l-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261126133330.QuRKwyeZ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/mmu.c:147:3-9: preceding lock on line 143
+All warnings (new ones prefixed by >>):
 
-vim +147 arch/riscv/kvm/mmu.c
+>> drivers/gpio/gpio-amdptpci.c:540:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+     540 |                 iowrite16(PT27_WAKE_MASK, chip->base + PT27_REG_WAKE_STAT);
+         |                 ^
+   drivers/gpio/gpio-amdptpci.c:537:2: note: previous statement is here
+     537 |         if (!device_may_wakeup(dev))
+         |         ^
+   1 warning generated.
 
-da870fdafa8adf Wang Yechao 2026-07-31  111  
-da870fdafa8adf Wang Yechao 2026-07-31  112  static bool mmu_split_huge_pages(struct kvm_gstage *gstage,
-da870fdafa8adf Wang Yechao 2026-07-31  113  				 phys_addr_t start, phys_addr_t end)
-da870fdafa8adf Wang Yechao 2026-07-31  114  {
-da870fdafa8adf Wang Yechao 2026-07-31  115  	struct kvm *kvm = gstage->kvm;
-da870fdafa8adf Wang Yechao 2026-07-31  116  	struct kvm_mmu_memory_cache *pcache = &kvm->arch.pgd_split_page_cache;
-da870fdafa8adf Wang Yechao 2026-07-31  117  	phys_addr_t addr = ALIGN_DOWN(start, PMD_SIZE);
-da870fdafa8adf Wang Yechao 2026-07-31  118  	phys_addr_t last_flush_gfn = addr >> PAGE_SHIFT;
-da870fdafa8adf Wang Yechao 2026-07-31  119  	int count = gstage->pgd_levels;
-da870fdafa8adf Wang Yechao 2026-07-31  120  	bool flush = false;
-da870fdafa8adf Wang Yechao 2026-07-31  121  	int ret;
-da870fdafa8adf Wang Yechao 2026-07-31  122  
-da870fdafa8adf Wang Yechao 2026-07-31  123  	lockdep_assert_held_write(&kvm->mmu_lock);
-da870fdafa8adf Wang Yechao 2026-07-31  124  
-da870fdafa8adf Wang Yechao 2026-07-31  125  	while (addr < end) {
-da870fdafa8adf Wang Yechao 2026-07-31  126  		if (need_topup_split_caches_or_resched(kvm, count)) {
-da870fdafa8adf Wang Yechao 2026-07-31  127  			if (flush) {
-da870fdafa8adf Wang Yechao 2026-07-31  128  				kvm_flush_remote_tlbs_range(kvm, last_flush_gfn,
-da870fdafa8adf Wang Yechao 2026-07-31  129  					  (addr >> PAGE_SHIFT) - last_flush_gfn);
-da870fdafa8adf Wang Yechao 2026-07-31  130  				last_flush_gfn = addr >> PAGE_SHIFT;
-da870fdafa8adf Wang Yechao 2026-07-31  131  				flush = false;
-da870fdafa8adf Wang Yechao 2026-07-31  132  			}
-da870fdafa8adf Wang Yechao 2026-07-31  133  
-da870fdafa8adf Wang Yechao 2026-07-31  134  			write_unlock(&kvm->mmu_lock);
-da870fdafa8adf Wang Yechao 2026-07-31  135  			cond_resched();
-da870fdafa8adf Wang Yechao 2026-07-31  136  
-da870fdafa8adf Wang Yechao 2026-07-31  137  			ret = kvm_mmu_topup_memory_cache(pcache, count);
-da870fdafa8adf Wang Yechao 2026-07-31  138  			if (ret) {
-da870fdafa8adf Wang Yechao 2026-07-31  139  				kvm_err("Failed to toup split page cache\n");
-da870fdafa8adf Wang Yechao 2026-07-31  140  				write_lock(&kvm->mmu_lock);
-da870fdafa8adf Wang Yechao 2026-07-31  141  				return flush;
-da870fdafa8adf Wang Yechao 2026-07-31  142  			}
-da870fdafa8adf Wang Yechao 2026-07-31 @143  			write_lock(&kvm->mmu_lock);
-da870fdafa8adf Wang Yechao 2026-07-31  144  		}
-da870fdafa8adf Wang Yechao 2026-07-31  145  
-da870fdafa8adf Wang Yechao 2026-07-31  146  		if (!kvm->arch.pgd)
-da870fdafa8adf Wang Yechao 2026-07-31 @147  			return flush;
-da870fdafa8adf Wang Yechao 2026-07-31  148  
-da870fdafa8adf Wang Yechao 2026-07-31  149  		flush |= kvm_riscv_gstage_split_huge(gstage, pcache, addr, 0, false);
-da870fdafa8adf Wang Yechao 2026-07-31  150  
-da870fdafa8adf Wang Yechao 2026-07-31  151  		addr += PMD_SIZE;
-da870fdafa8adf Wang Yechao 2026-07-31  152  	}
-da870fdafa8adf Wang Yechao 2026-07-31  153  
-da870fdafa8adf Wang Yechao 2026-07-31  154  	return flush;
-da870fdafa8adf Wang Yechao 2026-07-31  155  }
-da870fdafa8adf Wang Yechao 2026-07-31  156  
+
+vim +/if +540 drivers/gpio/gpio-amdptpci.c
+
+bba230f88fa2c88 Szuying Chen 2026-11-16  521  
+bba230f88fa2c88 Szuying Chen 2026-11-16  522  static int __maybe_unused pt27_gpio_suspend(struct device *dev)
+bba230f88fa2c88 Szuying Chen 2026-11-16  523  {
+bba230f88fa2c88 Szuying Chen 2026-11-16  524  	struct pt27_gpio *chip = dev_get_drvdata(dev);
+bba230f88fa2c88 Szuying Chen 2026-11-16  525  
+bba230f88fa2c88 Szuying Chen 2026-11-16  526  	if (pm_runtime_status_suspended(dev)) {
+bba230f88fa2c88 Szuying Chen 2026-11-16  527  		dev_dbg(dev, "%s: already runtime-suspended, skipping save\n", __func__);
+bba230f88fa2c88 Szuying Chen 2026-11-16  528  		return 0;
+bba230f88fa2c88 Szuying Chen 2026-11-16  529  	}
+bba230f88fa2c88 Szuying Chen 2026-11-16  530  
+bba230f88fa2c88 Szuying Chen 2026-11-16  531  	scoped_guard(raw_spinlock_irqsave, &chip->gen.lock) {
+bba230f88fa2c88 Szuying Chen 2026-11-16  532  		pt27_save_regs(chip);
+bba230f88fa2c88 Szuying Chen 2026-11-16  533  		iowrite32(0, chip->base + PT27_REG_INT_EN);
+bba230f88fa2c88 Szuying Chen 2026-11-16  534  		iowrite32(PT27_GPIO_MASK, chip->base + PT27_REG_INT_MASK);
+bba230f88fa2c88 Szuying Chen 2026-11-16  535  		iowrite32(PT27_GPIO_MASK, chip->base + PT27_REG_INT_STAT);
+bba230f88fa2c88 Szuying Chen 2026-11-16  536  
+bba230f88fa2c88 Szuying Chen 2026-11-16  537  	if (!device_may_wakeup(dev))
+bba230f88fa2c88 Szuying Chen 2026-11-16  538  		iowrite16(0, chip->base + PT27_REG_WAKE_EN);
+bba230f88fa2c88 Szuying Chen 2026-11-16  539  
+bba230f88fa2c88 Szuying Chen 2026-11-16 @540  		iowrite16(PT27_WAKE_MASK, chip->base + PT27_REG_WAKE_STAT);
+bba230f88fa2c88 Szuying Chen 2026-11-16  541  	}
+bba230f88fa2c88 Szuying Chen 2026-11-16  542  
+bba230f88fa2c88 Szuying Chen 2026-11-16  543  	synchronize_irq(chip->irq);
+bba230f88fa2c88 Szuying Chen 2026-11-16  544  	return 0;
+bba230f88fa2c88 Szuying Chen 2026-11-16  545  }
+bba230f88fa2c88 Szuying Chen 2026-11-16  546  
 
 -- 
 0-DAY CI Kernel Test Service
