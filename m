@@ -1,74 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795733613;
-	b=0AuarffWH1Qo0hpCe3JsiHMwh8wNIclnG8u9dsJJx/AQGkrfz6TW49lPMxALnv0OqnXn
-	 Wk7eNes+zbf1t2NXrJNuuN2Hp+XSDyR87hqvTwyVu7STAxKV4mOipw/CmoxcwydlYVNN+
-	 tU+ymXU4E2gM+2LUqtMOQgLd3qu3tHIVY8Fi9qhmf9J7lwmdPSSPk0H7CxFJSPA8C6898
-	 K9jpl7rCDcbG4gOWJCDH3rVq+dvSsSEfoyRXzPE2gWxI0xq3Zs1JmP+DZtzFz6kk/NRjV
-	 nOkFGl5XWS0uFhE0u+LF2t2Qgf/lLUrtzQsjtiecir6zLBUUSw/eVgYsfbkWY617R5w==
+	t=1795737135;
+	b=IvOjwbFqhyTK6V3lEvqio9ZiK09iaD+gIrAn8/aKHwb9MIQA3LjNoN+0bdv5MAV2v1Nc
+	 tCPRxdhepZwpTo4ULSzK7A3UH3q3hYjgUiH9lEPHy1o7RwDapvkVCGM1N5WsmOc8dvZFS
+	 aNPi9bVsSFe+O0y/v3eoflfVM8kNqHcIXo6aWMkQTNJJMdBmMjYHDjSWhaPvvCPRanrNi
+	 u45pl7Ps0kfohopzQUoJslFUtt0VQrSiBwD01NUHlvmJL2bHjVG85/ZSpZ56jBh5hTvih
+	 QzWTTTSNwFDwpfltjCgZrdXhIPFSv7Z0QZCKAEuY0EJtQmm94eT8CanITS/HnsItk4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795733613;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795737135;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=326i4PgqQTYD/Wyte5jHLdgAjQyod8TdlVs0zTMv5Cs=;
-	b=mrdP2rsQ3lvxGjha2Ty/N8f11XO5iyqxMt6kywYc5UCn74nFH3nOYipBfN0wdhGqztHe
-	 UYb8KZwrGRPjSd4ZHxLLEQZ6vhc+TcaChes3kGKeGmKUl6j2c7DlMYPksLldkVtWR3aVB
-	 lDTXgfG95bor7JNb+XJSB+YWMzjxouG0jLlCs1EpbbCDc6HYkVTVRF+ph5iAhs5+EEZtV
-	 25hlv7bZ1Dri+7WRhu5D+SEz3Bq90kC05SQ5GkC5RZs8BEaEk1SY+maEForej29LQnP6A
-	 fd0U2+Drtwv13vJpc8R4t+zMWU5pfcXVEcCWamYTesry3OmFOh/NWz/DfN7SwMJGWYA==
+	bh=AqEyc2CJvCyDZLLlkaP2nHEuoe3mo2uHpA/uEVWkYXU=;
+	b=JzNIfSg38KDQnS7UTqW/OODsRCrWT6cktr24irP7hPp6J4MXwFYgez4z3rFRjcSgStd/
+	 VsRcHjcWKW9WbPVct0o9lvNObxhIQAISZpjesgs6hH+wedPI/e96lxsKNkUT1a5iAnN1Y
+	 WxFgtxtCwHY+33Du7tvP3beM2Ez9xgtzxXZna23b4TBRudhHZR1eZq7+1UKOpi3kQrt2c
+	 Xmwl3wlm+W6QB10E4E5qJySjn4Cs91qeg2f+AYvVG8FIjVPktZrrkxFJ9RtvTkEPKFWsC
+	 d84d4gXLklm5M+n8fK5Ng3xy/diKmmXiiQKDhEp/tpuleUB7f1+jbky6fDWcWFVcd8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CKYgFIjY;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O5oLxUCG;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CBB606A321
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 22:53:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03CBB606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF31B606A31C
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 23:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF31B606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CKYgFIjY
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O5oLxUCG
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795733612; x=1827269612;
+  t=1795737133; x=1827273133;
   h=date:from:to:cc:subject:message-id;
-  bh=MYFRBS31ZgoK9WvxGwn/7RvDqgSvaFoY3jkrYSmJqNc=;
-  b=CKYgFIjY9/P1CtJBASFCxtO+skc7vO1rmXkkX9zGIAtVLV6CPg5DKwNo
-   ojF8eCHFZ0J3eP6cH9ril2rwL0SA/2Q0NlADe+iK5QDbxGCHRqsjyzJNV
-   T3MPya09mSVttsOVYPF88GjLlhcmwhcnDGPkuAU13xPLKCacXDcAK/fAX
-   HptpArhuW3KoPJWzShPKehWAoMEPXZwBIvySe5pjbEd24bejPl2QuCe7p
-   YLUV5Esrmc2TbvOHW4tHeDSOnB4bQeSnZTo3wCgoYnhlRYeHLzk9LwKdS
-   M+na81uX2yZNZekpbVTRLBrmTiacN03OJvizQ6YIYZV+hRpILMHZuNI2+
-   Q==;
-X-CSE-ConnectionGUID: J28CoMt1QCK3mr6g+ePqsg==
-X-CSE-MsgGUID: mwCysJ4+RoyKLeFGavfa0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4529182"
+  bh=yvbjHjUA6pXzGdJHKGKROsNhRr+MOGs2dciPIvBehYc=;
+  b=O5oLxUCGuFH1muW8SaNdf6hW2ZulAul2CESNjV3Eh/jnVvoPF234eLq0
+   hpeJOsFoNibiJZMaRyOjBNXwiDxeH4UvxudJQzaNoieoQVEJY1ex68b+I
+   h9sXlN8xxywMU3StJ5EPEnPXhwxTyAQv9FQ6/0y+Zy8lWS8KQbaQp3Rpp
+   J/dUBgZmyc/k/o7U3teJjqitRp8SqsWRHA4fIsty+EnP0KZUYBQFjCL7/
+   zUZQQe6lK4vhVHd9TkKXPrZxL8V6O8iYCchtIK/5fp3LQ7Epv9brsZl+9
+   bc2bly+eQARtb2fAfuNx2Y02ZH8WRrke71XKvOzPHFXtM0hFyxOalHUNr
+   w==;
+X-CSE-ConnectionGUID: wHil0drlRFC2ayR03e0nEA==
+X-CSE-MsgGUID: QtK14e61TneB3ZfnUQ+K9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4659018"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4529182"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 14:53:29 -0800
-X-CSE-ConnectionGUID: UgDV3gTDSgK3xqBUBnCNgQ==
-X-CSE-MsgGUID: d9TYiPXtSnu9iWJcbNAq4w==
+   d="scan'208";a="4659018"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 15:52:12 -0800
+X-CSE-ConnectionGUID: pW3qX/sRTr6ynjmKQhBp6w==
+X-CSE-MsgGUID: PHn9PftcReWPUgWHchA9zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12415990"
+   d="scan'208";a="12055047"
 Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 26 Nov 2026 14:53:28 -0800
+  by orviesa008.jf.intel.com with ESMTP; 26 Nov 2026 15:52:08 -0800
 Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWiLA-000000000DA-0Dcj;
-	Thu, 26 Nov 2026 22:53:20 +0000
-Date: Thu, 26 Nov 2026 23:52:51 +0100
+	id 1xWjFu-000000000FF-22YF;
+	Thu, 26 Nov 2026 23:51:58 +0000
+Date: Fri, 27 Nov 2026 00:51:55 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/smb/server/oplock.c:984:2-8: preceding lock on line 975
-Message-ID: <20261126235109.m8ZoMq01-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22:
+ WARNING opportunity for min()
+Message-ID: <20261127004404.WuAnUrAC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,65 +83,54 @@ Precedence: list
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Namjae Jeon <linkinjeon@kernel.org>
+TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9437ee8b6cf607e883b36e44bd755968daaebd48
-commit: c1c50e2dbbd55fb141da4146214b6fc301bf89dd ksmbd: expire unacknowledged lease breaks
-date:   5 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-r2108-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126235109.m8ZoMq01-lkp@intel.com/config)
+commit: 4bbba79a7f1d0c7296bf8c935d65a9ff633f6917 drm/amdgpu: move devcoredump generation to a worker
+date:   8 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r2100-20261126 (https://download.01.org/0day-ci/archive/20261127/20261127004404.WuAnUrAC-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c1c50e2dbbd5 ("ksmbd: expire unacknowledged lease breaks")
+| Fixes: 4bbba79a7f1d ("drm/amdgpu: move devcoredump generation to a worker")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261126235109.m8ZoMq01-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261127004404.WuAnUrAC-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/smb/server/oplock.c:984:2-8: preceding lock on line 975
-   fs/smb/server/oplock.c:1377:1-7: preceding lock on line 1245
-   fs/smb/server/oplock.c:1377:1-7: preceding lock on line 1245
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING opportunity for min()
 
-vim +984 fs/smb/server/oplock.c
+vim +343 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
 
-e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon 2021-03-16   968  
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   969  static int smb2_break_failed(struct oplock_info *opinfo, bool expect_ack)
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   970  {
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   971  	struct lease *lease = opinfo->o_lease;
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   972  	bool timed_out;
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   973  
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   974  	if (opinfo->is_lease)
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25  @975  		spin_lock(&lease->lock);
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   976  	spin_lock(&opinfo->state_lock);
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   977  	/* An ACK or close which won the race has already completed the break. */
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   978  	if (opinfo->op_state == OPLOCK_CLOSING ||
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   979  	    (expect_ack && opinfo->op_state == OPLOCK_STATE_NONE)) {
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   980  		timed_out = opinfo->oplock_timed_out;
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   981  		spin_unlock(&opinfo->state_lock);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   982  		if (opinfo->is_lease)
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   983  			spin_unlock(&lease->lock);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25  @984  		return timed_out ? ksmbd_invalidate_durable_fd(opinfo->fid) : 0;
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   985  	}
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   986  	if (opinfo->is_lease) {
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   987  		spin_unlock(&opinfo->state_lock);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   988  		lease_break_to_none_locked(lease);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   989  		spin_unlock(&lease->lock);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   990  	} else {
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   991  		opinfo->level = SMB2_OPLOCK_LEVEL_NONE;
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   992  		opinfo->op_state = OPLOCK_STATE_NONE;
-defe50d42de812 fs/smb/server/oplock.c Namjae Jeon 2026-09-25   993  		opinfo->oplock_timeout_set = false;
-defe50d42de812 fs/smb/server/oplock.c Namjae Jeon 2026-09-25   994  		opinfo->oplock_timed_out = true;
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   995  		spin_unlock(&opinfo->state_lock);
-defe50d42de812 fs/smb/server/oplock.c Namjae Jeon 2026-09-25   996  		wake_up_all(&opinfo->oplock_q);
-c1c50e2dbbd55f fs/smb/server/oplock.c Namjae Jeon 2026-09-25   997  	}
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   998  	wake_up_interruptible_all(&opinfo->oplock_brk);
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09   999  	return ksmbd_invalidate_durable_fd(opinfo->fid);
-14ad1f21fbf051 fs/smb/server/oplock.c Namjae Jeon 2026-10-09  1000  }
-e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  1001  
+9022f01b9709331 Sunil Khatri               2024-03-21  326  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  327  static ssize_t
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  328  amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  329  			void *data, size_t datalen)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  330  {
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  331  	struct amdgpu_coredump_info *coredump = data;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  332  	ssize_t byte_copied;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  333  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  334  	if (!coredump)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  335  		return -ENODEV;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  336  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  337  	if (!coredump->formatted)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  338  		return -ENODEV;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  339  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  340  	if (offset >= coredump->formatted_size)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  341  		return 0;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  342  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21 @343  	byte_copied = count < coredump->formatted_size - offset ? count :
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  344  		coredump->formatted_size - offset;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  345  	memcpy(buffer, coredump->formatted + offset, byte_copied);
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  346  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  347  	return byte_copied;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  348  }
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  349  
 
 -- 
 0-DAY CI Kernel Test Service
