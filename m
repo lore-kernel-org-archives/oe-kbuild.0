@@ -1,74 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795668593;
-	b=R39HJiLPe52Y3T0Jao9JzKPQ9Q5yfV2nt1xDuAwuQm81PCiDGivXyrBfr6Q1uMl0ct7q
-	 /KuBxelBHkix8YU5K2s1waqkQF6HeqLuqc2PjOvLY5m+LdCi5EaNeCxIGYWNhnHy5WnOU
-	 uXxyJKDcNgSTHybdwBf/zy0v9qbBJGYYMDW3rNC1FmMyFv/zvbY8WWQQkB0QxvEIkd5CZ
-	 hPeE6PTLIP7iTRSpfzSG7zMq9zmxYJh3Ie7aIYaWFRuiPcu1hagsEaJkyBkbJN7wYg+wE
-	 X/duOKYKOJY0efSUKnSQ3MyUy8Vcq9dat74i/I1rqECXp8qJkYi8UY/XItHVhttlE+Q==
+	t=1795670823;
+	b=zuDNRPKbmrqJsGqQC8zd42m6s/z//bHT3Oi0VYJNCXK1g2Sm595yPz4hL5VI3/KfY9g/
+	 hjAbEqgQT8al2zyScU5Fh1NPRDXJJ9vM7ozsp8rZmOwPYEHWsSbbWHOIj2/hKjuOxqT7I
+	 XTdln/lKSIFIUTBXBFSxQ8sZDHDa9QT9+EDe3g17uITziFXbQkG6km7PuNZnQWqwGY87C
+	 0vbPwQoeUmrAYL4l0Lg8REMDXhx9i4rR2b7UmzFLpaHFf9HP3swTvPBt9fFGFDXK/vEZF
+	 WqwZtALlEdp2DGFVDqrLfF4oNuygHAHdGcpPc9ifgIBTDs6HvPFngUpwdh8/6nPvCPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795668593;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795670823;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	bh=0yvjY3DLlMHNPnujBjUw1SnCnkmTF2L5cTfBdUbO5e0=;
-	b=K5hKeLiXsflxYalDzVIJD19IoEhQeUl3jYDds4cL7TNwioTz6eelej75FzU0EvKQprZR
-	 B4fnlDS438WahSDxQha4Zb4e/umfqev/JqUYG9zgNIwwrMF+hAhj+2Fmumir9eypscLa+
-	 Z4DCBgb2gcvKrbiQUf4s2x3c6fGo73YcX1+wWTz7Ay1R33zRWWtCi/MXj0iAgZbP4YJjP
-	 2PsQe2A9mbjmLIRJlRgnNCR8PcSECBJFNlUcFc8MpAb1jWCe37V6LZbjk8VisIGaYTg/8
-	 9UGTM1G3Z583FhHCQprzvCWi7Pd4spxbmdpQcAPmgM2KaNsTwZnk757GPAFLAYdgg9g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=LQSzf3/iUMZ/6YxCMLNqcaWHRbhCg9P8UVgRnsDoX3I=;
+	b=r9n/A+YZib+P5XroivLpk/GymcuILDlhki+/DFm+L1CimN9EbQJX08m+B3nb6jeIbckn
+	 KLdVGogFUW4eeISEhO7dwm3zDmET+lRo15veZ/XamWW8uge/eiC12d1KMGVFcTA5Rx2tI
+	 6UpsVaonwBY5e+CF/V0YgQq9tUh8vnF0i9A19GSHZcg21PoCh7G3tosM5PBtMUQFer47x
+	 vgUOjRkGE+NsRrVif/bttomi5SKOS93dFW+X7LfofaqlqT07s4TNzqluRgPZ14OfO2gHT
+	 DQkfKX0FU9dzRYhSqwOFIX8LFCM+JCXrFs36j6Uoy+anHfJYQq9hLlAUmxzoFygPwjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nLhgtAo7;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csfNwYUR;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2372D606A31C
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 04:49:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2372D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9019C606A31E
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 05:27:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9019C606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nLhgtAo7
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csfNwYUR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795668593; x=1827204593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wjbvM4J77anqqSNE/TpMNptkBBIOGdT4bFb1RLR7SzU=;
-  b=nLhgtAo7KbrKbuVdep7TWa+wDSRS7vEMKRNYyF1q4bQVHXguDqPM3bYg
-   Gwjdn3pUQz+BWWakewRRr91umHpv3FvFX4gLaXl6FJbLDaW58gPUCvKSk
-   lAHx+rYpDJZacg57dOjTANg80YtVTmeV5YhLWoUno68OHm/z+PhWdTQeh
-   +hgWGMiPxWToIJrLsqi1vxZyANxwEqmEAbOtkKZ8mvZ2W4bPNIcLF3lIA
-   xJ75L4AnTjzW0jcH4E815m1xhVjl7yReOfUOwzlWetqp1v7r64lddSkos
-   UEFL8Wg651NQrSYrPxTXrl065/nLhoDJpwQUIyQkyczGPZ7ps0H2Ztqcf
-   w==;
-X-CSE-ConnectionGUID: nQVGb2KTQrSP+AtUa/VHkg==
-X-CSE-MsgGUID: Va0vizJER2uYGWzFBcKieg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4558742"
+  t=1795670822; x=1827206822;
+  h=date:from:to:cc:subject:message-id;
+  bh=TpGNtm/Pwug5K9xpy/n+RGuGp7g8GwooWZj7Suqkl/o=;
+  b=csfNwYURShSJ8NEozdEaawK2xHiP21rajPQNeHvRZH4PEc/ljpGfupks
+   BWMgC9OBKcw6umDDv53AvM8cBR6IB8ylqueh8n1336Ft938XSQmc++jhM
+   Qd0AQCIVczf1/AkEPzUpef9KHfnCl1J83mo63m5iAfJzPExWSuzhw8oZj
+   TWrAXwsHMB0bFsptLY/FLg6CGxvLFZFiPoSwUw+qTTNKYMvgrBwAfviJc
+   H1rWd9WztqmGBtX0yarWxzMhL1O1+5c8s/SR/znNlSja8zT/YOlVYeYeY
+   bWHpEkosvtsVRZbXwtQi9PooOZB16p1xVW34lsnvQ1VUiw59A/BgnoA42
+   A==;
+X-CSE-ConnectionGUID: x2Xcx0oBTjedR7Iw7/skMQ==
+X-CSE-MsgGUID: vAJ1BqbkT1eqBjlM+v7iSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4577048"
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4558742"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 20:49:52 -0800
-X-CSE-ConnectionGUID: tbG28wt+T1SHAjj7YpqfAg==
-X-CSE-MsgGUID: 8V1e+L7PTUuGz+BOSwQ/fA==
+   d="scan'208";a="4577048"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 21:25:10 -0800
+X-CSE-ConnectionGUID: XBoQ4q8mTcCosAPOez/NFA==
+X-CSE-MsgGUID: 0ge2jv4QSC6aSEyIwKHnGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="11950714"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2026 20:49:51 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="12234955"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 25 Nov 2026 21:24:41 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWRQa-00000001TIQ-3YgU;
-	Thu, 26 Nov 2026 04:49:48 +0000
-Date: Thu, 26 Nov 2026 12:49:22 +0800
+	id 1xWRyI-000000000El-1lYL;
+	Thu, 26 Nov 2026 05:24:38 +0000
+Date: Thu, 26 Nov 2026 06:24:24 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 3/7] media: i2c: add s5k5e8 image sensor driver
-Message-ID: <20261126123709.ZqteGZZ6-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: arch/riscv/kvm/mmu.c:147:3-9: preceding lock on line 143
+Message-ID: <20261126061910.YfGdaG3l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -77,199 +78,80 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "too many reports for this commit"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20261125123146.379057-4-hikmahgumelar@gmail.com>
-References: <20261125123146.379057-4-hikmahgumelar@gmail.com>
-TO: Hikmah Gumelar <hikmahgumelar@gmail.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Abel Vesa <abelvesa@kernel.org>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Brian Masney <bmasney+clk@redhat.com>
-TO: Jerome Brunet <jbrunet+clk@baylibre.com>
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: u.kleine-koenig@baylibre.com
-CC: Hikmah Gumelar <hikmahgumelar@gmail.com>
+TO: Wang Yechao <wang.yechao255@zte.com.cn>
+CC: Anup Patel <anup@brainfault.org>
 
-Hi Hikmah,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20261124]
-[cannot apply to robh/for-next linuxtv-media-pending/master media-tree/master linus/master v7.4-rc4 v7.4-rc3 v7.4-rc2 v7.4-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hikmah-Gumelar/clk-qcom-gcc-msm8953-fix-csi_phytimer_clk_src-100MHz-parent/20261125-193140
-base:   next-20261124
-patch link:    https://lore.kernel.org/r/20261125123146.379057-4-hikmahgumelar%40gmail.com
-patch subject: [PATCH v4 3/7] media: i2c: add s5k5e8 image sensor driver
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: arm-randconfig-1003-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126123709.ZqteGZZ6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126123709.ZqteGZZ6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   40212b29a6f718d4e7fb3275cede181cb8e137cf
+commit: da870fdafa8adf6f6287dbbdd2c3b3181655965e RISC-V: KVM: Split huge pages when dirty logging is enabled
+date:   4 months ago
+:::::: branch date: 66 minutes ago
+:::::: commit date: 4 months ago
+config: riscv-randconfig-r2102-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126061910.YfGdaG3l-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 16.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: da870fdafa8a ("RISC-V: KVM: Split huge pages when dirty logging is enabled")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/20261126123709.ZqteGZZ6-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261126061910.YfGdaG3l-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/riscv/kvm/mmu.c:147:3-9: preceding lock on line 143
 
-   drivers/media/i2c/thp7312.c: In function 'thp7312_probe':
->> drivers/media/i2c/thp7312.c:2097:20: error: implicit declaration of function 'devm_cci_regmap_init_i2c'; did you mean 'devm_ioremap_wc'? [-Werror=implicit-function-declaration]
-     thp7312->regmap = devm_cci_regmap_init_i2c(client, 16);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-                       devm_ioremap_wc
->> drivers/media/i2c/thp7312.c:2097:18: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     thp7312->regmap = devm_cci_regmap_init_i2c(client, 16);
-                     ^
-   cc1: some warnings being treated as errors
+vim +147 arch/riscv/kvm/mmu.c
 
-
-vim +2097 drivers/media/i2c/thp7312.c
-
-7a52ab415b43f3b Paul Elder       2023-11-24  2084  
-7a52ab415b43f3b Paul Elder       2023-11-24  2085  static int thp7312_probe(struct i2c_client *client)
-7a52ab415b43f3b Paul Elder       2023-11-24  2086  {
-7a52ab415b43f3b Paul Elder       2023-11-24  2087  	struct device *dev = &client->dev;
-7a52ab415b43f3b Paul Elder       2023-11-24  2088  	struct thp7312_device *thp7312;
-7a52ab415b43f3b Paul Elder       2023-11-24  2089  	int ret;
-7a52ab415b43f3b Paul Elder       2023-11-24  2090  
-4dd10fbbeb9c337 Kees Cook        2026-10-28  2091  	thp7312 = devm_kzalloc_obj(dev, *thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2092  	if (!thp7312)
-7a52ab415b43f3b Paul Elder       2023-11-24  2093  		return -ENOMEM;
-7a52ab415b43f3b Paul Elder       2023-11-24  2094  
-7a52ab415b43f3b Paul Elder       2023-11-24  2095  	thp7312->dev = dev;
-7a52ab415b43f3b Paul Elder       2023-11-24  2096  
-7a52ab415b43f3b Paul Elder       2023-11-24 @2097  	thp7312->regmap = devm_cci_regmap_init_i2c(client, 16);
-7a52ab415b43f3b Paul Elder       2023-11-24  2098  	if (IS_ERR(thp7312->regmap))
-7a52ab415b43f3b Paul Elder       2023-11-24  2099  		return dev_err_probe(dev, PTR_ERR(thp7312->regmap),
-7a52ab415b43f3b Paul Elder       2023-11-24  2100  				     "Unable to initialize I2C\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2101  
-7a52ab415b43f3b Paul Elder       2023-11-24  2102  	ret = thp7312_parse_dt(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2103  	if (ret < 0)
-7a52ab415b43f3b Paul Elder       2023-11-24  2104  		return ret;
-7a52ab415b43f3b Paul Elder       2023-11-24  2105  
-7a52ab415b43f3b Paul Elder       2023-11-24  2106  	ret = thp7312_get_regulators(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2107  	if (ret)
-7a52ab415b43f3b Paul Elder       2023-11-24  2108  		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2109  
-7a52ab415b43f3b Paul Elder       2023-11-24  2110  	thp7312->iclk = devm_clk_get(dev, NULL);
-7a52ab415b43f3b Paul Elder       2023-11-24  2111  	if (IS_ERR(thp7312->iclk))
-7a52ab415b43f3b Paul Elder       2023-11-24  2112  		return dev_err_probe(dev, PTR_ERR(thp7312->iclk),
-7a52ab415b43f3b Paul Elder       2023-11-24  2113  				     "Failed to get iclk\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2114  
-7a52ab415b43f3b Paul Elder       2023-11-24  2115  	thp7312->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-7a52ab415b43f3b Paul Elder       2023-11-24  2116  	if (IS_ERR(thp7312->reset_gpio))
-7a52ab415b43f3b Paul Elder       2023-11-24  2117  		return dev_err_probe(dev, PTR_ERR(thp7312->reset_gpio),
-7a52ab415b43f3b Paul Elder       2023-11-24  2118  				     "Failed to get reset gpio\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2119  
-7a52ab415b43f3b Paul Elder       2023-11-24  2120  	if (thp7312->boot_mode == THP7312_BOOT_MODE_2WIRE_SLAVE)
-7a52ab415b43f3b Paul Elder       2023-11-24  2121  		return thp7312_register_flash_mode(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2122  
-7a52ab415b43f3b Paul Elder       2023-11-24  2123  	v4l2_i2c_subdev_init(&thp7312->sd, client, &thp7312_subdev_ops);
-5755be5f15d9e65 Laurent Pinchart 2023-11-27  2124  	thp7312->sd.internal_ops = &thp7312_internal_ops;
-17971a430ff90df Tommaso Merciai  2024-10-29  2125  	thp7312->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-7a52ab415b43f3b Paul Elder       2023-11-24  2126  	thp7312->pad.flags = MEDIA_PAD_FL_SOURCE;
-7a52ab415b43f3b Paul Elder       2023-11-24  2127  	thp7312->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-7a52ab415b43f3b Paul Elder       2023-11-24  2128  
-7a52ab415b43f3b Paul Elder       2023-11-24  2129  	ret = media_entity_pads_init(&thp7312->sd.entity, 1, &thp7312->pad);
-7a52ab415b43f3b Paul Elder       2023-11-24  2130  	if (ret)
-7a52ab415b43f3b Paul Elder       2023-11-24  2131  		return ret;
-7a52ab415b43f3b Paul Elder       2023-11-24  2132  
-7a52ab415b43f3b Paul Elder       2023-11-24  2133  	/*
-7a52ab415b43f3b Paul Elder       2023-11-24  2134  	 * Enable power management. The driver supports runtime PM, but needs to
-7a52ab415b43f3b Paul Elder       2023-11-24  2135  	 * work when runtime PM is disabled in the kernel. To that end, power
-7a52ab415b43f3b Paul Elder       2023-11-24  2136  	 * the device manually here.
-7a52ab415b43f3b Paul Elder       2023-11-24  2137  	 */
-7a52ab415b43f3b Paul Elder       2023-11-24  2138  	ret = thp7312_power_on(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2139  	if (ret)
-7a52ab415b43f3b Paul Elder       2023-11-24  2140  		goto err_entity_cleanup;
-7a52ab415b43f3b Paul Elder       2023-11-24  2141  
-7a52ab415b43f3b Paul Elder       2023-11-24  2142  	ret = thp7312_read_firmware_version(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2143  	if (ret < 0) {
-7a52ab415b43f3b Paul Elder       2023-11-24  2144  		dev_err(dev, "Camera is not found\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2145  		goto err_power_off;
-7a52ab415b43f3b Paul Elder       2023-11-24  2146  	}
-7a52ab415b43f3b Paul Elder       2023-11-24  2147  
-7a52ab415b43f3b Paul Elder       2023-11-24  2148  	ret = thp7312_init_controls(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2149  	if (ret) {
-7a52ab415b43f3b Paul Elder       2023-11-24  2150  		dev_err(dev, "Failed to initialize controls\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2151  		goto err_power_off;
-7a52ab415b43f3b Paul Elder       2023-11-24  2152  	}
-7a52ab415b43f3b Paul Elder       2023-11-24  2153  
-7a52ab415b43f3b Paul Elder       2023-11-24  2154  	thp7312->sd.ctrl_handler = &thp7312->ctrl_handler;
-7a52ab415b43f3b Paul Elder       2023-11-24  2155  	thp7312->sd.state_lock = thp7312->ctrl_handler.lock;
-7a52ab415b43f3b Paul Elder       2023-11-24  2156  
-7a52ab415b43f3b Paul Elder       2023-11-24  2157  	ret = v4l2_subdev_init_finalize(&thp7312->sd);
-7a52ab415b43f3b Paul Elder       2023-11-24  2158  	if (ret < 0) {
-7a52ab415b43f3b Paul Elder       2023-11-24  2159  		dev_err(dev, "Subdev active state initialization failed\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2160  		goto err_free_ctrls;
-7a52ab415b43f3b Paul Elder       2023-11-24  2161  	}
-7a52ab415b43f3b Paul Elder       2023-11-24  2162  
-7a52ab415b43f3b Paul Elder       2023-11-24  2163  	/*
-7a52ab415b43f3b Paul Elder       2023-11-24  2164  	 * Enable runtime PM with autosuspend. As the device has been powered
-7a52ab415b43f3b Paul Elder       2023-11-24  2165  	 * manually, mark it as active, and increase the usage count without
-7a52ab415b43f3b Paul Elder       2023-11-24  2166  	 * resuming the device.
-7a52ab415b43f3b Paul Elder       2023-11-24  2167  	 */
-7a52ab415b43f3b Paul Elder       2023-11-24  2168  	pm_runtime_set_active(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2169  	pm_runtime_get_noresume(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2170  	pm_runtime_enable(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2171  	pm_runtime_set_autosuspend_delay(dev, 1000);
-7a52ab415b43f3b Paul Elder       2023-11-24  2172  	pm_runtime_use_autosuspend(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2173  
-7a52ab415b43f3b Paul Elder       2023-11-24  2174  	ret = v4l2_async_register_subdev(&thp7312->sd);
-7a52ab415b43f3b Paul Elder       2023-11-24  2175  	if (ret < 0) {
-7a52ab415b43f3b Paul Elder       2023-11-24  2176  		dev_err(dev, "Subdev registration failed\n");
-7a52ab415b43f3b Paul Elder       2023-11-24  2177  		goto err_pm;
-7a52ab415b43f3b Paul Elder       2023-11-24  2178  	}
-7a52ab415b43f3b Paul Elder       2023-11-24  2179  
-7a52ab415b43f3b Paul Elder       2023-11-24  2180  	/*
-7a52ab415b43f3b Paul Elder       2023-11-24  2181  	 * Decrease the PM usage count. The device will get suspended after the
-7a52ab415b43f3b Paul Elder       2023-11-24  2182  	 * autosuspend delay, turning the power off.
-7a52ab415b43f3b Paul Elder       2023-11-24  2183  	 */
-7a52ab415b43f3b Paul Elder       2023-11-24  2184  	pm_runtime_put_autosuspend(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2185  
-7a52ab415b43f3b Paul Elder       2023-11-24  2186  	dev_info(dev, "THP7312 firmware version %02u.%02u\n",
-7a52ab415b43f3b Paul Elder       2023-11-24  2187  		 THP7312_FW_VERSION_MAJOR(thp7312->fw_version),
-7a52ab415b43f3b Paul Elder       2023-11-24  2188  		 THP7312_FW_VERSION_MINOR(thp7312->fw_version));
-7a52ab415b43f3b Paul Elder       2023-11-24  2189  
-7a52ab415b43f3b Paul Elder       2023-11-24  2190  	return 0;
-7a52ab415b43f3b Paul Elder       2023-11-24  2191  
-7a52ab415b43f3b Paul Elder       2023-11-24  2192  err_pm:
-7a52ab415b43f3b Paul Elder       2023-11-24  2193  	pm_runtime_disable(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2194  	pm_runtime_put_noidle(dev);
-7a52ab415b43f3b Paul Elder       2023-11-24  2195  	v4l2_subdev_cleanup(&thp7312->sd);
-7a52ab415b43f3b Paul Elder       2023-11-24  2196  err_free_ctrls:
-7a52ab415b43f3b Paul Elder       2023-11-24  2197  	v4l2_ctrl_handler_free(&thp7312->ctrl_handler);
-7a52ab415b43f3b Paul Elder       2023-11-24  2198  err_power_off:
-7a52ab415b43f3b Paul Elder       2023-11-24  2199  	thp7312_power_off(thp7312);
-7a52ab415b43f3b Paul Elder       2023-11-24  2200  err_entity_cleanup:
-7a52ab415b43f3b Paul Elder       2023-11-24  2201  	media_entity_cleanup(&thp7312->sd.entity);
-7a52ab415b43f3b Paul Elder       2023-11-24  2202  	return ret;
-7a52ab415b43f3b Paul Elder       2023-11-24  2203  }
-7a52ab415b43f3b Paul Elder       2023-11-24  2204  
+da870fdafa8adf Wang Yechao 2026-07-31  111  
+da870fdafa8adf Wang Yechao 2026-07-31  112  static bool mmu_split_huge_pages(struct kvm_gstage *gstage,
+da870fdafa8adf Wang Yechao 2026-07-31  113  				 phys_addr_t start, phys_addr_t end)
+da870fdafa8adf Wang Yechao 2026-07-31  114  {
+da870fdafa8adf Wang Yechao 2026-07-31  115  	struct kvm *kvm = gstage->kvm;
+da870fdafa8adf Wang Yechao 2026-07-31  116  	struct kvm_mmu_memory_cache *pcache = &kvm->arch.pgd_split_page_cache;
+da870fdafa8adf Wang Yechao 2026-07-31  117  	phys_addr_t addr = ALIGN_DOWN(start, PMD_SIZE);
+da870fdafa8adf Wang Yechao 2026-07-31  118  	phys_addr_t last_flush_gfn = addr >> PAGE_SHIFT;
+da870fdafa8adf Wang Yechao 2026-07-31  119  	int count = gstage->pgd_levels;
+da870fdafa8adf Wang Yechao 2026-07-31  120  	bool flush = false;
+da870fdafa8adf Wang Yechao 2026-07-31  121  	int ret;
+da870fdafa8adf Wang Yechao 2026-07-31  122  
+da870fdafa8adf Wang Yechao 2026-07-31  123  	lockdep_assert_held_write(&kvm->mmu_lock);
+da870fdafa8adf Wang Yechao 2026-07-31  124  
+da870fdafa8adf Wang Yechao 2026-07-31  125  	while (addr < end) {
+da870fdafa8adf Wang Yechao 2026-07-31  126  		if (need_topup_split_caches_or_resched(kvm, count)) {
+da870fdafa8adf Wang Yechao 2026-07-31  127  			if (flush) {
+da870fdafa8adf Wang Yechao 2026-07-31  128  				kvm_flush_remote_tlbs_range(kvm, last_flush_gfn,
+da870fdafa8adf Wang Yechao 2026-07-31  129  					  (addr >> PAGE_SHIFT) - last_flush_gfn);
+da870fdafa8adf Wang Yechao 2026-07-31  130  				last_flush_gfn = addr >> PAGE_SHIFT;
+da870fdafa8adf Wang Yechao 2026-07-31  131  				flush = false;
+da870fdafa8adf Wang Yechao 2026-07-31  132  			}
+da870fdafa8adf Wang Yechao 2026-07-31  133  
+da870fdafa8adf Wang Yechao 2026-07-31  134  			write_unlock(&kvm->mmu_lock);
+da870fdafa8adf Wang Yechao 2026-07-31  135  			cond_resched();
+da870fdafa8adf Wang Yechao 2026-07-31  136  
+da870fdafa8adf Wang Yechao 2026-07-31  137  			ret = kvm_mmu_topup_memory_cache(pcache, count);
+da870fdafa8adf Wang Yechao 2026-07-31  138  			if (ret) {
+da870fdafa8adf Wang Yechao 2026-07-31  139  				kvm_err("Failed to toup split page cache\n");
+da870fdafa8adf Wang Yechao 2026-07-31  140  				write_lock(&kvm->mmu_lock);
+da870fdafa8adf Wang Yechao 2026-07-31  141  				return flush;
+da870fdafa8adf Wang Yechao 2026-07-31  142  			}
+da870fdafa8adf Wang Yechao 2026-07-31 @143  			write_lock(&kvm->mmu_lock);
+da870fdafa8adf Wang Yechao 2026-07-31  144  		}
+da870fdafa8adf Wang Yechao 2026-07-31  145  
+da870fdafa8adf Wang Yechao 2026-07-31  146  		if (!kvm->arch.pgd)
+da870fdafa8adf Wang Yechao 2026-07-31 @147  			return flush;
+da870fdafa8adf Wang Yechao 2026-07-31  148  
+da870fdafa8adf Wang Yechao 2026-07-31  149  		flush |= kvm_riscv_gstage_split_huge(gstage, pcache, addr, 0, false);
+da870fdafa8adf Wang Yechao 2026-07-31  150  
+da870fdafa8adf Wang Yechao 2026-07-31  151  		addr += PMD_SIZE;
+da870fdafa8adf Wang Yechao 2026-07-31  152  	}
+da870fdafa8adf Wang Yechao 2026-07-31  153  
+da870fdafa8adf Wang Yechao 2026-07-31  154  	return flush;
+da870fdafa8adf Wang Yechao 2026-07-31  155  }
+da870fdafa8adf Wang Yechao 2026-07-31  156  
 
 -- 
 0-DAY CI Kernel Test Service
