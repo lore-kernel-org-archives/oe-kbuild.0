@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795659024;
-	b=kGcLe4NNGKGdlghgmgpJoy8qS8sr1TpQPFMTx4SxB+2pmh4LQKz19xVq3a1F8J6zt7Vj
-	 cB5NQXORQYgG1XS7TcjlwA/t/HBdbqKD6JYP/YaQE3KPGsKcftHDFy8ATAghwm5ILhkpo
-	 yXIPy077jogTaPLzHTkQErhzVQIZpnzMO/qNkTKNznXjRQPR63PDmVugGy30a5LSieAKu
-	 4i0GcX4FGVsnMwe1uAM5trUl/fY4Z3NjS1Xr0vP7EYSWoRs1YsHx8FFwMh47iDj9ADRzl
-	 2ZNa+BLBGxpFlcjZLm01M8tTsMN5Q3LOyrnMDdEAYNgOI9ILmMgtpoZBM//FH3VZykA==
+	t=1795663294;
+	b=SqduVb/VcaDzovz4U6606lWzEEsbcBqXecwHVQrLw3Ku7wQw6gSGxsBO+CCxub6GIfy8
+	 KmEnGa2YVmm+Pt5N1lYJLJ4YEE8x8ZuRHLEmyTSXn27tsBBQKwEdlqWMOIYxlP+3dwQgg
+	 II16ppMYW7kVvt27S9E/tMEDqI1ID2FZVNRSVHllZxX+0+9gc+0z8n5cRolMr6v3Z9qTH
+	 9LUOFjej0oWgvNCNsgW52Fl9bMM9koQ/ak0u5g/uNoh+pFlvwxXriHG62pou2ys21W1h1
+	 S3OtUjHQt+VjKkliWIXRWQBvrutLqws4Rlw+fVBs+Fyo082T4kXblqVy7Rn9FrtuRNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795659024;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795663294;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=QgFD/MnWd0QwlH7Z9T7oE0mYQzIyUtVGxlIeGQRhTIk=;
-	b=iftaECSAffPJqmB1Uj8clLqekOjHeue9f8utv9eR9iBPG8dXR/uPq2f/FEaQYgSeg8x8
-	 DqF30E4/9GsMC6jcLFf7hXrQtxRByk0bntS0/QEENnp/BbIjEqxBHA7fflzf57aQYOzL8
-	 qr43P++v/rYSaqX6yeHPnoOEH9ELmy+7efdnTVw4h/55NzLdVf6oYzoNpNx7FQ08UnZ03
-	 U26TNjqOR7dh5OlMt1NTLAyTDw0to6KF1RqCqARkNzZMeCDhO6M2T4QqzFQVkUKcgXtIP
-	 3XD20NomeIbfknZPPEBk69h/aXpZAu/xaCJFEScDbJQUJQLwBy4J8HozX2v4USRJwOQ==
+	bh=cALwtnzbVQ4Yq8famy4kRwnE2/BrKym3vO1yAaze6RI=;
+	b=PM/DsyAjV+70mDep9pvxhl874oPvBAJzeEOig+Omhv+z4/n/iX90kYk/vkmQjitwzN3a
+	 W1URRyPgHe86o65rDam7VTMz4qTjSipiW4DUI6HBN5uqIXduSgpeIMpGANeOubxWGVPZJ
+	 C6ZJERCWy0HqvjKgroYqGhtjm8uunkR4fuEJshAT2U2IkeWZ0pX7UyCNZjOGJe1sQpsrR
+	 BXnz3mHgJ98EkPjF0LHlI+4qKjjOOh75JbQMA3xGxOum+isoe0sGq0aiK//xzr1dofTYN
+	 TlURpc4uy5pLlpKhb0zqu48R952FaZ1eBbdYYrNexGqFvZBkAAmeA+BrzhoBG0x6EFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Byv74YHA;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nualnsm1;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFA1606A31E
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 02:10:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FFA1606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C18606A32E
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 03:21:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0C18606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Byv74YHA
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nualnsm1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795659023; x=1827195023;
+  t=1795663293; x=1827199293;
   h=date:from:to:cc:subject:message-id;
-  bh=95rnh94FEcppo1kTmI2eP3x7wgjzvUVhP8wsRATg4FQ=;
-  b=Byv74YHAGT+f09wNDcz0Mb8G17vOXza2yQOQQmZHxsDxiH/00aAEg7vt
-   SqTy3ohozhkArzTgXArEhBXISb/tnQwdd5WsEZ6P+ELasxTqPE2DYN5Lm
-   v52OExyHiK57BGyIa3a+0D86l7wxvAGsEC3qea+Ye9gwZL9sBSFrZrIg5
-   7G99zcfdftOdaNbbaHCkur+NsZ+cf6kxb9ob6+pNKHSB/EEXgXK9DEqLi
-   tGapR5glLSQqaTq8l4oE0nZqc/BDvpXs2webRIbUTM4Mvf0T3zTYDas1q
-   iEXQS6FBactY651uwd/pFBnqkFYHAYJ47rPlFiNimdK+5GbaJR2CO83I+
-   A==;
-X-CSE-ConnectionGUID: YLceNVcnSkWKfyNBVnOseg==
-X-CSE-MsgGUID: wtaNrqpCRN2Y0UgVHJjIvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4527280"
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4527280"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 18:10:22 -0800
-X-CSE-ConnectionGUID: tKEADMHyRCmLxsShqN0F5A==
-X-CSE-MsgGUID: MM78mgIbSo28wRmU22qr2g==
+  bh=dufXcUC0gTajSrgDhq9qaoPBkgVo2emoKkNqaf+7t1M=;
+  b=nualnsm1lFwz7hbOgkdGcWUAOJKL7uhEaGoY94MdXhuaq+IN6m5Mgwgm
+   odcPeysaNOQ/kJneWRb0jmae4jMZof9DjPijZKwO9dH1SvK4lJHLPTfPz
+   otVUa+pPchbgi3wzRtAd4nlN4BSTSovG4P1wjR7A9TnmFOeKAvacQjzpt
+   /XG0rzVXUTJcyhSV5k7SAiUYge6nHmkqtMjJ81+R1l/ebIHHZXAU1jA9b
+   Sgwu7mqR/wo230cr1DHjK+M2oTdv9p8nHKg8S/zTbhHW3mebRTh33UMJ6
+   ii6DUbN+8v4Uf8+eh1d4B67D5MqyMG3bsV8EYy34Wyv68BvLIdVhW3wRr
+   w==;
+X-CSE-ConnectionGUID: qO331ST9SbKLLz7WGOliXg==
+X-CSE-MsgGUID: W7PDvt4GRlqg3nJKH1AvbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4626498"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4626498"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 19:21:33 -0800
+X-CSE-ConnectionGUID: dGuMLfCgQ1OnR2h1vCUsNw==
+X-CSE-MsgGUID: PmXEOCWDT3qxlb1syfM7wA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="11929156"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12271134"
 Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2026 18:10:20 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 25 Nov 2026 19:21:32 -0800
 Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWOwD-000000000CB-2zS9;
-	Thu, 26 Nov 2026 02:10:17 +0000
-Date: Thu, 26 Nov 2026 03:09:49 +0100
+	id 1xWQ38-000000000Dj-02fv;
+	Thu, 26 Nov 2026 03:21:30 +0000
+Date: Thu, 26 Nov 2026 04:21:17 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/generic_pt/fmt/../iommu_pt.h:952
- bcm2712_map_range() warn: impossible condition '(paddr >
- 18446744073709551615) => (0-u64max > u64max)'
-Message-ID: <20261126030015.FFVuhuLQ-lkp@intel.com>
+Subject: [linkinjeon-smb:ksmbd-for-next 48/48]
+ fs/smb/server/smbacl.c:793 parse_sec_desc() warn: missing error code? 'rc'
+Message-ID: <20261126042013.QSoDDLPw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -86,118 +85,104 @@ reviewed for false positives, so please treat it with due skepticism.
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Daniel Drake <dan@reactivated.net>
-CC: Joerg Roedel <joerg.roedel@amd.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Ian Bridges <icb@fastmail.org>
+CC: Namjae Jeon <linkinjeon@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ebb7a8dc1e74c705daffe11c2faf38ec2628f838
-commit: 3e69ac737ed4ae248c49f8a70faa0a96eeecd59a iommu/generic_pt: Add Broadcom BCM2712 page table format
-date:   8 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 weeks ago
-config: i386-randconfig-2200-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126030015.FFVuhuLQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/smb.git ksmbd-for-next
+head:   f9208b7a49196e36c0434637ab83e001f5800a1d
+commit: f9208b7a49196e36c0434637ab83e001f5800a1d [48/48] ksmbd: use the security descriptor codec in callers
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: sparc-randconfig-2200-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126042013.QSoDDLPw-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3e69ac737ed4 ("iommu/generic_pt: Add Broadcom BCM2712 page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261126030015.FFVuhuLQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261126042013.QSoDDLPw-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:952 bcm2712_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
+fs/smb/server/smbacl.c:793 parse_sec_desc() warn: missing error code? 'rc'
 
-vim +952 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+vim +/rc +793 fs/smb/server/smbacl.c
 
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   929  
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   930  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   931  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   932  			 gfp_t gfp, size_t *mapped)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   933  {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   934  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   935  	struct pt_common *common = common_from_iommu(iommu_table);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   936  	struct iommu_iotlb_gather iotlb_gather;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   937  	struct pt_iommu_map_args map = {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   938  		.iotlb_gather = &iotlb_gather,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   939  		.oa = paddr,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   940  	};
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   941  	bool single_page = false;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   942  	struct pt_range range;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   943  	int ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   944  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   945  	iommu_iotlb_gather_init(&iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   946  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   947  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   948  		return -EINVAL;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   949  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   950  	/* Check the paddr doesn't exceed what the table can store */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   951  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  @952  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   953  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   954  	     oalog2_div(paddr, common->max_oasz_lg2)))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   955  		return -ERANGE;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   956  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   957  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   958  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   959  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   960  	map.attrs.gfp = gfp;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   961  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   962  	ret = make_range_no_check(common, &range, iova, len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   963  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   964  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   965  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   966  	/* Calculate target page size and level for the leaves */
-8ef3f77c440005 Jason Gunthorpe 2026-05-12   967  	if (pt_has_system_page_size(common) && len == PAGE_SIZE &&
-8ef3f77c440005 Jason Gunthorpe 2026-05-12   968  		likely(pgsize_bitmap & PAGE_SIZE)) {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   969  		if (log2_mod(iova | paddr, PAGE_SHIFT))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   970  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   971  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   972  		map.leaf_level = 0;
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   973  		map.num_leaves = 1;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   974  		single_page = true;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   975  	} else {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   976  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   977  			pgsize_bitmap, range.va, range.last_va, paddr);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   978  		if (!map.leaf_pgsize_lg2)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   979  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   980  		map.leaf_level =
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   981  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   982  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   983  					       range.last_va, paddr,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27   984  					       map.leaf_pgsize_lg2);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   985  	}
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   986  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   987  	ret = check_map_range(iommu_table, &range, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   988  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   989  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   990  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   991  	PT_WARN_ON(map.leaf_level > range.top_level);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   992  
-efa03dab7ce4ed Jason Gunthorpe 2025-10-23   993  	ret = do_map(&range, common, single_page, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   994  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   995  	/*
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   996  	 * Table levels were freed and replaced with large items, flush any walk
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   997  	 * cache that may refer to the freed levels.
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   998  	 */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04   999  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1000  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1001  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1002  	/* Bytes successfully mapped */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1003  	PT_WARN_ON(!ret && map.oa - paddr != len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1004  	*mapped += map.oa - paddr;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1005  	return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1006  }
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  1007  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  766  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  767  /* Convert CIFS ACL to POSIX form */
+1923c1065fe94c fs/smb/server/smbacl.c Christian Brauner         2026-09-01  768  int parse_sec_desc(const struct mnt_idmap *idmap, struct smb_ntsd *pntsd,
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  769  		   int acl_len, struct smb_fattr *fattr, struct ksmbd_sd **psd)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  770  {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  771  	int rc = 0;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  772  	const struct smb_sid *owner_sid_ptr = NULL, *group_sid_ptr = NULL;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  773  	struct ksmbd_sd *sd __free(kvfree) = NULL;
+548e9ad317393b fs/cifsd/smbacl.c      Namjae Jeon               2021-03-21  774  	int pntsd_type;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  775  
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-30  776  	if (!pntsd)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  777  		return -EIO;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  778  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  779  	if (acl_len < (int)sizeof(struct smb_ntsd))
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee              2021-09-24  780  		return -EINVAL;
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee              2021-09-24  781  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  782  	/* Refuse an SD from a client if the decoder left a part out */
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  783  	rc = ksmbd_sd_decode((u8 *)pntsd, acl_len, &sd);
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  784  	if (rc == -EBADMSG || (!rc && sd->part_dropped))
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  785  		rc = -EINVAL;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  786  	if (rc)
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  787  		return rc;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  788  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  789  	pntsd_type = sd->control;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  790  	if (sd->dacl == KSMBD_ACL_ABSENT) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  791  		ksmbd_debug(SMB, "DACL_PRESENT in DACL type is not set\n");
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  792  		*psd = no_free_ptr(sd);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16 @793  		return rc;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  794  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  795  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  796  	/* The stored SD keeps only the Control bits set below and no SACL */
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  797  	sd->control = 0;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  798  	sd->sacl = KSMBD_ACL_ABSENT;
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  799  	sd->sacl_len = 0;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  800  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  801  	if (sd->owner) {
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  802  		owner_sid_ptr = sd->owner;
+4d7ca4090184c1 fs/ksmbd/smbacl.c      Christian Brauner         2023-01-13  803  		rc = sid_to_id(idmap, owner_sid_ptr, SIDOWNER, fattr);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  804  		if (rc) {
+fbe0bb2b75eb3c fs/smb/server/smbacl.c Namjae Jeon               2026-07-01  805  			ksmbd_debug(SMB, "Owner SID has no Unix uid mapping\n");
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  806  			owner_sid_ptr = NULL;
+fbe0bb2b75eb3c fs/smb/server/smbacl.c Namjae Jeon               2026-07-01  807  			rc = 0;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  808  		}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  809  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  810  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  811  	if (sd->group) {
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  812  		group_sid_ptr = sd->group;
+4d7ca4090184c1 fs/ksmbd/smbacl.c      Christian Brauner         2023-01-13  813  		rc = sid_to_id(idmap, group_sid_ptr, SIDUNIX_GROUP, fattr);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  814  		if (rc) {
+fbe0bb2b75eb3c fs/smb/server/smbacl.c Namjae Jeon               2026-07-01  815  			ksmbd_debug(SMB, "Group SID has no Unix gid mapping\n");
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  816  			group_sid_ptr = NULL;
+fbe0bb2b75eb3c fs/smb/server/smbacl.c Namjae Jeon               2026-07-01  817  			rc = 0;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  818  		}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  819  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  820  
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon               2021-05-26  821  	if ((pntsd_type & (DACL_AUTO_INHERITED | DACL_AUTO_INHERIT_REQ)) ==
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  822  	    (DACL_AUTO_INHERITED | DACL_AUTO_INHERIT_REQ))
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  823  		sd->control |= DACL_AUTO_INHERITED;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon               2021-03-16  824  	if (pntsd_type & DACL_PROTECTED)
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  825  		sd->control |= DACL_PROTECTED;
+d6e13e19063db2 fs/smb/server/smbacl.c Namjae Jeon               2025-02-18  826  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  827  	rc = parse_dacl(idmap, sd, owner_sid_ptr, group_sid_ptr, fattr);
+c61dc7b1b4a323 fs/smb/server/smbacl.c Namjae Jeon               2026-08-25  828  	if (rc)
+c61dc7b1b4a323 fs/smb/server/smbacl.c Namjae Jeon               2026-08-25  829  		return rc;
+fda9522ed6afae fs/smb/server/smbacl.c Asim Viladi Oglu Manizada 2026-03-25  830  
+f9208b7a49196e fs/smb/server/smbacl.c Ian Bridges               2026-11-26  831  	*psd = no_free_ptr(sd);
+fda9522ed6afae fs/smb/server/smbacl.c Asim Viladi Oglu Manizada 2026-03-25  832  	return 0;
+fda9522ed6afae fs/smb/server/smbacl.c Asim Viladi Oglu Manizada 2026-03-25  833  }
+fda9522ed6afae fs/smb/server/smbacl.c Asim Viladi Oglu Manizada 2026-03-25  834  
 
-:::::: The code at line 952 was first introduced by commit
-:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+:::::: The code at line 793 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
