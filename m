@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795737135;
-	b=IvOjwbFqhyTK6V3lEvqio9ZiK09iaD+gIrAn8/aKHwb9MIQA3LjNoN+0bdv5MAV2v1Nc
-	 tCPRxdhepZwpTo4ULSzK7A3UH3q3hYjgUiH9lEPHy1o7RwDapvkVCGM1N5WsmOc8dvZFS
-	 aNPi9bVsSFe+O0y/v3eoflfVM8kNqHcIXo6aWMkQTNJJMdBmMjYHDjSWhaPvvCPRanrNi
-	 u45pl7Ps0kfohopzQUoJslFUtt0VQrSiBwD01NUHlvmJL2bHjVG85/ZSpZ56jBh5hTvih
-	 QzWTTTSNwFDwpfltjCgZrdXhIPFSv7Z0QZCKAEuY0EJtQmm94eT8CanITS/HnsItk4w==
+	t=1795745058;
+	b=WUr7fBWQSribnFsv76tWw9ImX9iGz2Hm6349fEL/p2/KiEMLm/jPT1Uko0VKZvNoLgGf
+	 HK30cIHg2SIWdRTZPR+/MQTQ3m2zwDxN/atO0iM5YeDBxVxtJ6CzK5PyP5XlQ4wAzEcnw
+	 bmTUd3bMentlZmIo0pRa/yrd9fDE29Ik1T3giRgNKBDsNlFe5s0uHYWvfBgxPf2U5tTA3
+	 cvCyhbzc0WKXgTmw2uMVzZ+SSszHRgk2chasUWvzuBxZzoCc+LuxKqYm45Wq4yJbmrjFz
+	 Zsv1E5fRp4QZhyXFYPBH+OcunsvNVYKEGmWgm1xZ0rxKGwj3Deatu4zmqbbdgEDNNLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795737135;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795745058;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AqEyc2CJvCyDZLLlkaP2nHEuoe3mo2uHpA/uEVWkYXU=;
-	b=JzNIfSg38KDQnS7UTqW/OODsRCrWT6cktr24irP7hPp6J4MXwFYgez4z3rFRjcSgStd/
-	 VsRcHjcWKW9WbPVct0o9lvNObxhIQAISZpjesgs6hH+wedPI/e96lxsKNkUT1a5iAnN1Y
-	 WxFgtxtCwHY+33Du7tvP3beM2Ez9xgtzxXZna23b4TBRudhHZR1eZq7+1UKOpi3kQrt2c
-	 Xmwl3wlm+W6QB10E4E5qJySjn4Cs91qeg2f+AYvVG8FIjVPktZrrkxFJ9RtvTkEPKFWsC
-	 d84d4gXLklm5M+n8fK5Ng3xy/diKmmXiiQKDhEp/tpuleUB7f1+jbky6fDWcWFVcd8g==
+	bh=l05r0XKdKfvZp/RVw5XrxV+xeQJyIXILOA6Mj78Gbso=;
+	b=ICX/xxk/Ojjjct6raqHslNLfj5xQ83Xd42sPoK2JS7L0X8AfVOtBhY3HDglYWKsZkVWf
+	 BK9SCcSoLs7YzsYNoOwnZ5/AuZsZ8r+yQl81wmX4QjZBFV8qa4NqS5VlRMIC/wHdLbgdp
+	 HRRnMHz9k3Hj25LP+MPgdlXxjcBc4TKLtwJXqheQ/Rqz+/C5k20Acq6GiMPjgNfNNqda8
+	 R7qNKLoS2autwknlKVzCLW2eW/jD5tsNZzFEspoyvJwhlf8zgFo+KmGvqhRIb4J3UPJa0
+	 AmPqW76NTuH2N7TATeFBIubVgrH2gTdjJz5UlIT3kPrhufThSDa43BZQiwTWtcaBMuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O5oLxUCG;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wzh1YE1w;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF31B606A31C
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 23:52:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF31B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A984D606A31C
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Nov 2026 02:04:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A984D606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O5oLxUCG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wzh1YE1w
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795737133; x=1827273133;
+  t=1795745058; x=1827281058;
   h=date:from:to:cc:subject:message-id;
-  bh=yvbjHjUA6pXzGdJHKGKROsNhRr+MOGs2dciPIvBehYc=;
-  b=O5oLxUCGuFH1muW8SaNdf6hW2ZulAul2CESNjV3Eh/jnVvoPF234eLq0
-   hpeJOsFoNibiJZMaRyOjBNXwiDxeH4UvxudJQzaNoieoQVEJY1ex68b+I
-   h9sXlN8xxywMU3StJ5EPEnPXhwxTyAQv9FQ6/0y+Zy8lWS8KQbaQp3Rpp
-   J/dUBgZmyc/k/o7U3teJjqitRp8SqsWRHA4fIsty+EnP0KZUYBQFjCL7/
-   zUZQQe6lK4vhVHd9TkKXPrZxL8V6O8iYCchtIK/5fp3LQ7Epv9brsZl+9
-   bc2bly+eQARtb2fAfuNx2Y02ZH8WRrke71XKvOzPHFXtM0hFyxOalHUNr
+  bh=nfh5qlDN+49CD7IYbcuKw9f7vJnMBOURENNv02Rc1MU=;
+  b=Wzh1YE1wVsUL5EogkHlTW2MPLF+6/MchE2l3F6ALzXB16gpq6IV8oHqv
+   nYQZivuLP6TIBpL1KX0psheKO2kUcLCSmOej3+G2iQ0LYefwIoCJyn3mb
+   y6A9B4Fx2yqkKe7grYPxgMGRVW7nSNiBcvZHyAzXNgcQ4rTMpnS0Ns6kt
+   LqPUe+SOfhBbukGwwbtARMU0TT+dSELVBMyMLZgnsyEy8Itnebzeejj0d
+   KaXZUNb7HVebj9Z5QRCar/wd7oICt0tyIjbvuBD1eecRSui1UR2RL2P7x
+   EMfHXy5lZqY/0NUqjekecD5FI4/n4WN+XiZbox6u0MPeH87xFf/6sPbZi
    w==;
-X-CSE-ConnectionGUID: wHil0drlRFC2ayR03e0nEA==
-X-CSE-MsgGUID: QtK14e61TneB3ZfnUQ+K9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4659018"
+X-CSE-ConnectionGUID: CbP+Zt8YSCmR924+RIB1zA==
+X-CSE-MsgGUID: zVqMRfvyTf+ZWHD0ShiDtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4509227"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4659018"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 15:52:12 -0800
-X-CSE-ConnectionGUID: pW3qX/sRTr6ynjmKQhBp6w==
-X-CSE-MsgGUID: PHn9PftcReWPUgWHchA9zQ==
+   d="scan'208";a="4509227"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 18:04:17 -0800
+X-CSE-ConnectionGUID: nVZibFzdSF+aBMenf9Ez/Q==
+X-CSE-MsgGUID: voD+oLl3ReCaWn0pqxIGJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12055047"
-Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 26 Nov 2026 15:52:08 -0800
-Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
+   d="scan'208";a="12792296"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Nov 2026 18:04:15 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWjFu-000000000FF-22YF;
-	Thu, 26 Nov 2026 23:51:58 +0000
-Date: Fri, 27 Nov 2026 00:51:55 +0100
+	id 1xWlJt-00000001VB4-3EZe;
+	Fri, 27 Nov 2026 02:04:13 +0000
+Date: Fri, 27 Nov 2026 10:04:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22:
- WARNING opportunity for min()
-Message-ID: <20261127004404.WuAnUrAC-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Warning: arch/mips/pci/pci-octeon.c:39 This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <20261127095905.YL7pAgml-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,57 +81,87 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
+:::::: 
+:::::: Manual check reason: "too many reports for this commit"
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-doc@vger.kernel.org
+
+Hi Randy,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9437ee8b6cf607e883b36e44bd755968daaebd48
-commit: 4bbba79a7f1d0c7296bf8c935d65a9ff633f6917 drm/amdgpu: move devcoredump generation to a worker
-date:   8 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-r2100-20261126 (https://download.01.org/0day-ci/archive/20261127/20261127004404.WuAnUrAC-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
+commit: 5f88f44d8427a97347afda3a6114aed0df472a0b docs: kdoc: various fixes for grammar, spelling, punctuation
+date:   12 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 12 months ago
+config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20261127/20261127095905.YL7pAgml-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127095905.YL7pAgml-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4bbba79a7f1d ("drm/amdgpu: move devcoredump generation to a worker")
+| Fixes: 5f88f44d8427 ("docs: kdoc: various fixes for grammar, spelling, punctuation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/20261127004404.WuAnUrAC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/20261127095905.YL7pAgml-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING opportunity for min()
+All warnings (new ones prefixed by >>):
 
-vim +343 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-
-9022f01b9709331 Sunil Khatri               2024-03-21  326  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  327  static ssize_t
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  328  amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  329  			void *data, size_t datalen)
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  330  {
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  331  	struct amdgpu_coredump_info *coredump = data;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  332  	ssize_t byte_copied;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  333  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  334  	if (!coredump)
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  335  		return -ENODEV;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  336  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  337  	if (!coredump->formatted)
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  338  		return -ENODEV;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  339  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  340  	if (offset >= coredump->formatted_size)
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  341  		return 0;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  342  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21 @343  	byte_copied = count < coredump->formatted_size - offset ? count :
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  344  		coredump->formatted_size - offset;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  345  	memcpy(buffer, coredump->formatted + offset, byte_copied);
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  346  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  347  	return byte_copied;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  348  }
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  349  
+>> Warning: arch/mips/pci/pci-octeon.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * This is the bit decoding used for the Octeon PCI controller addresses
+   Warning: arch/mips/pci/pci-octeon.c:63 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Map a PCI device to the appropriate interrupt line
+   Warning: arch/mips/pci/pci-octeon.c:170 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the mapping of PCI device number to IRQ line. Each
+--
+>> Warning: arch/mips/pci/pcie-octeon.c:97 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the Core virtual base address for PCIe IO access. IOs are
+   Warning: arch/mips/pci/pcie-octeon.c:118 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Size of the IO address region returned at address
+   Warning: arch/mips/pci/pcie-octeon.c:131 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return the Core virtual base address for PCIe MEM access. Memory is
+   Warning: arch/mips/pci/pcie-octeon.c:150 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Size of the Mem address region returned at address
+   Warning: arch/mips/pci/pcie-octeon.c:163 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read a PCIe config space register indirectly. This is used for
+   Warning: arch/mips/pci/pcie-octeon.c:191 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write a PCIe config space register indirectly. This is used for
+   Warning: arch/mips/pci/pcie-octeon.c:217 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Build a PCIe config space request address for a device
+   Warning: arch/mips/pci/pcie-octeon.c:260 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read 8bits from a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:282 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read 16bits from a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:304 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read 32bits from a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:326 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write 8bits to a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:345 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write 16bits to a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:364 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write 32bits to a Device's config space
+   Warning: arch/mips/pci/pcie-octeon.c:383 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize the RC config space CSRs
+   Warning: arch/mips/pci/pcie-octeon.c:581 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize a host mode PCIe gen 1 link. This function takes a PCIe
+   Warning: arch/mips/pci/pcie-octeon.c:689 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize a PCIe gen 1 port for use in host(RC) mode. It doesn't
+   Warning: arch/mips/pci/pcie-octeon.c:1086 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+     * Initialize a host mode PCIe gen 2 link. This function takes a PCIe
+   Warning: arch/mips/pci/pcie-octeon.c:1145 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize a PCIe gen 2 port for use in host(RC) mode. It doesn't enumerate
+   Warning: arch/mips/pci/pcie-octeon.c:1441 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize a PCIe port for use in host(RC) mode. It doesn't enumerate the bus.
+   Warning: arch/mips/pci/pcie-octeon.c:1460 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Map a PCI device to the appropriate interrupt line
 
 -- 
 0-DAY CI Kernel Test Service
