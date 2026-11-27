@@ -1,98 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795761055;
-	b=oF2I7kaD2OfvDtrUbmKBBndmJpVYJHPYSeU0wIiQdCS3wONXMDcqdXLY+FY5YuKNUzUn
-	 FVzBVuwWWv/l8fdrzeEdGihSM7FAQEtzHaoSROIhc7pofe4PgYbNVIlBQsxy6svRMXqlw
-	 PXM0guZBKiaJLyoPeR+0taodGx0IPrj0Qdxzefu1v3ewlqdkdtJjkaniYRsjMSm8S8i+o
-	 N2Mw5zDreLNxCUuvbaqQcTMKl8JBZbzdShMSwkb5oshknYdltVQ7/yQaJIZXmNGdyHikL
-	 T3iYBRhriyN79CpTmuJ+aERW5MJQpnMCQP7+NUsfGu2BrAlIF1tvkauT51YUh8X0W+A==
+	t=1795761065;
+	b=17tpUecg1R03/WGsdJXXBruPmaiBp13OBK8c1/GQkfOSEmOGXa0lgMOz+lvB4TLMbXtD
+	 CCXS0RmNw5ozTYQkQIFBp2W4ov8FlC87e73XC/UujwohsSMVR+aqDIKbIZUkCVruGo/TU
+	 6CIrd/VfGOMtjMAbltocldaRAZVG7gWvXPbP1FDRqh34ZsUjcI7AiQDHH6Lt5hFCRlmNF
+	 bWSb7FiwdbUmftU96vBEJi7Jbm86Zij4DduPu4RFyR99rGnPAvnXI15x8++F8BQIZ8H4P
+	 S8kRCBg1ftJElyNR3/yMIvLNSGUmqcEyRLW1ZdierYXNhqmX1RkqrXLGk1gwm+O1O9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795761055;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Rt1XOGSiV3B8gaRu1VnsEFJwnqhYcs1CBCTj3ZEiQzA=;
-	b=5OSjcFB8KJ3+KKBYr4FPsAWQhHondgHdL1DiJkNc8oHFn4rNhW8cn4G10Rb8+l3TCQdW
-	 GgkBJziCEWw78qUJzajluzEkHFPtCwpuQJoIMTyyuZWp1drwEVH732mpL7VDJYaI9KLWr
-	 yR270QVnJ1Cp7t6lBuT2QeltBUZ/AHlhMnlmj9saRf3H+mEbyA37v/0wiTRl26R3Q3Y3L
-	 23fMgNF7tdfCt0o3Q5gZvTXCWt7Mo+FvahN8rfp+0E14Wtw6exQxwvJLdHo38JFpSiSVi
-	 sKRktBNNYf1A7Kc/DTErLcf4oUUeBURlQ9hElN6eG8o4Exx8ZciXMb0jhHyAvEkMueA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795761065;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	bh=e9fvmsElx/zGjEjQEwkBesU8hhHef61fnbD7UXwvC3U=;
+	b=NLnwXKxhT3fEhFX1siwjrEo1BorP4RN6m+P8A8UG9GZloR0w1eJShXv8diXaWn3nWvjW
+	 VsmJWAUUcEXT1NG1hp5j/N1K6TJOt1uJyEyA5qxHgdexN2l4JctXy8t83cYXBjUalzxy8
+	 LCDh3KNLm8WDKRripEJcCJ0jhAb0E0x//5ZqmoaOhRMHH0omM/eUjHQx/hw/gwnJ5ziFH
+	 ipAiQXjLnltHoqtOav/ZKcjq4XYmA1we50ps6qir2y2naNn/Rypcq467pD9jMqgwURYMS
+	 MskfGBse1VlWepjo9SPUrdMdePO1fNIPt3H3kLGfNZnckZzOuVZLiXB07QuDZbFxL7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pereq.eu;
-	spf=pass smtp.mailfrom=cryspen.com;
-	dkim=pass header.d=pereq.eu header.i=@pereq.eu header.a=rsa-sha256 header.s=google header.b=LOS97JD1;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Yvl/oEWG";
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A95606A31E
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Nov 2026 06:30:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48A95606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pereq.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cryspen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACE7606A31E
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Nov 2026 06:31:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6ACE7606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pereq.eu header.i=@pereq.eu header.a=rsa-sha256 header.s=google header.b=LOS97JD1
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so76118575e9.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 26 Nov 2026 22:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pereq.eu; s=google; t=1795761054; x=1796365854; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Rt1XOGSiV3B8gaRu1VnsEFJwnqhYcs1CBCTj3ZEiQzA=;
-        b=LOS97JD1qhBcl8RXw0FX/ZoeQVbVT/PiBatfBrd+RikWv/QypQyHphGt0o8SOtrDBf
-         sVJFvfF50nvxvEKfOCjW+077pW/1Vwn4V4EZXlxyTLg7/bdZkLchLem0fD2GynPesLfR
-         Q10klgRF9ipbV0tsdHxvr3yHB/XQLUR/c5BP930Ny1x/IWhQrdWu5UNbCzpZJMXhf+qR
-         ioqu/S+6eZsWp/bpS9oo8X5r3ZYlpWRLppjxlTKoUI7SD2p0tOEy7g/Ke8sHPoX8n9RV
-         4+2ja+8F/iVtMMGBwI+PobyAZ+mq8IQg0rJ2lay7mG59DHHLGVMhIwOb8l5WeBdnMK9y
-         2KQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795761054; x=1796365854;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rt1XOGSiV3B8gaRu1VnsEFJwnqhYcs1CBCTj3ZEiQzA=;
-        b=iW+QET3GC+SZxHDVtAy1WDfJnbLB2TXskcbthEU/rqCP6487PCafSDSXqzPLpx+rir
-         h8Tk2NxfgGzDGYbI/UOcUD6gxCeCh+C7SJnR/7Lr9EMFR4WObFGMwEbYnN3/0sr0Zlb5
-         ntmXQybbo006w0DMgw06RDwZjXuv0Est2tvjDPWkBDFZxvol+JOoTx2rQ/LqKSmnlOLC
-         LjwKdR6QH+w1YAQsgfUKZqqG6ZBZOxFwvSzkXEJJnI8aUd20aJDnxwxqMh9DZUbTNVuz
-         q8Ajgl7r2d3FLduxhhqjMiOaHjiEoqRRv4GA+ucdBYqc83Xp4slaeLIIbBVIDL6qszD8
-         GV2A==
-X-Forwarded-Encrypted: i=1; AL+hErG8zARBMYHuvC9FoThZo2IBthY27N3n/v9+Rd2JR0UdV+AQ2k5qrVjYC3JSs84zQmkd7keoZp2Vt/o=@lists.linux.dev
-X-Gm-Message-State: APuU4Z/lR+WYFf31nUpJXi6md1F3AtVW6SqA/WCW/TbHS/zPamfmlTYv
-	EKXYW7ozqdaG5lwO+mqsVEHg7lmzfdutWOEVJ/zgNtU/RWkfLDTlBm12Q3dPL3qEEm0=
-X-Gm-Gg: AZFdTZfjVmMr6Ok4X6/CytR4Mv785bjRH8OP1ZKNexSujj6lTwHS1hEQ6eizDIuHGKA
-	da35RuUeesVn02TYFpA8OPz3aa8Eb50UbO4cCDOs7M7jjR7WEM3wN6ha+OdGernrK5AWrw1Qzrc
-	8oYATgpY/6NeJV2m43E1LVab8cnRrBfW48bSuTrwnpNcAN4SijOsRbR6FuiLPtTZ+TmaigCQ5Y0
-	l6WfXOpkx3uFAyTa/lTcX3lQOEGCoo7w7NwT/eNFsP/myC+FThx/A7aHFUl/+gXZJybuYI7LTrV
-	2pbeUJv+TNtaA9gYPNvsuvGhnOVzGBa6Cw68N0CLtpHY+dauSBndmQhkKIbhaW65r1UEKIC9bRm
-	YzGZ6p+HU0N59K3fcK23eEzWdI9Uo9LpYI2eP/ud2EoKF69k4w/rfj0PLODYQX+XeAA1XCBByF+
-	OqhH5D0vrhr19FI/YozmcoKaNXc+E2EFeOa0yaEC8O3W+26hB2QDKRA+VeGVXbUsUQITBBwuvzR
-	GMKL8E9Esi5FYmDF4vhl9jaIw0LMr0jARdGpbq0RKSh17B1R6uNNr+GLCekVEIhmfuObG5aHvJq
-	PrWJM/XZoFDHDXemx3wf
-X-Received: by 2002:a05:600c:1993:b0:4bb:8711:fcb9 with SMTP id 5b1f17b1804b1-4bb88941bcemr437830755e9.33.1795761053369;
-        Thu, 26 Nov 2026 22:30:53 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88442995sm695486945e9.2.2026.11.26.22.30.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 22:30:52 -0800 (PST)
-Date: Fri, 27 Nov 2026 09:30:49 +0300
-From: Dan Carpenter <dan@pereq.eu>
-To: Yaohan Li <shunsheng1218@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, Mark Brown <broonie@kernel.org>,
-	oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lkp@intel.com
-Subject: Re: [broonie-regulator:for-7.5 6/6]
- drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
- warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines:
- 444.
-Message-ID: <awkjmRQl0B-ZJdpd@stanley.mountain>
-References: <20261125184601.R647t8Sj-lkp@intel.com>
- <179567739729.2548149.711673218230357357@gmail.com>
- <awkf4CNhSPz-lcEk@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Yvl/oEWG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795761064; x=1827297064;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bxFrW5Q+8y7vBiWhETnZx/7q/u6aqop9rQHXU1le0N8=;
+  b=Yvl/oEWGYJsMIl4m9Hsf0GZEYxT13wr8ar2mNduYFrZpJh0t6Jzh/TY3
+   Q0v4AfdCJW+jbWDzkhxDeeGeEZtDXkEkk3+sjwqJQ+gXoahD9NtoyfS/w
+   LxqAikEV4gqkI/nDMeWR59zAEG+vGk0lYh2/oa3CeaCQTC7LwkrPtFtBx
+   R0+MERoG7914I69yIqro3sAGC5r36L3iugCfHkYsyZajZ9YDo3OF1DBIP
+   7xYevjJJAiRWrPigWnaWZU5RLbF2abq8QvioOvoTwIBJtS/EGn3WriPw6
+   KgVmJZGyckuDp75f4TFqLN39vYqErUSH8fYl5Qmic+OD2RXxXptZ2xVHj
+   A==;
+X-CSE-ConnectionGUID: I+km2OD1TjuFtQHVemrB4Q==
+X-CSE-MsgGUID: GBgaWSOjRfWq5kUlt1lRKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4755833"
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="4755833"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 22:31:03 -0800
+X-CSE-ConnectionGUID: qIpAkfM3QOCo+XZbnNNrQA==
+X-CSE-MsgGUID: TnPv8XipT7mgd6OaxmsL0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="12562723"
+Received: from igk-lkp-server01.igk.intel.com (HELO cbd2aa73d023) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Nov 2026 22:30:58 -0800
+Received: from kbuild by cbd2aa73d023 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWpLT-0000000002Z-06Da;
+	Fri, 27 Nov 2026 06:22:07 +0000
+Date: Fri, 27 Nov 2026 07:21:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 1/3] pinctrl: single: Also free the pinconf table of a
+ duplicate function
+Message-ID: <20261127055733.cfTQXUs7-lkp@intel.com>
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Post: <mailto:oe-kbuild@lists.linux.dev>
@@ -104,605 +81,207 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awkf4CNhSPz-lcEk@stanley.mountain>
 
-I asked Claude to read my blog and re-write the file.  It fixes
-the bug from earlier and two other bugs:
+Unfiltered warning: this smatch report is sent as-is and has not been
+reviewed for false positives, so please treat it with due skepticism.
 
-  - The "Short-circuit irq not found" message passed vreg->dev before it
-     was set, so it printed without a device. It now uses dev.
-  - The "error registering" message printed ret, which held the earlier
-    regmap_read() result, not the registration error. It now prints
-    PTR_ERR(vreg->rdev).
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20261119232806.4093754-2-alexander.sverdlin@siemens.com>
+References: <20261119232806.4093754-2-alexander.sverdlin@siemens.com>
+TO: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+TO: linux-gpio@vger.kernel.org
+CC: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+CC: Tony Lindgren <tony@atomide.com>
+CC: Haojian Zhuang <haojian.zhuang@linaro.org>
+CC: Linus Walleij <linusw@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-omap@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Lee Jones <lee@kernel.org>
+CC: stable@vger.kernel.org
 
-  Worth checking
+Hi Sverdlin,
 
-  - The order inside qcom_labibb_stop() is deliberate: it disables the
-    workers before the interrupt lines. The recovery workers are the
-    only callers of enable_irq(). If the lines were disabled first, a
-    worker still running could re-enable one afterwards.
-  - The OCP worker is now initialized even without an OCP interrupt.
-    That costs nothing and removes one condition to mirror. The worker
-    can only be queued by the OCP handler.
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+[auto build test WARNING on linux-review/Lee-Jones/pinctrl-nuvoton-ma35-Unmap-reg_base-and-release-clock-on-probe-error/20261119-204857]
 
-diff --git a/drivers/regulator/qcom-labibb-regulator.c b/drivers/regulator/qcom-labibb-regulator.c
-index 49aaa31a539d..c6d066577150 100644
---- a/drivers/regulator/qcom-labibb-regulator.c
-+++ b/drivers/regulator/qcom-labibb-regulator.c
-@@ -96,14 +96,18 @@ struct labibb_regulator {
- 	int				ocp_irq;
- 	int				ocp_irq_count;
- 	int				fatal_count;
--	bool				registered;
-+	bool				started;
- 	bool				ocp_requested;
--	bool				ocp_irq_done;
--	bool				shutting_down;
--	/* serialises the over-current request between set_ocp() and probe */
-+	bool				ocp_enabled;
-+	/* protects started, ocp_requested and ocp_enabled */
- 	struct mutex			ocp_lock;
- };
- 
-+struct labibb_priv {
-+	struct labibb_regulator		*vregs[2];
-+	int				num_vregs;
-+};
-+
- struct labibb_regulator_data {
- 	const char			*name;
- 	u8				type;
-@@ -314,134 +318,26 @@ static irqreturn_t qcom_labibb_ocp_isr(int irq, void *chip)
- }
- 
- /*
-- * Stop the recovery workers and release the over-current interrupt.  A
-- * devres action is used instead of ->remove() so that a probe which fails
-- * after the resources were set up goes through the same teardown: the
-- * driver core does not call ->remove() for a failed probe, but devres
-- * still releases what was registered.
-- *
-- * This is the only cleanup entry, and the over-current interrupt is
-- * requested without devres so that it can be released here: registering a
-- * second action from a path that runs under ocp_lock would also make
-- * devm_add_action_or_reset() run this function from under that lock on
-- * allocation failure.
-- */
--static void qcom_labibb_stop_works(void *data)
--{
--	struct labibb_regulator *vreg = data;
--	int irq = 0;
--
--	/*
--	 * Announce the shutdown before anything is drained: a set_ocp()
--	 * that runs from here on must not request the over-current
--	 * interrupt while devres is releasing the action that would stop
--	 * its worker.
--	 */
--	mutex_lock(&vreg->ocp_lock);
--	vreg->shutting_down = true;
--	mutex_unlock(&vreg->ocp_lock);
--
--	/*
--	 * Both recovery workers reschedule themselves, so a plain cancel
--	 * would leave them queued again: disable_delayed_work_sync() also
--	 * blocks the requeue.
--	 */
--	disable_delayed_work_sync(&vreg->sc_recovery_work);
--	if (vreg->ocp_irq > 0) {
--		disable_delayed_work_sync(&vreg->ocp_recovery_work);
--
--		/*
--		 * The over-current handler turns the source off before it
--		 * queues the worker, but a handler that was stopped above
--		 * may have done so after the worker was drained: leave the
--		 * source off now that nobody would turn it back on.
--		 */
--		qcom_labibb_ocp_hw_disable(vreg->rdev);
--
--		mutex_lock(&vreg->ocp_lock);
--		if (vreg->ocp_irq_done) {
--			vreg->ocp_irq_done = false;
--			irq = vreg->ocp_irq;
--		}
--		mutex_unlock(&vreg->ocp_lock);
--
--		/*
--		 * A stopped handler can also have left the interrupt
--		 * disabled with disable_irq_nosync(), while the recovery
--		 * worker - the only caller of enable_irq() - is gone.  The
--		 * depth is deliberately not unwound here: free_irq() shuts
--		 * the line down regardless of it, whereas an enable_irq()
--		 * racing with a handler that is still running would unmask
--		 * a line whose thread has not finished.
--		 *
--		 * free_irq() waits for a running handler, so it is called
--		 * without ocp_lock held.
--		 */
--		if (irq)
--			free_irq(irq, vreg);
--	}
--}
--
--/*
-- * Request the over-current interrupt once the regulator is registered.
-- * Requesting it from ->set_over_current_protection() is not possible: the
-- * regulator core calls that op from set_machine_constraints(), inside
-- * regulator_register(), and a devres node created there is released after
-- * the regulator itself.  The recovery worker would then still be runnable
-- * while vreg->rdev is already gone.
-+ * Turn on the over-current source and its interrupt line, once the
-+ * protection was requested and the regulator is started.
-  */
--static int qcom_labibb_setup_ocp_irq(struct labibb_regulator *vreg)
-+static int qcom_labibb_ocp_arm(struct labibb_regulator *vreg)
- {
--	u32 irq_flags = IRQF_ONESHOT;
- 	int ret;
- 
- 	lockdep_assert_held(&vreg->ocp_lock);
- 
--	if (vreg->shutting_down)
--		return -ESHUTDOWN;
--
--	if (!vreg->ocp_requested)
-+	if (!vreg->ocp_requested || vreg->ocp_enabled)
- 		return 0;
- 
--	if (!vreg->ocp_irq_done) {
--		/* IRQ polarities - LAB: trigger-low, IBB: trigger-high */
--		switch (vreg->type) {
--		case QCOM_LAB_TYPE:
--			irq_flags |= IRQF_TRIGGER_LOW;
--			break;
--		case QCOM_IBB_TYPE:
--			irq_flags |= IRQF_TRIGGER_HIGH;
--			break;
--		default:
--			return -EINVAL;
--		}
--
--		/*
--		 * The interrupt is owned and released by the cleanup
--		 * action, so its name has to outlive the interrupt:
--		 * devres would release a name allocated here before the
--		 * action runs, while vreg->desc.name is owned by the
--		 * driver data.
--		 */
--		ret = request_threaded_irq(vreg->ocp_irq, NULL,
--					   qcom_labibb_ocp_isr, irq_flags,
--					   vreg->desc.name, vreg);
--		if (ret)
--			return ret;
--
--		vreg->ocp_irq_done = true;
--	}
--
--	/*
--	 * Enable the hardware source only once a handler exists, and turn
--	 * it back off if that failed, so that a later attempt can retry
--	 * without leaving the source enabled on its own.
--	 */
- 	ret = qcom_labibb_ocp_hw_enable(vreg->rdev);
- 	if (ret)
--		qcom_labibb_ocp_hw_disable(vreg->rdev);
-+		return ret;
- 
--	return ret;
-+	enable_irq(vreg->ocp_irq);
-+	vreg->ocp_enabled = true;
-+
-+	return 0;
- }
- 
- static int qcom_labibb_set_ocp(struct regulator_dev *rdev, int lim,
-@@ -462,24 +358,10 @@ static int qcom_labibb_set_ocp(struct regulator_dev *rdev, int lim,
- 		return -EINVAL;
- 
- 	/* IRQ polarities - LAB: trigger-low, IBB: trigger-high */
--	switch (vreg->type) {
--	case QCOM_LAB_TYPE:
--		irq_trig_low = 1;
--		break;
--	case QCOM_IBB_TYPE:
--		irq_trig_low = 0;
--		break;
--	default:
--		return -EINVAL;
--	}
-+	irq_trig_low = vreg->type == QCOM_LAB_TYPE;
- 
- 	mutex_lock(&vreg->ocp_lock);
- 
--	if (vreg->shutting_down) {
--		ret = -ESHUTDOWN;
--		goto unlock;
--	}
--
- 	/* Activate OCP HW level interrupt */
- 	ret = regmap_update_bits(rdev->regmap,
- 				 vreg->base + REG_LABIBB_INT_SET_TYPE,
-@@ -502,13 +384,9 @@ static int qcom_labibb_set_ocp(struct regulator_dev *rdev, int lim,
- 
- 	vreg->ocp_requested = true;
- 
--	/*
--	 * During regulator_register() there is no interrupt yet and no
--	 * cleanup action to pair with it; the probe finishes the job once
--	 * the regulator and its devres nodes exist.
--	 */
--	if (vreg->registered)
--		ret = qcom_labibb_setup_ocp_irq(vreg);
-+	/* During regulator_register() this waits for qcom_labibb_start() */
-+	if (vreg->started)
-+		ret = qcom_labibb_ocp_arm(vreg);
- 
- unlock:
- 	mutex_unlock(&vreg->ocp_lock);
-@@ -899,153 +777,231 @@ static const struct of_device_id qcom_labibb_match[] = {
- };
- MODULE_DEVICE_TABLE(of, qcom_labibb_match);
- 
--static int qcom_labibb_regulator_probe(struct platform_device *pdev)
-+/* Turn on the interrupts and, if it was requested, over-current protection */
-+static int qcom_labibb_start(struct labibb_regulator *vreg)
-+{
-+	int ret;
-+
-+	mutex_lock(&vreg->ocp_lock);
-+	ret = qcom_labibb_ocp_arm(vreg);
-+	if (ret)
-+		goto unlock;
-+
-+	vreg->started = true;
-+	enable_irq(vreg->sc_irq);
-+unlock:
-+	mutex_unlock(&vreg->ocp_lock);
-+	return ret;
-+}
-+
-+static void qcom_labibb_stop(struct labibb_regulator *vreg)
-+{
-+	bool ocp_enabled;
-+
-+	mutex_lock(&vreg->ocp_lock);
-+	vreg->started = false;
-+	ocp_enabled = vreg->ocp_enabled;
-+	vreg->ocp_enabled = false;
-+	mutex_unlock(&vreg->ocp_lock);
-+
-+	/* The workers requeue themselves, so cancel_delayed_work_sync() isn't enough */
-+	disable_delayed_work_sync(&vreg->sc_recovery_work);
-+	disable_irq(vreg->sc_irq);
-+
-+	if (ocp_enabled) {
-+		disable_delayed_work_sync(&vreg->ocp_recovery_work);
-+		disable_irq(vreg->ocp_irq);
-+		qcom_labibb_ocp_hw_disable(vreg->rdev);
-+	}
-+}
-+
-+static int qcom_labibb_setup_vreg(struct device *dev, struct regmap *regmap,
-+				  const struct labibb_regulator_data *reg_data,
-+				  struct labibb_regulator **result)
- {
--	struct labibb_regulator *vreg;
--	struct device *dev = &pdev->dev;
- 	struct regulator_config cfg = {};
-+	struct labibb_regulator *vreg;
- 	struct device_node *reg_node;
--	const struct labibb_regulator_data *reg_data;
--	struct regmap *reg_regmap;
-+	unsigned long ocp_irq_flags;
-+	char *sc_irq_name;
- 	unsigned int type;
- 	int ret;
- 
--	reg_regmap = dev_get_regmap(pdev->dev.parent, NULL);
--	if (!reg_regmap) {
--		dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
--		return -ENODEV;
-+	/* Validate if the type of regulator is indeed what's mentioned in DT */
-+	ret = regmap_read(regmap, reg_data->base + REG_PERPH_TYPE, &type);
-+	if (ret < 0) {
-+		dev_err(dev, "Peripheral type read failed ret=%d\n", ret);
-+		return -EINVAL;
- 	}
- 
--	reg_data = device_get_match_data(&pdev->dev);
--	if (!reg_data)
--		return -ENODEV;
-+	if (WARN_ON((type != QCOM_LAB_TYPE) && (type != QCOM_IBB_TYPE)) ||
-+	    WARN_ON(type != reg_data->type))
-+		return -EINVAL;
- 
--	for (; reg_data->name; reg_data++) {
--		char *sc_irq_name;
--		int irq = 0;
-+	vreg = devm_kzalloc_obj(dev, *vreg);
-+	if (!vreg)
-+		return -ENOMEM;
- 
--		/* Validate if the type of regulator is indeed
--		 * what's mentioned in DT.
--		 */
--		ret = regmap_read(reg_regmap, reg_data->base + REG_PERPH_TYPE,
--				  &type);
--		if (ret < 0) {
--			dev_err(dev,
--				"Peripheral type read failed ret=%d\n",
--				ret);
--			return -EINVAL;
--		}
-+	sc_irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s-short-circuit",
-+				     reg_data->name);
-+	if (!sc_irq_name)
-+		return -ENOMEM;
- 
--		if (WARN_ON((type != QCOM_LAB_TYPE) && (type != QCOM_IBB_TYPE)) ||
--		    WARN_ON(type != reg_data->type))
--			return -EINVAL;
--
--		vreg = devm_kzalloc_obj(&pdev->dev, *vreg);
--		if (!vreg)
--			return -ENOMEM;
--
--		sc_irq_name = devm_kasprintf(dev, GFP_KERNEL,
--					     "%s-short-circuit",
--					     reg_data->name);
--		if (!sc_irq_name)
--			return -ENOMEM;
--
--		reg_node = of_get_child_by_name(pdev->dev.of_node,
--						reg_data->name);
--		if (!reg_node)
--			return -EINVAL;
--
--		/* The Short Circuit interrupt is critical */
--		irq = of_irq_get_byname(reg_node, "sc-err");
--		if (irq <= 0) {
--			if (irq == 0)
--				irq = -EINVAL;
--
--			of_node_put(reg_node);
--			return dev_err_probe(vreg->dev, irq,
--					     "Short-circuit irq not found.\n");
--		}
--		vreg->sc_irq = irq;
-+	reg_node = of_get_child_by_name(dev->of_node, reg_data->name);
-+	if (!reg_node)
-+		return -EINVAL;
- 
--		/* OverCurrent Protection IRQ is optional */
--		irq = of_irq_get_byname(reg_node, "ocp");
--		vreg->ocp_irq = irq;
--		vreg->ocp_irq_count = 0;
--		of_node_put(reg_node);
--
--		vreg->regmap = reg_regmap;
--		vreg->dev = dev;
--		vreg->base = reg_data->base;
--		vreg->type = reg_data->type;
--		mutex_init(&vreg->ocp_lock);
--		INIT_DELAYED_WORK(&vreg->sc_recovery_work,
--				  qcom_labibb_sc_recovery_worker);
--
--		if (vreg->ocp_irq > 0)
--			INIT_DELAYED_WORK(&vreg->ocp_recovery_work,
--					  qcom_labibb_ocp_recovery_worker);
--
--		switch (vreg->type) {
--		case QCOM_LAB_TYPE:
--			/* LAB Limits: 200-1600mA */
--			vreg->uA_limits.uA_min  = 200000;
--			vreg->uA_limits.uA_step = 200000;
--			vreg->uA_limits.ovr_val = LAB_CURRENT_LIMIT_OVERRIDE_EN;
--			break;
--		case QCOM_IBB_TYPE:
--			/* IBB Limits: 0-1550mA */
--			vreg->uA_limits.uA_min  = 0;
--			vreg->uA_limits.uA_step = 50000;
--			vreg->uA_limits.ovr_val = 0; /* No override bit */
--			break;
--		default:
--			return -EINVAL;
--		}
-+	/* The Short Circuit interrupt is critical */
-+	vreg->sc_irq = of_irq_get_byname(reg_node, "sc-err");
-+	/* OverCurrent Protection IRQ is optional */
-+	vreg->ocp_irq = of_irq_get_byname(reg_node, "ocp");
-+	of_node_put(reg_node);
- 
--		memcpy(&vreg->desc, reg_data->desc, sizeof(vreg->desc));
--		vreg->desc.of_match = reg_data->name;
--		vreg->desc.name = reg_data->name;
-+	if (vreg->sc_irq <= 0) {
-+		ret = vreg->sc_irq ?: -EINVAL;
-+		return dev_err_probe(dev, ret, "Short-circuit irq not found.\n");
-+	}
- 
--		cfg.dev = vreg->dev;
--		cfg.driver_data = vreg;
--		cfg.regmap = vreg->regmap;
-+	vreg->regmap = regmap;
-+	vreg->dev = dev;
-+	vreg->base = reg_data->base;
-+	vreg->type = reg_data->type;
-+	mutex_init(&vreg->ocp_lock);
-+	INIT_DELAYED_WORK(&vreg->sc_recovery_work,
-+			  qcom_labibb_sc_recovery_worker);
-+	INIT_DELAYED_WORK(&vreg->ocp_recovery_work,
-+			  qcom_labibb_ocp_recovery_worker);
-+
-+	if (vreg->type == QCOM_LAB_TYPE) {
-+		/* LAB Limits: 200-1600mA */
-+		vreg->uA_limits.uA_min  = 200000;
-+		vreg->uA_limits.uA_step = 200000;
-+		vreg->uA_limits.ovr_val = LAB_CURRENT_LIMIT_OVERRIDE_EN;
-+		/* IRQ polarities - LAB: trigger-low, IBB: trigger-high */
-+		ocp_irq_flags = IRQF_TRIGGER_LOW;
-+	} else {
-+		/* IBB Limits: 0-1550mA */
-+		vreg->uA_limits.uA_min  = 0;
-+		vreg->uA_limits.uA_step = 50000;
-+		vreg->uA_limits.ovr_val = 0; /* No override bit */
-+		ocp_irq_flags = IRQF_TRIGGER_HIGH;
-+	}
- 
--		vreg->rdev = devm_regulator_register(vreg->dev, &vreg->desc,
--							&cfg);
-+	memcpy(&vreg->desc, reg_data->desc, sizeof(vreg->desc));
-+	vreg->desc.of_match = reg_data->name;
-+	vreg->desc.name = reg_data->name;
- 
--		if (IS_ERR(vreg->rdev)) {
--			dev_err(dev, "qcom_labibb: error registering %s : %d\n",
--					reg_data->name, ret);
--			return PTR_ERR(vreg->rdev);
--		}
-+	/* The handlers use vreg->rdev, so qcom_labibb_start() enables them */
-+	ret = request_threaded_irq(vreg->sc_irq, NULL, qcom_labibb_sc_isr,
-+				   IRQF_ONESHOT | IRQF_TRIGGER_RISING |
-+				   IRQF_NO_AUTOEN,
-+				   sc_irq_name, vreg);
-+	if (ret)
-+		goto destroy_mutex;
- 
--		ret = devm_request_threaded_irq(vreg->dev, vreg->sc_irq, NULL,
--						qcom_labibb_sc_isr,
--						IRQF_ONESHOT |
--						IRQF_TRIGGER_RISING,
--						sc_irq_name, vreg);
-+	if (vreg->ocp_irq > 0) {
-+		ret = request_threaded_irq(vreg->ocp_irq, NULL,
-+					   qcom_labibb_ocp_isr,
-+					   IRQF_ONESHOT | ocp_irq_flags |
-+					   IRQF_NO_AUTOEN,
-+					   vreg->desc.name, vreg);
- 		if (ret)
--			return ret;
-+			goto free_sc_irq;
-+	}
- 
--		ret = devm_add_action_or_reset(vreg->dev,
--					       qcom_labibb_stop_works, vreg);
--		if (ret)
--			return ret;
-+	cfg.dev = dev;
-+	cfg.driver_data = vreg;
-+	cfg.regmap = vreg->regmap;
- 
--		/*
--		 * Publish the registration only now: a concurrent
--		 * set_ocp() must not be able to request the over-current
--		 * interrupt before the action that stops its worker exists.
--		 */
--		mutex_lock(&vreg->ocp_lock);
--		vreg->registered = true;
--		ret = qcom_labibb_setup_ocp_irq(vreg);
--		mutex_unlock(&vreg->ocp_lock);
-+	vreg->rdev = regulator_register(dev, &vreg->desc, &cfg);
-+	if (IS_ERR(vreg->rdev)) {
-+		ret = PTR_ERR(vreg->rdev);
-+		dev_err(dev, "qcom_labibb: error registering %s : %d\n",
-+			reg_data->name, ret);
-+		goto free_ocp_irq;
-+	}
-+
-+	ret = qcom_labibb_start(vreg);
-+	if (ret)
-+		goto unregister;
-+
-+	*result = vreg;
-+	return 0;
-+
-+unregister:
-+	regulator_unregister(vreg->rdev);
-+free_ocp_irq:
-+	if (vreg->ocp_irq > 0)
-+		free_irq(vreg->ocp_irq, vreg);
-+free_sc_irq:
-+	free_irq(vreg->sc_irq, vreg);
-+destroy_mutex:
-+	mutex_destroy(&vreg->ocp_lock);
-+	return ret;
-+}
-+
-+static void qcom_labibb_cleanup_vreg(struct labibb_regulator *vreg)
-+{
-+	qcom_labibb_stop(vreg);
-+	regulator_unregister(vreg->rdev);
-+	if (vreg->ocp_irq > 0)
-+		free_irq(vreg->ocp_irq, vreg);
-+	free_irq(vreg->sc_irq, vreg);
-+	mutex_destroy(&vreg->ocp_lock);
-+}
-+
-+static int qcom_labibb_regulator_probe(struct platform_device *pdev)
-+{
-+	const struct labibb_regulator_data *reg_data;
-+	struct device *dev = &pdev->dev;
-+	struct labibb_priv *priv;
-+	struct regmap *reg_regmap;
-+	int i, ret;
-+
-+	reg_regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!reg_regmap) {
-+		dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
-+		return -ENODEV;
-+	}
-+
-+	reg_data = device_get_match_data(&pdev->dev);
-+	if (!reg_data)
-+		return -ENODEV;
-+
-+	priv = devm_kzalloc_obj(dev, *priv);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	for (i = 0; reg_data[i].name; i++) {
-+		if (i >= ARRAY_SIZE(priv->vregs)) {
-+			ret = -EINVAL;
-+			goto cleanup_vregs;
-+		}
-+
-+		ret = qcom_labibb_setup_vreg(dev, reg_regmap, &reg_data[i],
-+					     &priv->vregs[i]);
- 		if (ret)
--			return ret;
-+			goto cleanup_vregs;
- 	}
- 
-+	priv->num_vregs = i;
-+	platform_set_drvdata(pdev, priv);
-+
- 	return 0;
-+
-+cleanup_vregs:
-+	while (--i >= 0)
-+		qcom_labibb_cleanup_vreg(priv->vregs[i]);
-+	return ret;
-+}
-+
-+static void qcom_labibb_regulator_remove(struct platform_device *pdev)
-+{
-+	struct labibb_priv *priv = platform_get_drvdata(pdev);
-+	int i;
-+
-+	for (i = priv->num_vregs - 1; i >= 0; i--)
-+		qcom_labibb_cleanup_vreg(priv->vregs[i]);
- }
- 
- static struct platform_driver qcom_labibb_regulator_driver = {
-@@ -1055,6 +1011,7 @@ static struct platform_driver qcom_labibb_regulator_driver = {
- 		.of_match_table	= qcom_labibb_match,
- 	},
- 	.probe = qcom_labibb_regulator_probe,
-+	.remove = qcom_labibb_regulator_remove,
- };
- module_platform_driver(qcom_labibb_regulator_driver);
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/A-Sverdlin/pinctrl-single-Also-free-the-pinconf-table-of-a-duplicate-function/20261120-002803
+base:   https://github.com/intel-lab-lkp/linux Lee-Jones/pinctrl-nuvoton-ma35-Unmap-reg_base-and-release-clock-on-probe-error/20261119-204857
+patch link:    https://lore.kernel.org/r/20261119232806.4093754-2-alexander.sverdlin%40siemens.com
+patch subject: [PATCH 1/3] pinctrl: single: Also free the pinconf table of a duplicate function
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: sparc-randconfig-2200-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127055733.cfTQXUs7-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/20261127055733.cfTQXUs7-lkp@intel.com/
+
+New smatch warnings:
+drivers/pinctrl/pinctrl-single.c:1111 pcs_parse_one_pinctrl_entry() error: we previously assumed 'function' could be null (see line 1090)
+
+Old smatch warnings:
+drivers/pinctrl/pinctrl-single.c:1038 pcs_parse_one_pinctrl_entry() warn: missing unwind goto?
+drivers/pinctrl/pinctrl-single.c:1180 pcs_parse_bits_in_pinctrl_entry() warn: missing unwind goto?
+drivers/pinctrl/pinctrl-single.c:1659 pcs_irq_init_chained_handler() warn: 'pcs_soc->irq' from request_irq() not released on lines: 1656.
+
+vim +/function +1111 drivers/pinctrl/pinctrl-single.c
+
+9dddb4df90d1364 Haojian Zhuang         2013-02-17   986  
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   987  /**
+bc6d201591344aa Drew Fustini           2020-06-17   988   * pcs_parse_one_pinctrl_entry() - parses a device tree mux entry
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   989   * @pcs: pinctrl driver instance
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   990   * @np: device node of the mux entry
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   991   * @map: map entry
+9dddb4df90d1364 Haojian Zhuang         2013-02-17   992   * @num_maps: number of map
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   993   * @pgnames: pingroup names
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   994   *
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   995   * Note that this binding currently supports only sets of one register + value.
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   996   *
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   997   * Also note that this driver tries to avoid understanding pin and function
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   998   * names because of the extra bloat they would cause especially in the case of
+8b8b091bf07fa7e Tony Lindgren          2012-07-10   999   * a large number of pins. This driver just sets what is specified for the board
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1000   * in the .dts file. Further user space debugging tools can be developed to
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1001   * decipher the pin and function names using debugfs.
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1002   *
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1003   * If you are concerned about the boot time, set up the static pins in
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1004   * the bootloader, and only set up selected pins as device tree entries.
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1005   */
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1006  static int pcs_parse_one_pinctrl_entry(struct pcs_device *pcs,
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1007  						struct device_node *np,
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1008  						struct pinctrl_map **map,
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1009  						unsigned *num_maps,
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1010  						const char **pgnames)
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1011  {
+4622215fb1dda40 Tony Lindgren          2016-11-03  1012  	const char *name = "pinctrl-single,pins";
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1013  	struct pcs_func_vals *vals;
+a4ab10860723652 Tony Lindgren          2018-07-05  1014  	int rows, *pins, found = 0, res = -ENOMEM, i, fsel, gsel;
+a4ab10860723652 Tony Lindgren          2018-07-05  1015  	struct pcs_function *function = NULL;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1016  
+4622215fb1dda40 Tony Lindgren          2016-11-03  1017  	rows = pinctrl_count_index_with_args(np, name);
+de7416bcee3f7c9 Axel Haslam            2016-11-09  1018  	if (rows <= 0) {
+059a6e630bb9ee2 Colin Ian King         2016-12-23  1019  		dev_err(pcs->dev, "Invalid number of rows: %d\n", rows);
+de7416bcee3f7c9 Axel Haslam            2016-11-09  1020  		return -EINVAL;
+de7416bcee3f7c9 Axel Haslam            2016-11-09  1021  	}
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1022  
+a86854d0c599b32 Kees Cook              2018-06-12  1023  	vals = devm_kcalloc(pcs->dev, rows, sizeof(*vals), GFP_KERNEL);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1024  	if (!vals)
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1025  		return -ENOMEM;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1026  
+a86854d0c599b32 Kees Cook              2018-06-12  1027  	pins = devm_kcalloc(pcs->dev, rows, sizeof(*pins), GFP_KERNEL);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1028  	if (!pins)
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1029  		goto free_vals;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1030  
+4622215fb1dda40 Tony Lindgren          2016-11-03  1031  	for (i = 0; i < rows; i++) {
+4622215fb1dda40 Tony Lindgren          2016-11-03  1032  		struct of_phandle_args pinctrl_spec;
+4622215fb1dda40 Tony Lindgren          2016-11-03  1033  		unsigned int offset;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1034  		int pin;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1035  
+4622215fb1dda40 Tony Lindgren          2016-11-03  1036  		res = pinctrl_parse_index_with_args(np, name, i, &pinctrl_spec);
+4622215fb1dda40 Tony Lindgren          2016-11-03  1037  		if (res)
+4622215fb1dda40 Tony Lindgren          2016-11-03  1038  			return res;
+4622215fb1dda40 Tony Lindgren          2016-11-03  1039  
+9b9448f39e83d8e Drew Fustini           2020-09-30  1040  		if (pinctrl_spec.args_count < 2 || pinctrl_spec.args_count > 3) {
+4622215fb1dda40 Tony Lindgren          2016-11-03  1041  			dev_err(pcs->dev, "invalid args_count for spec: %i\n",
+4622215fb1dda40 Tony Lindgren          2016-11-03  1042  				pinctrl_spec.args_count);
+4622215fb1dda40 Tony Lindgren          2016-11-03  1043  			break;
+4622215fb1dda40 Tony Lindgren          2016-11-03  1044  		}
+4622215fb1dda40 Tony Lindgren          2016-11-03  1045  
+4622215fb1dda40 Tony Lindgren          2016-11-03  1046  		offset = pinctrl_spec.args[0];
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1047  		vals[found].reg = pcs->base + offset;
+a133954188887a8 Drew Fustini           2020-07-01  1048  
+a133954188887a8 Drew Fustini           2020-07-01  1049  		switch (pinctrl_spec.args_count) {
+a133954188887a8 Drew Fustini           2020-07-01  1050  		case 2:
+4622215fb1dda40 Tony Lindgren          2016-11-03  1051  			vals[found].val = pinctrl_spec.args[1];
+a133954188887a8 Drew Fustini           2020-07-01  1052  			break;
+a133954188887a8 Drew Fustini           2020-07-01  1053  		case 3:
+a133954188887a8 Drew Fustini           2020-07-01  1054  			vals[found].val = (pinctrl_spec.args[1] | pinctrl_spec.args[2]);
+a133954188887a8 Drew Fustini           2020-07-01  1055  			break;
+a133954188887a8 Drew Fustini           2020-07-01  1056  		}
+4622215fb1dda40 Tony Lindgren          2016-11-03  1057  
+94f4e54cecaf3ec Rob Herring            2018-08-27  1058  		dev_dbg(pcs->dev, "%pOFn index: 0x%x value: 0x%x\n",
+f4a2b19c37caf40 Drew Fustini           2020-09-14  1059  			pinctrl_spec.np, offset, vals[found].val);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1060  
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1061  		pin = pcs_get_pin_by_offset(pcs, offset);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1062  		if (pin < 0) {
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1063  			dev_err(pcs->dev,
+94f4e54cecaf3ec Rob Herring            2018-08-27  1064  				"could not add functions for %pOFn %ux\n",
+94f4e54cecaf3ec Rob Herring            2018-08-27  1065  				np, offset);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1066  			break;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1067  		}
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1068  		pins[found++] = pin;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1069  	}
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1070  
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1071  	pgnames[0] = np->name;
+a4ab10860723652 Tony Lindgren          2018-07-05  1072  	mutex_lock(&pcs->mutex);
+a4ab10860723652 Tony Lindgren          2018-07-05  1073  	fsel = pcs_add_function(pcs, &function, np->name, vals, found,
+a4ab10860723652 Tony Lindgren          2018-07-05  1074  				pgnames, 1);
+a4ab10860723652 Tony Lindgren          2018-07-05  1075  	if (fsel < 0) {
+a4ab10860723652 Tony Lindgren          2018-07-05  1076  		res = fsel;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1077  		goto free_pins;
+712778d02d5c24e Dan Carpenter          2016-11-16  1078  	}
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1079  
+a4ab10860723652 Tony Lindgren          2018-07-05  1080  	gsel = pinctrl_generic_add_group(pcs->pctl, np->name, pins, found, pcs);
+a4ab10860723652 Tony Lindgren          2018-07-05  1081  	if (gsel < 0) {
+a4ab10860723652 Tony Lindgren          2018-07-05  1082  		res = gsel;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1083  		goto free_function;
+a4ab10860723652 Tony Lindgren          2018-07-05  1084  	}
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1085  
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1086  	(*map)->type = PIN_MAP_TYPE_MUX_GROUP;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1087  	(*map)->data.mux.group = np->name;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1088  	(*map)->data.mux.function = np->name;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1089  
+a4ab10860723652 Tony Lindgren          2018-07-05 @1090  	if (PCS_HAS_PINCONF && function) {
+18442e65d424dc8 Wei Yongjun            2013-05-07  1091  		res = pcs_parse_pinconf(pcs, np, function, map);
+f46fe79ff1b6569 Drew Fustini           2020-06-08  1092  		if (res == 0)
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1093  			*num_maps = 2;
+f46fe79ff1b6569 Drew Fustini           2020-06-08  1094  		else if (res == -ENOTSUPP)
+f46fe79ff1b6569 Drew Fustini           2020-06-08  1095  			*num_maps = 1;
+f46fe79ff1b6569 Drew Fustini           2020-06-08  1096  		else
+f46fe79ff1b6569 Drew Fustini           2020-06-08  1097  			goto free_pingroups;
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1098  	} else {
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1099  		*num_maps = 1;
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1100  	}
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1101  
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1102  	/*
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1103  	 * The core deduplicates groups/functions by name and keeps the first
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1104  	 * for the controller's lifetime; drop our now-redundant copies when the
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1105  	 * node is mapped again (consumer re-probe). The group is deduplicated
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1106  	 * together with the function, so testing the latter is enough.
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1107  	 */
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1108  	if (pinmux_generic_get_function(pcs->pctl, fsel)->data != function) {
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1109  		devm_kfree(pcs->dev, pins);
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1110  		devm_kfree(pcs->dev, vals);
+56403881c93a331 Alexander Sverdlin     2026-11-20 @1111  		devm_kfree(pcs->dev, function->conf);
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1112  		devm_kfree(pcs->dev, function);
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1113  		devm_kfree(pcs->dev, pgnames);
+ad2093840ca3bad Alexander Sverdlin     2026-10-01  1114  	}
+a4ab10860723652 Tony Lindgren          2018-07-05  1115  	mutex_unlock(&pcs->mutex);
+a4ab10860723652 Tony Lindgren          2018-07-05  1116  
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1117  	return 0;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1118  
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1119  free_pingroups:
+a4ab10860723652 Tony Lindgren          2018-07-05  1120  	pinctrl_generic_remove_group(pcs->pctl, gsel);
+9dddb4df90d1364 Haojian Zhuang         2013-02-17  1121  	*num_maps = 1;
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1122  free_function:
+a4ab10860723652 Tony Lindgren          2018-07-05  1123  	pinmux_generic_remove_function(pcs->pctl, fsel);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1124  free_pins:
+673ba5a05ca14c2 Wei Yongjun            2018-07-11  1125  	mutex_unlock(&pcs->mutex);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1126  	devm_kfree(pcs->dev, pins);
+8b8b091bf07fa7e Tony Lindgren          2012-07-10  1127  
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1128  free_vals:
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1129  	devm_kfree(pcs->dev, vals);
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1130  
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1131  	return res;
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1132  }
+4e7e8017a80e181 Manjunathappa, Prakash 2013-05-21  1133  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
