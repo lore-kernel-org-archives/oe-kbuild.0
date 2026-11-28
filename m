@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795859781;
-	b=uUYZu/pUTQZPB9Ya+ncOnwUDvp0SAisCI/A5SDyCfvdKC1sVmIActYDRKAhY+lpIEnXr
-	 zpicYaK6yXjMU4OjixuF+XB3r/DQ8iDZrqEnuwET3rS6gOt54ruOHXZu/Te+efCeeA0Jp
-	 iQAKB2UqI2WUJDWHku86s58LgQHVL27eXKjfNR7bui9U2jlEoeJkDnoBrHqIvxSmTcV7C
-	 sBLcrXiaP3hpBwIEB005ZAztotGA4wKgsTbRvqpLnypSw6TPPGNHFbn374P5LP1h16+iA
-	 rSeDCAL+e9r2O0neM7XQwxAnaauA7QfW9QQeSZrocxxmzMv37zMGLkoCpR2jwxdeMOA==
+	t=1795864045;
+	b=v7Jyn9/vj+35l73xD8E578fzipu3SjGrTUK1wyi3lZCwp2tKwSdCSNp+t7ET320wF9EG
+	 ChqR/y+QOo4rm2R6uR7E6QHPllAflBpHBAfMkfy1yBT9snlzGlUt4glhz33m16/hIQHfu
+	 DjWZ0tZ/Rb5ZST2ArDtWYEhrdIyepHBAATN4hff6FupRJe4Q0aDcD+1RcGfWUCK1y2O1N
+	 ITDDIiNyV8NdKBwK9m0zf0g3Z6ohklSXAmPdpUqWithbeaLoxPcRJcg/It6ffEnCmENdC
+	 xCLEBPAgcCrQWDHXvscCETS/e4mnDB1bV+cU8lDBdCLMvZqvC6JFTRsCjv4mb11i3/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795859781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795864045;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Nb6YCDCXYP4Ru1VN2gK3IxsqwNpolzXXxscaZ/NWbus=;
-	b=ouPcPm9j2rdnx//VKmlx1WsdzNFQ4SthaZYUoc7E8LLRtXBYyKoddFwNnMpEmeFUXhz0
-	 8CQEfWFbc9FHUbKpHwkSkhjFrReGq0YmQRCNje04gPRhn3Y94OSHN2Ulj7ZPfjcgjrgJc
-	 7xZ1WJAEdLpNYDKJYB/YKjjZT/FsJmToagzuS87sX5E3IDv5mhRV+641A4+NgucKV2OTA
-	 Cwo968nGfS/ARbmgHUwEhI5egjHShNMcv3VPeQ20NnR9svR4TSSbO7Ysc5hUEj6pIP9tH
-	 xjhUYLWtfKLrJlahNtPURdVwuqp2Y2hi8btSv9eKbo0pvRwH5Sqk5qyQ3O9rC2FsU6w==
+	bh=Me9Rm2E0dY1vsZpGIYrc6ZHsranlN5hNwEYuls03yFs=;
+	b=tR75hl7JRLCfGrnDpT4vbuZYgRkZTYyZTJWUgRTgxaYVOy5pG4cn9TKDqW118gcr6oMl
+	 dJQp+WGnxPdrhaeAwMW01YmztzRcwhV25ovqJSPMLQ3CfUsJplXhP5yDFMyajdN9X8cR+
+	 u3IDpNE3Rym0/hy1hpsOw7Q/6B/+NMLOd+cswrp2sqgckdMkpOjR1dKwbj+d5yyoSAwVw
+	 di9Mx/p5uyHBBP1HD9K6vXMIUD8k5XQD9GTVd0h+MLxZDzPPoCfNv1yb2JymNaBud75RZ
+	 SQqCFVPAYHQikENPpC5c15KrKYdoAqAIaSJQdRc2XKa31VFi4xK3Zrk3Vj1bYpQvtWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TbgTe1o1;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZgZQ60Gz;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCC4606A31F
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Nov 2026 09:56:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DCC4606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FDE606A31C
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Nov 2026 11:07:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96FDE606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TbgTe1o1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZgZQ60Gz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795859780; x=1827395780;
+  t=1795864044; x=1827400044;
   h=date:from:to:cc:subject:message-id;
-  bh=O1nLjpR+4EYXShVbpqqLEAMwDl05DMB4lZ5xcFUu/z4=;
-  b=TbgTe1o1mu8cXx/AfihVNl8dphmRlvouPobrbMMa+wUX4J52PdsA3MWP
-   4f3GxDcAmbMPrsZ8Y0HdbgIy6VaiTB3JGO7B8JeB36FJoQMsdPq089T3C
-   S6HZ9evy0xQ7AOfARwDEMGuA8xYOsCUYWRzFm3NAkmJGHKJHug/qKSBE+
-   s5hZh7Q9CmytYjR32Z7g4RBALFDyX4QGYbxmhsofJlLjdwrnkRVi8KP7b
-   sOWEqigdCpqSSnxGzRiHXP1xnDtTi4xlkS5w+ugBrxyxCJGafvnUvVTAK
-   R/U+7fP3MnipyxZcjQrNG9EQdVJy6jpQW/0JNP3Ni/XC0wokTbsmoTGkc
+  bh=LfjdnBxzrr8a17nEt0S7ykthaOFC0kGlpxmMvxuCZRg=;
+  b=ZgZQ60Gzk9BTtGaR9W3pjcF4PevA0knOCUNjiurjTpLMVAb0lIJbk5d1
+   3kwX2MTqXglkbM/CH6tJTfw/In7aujbMI3Fd0fDVo9DZYugGFObYj2Lx7
+   JHg2Au0CwQ721gNNZWbdQChSC6aTg7wJuOr/Hy7OK2XseXj9HbD4VjHNe
+   IeqcGFOkuzTkzBvBCltxEcFleLz4Q5+pboGg5pJOaDMvXN1qkM5P+iX6S
+   oPUyjiYEh7sTu8EJWAoWldTLG4Tln2ker+2GowBpBvqILaYusFunW+tJb
+   wwMLq6VBjbxa7rNpQbL9aT655TPfdC+1fBK/lr2AmQjPTYdqQluaJXmDy
    A==;
-X-CSE-ConnectionGUID: 2mtK2Zx6QFq7zzkPhz3+NA==
-X-CSE-MsgGUID: 1ZHW+qQ5Tye3YPDscRpcdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4738724"
+X-CSE-ConnectionGUID: f4underhTIC9NRB8OV53eA==
+X-CSE-MsgGUID: v+ePA8/RQlyLsxrGNqyavQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4771558"
 X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
-   d="scan'208";a="4738724"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2026 01:56:20 -0800
-X-CSE-ConnectionGUID: Yo5mgF9RRF6AKxyq/aoXSQ==
-X-CSE-MsgGUID: hN2rTLl+RyWp4PR6GnARHA==
+   d="scan'208";a="4771558"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2026 03:07:23 -0800
+X-CSE-ConnectionGUID: 8xJeMTyaR4CwPEPB+uyS6Q==
+X-CSE-MsgGUID: vXpyVAFPTNy6qyJKHGWP7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
-   d="scan'208";a="13153111"
+   d="scan'208";a="12416825"
 Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Nov 2026 01:56:19 -0800
+  by orviesa004.jf.intel.com with ESMTP; 28 Nov 2026 03:07:22 -0800
 Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xXFAG-000000000Xq-1mUT;
-	Sat, 28 Nov 2026 09:56:16 +0000
-Date: Sat, 28 Nov 2026 10:55:33 +0100
+	id 1xXGH1-000000000ZS-0SqI;
+	Sat, 28 Nov 2026 11:07:19 +0000
+Date: Sat, 28 Nov 2026 12:06:46 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [bpf-next:master 1/1] drivers/hid/hid-steam.c:557
- steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__647'
-Message-ID: <20261128104658.Amd2HTXW-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned
+ expression compared with zero: bit < 0
+Message-ID: <20261128120447.6kdULadA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,99 +80,139 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild+owner@lists.linux.dev>
 Precedence: list
 
-Unfiltered warning: this smatch report is sent as-is and has not been
-reviewed for false positives, so please treat it with due skepticism.
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Alexei Starovoitov <ast@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   b81e432151a69b8dc07f4a398e2166268bee9a85
-commit: b81e432151a69b8dc07f4a398e2166268bee9a85 [1/1] Merge git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf 7.4-rc4
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-config: arm64-randconfig-2200-20261128 (https://download.01.org/0day-ci/archive/20261128/20261128104658.Amd2HTXW-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 578b1f2d6a9776b63cbb6b86f4cca6208d429f48)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-smatch: v0.5.0-9187-g5189e3fb
+Hi Josh,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cd8495c0f16275c4f9abe1cef09a7b5fcd6d046
+commit: 49cf34c0815f93fb2ea3ab5cfbac1124bd9b45d0 unwind_user/x86: Enable frame pointer unwinding on x86
+date:   1 year, 1 month ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-2100-20261128 (https://download.01.org/0day-ci/archive/20261128/20261128120447.6kdULadA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 49cf34c0815f ("unwind_user/x86: Enable frame pointer unwinding on x86")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261128104658.Amd2HTXW-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261128120447.6kdULadA-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__647'
+cocci warnings: (new ones prefixed by >>)
+>> kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression compared with zero: bit < 0
 
-vim +/__UNIQUE_ID_x__647 +557 drivers/hid/hid-steam.c
+vim +257 kernel/unwind/deferred.c
 
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  516  
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  519  {
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  523  	int ret;
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  524  	u32 len;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  525  
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
-cd11d1a6114bd4b Lee Jones           2022-07-08  527  	if (!r) {
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
-cd11d1a6114bd4b Lee Jones           2022-07-08  529  		return -EINVAL;
-cd11d1a6114bd4b Lee Jones           2022-07-08  530  	}
-cd11d1a6114bd4b Lee Jones           2022-07-08  531  
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  533  	if (len < 64)
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  535  
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  539  
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  543  
-de435b770cd9492 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
-de435b770cd9492 Vicki Pfau          2026-07-29  545  
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  547  		len += 1;
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  548  
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  549  	/*
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  554  	 */
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  555  	do {
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
-0a80b4e8ec6a6e4 Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  560  			break;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  563  
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
-cfa66cba6d02ff2 Vicki Pfau          2026-08-11  565  	/*
-cfa66cba6d02ff2 Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
-cfa66cba6d02ff2 Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
-cfa66cba6d02ff2 Vicki Pfau          2026-08-11  568  	 */
-cfa66cba6d02ff2 Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  572  	return ret;
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  573  }
-c164d6abf3841ff Rodrigo Rivas Costa 2018-04-16  574  
+b3b9cb11aa034c Steven Rostedt 2025-07-29  204  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  205  /**
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  206   * unwind_deferred_request - Request a user stacktrace on task kernel exit
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  207   * @work: Unwind descriptor requesting the trace
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  208   * @cookie: The cookie of the first request made for this task
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  209   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  210   * Schedule a user space unwind to be done in task work before exiting the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  211   * kernel.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  212   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  213   * The returned @cookie output is the generated cookie of the very first
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  214   * request for a user space stacktrace for this task since it entered the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  215   * kernel. It can be from a request by any caller of this infrastructure.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  216   * Its value will also be passed to the callback function.  It can be
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  217   * used to stitch kernel and user stack traces together in post-processing.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  218   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  219   * It's valid to call this function multiple times for the same @work within
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  220   * the same task entry context.  Each call will return the same cookie
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  221   * while the task hasn't left the kernel. If the callback is not pending
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  222   * because it has already been previously called for the same entry context,
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  223   * it will be called again with the same stack trace and cookie.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  224   *
+be3d526a5b3410 Steven Rostedt 2025-07-29  225   * Return: 0 if the callback successfully was queued.
+be3d526a5b3410 Steven Rostedt 2025-07-29  226   *         1 if the callback is pending or was already executed.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  227   *         Negative if there's an error.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  228   *         @cookie holds the cookie of the first request by any user
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  229   */
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  230  int unwind_deferred_request(struct unwind_work *work, u64 *cookie)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  231  {
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  232  	struct unwind_task_info *info = &current->unwind_info;
+a38a64712e740d Peter Zijlstra 2025-09-22  233  	int twa_mode = TWA_RESUME;
+be3d526a5b3410 Steven Rostedt 2025-07-29  234  	unsigned long old, bits;
+357eda2d745054 Steven Rostedt 2025-07-29  235  	unsigned long bit;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  236  	int ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  237  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  238  	*cookie = 0;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  239  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  240  	if ((current->flags & (PF_KTHREAD | PF_EXITING)) ||
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  241  	    !user_mode(task_pt_regs(current)))
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  242  		return -EINVAL;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  243  
+055c7060e7ca71 Steven Rostedt 2025-07-29  244  	/*
+055c7060e7ca71 Steven Rostedt 2025-07-29  245  	 * NMI requires having safe cmpxchg operations.
+055c7060e7ca71 Steven Rostedt 2025-07-29  246  	 * Trigger a warning to make it obvious that an architecture
+055c7060e7ca71 Steven Rostedt 2025-07-29  247  	 * is using this in NMI when it should not be.
+055c7060e7ca71 Steven Rostedt 2025-07-29  248  	 */
+a38a64712e740d Peter Zijlstra 2025-09-22  249  	if (in_nmi()) {
+a38a64712e740d Peter Zijlstra 2025-09-22  250  		if (WARN_ON_ONCE(!CAN_USE_IN_NMI))
+055c7060e7ca71 Steven Rostedt 2025-07-29  251  			return -EINVAL;
+a38a64712e740d Peter Zijlstra 2025-09-22  252  		twa_mode = TWA_NMI_CURRENT;
+a38a64712e740d Peter Zijlstra 2025-09-22  253  	}
+055c7060e7ca71 Steven Rostedt 2025-07-29  254  
+357eda2d745054 Steven Rostedt 2025-07-29  255  	/* Do not allow cancelled works to request again */
+357eda2d745054 Steven Rostedt 2025-07-29  256  	bit = READ_ONCE(work->bit);
+357eda2d745054 Steven Rostedt 2025-07-29 @257  	if (WARN_ON_ONCE(bit < 0))
+357eda2d745054 Steven Rostedt 2025-07-29  258  		return -EINVAL;
+357eda2d745054 Steven Rostedt 2025-07-29  259  
+357eda2d745054 Steven Rostedt 2025-07-29  260  	/* Only need the mask now */
+357eda2d745054 Steven Rostedt 2025-07-29  261  	bit = BIT(bit);
+357eda2d745054 Steven Rostedt 2025-07-29  262  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  263  	guard(irqsave)();
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  264  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  265  	*cookie = get_cookie(info);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  266  
+639214f65b1db8 Peter Zijlstra 2025-09-22  267  	old = atomic_long_read(&info->unwind_mask);
+055c7060e7ca71 Steven Rostedt 2025-07-29  268  
+be3d526a5b3410 Steven Rostedt 2025-07-29  269  	/* Is this already queued or executed */
+be3d526a5b3410 Steven Rostedt 2025-07-29  270  	if (old & bit)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  271  		return 1;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  272  
+be3d526a5b3410 Steven Rostedt 2025-07-29  273  	/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  274  	 * This work's bit hasn't been set yet. Now set it with the PENDING
+be3d526a5b3410 Steven Rostedt 2025-07-29  275  	 * bit and fetch the current value of unwind_mask. If ether the
+be3d526a5b3410 Steven Rostedt 2025-07-29  276  	 * work's bit or PENDING was already set, then this is already queued
+be3d526a5b3410 Steven Rostedt 2025-07-29  277  	 * to have a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  278  	 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  279  	bits = UNWIND_PENDING | bit;
+639214f65b1db8 Peter Zijlstra 2025-09-22  280  	old = atomic_long_fetch_or(bits, &info->unwind_mask);
+be3d526a5b3410 Steven Rostedt 2025-07-29  281  	if (old & bits) {
+be3d526a5b3410 Steven Rostedt 2025-07-29  282  		/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  283  		 * If the work's bit was set, whatever set it had better
+be3d526a5b3410 Steven Rostedt 2025-07-29  284  		 * have also set pending and queued a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  285  		 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  286  		WARN_ON_ONCE(!(old & UNWIND_PENDING));
+be3d526a5b3410 Steven Rostedt 2025-07-29  287  		return old & bit;
+be3d526a5b3410 Steven Rostedt 2025-07-29  288  	}
+be3d526a5b3410 Steven Rostedt 2025-07-29  289  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  290  	/* The work has been claimed, now schedule it. */
+a38a64712e740d Peter Zijlstra 2025-09-22  291  	ret = task_work_add(current, &info->work, twa_mode);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  292  
+be3d526a5b3410 Steven Rostedt 2025-07-29  293  	if (WARN_ON_ONCE(ret))
+639214f65b1db8 Peter Zijlstra 2025-09-22  294  		atomic_long_set(&info->unwind_mask, 0);
+be3d526a5b3410 Steven Rostedt 2025-07-29  295  
+be3d526a5b3410 Steven Rostedt 2025-07-29  296  	return ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  297  }
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  298  
 
-:::::: The code at line 557 was first introduced by commit
-:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
+:::::: The code at line 257 was first introduced by commit
+:::::: 357eda2d745054eb737397368bc9b0f84814b0a5 unwind deferred: Use SRCU unwind_deferred_task_work()
 
-:::::: TO: Vicki Pfau <vi@endrift.com>
-:::::: CC: Jiri Kosina <jkosina@suse.com>
+:::::: TO: Steven Rostedt <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
